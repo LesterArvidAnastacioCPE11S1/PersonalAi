@@ -9,23 +9,33 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.net.ConnectException;
+import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
+import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,6 +47,11 @@ public class MainActivity extends Activity {
     private SharedPreferences prefs;
     private WebView webView;
     private ValueCallback<Uri[]> fileCallback;
+    private LinearLayout statusOverlay;
+    private TextView statusTitle;
+    private TextView statusDetail;
+    private Runnable pendingRetry;
+    private boolean pageFailed;
 
     @Override
     protected void onCreate(Bundle state) {
@@ -74,7 +89,7 @@ public class MainActivity extends Activity {
         box.addView(title);
 
         TextView note = label(
-            "Enter the address shown in the app window on the PC, then the access code. Both devices must be on the same Wi-Fi.",
+            "Enter the address shown in the app window on the PC, then the access code. Both devices must be on the same Wi-Fi, or both signed in to Tailscale.",
             14,
             Color.rgb(154, 154, 154)
         );
@@ -233,6 +248,64 @@ public class MainActivity extends Activity {
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 return handleUrl(request.getUrl(), server);
             }
+
+            @Override
+            public void onPageStarted(WebView view, String url, android.graphics.Bitmap icon) {
+                pageFailed = false;
+                showStatus("Loading", server);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                if (!pageFailed) {
+                    hideStatus();
+                }
+            }
+
+            @Override
+            public void onReceivedError(
+                WebView view,
+                WebResourceRequest request,
+                WebResourceError error
+            ) {
+                if (view != webView || !request.isForMainFrame()) {
+                    return;
+                }
+
+                pageFailed = true;
+                showStatus(
+                    "Can't load the page",
+                    describe(error) + "\n\n" + request.getUrl()
+                );
+            }
+
+            @Override
+            public void onReceivedHttpError(
+                WebView view,
+                WebResourceRequest request,
+                WebResourceResponse response
+            ) {
+                if (view != webView || !request.isForMainFrame()) {
+                    return;
+                }
+
+                pageFailed = true;
+                int status = response.getStatusCode();
+
+                if (status == 401 || status == 403) {
+                    showStatus(
+                        "Access code rejected",
+                        "Open the menu and choose Change server to enter the "
+                            + "code shown in the PersonalAI window on the PC."
+                    );
+                    return;
+                }
+
+                showStatus(
+                    "The PC returned an error",
+                    "HTTP " + status + " from " + request.getUrl()
+                );
+            }
         });
 
         webView.setWebChromeClient(new WebChromeClient() {
@@ -272,7 +345,107 @@ public class MainActivity extends Activity {
             }
         });
 
-        setContentView(webView);
+        FrameLayout root = new FrameLayout(this);
+        root.setBackgroundColor(Color.rgb(11, 11, 11));
+        root.addView(webView, new FrameLayout.LayoutParams(-1, -1));
+        root.addView(buildStatus(), new FrameLayout.LayoutParams(-1, -1));
+
+        setContentView(root);
+
+        startConnect(server, code);
+    }
+
+    private LinearLayout buildStatus() {
+        LinearLayout box = new LinearLayout(this);
+        box.setOrientation(LinearLayout.VERTICAL);
+        box.setGravity(Gravity.CENTER);
+        box.setBackgroundColor(Color.rgb(11, 11, 11));
+        box.setPadding(dp(28), dp(28), dp(28), dp(28));
+        box.setVisibility(View.GONE);
+
+        statusTitle = label("", 20, Color.rgb(242, 242, 242));
+        statusTitle.setTypeface(statusTitle.getTypeface(), Typeface.BOLD);
+        box.addView(statusTitle);
+
+        statusDetail = label("", 14, Color.rgb(154, 154, 154));
+        statusDetail.setLineSpacing(dp(3), 1f);
+        LinearLayout.LayoutParams detailParams = new LinearLayout.LayoutParams(-1, -2);
+        detailParams.topMargin = dp(10);
+        box.addView(statusDetail, detailParams);
+
+        Button retry = new Button(this);
+        retry.setText("Retry");
+        retry.setAllCaps(false);
+        LinearLayout.LayoutParams retryParams = new LinearLayout.LayoutParams(-1, dp(50));
+        retryParams.topMargin = dp(24);
+        retry.setOnClickListener(view -> {
+            if (pendingRetry != null) {
+                pendingRetry.run();
+            }
+        });
+        box.addView(retry, retryParams);
+
+        Button change = new Button(this);
+        change.setText("Change server");
+        change.setAllCaps(false);
+        LinearLayout.LayoutParams changeParams = new LinearLayout.LayoutParams(-1, dp(50));
+        changeParams.topMargin = dp(8);
+        change.setOnClickListener(view -> showSetup(""));
+        box.addView(change, changeParams);
+
+        statusOverlay = box;
+        return box;
+    }
+
+    private void showStatus(String title, String detail) {
+        if (statusOverlay == null) {
+            return;
+        }
+
+        statusTitle.setText(title);
+        statusDetail.setText(detail);
+        statusOverlay.setVisibility(View.VISIBLE);
+    }
+
+    private void hideStatus() {
+        if (statusOverlay != null) {
+            statusOverlay.setVisibility(View.GONE);
+        }
+    }
+
+    private void startConnect(final String server, final String code) {
+        pageFailed = false;
+        showStatus("Connecting", server + "\nChecking that the PC is reachable.");
+
+        pendingRetry = () -> startConnect(server, code);
+
+        new Thread(() -> {
+            final String failure = probe(server, code);
+
+            runOnUiThread(() -> {
+                if (webView == null || isFinishing()) {
+                    return;
+                }
+
+                String current = prefs.getString("server", "");
+
+                if (!current.equals(server)) {
+                    return;
+                }
+
+                if (failure != null) {
+                    pageFailed = true;
+                    showStatus("Can't reach the PC", failure);
+                    return;
+                }
+
+                loadPage(server, code);
+            });
+        }).start();
+    }
+
+    private void loadPage(String server, String code) {
+        showStatus("Loading", server);
 
         Map<String, String> headers = new HashMap<>();
 
@@ -280,7 +453,76 @@ public class MainActivity extends Activity {
             headers.put("X-PAI-Token", code);
         }
 
-        webView.loadUrl(server + "/", headers);
+        webView.loadUrl(
+            server + "/?token=" + Uri.encode(code),
+            headers
+        );
+    }
+
+    private String probe(String server, String code) {
+        HttpURLConnection connection = null;
+
+        try {
+            URL url = new URL(server + "/api/status");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setConnectTimeout(4000);
+            connection.setReadTimeout(6000);
+            connection.setInstanceFollowRedirects(false);
+            connection.setRequestProperty("X-PAI-Token", code);
+
+            int status = connection.getResponseCode();
+
+            if (status == 200) {
+                return null;
+            }
+
+            if (status == 401 || status == 403) {
+                return "The PC rejected the access code. Check the code "
+                    + "shown in the PersonalAI window on the PC.";
+            }
+
+            return "The PC answered HTTP " + status + ". Wait for the "
+                + "server to finish starting, then retry.";
+        } catch (UnknownHostException error) {
+            return "The address " + server + " could not be found. "
+                + "Check the server address.";
+        } catch (SocketTimeoutException error) {
+            return "The PC did not answer. Check that the server is running, "
+                + "that both devices are on the same Wi-Fi or signed in to "
+                + "Tailscale, and that Windows Firewall allows Python.";
+        } catch (ConnectException error) {
+            return "The PC refused the connection. Check that the server is "
+                + "running, that phone access is on, and that Windows "
+                + "Firewall allows Python.";
+        } catch (Exception error) {
+            String message = error.getMessage();
+            return error.getClass().getSimpleName()
+                + (message == null ? "" : ": " + message);
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
+        }
+    }
+
+    private String describe(WebResourceError error) {
+        switch (error.getErrorCode()) {
+            case WebViewClient.ERROR_HOST_LOOKUP:
+                return "The address could not be found. Check the server "
+                    + "address in the menu.";
+            case WebViewClient.ERROR_CONNECT:
+                return "The connection was refused. Check that the server is "
+                    + "running, phone access is on, and Windows Firewall "
+                    + "allows Python.";
+            case WebViewClient.ERROR_TIMEOUT:
+                return "The PC took too long to answer. Check the Wi-Fi or "
+                    + "Tailscale connection.";
+            default:
+                String description = error.getDescription() == null
+                    ? "Unknown error."
+                    : String.valueOf(error.getDescription());
+                return description + " (" + error.getErrorCode() + ")";
+        }
     }
 
     private boolean handleUrl(Uri uri, String server) {

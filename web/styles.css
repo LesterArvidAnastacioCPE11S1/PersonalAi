@@ -1082,6 +1082,7 @@ button {
   background: #141414;
   color: var(--text);
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
 }
 
 .dialog::backdrop {
@@ -1094,8 +1095,26 @@ button {
   flex-direction: column;
   gap: 14px;
   padding: 20px 22px 18px;
-  max-height: calc(100dvh - 64px);
+  max-height: calc(100dvh - 66px);
   overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #2f2f2f transparent;
+}
+
+.dialog-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dialog-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dialog-body::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: #2f2f2f;
+  background-clip: padding-box;
 }
 
 .dialog-header {
