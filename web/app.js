@@ -364,7 +364,8 @@ function renderMarkdown(text) {
     }
 
     if (!line.trim()) {
-      flushAll();
+      flushParagraph();
+      flushQuote();
       continue;
     }
 
