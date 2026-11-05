@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PersonalAI</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23171717'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='16' fill='%23f5f5f5' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="brand">PersonalAI</div>
+        <button class="icon-button sidebar-close" id="sidebar-close" aria-label="Close sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="sidebar-actions">
+        <button class="sidebar-action primary" id="new-chat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+          <span>New chat</span>
+        </button>
+        <button class="sidebar-action" id="scenario-button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>
+          <span>Scenario</span>
+        </button>
+      </div>
+
+      <div class="sidebar-label">Chats</div>
+
+      <div class="chat-list" id="chat-list">
+        <div class="chat-list-empty">No conversations yet.</div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="avatar avatar-small">P</div>
+        <div class="footer-copy">
+          <div class="footer-name">Personal AI</div>
+          <div class="footer-meta">Local · private</div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="scrim" id="scrim"></div>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="icon-button menu-button" id="menu-button" aria-label="Open sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg>
+        </button>
+        <div class="topbar-title" id="topbar-title">New chat</div>
+        <div class="topbar-right">
+          <button class="icon-button topbar-icon" id="memory-top" title="Story memory" aria-label="Story memory">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>
+          </button>
+          <button class="icon-button topbar-icon" id="settings-top" title="Settings" aria-label="Settings">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg>
+          </button>
+          <button class="ghost-button" id="scenario-top">Scenario</button>
+          <div class="status-pill" id="status-pill" title="Checking model server">
+            <span class="status-dot"></span>
+            <span id="status-text">Connecting</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="offline-banner hidden" id="offline-banner">
+        <div class="offline-copy">
+          <strong>Model server offline</strong>
+          <span id="offline-detail">Start your local server, then reload this page.</span>
+        </div>
+        <button class="ghost-button" id="retry-status">Retry</button>
+      </div>
+
+      <section class="messages" id="messages">
+        <div class="empty-state" id="empty-state">
+          <div class="avatar avatar-empty">P</div>
+          <h1>Build a story together</h1>
+          <p>Give me a genre, a spark, or a rough idea. I will interview you about the world, the people, and the tone, then write the opening only when you are ready.</p>
+          <div class="suggestions">
+            <button class="suggestion" data-prompt="I want to start a new story. Interview me about the world, the characters, and the conflict before anything is written.">
+              Start a new story
+            </button>
+            <button class="suggestion" data-prompt="I want a dark fantasy story. Help me build the world, its rules, and the people in it first.">
+              Build a dark fantasy
+            </button>
+            <button class="suggestion" data-prompt="Help me design the main character for a new story. Ask me what you need to know about them and their world.">
+              Design a character
+            </button>
+          </div>
+        </div>
+
+        <div class="message-list" id="message-list"></div>
+      </section>
+
+      <footer class="composer-area">
+        <div class="setup-bar hidden" id="setup-bar">
+          <div class="setup-copy">
+            <strong>Story setup</strong>
+            <span>Build the foundation first. The story starts only when you confirm.</span>
+          </div>
+          <button type="button" class="ghost-button small" id="begin-story">Begin story</button>
+        </div>
+        <form class="composer" id="composer">
+          <div class="composer-attachments hidden" id="composer-attachments"></div>
+          <div class="composer-row">
+            <div class="composer-plus-wrap">
+              <button type="button" class="composer-icon" id="composer-plus" title="Add files or scenario" aria-label="Add files or scenario" aria-haspopup="menu" aria-expanded="false">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+              </button>
+            </div>
+            <textarea id="input" rows="1" placeholder="Ask PersonalAI" autocomplete="off"></textarea>
+            <button type="submit" class="send-button" id="send-button" aria-label="Send">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
+            </button>
+            <button type="button" class="send-button stop hidden" id="stop-button" aria-label="Stop">
+              <svg viewBox="0 0 24 24" fill="currentColor"><rect x="7" y="7" width="10" height="10" rx="1.5"/></svg>
+            </button>
+            <input type="file" id="file-input" class="hidden" multiple accept=".txt,.md,.markdown,.csv,.json,.log,.yaml,.yml,.html,.htm,.xml,.py,.js,.ts,.css,.ini,.toml,.cfg,.pdf,.docx,.png,.jpg,.jpeg,.webp,.gif">
+          </div>
+          <div class="plus-menu hidden" id="plus-menu" role="menu">
+            <button type="button" class="plus-item" id="plus-files" role="menuitem">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m21.4 11.6-8.9 8.9a6 6 0 0 1-8.5-8.5l8.9-8.9a4 4 0 1 1 5.7 5.7l-8.9 8.9a2 2 0 0 1-2.8-2.8l8.2-8.2"/></svg>
+              <span>Attach files</span>
+              <small>6 max</small>
+            </button>
+            <button type="button" class="plus-item" id="plus-scenario" role="menuitem">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>
+              <span>Edit scenario</span>
+            </button>
+          </div>
+        </form>
+        <div class="composer-hint">Runs on your machine. Enter to send · Shift+Enter for a new line.</div>
+      </footer>
+    </main>
+  </div>
+
+  <div class="drawer-scrim" id="memory-scrim"></div>
+
+  <aside class="drawer" id="memory-drawer" aria-label="Story memory">
+    <header class="drawer-header">
+      <div>
+        <h2>Story memory</h2>
+        <p id="memory-subtitle">Facts PersonalAI carries into every reply.</p>
+      </div>
+      <button class="icon-button" id="memory-close" aria-label="Close story memory">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </header>
+
+    <div class="drawer-body">
+      <div class="memory-empty hidden" id="memory-empty">
+        Start or open a chat to build its memory.
+      </div>
+
+      <div id="memory-content">
+        <section class="memory-section">
+          <div class="memory-section-head">
+            <h3>Story so far</h3>
+            <button class="ghost-button small" id="memory-extract">Update memory</button>
+          </div>
+          <p class="memory-summary" id="memory-summary">No recap yet. PersonalAI writes one as the story grows.</p>
+        </section>
+
+        <section class="memory-section">
+          <div class="memory-section-head">
+            <h3>Memory library</h3>
+            <span class="memory-count" id="memory-count">0 entries</span>
+          </div>
+          <div class="lore-list" id="lore-list"></div>
+        </section>
+
+        <form class="lore-form" id="lore-form">
+          <div class="lore-form-title" id="lore-form-title">Add memory</div>
+
+          <div class="lore-form-grid">
+            <label class="field compact">
+              <span>Category</span>
+              <select id="lore-category">
+                <option value="character">Character</option>
+                <option value="place">Place</option>
+                <option value="faction">Faction</option>
+                <option value="item">Item</option>
+                <option value="event">Event</option>
+                <option value="relationship">Relationship</option>
+                <option value="rule">World rule</option>
+                <option value="fact" selected>Fact</option>
+              </select>
+            </label>
+
+            <label class="field compact">
+              <span>Subject</span>
+              <input id="lore-subject" type="text" maxlength="80" placeholder="Mara, the Ashen Gate">
+            </label>
+          </div>
+
+          <label class="field compact">
+            <span>Detail</span>
+            <textarea id="lore-detail" rows="2" maxlength="500" placeholder="A durable fact the story must not forget."></textarea>
+          </label>
+
+          <label class="field compact">
+            <span>Keywords</span>
+            <input id="lore-keywords" type="text" maxlength="200" placeholder="gatekeeper, broken sword">
+          </label>
+
+          <div class="lore-form-actions">
+            <button type="button" class="ghost-button hidden" id="lore-cancel">Cancel</button>
+            <button type="submit" class="primary-button" id="lore-save">Add</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </aside>
+
+  <dialog class="dialog" id="settings-dialog">
+    <form class="dialog-body" id="settings-form">
+      <header class="dialog-header">
+        <div>
+          <h2>Settings</h2>
+          <p>Freedom and model controls. Everything is saved to config.json.</p>
+        </div>
+        <button type="button" class="icon-button" id="settings-close" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </header>
+
+      <section class="settings-group">
+        <h3>Freedom</h3>
+
+        <label class="toggle-row">
+          <div>
+            <strong>No refusals</strong>
+            <span>Adds explicit no-refusal and no-moralizing rules to every prompt, including a final reminder.</span>
+          </div>
+          <input type="checkbox" id="settings-no-refusals">
+        </label>
+
+        <label class="field">
+          <span>Custom instructions</span>
+          <textarea id="settings-custom" rows="4" maxlength="4000" placeholder="Your standing rules for every reply. Example: keep it first person, explicit content is welcome, never soften battle violence."></textarea>
+        </label>
+      </section>
+
+      <section class="settings-group">
+        <h3>Model</h3>
+
+        <label class="field">
+          <span>Model</span>
+          <select id="settings-model"></select>
+        </label>
+
+        <label class="field">
+          <span>Endpoint</span>
+          <input id="settings-base-url" type="text" placeholder="http://127.0.0.1:11434/v1">
+        </label>
+
+        <div class="settings-row">
+          <label class="field">
+            <span>Temperature</span>
+            <input id="settings-temperature" type="number" step="0.05" min="0" max="2">
+          </label>
+
+          <label class="field">
+            <span>Max tokens</span>
+            <input id="settings-max-tokens" type="number" step="1" min="64" max="8192">
+          </label>
+        </div>
+
+        <label class="toggle-row">
+          <div>
+            <strong>Vision</strong>
+            <span>Send attached images to the model as image inputs. Turn this on only when the selected model can see images.</span>
+          </div>
+          <input type="checkbox" id="settings-vision">
+        </label>
+
+        <p class="settings-note">
+          Uncensored models refuse less. If the current model still refuses, load a different one on the server and pick it here.
+        </p>
+      </section>
+
+      <section class="settings-group">
+        <h3>Story memory</h3>
+
+        <label class="toggle-row">
+          <div>
+            <strong>Automatic memory</strong>
+            <span>Summarises the story and extracts durable facts in the background.</span>
+          </div>
+          <input type="checkbox" id="settings-auto-extract">
+        </label>
+
+        <label class="field">
+          <span>Update every N messages</span>
+          <input id="settings-extract-every" type="number" min="1" max="50">
+        </label>
+      </section>
+
+      <section class="settings-group">
+        <h3>Phone access</h3>
+
+        <label class="toggle-row">
+          <div>
+            <strong>Allow phone connection</strong>
+            <span>Serves this app to your phone on the same Wi-Fi. Restart the app after changing this.</span>
+          </div>
+          <input type="checkbox" id="settings-mobile">
+        </label>
+
+        <div class="field">
+          <span>Access code</span>
+          <div class="code-row">
+            <input id="settings-access-code" type="text" maxlength="11" autocomplete="off" spellcheck="false" placeholder="ABCDE-FGHIJ">
+            <button type="button" class="ghost-button" id="settings-generate-code">New code</button>
+          </div>
+        </div>
+
+        <p class="settings-note" id="settings-phone-urls">Phone address appears here after the app restarts with phone access on.</p>
+        <p class="settings-note">Enter this address and access code in the PersonalAI app on your phone. A new code signs out every phone that used the old one.</p>
+      </section>
+
+      <footer class="dialog-footer">
+        <button type="button" class="ghost-button" id="settings-reload">Reload</button>
+        <button type="submit" class="primary-button">Save settings</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <dialog class="dialog" id="scenario-dialog">
+    <form class="dialog-body" id="scenario-form">
+      <header class="dialog-header">
+        <div>
+          <h2>Scenario</h2>
+          <p>Everything here is sent to the model on every turn. Keep it tight and factual.</p>
+        </div>
+        <button type="button" class="icon-button" id="scenario-close" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </header>
+
+      <label class="field">
+        <span>Title</span>
+        <input id="scenario-title" type="text" maxlength="120" placeholder="The Ashen Gate">
+      </label>
+
+      <label class="field">
+        <span>Premise</span>
+        <textarea id="scenario-premise" rows="3" placeholder="What is happening, and what is at stake?"></textarea>
+      </label>
+
+      <label class="field">
+        <span>Setting</span>
+        <textarea id="scenario-setting" rows="3" placeholder="Place, era, atmosphere, rules of the world."></textarea>
+      </label>
+
+      <label class="field">
+        <span>Characters</span>
+        <textarea id="scenario-characters" rows="4" placeholder="Name — role, appearance, voice, secrets."></textarea>
+      </label>
+
+      <label class="field">
+        <span>Style and tone</span>
+        <textarea id="scenario-style" rows="2" placeholder="Third person past tense, grim, slow-burn, short paragraphs."></textarea>
+      </label>
+
+      <footer class="dialog-footer">
+        <button type="button" class="ghost-button" id="scenario-clear">Clear</button>
+        <button type="submit" class="primary-button">Save scenario</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

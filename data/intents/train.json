@@ -1,0 +1,1442 @@
+[
+    {
+        "text": "Hello",
+        "intent": "chat"
+    },
+    {
+        "text": "Hey, how are you?",
+        "intent": "chat"
+    },
+    {
+        "text": "Good morning",
+        "intent": "chat"
+    },
+    {
+        "text": "What's up?",
+        "intent": "chat"
+    },
+    {
+        "text": "Can we just talk for a while?",
+        "intent": "chat"
+    },
+    {
+        "text": "What is a transistor?",
+        "intent": "question"
+    },
+    {
+        "text": "How does photosynthesis work?",
+        "intent": "question"
+    },
+    {
+        "text": "Why is the sky blue?",
+        "intent": "question"
+    },
+    {
+        "text": "What causes thunderstorms?",
+        "intent": "question"
+    },
+    {
+        "text": "Can you explain what RAM does?",
+        "intent": "question"
+    },
+    {
+        "text": "Tell me a story",
+        "intent": "storytelling"
+    },
+    {
+        "text": "Tell me a fantasy story",
+        "intent": "storytelling"
+    },
+    {
+        "text": "Make up a story for me",
+        "intent": "storytelling"
+    },
+    {
+        "text": "I want to hear a fictional story",
+        "intent": "storytelling"
+    },
+    {
+        "text": "Create a story about an adventurer",
+        "intent": "storytelling"
+    },
+    {
+        "text": "Let's roleplay",
+        "intent": "roleplay"
+    },
+    {
+        "text": "Can we do a fantasy roleplay?",
+        "intent": "roleplay"
+    },
+    {
+        "text": "I want to play a character in a fictional world",
+        "intent": "roleplay"
+    },
+    {
+        "text": "Let's pretend I'm a wandering knight",
+        "intent": "roleplay"
+    },
+    {
+        "text": "Start a roleplaying adventure",
+        "intent": "roleplay"
+    },
+    {
+        "text": "Continue the story",
+        "intent": "continue_story"
+    },
+    {
+        "text": "Continue where we left off",
+        "intent": "continue_story"
+    },
+    {
+        "text": "What happens next in the story?",
+        "intent": "continue_story"
+    },
+    {
+        "text": "Keep the story going",
+        "intent": "continue_story"
+    },
+    {
+        "text": "Pick up the story from the previous scene",
+        "intent": "continue_story"
+    },
+    {
+        "text": "Write a poem about winter",
+        "intent": "creative_writing"
+    },
+    {
+        "text": "Write a dramatic scene",
+        "intent": "creative_writing"
+    },
+    {
+        "text": "Create a fictional character",
+        "intent": "creative_writing"
+    },
+    {
+        "text": "Help me write dialogue for a character",
+        "intent": "creative_writing"
+    },
+    {
+        "text": "Write a mysterious description of an ancient castle",
+        "intent": "creative_writing"
+    },
+    {
+        "text": "Remember that my character is a blacksmith",
+        "intent": "memory_save"
+    },
+    {
+        "text": "Remember this information for later",
+        "intent": "memory_save"
+    },
+    {
+        "text": "Save this detail",
+        "intent": "memory_save"
+    },
+    {
+        "text": "Keep this in your memory",
+        "intent": "memory_save"
+    },
+    {
+        "text": "Remember that the kingdom is called Eldoria",
+        "intent": "memory_save"
+    },
+    {
+        "text": "What do you remember about my character?",
+        "intent": "memory_recall"
+    },
+    {
+        "text": "What information did I tell you earlier?",
+        "intent": "memory_recall"
+    },
+    {
+        "text": "Do you remember the kingdom's name?",
+        "intent": "memory_recall"
+    },
+    {
+        "text": "What did I ask you to remember?",
+        "intent": "memory_recall"
+    },
+    {
+        "text": "Can you recall what we discussed before?",
+        "intent": "memory_recall"
+    },
+    {
+        "text": "Summarize this text",
+        "intent": "summarization"
+    },
+    {
+        "text": "Give me a summary",
+        "intent": "summarization"
+    },
+    {
+        "text": "Summarize what I just said",
+        "intent": "summarization"
+    },
+    {
+        "text": "Make this shorter",
+        "intent": "summarization"
+    },
+    {
+        "text": "Give me the main points",
+        "intent": "summarization"
+    },
+    {
+        "text": "How do I install Python?",
+        "intent": "instruction"
+    },
+    {
+        "text": "Show me how to create a folder",
+        "intent": "instruction"
+    },
+    {
+        "text": "How can I configure this program?",
+        "intent": "instruction"
+    },
+    {
+        "text": "Walk me through the setup",
+        "intent": "instruction"
+    },
+    {
+        "text": "Give me step by step instructions",
+        "intent": "instruction"
+    },
+    {
+        "text": "Write a Python program that sorts a list",
+        "intent": "coding"
+    },
+    {
+        "text": "Help me fix this Python code",
+        "intent": "coding"
+    },
+    {
+        "text": "Why is my C++ program crashing?",
+        "intent": "coding"
+    },
+    {
+        "text": "How do I create a class in Python?",
+        "intent": "coding"
+    },
+    {
+        "text": "Write a function that calculates an average",
+        "intent": "coding"
+    },
+    {
+        "text": "asdfghjkl",
+        "intent": "unknown"
+    },
+    {
+        "text": "I don't know what to say",
+        "intent": "unknown"
+    },
+    {
+        "text": "Something completely unrelated",
+        "intent": "unknown"
+    },
+    {
+        "text": "Random words with no clear purpose",
+        "intent": "unknown"
+    },
+    {
+        "text": "This request does not fit any category",
+        "intent": "unknown"
+    },
+    {
+        "text": "Hey there, what's going on?",
+        "intent": "chat"
+    },
+    {
+        "text": "I'm just here to chat.",
+        "intent": "chat"
+    },
+    {
+        "text": "Can we talk about something random?",
+        "intent": "chat"
+    },
+    {
+        "text": "How's your day going?",
+        "intent": "chat"
+    },
+    {
+        "text": "Nice to see you.",
+        "intent": "chat"
+    },
+    {
+        "text": "I feel like chatting for a bit.",
+        "intent": "chat"
+    },
+    {
+        "text": "What's new?",
+        "intent": "chat"
+    },
+    {
+        "text": "Let's have a casual conversation.",
+        "intent": "chat"
+    },
+    {
+        "text": "Hey, are you around?",
+        "intent": "chat"
+    },
+    {
+        "text": "I just wanted to say hi.",
+        "intent": "chat"
+    },
+    {
+        "text": "Can we talk?",
+        "intent": "chat"
+    },
+    {
+        "text": "Good evening.",
+        "intent": "chat"
+    },
+    {
+        "text": "Hope you're doing well.",
+        "intent": "chat"
+    },
+    {
+        "text": "I'm bored, let's chat.",
+        "intent": "chat"
+    },
+    {
+        "text": "What are you up to?",
+        "intent": "chat"
+    },
+    {
+        "text": "Just checking in.",
+        "intent": "chat"
+    },
+    {
+        "text": "Hello again.",
+        "intent": "chat"
+    },
+    {
+        "text": "Let's have a conversation about anything.",
+        "intent": "chat"
+    },
+    {
+        "text": "Can I hang out here and talk for a while?",
+        "intent": "chat"
+    },
+    {
+        "text": "Hey, how's everything going?",
+        "intent": "chat"
+    },
+    {
+        "text": "Tell me something interesting.",
+        "intent": "chat"
+    },
+    {
+        "text": "I'm in the mood for a conversation.",
+        "intent": "chat"
+    },
+    {
+        "text": "What's happening?",
+        "intent": "chat"
+    },
+    {
+        "text": "Let's just chat.",
+        "intent": "chat"
+    },
+    {
+        "text": "I don't really have a question, I just want to talk.",
+        "intent": "chat"
+    },
+    {
+        "text": "Why does a computer need an operating system?",
+        "intent": "question"
+    },
+    {
+        "text": "What exactly is a CPU?",
+        "intent": "question"
+    },
+    {
+        "text": "How does electricity move through a wire?",
+        "intent": "question"
+    },
+    {
+        "text": "Why do objects fall toward Earth?",
+        "intent": "question"
+    },
+    {
+        "text": "Could you explain how a battery produces electricity?",
+        "intent": "question"
+    },
+    {
+        "text": "What causes the seasons to change?",
+        "intent": "question"
+    },
+    {
+        "text": "How does the human immune system work?",
+        "intent": "question"
+    },
+    {
+        "text": "What makes the ocean tides rise and fall?",
+        "intent": "question"
+    },
+    {
+        "text": "Why does metal conduct electricity?",
+        "intent": "question"
+    },
+    {
+        "text": "What is the difference between RAM and storage?",
+        "intent": "question"
+    },
+    {
+        "text": "How does Wi-Fi send information?",
+        "intent": "question"
+    },
+    {
+        "text": "Why does ice float on water?",
+        "intent": "question"
+    },
+    {
+        "text": "What makes a rainbow appear?",
+        "intent": "question"
+    },
+    {
+        "text": "Can you tell me how volcanoes form?",
+        "intent": "question"
+    },
+    {
+        "text": "Why do stars produce light?",
+        "intent": "question"
+    },
+    {
+        "text": "What is a semiconductor used for?",
+        "intent": "question"
+    },
+    {
+        "text": "How does gravity affect planets?",
+        "intent": "question"
+    },
+    {
+        "text": "Why is the Moon visible at night?",
+        "intent": "question"
+    },
+    {
+        "text": "What causes earthquakes?",
+        "intent": "question"
+    },
+    {
+        "text": "Could you explain what DNA does?",
+        "intent": "question"
+    },
+    {
+        "text": "Is binary the only number system computers can use?",
+        "intent": "question"
+    },
+    {
+        "text": "What is the purpose of a transistor?",
+        "intent": "question"
+    },
+    {
+        "text": "How does a solar panel generate electricity?",
+        "intent": "question"
+    },
+    {
+        "text": "Why does sound travel differently through materials?",
+        "intent": "question"
+    },
+    {
+        "text": "What happens inside a computer when I open a program?",
+        "intent": "question"
+    },
+    {
+        "text": "Tell me a tale about a sailor who finds a strange island.",
+        "intent": "storytelling"
+    },
+    {
+        "text": "Invent a fantasy adventure about a young explorer.",
+        "intent": "storytelling"
+    },
+    {
+        "text": "Make up a fictional story set in an abandoned city.",
+        "intent": "storytelling"
+    },
+    {
+        "text": "I'd like a story about a detective solving an unusual mystery.",
+        "intent": "storytelling"
+    },
+    {
+        "text": "Tell me a short tale about a traveler searching for a lost kingdom.",
+        "intent": "storytelling"
+    },
+    {
+        "text": "Create a fictional adventure involving a hidden map.",
+        "intent": "storytelling"
+    },
+    {
+        "text": "Can you invent a story about someone discovering an ancient artifact?",
+        "intent": "storytelling"
+    },
+    {
+        "text": "Write me a tale about a village surrounded by a mysterious forest.",
+        "intent": "storytelling"
+    },
+    {
+        "text": "Tell a fictional story about an inventor whose machine goes wrong.",
+        "intent": "storytelling"
+    },
+    {
+        "text": "Make up a narrative about a stranger arriving in a quiet town.",
+        "intent": "storytelling"
+    },
+    {
+        "text": "I want to hear an original story about a dangerous expedition.",
+        "intent": "storytelling"
+    },
+    {
+        "text": "Invent a story where an ordinary person discovers something extraordinary.",
+        "intent": "storytelling"
+    },
+    {
+        "text": "Tell me a fantasy tale involving an old castle and a forgotten secret.",
+        "intent": "storytelling"
+    },
+    {
+        "text": "Create an adventure story about a group crossing an unexplored continent.",
+        "intent": "storytelling"
+    },
+    {
+        "text": "Give me a fictional tale about a scientist making an unexpected discovery.",
+        "intent": "storytelling"
+    },
+    {
+        "text": "Tell a story about a traveler who gets lost far from home.",
+        "intent": "storytelling"
+    },
+    {
+        "text": "Make up a mystery involving a missing historical object.",
+        "intent": "storytelling"
+    },
+    {
+        "text": "I'd like an original tale set in a futuristic city.",
+        "intent": "storytelling"
+    },
+    {
+        "text": "Create a story about an apprentice learning an unusual craft.",
+        "intent": "storytelling"
+    },
+    {
+        "text": "Tell me a fictional adventure involving a mysterious letter.",
+        "intent": "storytelling"
+    },
+    {
+        "text": "Make up a story about an explorer searching for a legendary place.",
+        "intent": "storytelling"
+    },
+    {
+        "text": "Give me a tale about a kingdom facing a strange problem.",
+        "intent": "storytelling"
+    },
+    {
+        "text": "Tell me an original mystery story.",
+        "intent": "storytelling"
+    },
+    {
+        "text": "Invent a fictional story with an unexpected ending.",
+        "intent": "storytelling"
+    },
+    {
+        "text": "Create a short adventure about someone exploring ancient ruins.",
+        "intent": "storytelling"
+    },
+    {
+        "text": "Let's pretend we're explorers on an unfamiliar continent.",
+        "intent": "roleplay"
+    },
+    {
+        "text": "I want to play a character in an adventure.",
+        "intent": "roleplay"
+    },
+    {
+        "text": "Can we start an interactive fantasy scenario?",
+        "intent": "roleplay"
+    },
+    {
+        "text": "Act as the characters in a fictional world while I play my own character.",
+        "intent": "roleplay"
+    },
+    {
+        "text": "Let's begin a roleplaying game in a mysterious city.",
+        "intent": "roleplay"
+    },
+    {
+        "text": "I want to take the role of a detective in a fictional case.",
+        "intent": "roleplay"
+    },
+    {
+        "text": "Can we roleplay as travelers meeting at an inn?",
+        "intent": "roleplay"
+    },
+    {
+        "text": "Let's act out a science-fiction scenario.",
+        "intent": "roleplay"
+    },
+    {
+        "text": "I'll play the protagonist; you handle the world and other characters.",
+        "intent": "roleplay"
+    },
+    {
+        "text": "Start an interactive adventure where I can choose what to do.",
+        "intent": "roleplay"
+    },
+    {
+        "text": "Can we pretend I'm a student at a magical academy?",
+        "intent": "roleplay"
+    },
+    {
+        "text": "I want to participate in a fictional adventure rather than just hear a story.",
+        "intent": "roleplay"
+    },
+    {
+        "text": "Let's create a roleplay where I control one character.",
+        "intent": "roleplay"
+    },
+    {
+        "text": "Begin a fantasy roleplay and let me decide my character's actions.",
+        "intent": "roleplay"
+    },
+    {
+        "text": "I want to interact with fictional characters.",
+        "intent": "roleplay"
+    },
+    {
+        "text": "Can we act out a mystery together?",
+        "intent": "roleplay"
+    },
+    {
+        "text": "Set up a roleplaying scenario for me.",
+        "intent": "roleplay"
+    },
+    {
+        "text": "Let's pretend we're members of an expedition.",
+        "intent": "roleplay"
+    },
+    {
+        "text": "I want to play a detective investigating a fictional mystery.",
+        "intent": "roleplay"
+    },
+    {
+        "text": "Start a game-like fictional scenario where my choices matter.",
+        "intent": "roleplay"
+    },
+    {
+        "text": "Can I take the role of a traveler in your fictional world?",
+        "intent": "roleplay"
+    },
+    {
+        "text": "Let's play through an adventure one decision at a time.",
+        "intent": "roleplay"
+    },
+    {
+        "text": "I want an interactive story where I control a character.",
+        "intent": "roleplay"
+    },
+    {
+        "text": "Begin a fictional scenario and let me respond as my character.",
+        "intent": "roleplay"
+    },
+    {
+        "text": "Let's roleplay a group of adventurers preparing for a journey.",
+        "intent": "roleplay"
+    },
+    {
+        "text": "Keep going from where the narrative stopped.",
+        "intent": "continue_story"
+    },
+    {
+        "text": "Continue the scene we were writing earlier.",
+        "intent": "continue_story"
+    },
+    {
+        "text": "What happens after the last scene?",
+        "intent": "continue_story"
+    },
+    {
+        "text": "Carry on with the story from that point.",
+        "intent": "continue_story"
+    },
+    {
+        "text": "Pick up right where we left off.",
+        "intent": "continue_story"
+    },
+    {
+        "text": "Move the story forward from the previous chapter.",
+        "intent": "continue_story"
+    },
+    {
+        "text": "Continue the events from the last part.",
+        "intent": "continue_story"
+    },
+    {
+        "text": "What's the next part of the story?",
+        "intent": "continue_story"
+    },
+    {
+        "text": "Resume the story from where it ended.",
+        "intent": "continue_story"
+    },
+    {
+        "text": "Let's see what happens next.",
+        "intent": "continue_story"
+    },
+    {
+        "text": "Carry on from the previous paragraph.",
+        "intent": "continue_story"
+    },
+    {
+        "text": "Continue the adventure from the last moment.",
+        "intent": "continue_story"
+    },
+    {
+        "text": "Go on with the narrative.",
+        "intent": "continue_story"
+    },
+    {
+        "text": "Take the story into its next scene.",
+        "intent": "continue_story"
+    },
+    {
+        "text": "Continue from the point we reached earlier.",
+        "intent": "continue_story"
+    },
+    {
+        "text": "Write the next chapter.",
+        "intent": "continue_story"
+    },
+    {
+        "text": "Advance the story from the previous scene.",
+        "intent": "continue_story"
+    },
+    {
+        "text": "What happens immediately afterward?",
+        "intent": "continue_story"
+    },
+    {
+        "text": "Keep writing from the last section.",
+        "intent": "continue_story"
+    },
+    {
+        "text": "Resume the narrative.",
+        "intent": "continue_story"
+    },
+    {
+        "text": "Continue the plot from where we stopped.",
+        "intent": "continue_story"
+    },
+    {
+        "text": "Let's move on to the next scene.",
+        "intent": "continue_story"
+    },
+    {
+        "text": "Pick up the narrative again.",
+        "intent": "continue_story"
+    },
+    {
+        "text": "Keep the adventure going from the previous part.",
+        "intent": "continue_story"
+    },
+    {
+        "text": "Write what happens next in the story.",
+        "intent": "continue_story"
+    },
+    {
+        "text": "Write a poem about a lonely lighthouse.",
+        "intent": "creative_writing"
+    },
+    {
+        "text": "Help me come up with a compelling character description.",
+        "intent": "creative_writing"
+    },
+    {
+        "text": "Create dialogue between two rival detectives.",
+        "intent": "creative_writing"
+    },
+    {
+        "text": "Describe an eerie abandoned mansion.",
+        "intent": "creative_writing"
+    },
+    {
+        "text": "Write a dramatic opening scene for a novel.",
+        "intent": "creative_writing"
+    },
+    {
+        "text": "Help me invent a character with an unusual background.",
+        "intent": "creative_writing"
+    },
+    {
+        "text": "Create a vivid description of a futuristic city.",
+        "intent": "creative_writing"
+    },
+    {
+        "text": "Write some dialogue for a tense confrontation.",
+        "intent": "creative_writing"
+    },
+    {
+        "text": "Give me ideas for a fictional character's personality.",
+        "intent": "creative_writing"
+    },
+    {
+        "text": "Describe a mysterious artifact in a fantasy setting.",
+        "intent": "creative_writing"
+    },
+    {
+        "text": "Write an atmospheric paragraph about a stormy night.",
+        "intent": "creative_writing"
+    },
+    {
+        "text": "Help me craft an opening paragraph for a story.",
+        "intent": "creative_writing"
+    },
+    {
+        "text": "Create a character who has a complicated past.",
+        "intent": "creative_writing"
+    },
+    {
+        "text": "Write a short monologue for a fictional character.",
+        "intent": "creative_writing"
+    },
+    {
+        "text": "Describe an ancient library in an evocative way.",
+        "intent": "creative_writing"
+    },
+    {
+        "text": "Help me develop the voice of a fictional character.",
+        "intent": "creative_writing"
+    },
+    {
+        "text": "Write a dramatic scene involving two friends arguing.",
+        "intent": "creative_writing"
+    },
+    {
+        "text": "Create a fictional setting with a distinctive atmosphere.",
+        "intent": "creative_writing"
+    },
+    {
+        "text": "Give me a creative description of a strange machine.",
+        "intent": "creative_writing"
+    },
+    {
+        "text": "Write dialogue that makes two characters sound different.",
+        "intent": "creative_writing"
+    },
+    {
+        "text": "Help me design a fictional character's traits.",
+        "intent": "creative_writing"
+    },
+    {
+        "text": "Create a poetic description of a snowy landscape.",
+        "intent": "creative_writing"
+    },
+    {
+        "text": "Write a scene set inside a mysterious laboratory.",
+        "intent": "creative_writing"
+    },
+    {
+        "text": "Help me come up with an original fictional setting.",
+        "intent": "creative_writing"
+    },
+    {
+        "text": "Describe a fantasy marketplace in an immersive way.",
+        "intent": "creative_writing"
+    },
+    {
+        "text": "Please remember that my main character is a blacksmith.",
+        "intent": "memory_save"
+    },
+    {
+        "text": "Keep in mind that the kingdom has three provinces.",
+        "intent": "memory_save"
+    },
+    {
+        "text": "Save this fact for later: the protagonist owns a blue horse.",
+        "intent": "memory_save"
+    },
+    {
+        "text": "Don't forget that the capital is called Eldoria.",
+        "intent": "memory_save"
+    },
+    {
+        "text": "Store this detail in memory.",
+        "intent": "memory_save"
+    },
+    {
+        "text": "Remember that I prefer the story to have multiple endings.",
+        "intent": "memory_save"
+    },
+    {
+        "text": "Keep this information for our future conversations.",
+        "intent": "memory_save"
+    },
+    {
+        "text": "Please save the fact that my character is an engineer.",
+        "intent": "memory_save"
+    },
+    {
+        "text": "Make a note that the village is called Riverstone.",
+        "intent": "memory_save"
+    },
+    {
+        "text": "Remember this setting detail.",
+        "intent": "memory_save"
+    },
+    {
+        "text": "Store the character's profession for later.",
+        "intent": "memory_save"
+    },
+    {
+        "text": "Don't forget what I just told you about the kingdom.",
+        "intent": "memory_save"
+    },
+    {
+        "text": "Keep this detail available for later.",
+        "intent": "memory_save"
+    },
+    {
+        "text": "Please remember that the main city is surrounded by mountains.",
+        "intent": "memory_save"
+    },
+    {
+        "text": "Save that information so we can use it again.",
+        "intent": "memory_save"
+    },
+    {
+        "text": "Remember that the protagonist has an older sister.",
+        "intent": "memory_save"
+    },
+    {
+        "text": "Keep track of this fact for future discussion.",
+        "intent": "memory_save"
+    },
+    {
+        "text": "Store this worldbuilding detail.",
+        "intent": "memory_save"
+    },
+    {
+        "text": "Please keep this character detail in memory.",
+        "intent": "memory_save"
+    },
+    {
+        "text": "Remember that the story takes place during winter.",
+        "intent": "memory_save"
+    },
+    {
+        "text": "Save this information for later.",
+        "intent": "memory_save"
+    },
+    {
+        "text": "Don't forget this detail about the setting.",
+        "intent": "memory_save"
+    },
+    {
+        "text": "Make a note of my character's background.",
+        "intent": "memory_save"
+    },
+    {
+        "text": "Remember this rule for our fictional world.",
+        "intent": "memory_save"
+    },
+    {
+        "text": "Keep this piece of information in mind going forward.",
+        "intent": "memory_save"
+    },
+    {
+        "text": "What was my character's profession again?",
+        "intent": "memory_recall"
+    },
+    {
+        "text": "Can you remember the name of the kingdom?",
+        "intent": "memory_recall"
+    },
+    {
+        "text": "What did I tell you about my protagonist?",
+        "intent": "memory_recall"
+    },
+    {
+        "text": "Do you recall the setting we established?",
+        "intent": "memory_recall"
+    },
+    {
+        "text": "What information did I ask you to remember?",
+        "intent": "memory_recall"
+    },
+    {
+        "text": "What was that character's background?",
+        "intent": "memory_recall"
+    },
+    {
+        "text": "Can you bring back the detail I gave you earlier?",
+        "intent": "memory_recall"
+    },
+    {
+        "text": "Do you remember what we decided about the story?",
+        "intent": "memory_recall"
+    },
+    {
+        "text": "What did we establish about the fictional world?",
+        "intent": "memory_recall"
+    },
+    {
+        "text": "Can you recall the name I gave the city?",
+        "intent": "memory_recall"
+    },
+    {
+        "text": "What was the rule I told you to remember?",
+        "intent": "memory_recall"
+    },
+    {
+        "text": "Do you remember my character's occupation?",
+        "intent": "memory_recall"
+    },
+    {
+        "text": "What details have I previously told you about the setting?",
+        "intent": "memory_recall"
+    },
+    {
+        "text": "What did I say about the protagonist earlier?",
+        "intent": "memory_recall"
+    },
+    {
+        "text": "Can you recall the information I saved before?",
+        "intent": "memory_recall"
+    },
+    {
+        "text": "What was the name of the kingdom again?",
+        "intent": "memory_recall"
+    },
+    {
+        "text": "Do you remember the character detail I mentioned?",
+        "intent": "memory_recall"
+    },
+    {
+        "text": "What did I ask you to keep in memory?",
+        "intent": "memory_recall"
+    },
+    {
+        "text": "Can you tell me what we established earlier?",
+        "intent": "memory_recall"
+    },
+    {
+        "text": "What was my character's background?",
+        "intent": "memory_recall"
+    },
+    {
+        "text": "Do you remember the fact I gave you a moment ago?",
+        "intent": "memory_recall"
+    },
+    {
+        "text": "What information have I asked you to retain?",
+        "intent": "memory_recall"
+    },
+    {
+        "text": "Can you recall our earlier worldbuilding details?",
+        "intent": "memory_recall"
+    },
+    {
+        "text": "What did I tell you about the capital?",
+        "intent": "memory_recall"
+    },
+    {
+        "text": "Do you remember the setting detail from before?",
+        "intent": "memory_recall"
+    },
+    {
+        "text": "Can you shorten this passage?",
+        "intent": "summarization"
+    },
+    {
+        "text": "Give me a brief version of this text.",
+        "intent": "summarization"
+    },
+    {
+        "text": "What are the key ideas in this article?",
+        "intent": "summarization"
+    },
+    {
+        "text": "Condense this into its essentials.",
+        "intent": "summarization"
+    },
+    {
+        "text": "Can you boil this down for me?",
+        "intent": "summarization"
+    },
+    {
+        "text": "Reduce this paragraph to a few sentences.",
+        "intent": "summarization"
+    },
+    {
+        "text": "Summarize the main argument.",
+        "intent": "summarization"
+    },
+    {
+        "text": "What are the most important details here?",
+        "intent": "summarization"
+    },
+    {
+        "text": "Give me the short version.",
+        "intent": "summarization"
+    },
+    {
+        "text": "Can you condense what I wrote?",
+        "intent": "summarization"
+    },
+    {
+        "text": "Turn this long passage into a concise summary.",
+        "intent": "summarization"
+    },
+    {
+        "text": "What are the central points?",
+        "intent": "summarization"
+    },
+    {
+        "text": "Please give me the gist of this.",
+        "intent": "summarization"
+    },
+    {
+        "text": "Can you make a brief summary of the material?",
+        "intent": "summarization"
+    },
+    {
+        "text": "Extract the main ideas from this text.",
+        "intent": "summarization"
+    },
+    {
+        "text": "Summarize the information above.",
+        "intent": "summarization"
+    },
+    {
+        "text": "Can you make this more concise?",
+        "intent": "summarization"
+    },
+    {
+        "text": "Give me a quick overview of this passage.",
+        "intent": "summarization"
+    },
+    {
+        "text": "What is the main takeaway from this?",
+        "intent": "summarization"
+    },
+    {
+        "text": "Shorten this while keeping the important information.",
+        "intent": "summarization"
+    },
+    {
+        "text": "Can you summarize the document?",
+        "intent": "summarization"
+    },
+    {
+        "text": "Tell me the important points without all the extra detail.",
+        "intent": "summarization"
+    },
+    {
+        "text": "Give me the essentials from this text.",
+        "intent": "summarization"
+    },
+    {
+        "text": "Can you reduce this to a concise overview?",
+        "intent": "summarization"
+    },
+    {
+        "text": "What is this passage mainly saying?",
+        "intent": "summarization"
+    },
+    {
+        "text": "How do I set up this application?",
+        "intent": "instruction"
+    },
+    {
+        "text": "Can you walk me through installing the program?",
+        "intent": "instruction"
+    },
+    {
+        "text": "What steps should I follow to configure this?",
+        "intent": "instruction"
+    },
+    {
+        "text": "Show me how to create a new folder.",
+        "intent": "instruction"
+    },
+    {
+        "text": "How can I connect this device?",
+        "intent": "instruction"
+    },
+    {
+        "text": "Guide me through the setup process.",
+        "intent": "instruction"
+    },
+    {
+        "text": "What do I need to do to install this software?",
+        "intent": "instruction"
+    },
+    {
+        "text": "Can you give me step-by-step directions?",
+        "intent": "instruction"
+    },
+    {
+        "text": "How do I change this setting?",
+        "intent": "instruction"
+    },
+    {
+        "text": "Walk me through configuring the application.",
+        "intent": "instruction"
+    },
+    {
+        "text": "What are the steps for setting this up?",
+        "intent": "instruction"
+    },
+    {
+        "text": "Explain how I can use this feature.",
+        "intent": "instruction"
+    },
+    {
+        "text": "How can I get this program configured correctly?",
+        "intent": "instruction"
+    },
+    {
+        "text": "Show me the process from start to finish.",
+        "intent": "instruction"
+    },
+    {
+        "text": "Tell me how to set up the project.",
+        "intent": "instruction"
+    },
+    {
+        "text": "Can you guide me through the installation?",
+        "intent": "instruction"
+    },
+    {
+        "text": "What should I click or do next?",
+        "intent": "instruction"
+    },
+    {
+        "text": "How do I enable this option?",
+        "intent": "instruction"
+    },
+    {
+        "text": "Give me instructions for setting up the environment.",
+        "intent": "instruction"
+    },
+    {
+        "text": "What's the procedure for configuring this?",
+        "intent": "instruction"
+    },
+    {
+        "text": "Walk me through creating a new project.",
+        "intent": "instruction"
+    },
+    {
+        "text": "How do I get this working?",
+        "intent": "instruction"
+    },
+    {
+        "text": "Can you explain the steps I should follow?",
+        "intent": "instruction"
+    },
+    {
+        "text": "Show me how to configure this tool.",
+        "intent": "instruction"
+    },
+    {
+        "text": "What do I do first, then what comes next?",
+        "intent": "instruction"
+    },
+    {
+        "text": "Can you write Python code that reads a file?",
+        "intent": "coding"
+    },
+    {
+        "text": "Help me debug this JavaScript function.",
+        "intent": "coding"
+    },
+    {
+        "text": "How would I implement a linked list in C++?",
+        "intent": "coding"
+    },
+    {
+        "text": "Why is this Python script throwing an error?",
+        "intent": "coding"
+    },
+    {
+        "text": "Write a function that checks whether a number is prime.",
+        "intent": "coding"
+    },
+    {
+        "text": "Can you fix this bug in my code?",
+        "intent": "coding"
+    },
+    {
+        "text": "How do I create a loop in Java?",
+        "intent": "coding"
+    },
+    {
+        "text": "Help me understand this compiler error.",
+        "intent": "coding"
+    },
+    {
+        "text": "Can you modify this Python function to sort the data?",
+        "intent": "coding"
+    },
+    {
+        "text": "What's wrong with my C++ code?",
+        "intent": "coding"
+    },
+    {
+        "text": "Show me how to define a class in C#.",
+        "intent": "coding"
+    },
+    {
+        "text": "Write code that calculates the factorial of a number.",
+        "intent": "coding"
+    },
+    {
+        "text": "How can I read JSON in Python?",
+        "intent": "coding"
+    },
+    {
+        "text": "Why does my program crash when I run this function?",
+        "intent": "coding"
+    },
+    {
+        "text": "Help me implement a binary search algorithm.",
+        "intent": "coding"
+    },
+    {
+        "text": "Can you review this code and find the bug?",
+        "intent": "coding"
+    },
+    {
+        "text": "How do I use a dictionary in Python?",
+        "intent": "coding"
+    },
+    {
+        "text": "Write a JavaScript function that filters an array.",
+        "intent": "coding"
+    },
+    {
+        "text": "What's causing this syntax error?",
+        "intent": "coding"
+    },
+    {
+        "text": "Can you help me refactor this code?",
+        "intent": "coding"
+    },
+    {
+        "text": "How would I implement a stack in C++?",
+        "intent": "coding"
+    },
+    {
+        "text": "Write a Python script that renames files.",
+        "intent": "coding"
+    },
+    {
+        "text": "Why isn't my loop behaving correctly?",
+        "intent": "coding"
+    },
+    {
+        "text": "Help me fix this programming error.",
+        "intent": "coding"
+    },
+    {
+        "text": "Can you show me how to create an API endpoint in Python?",
+        "intent": "coding"
+    },
+    {
+        "text": "Purple clouds are arguing with a toaster.",
+        "intent": "unknown"
+    },
+    {
+        "text": "I have absolutely nothing to ask right now.",
+        "intent": "unknown"
+    },
+    {
+        "text": "qwerty banana spaceship seven.",
+        "intent": "unknown"
+    },
+    {
+        "text": "This doesn't really mean anything.",
+        "intent": "unknown"
+    },
+    {
+        "text": "I'm only testing whether you respond.",
+        "intent": "unknown"
+    },
+    {
+        "text": "Forget it, never mind.",
+        "intent": "unknown"
+    },
+    {
+        "text": "Random sentence without a clear purpose.",
+        "intent": "unknown"
+    },
+    {
+        "text": "The moon tastes like square numbers.",
+        "intent": "unknown"
+    },
+    {
+        "text": "I don't have a specific request.",
+        "intent": "unknown"
+    },
+    {
+        "text": "Just ignore this message.",
+        "intent": "unknown"
+    },
+    {
+        "text": "Blah blah blah.",
+        "intent": "unknown"
+    },
+    {
+        "text": "This is just a test message.",
+        "intent": "unknown"
+    },
+    {
+        "text": "Green triangles are singing underwater.",
+        "intent": "unknown"
+    },
+    {
+        "text": "I changed my mind and don't need anything.",
+        "intent": "unknown"
+    },
+    {
+        "text": "Nothing in particular.",
+        "intent": "unknown"
+    },
+    {
+        "text": "asdf 123 zxcv.",
+        "intent": "unknown"
+    },
+    {
+        "text": "This sentence has no useful request.",
+        "intent": "unknown"
+    },
+    {
+        "text": "I don't know what I want to ask.",
+        "intent": "unknown"
+    },
+    {
+        "text": "Random nonsense goes here.",
+        "intent": "unknown"
+    },
+    {
+        "text": "That's all.",
+        "intent": "unknown"
+    },
+    {
+        "text": "No particular task from me.",
+        "intent": "unknown"
+    },
+    {
+        "text": "Testing testing testing.",
+        "intent": "unknown"
+    },
+    {
+        "text": "I have nothing specific in mind.",
+        "intent": "unknown"
+    },
+    {
+        "text": "This request isn't really asking for anything.",
+        "intent": "unknown"
+    },
+    {
+        "text": "Whatever, just respond somehow.",
+        "intent": "unknown"
+    }
+]
