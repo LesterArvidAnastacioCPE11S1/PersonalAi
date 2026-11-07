@@ -4,12 +4,15 @@ const els = {
   menuButton: document.getElementById("menu-button"),
   sidebarClose: document.getElementById("sidebar-close"),
   newChat: document.getElementById("new-chat"),
+  logout: document.getElementById("logout-button"),
+  loggedOff: document.getElementById("logged-off"),
   scenarioButton: document.getElementById("scenario-button"),
   scenarioTop: document.getElementById("scenario-top"),
   composerPlus: document.getElementById("composer-plus"),
   plusMenu: document.getElementById("plus-menu"),
   plusFiles: document.getElementById("plus-files"),
-  plusScenario: document.getElementById("plus-scenario"),
+  plusStyle: document.getElementById("plus-style"),
+  plusStyleCurrent: document.getElementById("plus-style-current"),
   fileInput: document.getElementById("file-input"),
   composerAttachments: document.getElementById("composer-attachments"),
   chatList: document.getElementById("chat-list"),
@@ -25,6 +28,7 @@ const els = {
   composer: document.getElementById("composer"),
   setupBar: document.getElementById("setup-bar"),
   beginStory: document.getElementById("begin-story"),
+  justChat: document.getElementById("just-chat"),
   input: document.getElementById("input"),
   sendButton: document.getElementById("send-button"),
   stopButton: document.getElementById("stop-button"),
@@ -37,6 +41,12 @@ const els = {
   scenarioSetting: document.getElementById("scenario-setting"),
   scenarioCharacters: document.getElementById("scenario-characters"),
   scenarioStyle: document.getElementById("scenario-style"),
+  styleDialog: document.getElementById("style-dialog"),
+  styleForm: document.getElementById("style-form"),
+  styleClose: document.getElementById("style-close"),
+  styleCancel: document.getElementById("style-cancel"),
+  styleSave: document.getElementById("style-save"),
+  styleOptions: document.getElementById("style-options"),
   memoryTop: document.getElementById("memory-top"),
   settingsTop: document.getElementById("settings-top"),
   memoryDrawer: document.getElementById("memory-drawer"),
@@ -83,6 +93,10 @@ const state = {
   currentId: null,
   messages: [],
   pendingScenario: emptyScenario(),
+  pendingStyle: "",
+  styles: null,
+  selectedStyle: "",
+  editingId: null,
   streaming: false,
   controller: null,
   status: null,
@@ -92,7 +106,8 @@ const state = {
   settings: null,
   attachments: [],
   uploads: 0,
-  plusOpen: false
+  plusOpen: false,
+  queuedAction: null
 };
 
 const MAX_FILES = 6;
@@ -146,6 +161,28 @@ function hasScenario(conversation) {
     conversation.characters ||
     conversation.style
   );
+}
+
+function styleOf(conversation) {
+  return conversation ? conversation.narrative_style || "" : "";
+}
+
+function activeStyle() {
+  return state.conversation
+    ? styleOf(state.conversation)
+    : state.pendingStyle;
+}
+
+function styleLabel(key) {
+  const match = (state.styles || []).find(
+    (item) => item.key === (key || "")
+  );
+
+  return match ? match.name : "Default";
+}
+
+function updateStyleLabel() {
+  els.plusStyleCurrent.textContent = styleLabel(activeStyle());
 }
 
 async function api(path, options = {}) {
@@ -471,6 +508,7 @@ function isSetup() {
 function renderSetupBar() {
   els.setupBar.classList.toggle("hidden", !isSetup());
   els.beginStory.disabled = state.streaming || state.uploads > 0;
+  els.justChat.disabled = state.streaming || state.uploads > 0;
 }
 
 function updateHeader() {
@@ -581,9 +619,31 @@ function renderMessageAttachments(entries) {
   return wrap;
 }
 
+function editAction(messageId) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "message-action";
+  button.dataset.edit = messageId;
+  button.title = "Edit message";
+  button.setAttribute("aria-label", "Edit message");
+  button.innerHTML = `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 20h9"/>
+      <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+    </svg>
+    <span>Edit</span>
+  `;
+
+  return button;
+}
+
 function appendMessage(message, attachments = null) {
   const root = document.createElement("div");
   root.className = `message ${message.role}`;
+  root.dataset.messageId =
+    message.id != null ? String(message.id) : "";
+  message.element = root;
 
   if (message.role === "user") {
     const entries = attachments || messageAttachmentsFor(message);
@@ -601,6 +661,14 @@ function appendMessage(message, attachments = null) {
       stack.append(renderMessageAttachments(entries));
     }
 
+    const actions = document.createElement("div");
+    actions.className = "message-actions";
+
+    if (message.id != null) {
+      actions.append(editAction(message.id));
+    }
+
+    stack.append(actions);
     root.append(stack);
     els.messageList.append(root);
     return { root, textEl: null, errorEl: null };
@@ -645,6 +713,188 @@ function renderMessages() {
   if (state.messages.length) {
     requestAnimationFrame(() => scrollToBottom(true));
   }
+}
+
+function beginEdit(messageId) {
+  if (state.streaming || state.editingId !== null) {
+    return;
+  }
+
+  const index = state.messages.findIndex(
+    (item) => item.id === messageId && item.role === "user"
+  );
+
+  if (index === -1) {
+    return;
+  }
+
+  const message = state.messages[index];
+  const root = message.element;
+
+  if (!root) {
+    return;
+  }
+
+  const stack = root.querySelector(".user-stack");
+
+  if (!stack) {
+    return;
+  }
+
+  const bubble = stack.querySelector(".bubble");
+  const actions = stack.querySelector(".message-actions");
+  const later = state.messages.length - index - 1;
+
+  const editor = document.createElement("div");
+  editor.className = "message-editor";
+  editor.dataset.editor = messageId;
+
+  const area = document.createElement("textarea");
+  area.className = "edit-input";
+  area.value = message.content;
+  area.rows = 2;
+
+  const note = document.createElement("div");
+  note.className = "edit-note";
+  note.textContent = later
+    ? `Saving removes ${later} later message${later === 1 ? "" : "s"} and regenerates the reply.`
+    : "Saving regenerates the reply.";
+
+  const buttons = document.createElement("div");
+  buttons.className = "edit-actions";
+
+  const cancel = document.createElement("button");
+  cancel.type = "button";
+  cancel.className = "ghost-button small";
+  cancel.textContent = "Cancel";
+
+  const save = document.createElement("button");
+  save.type = "button";
+  save.className = "primary-button small";
+  save.textContent = "Save & regenerate";
+
+  buttons.append(cancel, save);
+  editor.append(area, note, buttons);
+
+  if (bubble) {
+    bubble.classList.add("editing-hidden");
+  }
+
+  if (actions) {
+    actions.classList.add("editing-hidden");
+  }
+
+  stack.classList.add("editing");
+  stack.append(editor);
+  state.editingId = messageId;
+
+  const resize = () => {
+    area.style.height = "auto";
+    area.style.height = `${Math.min(area.scrollHeight, 220)}px`;
+  };
+
+  area.addEventListener("input", resize);
+  area.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      cancelEdit(messageId);
+      return;
+    }
+
+    if (
+      event.key === "Enter" &&
+      !event.shiftKey &&
+      !event.isComposing
+    ) {
+      event.preventDefault();
+      saveEditedMessage(messageId, area.value);
+    }
+  });
+
+  cancel.addEventListener("click", () => cancelEdit(messageId));
+  save.addEventListener("click", () => {
+    saveEditedMessage(messageId, area.value);
+  });
+
+  resize();
+  area.focus();
+  area.selectionStart = area.value.length;
+  area.selectionEnd = area.value.length;
+}
+
+function cancelEdit(messageId) {
+  const editor = els.messageList.querySelector(
+    `[data-editor="${messageId}"]`
+  );
+
+  if (editor) {
+    const stack = editor.parentElement;
+
+    editor.remove();
+
+    if (stack) {
+      stack.classList.remove("editing");
+
+      const bubble = stack.querySelector(".bubble");
+      const actions = stack.querySelector(".message-actions");
+
+      if (bubble) {
+        bubble.classList.remove("editing-hidden");
+      }
+
+      if (actions) {
+        actions.classList.remove("editing-hidden");
+      }
+    }
+  }
+
+  state.editingId = null;
+}
+
+async function saveEditedMessage(messageId, value) {
+  if (state.streaming) {
+    return;
+  }
+
+  const text = value.trim();
+  const index = state.messages.findIndex(
+    (item) => item.id === messageId && item.role === "user"
+  );
+
+  if (index === -1) {
+    return;
+  }
+
+  if (!text) {
+    toast("Message cannot be empty.");
+    return;
+  }
+
+  if (text === state.messages[index].content) {
+    cancelEdit(messageId);
+    return;
+  }
+
+  state.messages = state.messages.slice(0, index + 1);
+  state.messages[index] = {
+    ...state.messages[index],
+    content: text
+  };
+  state.editingId = null;
+
+  renderMessages();
+  setMessagesVisible(true);
+  scrollToBottom();
+
+  const assistant = { role: "assistant", content: "" };
+  const elements = appendMessage(assistant);
+
+  await runStream({
+    conversation_id: state.currentId,
+    message: text,
+    edit_message_id: messageId,
+    attachments: []
+  }, assistant, elements);
 }
 
 async function loadConversations() {
@@ -706,9 +956,12 @@ function startNewChat() {
   state.conversation = null;
   state.messages = [];
   state.pendingScenario = emptyScenario();
+  state.pendingStyle = "";
+  state.editingId = null;
   state.memory = null;
   state.attachments = [];
   setPlusMenu(false);
+  updateStyleLabel();
 
   history.replaceState(null, "", location.pathname);
 
@@ -741,11 +994,14 @@ async function openConversation(conversationId) {
     state.messages = data.messages;
     state.attachments = data.attachments || [];
     state.pendingScenario = scenarioOf(data.conversation);
+    state.pendingStyle = styleOf(data.conversation);
+    state.editingId = null;
     state.memory = null;
 
     history.replaceState(null, "", `#${conversationId}`);
 
     updateHeader();
+    updateStyleLabel();
     renderMessages();
     renderAttachments();
     updateSendState();
@@ -1299,6 +1555,135 @@ async function saveScenario(event) {
   els.input.focus();
 }
 
+async function loadStyles() {
+  if (state.styles) {
+    return state.styles;
+  }
+
+  const data = await api("/api/styles");
+  state.styles = data.styles || [];
+  updateStyleLabel();
+
+  return state.styles;
+}
+
+function renderStyleOptions(selected) {
+  els.styleOptions.innerHTML = "";
+
+  for (const style of state.styles || []) {
+    const label = document.createElement("label");
+    label.className = "style-option";
+
+    if (style.key === selected) {
+      label.classList.add("selected");
+    }
+
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "narrative-style";
+    input.value = style.key;
+    input.className = "style-radio";
+    input.checked = style.key === selected;
+
+    const body = document.createElement("div");
+    body.className = "style-option-body";
+
+    const head = document.createElement("div");
+    head.className = "style-option-head";
+
+    const name = document.createElement("span");
+    name.className = "style-option-name";
+    name.textContent = style.name;
+
+    const check = document.createElement("span");
+    check.className = "style-option-check";
+    check.innerHTML = `
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m20 6-11 11-5-5"/>
+      </svg>
+    `;
+
+    const desc = document.createElement("p");
+    desc.className = "style-option-desc";
+    desc.textContent = style.description;
+
+    head.append(name, check);
+    body.append(head, desc);
+    label.append(input, body);
+    els.styleOptions.append(label);
+  }
+}
+
+function selectStyle(key) {
+  state.selectedStyle = key;
+
+  for (const option of els.styleOptions.children) {
+    const input = option.querySelector("input");
+
+    if (!input) {
+      continue;
+    }
+
+    const active = input.value === key;
+    input.checked = active;
+    option.classList.toggle("selected", active);
+  }
+}
+
+async function openStyleDialog() {
+  setPlusMenu(false);
+
+  try {
+    await loadStyles();
+  } catch (error) {
+    toast(error.message);
+    return;
+  }
+
+  state.selectedStyle = activeStyle();
+  renderStyleOptions(state.selectedStyle);
+  els.styleDialog.showModal();
+}
+
+function closeStyleDialog() {
+  els.styleDialog.close();
+}
+
+async function saveStyle(event) {
+  event.preventDefault();
+
+  const style = state.selectedStyle || "";
+
+  if (!state.currentId) {
+    state.pendingStyle = style;
+    updateStyleLabel();
+    closeStyleDialog();
+    toast("Storytelling style set.");
+    return;
+  }
+
+  els.styleSave.disabled = true;
+
+  try {
+    const data = await api(`/api/conversations/${state.currentId}`, {
+      method: "PATCH",
+      body: { narrative_style: style }
+    });
+
+    state.conversation = data.conversation;
+    state.pendingStyle = styleOf(data.conversation);
+    updateStyleLabel();
+    closeStyleDialog();
+    await loadConversations();
+    toast("Storytelling style updated.");
+  } catch (error) {
+    toast(error.message);
+  } finally {
+    els.styleSave.disabled = false;
+  }
+}
+
 function parseEvent(chunk) {
   let event = "message";
   let data = "";
@@ -1321,9 +1706,75 @@ function parseEvent(chunk) {
   }
 }
 
+function adoptMessageId(saved) {
+  if (saved.role !== "user" || saved.id == null) {
+    return;
+  }
+
+  for (let index = state.messages.length - 1; index >= 0; index -= 1) {
+    const message = state.messages[index];
+
+    if (message.role !== "user" || message.id != null) {
+      continue;
+    }
+
+    message.id = saved.id;
+
+    const root = message.element;
+
+    if (root) {
+      root.dataset.messageId = String(saved.id);
+
+      let actions = root.querySelector(".message-actions");
+
+      if (!actions) {
+        actions = document.createElement("div");
+        actions.className = "message-actions";
+        root.querySelector(".user-stack").append(actions);
+      }
+
+      if (!actions.querySelector("[data-edit]")) {
+        actions.append(editAction(saved.id));
+      }
+    }
+
+    return;
+  }
+}
+
+function performAction(action) {
+  if (!action || !action.name) {
+    return;
+  }
+
+  if (action.name === "open_settings") {
+    openSettings();
+  } else if (action.name === "open_memory") {
+    openMemory();
+  } else if (action.name === "open_scenario") {
+    openScenario();
+  } else if (action.name === "open_styles") {
+    openStyleDialog();
+  } else if (action.name === "open_sidebar") {
+    openSidebar();
+  } else if (action.name === "new_chat") {
+    state.queuedAction = "new_chat";
+  }
+}
+
 function handleEvent(payload, assistant, elements) {
   if (payload.event === "meta") {
     state.conversation = payload.data.conversation;
+
+    if (payload.data.message) {
+      adoptMessageId(payload.data.message);
+    }
+
+    if (payload.data.action) {
+      performAction(payload.data.action);
+    }
+
+    updateStyleLabel();
     updateHeader();
     return;
   }
@@ -1397,7 +1848,10 @@ async function ensureConversation() {
 
   const data = await api("/api/conversations", {
     method: "POST",
-    body: state.pendingScenario
+    body: {
+      ...state.pendingScenario,
+      narrative_style: state.pendingStyle
+    }
   });
 
   state.currentId = data.conversation.id;
@@ -1681,6 +2135,39 @@ async function beginStory() {
   });
 }
 
+async function justChat() {
+  if (state.streaming || state.uploads > 0) {
+    return;
+  }
+
+  try {
+    await ensureConversation();
+  } catch (error) {
+    toast(error.message);
+    return;
+  }
+
+  try {
+    const data = await api(
+      `/api/conversations/${state.currentId}/phase`,
+      {
+        method: "POST",
+        body: { phase: "chat" }
+      }
+    );
+
+    state.conversation = data.conversation;
+    renderSetupBar();
+  } catch (error) {
+    toast(error.message);
+    return;
+  }
+
+  await sendMessage("Let's just chat.", {
+    attachments: false
+  });
+}
+
 async function sendMessage(override = null, options = {}) {
   const message = (
     override === null ? els.input.value : override
@@ -1733,6 +2220,14 @@ async function sendMessage(override = null, options = {}) {
   const assistant = { role: "assistant", content: "" };
   const elements = appendMessage(assistant);
 
+  await runStream({
+    conversation_id: state.currentId,
+    message,
+    attachments: entries.map((entry) => entry.id)
+  }, assistant, elements);
+}
+
+async function runStream(body, assistant, elements) {
   setStreaming(true);
   state.controller = new AbortController();
 
@@ -1744,11 +2239,7 @@ async function sendMessage(override = null, options = {}) {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        conversation_id: state.currentId,
-        message,
-        attachments: entries.map((entry) => entry.id)
-      }),
+      body: JSON.stringify(body),
       signal: state.controller.signal
     });
 
@@ -1827,16 +2318,65 @@ async function sendMessage(override = null, options = {}) {
 
     await loadConversations();
     updateHeader();
+
+    if (state.queuedAction === "new_chat") {
+      state.queuedAction = null;
+      startNewChat();
+    }
   }
 }
 
+async function logOff() {
+
+  if (!window.confirm("Log off and stop PersonalAI?")) {
+    return;
+  }
+
+  try {
+
+    const response = await fetch("/api/shutdown", { method: "POST" });
+
+    if (!response.ok) {
+      toast("Could not stop PersonalAI.");
+      return;
+    }
+
+  } catch (error) {
+  }
+
+  els.loggedOff.classList.remove("hidden");
+}
+
 els.newChat.addEventListener("click", startNewChat);
+els.logout.addEventListener("click", logOff);
+
+els.messageList.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-edit]");
+
+  if (button) {
+    beginEdit(Number(button.dataset.edit));
+  }
+});
 
 els.scenarioButton.addEventListener("click", openScenario);
 els.scenarioTop.addEventListener("click", openScenario);
-els.plusScenario.addEventListener("click", () => {
-  setPlusMenu(false);
-  openScenario();
+els.plusStyle.addEventListener("click", openStyleDialog);
+els.styleClose.addEventListener("click", closeStyleDialog);
+els.styleCancel.addEventListener("click", closeStyleDialog);
+els.styleForm.addEventListener("submit", saveStyle);
+
+els.styleOptions.addEventListener("change", (event) => {
+  const input = event.target.closest("input");
+
+  if (input) {
+    selectStyle(input.value);
+  }
+});
+
+els.styleDialog.addEventListener("click", (event) => {
+  if (event.target === els.styleDialog) {
+    closeStyleDialog();
+  }
 });
 els.scenarioClose.addEventListener("click", closeScenario);
 els.scenarioForm.addEventListener("submit", saveScenario);
@@ -1971,6 +2511,7 @@ els.composerPlus.addEventListener("click", (event) => {
 });
 
 els.beginStory.addEventListener("click", beginStory);
+els.justChat.addEventListener("click", justChat);
 
 els.plusFiles.addEventListener("click", () => {
   setPlusMenu(false);
@@ -2055,6 +2596,7 @@ renderMemory();
 
 checkStatus();
 loadConversations();
+loadStyles().catch(() => {});
 
 const initialConversation = location.hash.slice(1);
 

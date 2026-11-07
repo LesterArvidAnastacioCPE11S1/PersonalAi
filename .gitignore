@@ -12,6 +12,7 @@ data/attachments/
 *.pt
 *.pth
 models/deberta_intent/
+models/deberta_intent_v*/
 
 android/build/
 android/*.idsig

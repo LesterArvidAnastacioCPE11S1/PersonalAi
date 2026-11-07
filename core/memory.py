@@ -84,6 +84,10 @@ class MemoryWriter:
 
             return False
 
+        if (conversation.get("phase") or "chat") == "chat":
+
+            return False
+
         messages = self.store.messages_after(
             conversation_id,
             conversation.get("last_extracted_id") or 0

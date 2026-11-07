@@ -1,10 +1,30 @@
 import threading
+import time
+import urllib.request
 import webbrowser
 
 import uvicorn
 
 from config import load_config, save_config
 from features.mobile_access import generate_token, lan_addresses
+
+
+def open_when_ready(url):
+
+    for _ in range(240):
+
+        try:
+
+            urllib.request.urlopen(
+                url + "/api/status",
+                timeout=1
+            ).close()
+            webbrowser.open(url)
+            return
+
+        except Exception:
+
+            time.sleep(0.5)
 
 
 def main():
@@ -90,13 +110,16 @@ def main():
 
     if config.app.open_browser:
 
-        threading.Timer(
-            1.0,
-            lambda: webbrowser.open(url)
+        threading.Thread(
+            target=open_when_ready,
+            args=(url,),
+            daemon=True
         ).start()
 
-    uvicorn.run(
-        "server:app",
+    import server as server_module
+
+    server_config = uvicorn.Config(
+        server_module.app,
         host=(
             "0.0.0.0"
             if config.app.mobile_access
@@ -105,6 +128,15 @@ def main():
         port=config.app.port,
         log_level="info"
     )
+    server = uvicorn.Server(server_config)
+
+    def shutdown():
+
+        time.sleep(0.4)
+        server.should_exit = True
+
+    server_module.app.state.shutdown = shutdown
+    server.run()
 
 
 if __name__ == "__main__":

@@ -247,6 +247,11 @@ button {
   border: 1px solid #2a2a2a;
 }
 
+.footer-copy {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
 .footer-name {
   font-size: 13px;
 }
@@ -254,6 +259,52 @@ button {
 .footer-meta {
   font-size: 11.5px;
   color: var(--muted-2);
+}
+
+.icon-button.logout-button {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+}
+
+.icon-button.logout-button svg {
+  width: 17px;
+  height: 17px;
+}
+
+.icon-button.logout-button:hover {
+  background: #2a1d1d;
+  color: #ff8a8a;
+}
+
+.logged-off {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+}
+
+.logged-off-card {
+  max-width: 380px;
+  padding: 28px;
+  text-align: center;
+  border: 1px solid var(--border-soft);
+  border-radius: 14px;
+  background: #121212;
+}
+
+.logged-off-card .brand {
+  font-size: 20px;
+}
+
+.logged-off-card p {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 13.5px;
+  line-height: 1.6;
 }
 
 .main {
@@ -516,6 +567,96 @@ button {
   gap: 6px;
   max-width: 76%;
   min-width: 0;
+}
+
+.user-stack.editing {
+  width: 100%;
+  max-width: 100%;
+}
+
+.message-actions {
+  display: flex;
+  gap: 4px;
+  min-height: 18px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.message.user:hover .message-actions,
+.message.user:focus-within .message-actions {
+  opacity: 1;
+}
+
+.message-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 11.5px;
+}
+
+.message-action:hover {
+  background: #232323;
+  color: var(--text);
+}
+
+.message-action svg {
+  width: 13px;
+  height: 13px;
+}
+
+.editing-hidden {
+  display: none;
+}
+
+.message-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.edit-input {
+  width: 100%;
+  min-height: 66px;
+  padding: 10px 13px;
+  border: 1px solid #3a3a3a;
+  border-radius: 14px;
+  background: #1c1c1c;
+  color: var(--text);
+  font: inherit;
+  line-height: 1.5;
+  resize: none;
+  outline: none;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.edit-input:focus {
+  border-color: #3d7ae0;
+  box-shadow: 0 0 0 2px rgba(61, 122, 224, 0.18);
+}
+
+.edit-note {
+  font-size: 11px;
+  color: var(--muted-2);
+  text-align: right;
+}
+
+.edit-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+@media (hover: none) {
+  .message-actions {
+    opacity: 1;
+  }
 }
 
 .message-attachments {
@@ -786,6 +927,12 @@ button {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.setup-actions {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 8px;
 }
 
 .setup-bar button {
@@ -1203,6 +1350,96 @@ button {
 .primary-button:disabled {
   opacity: 0.55;
   cursor: default;
+}
+
+.primary-button.small {
+  padding: 4px 10px;
+  font-size: 11.5px;
+}
+
+.style-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.style-option {
+  position: relative;
+  display: block;
+  padding: 11px 13px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: #171717;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.style-option:hover {
+  border-color: #3a3a3a;
+  background: #1c1c1c;
+}
+
+.style-option:focus-within {
+  border-color: #3d7ae0;
+}
+
+.style-option.selected {
+  border-color: #3d7ae0;
+  background: rgba(61, 122, 224, 0.09);
+}
+
+.style-radio {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.style-option-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.style-option-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.style-option-name {
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.style-option-check {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  border-radius: 50%;
+  background: #3d7ae0;
+  color: #fff;
+}
+
+.style-option-check svg {
+  width: 12px;
+  height: 12px;
+}
+
+.style-option.selected .style-option-check {
+  display: inline-flex;
+}
+
+.style-option-desc {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted);
 }
 
 .drawer-scrim {

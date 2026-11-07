@@ -1,5 +1,8 @@
 import json
+import re
+import threading
 
+from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI, File, HTTPException, Request, UploadFile
@@ -23,7 +26,8 @@ from features.attachments import (
     AttachmentNotFound,
     AttachmentService
 )
-from features.intents import asks_to_begin, detect
+from features.intent_model import start_warmup
+from features.intents import intents_from, understand
 from features.mobile_access import (
     COOKIE_NAME,
     HEADER_NAME,
@@ -34,7 +38,14 @@ from features.mobile_access import (
     normalize_token,
     token_valid
 )
+from features.request_router import RequestRouter
 from features.story_setup import has_story_brief
+from features.ui_actions import match_action
+from features.story_styles import (
+    is_style_key,
+    normalize_style,
+    style_options
+)
 from models.openai_compat import ModelError, OpenAICompatibleModel
 
 
@@ -66,9 +77,20 @@ attachments = AttachmentService(
     store
 )
 
+router = RequestRouter()
+
 WEB_DIR = Path(__file__).resolve().parent / "web"
 
-app = FastAPI(title="PersonalAI")
+
+@asynccontextmanager
+async def lifespan(app):
+
+    start_warmup()
+
+    yield
+
+
+app = FastAPI(title="PersonalAI", lifespan=lifespan)
 
 app.mount(
     "/static",
@@ -172,6 +194,7 @@ class ConversationCreate(BaseModel):
     setting: str = ""
     characters: str = ""
     style: str = ""
+    narrative_style: str = ""
 
 
 class ConversationUpdate(BaseModel):
@@ -180,12 +203,14 @@ class ConversationUpdate(BaseModel):
     setting: str | None = None
     characters: str | None = None
     style: str | None = None
+    narrative_style: str | None = None
 
 
 class ChatRequest(BaseModel):
     conversation_id: str
     message: str = ""
     attachments: list[str] = []
+    edit_message_id: int | None = None
 
 
 class PhaseUpdate(BaseModel):
@@ -287,6 +312,31 @@ def status():
         "model": config.model.model,
         "base_url": config.model.base_url,
         "available": available
+    }
+
+
+@app.post("/api/shutdown")
+def shutdown_app():
+
+    callback = getattr(app.state, "shutdown", None)
+
+    if callback is None:
+
+        raise HTTPException(
+            status_code=503,
+            detail="Shutdown is not available."
+        )
+
+    threading.Thread(target=callback, daemon=True).start()
+
+    return {"stopping": True}
+
+
+@app.get("/api/styles")
+def get_styles():
+
+    return {
+        "styles": style_options()
     }
 
 
@@ -456,13 +506,23 @@ def list_conversations():
 @app.post("/api/conversations")
 def create_conversation(payload: ConversationCreate):
 
+    if not is_style_key(payload.narrative_style):
+
+        raise HTTPException(
+            status_code=400,
+            detail="Unknown storytelling style."
+        )
+
     return {
         "conversation": store.create_conversation(
             title=payload.title,
             premise=payload.premise,
             setting=payload.setting,
             characters=payload.characters,
-            style=payload.style
+            style=payload.style,
+            narrative_style=normalize_style(
+                payload.narrative_style
+            )
         )
     }
 
@@ -504,9 +564,30 @@ def update_conversation(
             detail="Conversation not found."
         )
 
+    values = payload.model_dump(exclude_unset=True)
+
+    if "narrative_style" in values:
+
+        if values["narrative_style"] is None:
+
+            values.pop("narrative_style")
+
+        else:
+
+            if not is_style_key(values["narrative_style"]):
+
+                raise HTTPException(
+                    status_code=400,
+                    detail="Unknown storytelling style."
+                )
+
+            values["narrative_style"] = normalize_style(
+                values["narrative_style"]
+            )
+
     conversation = store.update_conversation(
         conversation_id,
-        payload.model_dump(exclude_unset=True)
+        values
     )
 
     return {
@@ -519,11 +600,11 @@ def update_phase(conversation_id: str, payload: PhaseUpdate):
 
     phase = payload.phase.strip().lower()
 
-    if phase not in {"setup", "story"}:
+    if phase not in {"chat", "setup", "story"}:
 
         raise HTTPException(
             status_code=400,
-            detail="Phase must be setup or story."
+            detail="Phase must be chat, setup, or story."
         )
 
     conversation = store.set_phase(
@@ -537,6 +618,13 @@ def update_phase(conversation_id: str, payload: PhaseUpdate):
             status_code=404,
             detail="Conversation not found."
         )
+
+    if phase == "setup":
+
+        conversation = store.set_setup_start(
+            conversation_id,
+            store.last_message_id(conversation_id)
+        ) or conversation
 
     return {
         "conversation": conversation
@@ -825,6 +913,87 @@ def delete_lore(lore_id: int):
     }
 
 
+TITLE_STOPWORDS = {
+    "the", "and", "for", "with", "this", "that", "just", "have",
+    "from", "your", "story", "new", "chat", "about", "into", "they",
+    "them", "what", "when", "where", "will", "would", "could",
+    "should", "there", "here", "some", "then", "than", "very"
+}
+
+
+def _story_conversations():
+
+    return [
+        item for item in store.list_conversations()
+        if item.get("phase") == "story"
+    ]
+
+
+def _match_story(message, stories):
+
+    lowered = (message or "").lower()
+
+    for story in stories:
+
+        title = (story.get("title") or "").strip()
+
+        if not title or title.lower() == "new chat":
+
+            continue
+
+        if title.lower() in lowered:
+
+            return story
+
+        words = [
+            word for word in re.findall(r"[a-z]{4,}", title.lower())
+            if word not in TITLE_STOPWORDS
+        ]
+
+        if (
+            1 <= len(words) <= 4
+            and all(word in lowered for word in words)
+        ):
+
+            return story
+
+    return None
+
+
+def _adopt_story(conversation_id, story):
+
+    values = {
+        key: story.get(key) or ""
+        for key in (
+            "title",
+            "premise",
+            "setting",
+            "characters",
+            "style",
+            "narrative_style"
+        )
+    }
+
+    store.update_conversation(conversation_id, values)
+
+    if story.get("summary"):
+
+        store.set_summary(conversation_id, story["summary"])
+
+    for item in store.list_lore(story["id"]):
+
+        store.add_lore(
+            conversation_id,
+            category=item.get("category") or "fact",
+            subject=item.get("subject") or "",
+            detail=item.get("detail") or "",
+            keywords=item.get("keywords") or "",
+            source="import"
+        )
+
+    return store.set_phase(conversation_id, "story")
+
+
 @app.post("/api/chat/stream")
 def chat_stream(payload: ChatRequest):
 
@@ -840,35 +1009,245 @@ def chat_stream(payload: ChatRequest):
         )
 
     message = payload.message.strip()
+    edit_id = payload.edit_message_id
+    rows = []
+    saved = None
 
-    try:
+    if edit_id is not None:
 
-        rows = attachments.ready(
+        saved = store.get_message(edit_id)
+
+        if (
+            saved is None
+            or saved["conversation_id"] != payload.conversation_id
+            or saved["role"] != "user"
+        ):
+
+            raise HTTPException(
+                status_code=400,
+                detail="Only a message in this conversation can be edited."
+            )
+
+        if not message:
+
+            raise HTTPException(
+                status_code=400,
+                detail="Message is empty."
+            )
+
+        removed, _ = store.truncate_after(
             payload.conversation_id,
-            payload.attachments
+            edit_id
         )
 
-    except AttachmentError as error:
+        attachments.remove_files(removed)
 
-        raise HTTPException(
-            status_code=400,
-            detail=str(error)
-        ) from error
-
-    if not message and not rows:
-
-        raise HTTPException(
-            status_code=400,
-            detail="Message is empty."
+        store.update_message(edit_id, message)
+        store.auto_title(payload.conversation_id, message)
+        saved = store.get_message(edit_id)
+        rows = store.list_attachments(
+            payload.conversation_id,
+            message_id=edit_id
         )
 
-    intents = detect(message)
+    else:
 
-    if conversation.get("phase") == "setup" and message:
+        try:
 
-        history = store.get_messages(
-            payload.conversation_id
+            rows = attachments.ready(
+                payload.conversation_id,
+                payload.attachments
+            )
+
+        except AttachmentError as error:
+
+            raise HTTPException(
+                status_code=400,
+                detail=str(error)
+            ) from error
+
+        if not message and not rows:
+
+            raise HTTPException(
+                status_code=400,
+                detail="Message is empty."
+            )
+
+    understanding = understand(message) if message else None
+    intents = intents_from(understanding)
+    action = None
+    mode_chat = False
+    notes = []
+    activated_setup = False
+    previous_phase = conversation.get("phase") or "chat"
+
+    if message and edit_id is None:
+
+        action = match_action(message, understanding)
+        mode_chat = (
+            understanding is not None
+            and understanding.label == "mode_chat"
+            and understanding.confidence >= 0.45
         )
+
+    if mode_chat and previous_phase in {"setup", "story"}:
+
+        conversation = store.set_phase(
+            payload.conversation_id,
+            "chat"
+        ) or conversation
+
+        if previous_phase == "setup":
+
+            notes.append(
+                "ROUTING NOTE\n"
+                "The user is leaving the story setup to have a normal "
+                "conversation. Do not ask setup questions, do not present the "
+                "brief, and do not start a story. Confirm the switch in one "
+                "short sentence and respond to what they said."
+            )
+
+        else:
+
+            notes.append(
+                "ROUTING NOTE\n"
+                "The user is leaving the story to have a normal conversation. "
+                "Do not narrate or continue the scene. Confirm the switch in "
+                "one short sentence and respond to what they said."
+            )
+
+    if action is not None:
+
+        if action.get("name") == "new_chat":
+
+            notes.append(
+                "ROUTING NOTE\n"
+                "A new empty chat is being created for the user. Confirm in "
+                "one short sentence. Do not ask a question and do not write "
+                "a scene."
+            )
+
+        else:
+
+            notes.append(
+                "ROUTING NOTE\n"
+                f"The app is opening {action.get('label')} for the user right "
+                "now. Confirm in one short sentence and ask what they want to "
+                "do next. Do not describe the panel's contents and do not "
+                "write a scene."
+            )
+
+    route_note = "\n\n".join(notes) if notes else None
+
+    if (
+        conversation.get("phase") == "chat"
+        and message
+        and edit_id is None
+        and action is None
+        and not mode_chat
+    ):
+
+        stories = _story_conversations()
+        matched = _match_story(message, stories)
+        decision, _ = router.decide(message, understanding)
+
+        if decision == "continue":
+
+            target = None
+
+            if len(stories) == 1:
+
+                target = stories[0]
+
+            elif matched is not None:
+
+                target = matched
+
+            if target is not None:
+
+                conversation = (
+                    _adopt_story(payload.conversation_id, target)
+                    or conversation
+                )
+
+                route_note = (
+                    "ROUTING NOTE\n"
+                    f"You are continuing the saved story "
+                    f"\"{target.get('title')}\". Its foundation and story "
+                    "memory are loaded. Resume the narrative from the latest "
+                    "established moment."
+                )
+
+            elif not stories:
+
+                route_note = (
+                    "ROUTING NOTE\n"
+                    "The user asked to continue a story, but no saved story "
+                    "exists. Say that briefly and offer to start a new one. "
+                    "Do not invent story context."
+                )
+
+            else:
+
+                titles = "\n".join(
+                    f"- {item.get('title') or 'Untitled'}"
+                    for item in stories[:10]
+                )
+
+                route_note = (
+                    "ROUTING NOTE\n"
+                    "The user asked to continue a story, but several saved "
+                    "stories exist. Ask which one they mean using this list, "
+                    "and do not write narrative until they choose:\n"
+                    f"{titles}"
+                )
+
+        elif decision == "story":
+
+            conversation = store.set_phase(
+                payload.conversation_id,
+                "setup"
+            ) or conversation
+
+            conversation = store.set_setup_start(
+                payload.conversation_id,
+                store.last_message_id(payload.conversation_id)
+            ) or conversation
+
+            activated_setup = True
+
+        elif (
+            matched is not None
+            and "?" not in message
+            and len(message.split()) <= 6
+        ):
+
+            conversation = (
+                _adopt_story(payload.conversation_id, matched)
+                or conversation
+            )
+
+            route_note = (
+                "ROUTING NOTE\n"
+                f"The user named the saved story "
+                f"\"{matched.get('title')}\". Its foundation and story "
+                "memory are loaded. Resume the narrative."
+            )
+
+    if (
+        conversation.get("phase") == "setup"
+        and message
+        and not activated_setup
+    ):
+
+        setup_start = conversation.get("setup_start_id") or 0
+
+        history = [
+            item for item in store.get_messages(
+                payload.conversation_id
+            )
+            if (item.get("id") or 0) > setup_start
+        ]
 
         last_assistant = ""
 
@@ -884,12 +1263,17 @@ def chat_stream(payload: ChatRequest):
             if item.get("role") == "assistant"
         )
 
-        confirmed = (
+        confident = (
+            understanding is not None
+            and understanding.confidence >= 0.45
+        )
+
+        confirmed = confident and (
             "begin_story" in intents
             or (
                 "affirmation" in intents
-                and asks_to_begin(last_assistant)
                 and brief_presented
+                and "?" in last_assistant
             )
         )
 
@@ -900,33 +1284,57 @@ def chat_stream(payload: ChatRequest):
                 "story"
             ) or conversation
 
-    prompt_content = attachments.prompt_text(rows)
-
-    conversation, prompt = engine.prepare(
-        conversation,
-        message,
-        prompt_content=prompt_content,
-        attachment_ids=[row["id"] for row in rows],
-        image_urls=attachments.image_data_urls(rows),
-        intents=intents
-    )
-
-    if not message and rows:
-
-        store.auto_title(
-            conversation["id"],
-            rows[0]["filename"]
-        )
+    if edit_id is not None:
 
         conversation = store.get_conversation(
-            conversation["id"]
+            payload.conversation_id
+        ) or conversation
+
+        prompt = engine.regenerate(
+            conversation,
+            edit_id,
+            image_urls=attachments.image_data_urls(rows),
+            intents=intents
         )
+
+        meta_message = saved
+
+    else:
+
+        prompt_content = attachments.prompt_text(rows)
+
+        conversation, prompt, saved = engine.prepare(
+            conversation,
+            message,
+            prompt_content=prompt_content,
+            attachment_ids=[row["id"] for row in rows],
+            image_urls=attachments.image_data_urls(rows),
+            intents=intents,
+            route_note=route_note
+        )
+
+        if not message and rows:
+
+            store.auto_title(
+                conversation["id"],
+                rows[0]["filename"]
+            )
+
+            conversation = store.get_conversation(
+                conversation["id"]
+            )
+
+        meta_message = saved
 
     def generate():
 
         yield _event(
             "meta",
-            {"conversation": conversation}
+            {
+                "conversation": conversation,
+                "message": meta_message,
+                "action": action
+            }
         )
 
         failed = False

@@ -14,7 +14,8 @@ CREATE TABLE IF NOT EXISTS conversations (
     setting TEXT NOT NULL DEFAULT '',
     characters TEXT NOT NULL DEFAULT '',
     style TEXT NOT NULL DEFAULT '',
-    phase TEXT NOT NULL DEFAULT 'setup',
+    narrative_style TEXT NOT NULL DEFAULT '',
+    phase TEXT NOT NULL DEFAULT 'chat',
     summary TEXT NOT NULL DEFAULT '',
     last_extracted_id INTEGER NOT NULL DEFAULT 0,
     created_at TEXT NOT NULL,
@@ -84,7 +85,8 @@ CONVERSATION_FIELDS = {
     "premise",
     "setting",
     "characters",
-    "style"
+    "style",
+    "narrative_style"
 }
 
 LORE_FIELDS = {
@@ -95,12 +97,14 @@ LORE_FIELDS = {
 }
 
 CONVERSATION_COLUMNS = {
-    "phase": "TEXT NOT NULL DEFAULT 'story'",
+    "narrative_style": "TEXT NOT NULL DEFAULT ''",
+    "phase": "TEXT NOT NULL DEFAULT 'chat'",
+    "setup_start_id": "INTEGER NOT NULL DEFAULT 0",
     "summary": "TEXT NOT NULL DEFAULT ''",
     "last_extracted_id": "INTEGER NOT NULL DEFAULT 0"
 }
 
-PHASES = {"setup", "story"}
+PHASES = {"chat", "setup", "story"}
 
 MESSAGE_COLUMNS = {
     "prompt_content": "TEXT NOT NULL DEFAULT ''"
@@ -251,7 +255,8 @@ class Store:
         premise="",
         setting="",
         characters="",
-        style=""
+        style="",
+        narrative_style=""
     ):
 
         conversation_id = uuid.uuid4().hex
@@ -264,10 +269,10 @@ class Store:
                 """
                 INSERT INTO conversations (
                     id, title, premise, setting,
-                    characters, style, phase,
-                    created_at, updated_at
+                    characters, style, narrative_style,
+                    phase, created_at, updated_at
                 )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     conversation_id,
@@ -276,7 +281,8 @@ class Store:
                     setting or "",
                     characters or "",
                     style or "",
-                    "setup",
+                    narrative_style or "",
+                    "chat",
                     now,
                     now
                 )
@@ -326,6 +332,38 @@ class Store:
                 WHERE id = ?
                 """,
                 parameters
+            )
+
+            connection.commit()
+
+        return self.get_conversation(conversation_id)
+
+    def last_message_id(self, conversation_id):
+
+        with closing(self._connect()) as connection:
+
+            row = connection.execute(
+                """
+                SELECT COALESCE(MAX(id), 0) AS id
+                FROM messages
+                WHERE conversation_id = ?
+                """,
+                (conversation_id,)
+            ).fetchone()
+
+        return int(row["id"] or 0)
+
+    def set_setup_start(self, conversation_id, message_id):
+
+        with closing(self._connect()) as connection:
+
+            connection.execute(
+                """
+                UPDATE conversations
+                SET setup_start_id = ?, updated_at = ?
+                WHERE id = ?
+                """,
+                (int(message_id or 0), _now(), conversation_id)
             )
 
             connection.commit()
@@ -447,6 +485,102 @@ class Store:
             ).fetchall()
 
         return [_row(row) for row in rows]
+
+    def get_message(self, message_id):
+
+        with closing(self._connect()) as connection:
+
+            row = connection.execute(
+                """
+                SELECT
+                    id, conversation_id, role, content,
+                    prompt_content, created_at
+                FROM messages
+                WHERE id = ?
+                """,
+                (message_id,)
+            ).fetchone()
+
+        return _row(row)
+
+    def update_message(self, message_id, content):
+
+        row = self.get_message(message_id)
+
+        if row is None:
+
+            return None
+
+        with closing(self._connect()) as connection:
+
+            connection.execute(
+                "UPDATE messages SET content = ? WHERE id = ?",
+                (content, message_id)
+            )
+
+            connection.execute(
+                """
+                UPDATE conversations
+                SET updated_at = ?
+                WHERE id = ?
+                """,
+                (_now(), row["conversation_id"])
+            )
+
+            connection.commit()
+
+        return self.get_message(message_id)
+
+    def truncate_after(self, conversation_id, message_id):
+
+        with closing(self._connect()) as connection:
+
+            rows = connection.execute(
+                """
+                SELECT a.*
+                FROM attachments a
+                JOIN messages m
+                    ON m.id = a.message_id
+                WHERE a.conversation_id = ?
+                    AND m.id > ?
+                """,
+                (conversation_id, message_id)
+            ).fetchall()
+
+            if rows:
+
+                placeholders = ", ".join(
+                    "?" for _ in rows
+                )
+
+                connection.execute(
+                    f"""
+                    DELETE FROM attachments
+                    WHERE id IN ({placeholders})
+                    """,
+                    [row["id"] for row in rows]
+                )
+
+            cursor = connection.execute(
+                """
+                DELETE FROM messages
+                WHERE conversation_id = ? AND id > ?
+                """,
+                (conversation_id, message_id)
+            )
+
+            connection.execute(
+                """
+                UPDATE conversations
+                SET updated_at = ?
+                WHERE id = ?
+                """,
+                (_now(), conversation_id)
+            )
+
+            connection.commit()
+
+        return [_row(row) for row in rows], cursor.rowcount
 
     def auto_title(self, conversation_id, message):
 

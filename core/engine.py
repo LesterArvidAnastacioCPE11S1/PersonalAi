@@ -18,7 +18,8 @@ class ChatEngine:
         prompt_content=None,
         attachment_ids=None,
         image_urls=None,
-        intents=None
+        intents=None,
+        route_note=None
     ):
 
         history = self.store.get_messages(
@@ -32,7 +33,8 @@ class ChatEngine:
             message,
             prompt_content,
             image_urls or [],
-            intents
+            intents,
+            route_note
         )
 
         saved = self.store.add_message(
@@ -58,7 +60,8 @@ class ChatEngine:
             self.store.get_conversation(
                 conversation["id"]
             ),
-            prompt
+            prompt,
+            saved
         )
 
     def _assemble(
@@ -68,7 +71,8 @@ class ChatEngine:
         message,
         prompt_content,
         image_urls,
-        intents=None
+        intents=None,
+        route_note=None
     ):
 
         lore = self.store.list_lore(
@@ -76,7 +80,8 @@ class ChatEngine:
         )
 
         setup_round, brief_presented = self._setup_state(
-            history
+            history,
+            conversation.get("setup_start_id") or 0
         )
 
         prompt = [
@@ -89,10 +94,17 @@ class ChatEngine:
                     phase=conversation.get("phase"),
                     setup_round=setup_round,
                     brief_presented=brief_presented,
-                    intents=intents
+                    intents=intents,
+                    narrative_style=(
+                        conversation.get("narrative_style") or ""
+                    )
                 )
             }
         ]
+
+        if route_note:
+
+            prompt[0]["content"] += f"\n\n{route_note}"
 
         prompt.extend(
             self._window(
@@ -101,7 +113,15 @@ class ChatEngine:
             )
         )
 
-        content = prompt_content or message
+        content = message
+
+        if prompt_content:
+
+            content = (
+                f"{message}\n\n{prompt_content}"
+                if message
+                else prompt_content
+            )
 
         if image_urls:
 
@@ -132,11 +152,15 @@ class ChatEngine:
 
         return prompt
 
-    def _setup_state(self, history):
+    def _setup_state(self, history, setup_start_id=0):
 
         assistant = [
             item for item in history
             if item.get("role") == "assistant"
+            and (
+                item.get("id") is None
+                or (item.get("id") or 0) > setup_start_id
+            )
         ]
 
         brief_presented = any(
@@ -211,7 +235,54 @@ class ChatEngine:
 
     def _text(self, item):
 
-        return item.get("prompt_content") or item["content"]
+        content = item.get("content") or ""
+        prompt_content = item.get("prompt_content") or ""
+
+        if prompt_content and content:
+
+            return f"{content}\n\n{prompt_content}"
+
+        return prompt_content or content
+
+    def regenerate(
+        self,
+        conversation,
+        message_id,
+        image_urls=None,
+        intents=None
+    ):
+
+        history = self.store.get_messages(
+            conversation["id"],
+            include_prompt=True
+        )
+
+        row = None
+
+        for item in history:
+
+            if item.get("id") == message_id:
+
+                row = item
+                break
+
+        if row is None:
+
+            raise ValueError("Edited message not found.")
+
+        context = [
+            item for item in history
+            if item.get("id") != message_id
+        ]
+
+        return self._assemble(
+            conversation,
+            context,
+            row.get("content") or "",
+            row.get("prompt_content") or "",
+            image_urls or [],
+            intents
+        )
 
     def stream(self, conversation, prompt):
 
