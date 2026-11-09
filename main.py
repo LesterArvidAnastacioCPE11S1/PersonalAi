@@ -1,11 +1,11 @@
 import threading
 import time
 import urllib.request
-import webbrowser
 
 import uvicorn
 
 from config import load_config, save_config
+from features.browser_open import open_ui
 from features.mobile_access import generate_token, lan_addresses
 
 
@@ -16,10 +16,10 @@ def open_when_ready(url):
         try:
 
             urllib.request.urlopen(
-                url + "/api/status",
-                timeout=1
+                url + "/api/ping",
+                timeout=2
             ).close()
-            webbrowser.open(url)
+            open_ui(url)
             return
 
         except Exception:
@@ -52,7 +52,18 @@ def main():
     print(f"Temperature: {config.model.temperature}")
     print(f"Max tokens : {config.model.max_tokens}")
     print(f"Streaming  : {config.model.stream}")
-    print(f"Vision     : {'on' if config.model.vision else 'off'}")
+    print(
+        "Vision     : "
+        + (
+            f"on ({config.model.vision_model})"
+            if config.model.vision and config.model.vision_model
+            else (
+                "on (main model)"
+                if config.model.vision
+                else "off"
+            )
+        )
+    )
     print("Attachments: 6 files max, text/PDF/DOCX/images")
     print(
         "Freedom    : "

@@ -15,11 +15,14 @@ INTENT_ORDER = (
     "revise",
     "start_over",
     "mode_chat",
+    "question",
+    "chat",
     "continue_story",
     "ooc",
     "rewrite",
     "expand",
-    "time_skip"
+    "time_skip",
+    "image_generation"
 )
 
 
@@ -140,8 +143,28 @@ INTENT_GUIDANCE = {
             "moment without recapping."
         )
     },
+    "question": {
+        "setup": (
+            "The user asked you a question, not a foundation answer. Your "
+            "first sentence must answer it directly and truthfully, in one "
+            "to three sentences, before you ask anything. Do not reply with "
+            "questions only. Then return to the setup interview with one or "
+            "two focused questions. Do not treat the answer as story canon."
+        )
+    },
+    "chat": {
+        "setup": (
+            "The user is making conversation instead of answering the "
+            "interview. Reply to them briefly and naturally first, then "
+            "return to the setup interview with one or two focused questions."
+        )
+    },
     "ooc": {
-        "setup": "",
+        "setup": (
+            "The user stepped outside the setup interview. Address what they "
+            "said directly in one or two sentences, then return to the setup "
+            "questions."
+        ),
         "story": (
             "The user is speaking out of character. Answer as the assistant, "
             "not in scene. Do not write narration or dialogue for this reply."
@@ -172,6 +195,21 @@ INTENT_GUIDANCE = {
         "story": (
             "The user wants to skip ahead. Move the story forward to the "
             "requested point and cover what changed in scene."
+        )
+    },
+    "image_generation": {
+        "setup": (
+            "The user wants a picture. The app paints the latest scene; do "
+            "not write prose. Reply in one short sentence."
+        ),
+        "chat": (
+            "The user wants a picture made. The app paints the latest scene; "
+            "do not write new prose. Reply in one short sentence."
+        ),
+        "story": (
+            "The user wants the current scene painted as an image. The app "
+            "handles it; do not narrate further or describe the picture. Reply "
+            "in one short sentence."
         )
     }
 }

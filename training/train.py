@@ -21,7 +21,7 @@ BASE_DIRS = (
     ROOT / "models" / "deberta_intent_v2",
     ROOT / "models" / "deberta_intent"
 )
-OUTPUT_DIR = ROOT / "models" / "deberta_intent_v3"
+OUTPUT_DIR = ROOT / "models" / "deberta_intent_v4"
 BASE_MODEL = next(
     (path for path in BASE_DIRS if (path / "config.json").exists()),
     BASE_DIRS[-1]

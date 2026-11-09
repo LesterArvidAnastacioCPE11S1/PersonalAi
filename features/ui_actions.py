@@ -7,7 +7,8 @@ ACTIONS = {
     "ui_memory": ("open_memory", "Story memory"),
     "ui_scenario": ("open_scenario", "Scenario"),
     "ui_styles": ("open_styles", "Storytelling style"),
-    "ui_sidebar": ("open_sidebar", "Chat list")
+    "ui_sidebar": ("open_sidebar", "Chat list"),
+    "image_generation": ("generate_image", "an illustration of the scene")
 }
 
 MIN_CONFIDENCE = 0.45

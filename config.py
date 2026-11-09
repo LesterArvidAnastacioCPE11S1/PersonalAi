@@ -20,6 +20,7 @@ class ModelConfig:
     timeout: int = 300
     stream: bool = True
     vision: bool = False
+    vision_model: str = ""
 
 
 @dataclass
@@ -53,12 +54,37 @@ class MemoryConfig:
 
 
 @dataclass
+class ImageConfig:
+    enabled: bool = True
+    comfy_url: str = "http://127.0.0.1:8188"
+    comfy_dir: str = "comfyui"
+    start_args: list = field(default_factory=lambda: ["--directml"])
+    checkpoint: str = "v1-5-pruned-emaonly-fp16.safetensors"
+    lora: str = "lcm-sd15.safetensors"
+    steps: int = 8
+    cfg: float = 1.5
+    sampler: str = "lcm"
+    scheduler: str = "sgm_uniform"
+    width: int = 512
+    height: int = 768
+    negative: str = (
+        "lowres, blurry, watermark, text, signature, deformed, "
+        "extra limbs, bad anatomy"
+    )
+    style: str = "digital painting, cinematic lighting, detailed"
+    prompt_chars: int = 320
+    timeout: int = 300
+    auto_start: bool = True
+
+
+@dataclass
 class Config:
     model: ModelConfig = field(default_factory=ModelConfig)
     context: ContextConfig = field(default_factory=ContextConfig)
     app: AppConfig = field(default_factory=AppConfig)
     behavior: BehaviorConfig = field(default_factory=BehaviorConfig)
     memory: MemoryConfig = field(default_factory=MemoryConfig)
+    image: ImageConfig = field(default_factory=ImageConfig)
 
 
 def _build(section_type, values):
@@ -101,7 +127,8 @@ def load_config(path=None):
         context=_build(ContextConfig, data.get("context", {})),
         app=_build(AppConfig, data.get("app", {})),
         behavior=_build(BehaviorConfig, data.get("behavior", {})),
-        memory=_build(MemoryConfig, data.get("memory", {}))
+        memory=_build(MemoryConfig, data.get("memory", {})),
+        image=_build(ImageConfig, data.get("image", {}))
     )
 
     config.model.base_url = os.environ.get(
@@ -138,6 +165,8 @@ def load_config(path=None):
         )
     )
 
+    config.image.comfy_dir = _resolve_path(config.image.comfy_dir)
+
     return config
 
 
@@ -168,7 +197,11 @@ def save_config(config, path=None):
             "db_path": _display_path(config.app.db_path)
         },
         "behavior": asdict(config.behavior),
-        "memory": asdict(config.memory)
+        "memory": asdict(config.memory),
+        "image": {
+            **asdict(config.image),
+            "comfy_dir": _display_path(config.image.comfy_dir)
+        }
     }
 
     handle_path = target.with_suffix(".tmp")

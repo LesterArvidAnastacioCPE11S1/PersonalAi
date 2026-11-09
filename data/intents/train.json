@@ -5586,5 +5586,533 @@
   {
     "text": "a story please",
     "intent": "begin_story"
+  },
+  {
+    "text": "paint this scene",
+    "intent": "image_generation"
+  },
+  {
+    "text": "paint the scene",
+    "intent": "image_generation"
+  },
+  {
+    "text": "can you paint this scene",
+    "intent": "image_generation"
+  },
+  {
+    "text": "please paint what just happened",
+    "intent": "image_generation"
+  },
+  {
+    "text": "paint that",
+    "intent": "image_generation"
+  },
+  {
+    "text": "paint it",
+    "intent": "image_generation"
+  },
+  {
+    "text": "draw this scene",
+    "intent": "image_generation"
+  },
+  {
+    "text": "draw the scene",
+    "intent": "image_generation"
+  },
+  {
+    "text": "draw this",
+    "intent": "image_generation"
+  },
+  {
+    "text": "draw that moment",
+    "intent": "image_generation"
+  },
+  {
+    "text": "draw her",
+    "intent": "image_generation"
+  },
+  {
+    "text": "draw him",
+    "intent": "image_generation"
+  },
+  {
+    "text": "draw the forest",
+    "intent": "image_generation"
+  },
+  {
+    "text": "make an image of this",
+    "intent": "image_generation"
+  },
+  {
+    "text": "make an image of that",
+    "intent": "image_generation"
+  },
+  {
+    "text": "make an image",
+    "intent": "image_generation"
+  },
+  {
+    "text": "make an image of the scene",
+    "intent": "image_generation"
+  },
+  {
+    "text": "make a picture of this",
+    "intent": "image_generation"
+  },
+  {
+    "text": "make a picture of her",
+    "intent": "image_generation"
+  },
+  {
+    "text": "make a picture of the room",
+    "intent": "image_generation"
+  },
+  {
+    "text": "create an image of this scene",
+    "intent": "image_generation"
+  },
+  {
+    "text": "create a picture of the room",
+    "intent": "image_generation"
+  },
+  {
+    "text": "generate an image",
+    "intent": "image_generation"
+  },
+  {
+    "text": "generate a picture of the scene",
+    "intent": "image_generation"
+  },
+  {
+    "text": "generate art of this moment",
+    "intent": "image_generation"
+  },
+  {
+    "text": "generate a scene picture",
+    "intent": "image_generation"
+  },
+  {
+    "text": "show me what she looks like",
+    "intent": "image_generation"
+  },
+  {
+    "text": "show me what he looks like",
+    "intent": "image_generation"
+  },
+  {
+    "text": "show me what the place looks like",
+    "intent": "image_generation"
+  },
+  {
+    "text": "show me this scene",
+    "intent": "image_generation"
+  },
+  {
+    "text": "show me a picture of the scene",
+    "intent": "image_generation"
+  },
+  {
+    "text": "i want to see this scene",
+    "intent": "image_generation"
+  },
+  {
+    "text": "i want to see what she looks like",
+    "intent": "image_generation"
+  },
+  {
+    "text": "let me see that as an image",
+    "intent": "image_generation"
+  },
+  {
+    "text": "illustrate this",
+    "intent": "image_generation"
+  },
+  {
+    "text": "illustrate that moment",
+    "intent": "image_generation"
+  },
+  {
+    "text": "illustrate the scene",
+    "intent": "image_generation"
+  },
+  {
+    "text": "illustrate the last scene",
+    "intent": "image_generation"
+  },
+  {
+    "text": "can you illustrate what happened",
+    "intent": "image_generation"
+  },
+  {
+    "text": "can you draw this moment",
+    "intent": "image_generation"
+  },
+  {
+    "text": "render this scene",
+    "intent": "image_generation"
+  },
+  {
+    "text": "render the moment",
+    "intent": "image_generation"
+  },
+  {
+    "text": "render that scene",
+    "intent": "image_generation"
+  },
+  {
+    "text": "visualize this scene",
+    "intent": "image_generation"
+  },
+  {
+    "text": "visualize that",
+    "intent": "image_generation"
+  },
+  {
+    "text": "visualize the scene",
+    "intent": "image_generation"
+  },
+  {
+    "text": "give me a picture of this",
+    "intent": "image_generation"
+  },
+  {
+    "text": "give me an image of the scene",
+    "intent": "image_generation"
+  },
+  {
+    "text": "give me art of this",
+    "intent": "image_generation"
+  },
+  {
+    "text": "picture of this please",
+    "intent": "image_generation"
+  },
+  {
+    "text": "image of that please",
+    "intent": "image_generation"
+  },
+  {
+    "text": "draw a portrait of her",
+    "intent": "image_generation"
+  },
+  {
+    "text": "paint a portrait of him",
+    "intent": "image_generation"
+  },
+  {
+    "text": "paint her portrait",
+    "intent": "image_generation"
+  },
+  {
+    "text": "make artwork of this scene",
+    "intent": "image_generation"
+  },
+  {
+    "text": "make fan art of this moment",
+    "intent": "image_generation"
+  },
+  {
+    "text": "can you make art of this",
+    "intent": "image_generation"
+  },
+  {
+    "text": "turn this into an image",
+    "intent": "image_generation"
+  },
+  {
+    "text": "turn that scene into a picture",
+    "intent": "image_generation"
+  },
+  {
+    "text": "turn this moment into art",
+    "intent": "image_generation"
+  },
+  {
+    "text": "turn that into a picture",
+    "intent": "image_generation"
+  },
+  {
+    "text": "show me the scene as a picture",
+    "intent": "image_generation"
+  },
+  {
+    "text": "i want an image of that",
+    "intent": "image_generation"
+  },
+  {
+    "text": "i'd love a picture of this",
+    "intent": "image_generation"
+  },
+  {
+    "text": "i want to see this as art",
+    "intent": "image_generation"
+  },
+  {
+    "text": "sketch this scene",
+    "intent": "image_generation"
+  },
+  {
+    "text": "sketch her",
+    "intent": "image_generation"
+  },
+  {
+    "text": "sketch the scene",
+    "intent": "image_generation"
+  },
+  {
+    "text": "do an illustration of this",
+    "intent": "image_generation"
+  },
+  {
+    "text": "an illustration of this scene please",
+    "intent": "image_generation"
+  },
+  {
+    "text": "paint what i'm seeing",
+    "intent": "image_generation"
+  },
+  {
+    "text": "paint the last scene",
+    "intent": "image_generation"
+  },
+  {
+    "text": "paint the current scene",
+    "intent": "image_generation"
+  },
+  {
+    "text": "draw the last moment",
+    "intent": "image_generation"
+  },
+  {
+    "text": "make a wallpaper of this scene",
+    "intent": "image_generation"
+  },
+  {
+    "text": "draw this in a realistic style",
+    "intent": "image_generation"
+  },
+  {
+    "text": "paint this in your style",
+    "intent": "image_generation"
+  },
+  {
+    "text": "make an image of what just happened",
+    "intent": "image_generation"
+  },
+  {
+    "text": "that is a apple in the format of an cherry lol",
+    "intent": "chat"
+  },
+  {
+    "text": "that is an apple in the format of a cherry lol",
+    "intent": "chat"
+  },
+  {
+    "text": "the picture looks like an apple",
+    "intent": "chat"
+  },
+  {
+    "text": "this image looks weird",
+    "intent": "chat"
+  },
+  {
+    "text": "lol that apple looks like a cherry",
+    "intent": "chat"
+  },
+  {
+    "text": "the generated picture has a strange stem",
+    "intent": "chat"
+  },
+  {
+    "text": "i like that painting",
+    "intent": "chat"
+  },
+  {
+    "text": "that picture is actually kind of creepy",
+    "intent": "chat"
+  },
+  {
+    "text": "not bad for a local model",
+    "intent": "chat"
+  },
+  {
+    "text": "the lighthouse in the image is too tall",
+    "intent": "chat"
+  },
+  {
+    "text": "hmm the apple is floating",
+    "intent": "chat"
+  },
+  {
+    "text": "why does the cherry look like an apple",
+    "intent": "question"
+  },
+  {
+    "text": "is that supposed to be an apple",
+    "intent": "question"
+  },
+  {
+    "text": "the painting reminds me of my hometown",
+    "intent": "chat"
+  },
+  {
+    "text": "this looks like a cherry, not an apple",
+    "intent": "chat"
+  },
+  {
+    "text": "i meant a cherry, not an apple",
+    "intent": "chat"
+  },
+  {
+    "text": "generate an image of an apple",
+    "intent": "image_generation"
+  },
+  {
+    "text": "make me a picture of a red apple",
+    "intent": "image_generation"
+  },
+  {
+    "text": "create a picture of a cherry",
+    "intent": "image_generation"
+  },
+  {
+    "text": "can you generate a picture of a cat",
+    "intent": "image_generation"
+  },
+  {
+    "text": "draw a lighthouse at night",
+    "intent": "image_generation"
+  },
+  {
+    "text": "illustrate an apple",
+    "intent": "image_generation"
+  },
+  {
+    "text": "give me an image of an apple on a table",
+    "intent": "image_generation"
+  },
+  {
+    "text": "render a picture of a harbor at dawn",
+    "intent": "image_generation"
+  },
+  {
+    "text": "Quick question, i already know this cause im the one who created you but how fine are you when it comes to sexual context",
+    "intent": "question"
+  },
+  {
+    "text": "quick question how fine are you with sexual content",
+    "intent": "question"
+  },
+  {
+    "text": "how fine are you when it comes to explicit scenes",
+    "intent": "question"
+  },
+  {
+    "text": "how good are you at writing sex scenes",
+    "intent": "question"
+  },
+  {
+    "text": "are you able to write explicit scenes",
+    "intent": "question"
+  },
+  {
+    "text": "can you write adult content",
+    "intent": "question"
+  },
+  {
+    "text": "how explicit can you get in a story",
+    "intent": "question"
+  },
+  {
+    "text": "do you have any content restrictions",
+    "intent": "question"
+  },
+  {
+    "text": "are you censoring anything",
+    "intent": "question"
+  },
+  {
+    "text": "what are your limits with dark themes",
+    "intent": "question"
+  },
+  {
+    "text": "quick question before we start, can you handle taboo subjects",
+    "intent": "question"
+  },
+  {
+    "text": "can i ask you something before we continue",
+    "intent": "question"
+  },
+  {
+    "text": "what model are you running on",
+    "intent": "question"
+  },
+  {
+    "text": "are you running locally or online",
+    "intent": "question"
+  },
+  {
+    "text": "do you remember things between sessions",
+    "intent": "question"
+  },
+  {
+    "text": "how does the story memory work",
+    "intent": "question"
+  },
+  {
+    "text": "how much context can you hold",
+    "intent": "question"
+  },
+  {
+    "text": "can you switch narrative styles mid story",
+    "intent": "question"
+  },
+  {
+    "text": "what happens if i edit an earlier message",
+    "intent": "question"
+  },
+  {
+    "text": "how private is this chat",
+    "intent": "question"
+  },
+  {
+    "text": "do you keep logs of our conversations",
+    "intent": "question"
+  },
+  {
+    "text": "what can you actually do",
+    "intent": "question"
+  },
+  {
+    "text": "are you able to generate images",
+    "intent": "question"
+  },
+  {
+    "text": "how long can your replies be",
+    "intent": "question"
+  },
+  {
+    "text": "do you use the internet",
+    "intent": "question"
+  },
+  {
+    "text": "can you read files i attach",
+    "intent": "question"
+  },
+  {
+    "text": "wait, can you write explicit sex scenes",
+    "intent": "question"
+  },
+  {
+    "text": "how far can you go with sexual content",
+    "intent": "question"
+  },
+  {
+    "text": "do you refuse anything",
+    "intent": "question"
+  },
+  {
+    "text": "quick question, how well do you handle smut",
+    "intent": "question"
   }
 ]

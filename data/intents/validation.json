@@ -1794,5 +1794,125 @@
   {
     "text": "lets skip the story for now",
     "intent": "mode_chat"
+  },
+  {
+    "text": "paint the room please",
+    "intent": "image_generation"
+  },
+  {
+    "text": "draw the skyline",
+    "intent": "image_generation"
+  },
+  {
+    "text": "generate a picture",
+    "intent": "image_generation"
+  },
+  {
+    "text": "give me a picture of her",
+    "intent": "image_generation"
+  },
+  {
+    "text": "illustrate this moment",
+    "intent": "image_generation"
+  },
+  {
+    "text": "show me art of this scene",
+    "intent": "image_generation"
+  },
+  {
+    "text": "can you render this moment",
+    "intent": "image_generation"
+  },
+  {
+    "text": "i want this as an image",
+    "intent": "image_generation"
+  },
+  {
+    "text": "paint what happened just now",
+    "intent": "image_generation"
+  },
+  {
+    "text": "make a picture of that moment",
+    "intent": "image_generation"
+  },
+  {
+    "text": "paint this next scene",
+    "intent": "image_generation"
+  },
+  {
+    "text": "draw the way she looks",
+    "intent": "image_generation"
+  },
+  {
+    "text": "visualize this moment",
+    "intent": "image_generation"
+  },
+  {
+    "text": "turn the scene into an image",
+    "intent": "image_generation"
+  },
+  {
+    "text": "make an illustration of this",
+    "intent": "image_generation"
+  },
+  {
+    "text": "paint it for me",
+    "intent": "image_generation"
+  },
+  {
+    "text": "the image you made looks blurry",
+    "intent": "chat"
+  },
+  {
+    "text": "that apple shape is funny",
+    "intent": "chat"
+  },
+  {
+    "text": "the picture is upside down",
+    "intent": "chat"
+  },
+  {
+    "text": "this painting looks like my kitchen",
+    "intent": "chat"
+  },
+  {
+    "text": "generate an image of a cherry",
+    "intent": "image_generation"
+  },
+  {
+    "text": "make a picture of an apple",
+    "intent": "image_generation"
+  },
+  {
+    "text": "quick question, how explicit can you be",
+    "intent": "question"
+  },
+  {
+    "text": "can you handle sexual content in stories",
+    "intent": "question"
+  },
+  {
+    "text": "what are you capable of",
+    "intent": "question"
+  },
+  {
+    "text": "do you have any restrictions",
+    "intent": "question"
+  },
+  {
+    "text": "quick question, how does the memory work",
+    "intent": "question"
+  },
+  {
+    "text": "can you write adult scenes",
+    "intent": "question"
+  },
+  {
+    "text": "are you connected to the internet",
+    "intent": "question"
+  },
+  {
+    "text": "what model is this",
+    "intent": "question"
   }
 ]

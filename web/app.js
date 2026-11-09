@@ -80,6 +80,7 @@ const els = {
   settingsAutoExtract: document.getElementById("settings-auto-extract"),
   settingsExtractEvery: document.getElementById("settings-extract-every"),
   settingsVision: document.getElementById("settings-vision"),
+  settingsVisionModel: document.getElementById("settings-vision-model"),
   settingsMobile: document.getElementById("settings-mobile"),
   settingsAccessCode: document.getElementById("settings-access-code"),
   settingsGenerateCode: document.getElementById("settings-generate-code"),
@@ -107,7 +108,8 @@ const state = {
   attachments: [],
   uploads: 0,
   plusOpen: false,
-  queuedAction: null
+  queuedAction: null,
+  painting: false
 };
 
 const MAX_FILES = 6;
@@ -584,9 +586,13 @@ function renderMessageAttachments(entries) {
 
   for (const entry of entries) {
     const link = document.createElement("a");
-    link.className = entry.kind === "image"
-      ? "message-attachment image"
-      : "message-attachment";
+    const scene = entry.kind === "image"
+      && /^scene-/.test(entry.filename || "");
+    link.className = entry.kind !== "image"
+      ? "message-attachment"
+      : scene
+        ? "message-attachment image scene"
+        : "message-attachment image";
     link.href = entry.url;
     link.target = "_blank";
     link.rel = "noopener";
@@ -636,6 +642,138 @@ function editAction(messageId) {
   `;
 
   return button;
+}
+
+function paintAction(messageId) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "message-action";
+  button.dataset.paint = messageId;
+  button.title = "Paint this scene";
+  button.setAttribute("aria-label", "Paint this scene");
+  button.innerHTML = `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3a9 9 0 1 0 0 18h1.5a2.5 2.5 0 0 0 0-5H13a2 2 0 0 1 0-4h4a4 4 0 0 0 4-4c0-3-4-5-9-5Z"/>
+      <circle cx="8" cy="9" r="1"/>
+      <circle cx="7" cy="14" r="1"/>
+      <circle cx="11" cy="17" r="1"/>
+    </svg>
+    <span>Paint</span>
+  `;
+
+  return button;
+}
+
+function attachToMessage(root, attachment) {
+  const body = root.querySelector(".message-body");
+  if (!body) {
+    return;
+  }
+
+  let wrap = body.querySelector(".message-attachments");
+
+  if (!wrap) {
+    wrap = document.createElement("div");
+    wrap.className = "message-attachments";
+
+    const actions = body.querySelector(".message-actions");
+
+    if (actions) {
+      body.insertBefore(wrap, actions);
+    } else {
+      body.append(wrap);
+    }
+  }
+
+  wrap.append(...renderMessageAttachments([attachment]).children);
+}
+
+async function paintScene(messageId) {
+  if (state.painting || !state.currentId || messageId == null) {
+    return;
+  }
+
+  state.painting = true;
+
+  const root = els.messageList.querySelector(
+    `.message[data-message-id="${messageId}"]`
+  );
+  const button = root ? root.querySelector("[data-paint]") : null;
+  const label = button ? button.querySelector("span") : null;
+
+  if (button) {
+    button.disabled = true;
+    button.classList.add("painting");
+  }
+
+  if (label) {
+    label.textContent = "Painting...";
+  }
+
+  let note = null;
+
+  if (root) {
+    const body = root.querySelector(".message-body");
+    const previous = body.querySelector(".paint-note");
+
+    if (previous) {
+      previous.remove();
+    }
+
+    note = document.createElement("div");
+    note.className = "paint-note";
+    note.textContent = "Painting the scene. This can take up to two minutes.";
+    body.append(note);
+  }
+
+  try {
+    const data = await api("/api/images/generate", {
+      method: "POST",
+      body: {
+        conversation_id: state.currentId,
+        message_id: messageId
+      }
+    });
+
+    state.attachments.push(data.attachment);
+
+    if (root) {
+      attachToMessage(root, data.attachment);
+    }
+
+    const message = state.messages.find(
+      (entry) => entry.id === messageId
+    );
+
+    if (message) {
+      message.attachments = messageAttachmentsFor(message);
+    }
+
+    if (note) {
+      note.remove();
+    }
+
+    toast("Scene painted.");
+  } catch (error) {
+    if (note) {
+      note.className = "paint-note error";
+      note.textContent = error.message || "Could not paint the scene.";
+    }
+
+    toast(error.message || "Could not paint the scene.");
+  } finally {
+    state.painting = false;
+
+    if (button) {
+      button.disabled = false;
+      button.classList.remove("painting");
+    }
+
+    if (label) {
+      label.textContent = "Paint";
+    }
+  }
 }
 
 function appendMessage(message, attachments = null) {
@@ -695,6 +833,20 @@ function appendMessage(message, attachments = null) {
   error.className = "message-error hidden";
 
   body.append(name, text, error);
+
+  const entries = attachments || messageAttachmentsFor(message);
+
+  if (entries.length) {
+    body.append(renderMessageAttachments(entries));
+  }
+
+  if (message.id != null) {
+    const actions = document.createElement("div");
+    actions.className = "message-actions";
+    actions.append(paintAction(message.id));
+    body.append(actions);
+  }
+
   root.append(avatar, body);
   els.messageList.append(root);
 
@@ -1389,6 +1541,28 @@ function fillSettings(data) {
 
   els.settingsModel.value = data.model || "";
   els.settingsBaseUrl.value = data.base_url || "";
+
+  const availableIds = [...available].sort(
+    (left, right) => left.localeCompare(right)
+  );
+
+  els.settingsVisionModel.replaceChildren();
+
+  for (const id of availableIds) {
+    const option = document.createElement("option");
+    option.value = id;
+    option.textContent = id;
+    els.settingsVisionModel.append(option);
+  }
+
+  if (data.vision_model && !available.has(data.vision_model)) {
+    const option = document.createElement("option");
+    option.value = data.vision_model;
+    option.textContent = data.vision_model;
+    els.settingsVisionModel.append(option);
+  }
+
+  els.settingsVisionModel.value = data.vision_model || "";
   els.settingsTemperature.value = data.temperature;
   els.settingsMaxTokens.value = data.max_tokens;
   els.settingsNoRefusals.checked = Boolean(data.no_refusals);
@@ -1469,6 +1643,7 @@ async function saveSettings(event) {
       ? every
       : previous.extract_every,
     vision: els.settingsVision.checked,
+    vision_model: els.settingsVisionModel.value,
     mobile_access: els.settingsMobile.checked,
     access_token: els.settingsAccessCode.value
   };
@@ -1742,6 +1917,34 @@ function adoptMessageId(saved) {
   }
 }
 
+function adoptAssistant(saved, assistant, elements) {
+  if (!saved || saved.role !== "assistant" || saved.id == null) {
+    return;
+  }
+
+  assistant.id = saved.id;
+
+  const body = elements.root.querySelector(".message-body");
+
+  if (!body) {
+    return;
+  }
+
+  elements.root.dataset.messageId = String(saved.id);
+
+  let actions = body.querySelector(".message-actions");
+
+  if (!actions) {
+    actions = document.createElement("div");
+    actions.className = "message-actions";
+    body.append(actions);
+  }
+
+  if (!actions.querySelector("[data-paint]")) {
+    actions.append(paintAction(saved.id));
+  }
+}
+
 function performAction(action) {
   if (!action || !action.name) {
     return;
@@ -1759,6 +1962,8 @@ function performAction(action) {
     openSidebar();
   } else if (action.name === "new_chat") {
     state.queuedAction = "new_chat";
+  } else if (action.name === "generate_image") {
+    state.queuedAction = "generate_image";
   }
 }
 
@@ -1805,6 +2010,11 @@ function handleEvent(payload, assistant, elements) {
 
   if (payload.event === "done") {
     state.conversation = payload.data.conversation;
+
+    if (payload.data.message) {
+      adoptAssistant(payload.data.message, assistant, elements);
+    }
+
     updateHeader();
 
     if (state.memoryOpen) {
@@ -2322,6 +2532,12 @@ async function runStream(body, assistant, elements) {
     if (state.queuedAction === "new_chat") {
       state.queuedAction = null;
       startNewChat();
+    } else if (state.queuedAction === "generate_image") {
+      state.queuedAction = null;
+
+      if (assistant.id != null) {
+        await paintScene(assistant.id);
+      }
     }
   }
 }
@@ -2355,6 +2571,13 @@ els.messageList.addEventListener("click", (event) => {
 
   if (button) {
     beginEdit(Number(button.dataset.edit));
+    return;
+  }
+
+  const paint = event.target.closest("[data-paint]");
+
+  if (paint) {
+    paintScene(Number(paint.dataset.paint));
   }
 });
 

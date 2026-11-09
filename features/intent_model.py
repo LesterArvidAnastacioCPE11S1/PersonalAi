@@ -6,6 +6,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 MODEL_DIRS = (
+    ROOT / "models" / "deberta_intent_v4",
     ROOT / "models" / "deberta_intent_v3",
     ROOT / "models" / "deberta_intent_v2",
     ROOT / "models" / "deberta_intent"

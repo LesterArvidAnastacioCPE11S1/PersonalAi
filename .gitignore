@@ -5,7 +5,10 @@ __pycache__/
 config.json
 data/personal_ai.db
 data/personal_ai.db-*
+data/personal_ai.db.*
 data/attachments/
+data/backups/
+data/recovery/
 
 *.safetensors
 *.gguf
@@ -13,6 +16,9 @@ data/attachments/
 *.pth
 models/deberta_intent/
 models/deberta_intent_v*/
+
+ollama/
+ollama-models/
 
 android/build/
 android/*.idsig

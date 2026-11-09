@@ -14,7 +14,37 @@ class OpenAICompatibleModel:
         self.config = config
         self._resolved_model = config.model
 
-    def _model_id(self):
+    def _has_images(self, messages):
+
+        for message in messages or []:
+
+            content = message.get("content")
+
+            if not isinstance(content, list):
+
+                continue
+
+            for part in content:
+
+                if (
+                    isinstance(part, dict)
+                    and part.get("type") == "image_url"
+                ):
+
+                    return True
+
+        return False
+
+    def _model_id(self, messages=None):
+
+        if (
+            messages
+            and self.config.vision
+            and self.config.vision_model
+            and self._has_images(messages)
+        ):
+
+            return self.config.vision_model
 
         if self._resolved_model:
 
@@ -117,7 +147,7 @@ class OpenAICompatibleModel:
             )
         }
 
-        model_id = self._model_id()
+        model_id = self._model_id(messages)
 
         if model_id:
 

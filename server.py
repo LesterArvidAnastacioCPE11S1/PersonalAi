@@ -1,6 +1,8 @@
 import json
+import os
 import re
 import threading
+import time
 
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -17,6 +19,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from config import load_config, save_config
+from core.backup import snapshot
 from core.engine import ChatEngine
 from core.memory import MemoryBusy, MemoryWriter
 from core.store import Store
@@ -26,6 +29,7 @@ from features.attachments import (
     AttachmentNotFound,
     AttachmentService
 )
+from features.image_gen import ImageError, ImageService
 from features.intent_model import start_warmup
 from features.intents import intents_from, understand
 from features.mobile_access import (
@@ -56,6 +60,8 @@ if config.app.mobile_access and not config.app.access_token:
     config.app.access_token = generate_token()
     save_config(config)
 
+snapshot(config.app.db_path)
+
 store = Store(config.app.db_path)
 
 model = OpenAICompatibleModel(config.model)
@@ -75,6 +81,12 @@ memory = MemoryWriter(
 attachments = AttachmentService(
     config,
     store
+)
+
+images = ImageService(
+    config,
+    store,
+    attachments
 )
 
 router = RequestRouter()
@@ -217,6 +229,12 @@ class PhaseUpdate(BaseModel):
     phase: str
 
 
+class ImageRequest(BaseModel):
+    conversation_id: str
+    message_id: int | None = None
+    prompt: str | None = None
+
+
 class SettingsUpdate(BaseModel):
     model: str | None = None
     base_url: str | None = None
@@ -227,6 +245,7 @@ class SettingsUpdate(BaseModel):
     auto_extract: bool | None = None
     extract_every: int | None = None
     vision: bool | None = None
+    vision_model: str | None = None
     mobile_access: bool | None = None
     access_token: str | None = None
 
@@ -267,6 +286,7 @@ def _settings_payload(available=None):
         "auto_extract": config.memory.auto_extract,
         "extract_every": config.memory.extract_every,
         "vision": config.model.vision,
+        "vision_model": config.model.vision_model,
         "mobile_access": config.app.mobile_access,
         "access_token": config.app.access_token,
         "phone_urls": _phone_urls(),
@@ -286,10 +306,27 @@ def _event(name, data):
     )
 
 
+def _last_assistant(conversation_id):
+
+    for row in reversed(store.get_messages(conversation_id)):
+
+        if row["role"] == "assistant":
+
+            return row
+
+    return None
+
+
 @app.get("/")
 def index():
 
     return FileResponse(WEB_DIR / "index.html")
+
+
+@app.get("/api/ping")
+def ping():
+
+    return {"ok": True}
 
 
 @app.get("/api/status")
@@ -310,9 +347,18 @@ def status():
         "online": error is None,
         "error": error,
         "model": config.model.model,
+        "vision": config.model.vision,
+        "vision_model": config.model.vision_model,
         "base_url": config.model.base_url,
-        "available": available
+        "available": available,
+        "image": images.status()
     }
+
+
+def _force_exit():
+
+    time.sleep(0.6)
+    os._exit(0)
 
 
 @app.post("/api/shutdown")
@@ -322,10 +368,7 @@ def shutdown_app():
 
     if callback is None:
 
-        raise HTTPException(
-            status_code=503,
-            detail="Shutdown is not available."
-        )
+        callback = _force_exit
 
     threading.Thread(target=callback, daemon=True).start()
 
@@ -427,6 +470,14 @@ def update_settings(payload: SettingsUpdate):
     if "vision" in values:
 
         config.model.vision = bool(values["vision"])
+
+    if "vision_model" in values:
+
+        config.model.vision_model = str(
+            values["vision_model"] or ""
+        ).strip()
+
+        model.refresh()
 
     if "access_token" in values:
 
@@ -687,6 +738,50 @@ async def upload_attachment(
     return {
         "attachment": attachments.public(row),
         "warning": warning
+    }
+
+
+@app.post("/api/images/generate")
+def generate_image(payload: ImageRequest):
+
+    conversation = store.get_conversation(payload.conversation_id)
+
+    if conversation is None:
+
+        raise HTTPException(
+            status_code=404,
+            detail="Conversation not found."
+        )
+
+    if payload.message_id is not None:
+
+        row = store.get_message(payload.message_id)
+
+        if row is None or row["conversation_id"] != payload.conversation_id:
+
+            raise HTTPException(
+                status_code=404,
+                detail="Message not found in this conversation."
+            )
+
+    try:
+
+        attachment, prompt = images.generate(
+            payload.conversation_id,
+            payload.message_id,
+            payload.prompt
+        )
+
+    except ImageError as error:
+
+        raise HTTPException(
+            status_code=502,
+            detail=str(error)
+        ) from error
+
+    return {
+        "attachment": attachment,
+        "prompt": prompt
     }
 
 
@@ -1118,7 +1213,18 @@ def chat_stream(payload: ChatRequest):
 
     if action is not None:
 
-        if action.get("name") == "new_chat":
+        if action.get("name") == "generate_image":
+
+            notes.append(
+                "ROUTING NOTE\n"
+                "The app is painting the current scene as an image right now. "
+                "Reply with one short sentence confirming that, such as "
+                "\"The app is painting the scene.\" Do not describe the "
+                "image, its colors, objects, or details. Do not write new "
+                "prose and do not repeat the previous paragraph."
+            )
+
+        elif action.get("name") == "new_chat":
 
             notes.append(
                 "ROUTING NOTE\n"
@@ -1136,6 +1242,39 @@ def chat_stream(payload: ChatRequest):
                 "do next. Do not describe the panel's contents and do not "
                 "write a scene."
             )
+
+    elif (
+        message
+        and edit_id is None
+        and conversation.get("phase") == "chat"
+    ):
+
+        notes.append(
+            "ROUTING NOTE\n"
+            "No image is being painted for this turn. Do not say an image, "
+            "picture, drawing, or illustration was generated, created, "
+            "painted, or completed now, and do not offer to make one. Do "
+            "not ask the user what image they want and do not explain image "
+            "options. Just react to their message as ordinary chat."
+        )
+
+    if (
+        message
+        and edit_id is None
+        and conversation.get("phase") == "setup"
+        and intents & {"question", "chat", "ooc"}
+    ):
+
+        notes.append(
+            "ROUTING NOTE\n"
+            "The user asked you a question, not a foundation answer. Answer "
+            "their question directly in the first sentence, in one to three "
+            "sentences, before asking anything. Do not reply with questions "
+            "only and do not treat the message as story preferences, even if "
+            "it mentions story topics. This overrides the setup interview "
+            "rules for this turn. Then ask one or two focused setup "
+            "questions."
+        )
 
     route_note = "\n\n".join(notes) if notes else None
 
@@ -1402,7 +1541,8 @@ def chat_stream(payload: ChatRequest):
             {
                 "conversation": store.get_conversation(
                     conversation["id"]
-                )
+                ),
+                "message": _last_assistant(conversation["id"])
             }
         )
 

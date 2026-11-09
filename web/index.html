@@ -286,9 +286,14 @@
         <label class="toggle-row">
           <div>
             <strong>Vision</strong>
-            <span>Send attached images to the model as image inputs. Turn this on only when the selected model can see images.</span>
+            <span>Send attached images to the model as image inputs. When a vision model is set, the app switches to it only for messages with images.</span>
           </div>
           <input type="checkbox" id="settings-vision">
+        </label>
+
+        <label class="field">
+          <span>Vision model</span>
+          <select id="settings-vision-model"></select>
         </label>
 
         <p class="settings-note">

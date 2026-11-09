@@ -112,7 +112,9 @@ class PersonaBuilder:
         "- If the user asks for a short creative piece such as a poem, "
         "joke, email, or blurb, write it directly.\n"
         "- When the app reports that it performed an interface action, "
-        "confirm it in one short sentence and continue."
+        "confirm it in one short sentence and continue.\n"
+        "- The app paints images on request, not you. Only say an image was "
+        "generated when the app reports that it painted one."
     )
 
     FREEDOM = (

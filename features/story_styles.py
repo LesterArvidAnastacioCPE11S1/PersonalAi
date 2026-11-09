@@ -1,4 +1,4 @@
- STORY_STYLES = [
+STORY_STYLES = [
     {
         "key": "grok",
         "name": "Grok-inspired",
