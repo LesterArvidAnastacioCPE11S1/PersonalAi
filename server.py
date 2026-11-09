@@ -91,6 +91,55 @@ images = ImageService(
 
 router = RequestRouter()
 
+CHAT_SWITCH_PATTERNS = (
+    re.compile(
+        r"\b(let'?s|lets|how about|can we|could we|i want to|i wanna|"
+        r"i'?d rather|i just want to|maybe we should)\b"
+        r".{0,30}\b(chat|talk|conversation)\b"
+    ),
+    re.compile(
+        r"\b(stop|no more|forget|skip|drop|cancel|scrap|never ?mind|"
+        r"quit|end)\b.{0,25}\bstor(y|ies)\b"
+    ),
+    re.compile(
+        r"\b(chat|talk)\b.{0,12}\b(first|instead|for now)\b"
+    )
+)
+
+
+def wants_chat_mode(message, understanding, phase):
+
+    """Decide whether the user is leaving story setup or story mode.
+
+    The classifier alone is too strict for soft phrasing such as
+    "how about lets have a chat first", so inside setup or story the
+    mode_chat score only has to be plausible when the wording also
+    clearly asks to chat.
+    """
+
+    if understanding is None:
+
+        return False
+
+    scores = understanding.scores or {}
+    mode_score = float(scores.get("mode_chat", 0.0))
+
+    if understanding.label == "mode_chat" and mode_score >= 0.45:
+
+        return True
+
+    if phase not in {"setup", "story"}:
+
+        return False
+
+    text = " ".join((message or "").lower().split())
+
+    if not any(pattern.search(text) for pattern in CHAT_SWITCH_PATTERNS):
+
+        return False
+
+    return mode_score >= 0.10
+
 WEB_DIR = Path(__file__).resolve().parent / "web"
 
 
@@ -1179,10 +1228,10 @@ def chat_stream(payload: ChatRequest):
     if message and edit_id is None:
 
         action = match_action(message, understanding)
-        mode_chat = (
-            understanding is not None
-            and understanding.label == "mode_chat"
-            and understanding.confidence >= 0.45
+        mode_chat = wants_chat_mode(
+            message,
+            understanding,
+            previous_phase
         )
 
     if mode_chat and previous_phase in {"setup", "story"}:

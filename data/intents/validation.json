@@ -1914,5 +1914,11 @@
   {
     "text": "what model is this",
     "intent": "question"
-  }
+  },
+  {"text": "actually, how about we just chat for a bit", "intent": "mode_chat"},
+  {"text": "on second thought, can we talk first", "intent": "mode_chat"},
+  {"text": "lets have a normal talk first", "intent": "mode_chat"},
+  {"text": "stop the story creation, lets chat", "intent": "mode_chat"},
+  {"text": "never mind the story, can we talk", "intent": "mode_chat"},
+  {"text": "wait, lets chat instead of the story", "intent": "mode_chat"}
 ]
