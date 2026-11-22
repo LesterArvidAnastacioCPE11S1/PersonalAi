@@ -1,0 +1,1506 @@
+name: LocalizationTable
+type: class
+memory_category: Instances
+summary: 'A LocalizationTable is a database of translations. It contains source strings
+
+  and translations for various languages.
+
+  '
+description: "A LocalizationTable is a database of translations. It contains source\
+  \ strings\nand translations for various languages. It is used with the `Class.Translator`\n\
+  and `Class.LocalizationService` auto-translator system to control text\ntranslations\
+  \ in the game. LocalizationTables are designed to be treated as\nresources, like\
+  \ a texture or a script. They are not optimized to be modified\nat runtime. Changing\
+  \ the contents of a table will cause the entire contents of\nthe table to be replicated\
+  \ to all players.\n\n## LocalizationTable Entries\n\nEach LocalizationTable contains\
+  \ a set of entries. Each entry contains the\ntranslations of the text, along with\
+  \ some special fields:\n\n- **Key** is an optional unique key for fast hash lookups\
+  \ in code. If it is\n  non-empty it must be unique in the table.\n- **Source** is\
+  \ the original text in the source language that will be used by\n  the `Class.LocalizationService`\
+  \ automatic text replacement system to match\n  GUI text and render a translation\
+  \ instead. The Source field can be filled by\n  the text capture tools, or can be\
+  \ set manually. For key-based lookups the\n  Source value can be used as a translation\
+  \ for\n  `Class.LocalizationTable.SourceLocaleId` if the entry doesn't have a\n\
+  \  translation for that locale. If Source is empty then the entry will not be\n\
+  \  used by the automatic replacement system.\n- **Context** is the full Instance\
+  \ name for the object that the text appeared\n  on. Context is used for disambiguation\
+  \ by the automatic text replacement\n  system. When multiple matches for the Source\
+  \ are found, the system will pick\n  the best match by matching backwards from the\
+  \ end of the Context string.\n  There are other more robust ways to handle disambiguation\
+  \ available as well,\n  like using multiple tables with `Class.GuiBase2d.RootLocalizationTable`.\n\
+  - **Example** is whatever you want it to be. If the text capture tool guessed\n\
+  \  some parameters for a string the Example field will contain an example of\n \
+  \ them used in context.\n\nAll of these fields are optional, but at least either\
+  \ Key or Source must be\nnon-empty. No two entries can have the same Key, Source,\
+  \ and Context.\n\nSee\n[Translating Dynamic Content](../../../production/localization/translate-dynamic-content.md)\n\
+  for more information.\n"
+code_samples:
+- LocalizationTable1
+inherits:
+- Instance
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: LocalizationTable.DevelopmentLanguage
+  summary: 'The default IETF tag to use if the ''''languageKey'''' parameter is excluded
+
+    from the `Class.LocalizationTable:GetString()` method.
+
+    '
+  description: 'The default IETF tag to use if the ''''languageKey'''' parameter is
+    excluded
+
+    from the `Class.LocalizationTable:GetString()` method.
+
+    '
+  code_samples: []
+  type: string
+  tags:
+  - Hidden
+  - NotReplicated
+  - Deprecated
+  deprecation_message: 'This item has been superseded by `Class.LocalizationTable.SourceLocaleId`
+
+    which should be used in all new work.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Localization
+  serialization:
+    can_load: true
+    can_save: false
+  capabilities:
+  - Basic
+- name: LocalizationTable.Root
+  summary: 'The object that is being targeted for localization by this table.
+
+    Localization is applied to it and all of it''s descendants.
+
+    '
+  description: 'The object that is being targeted for localization by this table.
+
+    Localization is applied to it and all of it''s descendants.
+
+    '
+  code_samples: []
+  type: Instance
+  tags:
+  - Hidden
+  - NotReplicated
+  - Deprecated
+  deprecation_message: 'This item is deprecated. Do not use it for new work.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Basic
+- name: LocalizationTable.SourceLocaleId
+  summary: 'The locale of source strings.
+
+    '
+  description: 'The Roblox locale of the input key strings for this table, for example
+
+    "en-us" or "es-es." This is typically the "development language" of the
+
+    game. For a Translator that merges multiple LocalizationTable objects,
+
+    it''s the LocaleId of the Default LocalizationTable. Defaults to "en-us".
+
+    '
+  code_samples: []
+  type: string
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Localization
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: Contents
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: '[]'
+- name: DevelopmentLanguage
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''SourceLocaleId'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Localization
+  serialization:
+    can_load: true
+    can_save: false
+  default: en-us
+- name: IsExemptFromUGCAnalytics
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Localization
+  serialization:
+    can_load: false
+    can_save: false
+  default: 'false'
+- name: Root
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''RootLocalizationTable'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Instance
+  category: Behavior
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_no_string_value__
+- name: SourceLocaleId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Localization
+  serialization:
+    can_load: true
+    can_save: true
+  default: en-us
+methods:
+- name: LocalizationTable:GetContents
+  summary: 'Returns the contents of the `Class.LocalizationTable` serialized as a
+    JSON
+
+    string.
+
+    '
+  description: 'Deprecated. Prefer `Class.LocalizationTable:GetEntries()`, which returns
+
+    the same data as a structured array of dictionaries. Returns all entries
+
+    in the `Class.LocalizationTable` encoded as a JSON-formatted string, the
+
+    legacy serialized representation of the table''s contents. Each entry is an
+
+    object containing its `key`, `context`, `examples`, and `source` fields
+
+    (each omitted when empty) along with a `values` map of locale IDs to
+
+    translated strings.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: string
+    summary: 'The table''s entries encoded as a JSON-formatted string.
+
+      '
+  tags:
+  - Deprecated
+  deprecation_message: 'This item has been superseded by `Class.LocalizationTable:GetEntries()`
+
+    which should be used in all new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: LocalizationTable:GetEntries
+  summary: 'Returns an array of dictionaries, where each dictionary represents an
+
+    entry of localization data.
+
+    '
+  description: "The GetEntries function returns an array of dictionaries contained\
+    \ in a\ngiven `Class.LocalizationTable`, where each dictionary represents an entry\n\
+    of localization data.\n\nTo set the entries of a LocalizationTable, you can use\n\
+    `Class.LocalizationTable:SetEntries()`.\n\nEach dictionary in the array contains\
+    \ the following fields:\n\n<table>\n    <thead>\n        <tr>\n            <th>Index</th>\n\
+    \            <th>Type</th>\n            <th>Description</th>\n        </tr>\n\
+    \    </thead>\n    <tbody>\n        <tr>\n            <td>\n                <b>Key</b>\n\
+    \            </td>\n            <td><code>Library.string</code></td>\n       \
+    \     <td>A lookup key for this specific entry in the LocalizationTable.</td>\n\
+    \        </tr>\n        <tr>\n            <td>\n                <b>Source</b>\n\
+    \            </td>\n            <td><code>Library.string</code></td>\n       \
+    \     <td>The string used to format the localized string. Used as a lookup if\
+    \ a key is not provided.</td>\n        </tr>\n        <tr>\n            <td>\n\
+    \                <b>Context</b>\n            </td>\n            <td><code>Library.string</code></td>\n\
+    \            <td>An <code>Class.Instance:GetFullName()</code> path to the object\
+    \ that was used to generate the LocalizationTable. Used as a lookup if a key is\
+    \ not provided.</td>\n        </tr>\n        <tr>\n            <td>\n        \
+    \        <b>Example</b>\n            </td>\n            <td><code>Library.string</code></td>\n\
+    \            <td>The string used to format the localization. Optional.</td>\n\
+    \        </tr>\n        <tr>\n            <td>\n                <b>Values</b>\n\
+    \            </td>\n            <td><code>Dictionary</code></td>\n           \
+    \ <td>A dictionary of language translations for this localization entry. The keys\
+    \ of this dictionary are locale ids, and the values are strings that are used\
+    \ to apply localization for the language corresponding to the locale id.</td>\n\
+    \        </tr>\n    </tbody>\n</table>\n"
+  code_samples:
+  - LocalizationTable-GetEntries
+  parameters: []
+  returns:
+  - type: Array
+    summary: 'An array of dictionaries, where each dictionary represents an entry
+      of
+
+      localization data.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: LocalizationTable:GetString
+  summary: 'Returns a translation based on the specified language and key.
+
+    '
+  description: 'The GetString function returns a translation based on the specified
+
+    language and key.
+
+    '
+  code_samples: []
+  parameters:
+  - name: targetLocaleId
+    type: string
+    default: null
+    summary: 'Specified language.
+
+      '
+  - name: key
+    type: string
+    default: null
+    summary: 'An optional unique key for fast hash lookups in code. If it is
+
+      non-empty it must be unique in the table.
+
+      '
+  returns:
+  - type: string
+    summary: 'Translated string.
+
+      '
+  tags:
+  - Deprecated
+  deprecation_message: 'This item has been superseded by `Class.LocalizationTable:GetTranslator()`
+
+    which should be used in all new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: LocalizationTable:GetTranslator
+  summary: 'Returns a `Class.Translator` for entries in this LocalizationTable, in
+    the
+
+    specified locale.
+
+    '
+  description: 'Returns a `Class.Translator` for entries in this LocalizationTable,
+    in the
+
+    specified language. The translator will first search in this table and
+
+    then look in ancestor tables.
+
+    '
+  code_samples: []
+  parameters:
+  - name: localeId
+    type: string
+    default: null
+    summary: 'A Roblox locale identifier (for example, "en-us" or "es-es")
+
+      specifying the language the returned Translator should target.
+
+      '
+  returns:
+  - type: Instance
+    summary: 'The `Class.Translator` instance for the specified locale.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: LocalizationTable:RemoveEntry
+  summary: 'Removes an entry from the LocalizationTable, using the specified `key`,
+
+    `source`, and `context` to narrow down the specific entry to be removed.
+
+    '
+  description: 'Removes an entry from the LocalizationTable, using the specified `key`,
+
+    `source`, and `context` to narrow down the specific entry to be removed.
+
+
+    The entry is identified by the (`key`, `source`, `context`) triple. If
+
+    `key` is non-empty it alone identifies the entry because keys are unique
+
+    within the table. If `key` is empty the entry is matched by the (`source`,
+
+    `context`) pair. When no matching entry exists the call is a silent no-op.
+
+
+    Removing an entry deletes all of its translations and metadata. To remove
+
+    only a single locale''s translation from an entry while keeping the entry
+
+    itself, use `Class.LocalizationTable:RemoveEntryValue()` instead.
+
+    '
+  code_samples: []
+  parameters:
+  - name: key
+    type: string
+    default: null
+    summary: 'The unique key of the entry to remove. If non-empty, identifies the
+
+      entry by itself.
+
+      '
+  - name: source
+    type: string
+    default: null
+    summary: 'The source text of the entry. Used with context to identify the entry
+
+      when key is empty.
+
+      '
+  - name: context
+    type: string
+    default: null
+    summary: 'The `Class.Instance:GetFullName()` path used for disambiguation. Used
+
+      with source to identify the entry when key is empty.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: LocalizationTable:RemoveEntryValue
+  summary: 'Removes a single language translation from the LocalizationTable, using
+
+    the provided `key`, `source`, `context`, and `localeId` to narrow down the
+
+    specific entry to be removed.
+
+    '
+  description: 'Removes a single language translation from the LocalizationTable,
+    using
+
+    the provided `key`, `source`, `context`, and `localeId` to narrow down the
+
+    specific entry to be modified.
+
+
+    The entry is identified by the (`key`, `source`, `context`) triple (see
+
+    `Class.LocalizationTable:RemoveEntry()` for lookup rules). Once the entry
+
+    is found, only the translation for `localeId` is erased; the entry itself
+
+    and all other locale translations remain intact. The `localeId` is
+
+    case-insensitive (it is canonicalized internally). If no matching entry
+
+    exists, or the entry has no translation for `localeId`, the call is a
+
+    silent no-op.
+
+
+    To remove the entire entry including all translations, use
+
+    `Class.LocalizationTable:RemoveEntry()`. To remove every translation of a
+
+    given locale across all entries, use
+
+    `Class.LocalizationTable:RemoveTargetLocale()`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: key
+    type: string
+    default: null
+    summary: 'The unique key of the entry. If non-empty, identifies the entry by
+
+      itself.
+
+      '
+  - name: source
+    type: string
+    default: null
+    summary: 'The source text of the entry. Used with context to identify the entry
+
+      when key is empty.
+
+      '
+  - name: context
+    type: string
+    default: null
+    summary: 'The `Class.Instance:GetFullName()` path used for disambiguation. Used
+
+      with source to identify the entry when key is empty.
+
+      '
+  - name: localeId
+    type: string
+    default: null
+    summary: 'The locale identifier (for example, "fr-fr") whose translation should
+
+      be removed from the entry.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: LocalizationTable:RemoveKey
+  summary: 'Deprecated in favor of `Class.LocalizationTable:RemoveEntry()`.
+
+    '
+  description: 'Deprecated in favor of `Class.LocalizationTable:RemoveEntry()`. Calling
+
+    RemoveKey is the same as making the following call to RemoveEntry:
+
+    '
+  code_samples:
+  - LocalizationTable-RemoveKey
+  parameters:
+  - name: key
+    type: string
+    default: null
+    summary: 'The unique key of the entry to remove.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This item has been superseded by `Class.LocalizationTable:RemoveEntry()`
+
+    which should be used in all new work
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: LocalizationTable:RemoveTargetLocale
+  summary: 'Removes all translations from the LocalizationTable with the specified
+
+    localeId.
+
+    '
+  description: 'Removes all translations from the LocalizationTable with the specified
+
+    `localeId`.
+
+
+    This is a bulk operation that iterates every entry in the table and erases
+
+    the translation for `localeId` from each one. Entries themselves are not
+
+    removed even if they have no remaining translations after this call. To
+
+    remove a single translation from one specific entry, use
+
+    `Class.LocalizationTable:RemoveEntryValue()` instead.
+
+    '
+  code_samples: []
+  parameters:
+  - name: localeId
+    type: string
+    default: null
+    summary: 'A Roblox locale identifier (for example, "fr-fr") specifying which
+
+      language''s translations to remove from all entries.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: LocalizationTable:SetContents
+  summary: 'Sets the contents of the LocalizationTable, via the legacy JSON format.
+
+    '
+  description: 'The SetContents function sets the contents of the LocalizationTable,
+    via
+
+    the legacy JSON format.
+
+    '
+  code_samples: []
+  parameters:
+  - name: contents
+    type: string
+    default: null
+    summary: 'A JSON-formatted string encoding the table''s entries, in the same
+
+      format returned by `Class.LocalizationTable:GetContents()`.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This item has been superseded by `Class.LocalizationTable:SetEntries()`
+
+    which should be used in all new work
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: LocalizationTable:SetEntries
+  summary: 'Sets the contents of the LocalizationTable.
+
+    '
+  description: 'Sets the contents of the LocalizationTable.
+
+
+    The entries parameter should be an array of dictionaries in the same
+
+    format as the one returned from the `Class.LocalizationTable:GetEntries()`
+
+    function.
+
+    '
+  code_samples: []
+  parameters:
+  - name: entries
+    type: Variant
+    default: null
+    summary: 'An array of dictionaries in the same format returned by
+
+      `Class.LocalizationTable:GetEntries()`, each containing Key, Source,
+
+      Context, Example, and Values fields.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: LocalizationTable:SetEntry
+  summary: 'Sets the translation `text` for the `targetLocaleId` locale on the entry
+
+    identified by `key`, creating the entry if it doesn''t exist.
+
+    '
+  description: 'Deprecated. Prefer `Class.LocalizationTable:SetEntryValue()` for matching
+
+    an entry by key, source, and context, or
+
+    `Class.LocalizationTable:SetEntries()` to set many entries at once. Sets
+
+    the translation `text` for the locale `targetLocaleId` on the
+
+    `Class.LocalizationTable` entry identified by `key`, creating a new entry
+
+    with an empty source and context if no entry with that key exists. When
+
+    `targetLocaleId` matches the table''s
+
+    `Class.LocalizationTable.SourceLocaleId`, the entry''s **Source** field is
+
+    also set to `text`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: key
+    type: string
+    default: null
+    summary: 'The unique key identifying the entry. If no entry with this key
+
+      exists, a new entry is created.
+
+      '
+  - name: targetLocaleId
+    type: string
+    default: null
+    summary: 'The Roblox locale identifier (for example, "en-us" or "fr-fr") for the
+
+      translation to set.
+
+      '
+  - name: text
+    type: string
+    default: null
+    summary: 'The translation text to store for the specified locale.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This item has been superseded by `Class.LocalizationTable:SetEntries()`
+
+    which should be used in all new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: LocalizationTable:SetEntryContext
+  summary: 'Sets the **Context** field of a LocalizationTable entry to `newContext`,
+
+    using the specified `key`, `source`, and `context` to narrow down the
+
+    entry that will have this change applied.
+
+    '
+  description: 'Sets the **Context** field of a LocalizationTable entry to `newContext`,
+
+    using the specified `key`, `source`, and `context` to narrow down the
+
+    entry that will have this change applied.
+
+
+    The entry is identified by the (`key`, `source`, `context`) triple (see
+
+    `Class.LocalizationTable:RemoveEntry()` for lookup rules). If no matching
+
+    entry exists, a new entry is created with the provided `key`, `source`,
+
+    and `newContext`. The method throws an error if setting the new context
+
+    would cause the entry to conflict with another existing entry that shares
+
+    the same key, source, and context combination.
+
+
+    The **Context** field stores an `Class.Instance:GetFullName()` path that
+
+    the automatic text replacement system uses for disambiguation when
+
+    multiple entries share the same **Source** string.
+
+    '
+  code_samples: []
+  parameters:
+  - name: key
+    type: string
+    default: null
+    summary: 'The unique key of the entry. If non-empty, identifies the entry by
+
+      itself.
+
+      '
+  - name: source
+    type: string
+    default: null
+    summary: 'The source text of the entry. Used with context to identify the entry
+
+      when key is empty.
+
+      '
+  - name: context
+    type: string
+    default: null
+    summary: 'The current `Class.Instance:GetFullName()` path of the entry. Used
+
+      with source to identify the entry when key is empty.
+
+      '
+  - name: newContext
+    type: string
+    default: null
+    summary: 'The new context string to assign to the entry.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: LocalizationTable:SetEntryExample
+  summary: 'Sets the **Example** field of a LocalizationTable entry to `example`,
+
+    using the specified `key`, `source`, and `context` to narrow down the
+
+    entry that will have this change applied.
+
+    '
+  description: 'Sets the **Example** field of a LocalizationTable entry to `example`,
+
+    using the specified `key`, `source`, and `context` to narrow down the
+
+    entry that will have this change applied.
+
+
+    The entry is identified by the (`key`, `source`, `context`) triple (see
+
+    `Class.LocalizationTable:RemoveEntry()` for lookup rules). If no matching
+
+    entry exists, a new entry is created with the provided `key`, `source`,
+
+    and `context`. The new `example` value always overwrites any existing
+
+    example text on the entry.
+
+
+    The **Example** field is an arbitrary metadata string. The text-capture
+
+    tools use it to store a sample of parameterized content in context, but
+
+    developers may store any helpful annotation.
+
+    '
+  code_samples: []
+  parameters:
+  - name: key
+    type: string
+    default: null
+    summary: 'The unique key of the entry. If non-empty, identifies the entry by
+
+      itself.
+
+      '
+  - name: source
+    type: string
+    default: null
+    summary: 'The source text of the entry. Used with context to identify the entry
+
+      when key is empty.
+
+      '
+  - name: context
+    type: string
+    default: null
+    summary: 'The `Class.Instance:GetFullName()` path of the entry. Used with source
+
+      to identify the entry when key is empty.
+
+      '
+  - name: example
+    type: string
+    default: null
+    summary: 'The new example text to assign to the entry, typically a sample of
+
+      parameterized content in context.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: LocalizationTable:SetEntryKey
+  summary: 'Sets the **Key** field of a LocalizationTable entry to `newKey`, using
+    the
+
+    specified `key`, `source`, and `context` to narrow down the entry that
+
+    will have this change applied.
+
+    '
+  description: 'Sets the **Key** field of a LocalizationTable entry to `newKey`, using
+    the
+
+    specified `key`, `source`, and `context` to narrow down the entry that
+
+    will have this change applied.
+
+
+    The entry is identified by the (`key`, `source`, `context`) triple (see
+
+    `Class.LocalizationTable:RemoveEntry()` for lookup rules). If no matching
+
+    entry exists, a new entry is created with `newKey`, the provided `source`,
+
+    and `context`. The method throws an error if `newKey` would conflict with
+
+    an existing entry''s key, because keys must be unique within the table. If
+
+    `newKey` equals the entry''s current key the call is a no-op.
+
+
+    The **Key** field is an optional unique identifier for fast hash lookups
+
+    via `Class.Translator:FormatByKey()`. When non-empty it must be unique
+
+    across the entire table.
+
+    '
+  code_samples: []
+  parameters:
+  - name: key
+    type: string
+    default: null
+    summary: 'The current unique key of the entry. If non-empty, identifies the
+
+      entry by itself.
+
+      '
+  - name: source
+    type: string
+    default: null
+    summary: 'The source text of the entry. Used with context to identify the entry
+
+      when key is empty.
+
+      '
+  - name: context
+    type: string
+    default: null
+    summary: 'The `Class.Instance:GetFullName()` path of the entry. Used with source
+
+      to identify the entry when key is empty.
+
+      '
+  - name: newKey
+    type: string
+    default: null
+    summary: 'The new key string to assign to the entry. Must be unique within the
+
+      table if non-empty.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: LocalizationTable:SetEntrySource
+  summary: 'Sets the **Source** field of a LocalizationTable entry to `newSource`,
+
+    using the specified `key`, `source`, and `context` to narrow down the
+
+    entry that will have this change applied.
+
+    '
+  description: 'Sets the **Source** field of a LocalizationTable entry to `newSource`,
+
+    using the specified `key`, `source`, and `context` to narrow down the
+
+    entry that will have this change applied.
+
+
+    The entry is identified by the (`key`, `source`, `context`) triple (see
+
+    `Class.LocalizationTable:RemoveEntry()` for lookup rules). If no matching
+
+    entry exists, a new entry is created with the provided `key`, `newSource`,
+
+    and `context`. The method throws an error if the resulting (`key`,
+
+    `newSource`, `context`) combination would conflict with an existing entry.
+
+    If `newSource` equals the entry''s current source the call is a no-op.
+
+
+    The **Source** field is the original text in the source language used by
+
+    the `Class.LocalizationService` automatic text replacement system to match
+
+    GUI text at runtime. Changing the source also recomputes the internal
+
+    expression matcher, so parameterized format strings (e.g. `{1:translate}`)
+
+    are re-parsed immediately.
+
+    '
+  code_samples: []
+  parameters:
+  - name: key
+    type: string
+    default: null
+    summary: 'The unique key of the entry. If non-empty, identifies the entry by
+
+      itself.
+
+      '
+  - name: source
+    type: string
+    default: null
+    summary: 'The current source text of the entry. Used with context to identify
+
+      the entry when key is empty.
+
+      '
+  - name: context
+    type: string
+    default: null
+    summary: 'The `Class.Instance:GetFullName()` path of the entry. Used with source
+
+      to identify the entry when key is empty.
+
+      '
+  - name: newSource
+    type: string
+    default: null
+    summary: 'The new source text to assign to the entry. Used by the automatic text
+
+      replacement system for matching GUI text at runtime.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: LocalizationTable:SetEntryValue
+  summary: 'Sets the text of the specified localeId in a LocalizationTable entry,
+
+    using the specified `key`, `source`, and `context` to narrow down the
+
+    entry that will have this change applied.
+
+    '
+  description: 'Sets the text of the specified `localeId` in a LocalizationTable entry,
+
+    using the specified `key`, `source`, and `context` to narrow down the
+
+    entry that will have this change applied.
+
+
+    The entry is identified by the (`key`, `source`, `context`) triple (see
+
+    `Class.LocalizationTable:RemoveEntry()` for lookup rules). If no matching
+
+    entry exists, a new entry is created with the provided `key`, `source`,
+
+    and `context` — this throws an error if both `key` and `source` are empty.
+
+    The `localeId` is case-insensitive (it is canonicalized internally).
+
+
+    If `text` is non-empty the translation is stored (or replaced) for
+
+    `localeId` on that entry. The text must be a valid format string
+
+    (parameters like `{1:translate}` must be well-formed or the call throws).
+
+    If `text` is an empty string the translation for `localeId` is removed
+
+    from the entry, equivalent to calling
+
+    `Class.LocalizationTable:RemoveEntryValue()`.
+
+
+    To set multiple entries at once, use
+
+    `Class.LocalizationTable:SetEntries()`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: key
+    type: string
+    default: null
+    summary: 'The unique key of the entry. If non-empty, identifies the entry by
+
+      itself.
+
+      '
+  - name: source
+    type: string
+    default: null
+    summary: 'The source text of the entry. Used with context to identify the entry
+
+      when key is empty.
+
+      '
+  - name: context
+    type: string
+    default: null
+    summary: 'The `Class.Instance:GetFullName()` path of the entry. Used with source
+
+      to identify the entry when key is empty.
+
+      '
+  - name: localeId
+    type: string
+    default: null
+    summary: 'The Roblox locale identifier (for example, "fr-fr") for the
+
+      translation to set or remove.
+
+      '
+  - name: text
+    type: string
+    default: null
+    summary: 'The translation text to store. If empty, the translation for the
+
+      specified locale is removed from the entry.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: GetContents
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''GetEntries'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: string
+- name: GetEntries
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+- name: GetString
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''GetTranslator'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: targetLocaleId
+    type: string
+  - name: key
+    type: string
+  returns:
+  - type: string
+- name: GetTranslator
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: localeId
+    type: string
+  returns:
+  - type: Instance
+- name: RemoveEntry
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: key
+    type: string
+  - name: source
+    type: string
+  - name: context
+    type: string
+  returns:
+  - type: 'null'
+- name: RemoveEntryValue
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: key
+    type: string
+  - name: source
+    type: string
+  - name: context
+    type: string
+  - name: localeId
+    type: string
+  returns:
+  - type: 'null'
+- name: RemoveKey
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''RemoveEntry'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: key
+    type: string
+  returns:
+  - type: 'null'
+- name: RemoveTargetLocale
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: localeId
+    type: string
+  returns:
+  - type: 'null'
+- name: SetContents
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''SetEntries'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: contents
+    type: string
+  returns:
+  - type: 'null'
+- name: SetEntries
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: entries
+    type: Variant
+  returns:
+  - type: 'null'
+- name: SetEntry
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''SetEntryValue'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: key
+    type: string
+  - name: targetLocaleId
+    type: string
+  - name: text
+    type: string
+  returns:
+  - type: 'null'
+- name: SetEntryContext
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: key
+    type: string
+  - name: source
+    type: string
+  - name: context
+    type: string
+  - name: newContext
+    type: string
+  returns:
+  - type: 'null'
+- name: SetEntryExample
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: key
+    type: string
+  - name: source
+    type: string
+  - name: context
+    type: string
+  - name: example
+    type: string
+  returns:
+  - type: 'null'
+- name: SetEntryKey
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: key
+    type: string
+  - name: source
+    type: string
+  - name: context
+    type: string
+  - name: newKey
+    type: string
+  returns:
+  - type: 'null'
+- name: SetEntrySource
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: key
+    type: string
+  - name: source
+    type: string
+  - name: context
+    type: string
+  - name: newSource
+    type: string
+  returns:
+  - type: 'null'
+- name: SetEntryValue
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: key
+    type: string
+  - name: source
+    type: string
+  - name: context
+    type: string
+  - name: localeId
+    type: string
+  - name: text
+    type: string
+  returns:
+  - type: 'null'
+- name: SetIsExemptFromUGCAnalytics
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: value
+    type: bool
+  returns:
+  - type: 'null'
+events: []
+callbacks: []

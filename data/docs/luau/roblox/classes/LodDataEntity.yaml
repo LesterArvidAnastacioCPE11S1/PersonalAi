@@ -1,0 +1,257 @@
+name: LodDataEntity
+type: class
+memory_category: Instances
+summary: API reference for LodDataEntity, generated automatically from the Roblox
+  API dump 0.748.0.7481526. Prose documentation is not available for this class yet.
+description: API reference for LodDataEntity, generated automatically from the Roblox
+  API dump 0.748.0.7481526. Prose documentation is not available for this class yet.
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+deprecation_message: ''
+properties:
+- name: EntityData
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: SharedString
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_no_string_value__
+- name: EntityLodEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: 'true'
+- name: EntityModelSize
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: 0, 0, 0
+- name: EntityPosition
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: CFrame
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1
+- name: EntityScale
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: 0, 0, 0
+- name: EntitySource
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Instance
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_no_string_value__
+- name: EntityVisible
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: 'true'
+- name: IsSlimEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: 'false'
+- name: SlimAnimationSource
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: SlimAnimationDataEntity
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_no_string_value__
+- name: SlimReplicationTimestampSec
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: double
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: '0'
+- name: TranscoderFailureReason
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+- name: TranscoderStatus
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: Enum.SlimTranscoderStatus
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: Unknown
+methods: []
+events: []
+callbacks: []

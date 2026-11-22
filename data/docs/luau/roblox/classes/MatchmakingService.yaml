@@ -1,0 +1,178 @@
+name: MatchmakingService
+type: class
+memory_category: Instances
+summary: 'The service responsible for managing custom matchmaking data.
+
+  '
+description: '`Class.MatchmakingService` is responsible for managing custom matchmaking
+
+  attributes. Use it to read and write matchmaking data.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+- NotReplicated
+deprecation_message: ''
+properties: []
+methods:
+- name: MatchmakingService:GetServerAttribute
+  summary: 'Retrieves the value of a specific server attribute.
+
+    '
+  description: 'Retrieves the value of a specific server attribute.
+
+    '
+  code_samples: []
+  parameters:
+  - name: name
+    type: string
+    default: null
+    summary: 'The name of the server attribute. Limited to a maximum of 50
+
+      characters.
+
+      '
+  returns:
+  - type: Tuple
+    summary: 'Returns the server attribute value if the attribute is found and if
+
+      the error is `nil`. Otherwise, returns `nil` for the attribute value
+
+      and an error message.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: MatchmakingService:InitializeServerAttributesForStudio
+  summary: 'Initiates the server attribute schema and its values to test in Studio.
+
+    '
+  description: 'Initiates the server attribute schema and its values to test in Studio.
+
+    This method is optional and has no effect when running outside of Studio.
+
+    '
+  code_samples: []
+  parameters:
+  - name: serverAttributes
+    type: Dictionary
+    default: null
+    summary: 'An array of attribute name-value pairs.
+
+      '
+  returns:
+  - type: Tuple
+    summary: 'Returns `true` if the call succeeded. Otherwise, returns `false` and
+
+      an error message.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: MatchmakingService:SetServerAttribute
+  summary: 'Assigns a value to a specific server attribute.
+
+    '
+  description: 'Assigns a value to a specific server attribute.
+
+    '
+  code_samples:
+  - Matchmaking-Service-Code-Sample
+  parameters:
+  - name: name
+    type: string
+    default: null
+    summary: 'The name of the server attribute. Limited to a maximum of 50
+
+      characters.
+
+      '
+  - name: value
+    type: Variant
+    default: null
+    summary: 'The value of the server attribute. Limited to a maximum of 50
+
+      characters.
+
+      '
+  returns:
+  - type: Tuple
+    summary: 'Returns `true` if the call succeeded. Otherwise, returns `false` and
+
+      an error message.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: GetServerAttribute
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: string
+  returns:
+  - type: Tuple
+- name: InitializeServerAttributesForStudio
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: serverAttributes
+    type: Dictionary
+  returns:
+  - type: Tuple
+- name: SetServerAttribute
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: string
+  - name: value
+    type: Variant
+  returns:
+  - type: Tuple
+events: []
+callbacks: []

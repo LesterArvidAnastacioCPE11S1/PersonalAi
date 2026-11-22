@@ -1,0 +1,650 @@
+name: AvatarAccessoryRules
+type: class
+memory_category: Instances
+summary: API reference for AvatarAccessoryRules, generated automatically from the
+  Roblox API dump 0.748.0.7481526. Prose documentation is not available for this class
+  yet.
+description: API reference for AvatarAccessoryRules, generated automatically from
+  the Roblox API dump 0.748.0.7481526. Prose documentation is not available for this
+  class yet.
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: AccessoryMode
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.AvatarSettingsAccessoryMode
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: PlayerChoice
+- name: BackAccessoryOverride
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int64
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '-1'
+- name: CustomAccessoryMode
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''HairAccessoryOverride'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: Enum.AvatarSettingsCustomAccessoryMode
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: PlayerChoice
+- name: CustomBackAccessoryEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''BackAccessoryOverride'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+- name: CustomBackAccessoryId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''BackAccessoryOverride'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: int64
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: CustomFaceAccessoryEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''FaceAccessoryOverride'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+- name: CustomFaceAccessoryId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''FaceAccessoryOverride'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: int64
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: CustomFrontAccessoryEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''FrontAccessoryOverride'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+- name: CustomFrontAccessoryId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''FrontAccessoryOverride'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: int64
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: CustomHairAccessoryEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''HairAccessoryOverride'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+- name: CustomHairAccessoryId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''HairAccessoryOverride'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: int64
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: CustomHeadAccessoryEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''HeadAccessoryOverride'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+- name: CustomHeadAccessoryId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''HeadAccessoryOverride'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: int64
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: CustomNeckAccessoryEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''NeckAccessoryOverride'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+- name: CustomNeckAccessoryId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''NeckAccessoryOverride'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: int64
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: CustomShoulderAccessoryEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''ShoulderAccessoryOverride'', ''ThreadSafety'':
+    ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+- name: CustomShoulderAccessoryId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''ShoulderAccessoryOverride'', ''ThreadSafety'':
+    ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: int64
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: CustomWaistAccessoryEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''WaistAccessoryOverride'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+- name: CustomWaistAccessoryId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''WaistAccessoryOverride'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: int64
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: EnableEmissives
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'true'
+- name: EnableSound
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'true'
+- name: EnableSpawnEffects
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'true'
+- name: EnableVFX
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'true'
+- name: FaceAccessoryOverride
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int64
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '-1'
+- name: FrontAccessoryOverride
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int64
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '-1'
+- name: HairAccessoryOverride
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int64
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '-1'
+- name: HeadAccessoryOverride
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int64
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '-1'
+- name: LimitBounds
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 0, 0, 0
+- name: LimitMethod
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.AvatarSettingsAccessoryLimitMethod
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: Remove
+- name: NeckAccessoryOverride
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int64
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '-1'
+- name: ShoulderAccessoryOverride
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int64
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '-1'
+- name: WaistAccessoryOverride
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int64
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '-1'
+methods:
+- name: willRemoveAccessory
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: humanoid
+    type: Humanoid
+  - name: accessory
+    type: Accoutrement
+  returns:
+  - type: bool
+events: []
+callbacks: []

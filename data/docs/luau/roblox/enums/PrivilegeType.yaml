@@ -1,0 +1,31 @@
+name: PrivilegeType
+type: enum
+summary: Reference for Enum.PrivilegeType, generated automatically from the Roblox
+  API dump 0.748.0.7481526.
+description: Reference for Enum.PrivilegeType, generated automatically from the Roblox
+  API dump 0.748.0.7481526.
+code_samples: []
+tags:
+- Deprecated
+deprecation_message: ''
+items:
+- name: Banned
+  summary: ''
+  value: 0
+  tags: []
+- name: Visitor
+  summary: ''
+  value: 10
+  tags: []
+- name: Member
+  summary: ''
+  value: 128
+  tags: []
+- name: Admin
+  summary: ''
+  value: 240
+  tags: []
+- name: Owner
+  summary: ''
+  value: 255
+  tags: []

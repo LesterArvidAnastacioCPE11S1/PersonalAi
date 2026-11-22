@@ -1,0 +1,159 @@
+name: Pages
+type: class
+memory_category: Instances
+summary: 'An abstract class for pages objects.
+
+  '
+description: 'An object which is essentially a table of pages, each of which is a
+  sorted
+
+  list of the key/value pairs.
+
+  '
+code_samples:
+- pages-iterator
+inherits:
+- Instance
+descendants:
+- AudioPages
+- BanHistoryPages
+- CapturesPages
+- CatalogPages
+- DataStoreKeyPages
+- DataStoreListingPages
+- DataStorePages
+- DataStoreVersionPages
+- FriendPages
+- InventoryPages
+- MemoryStoreHashMapPages
+- OutfitPages
+- StandardPages
+- RecommendationPages
+tags:
+- NotCreatable
+- NotReplicated
+deprecation_message: ''
+properties:
+- name: Pages.IsFinished
+  summary: 'Whether or not the current page is the last page available.
+
+    '
+  description: 'Whether or not the current page is the last page available.
+
+    '
+  code_samples: []
+  type: boolean
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: IsFinished
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+methods:
+- name: Pages:AdvanceToNextPageAsync
+  summary: 'Iterates to the next page in the pages object, if possible.
+
+    '
+  description: 'Iterates to the next page in the pages object, if possible. The request
+
+    limit is the same of the endpoint originally called.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: Pages:GetCurrentPage
+  summary: 'Returns the items on the current page. The keys in the item are determined
+
+    by the source of this object.
+
+    '
+  description: 'Returns the items on the current page. The keys in the item are determined
+
+    by the source of this object.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Array
+    summary: 'An array of entries on the current page, where the keys in each entry
+
+      are determined by the service that originally provided this Pages
+
+      object.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: GetCurrentPage
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+- name: AdvanceToNextPageAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+events: []
+callbacks: []

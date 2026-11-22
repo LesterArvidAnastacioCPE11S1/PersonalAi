@@ -1,6 +1,50 @@
 import json
 
+import re
+
 import requests
+
+
+# Signals that a request is Roblox or Luau coding work, where the big
+# context model is useful. A false positive only costs performance, so
+# the list leans inclusive.
+
+CODING_SIGNALS = re.compile(
+    r"\[roblox file:"
+    r"|\bluau\b"
+    r"|\broblox\b"
+    r"|\brbx[ml]\w*\b"
+    r"|\bscripts?\b"
+    r"|\bscripting\b"
+    r"|\bcoding\b"
+    r"|\bcodeword\b"
+    r"|\bserverscriptservice\b"
+    r"|\bstarterplayer\w*\b"
+    r"|\bstartergui\b"
+    r"|\bstarterpack\b"
+    r"|\breplicatedstorage\b"
+    r"|\blocalscripts?\b"
+    r"|\bmodulescripts?\b"
+    r"|\bremoteevents?\b"
+    r"|\bremotefunctions?\b"
+    r"|\bdatastores?\b"
+    r"|\buserinputservice\b"
+    r"|\btweenservice\b"
+    r"|\brunservic\w+\b"
+    r"|\bpathfindingservice\b"
+    r"|\bcontextactionservice\b"
+    r"|\binstance\.new\b"
+    r"|\bcframe\.new\b"
+    r"|\bvector3\.new\b"
+    r"|\bvector2\.new\b"
+    r"|\btask\.wait\b"
+    r"|\btask\.spawn\b"
+    r"|\bfindfirstchild\b"
+    r"|\bwaitforchild\b"
+    r"|\bgame\.players\b"
+    r"|\bworkspace\b",
+    re.IGNORECASE
+)
 
 
 class ModelError(RuntimeError):
@@ -35,6 +79,30 @@ class OpenAICompatibleModel:
 
         return False
 
+    def _has_coding_signals(self, messages):
+
+        for message in messages or []:
+
+            content = message.get("content")
+
+            if isinstance(content, list):
+
+                content = " ".join(
+                    part.get("text") or ""
+                    for part in content
+                    if isinstance(part, dict)
+                )
+
+            if not isinstance(content, str):
+
+                continue
+
+            if CODING_SIGNALS.search(content):
+
+                return True
+
+        return False
+
     def _model_id(self, messages=None):
 
         if (
@@ -45,6 +113,10 @@ class OpenAICompatibleModel:
         ):
 
             return self.config.vision_model
+
+        if self._big_context_for(messages):
+
+            return self.config.big_context_model
 
         if self._resolved_model:
 
@@ -63,6 +135,54 @@ class OpenAICompatibleModel:
             self._resolved_model = models[0]
 
         return self._resolved_model
+
+    def _has_attachments(self, messages):
+
+        for message in messages or []:
+
+            content = message.get("content")
+
+            if isinstance(content, list):
+
+                content = " ".join(
+                    part.get("text") or ""
+                    for part in content
+                    if isinstance(part, dict)
+                )
+
+            if not isinstance(content, str):
+
+                continue
+
+            if "[Attached files]" in content:
+
+                return True
+
+        return False
+
+    def _big_context_for(self, messages):
+
+        if not self.config.big_context_model:
+
+            return False
+
+        if not getattr(self.config, "auto_big_context", True):
+
+            return False
+
+        if (
+            self.config.big_context_model
+            == self._resolved_model
+        ):
+
+            # Already the active model.
+
+            return False
+
+        return (
+            self._has_coding_signals(messages)
+            or self._has_attachments(messages)
+        )
 
     def _url(self, path):
 
@@ -152,6 +272,23 @@ class OpenAICompatibleModel:
         if model_id:
 
             payload["model"] = model_id
+
+        prompt_chars = 0
+
+        for message in messages or []:
+
+            content = message.get("content")
+
+            if isinstance(content, str):
+                prompt_chars += len(content)
+
+            else:
+                prompt_chars += len(str(content))
+
+        print(
+            f"[model] {model_id or '(server default)'} | "
+            f"prompt {prompt_chars} chars"
+        )
 
         return payload
 

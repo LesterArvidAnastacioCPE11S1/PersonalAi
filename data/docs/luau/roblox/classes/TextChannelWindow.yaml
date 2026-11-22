@@ -1,0 +1,200 @@
+name: TextChannelWindow
+type: class
+memory_category: Gui
+summary: 'A GuiObject that displays chat messages from an associated TextChannel.
+
+  '
+description: '`Class.TextChannelWindow` is a `Class.GuiObject` that renders in-experience
+
+  text chat messages from a linked `Class.TextChannel`. Place it under a
+
+  `Class.ScreenGui` or other `Class.LayerCollector` descendant to display chat
+
+  in a custom location and layout.
+
+
+  Set `Class.TextChannelWindow.Target|Target` to a `Class.TextChannel` to choose
+
+  which channel''s messages the window shows. The window registers itself with
+
+  `Class.TextChatService` when added to the data model.
+
+
+  Properties set on `Class.ChatWindowConfiguration` do not apply to this window.
+
+
+  Accepted children: `Class.UICorner`, `Class.UIAspectRatioConstraint`,
+
+  `Class.UISizeConstraint`, and scripts (`Class.LocalScript`, `Class.Script`,
+
+  `Class.ModuleScript`); other child types are rejected.
+
+  '
+code_samples: []
+inherits:
+- GuiObject
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: TextChannelWindow.Target
+  summary: 'The TextChannel whose messages this window displays.
+
+    '
+  description: 'A reference to the `Class.TextChannel` whose messages this window
+    renders.
+
+    When set, the window shows messages from the specified channel. Setting
+
+    this property to `nil` disconnects the window from any channel so it
+
+    displays no messages.
+
+
+    The default value is `nil` (no channel linked).
+
+    '
+  code_samples: []
+  type: TextChannel
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+  - Chat
+- name: TextChannelWindow.FontFace
+  summary: 'Font used to render text in this window.
+
+    '
+  description: 'Font used to render this window''s messages and its input bar. Applied
+    only
+
+    when `Class.TextChannelWindow.UseDefaultFont` is `false`.
+
+    '
+  code_samples:
+  - TextChannelWindow-FontFace
+  type: Datatype.Font
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+  - Chat
+- name: TextChannelWindow.UseDefaultFont
+  summary: 'Whether this window uses the live platform default font.
+
+    '
+  description: 'When `true` (default), the window uses the live platform default font.
+
+    When `false`, the window uses `Class.TextChannelWindow.FontFace|FontFace`.
+
+    '
+  code_samples:
+  - TextChannelWindow-FontFace
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+  - Chat
+- name: FontFace
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Font
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: IsRendering
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: Unsafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: 'false'
+- name: Target
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: TextChannel
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: UseDefaultFont
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'true'
+methods: []
+events: []
+callbacks: []

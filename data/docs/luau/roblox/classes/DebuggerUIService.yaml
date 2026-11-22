@@ -1,0 +1,248 @@
+name: DebuggerUIService
+type: class
+memory_category: Instances
+summary: API reference for DebuggerUIService, generated automatically from the Roblox
+  API dump 0.748.0.7481526. Prose documentation is not available for this class yet.
+description: API reference for DebuggerUIService, generated automatically from the
+  Roblox API dump 0.748.0.7481526. Prose documentation is not available for this class
+  yet.
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+- NotReplicated
+deprecation_message: ''
+properties: []
+methods:
+- name: EditBreakpoint
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: metaBreakpointId
+    type: int
+  returns:
+  - type: 'null'
+- name: EditWatch
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: expression
+    type: string
+  returns:
+  - type: 'null'
+- name: IsConnectionForPlayDataModel
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: debuggerConnectionId
+    type: int
+  returns:
+  - type: bool
+- name: OpenExceptionMessagePopup
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: exceptionMessage
+    type: string
+  - name: pausedLine
+    type: int
+  returns:
+  - type: 'null'
+- name: OpenScriptAtLine
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: guid
+    type: string
+  - name: debuggerConnectionId
+    type: int
+  - name: line
+    type: int
+  - name: showErrorOnFail
+    type: bool
+  returns:
+  - type: 'null'
+- name: Pause
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: RemoveScriptLineMarkers
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: debuggerConnectionId
+    type: int
+  - name: allMarkers
+    type: bool
+  returns:
+  - type: 'null'
+- name: Resume
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: SetCurrentThreadId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: debuggerThreadId
+    type: int
+  returns:
+  - type: 'null'
+- name: SetScriptLineMarker
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: guid
+    type: string
+  - name: debuggerConnectionId
+    type: int
+  - name: line
+    type: int
+  - name: lineMarkerType
+    type: bool
+  returns:
+  - type: 'null'
+- name: SetWatchExpressions
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: expressions
+    type: Array
+  returns:
+  - type: 'null'
+events:
+- name: ExpressionAdded
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: expression
+    type: string
+- name: ExpressionsCleared
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+callbacks: []

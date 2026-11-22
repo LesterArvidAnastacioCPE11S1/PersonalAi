@@ -1,0 +1,139 @@
+name: PlayerViewService
+type: class
+memory_category: Instances
+summary: 'Provides a way to get additional information about a player''s view.
+
+  '
+description: '`Class.PlayerViewService` provides a way to get additional information
+  about a
+
+  player''s view.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+- NotReplicated
+deprecation_message: ''
+properties: []
+methods:
+- name: PlayerViewService:GetDeviceCameraCFrame
+  summary: 'Returns a world space `Datatype.CFrame` looking at the player''s character.
+
+    '
+  description: 'Returns a world space `Datatype.CFrame` looking at the player''s character,
+
+    such that setting the current camera''s `Datatype.CFrame` will view that
+
+    character from the perspective of their device.
+
+
+    This method leverages the device''s camera and it only functions on mobile
+
+    devices. If no information is available, for example the user is not on a
+
+    mobile device or they don''t have their camera turned on, this method
+
+    returns a `Datatype.CFrame.identity`.
+
+    '
+  code_samples:
+  - PlayerViewService-GetDeviceCameraCFrame
+  parameters:
+  - name: player
+    type: Player
+    default: nil
+    summary: 'The player for which to get the device camera `Datatype.CFrame`.
+
+      '
+  returns:
+  - type: CFrame
+    summary: 'The world space `Datatype.CFrame` looking at the player''s character,
+
+      or a `Datatype.CFrame.identity` (see description).
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - SensitiveInput
+- name: GetDeviceCameraCFrame
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+    default: nil
+  returns:
+  - type: CFrame
+- name: GetDeviceCameraCFrameForSelfView
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: CFrame
+- name: OnCameraCFrameReplicationRequest
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: UpdateDeviceCFrame
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+    default: nil
+  - name: cframe
+    type: CFrame
+    default: 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1
+  - name: timestamp
+    type: int64
+    default: '0'
+  returns:
+  - type: 'null'
+events: []
+callbacks: []

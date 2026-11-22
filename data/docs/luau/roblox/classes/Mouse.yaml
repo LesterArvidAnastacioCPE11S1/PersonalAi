@@ -1,0 +1,1490 @@
+name: Mouse
+type: class
+memory_category: Instances
+summary: 'Legacy object that contains members useful for pointer input.
+
+  '
+description: "**Mouse** has been superseded by `Class.UserInputService` and\n`Class.ContextActionService`,\
+  \ which cover a broader scope, are more feature\nrich, and support **cross-platform**\
+  \ patterns better. It remains supported\nbecause of its widespread use, but you\
+  \ should strongly consider using these\nalternatives.\n\nThe **Mouse** object houses\
+  \ various API for pointers, primarily for buttons\nand raycasting. It can be accessed\
+  \ through `Class.Player:GetMouse()` called on\nthe `Class.Players.LocalPlayer` in\
+  \ a `Class.LocalScript`. It is also passed by\nthe `Class.Tool.Equipped` event.\n\
+  \n- It is most notable for the `Class.Mouse.Icon|Icon` property, which changes\n\
+  \  the cursor's appearance.\n- It continually raycasts the screen mouse position\
+  \ into the 3D world using\n  the `Class.Mouse.TargetFilter|TargetFilter` property,\
+  \ storing the results of\n  the raycast in the `Class.Mouse.Hit|Hit`, `Class.Mouse.Target|Target`,\
+  \ and\n  `Class.Mouse.TargetSurface|TargetSurface` properties. These can be useful\n\
+  \  for simple cases, but `Class.WorldRoot:Raycast()` should be used in more\n  complicated\
+  \ [raycasting](../../../workspace/raycasting.md) scenarios.\n- `Class.Plugin|Plugins`\
+  \ can use `Class.Plugin:GetMouse()` to get a\n  `Class.PluginMouse`, which behaves\
+  \ similarly.\n\n```lua\n-- From a LocalScript:\nlocal Players = game:GetService(\"\
+  Players\")\nlocal player = Players.LocalPlayer\nlocal mouse = player:GetMouse()\n\
+  -- Setting the mouse icon\nmouse.Icon = \"rbxasset://SystemCursors/Wait\"\n```\n\
+  \nNote:\n\n- This object does not control/restrict pointer movement. For this, see\n\
+  \  `Class.UserInputService.MouseBehavior` and\n  `Class.UserInputService.MouseDeltaSensitivity`.\n\
+  - If two functions are connected to same input event, such as\n  `Class.Mouse.Button1Down|Button1Down`,\
+  \ **both** functions will run when the\n  event fires. There is no concept of sinking/passing\
+  \ input, as events don't\n  support this behavior. However, `Class.ContextActionService`\
+  \ does have this\n  behavior through `Class.ContextActionService:BindAction()|BindAction`.\n\
+  - While a mouse may not be available on all platforms, Mouse will still\n  function\
+  \ on mobile (touch) and console (gamepad), which don't typically have\n  mice or\
+  \ pointer hardware. For explicit cross-platform behaviors, use\n  `Class.UserInputService`\
+  \ and `Class.ContextActionService`.\n\n  See [Input and Camera](../../../input/index.md)\
+  \ for more information on\n  customizing inputs in your experience.\n"
+code_samples: []
+inherits:
+- Instance
+descendants:
+- PlayerMouse
+- PluginMouse
+tags:
+- NotCreatable
+deprecation_message: ''
+properties:
+- name: Mouse.Hit
+  summary: 'The `Datatype.CFrame` of the mouse''s position in 3D space.
+
+    '
+  description: 'This property indicates `Datatype.CFrame` of the mouse''s position
+    in 3D
+
+    space. Note that `Class.Mouse.TargetFilter` and its descendants will be
+
+    ignored.
+
+
+    Developers can get obtain the position of Hit like so:
+
+
+    ```
+
+    local position = mouse.Hit.Position
+
+    ```
+
+
+    Hit is often used by `Class.Tool|Tools` to fire a weapon towards the mouse
+
+    in third person.
+
+
+    Developers looking for the `Class.BasePart` the mouse is pointing at
+
+    should use `Class.Mouse.Target`.
+
+
+    #### How is Mouse.Hit calculated?
+
+
+    The position of the Hit CFrame is calculated as the point of intersection
+
+    between the mouse''s internal `Datatype.Ray` (an extended version of
+
+    `Class.Mouse.UnitRay`) and an object in 3D space (such as a part).
+
+
+    The orientation of the Hit CFrame corresponds with the direction of the
+
+    `Class.Mouse.UnitRay`.
+
+
+    ```
+
+    local unitRayDirection = mouse.UnitRay.Direction
+
+    local mouseHitDirection = mouse.Hit.lookVector
+
+    -- unitRayDirection ≈ mouseHitDirection
+
+    -- the vectors are approximately equal
+
+    ```
+
+
+    Note, the roll of the `Class.Workspace.CurrentCamera` is not used when
+
+    calculating the orientation of the Hit `Datatype.CFrame`.
+
+
+    The mouse''s internal ray extends for 1,000 studs. If the mouse is not
+
+    pointing at an object in 3D space (for example when pointing at the sky),
+
+    this property will be 1,000 studs away from the
+
+    `Class.Workspace.CurrentCamera`.
+
+    '
+  code_samples:
+  - Mouse-Hit-Laser-Beam
+  - mouse-origin-v-mouse-hit
+  type: CFrame
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - Input
+- name: Mouse.hit
+  summary: ''
+  description: ''
+  code_samples: []
+  type: CFrame
+  tags:
+  - Hidden
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  deprecation_message: 'This property is a deprecated variant of `Class.Mouse.Hit`
+    which should be
+
+    used instead.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Input
+- name: Mouse.Icon
+  summary: 'The content ID of the image used as the `Class.Mouse` icon.
+
+    '
+  description: "**Icon** is a property that determines the image used as the pointer.\
+    \ If\nblank, a default arrow is used. While the cursor hovers over a\n`Class.GuiButton`,\
+    \ this property is temporarily ignored.\n\nTo hide the cursor entirely, **do not**\
+    \ use a transparent image &ndash;\ninstead, set `Class.UserInputService.MouseIconEnabled`\
+    \ to false.\n\nFor getting/setting the user mouse icon in experiences, you should\
+    \ use\n`Class.UserInputService.MouseIcon`. `Class.Mouse.Icon` will be deprecated\n\
+    after the new API for plugins to set the mouse cursor is released.\n\n##### Designing\
+    \ a Cursor\n\nThe following guidelines may prove useful when creating your own\
+    \ mouse\ncursors:\n\n- The dimensions of the image used determines the size of\
+    \ the cursor.\n- The dimensions of the image should not exceed 256 pixels on any\
+    \ axis.\n- The **center** of the image is where mouse inputs are issued.\n- The\
+    \ default mouse image is 64x64 pixels, with the mouse taking up 17x24\n  pixels\
+    \ of space.\n\n##### System Cursors\n\nWhen using a `Class.PluginMouse` retrieved\
+    \ from `Class.Plugin:GetMouse()`,\nyou can use the following icons similar to\
+    \ your system's default cursors,\nsuch as hands, arrows, I-beams, etc. You can\
+    \ use these with GUI events\nlike `Class.GuiObject.MouseEnter|MouseEnter`,\n`Class.GuiObject.MouseLeave|MouseLeave`,\
+    \ and\n`Class.GuiButton.MouseButton1Down|MouseButton1Down` to provide a\nconsistent\
+    \ Studio experience when interacting with certain kinds of GUI\ncomponents. Note\
+    \ that these only work for Studio plugins; they will not\nwork for other `Class.Mouse`\
+    \ objects.\n\n<table>\n    <thead>\n        <tr>\n            <th>Look*</th>\n\
+    \            <th>Asset</th>\n            <th>Suggested Use</th>\n        </tr>\n\
+    \    </thead>\n    <tbody>\n        <tr>\n            <td><img src=\"../../../assets/misc/Mouse-Icon-Pointer.png\"\
+    \ width=\"30\" /></td>\n            <td><code>rbxasset://SystemCursors/Arrow</code></td>\n\
+    \            <td>Default clicking and selection.</td>\n        </tr>\n       \
+    \ <tr>\n            <td><img src=\"../../../assets/misc/Mouse-Icon-PointingHand.png\"\
+    \ width=\"30\" /></td>\n            <td><code>rbxasset://SystemCursors/PointingHand</code></td>\n\
+    \            <td>Hovering over an active link/button.</td>\n        </tr>\n  \
+    \      <tr>\n            <td><img src=\"../../../assets/misc/Mouse-Icon-OpenHand.png\"\
+    \ width=\"30\" /></td>\n            <td><code>rbxasset://SystemCursors/OpenHand</code></td>\n\
+    \            <td>Hovering over a draggable item.</td>\n        </tr>\n       \
+    \ <tr>\n            <td><img src=\"../../../assets/misc/Mouse-Icon-GrabbingHand.png\"\
+    \ width=\"30\" /></td>\n            <td><code>rbxasset://SystemCursors/ClosedHand</code></td>\n\
+    \            <td>Dragging an item.</td>\n        </tr>\n        <tr>\n       \
+    \     <td><img src=\"../../../assets/misc/Mouse-Icon-IBeam.png\" width=\"30\"\
+    \ /></td>\n            <td><code>rbxasset://SystemCursors/IBeam</code></td>\n\
+    \            <td>Hovering in a text field.</td>\n        </tr>\n        <tr>\n\
+    \            <td><img src=\"../../../assets/misc/Mouse-Icon-ResizeNS.png\" width=\"\
+    30\" /></td>\n            <td><code>rbxasset://SystemCursors/SizeNS</code></td>\n\
+    \            <td>Hovering over a vertical resize handle.</td>\n        </tr>\n\
+    \        <tr>\n            <td><img src=\"../../../assets/misc/Mouse-Icon-ResizeEW.png\"\
+    \ width=\"30\" /></td>\n            <td><code>rbxasset://SystemCursors/SizeEW</code></td>\n\
+    \            <td>Hovering over a horizontal resize handle.</td>\n        </tr>\n\
+    \        <tr>\n            <td><img src=\"../../../assets/misc/Mouse-Icon-ResizeNESW.png\"\
+    \ width=\"30\" /></td>\n            <td><code>rbxasset://SystemCursors/SizeNESW</code></td>\n\
+    \            <td>Hovering over a corner resize handle.</td>\n        </tr>\n \
+    \       <tr>\n            <td><img src=\"../../../assets/misc/Mouse-Icon-ResizeNWSE.png\"\
+    \ width=\"30\" /></td>\n            <td><code>rbxasset://SystemCursors/SizeNWSE</code></td>\n\
+    \            <td>Hovering over a corner resize handle.</td>\n        </tr>\n \
+    \       <tr>\n            <td><img src=\"../../../assets/misc/Mouse-Icon-ResizeAll.png\"\
+    \ width=\"30\" /></td>\n            <td><code>rbxasset://SystemCursors/SizeAll</code></td>\n\
+    \            <td>Hovering over a multi-direction resize handle.</td>\n       \
+    \ </tr>\n        <tr>\n            <td><img src=\"../../../assets/misc/Mouse-Icon-ResizeSplitV.png\"\
+    \ width=\"30\" /></td>\n            <td><code>rbxasset://SystemCursors/SplitNS</code></td>\n\
+    \            <td>Hovering over a vertical \"split\" handle.</td>\n        </tr>\n\
+    \        <tr>\n            <td><img src=\"../../../assets/misc/Mouse-Icon-ResizeSplitH.png\"\
+    \ width=\"30\" /></td>\n            <td><code>rbxasset://SystemCursors/SplitEW</code></td>\n\
+    \            <td>Hovering over a horizontal \"split\" handle.</td>\n        </tr>\n\
+    \        <tr>\n            <td><img src=\"../../../assets/misc/Mouse-Icon-Forbidden.png\"\
+    \ width=\"30\" /></td>\n            <td><code>rbxasset://SystemCursors/Forbidden</code></td>\n\
+    \            <td>Hovering over a locked/forbidden item.</td>\n        </tr>\n\
+    \        <tr>\n            <td><img src=\"../../../assets/misc/Mouse-Icon-Wait.png\"\
+    \ width=\"30\" /></td>\n            <td><code>rbxasset://SystemCursors/Wait</code></td>\n\
+    \            <td>Indicating an action is in progress.</td>\n        </tr>\n  \
+    \      <tr>\n            <td><img src=\"../../../assets/misc/Mouse-Icon-Busy.png\"\
+    \ width=\"30\" /></td>\n            <td><code>rbxasset://SystemCursors/Busy</code></td>\n\
+    \            <td>Indicating the system is busy.</td>\n        </tr>\n        <tr>\n\
+    \            <td><img src=\"../../../assets/misc/Mouse-Icon-Crosshair.png\" width=\"\
+    30\" /></td>\n            <td><code>rbxasset://SystemCursors/Cross</code></td>\n\
+    \            <td>Hovering over a pinpoint selection area.</td>\n        </tr>\n\
+    \    </tbody>\n</table>\n\n<figcaption>* These appearances are approximations\
+    \ &mdash; the actual look is dependent on your operating system.</figcaption>\n"
+  code_samples:
+  - dragon-mouse-icon
+  type: ContentId
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Input
+- name: Mouse.IconContent
+  summary: 'The content of the image used as the `Class.Mouse` icon. Only supports
+
+    asset URIs.
+
+    '
+  description: "**Icon** is a property that determines the image used as the pointer.\
+    \ If\nblank, a default arrow is used. While the cursor hovers over a\n`Class.GuiButton`,\
+    \ this property is temporarily ignored. This property\nonly supports asset URIs.\n\
+    \nTo hide the cursor entirely, **do not** use a transparent image &ndash;\ninstead,\
+    \ set `Class.UserInputService.MouseIconEnabled` to false.\n\nFor getting/setting\
+    \ the user mouse icon in experiences, you should use\n`Class.UserInputService.MouseIcon`.\
+    \ `Class.Mouse.Icon` will be deprecated\nafter the new API for plugins to set\
+    \ the mouse cursor is released.\n\n##### Designing a Cursor\n\nThe following guidelines\
+    \ may prove useful when creating your own mouse\ncursors:\n\n- The dimensions\
+    \ of the image used determines the size of the cursor.\n- The dimensions of the\
+    \ image should not exceed 256 pixels on any axis.\n- The **center** of the image\
+    \ is where mouse inputs are issued.\n- The default mouse image is 64x64 pixels,\
+    \ with the mouse taking up 17x24\n  pixels of space.\n\n##### System Cursors\n\
+    \nWhen using a `Class.PluginMouse` retrieved from `Class.Plugin:GetMouse()`,\n\
+    you can use the following icons similar to your system's default cursors,\nsuch\
+    \ as hands, arrows, I-beams, etc. You can use these with GUI events\nlike `Class.GuiObject.MouseEnter|MouseEnter`,\n\
+    `Class.GuiObject.MouseLeave|MouseLeave`, and\n`Class.GuiButton.MouseButton1Down|MouseButton1Down`\
+    \ to provide a\nconsistent Studio experience when interacting with certain kinds\
+    \ of GUI\ncomponents. Note that these only work for Studio plugins; they will\
+    \ not\nwork for other `Class.Mouse` objects.\n\n<table>\n    <thead>\n       \
+    \ <tr>\n            <th>Look*</th>\n            <th>Asset</th>\n            <th>Suggested\
+    \ Use</th>\n        </tr>\n    </thead>\n    <tbody>\n        <tr>\n         \
+    \   <td><img src=\"../../../assets/misc/Mouse-Icon-Pointer.png\" width=\"30\"\
+    \ /></td>\n            <td><code>rbxasset://SystemCursors/Arrow</code></td>\n\
+    \            <td>Default clicking and selection.</td>\n        </tr>\n       \
+    \ <tr>\n            <td><img src=\"../../../assets/misc/Mouse-Icon-PointingHand.png\"\
+    \ width=\"30\" /></td>\n            <td><code>rbxasset://SystemCursors/PointingHand</code></td>\n\
+    \            <td>Hovering over an active link/button.</td>\n        </tr>\n  \
+    \      <tr>\n            <td><img src=\"../../../assets/misc/Mouse-Icon-OpenHand.png\"\
+    \ width=\"30\" /></td>\n            <td><code>rbxasset://SystemCursors/OpenHand</code></td>\n\
+    \            <td>Hovering over a draggable item.</td>\n        </tr>\n       \
+    \ <tr>\n            <td><img src=\"../../../assets/misc/Mouse-Icon-GrabbingHand.png\"\
+    \ width=\"30\" /></td>\n            <td><code>rbxasset://SystemCursors/ClosedHand</code></td>\n\
+    \            <td>Dragging an item.</td>\n        </tr>\n        <tr>\n       \
+    \     <td><img src=\"../../../assets/misc/Mouse-Icon-IBeam.png\" width=\"30\"\
+    \ /></td>\n            <td><code>rbxasset://SystemCursors/IBeam</code></td>\n\
+    \            <td>Hovering in a text field.</td>\n        </tr>\n        <tr>\n\
+    \            <td><img src=\"../../../assets/misc/Mouse-Icon-ResizeNS.png\" width=\"\
+    30\" /></td>\n            <td><code>rbxasset://SystemCursors/SizeNS</code></td>\n\
+    \            <td>Hovering over a vertical resize handle.</td>\n        </tr>\n\
+    \        <tr>\n            <td><img src=\"../../../assets/misc/Mouse-Icon-ResizeEW.png\"\
+    \ width=\"30\" /></td>\n            <td><code>rbxasset://SystemCursors/SizeEW</code></td>\n\
+    \            <td>Hovering over a horizontal resize handle.</td>\n        </tr>\n\
+    \        <tr>\n            <td><img src=\"../../../assets/misc/Mouse-Icon-ResizeNESW.png\"\
+    \ width=\"30\" /></td>\n            <td><code>rbxasset://SystemCursors/SizeNESW</code></td>\n\
+    \            <td>Hovering over a corner resize handle.</td>\n        </tr>\n \
+    \       <tr>\n            <td><img src=\"../../../assets/misc/Mouse-Icon-ResizeNWSE.png\"\
+    \ width=\"30\" /></td>\n            <td><code>rbxasset://SystemCursors/SizeNWSE</code></td>\n\
+    \            <td>Hovering over a corner resize handle.</td>\n        </tr>\n \
+    \       <tr>\n            <td><img src=\"../../../assets/misc/Mouse-Icon-ResizeAll.png\"\
+    \ width=\"30\" /></td>\n            <td><code>rbxasset://SystemCursors/SizeAll</code></td>\n\
+    \            <td>Hovering over a multi-direction resize handle.</td>\n       \
+    \ </tr>\n        <tr>\n            <td><img src=\"../../../assets/misc/Mouse-Icon-ResizeSplitV.png\"\
+    \ width=\"30\" /></td>\n            <td><code>rbxasset://SystemCursors/SplitNS</code></td>\n\
+    \            <td>Hovering over a vertical \"split\" handle.</td>\n        </tr>\n\
+    \        <tr>\n            <td><img src=\"../../../assets/misc/Mouse-Icon-ResizeSplitH.png\"\
+    \ width=\"30\" /></td>\n            <td><code>rbxasset://SystemCursors/SplitEW</code></td>\n\
+    \            <td>Hovering over a horizontal \"split\" handle.</td>\n        </tr>\n\
+    \        <tr>\n            <td><img src=\"../../../assets/misc/Mouse-Icon-Forbidden.png\"\
+    \ width=\"30\" /></td>\n            <td><code>rbxasset://SystemCursors/Forbidden</code></td>\n\
+    \            <td>Hovering over a locked/forbidden item.</td>\n        </tr>\n\
+    \        <tr>\n            <td><img src=\"../../../assets/misc/Mouse-Icon-Wait.png\"\
+    \ width=\"30\" /></td>\n            <td><code>rbxasset://SystemCursors/Wait</code></td>\n\
+    \            <td>Indicating an action is in progress.</td>\n        </tr>\n  \
+    \      <tr>\n            <td><img src=\"../../../assets/misc/Mouse-Icon-Busy.png\"\
+    \ width=\"30\" /></td>\n            <td><code>rbxasset://SystemCursors/Busy</code></td>\n\
+    \            <td>Indicating the system is busy.</td>\n        </tr>\n        <tr>\n\
+    \            <td><img src=\"../../../assets/misc/Mouse-Icon-Crosshair.png\" width=\"\
+    30\" /></td>\n            <td><code>rbxasset://SystemCursors/Cross</code></td>\n\
+    \            <td>Hovering over a pinpoint selection area.</td>\n        </tr>\n\
+    \    </tbody>\n</table>\n\n<figcaption>* These appearances are approximations\
+    \ &mdash; the actual look is dependent on your operating system.</figcaption>\n"
+  code_samples:
+  - dragon-mouse-icon
+  type: Content
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Input
+- name: Mouse.Origin
+  summary: 'A `Datatype.CFrame` positioned at the `Class.Workspace.CurrentCamera`
+    and
+
+    oriented toward the mouse''s 3D position.
+
+    '
+  description: 'The origin `Class.Mouse` property is a `Datatype.CFrame` indicating
+    where
+
+    the mouse originated from. It is positioned at the
+
+    `Class.Workspace.CurrentCamera` and oriented toward the mouse''s 3D
+
+    position.
+
+
+    `Class.Mouse.UnitRay` starts at the same position as Origin, and extends
+
+    for a stud in the same direction.
+
+
+    ```lua
+
+    local unitRay = mouse.UnitRay
+
+    local origin = mouse.Origin
+
+    -- unitRay.Direction = origin.p
+
+    -- unitRay.Direction ≈ origin.lookVector
+
+    ```
+
+
+    For the position of the `Class.Mouse` in 3D space, see `Class.Mouse.Hit`.
+
+    '
+  code_samples:
+  - mouse-origin-v-mouse-hit
+  type: CFrame
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - Input
+- name: Mouse.Target
+  summary: 'The object in 3D space the `Class.Mouse|mouse` is pointing to.
+
+    '
+  description: "The object in 3D space the `Class.Mouse|mouse` is pointing to.\n\n\
+    Note:\n\n- If `Class.Mouse.TargetFilter` has been set, the target filter and its\n\
+    \  descendants will be ignored.\n- When the mouse is not pointing at a `Class.BasePart`,\
+    \ for example when\n  it is pointing at the sky, Target will be `nil`.\n- Developers\
+    \ looking for the position of the mouse in 3D space should use\n  `Class.Mouse.Hit`.\n"
+  code_samples:
+  - Mouse-Button1Down
+  type: BasePart
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - Input
+- name: Mouse.target
+  summary: ''
+  description: ''
+  code_samples: []
+  type: BasePart
+  tags:
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  deprecation_message: 'This property is a deprecated variant of `Class.Mouse.Target`
+    which should
+
+    be used instead.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Input
+- name: Mouse.TargetFilter
+  summary: 'Determines an object (and its descendants) to be ignored when determining
+
+    `Class.Mouse.Hit` and `Class.Mouse.Target`.
+
+    '
+  description: 'This property determines an object to be ignored by the mouse when
+
+    calculating `Class.Mouse.Hit` and `Class.Mouse.Target`. The descendants of
+
+    the object are also ignored, so it is possible to ignore multiple objects
+
+    so long as they are a descendant of the object to which this property is
+
+    set. This property is useful when filtering models containing special
+
+    effects or decorations that should not affect `Class.Mouse.Hit` or
+
+    `Class.Mouse.Target`.
+
+
+    This property can be set to any `Class.Instance` or `nil`, for example:
+
+
+    ```lua
+
+    local Players = game:GetService("Players")
+
+    local Workspace = game:GetService("Workspace")
+
+
+    local player = Players.LocalPlayer
+
+    local mouse = player:GetMouse()
+
+    mouse.TargetFilter = Workspace.Model
+
+    ```
+
+
+    Note that the `Class.Player.Character|Character` of the
+
+    `Class.Players.LocalPlayer` is ignored by the mouse automatically.
+
+    '
+  code_samples: []
+  type: Instance
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Input
+- name: Mouse.TargetSurface
+  summary: 'Indicates the `Enum.NormalId` of the `Class.BasePart` surface at which
+    the
+
+    mouse is pointing.
+
+    '
+  description: 'This property indicates the `Enum.NormalId` of the `Class.BasePart`
+
+    surface at which the mouse is pointing. This property is derived from the
+
+    world position of mouse (`Class.Mouse.Hit`) and the part toward which the
+
+    mouse is pointing (`Class.Mouse.Target`).
+
+
+    This property isn''t meaningful when the mouse is not pointing at a part,
+
+    for example when the mouse is pointing at the sky. At the moment, this
+
+    property is set to ''Right'' under these circumstances. Before using this
+
+    property, check that the mouse''s target is not `nil`.
+
+    '
+  code_samples:
+  - Mouse-TargetSurface
+  - Mouse-TargetSurface-2
+  type: NormalId
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - Input
+- name: Mouse.UnitRay
+  summary: 'A `Datatype.Ray` directed towards the mouse''s world position, originating
+
+    from the `Class.Workspace.CurrentCamera` world position.
+
+    '
+  description: 'The UnitRay property is a `Datatype.Ray` directed toward the mouse''s
+
+    position in 3D space (described by `Class.Mouse.Hit`). It originates from
+
+    the `Class.Camera.CFrame|CFrame` of the `Class.Workspace.CurrentCamera`.
+
+    Like all unit rays, it has a distance of 1.
+
+    '
+  code_samples:
+  - Mouse-UnitRay
+  type: Ray
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - Input
+- name: Mouse.ViewSizeX
+  summary: 'Describes the width of the game window in pixels.
+
+    '
+  description: 'The ViewSizeX property describes the horizontal component of the game
+
+    window''s size in pixels.
+
+    '
+  code_samples:
+  - normalized-mouse-position
+  type: int
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - Input
+- name: Mouse.ViewSizeY
+  summary: 'Describes the height of the game window in pixels.
+
+    '
+  description: 'The ViewSizeY property describes the vertical component of the game
+
+    window''s size in pixels. This length includes the space used by the
+
+    topbar.
+
+    '
+  code_samples:
+  - normalized-mouse-position
+  type: int
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - Input
+- name: Mouse.X
+  summary: 'Describes the X (horizontal) component of the mouse''s position on the
+
+    screen.
+
+    '
+  description: 'When detecting changes in the mouse''s position on-screen, it is
+
+    recommended that you use `Class.ContextActionService:BindAction()` with
+
+    `Enum.UserInputType.MouseMovement` or
+
+    `Class.UserInputService.InputChanged`, which both describe the position of
+
+    the mouse using the `Class.InputObject.Position|Position` (a
+
+    `Datatype.Vector3`) of an `Class.InputObject`, instead of using this and
+
+    related properties.
+
+
+    The X property describes the horizontal component of the mouse''s position
+
+    on the screen. The position is measured in pixels relative to the top left
+
+    corner, under the topbar. This property can be used in conjunction with
+
+    `Class.Mouse.Y` to produce a `Datatype.Vector2` representing the mouse''s
+
+    position:
+
+
+    ```lua
+
+    local position = Vector2.new(mouse.X, mouse.Y)
+
+    ```
+
+
+    This property does not fire `Class.Object.Changed|Changed` or the signal
+
+    returned from
+
+    `Class.Object:GetPropertyChangedSignal()|GetPropertyChangedSignal`. Use
+
+    the `Class.Mouse.Move` event instead.
+
+    '
+  code_samples:
+  - normalized-mouse-position
+  type: int
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - Input
+- name: Mouse.Y
+  summary: 'Describes the Y (vertical) component of the mouse''s screen position.
+
+    '
+  description: 'When detecting changes in the mouse''s position on-screen, it is
+
+    recommended that you use `Class.ContextActionService:BindAction()` with
+
+    `Enum.UserInputType.MouseMovement` or
+
+    `Class.UserInputService.InputChanged`, which both describe the position of
+
+    the mouse using the `Class.InputObject.Position|Position` (a
+
+    `Datatype.Vector3`) of an `Class.InputObject`, instead of using this and
+
+    related properties.
+
+
+    The Y property describes the vertical component of the mouse''s position on
+
+    the screen. The position is measured in pixels relative to the top left
+
+    corner, under the topbar. This property can be used in conjunction with
+
+    `Class.Mouse.X` to produce a `Datatype.Vector2` representing the mouse''s
+
+    position:
+
+
+    ```lua
+
+    local position = Vector2.new(mouse.X, mouse.Y)
+
+    ```
+
+
+    This property does not fire `Class.Object.Changed|Changed` or the signal
+
+    returned from
+
+    `Class.Object:GetPropertyChangedSignal()|GetPropertyChangedSignal`. Use
+
+    the `Class.Mouse.Move` event instead.
+
+    '
+  code_samples:
+  - normalized-mouse-position
+  type: int
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - Input
+- name: Hit
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: CFrame
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: Icon
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: ContentId
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: IconContent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Content
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: Origin
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: CFrame
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: Target
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: BasePart
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: TargetFilter
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Instance
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: TargetSurface
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.NormalId
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: UnitRay
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Ray
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: ViewSizeX
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: ViewSizeY
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: X
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: Y
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: hit
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''Hit'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: CFrame
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: target
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''Target'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: BasePart
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+methods: []
+events:
+- name: Mouse.Button1Down
+  summary: 'Fires when the left mouse button is pressed.
+
+    '
+  description: "This event fires when the player presses their left mouse button.\
+    \ Note\nthat this can be accessed from a `Class.Tool`; for example, when placed\
+    \ in\na `Class.LocalScript`, the code below prints `Button1Down` whenever the\n\
+    left mouse button is pressed.\n\n```lua\nlocal tool = script.Parent  -- Make sure\
+    \ this is a Tool object\n\ntool.Equipped:Connect(function(mouse)\n\tmouse.Button1Down:Connect(function()\n\
+    \t\tprint(\"Button1Down\")\n\tend)\nend)\n```\n\nYou can find out the position\
+    \ of the mouse in world space and if it's\npointing at any `Class.BasePart` using\
+    \ the `Class.Mouse.Hit|Hit` and\n`Class.Mouse.Target|Target` properties.\n"
+  code_samples: []
+  parameters: []
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Input
+- name: Mouse.Button1Up
+  summary: 'Fires when the left mouse button is released.
+
+    '
+  description: "This event fires when the player releases their left mouse button.\
+    \ Note\nthat this can be accessed from a `Class.Tool`; for example, when placed\
+    \ in\na `Class.LocalScript`, the code below prints `Button1Up` whenever the left\n\
+    mouse button is released.\n\n```lua\nlocal tool = script.Parent  -- Make sure\
+    \ this is a Tool object\n\ntool.Equipped:Connect(function(mouse)\n\tmouse.Button1Up:Connect(function()\n\
+    \t\tprint(\"Button1Up\")\n\tend)\nend)\n```\n\nYou can find out the position of\
+    \ the mouse in world space and if it's\npointing at any `Class.BasePart` using\
+    \ the `Class.Mouse.Hit|Hit` and\n`Class.Mouse.Target|Target` properties.\n"
+  code_samples: []
+  parameters: []
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Input
+- name: Mouse.Button2Down
+  summary: 'Fires when the right mouse button is pressed.
+
+    '
+  description: "This event fires when the player presses their right mouse button.\
+    \ Note\nthat this can be accessed from a `Class.Tool`; for example, when placed\
+    \ in\na `Class.LocalScript`, the code below prints `Button2Down` whenever the\n\
+    right mouse button is pressed.\n\n```lua\nlocal tool = script.Parent  -- Make\
+    \ sure this is a Tool object\n\ntool.Equipped:Connect(function(mouse)\n\tmouse.Button2Down:Connect(function()\n\
+    \t\tprint(\"Button2Down\")\n\tend)\nend)\n```\n\nYou can find out the position\
+    \ of the mouse in world space and if it's\npointing at any `Class.BasePart` using\
+    \ the `Class.Mouse.Hit|Hit` and\n`Class.Mouse.Target|Target` properties.\n"
+  code_samples: []
+  parameters: []
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Input
+- name: Mouse.Button2Up
+  summary: 'Fired when the right mouse button is released.
+
+    '
+  description: "This event fires when the player releases their right mouse button.\
+    \ Note\nthat this can be accessed from a `Class.Tool`; for example, when placed\
+    \ in\na `Class.LocalScript`, the code below prints `Button2Up` whenever the\n\
+    right mouse button is released.\n\n```lua\nlocal tool = script.Parent  -- Make\
+    \ sure this is a Tool object\n\ntool.Equipped:Connect(function(mouse)\n\tmouse.Button2Up:Connect(function()\n\
+    \t\tprint(\"Button2Up\")\n\tend)\nend)\n```\n\nYou can find out the position of\
+    \ the mouse in world space and if it's\npointing at any `Class.BasePart` using\
+    \ the `Class.Mouse.Hit|Hit` and\n`Class.Mouse.Target|Target` properties.\n"
+  code_samples: []
+  parameters: []
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Input
+- name: Mouse.Idle
+  summary: 'Fired during every heartbeat that the mouse isn''t being passed to another
+
+    mouse event.
+
+    '
+  description: 'Fired during every heartbeat that the mouse isn''t being passed to
+    another
+
+    mouse event.
+
+
+    Note, this event should not be used to determine when the mouse is still.
+
+    As it fires every heartbeat it will fire between `Class.Mouse.Move`
+
+    events.
+
+
+    For information on how to obtain the `Class.Mouse` object, please see the
+
+    `Class.Mouse` page.
+
+
+    Developers can find out the position of the mouse in world-space, and if
+
+    it is pointing at any `Class.BasePart` using the `Class.Mouse.Hit` and
+
+    `Class.Mouse.Target` properties.
+
+
+    Note, developers are recommended to use `Class.UserInputService` instead
+
+    of the `Class.Mouse` object in new work.
+
+    '
+  code_samples:
+  - Mouse-Idle1
+  parameters: []
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Input
+- name: Mouse.KeyDown
+  summary: 'Fires when a Key is pressed.
+
+    '
+  description: "This event fires when a Key is pressed, with the passed argument being\
+    \ the\nkey that was pressed.\n\nNote:\n\n- Not all keys generate this event. However,\
+    \ you can get around this with\n  a few of the keys, \"/\" for example, by using\
+    \ the `Class.Mouse.KeyUp`\n  event.\n- Some keys generate the same string as other\
+    \ keys.\n- It's possible for the string to be empty (possibly due to \"\\0\" key\n\
+    \  code).\n"
+  code_samples:
+  - Mouse-KeyDown1
+  parameters:
+  - name: key
+    type: string
+    default: null
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'Mouse events have been superseded by `Class.UserInputService`
+    which should
+
+    be used in all new work.
+
+    '
+  security: None
+  capabilities:
+  - Input
+- name: Mouse.keyDown
+  summary: ''
+  description: ''
+  code_samples: []
+  parameters:
+  - name: key
+    type: string
+    default: null
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This event is a deprecated variant of `Class.Mouse.KeyDown`
+    which has also
+
+    been deprecated. Neither event should be used in new work.
+
+    '
+  security: None
+  capabilities:
+  - Input
+- name: Mouse.KeyUp
+  summary: 'Fires when a Key is released.
+
+    '
+  description: "This event is fired when a Key is released, with the passed argument\
+    \ being\nthe key that was released.\n\nNote:\n\n- Not all keys generate this event.\
+    \ However, you can get around this with\n  a few of the keys, \"/\" for example,\
+    \ by using the\n  [[API:Class/Mouse/KeyUp|KeyUp]] event.\n- Some keys generate\
+    \ the same string as other keys.\n- It's possible for the string to be empty (possibly\
+    \ due to \"\\0\" key\n  code).\n"
+  code_samples:
+  - Mouse-KeyUp1
+  parameters:
+  - name: key
+    type: string
+    default: null
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'Mouse events have been superseded by `Class.UserInputService`
+    which should
+
+    be used in all new work.
+
+    '
+  security: None
+  capabilities:
+  - Input
+- name: Mouse.Move
+  summary: 'Fired when the mouse is moved.
+
+    '
+  description: "Fired when the mouse is moved.\n\nNote, this event is fired when the\
+    \ mouse's position is updated, therefore\nit will fire repeatedly while being\
+    \ moved.\n\nFor information on how to obtain the `Class.Mouse` object, please\
+    \ see the\n`Class.Mouse` page.\n\nDevelopers can find out the position of the\
+    \ mouse in world-space, and if\nit is pointing at any `Class.BasePart` using the\
+    \ `Class.Mouse.Hit` and\n`Class.Mouse.Target` properties.\n\n```\nmouse.Move:Connect(function()\n\
+    \tlocal position = mouse.Hit.p\n\tlocal target = mouse.Target\n\tprint(target,\
+    \ position)\nend)\n```\n\nNote, developers are recommended to use `Class.UserInputService`\
+    \ instead\nof the `Class.Mouse` object in new work.\n"
+  code_samples:
+  - move-parts-with-the-mouse
+  parameters: []
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Input
+- name: Mouse.WheelBackward
+  summary: 'Fires when the mouse wheel is scrolled backwards.
+
+    '
+  description: 'The WheelBackward event fires when the mouse wheel is scrolled backwards.
+
+    Possible uses for this event include toggling a gun''s scope in a first
+
+    person shooter (FPS) or zooming the player''s camera.
+
+
+    This can be used alongside the scrolling forward event,
+
+    `Class.Mouse.WheelForward`.
+
+
+    For information on how to obtain the `Class.Mouse` object, please see the
+
+    `Class.Mouse` page.
+
+
+    Note, developers are recommended to use `Class.UserInputService` instead
+
+    of the `Class.Mouse` object in new work.
+
+    '
+  code_samples:
+  - Mouse-WheelBackward1
+  parameters: []
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Input
+- name: Mouse.WheelForward
+  summary: 'Fires when the mouse wheel is scrolled forwards.
+
+    '
+  description: 'The WheelForward event fires when the mouse wheel is scrolled forwards.
+
+    Possible uses for this event include toggling a gun''s scope in a first
+
+    person shooter (FPS) or zooming the player''s camera.
+
+
+    This can be used alongside the scrolling backward event,
+
+    `Class.Mouse.WheelBackward`.
+
+
+    For information on how to obtain the `Class.Mouse` object, please see the
+
+    `Class.Mouse` page.
+
+
+    Note, developers are recommended to use `Class.UserInputService` instead
+
+    of the `Class.Mouse` object in new work.
+
+    '
+  code_samples:
+  - Mouse-WheelForward1
+  parameters: []
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Input
+- name: Button1Down
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: Button1Up
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: Button2Down
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: Button2Up
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: Idle
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: KeyDown
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''InputBegan'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: key
+    type: string
+- name: KeyUp
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''InputEnded'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: key
+    type: string
+- name: Move
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: WheelBackward
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: WheelForward
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: keyDown
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''InputBegan'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: key
+    type: string
+callbacks: []

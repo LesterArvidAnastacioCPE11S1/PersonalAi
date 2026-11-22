@@ -1,0 +1,201 @@
+name: GenericChallengeService
+type: class
+memory_category: Instances
+summary: API reference for GenericChallengeService, generated automatically from the
+  Roblox API dump 0.748.0.7481526. Prose documentation is not available for this class
+  yet.
+description: API reference for GenericChallengeService, generated automatically from
+  the Roblox API dump 0.748.0.7481526. Prose documentation is not available for this
+  class yet.
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+deprecation_message: ''
+properties: []
+methods:
+- name: SignalChallengeAbandoned
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: challengeID
+    type: string
+  returns:
+  - type: 'null'
+- name: SignalChallengeCompleted
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: challengeID
+    type: string
+  - name: challengeType
+    type: string
+  - name: challengeMetadata
+    type: string
+  returns:
+  - type: 'null'
+- name: SignalChallengeInvalidated
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: challengeID
+    type: string
+  returns:
+  - type: 'null'
+- name: SignalChallengeLoaded
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: challengeID
+    type: string
+  - name: success
+    type: bool
+  returns:
+  - type: 'null'
+- name: SignalChallengeRequired
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: challengeID
+    type: string
+  - name: challengeType
+    type: string
+  - name: challengeMetadata
+    type: string
+  returns:
+  - type: 'null'
+events:
+- name: ChallengeAbandonedEvent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: challengeID
+    type: string
+- name: ChallengeCompletedEvent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: challengeID
+    type: string
+  - name: challengeType
+    type: string
+  - name: challengeMetadata
+    type: string
+- name: ChallengeInvalidatedEvent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: challengeID
+    type: string
+- name: ChallengeLoadedEvent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: challengeID
+    type: string
+  - name: success
+    type: bool
+- name: ChallengeRequiredEvent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: challengeID
+    type: string
+  - name: challengeType
+    type: string
+  - name: challengeMetadata
+    type: string
+callbacks: []

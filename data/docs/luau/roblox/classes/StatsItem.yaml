@@ -1,0 +1,120 @@
+name: StatsItem
+type: class
+memory_category: Instances
+summary: 'A single performance metric.
+
+  '
+description: 'A StatsItem is an internal measurement item that is created by the engine
+  to
+
+  benchmark many of the backend components of Roblox. It cannot be created using
+
+  `Datatype.Instance.new()`, but its value can be read by plugins. They can be
+
+  found stored inside of the `Class.Stats` service.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants:
+- RunningAverageItemDouble
+- RunningAverageItemInt
+- RunningAverageTimeIntervalItem
+- TotalCountTimeIntervalItem
+tags:
+- NotCreatable
+deprecation_message: ''
+properties:
+- name: DisplayName
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+methods:
+- name: StatsItem:GetValue
+  summary: 'Returns the StatsItem''s value.
+
+    '
+  description: 'Returns the StatsItem''s value.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: double
+    summary: 'The numeric value of the stats item.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: StatsItem:GetValueString
+  summary: 'Returns the StatsItem''s value as a formatted string.
+
+    '
+  description: 'Returns the StatsItem''s value as a formatted string.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: string
+    summary: 'The value of the stats item formatted as a string.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: GetValue
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: double
+- name: GetValueString
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: string
+events: []
+callbacks: []

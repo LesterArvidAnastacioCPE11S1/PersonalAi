@@ -1,0 +1,56 @@
+name: PerformanceControlService
+type: class
+memory_category: Instances
+summary: API reference for PerformanceControlService, generated automatically from
+  the Roblox API dump 0.748.0.7481526. Prose documentation is not available for this
+  class yet.
+description: API reference for PerformanceControlService, generated automatically
+  from the Roblox API dump 0.748.0.7481526. Prose documentation is not available for
+  this class yet.
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+- NotReplicated
+deprecation_message: ''
+properties: []
+methods:
+- name: IsCrossExperienceLaunchFeasible
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: type
+    type: string
+  returns:
+  - type: bool
+- name: SetUserActivity
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: state
+    type: Enum.ScrollState
+  returns:
+  - type: 'null'
+events: []
+callbacks: []

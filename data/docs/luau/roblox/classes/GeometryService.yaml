@@ -1,0 +1,984 @@
+name: GeometryService
+type: class
+memory_category: Instances
+summary: 'Service containing geometric operations.
+
+  '
+description: 'Service containing geometric operations not directly related to specific
+
+  objects.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+deprecation_message: ''
+properties: []
+methods:
+- name: GeometryService:CalculateConstraintsToPreserve
+  summary: 'Returns a table of `Class.Constraint|Constraints` and
+
+    `Class.Attachment|Attachments` which you may choose to preserve, along
+
+    with their respective parents.
+
+    '
+  description: 'Returns a table of `Class.Constraint|Constraints` and
+
+    `Class.Attachment|Attachments` which you may choose to preserve, along
+
+    with their respective parents. Iterating over this table lets you decide
+
+    whether to reparent recommended constraints and attachments to their
+
+    respective parents.
+
+
+    For more information and detailed examples, see
+
+    https://create.roblox.com/docs/parts/solid-modeling#in-experience-solid-modeling.
+
+    '
+  code_samples:
+  - GeometryService-CalculateConstraintsToPreserve
+  parameters:
+  - name: source
+    type: Instance
+    default: null
+    summary: 'An original object that the solid modeling operation was performed on,
+
+      for example `part` in
+
+      `Class.GeometryService:UnionAsync()|UnionAsync()`.
+
+      '
+  - name: destination
+    type: Array
+    default: null
+    summary: 'Array of resulting `Class.BasePart|BaseParts` from the solid modeling
+
+      operation, for example the results of
+
+      `Class.GeometryService:UnionAsync()|UnionAsync()`.
+
+      '
+  - name: options
+    type: Dictionary
+    default: nil
+    summary: "Options dictionary for the method:\n\n- `tolerance` — The distance tolerance,\
+      \ in regards to\n  `Class.Attachment` preservation, between the attachment and\
+      \ the\n  closest point on the original part's surface versus the closest\n \
+      \ point on the resulting part's surface. If the resulting distance\n  following\
+      \ the solid modeling operation is greater than this value,\n  the `Class.Instance.Parent|Parent`\
+      \ of attachments and their\n  associated constraints will be `nil` in the returned\
+      \ recommendation\n  table.\n- `weldConstraintPreserve` — A `Enum.WeldConstraintPreserve`\
+      \ enum\n  value describing how `Class.WeldConstraint|WeldConstraints` are\n\
+      \  preserved in the resulting recommendation table.\n- `dropAttachmentsWithoutConstraints`\
+      \ — Boolean with default of\n  `true`. If set to `false`, `Class.Attachment|Attachments`\
+      \ that have\n  no `Class.Constraint|Constraints` will be preserved.\n"
+  returns:
+  - type: Array
+    summary: "Table containing information for general case\n`Class.Constraint|Constraints`,\n\
+      `Class.NoCollisionConstraint|NoCollisionConstraints`, and\n`Class.WeldConstraint|WeldConstraints`.\
+      \ In cases where an\n`Class.Attachment` or `Class.Constraint` should be dropped,\
+      \ its\nrespective parent will be `nil`.\n\nFor general case `Class.Constraint|Constraints`\
+      \ such as\n`Class.HingeConstraint`:\n\n<table size=\"small\">\n<thead>\n  <tr>\n\
+      \    <th>Key</th>\n    <th>Type</th>\n  </tr>\n</thead>\n<tbody>\n  <tr>\n \
+      \   <td><code>Attachment</code></td>\n    <td><code>Class.Attachment</code></td>\n\
+      \  </tr>\n  <tr>\n    <td><code>Constraint</code></td>\n    <td><code>Class.Constraint</code>\
+      \ or <code>nil</code></td>\n  </tr>\n  <tr>\n    <td><code>AttachmentParent</code></td>\n\
+      \    <td><code>Class.BasePart</code> or <code>nil</code></td>\n  </tr>\n  <tr>\n\
+      \    <td><code>ConstraintParent</code></td>\n    <td><code>Class.BasePart</code>\
+      \ or <code>nil</code></td>\n  </tr>\n</tbody>\n</table>\n\nFor `Class.WeldConstraint|WeldConstraints`:\n\
+      \n<table size=\"small\">\n<thead>\n  <tr>\n    <th>Key</th>\n    <th>Type</th>\n\
+      \  </tr>\n</thead>\n<tbody>\n  <tr>\n    <td><code>WeldConstraint</code></td>\n\
+      \    <td><code>Class.WeldConstraint</code></td>\n  </tr>\n  <tr>\n    <td><code>WeldConstraintParent</code></td>\n\
+      \    <td><code>Class.BasePart</code> or <code>nil</code></td>\n  </tr>\n  <tr>\n\
+      \    <td><code>WeldConstraintPart0</code></td>\n    <td><code>Class.BasePart</code></td>\n\
+      \  </tr>\n  <tr>\n    <td><code>WeldConstraintPart1</code></td>\n    <td><code>Class.BasePart</code></td>\n\
+      \  </tr>\n</tbody>\n</table>\n\nFor `Class.NoCollisionConstraint|NoCollisionConstraints`:\n\
+      \n<table size=\"small\">\n<thead>\n  <tr>\n    <th>Key</th>\n    <th>Type</th>\n\
+      \  </tr>\n</thead>\n<tbody>\n  <tr>\n    <td><code>NoCollisionConstraint</code></td>\n\
+      \    <td><code>Class.NoCollisionConstraint</code></td>\n  </tr>\n  <tr>\n  \
+      \  <td><code>NoCollisionConstraintParent</code></td>\n    <td><code>Class.BasePart</code>\
+      \ or <code>nil</code></td>\n  </tr>\n  <tr>\n    <td><code>NoCollisionConstraintPart0</code></td>\n\
+      \    <td><code>Class.BasePart</code></td>\n  </tr>\n  <tr>\n    <td><code>NoCollisionConstraintPart1</code></td>\n\
+      \    <td><code>Class.BasePart</code></td>\n  </tr>\n</tbody>\n</table>\n"
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - CSG
+- name: GeometryService:FragmentAsync
+  summary: 'Breaks a `Class.BasePart` into multiple `Class.MeshPart` instances,
+
+    according to the pattern of points passed in, by using voronoi
+
+    decomposition.
+
+    '
+  description: 'Breaks a `Class.BasePart` into multiple `Class.MeshPart` instances,
+
+    according to the pattern of points passed in, by using voronoi
+
+    decomposition. `Class.Terrain` is not supported. Similar to
+
+    `Class.Instance:Clone()|Clone()`, the returned parts have no set
+
+    `Class.Instance.Parent|Parent`.
+
+
+    For more information and detailed examples, see
+
+    https://create.roblox.com/docs/parts/solid-modeling#in-experience-solid-modeling.
+
+    '
+  code_samples:
+  - GeometryService-FragmentAsync
+  parameters:
+  - name: part
+    type: BasePart
+    default: null
+    summary: 'A `Class.Part`, `Class.PartOperation`, or `Class.MeshPart` to operate
+
+      on.
+
+      '
+  - name: sites
+    type: Array
+    default: null
+    summary: 'Array of `Vector3` defining the site positions. Each site will become
+
+      a separate part. You can also provide a jagged 2D array of `Vector3`
+
+      by including inner arrays of `Vector3` as elements of the outer array.
+
+      Each inner array will have all of its voronoi cells merged into a
+
+      single part. `Class.GeometryService:GenerateFragmentSites` can be used
+
+      to easily create this input.
+
+      '
+  - name: options
+    type: Dictionary
+    default: nil
+    summary: "Options table containing all the controls for the method:\n\n- `CollisionFidelity`\
+      \ — The value of\n  `Class.TriangleMeshPart.CollisionFidelity|CollisionFidelity`\
+      \ in the\n  resulting parts, with one caveat: If a 2D array of sites is\n  provided,\
+      \ this collision fidelity will only be applied to parts\n  which came from more\
+      \ than one site. The others will be given `Hull`\n  precision.\n- `RenderFidelity`\
+      \ — The value of\n  `Class.MeshPart.RenderFidelity|RenderFidelity` in the resulting\n\
+      \  parts.\n- `FluidFidelity` — The value of\n  `Class.TriangleMeshPart.FluidFidelity|FluidFidelity`\
+      \ in the\n  resulting parts.\n- `SplitApart` — Boolean controlling whether a\
+      \ part should be split\n  into multiple parts if it contains multiple connected\
+      \ components.\n  Default is `true` (split).\n"
+  returns:
+  - type: Array
+    summary: 'Array of `Class.MeshPart` along with mapping info. Each array element
+
+      is a Dictionary with two elements:
+
+      `{ “Instance”: instance, “Index”: index }`. `Index` is the index in
+
+      the outer array of sites; in other words, it tells you which group of
+
+      sites this instance came from. Note that it is possible for multiple
+
+      instances to have the same index, if SplitApart is `true`.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - CSG
+- name: GeometryService:GenerateFragmentSites
+  summary: 'Provides an array of positions which can easily be passed into
+
+    `FragmentAsync` to perform simple types of destruction.
+
+    '
+  description: 'Provides an array of positions which can easily be passed into
+
+    `Class.GeometryService:FragmentAsync()|FragmentAsync()` to perform common
+
+    types of destruction: Fragmenting an entire `Class.BasePart` into pieces,
+
+    or a localized area of a `Class.BasePart` into pieces.
+
+
+    The positions outputted are partially random, so the output should not be
+
+    relied on to look exactly the same as the first time it is run with the
+
+    same parameters.
+
+
+    For more information and detailed examples, see
+
+    https://create.roblox.com/docs/parts/solid-modeling#in-experience-solid-modeling.
+
+    Luau code to mimic this API has also been provided on that page, which can
+
+    be freely modified if a slightly different effect is desired.
+
+    '
+  code_samples:
+  - GeometryService-GenerateFragmentSites
+  parameters:
+  - name: part
+    type: BasePart
+    default: null
+    summary: 'The `Class.Part`, `Class.PartOperation`, or `Class.MeshPart` which you
+
+      are planning to pass into
+
+      `Class.GeometryService:FragmentAsync()|FragmentAsync()`. This is
+
+      necessary to make the fragment site generation and the subsequent
+
+      `Class.GeometryService:FragmentAsync()|FragmentAsync()` call
+
+      efficient.
+
+      '
+  - name: options
+    type: Dictionary
+    default: nil
+    summary: "Options table containing all the controls for the method:\n\n- `SiteSpacing`\
+      \ — The approximate distance between sites, which\n  directly corresponds to\
+      \ the diameter of the resulting fragments. If\n  not specified, a reasonable\
+      \ value will be chosen.\n- `Origin` — If provided, this will be the center of\
+      \ the area to be\n  fragmented. If not provided, the entire object will be fragmented.\n\
+      - `Radius` — If provided, this will be the center of the area to be\n  fragmented.\
+      \ Either `Origin` and `Radius` should both be provided, or\n  neither.\n"
+  returns:
+  - type: Array
+    summary: 'An array of `Vector3` which is typically passed into
+
+      `Class.GeometryService:FragmentAsync()|FragmentAsync()`. The output
+
+      depends on the options provided. If `Origin` and `Radius` are
+
+      provided, then the output array will contain several `Vector3`
+
+      elements which will all be located within the radius, but the first
+
+      element of the array will be an inner array containing many `Vector3`
+
+      sites which are outside the radius. If `Origin` and `Radius` are not
+
+      provided, the output will simply be an array of `Vector3` positions
+
+      within the extents of the input `part`.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - CSG
+- name: GeometryService:IntersectAsync
+  summary: 'Creates one or more `Class.PartOperation|PartOperations` or
+
+    `Class.MeshPart|MeshParts` from the intersecting geometry of multiple
+
+    parts.
+
+    '
+  description: 'Creates one or more `Class.PartOperation|PartOperations` or
+
+    `Class.MeshPart|MeshParts` from the intersecting geometry of multiple
+
+    parts. Primitive `Class.Part|Parts`, `Class.PartOperation|PartOperations`,
+
+    and `Class.MeshPart|MeshParts` are supported as inputs, but not
+
+    `Class.Terrain`.
+
+
+    Similarly to `Class.Instance:Clone()|Clone()`, the returned parts have no
+
+    set `Class.Instance.Parent|Parent`. In most cases, you should parent the
+
+    results to the same place as the main part, then
+
+    `Class.Instance.Destroy|Destroy()` the original parts.
+
+
+    This function replaces `Class.BasePart:IntersectAsync()`. Go to that page
+
+    for a description of the differences.
+
+
+    For more information and detailed examples, see
+
+    https://create.roblox.com/docs/parts/solid-modeling#in-experience-solid-modeling.
+
+    '
+  code_samples:
+  - GeometryService-IntersectAsync
+  parameters:
+  - name: part
+    type: Instance
+    default: null
+    summary: 'Main `Class.Part`, `Class.PartOperation`, or `Class.MeshPart` to
+
+      operate on.
+
+      '
+  - name: parts
+    type: Array
+    default: null
+    summary: 'Array of other parts to intersect with the main part.
+
+      '
+  - name: options
+    type: Dictionary
+    default: nil
+    summary: "Options table containing all the controls for the method:\n\n- `CollisionFidelity`\
+      \ — The value of\n  `Class.TriangleMeshPart.CollisionFidelity|CollisionFidelity`\
+      \ in the\n  resulting parts.\n- `RenderFidelity` — The value of\n  `Class.PartOperation.RenderFidelity|RenderFidelity`\
+      \ or\n  `Class.MeshPart.RenderFidelity|RenderFidelity` in the resulting\n  parts.\n\
+      - `FluidFidelity` — The value of\n  `Class.TriangleMeshPart.FluidFidelity|FluidFidelity`\
+      \ in the\n  resulting parts.\n- `SplitApart` — Boolean controlling whether the\
+      \ objects should all be\n  kept together or properly split apart. Default is\
+      \ `true` (split).\n"
+  returns:
+  - type: Array
+    summary: 'One or more `Class.PartOperation|PartOperations` or
+
+      `Class.MeshPart|MeshParts`. If the input contained any
+
+      `Class.MeshPart|MeshParts`, then the results will always be
+
+      `Class.MeshPart|MeshParts`.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - CSG
+- name: GeometryService:SubtractAsync
+  summary: 'Creates one or more `Class.PartOperation|PartOperations` or
+
+    `Class.MeshPart|MeshParts` from one part minus the space occupied by other
+
+    parts.
+
+    '
+  description: 'Creates one or more `Class.PartOperation|PartOperations` or
+
+    `Class.MeshPart|MeshParts` consisting of the space occupied by one part
+
+    minus the space occupied by the other parts. Primitive `Class.Part|Parts`,
+
+    `Class.PartOperation|PartOperations`, and `Class.MeshPart|MeshParts` are
+
+    supported as inputs, but not `Class.Terrain`.
+
+
+    Similarly to `Class.Instance:Clone()|Clone()`, the returned parts have no
+
+    set `Class.Instance.Parent|Parent`. In most cases, you should parent the
+
+    results to the same place as the main part, then
+
+    `Class.Instance.Destroy|Destroy()` the original parts.
+
+
+    This function replaces `Class.BasePart:SubtractAsync()`. Go to that page
+
+    for a description of the differences.
+
+
+    For more information and detailed examples, see
+
+    https://create.roblox.com/docs/parts/solid-modeling#in-experience-solid-modeling.
+
+    '
+  code_samples:
+  - GeometryService-SubtractAsync
+  parameters:
+  - name: part
+    type: Instance
+    default: null
+    summary: 'Main `Class.Part`, `Class.PartOperation`, or `Class.MeshPart` to
+
+      operate on.
+
+      '
+  - name: parts
+    type: Array
+    default: null
+    summary: 'Array of parts to subtract from the main part.
+
+      '
+  - name: options
+    type: Dictionary
+    default: nil
+    summary: "Options table containing all the controls for the method:\n\n- `CollisionFidelity`\
+      \ — The value of\n  `Class.TriangleMeshPart.CollisionFidelity|CollisionFidelity`\
+      \ in the\n  resulting parts.\n- `RenderFidelity` — The value of\n  `Class.PartOperation.RenderFidelity|RenderFidelity`\
+      \ or\n  `Class.MeshPart.RenderFidelity|RenderFidelity` in the resulting\n  parts.\n\
+      - `FluidFidelity` — The value of\n  `Class.TriangleMeshPart.FluidFidelity|FluidFidelity`\
+      \ in the\n  resulting parts.\n- `SplitApart` — Boolean controlling whether the\
+      \ objects should all be\n  kept together or properly split apart. Default is\
+      \ `true` (split).\n"
+  returns:
+  - type: Array
+    summary: 'One or more `Class.PartOperation|PartOperations` or
+
+      `Class.MeshPart|MeshParts`. If the input contained any
+
+      `Class.MeshPart|MeshParts`, then the results will always be
+
+      `Class.MeshPart|MeshParts`.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - CSG
+- name: GeometryService:SplitApartAsync
+  summary: 'Splits each `Class.PartOperation` or `Class.MeshPart` into one part per
+
+    disconnected solid region.
+
+    '
+  description: 'Splits each input into disconnected solid regions. `Class.MeshPart`
+    inputs
+
+    produce `Class.MeshPart` pieces; `Class.PartOperation` inputs produce
+
+    `Class.PartOperation` pieces. When history is preserved in Studio, pieces
+
+    split from a `Class.UnionOperation` or `Class.IntersectOperation` are
+
+    `Class.UnionOperation|UnionOperations` that keep the input as their
+
+    history, so Separate restores it. Like
+
+    `Class.GeometryService:UnionAsync()|UnionAsync()` with `SplitApart`,
+
+    normalization may drop degenerate slivers.
+
+
+    The inputs are unchanged, and returned parts have no set
+
+    `Class.Instance.Parent|Parent`.
+
+
+    For more information and detailed examples, see
+
+    https://create.roblox.com/docs/parts/solid-modeling#in-experience-solid-modeling.
+
+    '
+  code_samples:
+  - GeometryService-SplitApartAsync
+  parameters:
+  - name: parts
+    type: Array
+    default: null
+    summary: 'Array of `Class.PartOperation` and `Class.MeshPart` instances to split
+
+      independently. `Class.NegateOperation` is not supported.
+
+      '
+  - name: options
+    type: Dictionary
+    default: nil
+    summary: "Options table containing all the controls for the method:\n\n- `CollisionFidelity`\
+      \ — The value of\n  `Class.TriangleMeshPart.CollisionFidelity|CollisionFidelity`\
+      \ in the\n  resulting parts.\n- `RenderFidelity` — The value of\n  `Class.PartOperation.RenderFidelity|RenderFidelity`\
+      \ or\n  `Class.MeshPart.RenderFidelity|RenderFidelity` in the resulting\n  parts.\n\
+      - `FluidFidelity` — The value of\n  `Class.TriangleMeshPart.FluidFidelity|FluidFidelity`\
+      \ in the\n  resulting parts.\n- `UseOffCenterCoordinates` — Boolean, default\
+      \ `true`. Keeps each\n  input's `Class.BasePart.CFrame|CFrame` for its pieces;\
+      \ `false`\n  centers each piece's frame on its geometry.\n"
+  returns:
+  - type: Array
+    summary: 'Array of dictionaries `{ “Instance”: instance, “Index”: index }`,
+
+      where `Index` is the 1-based position of the source input in `parts`.
+
+      Inputs with a single connected solid produce no entries.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - CSG
+- name: GeometryService:SweepPartAsync
+  summary: 'Creates a `Class.MeshPart` which has the shape of the input part
+
+    stretched/dragged through the given set of `CFrame` positions.
+
+    '
+  description: 'Creates a `Class.MeshPart` which has the shape of the input part
+
+    stretched/dragged through the given set of `CFrame` positions. The exact
+
+    shape of the result is defined as the union of the convex hulls of each
+
+    adjacent pair of `CFrames`.
+
+
+    If a single `CFrame` is provided, the result will be a convex hull of the
+
+    input part.
+
+
+    For more information and detailed examples, see
+
+    https://create.roblox.com/docs/parts/solid-modeling#in-experience-solid-modeling.
+
+    '
+  code_samples:
+  - GeometryService-SweepPartAsync
+  parameters:
+  - name: part
+    type: BasePart
+    default: null
+    summary: 'A `Class.Part`, `Class.PartOperation`, or `Class.MeshPart` to operate
+
+      on.
+
+      '
+  - name: cframes
+    type: Array
+    default: null
+    summary: 'Array of coordinate frames to sweep parts through.
+
+      '
+  - name: options
+    type: Dictionary
+    default: nil
+    summary: "Options table containing all the controls for the method:\n\n- `CollisionFidelity`\
+      \ — The value of\n  `Class.TriangleMeshPart.CollisionFidelity|CollisionFidelity`\
+      \ in the\n  resulting parts.\n- `RenderFidelity` — The value of\n  `Class.MeshPart.RenderFidelity|RenderFidelity`\
+      \ in the resulting\n  parts.\n- `FluidFidelity` — The value of\n  `Class.TriangleMeshPart.FluidFidelity|FluidFidelity`\
+      \ in the\n  resulting parts.\n"
+  returns:
+  - type: MeshPart
+    summary: 'A new `Class.MeshPart` with the swept geometry.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - CSG
+- name: GeometryService:UnionAsync
+  summary: 'Creates one or more `Class.PartOperation|PartOperations` or
+
+    `Class.MeshPart|MeshParts` from one part plus the space occupied by other
+
+    parts.
+
+    '
+  description: 'Creates one or more `Class.PartOperation|PartOperations` or
+
+    `Class.MeshPart|MeshParts` consisting of the space occupied by one part
+
+    plus the space occupied by the other parts. Primitive `Class.Part|Parts`,
+
+    `Class.PartOperation|PartOperations`, and `Class.MeshPart|MeshParts` are
+
+    supported as inputs, but not `Class.Terrain`.
+
+
+    Similarly to `Class.Instance:Clone()|Clone()`, the returned parts have no
+
+    set `Class.Instance.Parent|Parent`. In most cases, you should parent the
+
+    results to the same place as the main part, then
+
+    `Class.Instance.Destroy|Destroy()` the original parts.
+
+
+    This function replaces `Class.BasePart:UnionAsync()`. Go to that page for
+
+    a description of the differences.
+
+
+    For more information and detailed examples, see
+
+    https://create.roblox.com/docs/parts/solid-modeling#in-experience-solid-modeling.
+
+    '
+  code_samples:
+  - GeometryService-UnionAsync
+  parameters:
+  - name: part
+    type: Instance
+    default: null
+    summary: 'Main `Class.Part`, `Class.PartOperation`, or `Class.MeshPart` to
+
+      operate on.
+
+      '
+  - name: parts
+    type: Array
+    default: null
+    summary: 'Array of parts to union with the main part.
+
+      '
+  - name: options
+    type: Dictionary
+    default: nil
+    summary: "Options table containing all the controls for the method:\n\n- `CollisionFidelity`\
+      \ — The value of\n  `Class.TriangleMeshPart.CollisionFidelity|CollisionFidelity`\
+      \ in the\n  resulting parts.\n- `RenderFidelity` — The value of\n  `Class.PartOperation.RenderFidelity|RenderFidelity`\
+      \ or\n  `Class.MeshPart.RenderFidelity|RenderFidelity` in the resulting\n  parts.\n\
+      - `FluidFidelity` — The value of\n  `Class.TriangleMeshPart.FluidFidelity|FluidFidelity`\
+      \ in the\n  resulting parts.\n- `SplitApart` — Boolean controlling whether the\
+      \ objects should all be\n  kept together or properly split apart. Default is\
+      \ `true` (split).\n"
+  returns:
+  - type: Array
+    summary: 'One or more `Class.PartOperation|PartOperations` or
+
+      `Class.MeshPart|MeshParts`. If the input contained any
+
+      `Class.MeshPart|MeshParts`, then the results will always be
+
+      `Class.MeshPart|MeshParts`.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - CSG
+- name: CalculateConstraintsToPreserve
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: source
+    type: Instance
+  - name: destination
+    type: Array
+  - name: options
+    type: Dictionary
+    default: nil
+  returns:
+  - type: Array
+- name: CreateBasicMeshPart
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: shape
+    type: Enum.BasicMeshPartShape
+  - name: options
+    type: Dictionary
+    default: nil
+  returns:
+  - type: MeshPart
+- name: GenerateFragmentSites
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: part
+    type: BasePart
+  - name: options
+    type: Dictionary
+    default: nil
+  returns:
+  - type: Array
+- name: TranscodeMesh
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: instance
+    type: Instance
+  returns:
+  - type: 'null'
+- name: TranscodeModel
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: instance
+    type: Instance
+  returns:
+  - type: Array
+- name: BakeToMeshAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: input
+    type: Instance
+  - name: options
+    type: Dictionary
+    default: nil
+  returns:
+  - type: MeshPart
+- name: FragmentAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: part
+    type: BasePart
+  - name: sites
+    type: Array
+  - name: options
+    type: Dictionary
+    default: nil
+  returns:
+  - type: Array
+- name: HashMeshAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: meshId
+    type: ContentId
+  returns:
+  - type: string
+- name: IntersectAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: part
+    type: Instance
+  - name: parts
+    type: Array
+  - name: options
+    type: Dictionary
+    default: nil
+  returns:
+  - type: Array
+- name: NegateAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: parts
+    type: Instances
+  returns:
+  - type: Array
+- name: SeparateAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: parts
+    type: Instances
+  returns:
+  - type: Array
+- name: SplitApartAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: parts
+    type: Array
+  - name: options
+    type: Dictionary
+    default: nil
+  returns:
+  - type: Array
+- name: SubtractAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: part
+    type: Instance
+  - name: parts
+    type: Array
+  - name: options
+    type: Dictionary
+    default: nil
+  returns:
+  - type: Array
+- name: SweepPartAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: part
+    type: BasePart
+  - name: cframes
+    type: Array
+  - name: options
+    type: Dictionary
+    default: nil
+  returns:
+  - type: MeshPart
+- name: UnionAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: part
+    type: Instance
+  - name: parts
+    type: Array
+  - name: options
+    type: Dictionary
+    default: nil
+  returns:
+  - type: Array
+events: []
+callbacks: []

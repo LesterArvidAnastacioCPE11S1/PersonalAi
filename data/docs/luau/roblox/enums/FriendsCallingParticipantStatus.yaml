@@ -1,0 +1,46 @@
+name: FriendsCallingParticipantStatus
+type: enum
+summary: Reference for Enum.FriendsCallingParticipantStatus, generated automatically
+  from the Roblox API dump 0.748.0.7481526.
+description: Reference for Enum.FriendsCallingParticipantStatus, generated automatically
+  from the Roblox API dump 0.748.0.7481526.
+code_samples: []
+tags: []
+deprecation_message: ''
+items:
+- name: Invited
+  summary: ''
+  value: 0
+  tags: []
+- name: Ringing
+  summary: ''
+  value: 1
+  tags: []
+- name: Joined
+  summary: ''
+  value: 2
+  tags: []
+- name: Declined
+  summary: ''
+  value: 3
+  tags: []
+- name: Left
+  summary: ''
+  value: 4
+  tags: []
+- name: Removed
+  summary: ''
+  value: 5
+  tags: []
+- name: Ineligible
+  summary: ''
+  value: 6
+  tags: []
+- name: TimedOut
+  summary: ''
+  value: 7
+  tags: []
+- name: Muted
+  summary: ''
+  value: 8
+  tags: []

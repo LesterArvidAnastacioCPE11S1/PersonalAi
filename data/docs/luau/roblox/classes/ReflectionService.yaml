@@ -1,0 +1,446 @@
+name: ReflectionService
+type: class
+memory_category: Instances
+summary: 'A service that allows scripts to query the engine''s API at runtime for
+
+  information about classes, properties, methods, and events.
+
+  '
+description: '`ReflectionService` allows scripts to query the engine for details about
+  its
+
+  API, including required security permissions, functionality, and inheritance
+
+  structure. You can use this service to dynamically inspect classes and their
+
+  properties, methods, and events, which can be useful for debugging, tooling,
+
+  or creating dynamic behaviors based on the engine''s capabilities.
+
+
+  The following is an example script that inspects classes and their properties:
+
+  '
+code_samples:
+- ReflectionService-Overview
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+- NotReplicated
+deprecation_message: ''
+properties: []
+methods:
+- name: ReflectionService:GetClass
+  summary: 'Returns information about a class when given its name, assuming that class
+
+    is accessible.
+
+    '
+  description: "Given a class name in the Roblox API, returns a `ReflectedClass`\n\
+    dictionary with information about the associated class's reflection state.\nIf\
+    \ no such class name exists, returns `nil`.\n\nIf you pass in a `ReflectionClassFilter`\
+    \ dictionary, you can adjust the\nset of eligible classes and adjust the output\
+    \ behavior:\n\n```lua\n{\n\t-- The security context to use; can be more expansive\
+    \ than the current script's security\n\tSecurity: SecurityCapabilities?, -- default:\
+    \ SecurityCapabilities.fromCurrent()\n\t-- Require classes to derive from the\
+    \ passed-in class name\n\tIsA: string?, -- default: nil\n\t-- Whether to exclude\
+    \ Studio display information about the class\n\tExcludeDisplay: boolean?, -- default:\
+    \ false\n}\n```\n\nIf the class name is valid, you'll get the following `ReflectedClass`\n\
+    dictionary as output:\n\n```lua\n{\n\t-- The name of the class\n\tName: string,\n\
+    \t-- Whether the class is serialized (able to be saved to disk)\n\tSerialized:\
+    \ boolean,\n\t-- The class's parent in the instance hierarchy (unless it's the\
+    \ root)\n\tSuperclass: string?,\n\t-- The names of the class's direct children\
+    \ in the instance hierarchy\n\tSubclasses: {string},\n\t-- Studio display information\n\
+    \tDisplay: {\n\t\t-- Always \"General\" for classes\n\t\tCategory: string,\n\t\
+    \t-- A message indicating that the class is deprecated, if applicable\n\t\tDeprecationMessage:\
+    \ string?,\n\t}?,\n\t-- The security permissions required to access this class\n\
+    \tPermits: {\n\t\t-- If the class is a Service, the security capabilities required\
+    \ to obtain access. If not applicable, this field isn't present\n\t\tGetService:\
+    \ SecurityCapabilities?,\n\t\t-- The security capabilities required to create\
+    \ an instance of this class. If not possible, this field isn't present\n\t\tNew:\
+    \ SecurityCapabilities?,\n\t}\n}\n```\n"
+  code_samples: []
+  parameters:
+  - name: className
+    type: string
+    default: null
+    summary: 'The name of the class for which you wish to retrieve information.
+
+      '
+  - name: filter
+    type: Dictionary
+    default: nil
+    summary: 'An optional filter to restrict or expand the set of classes that this
+
+      method can return and change the method''s behavior.
+
+      '
+  returns:
+  - type: ReflectedClass?
+    summary: 'A `ReflectedClass` dictionary with reflection information if the class
+
+      exists; otherwise, `nil`.
+
+      '
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: ReflectionService:GetClasses
+  summary: 'Returns a list of all classes accessible with filters applied.
+
+    '
+  description: "Returns a list of `ReflectedClass` dictionaries for all classes in\
+    \ the\nRoblox API that match the provided filter criteria.\n\nIf you pass in a\
+    \ `ReflectionClassFilter` dictionary, you can adjust the\nset of eligible classes\
+    \ and adjust the output behavior:\n\n```lua\n{\n\t-- The security context to use;\
+    \ can be more expansive than the current script's security\n\tSecurity: SecurityCapabilities?,\
+    \ -- default: SecurityCapabilities.fromCurrent()\n\t-- Require classes to derive\
+    \ from the passed-in class name\n\tIsA: string?, -- default: nil\n\t-- Whether\
+    \ to exclude Studio display information about the classes\n\tExcludeDisplay: boolean?,\
+    \ -- default: false\n}\n```\n\nYou'll get a list of `ReflectedClass` dictionaries\
+    \ as output, each with\nthe same structure as described in the `GetClass` method.\
+    \ If there are no\nclasses that match the filter criteria, you'll receive an empty\
+    \ list.\n"
+  code_samples: []
+  parameters:
+  - name: filter
+    type: Dictionary
+    default: nil
+    summary: 'An optional filter to restrict or expand the set of classes that this
+
+      method can return and change the method''s behavior.
+
+      '
+  returns:
+  - type: List<ReflectedClass>
+    summary: 'A list of `ReflectedClass` dictionaries with reflection information
+
+      for each class that matches the filter criteria.
+
+      '
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: ReflectionService:GetEventsOfClass
+  summary: 'Returns a list of events for a given class with filters applied.
+
+    '
+  description: "Given a class name in the Roblox API, returns a list of `ReflectedEvent`\n\
+    dictionaries for all events of that class that match the provided filter\ncriteria.\
+    \ If no such class name exists, returns `nil`.\n\nIf you pass in a `ReflectionMemberFilter`\
+    \ dictionary, you can adjust the\nset of eligible events and adjust the output\
+    \ behavior:\n\n```lua\n{\n\t-- The security context to use; can be more expansive\
+    \ than the current script's security\n\tSecurity: SecurityCapabilities?, -- default:\
+    \ SecurityCapabilities.fromCurrent()\n\t-- Whether to exclude inherited events\
+    \ from superclasses\n\tExcludeInherited: boolean?, -- default: false\n\t-- Whether\
+    \ to exclude Studio display information about the events\n\tExcludeDisplay: boolean?,\
+    \ -- default: false\n}\n```\n\nIf the class name is valid and that class has events,\
+    \ you'll get a list of\n`ReflectedEvent` dictionaries as output, each with the\
+    \ following\nstructure:\n\n```lua\n{\n\t-- The name of the event\n\tName: string,\n\
+    \t-- The superclass from which the property is inherited, or the class name if\
+    \ not inherited\n\tOwner: string,\n\t-- A list of all parameters the event passes\
+    \ to connected functions\n\tParameters: {\n\t\t{\n\t\t\t-- The name of the parameter\n\
+    \t\t\tName: string,\n\t\t\t-- The type of the parameter\n\t\t\tType: ReflectionType,\n\
+    \t\t}\n\t},\n\t-- Studio display information\n\tDisplay: {\n\t\t-- A message indicating\
+    \ that the event is deprecated, if applicable\n\t\tDeprecationMessage: string?,\n\
+    \t}?,\n\t-- The security permissions required to access this event\n\tPermits:\
+    \ {\n\t\t-- The security permissions required to listen for the event in any context\n\
+    \t\tListen: SecurityCapabilities?,\n\t},\n}\n```\n"
+  code_samples: []
+  parameters:
+  - name: className
+    type: string
+    default: null
+    summary: 'The name of the class for which you wish to retrieve events.
+
+      '
+  - name: filter
+    type: Dictionary
+    default: nil
+    summary: 'An optional filter to restrict or expand the set of events that this
+
+      method can return and change the method''s behavior.
+
+      '
+  returns:
+  - type: List<ReflectedEvent>
+    summary: 'A list of `ReflectedEvent` dictionaries with reflection information
+
+      for each event of the class that matches the filter criteria.
+
+      '
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: ReflectionService:GetMethodsOfClass
+  summary: 'Returns a list of methods for a given class with filters applied.
+
+    '
+  description: "Given a class name in the Roblox API, returns a list of `ReflectedMethod`\n\
+    dictionaries for all methods of that class that match the provided filter\ncriteria.\
+    \ If no such class name exists, returns `nil`.\n\nIf you pass in a `ReflectionMemberFilter`\
+    \ dictionary, you can adjust the\nset of eligible methods and adjust the output\
+    \ behavior:\n\n```lua\n{\n\t-- The security context to use; can be more expansive\
+    \ than the current script's security\n\tSecurity: SecurityCapabilities?, -- default:\
+    \ SecurityCapabilities.fromCurrent()\n\t-- Whether to exclude inherited methods\
+    \ from superclasses\n\tExcludeInherited: boolean?, -- default: false\n\t-- Whether\
+    \ to exclude Studio display information about the methods\n\tExcludeDisplay: boolean?,\
+    \ -- default: false\n}\n```\n\nIf the class name is valid and that class has methods,\
+    \ you'll get a list\nof `ReflectedMethod` dictionaries as output, each with the\
+    \ following\nstructure:\n\n```lua\n{\n\t-- The name of the method\n\tName: string,\n\
+    \t-- The superclass from which the property is inherited, or the class name if\
+    \ not inherited\n\tOwner: string,\n\t-- A list of all parameters the method takes\n\
+    \tParameters: {\n\t\t{\n\t\t\t-- The name of the parameter\n\t\t\tName: string,\n\
+    \t\t\t-- The type of the parameter\n\t\t\tType: ReflectionType,\n\t\t\t-- The\
+    \ default value of the parameter, if it has one\n\t\t\tDefaultValue: any?,\n\t\
+    \t}\n\t},\n\t-- The return type of the method; \"void\" if none\n\tReturnType:\
+    \ ReflectionType,\n\t-- Whether the method is yielding\n\tCanYield: boolean,\n\
+    \t-- Studio display information\n\tDisplay: {\n\t\t-- A message indicating that\
+    \ the method is deprecated, if applicable\n\t\tDeprecationMessage: string?,\n\t\
+    }?,\n\t-- The security permissions required to access this method\n\tPermits:\
+    \ {\n\t\t-- The security permissions required to call the method in a single-threaded\
+    \ context\n\t\tCall: SecurityCapabilities?,\n\t\t-- The security permissions required\
+    \ to call the method in a parallel context\n\t\tCallParallel: SecurityCapabilities?,\n\
+    \t},\n}\n```\n"
+  code_samples: []
+  parameters:
+  - name: className
+    type: string
+    default: null
+    summary: 'The name of the class for which you wish to retrieve methods.
+
+      '
+  - name: filter
+    type: Dictionary
+    default: nil
+    summary: 'An optional filter to restrict or expand the set of methods that this
+
+      method can return and change the method''s behavior.
+
+      '
+  returns:
+  - type: List<ReflectedMethod>
+    summary: 'A list of `ReflectedMethod` dictionaries with reflection information
+
+      for each method of the class that matches the filter criteria.
+
+      '
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: ReflectionService:GetPropertiesOfClass
+  summary: 'Returns a list of properties for a given class with filters applied.
+
+    '
+  description: "Given a class name in the Roblox API, returns a list of\n`ReflectedProperty`\
+    \ dictionaries for all properties of that class that\nmatch the provided filter\
+    \ criteria. If no such class name exists, returns\n`nil`.\n\nIf you pass in a\
+    \ `ReflectionMemberFilter` dictionary, you can adjust the\nset of eligible properties\
+    \ and adjust the output behavior:\n\n```lua\n{\n\t-- The security context to use;\
+    \ can be more expansive than the current script's security\n\tSecurity: SecurityCapabilities?,\
+    \ -- default: SecurityCapabilities.fromCurrent()\n\t-- Whether to exclude inherited\
+    \ properties from superclasses\n\tExcludeInherited: boolean?, -- default: false\n\
+    \t-- Whether to exclude Studio display information about the properties\n\tExcludeDisplay:\
+    \ boolean?, -- default: false\n}\n```\n\nIf the class name is valid and that class\
+    \ has properties, you'll get a\nlist of `ReflectedProperty` dictionaries as output,\
+    \ each with the\nfollowing structure:\n\n```lua\n{\n\t-- The name of the property\n\
+    \tName: string,\n\t-- The superclass from which the property is inherited, or\
+    \ the class name if not inherited\n\tOwner: string,\n\t-- Whether the property\
+    \ is serialized (able to be saved to disk or sent over the network)\n\tSerialized:\
+    \ boolean,\n\t-- The type of the property\n\tType: ReflectionType,\n\t-- The content\
+    \ type of the property, if applicable\n\tContentType: Enum.AssetType?,\n\t-- Studio\
+    \ display information\n\tDisplay: {\n\t\t-- The category under which the property\
+    \ is listed in Studio\n\t\tCategory: string,\n\t\t-- A message indicating that\
+    \ the property is deprecated, if applicable\n\t\tDeprecationMessage: string?,\n\
+    \t}?,\n\t-- The security permissions required to access this property\n\tPermits:\
+    \ {\n\t\t-- The security context required to read this property\n\t\tRead: SecurityCapabilities?,\n\
+    \t\t-- The security context required to read this property while thread-safe\n\
+    \t\tReadParallel: SecurityCapabilities?,\n\t\t-- The security context required\
+    \ to write to this property\n\t\tWrite: SecurityCapabilities?,\n\t\t-- The security\
+    \ context required to write to this property while thread-safe\n\t\tWriteParallel:\
+    \ SecurityCapabilities?,\n\t},\n}\n```\n"
+  code_samples: []
+  parameters:
+  - name: className
+    type: string
+    default: null
+    summary: 'The name of the class for which you wish to retrieve properties.
+
+      '
+  - name: filter
+    type: Dictionary
+    default: nil
+    summary: 'An optional filter to restrict or expand the set of properties that
+
+      this method can return and change the method''s behavior.
+
+      '
+  returns:
+  - type: List<ReflectedProperty>
+    summary: 'A list of `ReflectedProperty` dictionaries with reflection information
+
+      for each property of the class that matches the filter criteria.
+
+      '
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: GetClass
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: className
+    type: string
+  - name: filter
+    type: Dictionary
+    default: nil
+  returns:
+  - type: Dictionary?
+- name: GetClasses
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: filter
+    type: Dictionary
+    default: nil
+  returns:
+  - type: Array
+- name: GetEventsOfClass
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: className
+    type: string
+  - name: filter
+    type: Dictionary
+    default: nil
+  returns:
+  - type: Array
+- name: GetMethodsOfClass
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: className
+    type: string
+  - name: filter
+    type: Dictionary
+    default: nil
+  returns:
+  - type: Array
+- name: GetPropertiesOfClass
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: className
+    type: string
+  - name: filter
+    type: Dictionary
+    default: nil
+  returns:
+  - type: Array
+- name: GetPropertyNames
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: string
+  returns:
+  - type: Array
+- name: GetStyledPropertyNames
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: string
+  returns:
+  - type: Array
+events: []
+callbacks: []

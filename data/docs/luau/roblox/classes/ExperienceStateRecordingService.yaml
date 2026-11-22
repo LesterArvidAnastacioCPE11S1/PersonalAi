@@ -1,0 +1,193 @@
+name: ExperienceStateRecordingService
+type: class
+memory_category: Instances
+summary: API reference for ExperienceStateRecordingService, generated automatically
+  from the Roblox API dump 0.748.0.7481526. Prose documentation is not available for
+  this class yet.
+description: API reference for ExperienceStateRecordingService, generated automatically
+  from the Roblox API dump 0.748.0.7481526. Prose documentation is not available for
+  this class yet.
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+deprecation_message: ''
+properties:
+- name: IsServerDataModelRecorderActive
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: 'false'
+methods:
+- name: ExitPlayback
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: GetCurrentPlaybackRestartFrames
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+- name: GetPlaybackCurrentFrame
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: int64
+- name: GetPlaybackMode
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Enum.ExperienceStateRecordingPlaybackMode
+- name: SetPlaybackFrame
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: frame
+    type: int64
+  returns:
+  - type: 'null'
+- name: SetPlaybackMode
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: mode
+    type: Enum.ExperienceStateRecordingPlaybackMode
+  returns:
+  - type: 'null'
+- name: SetPlaybackPercentage
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: percentage
+    type: float
+  returns:
+  - type: 'null'
+- name: LoadPlaybackAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: uri
+    type: string
+  - name: placeFileUri
+    type: string?
+  - name: mode
+    type: Enum.ExperienceStateRecordingLoadMode
+  - name: sourceType
+    type: Enum.ExperienceStateRecordingLoadSourceType
+  returns:
+  - type: Dictionary
+events:
+- name: PlaybackStatusUpdated
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: percentage
+    type: float
+  - name: currentFrameNumber
+    type: int64
+callbacks: []

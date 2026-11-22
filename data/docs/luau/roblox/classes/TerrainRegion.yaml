@@ -1,0 +1,316 @@
+name: TerrainRegion
+type: class
+memory_category: Instances
+summary: 'An object that stores a chunk of terrain voxel data, produced by
+
+  `Class.Terrain:CopyRegion()` and consumed by `Class.Terrain:PasteRegion()`.
+
+  '
+description: 'A TerrainRegion is a snapshot of `Class.Terrain` retrieved from the
+
+  `Class.Terrain:CopyRegion()` method. Can be later pasted into the Terrain
+
+  using `Class.Terrain:PasteRegion()`.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: TerrainRegion.IsSmooth
+  summary: 'The state of this property shows whether or not this `Class.TerrainRegion`
+
+    contains _smooth terrain_.
+
+    '
+  description: 'The state of this property shows whether or not this `Class.TerrainRegion`
+
+    contains _smooth terrain_.
+
+    '
+  code_samples: []
+  type: boolean
+  tags:
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  deprecation_message: 'This item is a deprecated function of a legacy `Class.Terrain`
+    engine that
+
+    has been removed. Do not use it for new work.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Environment
+- name: TerrainRegion.SizeInCells
+  summary: 'The size of this TerrainRegion in cells.
+
+    '
+  description: 'Returns a `Datatype.Vector3` whose components indicate the number
+    of
+
+    terrain cells along each axis of the stored region. Each terrain cell
+
+    occupies 4 studs in world space, so multiplying by 4 gives the region''s
+
+    world-space dimensions. The value is set when the region is captured by
+
+    `Class.Terrain:CopyRegion()` and cannot be changed afterward.
+
+    '
+  code_samples: []
+  type: Vector3
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Environment
+- name: ExtentsMax
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3int16
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 0, 0, 0
+- name: ExtentsMin
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3int16
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 0, 0, 0
+- name: GridV3
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - WriteOnly
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: BinaryString
+  category: Data
+  serialization:
+    can_load: true
+    can_save: false
+  default: __api_dump_write_only_property__
+- name: IsSmooth
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: 'true'
+- name: SizeInCells
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: 1, 1, 1
+- name: SmoothGrid
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: BinaryString
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: "\x01\x05"
+methods:
+- name: TerrainRegion:ConvertToSmooth
+  summary: 'Transforms the TerrainRegion so it can be used with smooth terrain.
+
+    '
+  description: 'Calling this method transforms the TerrainRegion into a
+
+    `Class.TerrainRegion` usable for `Class.Terrain`. This can only be done
+
+    from a plugin, when in edit mode.
+
+
+    The game can''t be running, nor can it have a `Class.NetworkServer`.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This item is a deprecated function of a legacy `Class.Terrain`
+    engine that
+
+    has been removed. Do not use it for new work.
+
+    '
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities:
+  - Environment
+- name: ApplyTransform
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: rotation
+    type: CFrame
+  - name: size
+    type: Vector3
+  returns:
+  - type: 'null'
+- name: ApplyTransformSubregion
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: rotation
+    type: CFrame
+  - name: size
+    type: Vector3
+  - name: region
+    type: Region3int16
+  returns:
+  - type: TerrainRegion
+- name: ConvertToSmooth
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: GetRegionWireframe
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+events: []
+callbacks: []

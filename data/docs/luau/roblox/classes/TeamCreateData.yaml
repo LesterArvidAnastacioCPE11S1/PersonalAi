@@ -1,0 +1,39 @@
+name: TeamCreateData
+type: class
+memory_category: Instances
+summary: API reference for TeamCreateData, generated automatically from the Roblox
+  API dump 0.748.0.7481526. Prose documentation is not available for this class yet.
+description: API reference for TeamCreateData, generated automatically from the Roblox
+  API dump 0.748.0.7481526. Prose documentation is not available for this class yet.
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+deprecation_message: ''
+properties:
+- name: InitialCameraCFrame
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: CFrame
+  category: Camera
+  serialization:
+    can_load: false
+    can_save: false
+  default: 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1
+methods: []
+events: []
+callbacks: []

@@ -1,0 +1,136 @@
+name: StyleSheet
+type: class
+memory_category: Gui
+summary: 'Aggregates `Class.StyleRule|StyleRules` and can be linked to `Class.DataModel`
+
+  trees to apply style properties to instances.
+
+  '
+description: 'Aggregates `Class.StyleRule|StyleRules` and can be linked to `Class.DataModel`
+
+  trees to apply style properties to instances. Note that a `StyleSheet` may
+
+  exist outside the `Class.DataModel`, but it cannot be derived or linked to a
+
+  `Class.DataModel` tree in such a case.
+
+  '
+code_samples: []
+inherits:
+- StyleBase
+descendants: []
+tags: []
+deprecation_message: ''
+properties: []
+methods:
+- name: StyleSheet:GetDerives
+  summary: 'Returns an array of other `StyleSheets` from which the `StyleSheet` is
+
+    deriving `Class.StyleRule|StyleRules` and token definitions.
+
+    '
+  description: 'Returns an array of other `StyleSheets` from which the `StyleSheet`
+    is
+
+    deriving `Class.StyleRule|StyleRules` and token definitions.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: List<StyleSheet>
+    summary: 'Array of other `StyleSheets`.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: StyleSheet:SetDerives
+  summary: 'Sets the `StyleSheet` to derive `Class.StyleRule|StyleRules` and token
+
+    definitions from one or more other `StyleSheets`.
+
+    '
+  description: "Sets the `StyleSheet` to derive `Class.StyleRule|StyleRules` and token\n\
+    definitions from one or more other `StyleSheets` in the order they are\nlisted.\
+    \ This method spawns the appropriate `Class.StyleDerive` instances\nand sets their\
+    \ priorities to establish the specified derivations.\n\n```lua\nlocal ReplicatedStorage\
+    \ = game:GetService(\"ReplicatedStorage\")\n\nlocal coreSheet = ReplicatedStorage:FindFirstChild(\"\
+    CoreSheet\")\n\n-- Create a tokens style sheet\nlocal tokensSheet = Instance.new(\"\
+    StyleSheet\")\ntokensSheet.Name = \"Tokens\"\ntokensSheet.Parent = ReplicatedStorage\n\
+    -- Set tokens (attributes) on tokens sheet\ntokensSheet:SetAttribute(\"LightGray\"\
+    , Color3.new(0.9, 0.9, 0.9))\ntokensSheet:SetAttribute(\"DarkGray\", Color3.new(0.2,\
+    \ 0.2, 0.2))\n\n-- Create theme style sheets\nlocal lightThemeSheet = Instance.new(\"\
+    StyleSheet\")\nlightThemeSheet.Name = \"LightTheme\"\nlightThemeSheet:SetAttribute(\"\
+    Background\", \"$LightGray\")\nlightThemeSheet.Parent = ReplicatedStorage\nlocal\
+    \ darkThemeSheet = Instance.new(\"StyleSheet\")\ndarkThemeSheet.Name = \"DarkTheme\"\
+    \ndarkThemeSheet:SetAttribute(\"Background\", \"$DarkGray\")\ndarkThemeSheet.Parent\
+    \ = ReplicatedStorage\n\n-- Set theme sheets to derive from tokens sheet\nlightThemeSheet:SetDerives({\
+    \ tokensSheet })\ndarkThemeSheet:SetDerives({ tokensSheet })\n\nlocal themeDerive\
+    \ = Instance.new(\"StyleDerive\")\nthemeDerive.Parent = coreSheet\nthemeDerive.StyleSheet\
+    \ = lightThemeSheet\n\n-- Function to dynamically change the derived theme for\
+    \ the core sheet\nlocal function changeTheme()\n\tif themeDerive.StyleSheet ==\
+    \ lightThemeSheet then\n\t\tthemeDerive.StyleSheet = darkThemeSheet\n\telseif\
+    \ themeDerive.StyleSheet == darkThemeSheet then\n\t\tthemeDerive.StyleSheet =\
+    \ lightThemeSheet\n\tend\nend\n```\n\nNote that if you've created a design using\
+    \ the\n[Style Editor](../../../ui/styling/editor.md), the **StyleSheet** sheet\
+    \ in\nthe **Design** folder of `Class.ReplicatedStorage` will contain a\n`Class.StyleDerive`\
+    \ to the **BaseStyleSheet** also in the **Design**\nfolder. When setting derives\
+    \ with `SetDerives()`, be sure to include the\nbase style sheet in the spot of\
+    \ least priority in relation to other\n`StyleSheets` in the `derives` array.\n"
+  code_samples: []
+  parameters:
+  - name: derives
+    type: Instances
+    default: null
+    summary: 'Array of other `StyleSheets` to derive `Class.StyleRule|StyleRules`
+
+      and token definitions from.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: GetDerives
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Instances
+- name: SetDerives
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: derives
+    type: Instances
+  returns:
+  - type: 'null'
+events: []
+callbacks: []

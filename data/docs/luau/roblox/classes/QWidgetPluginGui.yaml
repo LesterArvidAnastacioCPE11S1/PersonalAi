@@ -1,0 +1,40 @@
+name: QWidgetPluginGui
+type: class
+memory_category: Instances
+summary: API reference for QWidgetPluginGui, generated automatically from the Roblox
+  API dump 0.748.0.7481526. Prose documentation is not available for this class yet.
+description: API reference for QWidgetPluginGui, generated automatically from the
+  Roblox API dump 0.748.0.7481526. Prose documentation is not available for this class
+  yet.
+code_samples: []
+inherits:
+- PluginGui
+descendants: []
+tags:
+- NotCreatable
+- NotReplicated
+deprecation_message: ''
+properties:
+- name: CloseButtonEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: 'true'
+methods: []
+events: []
+callbacks: []

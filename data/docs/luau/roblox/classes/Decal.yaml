@@ -1,0 +1,1401 @@
+name: Decal
+type: class
+memory_category: GraphicsTexture
+summary: 'Applies an image texture to a face of a parent `Class.BasePart`.
+
+  '
+description: "The `Class.Decal` object applies an image texture to a face of a parent\n\
+  `Class.BasePart`. The affected face is dependent on the\n`Class.Decal.Face|Face`\
+  \ property, and the size of the decal is dependent on\nthe size of the face.\n\n\
+  The applied image texture is determined by its\n`Class.Decal.ColorMapContent|ColorMapContent`\
+  \ property. For details on how to\nupload images, see\n[asset management](../../../projects/assets/index.md#asset-management).\n\
+  \nFor more information, review\n[textures and decals](../../../parts/textures-decals.md).\
+  \ See also:\n\n- `Class.Texture` for repeating surface images.\n- `Class.MeshPart.TextureContent`\
+  \ to apply an image texture to a\n  `Class.MeshPart`.\n- `Class.SurfaceGui` to apply\
+  \ an `Class.ImageLabel` or `Class.ImageButton` to\n  an in-experience 3D object.\n"
+code_samples:
+- Changing-Decal-Texture
+- Fading-Decal
+inherits:
+- FaceInstance
+descendants:
+- Texture
+tags: []
+deprecation_message: ''
+properties:
+- name: Decal.AutoLocalize
+  summary: 'When set to `true`, the decal''s image asset is eligible for automatic
+
+    localization capture.
+
+    '
+  description: 'When set to `true`, the decal''s image asset is eligible for automatic
+
+    localization through the Automatic Asset Capture system. The
+
+    `Class.LocalizationService` uses this property to determine whether the
+
+    decal''s `Class.Decal.ColorMapContent|ColorMapContent` should be captured
+
+    and potentially replaced with a localized version.
+
+
+    This property only applies to non-PBR decals. If any PBR maps
+
+    (`Class.Decal.NormalMapContent|NormalMapContent`,
+
+    `Class.Decal.RoughnessMapContent|RoughnessMapContent`,
+
+    `Class.Decal.MetalnessMapContent|MetalnessMapContent`, or
+
+    `Class.Decal.EmissiveMaskContent|EmissiveMaskContent`) are set, automatic
+
+    localization capture is suppressed to avoid inconsistent rendering.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Localization
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: Decal.Color3
+  summary: 'The `Datatype.Color3` tint of the `Class.Decal`.
+
+    '
+  description: 'The `Datatype.Color3` tint of the `Class.Decal`. Note that this property
+
+    only sets the **tint** of the decal rather than the color; unless the
+
+    image associated with the `Class.Decal` was originally pure white, then
+
+    the color cannot be freely changed using this property.
+
+    '
+  code_samples:
+  - Decal-Color3
+  type: Color3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: Decal.ColorMap
+  summary: 'Content ID that determines the color and opacity of the surface.
+
+    '
+  description: 'This property takes a content ID to determine the color and opacity
+    of the
+
+    surface. This texture is sometimes called the **albedo** texture.
+
+    '
+  code_samples: []
+  type: ContentId
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Basic
+- name: Decal.ColorMapContent
+  summary: '`Datatype.Content` object that determines the color and opacity of the
+
+    surface.
+
+    '
+  description: 'This property takes a `Datatype.Content` object to determine the color
+    and
+
+    opacity of the surface. This texture is sometimes called the **albedo**
+
+    texture.
+
+    '
+  code_samples: []
+  type: Content
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Basic
+- name: Decal.EmissiveMaskContent
+  summary: '`Datatype.Content` object that determines the emissivity across the
+
+    surface.
+
+    '
+  description: 'This property takes a `Datatype.Content` object that determines the
+
+    apparent emissivity across the surface. An emissive mask is a grayscale
+
+    image where black pixels correspond to no emissivity and white pixels
+
+    correspond to full emissivity. It defaults to an empty content, in which
+
+    case the decal doesn''t glow.
+
+
+    The emissive contribution is added to the total lighting contribution
+
+    across the surface, and the sum is multiplied by the albedo texture from
+
+    `Class.Decal.ColorMapContent|ColorMapContent`, if provided. Use
+
+    `Class.Decal.EmissiveStrength|EmissiveStrength` and
+
+    `Class.Decal.EmissiveTint|EmissiveTint` to control how bright the glow is
+
+    and what color it has.
+
+
+    Assigning an emissive mask makes the `Class.Decal` a physically based
+
+    rendering (PBR) surface.
+
+    '
+  code_samples: []
+  type: Content
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: Decal.EmissiveStrength
+  summary: 'Determines the strength of the emissive contribution.
+
+    '
+  description: 'This value is a multiplier that controls how strong the emissive
+
+    contribution from `Class.Decal.EmissiveMaskContent|EmissiveMaskContent` is
+
+    across the surface. Defaults to `1`. Negative values are treated as `0`,
+
+    and a value of `0` turns off the glow.
+
+
+    If the final emissive contribution goes beyond the supported dynamic
+
+    range, it''s clamped, which can make the emissive areas appear fully white
+
+    at large strength values. Since this value is a multiplier, the maximum
+
+    value that avoids clamping depends on the other contributing values,
+
+    including `Class.Decal.EmissiveTint|EmissiveTint`,
+
+    `Class.Decal.ColorMapContent|ColorMapContent`, and the combined lighting
+
+    contribution.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: Decal.EmissiveTint
+  summary: 'Determines the tinting color for the emissive contribution.
+
+    '
+  description: 'This value is a `Datatype.Color3` that tints the emissive contribution
+
+    from `Class.Decal.EmissiveMaskContent|EmissiveMaskContent`. Defaults to
+
+    white, which leaves the emissive color unchanged. Each component is
+
+    clamped between `0` and `1`, and black turns off the glow.
+
+    '
+  code_samples: []
+  type: Color3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: Decal.LocalTransparencyModifier
+  summary: 'Acts as a multiplier for the decal''s
+
+    `Class.Decal.Transparency|Transparency` property. The effects are only
+
+    visible to the local player.
+
+    '
+  description: 'Acts as a multiplier for the decal''s
+
+    `Class.Decal.Transparency|Transparency` property. The effect is only
+
+    visible to the `Class.Players.LocalPlayer|LocalPlayer` and will not
+
+    replicate to the server.
+
+
+    When this property is set to `1`, the `Class.Decal` will be completely
+
+    invisible regardless of its original transparency. When it is set to `0`,
+
+    the decal''s rendered transparency will match the
+
+    `Class.Decal.Transparency|Transparency` value.
+
+    '
+  code_samples: []
+  type: float
+  tags:
+  - Hidden
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Basic
+- name: Decal.MetalnessMap
+  summary: 'Content ID that determines the metalness map of the surface.
+
+    '
+  description: 'This property takes a content ID that determines the metalness map
+    applied
+
+    to the surface. A metalness map controls how metallic the surface appears
+
+    at each point, blending between a dielectric (non-metal) and a metallic
+
+    response to light. It defaults to an empty content, in which case no
+
+    metalness map is applied.
+
+
+    Assigning a normal, roughness, metalness, or emissive map makes the
+
+    `Class.Decal` a physically based rendering (PBR) surface. To assign this
+
+    map from a `Datatype.Content` object, use
+
+    `Class.Decal.MetalnessMapContent|MetalnessMapContent`.
+
+    '
+  code_samples: []
+  type: ContentId
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  - PluginOrOpenCloud
+- name: Decal.MetalnessMapContent
+  summary: '`Datatype.Content` object that determines the metalness map of the
+
+    surface.
+
+    '
+  description: 'This property takes a `Datatype.Content` object that determines the
+
+    metalness map applied to the surface. A metalness map controls how
+
+    metallic the surface appears at each point, blending between a dielectric
+
+    (non-metal) and a metallic response to light. It defaults to an empty
+
+    content, in which case no metalness map is applied.
+
+
+    Assigning a normal, roughness, metalness, or emissive map makes the
+
+    `Class.Decal` a physically based rendering (PBR) surface.
+
+    '
+  code_samples: []
+  type: Content
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: Decal.NormalMap
+  summary: 'Content ID that determines the normal map of the surface.
+
+    '
+  description: 'This property takes a content ID that determines the normal map applied
+    to
+
+    the surface. A normal map perturbs the surface normals used in lighting
+
+    calculations, adding the appearance of fine detail such as bumps and
+
+    grooves without changing the underlying geometry. It defaults to an empty
+
+    content, in which case no normal map is applied.
+
+
+    Assigning a normal, roughness, metalness, or emissive map makes the
+
+    `Class.Decal` a physically based rendering (PBR) surface. To assign this
+
+    map from a `Datatype.Content` object, use
+
+    `Class.Decal.NormalMapContent|NormalMapContent`.
+
+    '
+  code_samples: []
+  type: ContentId
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  - PluginOrOpenCloud
+- name: Decal.NormalMapContent
+  summary: '`Datatype.Content` object that determines the normal map of the surface.
+
+    '
+  description: 'This property takes a `Datatype.Content` object that determines the
+    normal
+
+    map applied to the surface. A normal map perturbs the surface normals used
+
+    in lighting calculations, adding the appearance of fine detail such as
+
+    bumps and grooves without changing the underlying geometry. It defaults to
+
+    an empty content, in which case no normal map is applied.
+
+
+    Assigning a normal, roughness, metalness, or emissive map makes the
+
+    `Class.Decal` a physically based rendering (PBR) surface.
+
+    '
+  code_samples: []
+  type: Content
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: Decal.ResampleMode
+  summary: 'Selects the texture resampling mode used for the decal''s texture maps.
+
+    '
+  description: 'Determines how the decal''s texture maps are filtered when displayed
+    larger
+
+    or smaller than their size in texture memory. The default
+
+    `Enum.ResamplerMode.Default` uses bilinear filtering to smooth the
+
+    textures. `Enum.ResamplerMode.Pixelated|Pixelated` uses nearest-neighbor
+
+    filtering to preserve the sharp edges of pixels, with anti-aliasing to
+
+    reduce shimmering.
+
+
+    For physically based rendering (PBR) decals, pixelated filtering applies
+
+    to all texture maps using the color map''s pixel grid.
+
+
+    Pixelated mode uses uncompressed texture assets to avoid compression
+
+    artifacts. At the same resolution, these textures can use more memory than
+
+    compressed textures in the default mode. For pixel art, use the original
+
+    low-resolution images instead of uploading enlarged versions.
+
+
+    This property is also inherited by `Class.Texture` and controls filtering
+
+    for its repeating texture maps.
+
+    '
+  code_samples: []
+  type: ResamplerMode
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: Decal.Rotation
+  summary: 'Rotates the decal texture.
+
+    '
+  description: 'This property controls the rotation angle of the decal texture in
+    degrees.
+
+    Rotation is applied to the UV coordinates in the clockwise direction.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: Decal.RoughnessMap
+  summary: 'Content ID that determines the roughness map of the surface.
+
+    '
+  description: 'This property takes a content ID that determines the roughness map
+    applied
+
+    to the surface. A roughness map controls how rough or smooth the surface
+
+    appears at each point, which in turn determines how sharp or blurry its
+
+    reflections are. It defaults to an empty content, in which case no
+
+    roughness map is applied.
+
+
+    Assigning a normal, roughness, metalness, or emissive map makes the
+
+    `Class.Decal` a physically based rendering (PBR) surface. To assign this
+
+    map from a `Datatype.Content` object, use
+
+    `Class.Decal.RoughnessMapContent|RoughnessMapContent`.
+
+    '
+  code_samples: []
+  type: ContentId
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  - PluginOrOpenCloud
+- name: Decal.RoughnessMapContent
+  summary: '`Datatype.Content` object that determines the roughness map of the
+
+    surface.
+
+    '
+  description: 'This property takes a `Datatype.Content` object that determines the
+
+    roughness map applied to the surface. A roughness map controls how rough
+
+    or smooth the surface appears at each point, which in turn determines how
+
+    sharp or blurry its reflections are. It defaults to an empty content, in
+
+    which case no roughness map is applied.
+
+
+    Assigning a normal, roughness, metalness, or emissive map makes the
+
+    `Class.Decal` a physically based rendering (PBR) surface.
+
+    '
+  code_samples: []
+  type: Content
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: Decal.Shiny
+  summary: 'Deprecated property that previously set the shininess of the decal.
+
+    '
+  description: 'This property dictates how shiny the decal is. It takes a value between
+
+    `0` and `1`, where `1` is "fully shiny."
+
+    '
+  code_samples: []
+  type: float
+  tags:
+  - NotReplicated
+  - Deprecated
+  deprecation_message: 'This non-functional property is deprecated and should not
+    be used in new
+
+    work.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: false
+  capabilities:
+  - Basic
+- name: Decal.Specular
+  summary: 'Deprecated property that previously set the specularity of the decal.
+
+    '
+  description: 'Sets the specularity, which is how the surface responds to light being
+
+    shined on it.
+
+    '
+  code_samples: []
+  type: float
+  tags:
+  - NotReplicated
+  - Deprecated
+  deprecation_message: 'This property no longer functions correctly and is deprecated.
+    It should
+
+    not be used in new work.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: false
+  capabilities:
+  - Basic
+- name: Decal.Texture
+  summary: 'The content ID of the image to be applied by the `Class.Decal`.
+
+    '
+  description: 'The content ID of the image to be applied by the `Class.Decal`.
+
+    '
+  code_samples: []
+  type: ContentId
+  tags: []
+  deprecation_message: 'This property has been deprecated. Use
+
+    `Class.Decal.ColorMapContent|ColorMapContent` for future work.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: Decal.TextureContent
+  summary: 'The texture content displayed by the `Class.Decal`.
+
+    '
+  description: 'The texture content displayed by the `Class.Decal`. Supports
+
+    [asset URIs](../../../projects/assets/index.md#asset-uris) and
+
+    `Class.EditableImage` objects.
+
+    '
+  code_samples: []
+  type: Content
+  tags: []
+  deprecation_message: 'This property has been deprecated. Use
+
+    `Class.Decal.ColorMapContent|ColorMapContent` for future work.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: Decal.TexturePackContent
+  summary: 'Engine-managed `Datatype.Content` that stores the compressed runtime
+
+    texture-pack data for PBR decals.
+
+    '
+  description: 'Managed by the engine and not accessible from scripts. A
+
+    `Datatype.Content` that holds the decal''s compressed runtime texture data.
+
+    When the `Class.Decal` is a physically based rendering (PBR) surface, the
+
+    engine packs its color, normal, roughness, metalness, and emissive maps
+
+    into a single texture-pack asset and references it here. Defaults to an
+
+    empty content.
+
+    '
+  code_samples: []
+  type: Content
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxEngineSecurity
+    write: RobloxEngineSecurity
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: Decal.Transparency
+  summary: 'Determines the transparency of the `Class.Decal`.
+
+    '
+  description: 'Determines the transparency of the `Class.Decal` with `0` being completely
+
+    opaque and `1` completely transparent.
+
+
+    Note that
+
+    `Class.Decal.LocalTransparencyModifier|LocalTransparencyModifier` acts as
+
+    a **multiplier** for this transparency level and should be used when the
+
+    transparency of the decal is likely to be changed by another script.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: Decal.UVOffset
+  summary: 'Shifts the UV coordinates by adding an offset before texture mapping.
+
+    '
+  description: 'This property controls the UV coordinate translation. The
+
+    `Datatype.Vector2.X|X` value (**U**&nbsp;offset) and
+
+    `Datatype.Vector2.Y|Y` value (**V**&nbsp;offset) are added to every
+
+    corresponding UV coordinate during texture mapping.
+
+    '
+  code_samples: []
+  type: Vector2
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: Decal.UVScale
+  summary: 'Stretches or compresses the UV coordinates by multiplying a scale factor.
+
+    '
+  description: 'This property controls the scale applied to the horizontal and vertical
+
+    coordinates. The `Datatype.Vector2.X|X` value (**U**&nbsp;scale) and
+
+    `Datatype.Vector2.Y|Y` value (**V**&nbsp;scale) are multiplied by every
+
+    corresponding UV coordinate during texture mapping.
+
+    '
+  code_samples: []
+  type: Vector2
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: Decal.ZIndex
+  summary: 'Determines the rendering order when multiple decals are assigned the same
+
+    face.
+
+    '
+  description: 'This property determines the order in which decals on the same
+
+    `Class.Decal.Face|Face` of a `Class.BasePart` are rendered. Lower values
+
+    are rendered first, so a decal with a higher `ZIndex` renders on top of
+
+    those with a lower `ZIndex`.
+
+
+    If you''re unsure whether you''ll need to layer a decal between two
+
+    already-existing decals in the future, use larger separations between
+
+    `ZIndex` values such as `10` or `100` to ensure space for future decals
+
+    between.
+
+    '
+  code_samples: []
+  type: int
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: AutoLocalize
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Localization
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'true'
+- name: Color3
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Color3
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: 1, 1, 1
+- name: ColorMap
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: ContentId
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+- name: ColorMapContent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Content
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_no_string_value__
+- name: EmissiveMaskContent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Content
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: EmissiveStrength
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: '1'
+- name: EmissiveTint
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Color3
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: 1, 1, 1
+- name: LocalTransparencyModifier
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+  default: '0'
+- name: LocalizedTextureContent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: NotAccessibleSecurity
+  thread_safety: ReadSafe
+  type: Content
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_no_string_value__
+- name: MetalnessMap
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: ContentId
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+- name: MetalnessMapContent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Content
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: NormalMap
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: ContentId
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+- name: NormalMapContent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Content
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: ResampleMode
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.ResamplerMode
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: Default
+- name: Rotation
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: RoughnessMap
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: ContentId
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+- name: RoughnessMapContent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Content
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: Shiny
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: false
+  default: '20'
+- name: Specular
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: false
+  default: '0'
+- name: Texture
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: ContentId
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+- name: TextureContent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Content
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: TexturePack
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: ContentId
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+- name: TexturePackContent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: Content
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: TexturePackMetadata
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: string
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+- name: Transparency
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: UVOffset
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector2
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: 0, 0
+- name: UVScale
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector2
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: 1, 1
+- name: ZIndex
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: '1'
+methods: []
+events: []
+callbacks: []

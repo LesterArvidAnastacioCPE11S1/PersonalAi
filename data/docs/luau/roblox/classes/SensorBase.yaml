@@ -1,0 +1,180 @@
+name: SensorBase
+type: class
+memory_category: Instances
+summary: 'An abstract class for various sensor instance types.
+
+  '
+description: 'A `Class.SensorBase` is an instance that, when parented to a `Class.BasePart`,
+
+  outputs additional data about the world around that part. Often, other systems
+
+  will consume the sensor''s output data.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants:
+- AtmosphereSensor
+- BuoyancySensor
+- ControllerSensor
+- FluidForceSensor
+tags:
+- NotCreatable
+deprecation_message: ''
+properties:
+- name: SensorBase.UpdateType
+  summary: 'Determines how the sensor will update its output data.
+
+    '
+  description: 'Determines how the sensor will update its output data.
+
+
+    With `Enum.SensorUpdateType.OnRead`, internal sensor logic is run so that
+
+    the output properties are always up to date. In this mode, the sensor will
+
+    only run if you read the properties and they are currently outdated.
+
+
+    With `Enum.SensorUpdateType.Manual`, the output properties will never
+
+    change. Instead, you can write your own scripts to set the output
+
+    properties as you like.
+
+    '
+  code_samples: []
+  type: SensorUpdateType
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Settings
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+  simulationAccess: true
+- name: UpdateType
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.SensorUpdateType
+  category: Settings
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+methods:
+- name: SensorBase:Sense
+  summary: 'Recomputes the sensor''s output properties immediately.
+
+    '
+  description: 'Recomputes the sensor''s output properties immediately.
+
+
+    This method is deprecated and should not be used in new work. When
+
+    `Class.SensorBase.UpdateType|UpdateType` is `Enum.SensorUpdateType.OnRead`
+
+    (the default), the sensor recalculates its output properties automatically
+
+    the next time you read them, so calling this method is unnecessary. When
+
+    `Class.SensorBase.UpdateType|UpdateType` is
+
+    `Enum.SensorUpdateType.Manual`, the outputs are never recomputed
+
+    automatically; set the output properties yourself rather than calling this
+
+    method.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This method should not be used in new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: Sense
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+events:
+- name: SensorBase.OnSensorOutputChanged
+  summary: 'Fires when one of the sensor''s output properties changes value.
+
+    '
+  description: 'Fires when one of the sensor''s output properties changes value. The
+    event
+
+    carries no arguments; read the relevant output property to get its new
+
+    value.
+
+
+    A sensor only recomputes its outputs while
+
+    `Class.SensorBase.UpdateType|UpdateType` is `Enum.SensorUpdateType.OnRead`
+
+    (the default), so with the default update type this event fires as the
+
+    outputs are recalculated on read. When
+
+    `Class.SensorBase.UpdateType|UpdateType` is
+
+    `Enum.SensorUpdateType.Manual`, the outputs — and therefore this event —
+
+    change only when you set the output properties yourself.
+
+    '
+  code_samples: []
+  parameters: []
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities: []
+- name: OnSensorOutputChanged
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+callbacks: []

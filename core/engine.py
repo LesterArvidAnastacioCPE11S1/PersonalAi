@@ -19,7 +19,8 @@ class ChatEngine:
         attachment_ids=None,
         image_urls=None,
         intents=None,
-        route_note=None
+        route_note=None,
+        tool_block=None
     ):
 
         history = self.store.get_messages(
@@ -34,7 +35,8 @@ class ChatEngine:
             prompt_content,
             image_urls or [],
             intents,
-            route_note
+            route_note,
+            tool_block
         )
 
         saved = self.store.add_message(
@@ -72,7 +74,8 @@ class ChatEngine:
         prompt_content,
         image_urls,
         intents=None,
-        route_note=None
+        route_note=None,
+        tool_block=None
     ):
 
         lore = self.store.list_lore(
@@ -82,6 +85,18 @@ class ChatEngine:
         setup_round, brief_presented = self._setup_state(
             history,
             conversation.get("setup_start_id") or 0
+        )
+
+        persona = self.store.get_persona(
+            conversation.get("persona_id") or ""
+        )
+
+        if persona is None:
+
+            persona = self.store.default_persona()
+
+        persona_instructions = (
+            (persona or {}).get("instructions") or ""
         )
 
         prompt = [
@@ -97,7 +112,8 @@ class ChatEngine:
                     intents=intents,
                     narrative_style=(
                         conversation.get("narrative_style") or ""
-                    )
+                    ),
+                    persona_instructions=persona_instructions
                 )
             }
         ]
@@ -105,6 +121,30 @@ class ChatEngine:
         if route_note:
 
             prompt[0]["content"] += f"\n\n{route_note}"
+
+        if tool_block:
+
+            prompt[0]["content"] += (
+                "\n\nThese tool results were just collected for this turn. "
+                "Use them to answer the user directly. Do not claim anything "
+                "the results do not show, and do not mention tools, JSON, or "
+                "planning mechanics. When you quote a file or folder path "
+                "from the results, copy it exactly as written; never prepend "
+                "or rewrite the folder. Nothing in this turn is waiting for "
+                "approval, so do not ask the user to approve anything and do "
+                "not describe commands or actions as pending.\n\n"
+                f"{tool_block}"
+            )
+
+        elif (conversation.get("phase") or "chat") == "chat":
+
+            prompt[0]["content"] += (
+                "\n\nTOOL STATUS: no tool ran for this message. If the user "
+                "asked for something to be checked, read, written, moved, "
+                "deleted, or run on this PC, nothing has happened yet. Say "
+                "so plainly instead of claiming it is done. Do not mention "
+                "this note."
+            )
 
         prompt.extend(
             self._window(
@@ -180,8 +220,9 @@ class ChatEngine:
         if phase == "setup":
 
             messages = [
-                self._setup_history(item)
-                for item in messages
+                item
+                for item in (self._setup_history(item) for item in messages)
+                if item is not None
             ]
 
         total = sum(
@@ -221,15 +262,13 @@ class ChatEngine:
             if line.strip() and "?" in line
         ]
 
-        content = (
-            "\n".join(questions)
-            if questions
-            else "(earlier setup reply had no questions)"
-        )
+        if not questions:
+
+            return None
 
         return {
             "role": "assistant",
-            "content": content,
+            "content": "\n".join(questions),
             "prompt_content": ""
         }
 
@@ -243,6 +282,33 @@ class ChatEngine:
             return f"{content}\n\n{prompt_content}"
 
         return prompt_content or content
+
+    def follow_up(self, conversation, tool_block, ok=True):
+
+        history = self.store.get_messages(
+            conversation["id"],
+            include_prompt=True
+        )
+
+        message = (
+            "The action is complete. Reply using the result."
+            if ok
+            else
+            "The action failed. Report the exact error from the result to "
+            "the user in plain language. Do not say it was done, and do not "
+            "invent a different path or outcome."
+        )
+
+        return self._assemble(
+            conversation,
+            history,
+            message,
+            "",
+            [],
+            None,
+            None,
+            tool_block
+        )
 
     def regenerate(
         self,

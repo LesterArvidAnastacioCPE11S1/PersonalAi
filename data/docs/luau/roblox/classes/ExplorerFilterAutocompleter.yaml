@@ -1,0 +1,76 @@
+name: ExplorerFilterAutocompleter
+type: class
+memory_category: Instances
+summary: API reference for ExplorerFilterAutocompleter, generated automatically from
+  the Roblox API dump 0.748.0.7481526. Prose documentation is not available for this
+  class yet.
+description: API reference for ExplorerFilterAutocompleter, generated automatically
+  from the Roblox API dump 0.748.0.7481526. Prose documentation is not available for
+  this class yet.
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- NotReplicated
+deprecation_message: ''
+properties:
+- name: ReplaceRange
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: Vector2
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: RequiresOutsideContext
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+methods:
+- name: GetSuggestions
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+events: []
+callbacks: []

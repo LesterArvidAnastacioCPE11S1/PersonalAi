@@ -1,0 +1,305 @@
+name: PVInstance
+type: class
+memory_category: Instances
+summary: 'Abstract class for all objects that have a physical location in the world.
+
+  '
+description: 'A `Class.PVInstance` is an abstract class that cannot be created. It
+  is the
+
+  base for all objects that have a physical location in the world.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants:
+- Camera
+- BasePart
+- Model
+tags:
+- NotCreatable
+- NotBrowsable
+deprecation_message: ''
+properties:
+- name: PVInstance.Origin
+  summary: 'Editor-only property that reads and sets the world `Datatype.CFrame` of
+
+    the `Class.PVInstance`''s pivot, moving the entire instance when changed
+
+    from the Studio Properties window.
+
+    '
+  description: 'Editor-only property, shown in the Studio Properties window as **Origin
+
+    Position** and **Origin Orientation** under **Transform**. Its value is
+
+    the world-space `Datatype.CFrame` of the instance''s pivot; reading it
+
+    returns the same `Datatype.CFrame` as `Class.PVInstance:GetPivot()`. It
+
+    has no stored value of its own and always reflects the current pivot.
+
+
+    Setting it from the Properties window moves the whole instance so its
+
+    pivot lands at the new `Datatype.CFrame`, much like
+
+    `Class.PVInstance:PivotTo()`. Editing through the Properties window
+
+    temporarily disables `Class.WeldConstraint|WeldConstraints` to other
+
+    objects for the move; `PivotTo` does not modify joints.
+
+
+    Not available to scripts; use `Class.PVInstance:GetPivot()` and
+
+    `Class.PVInstance:PivotTo()` at runtime instead.
+
+    '
+  code_samples: []
+  type: CFrame
+  tags:
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Transform
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: PVInstance.Pivot Offset
+  summary: 'Editor-only property that displays and edits the pivot''s `Datatype.CFrame`
+
+    relative to the instance, moving only the pivot and leaving the instance
+
+    in place.
+
+    '
+  description: 'Editor-only property, shown in the Studio Properties window as **Pivot
+
+    Position** and **Pivot Orientation** under **Pivot**. It is the
+
+    `Datatype.CFrame` of the pivot relative to the instance''s own frame.
+
+
+    Changing it from the Properties window moves the pivot relative to the
+
+    instance while leaving the instance in place, unlike `Origin`, which moves
+
+    the whole instance. For a `Class.BasePart`, the offset defaults to the
+
+    identity `Datatype.CFrame`, so the pivot coincides with the part''s center.
+
+    For a `Class.Model`, this property appears only when the model has a
+
+    `Class.Model.PrimaryPart|PrimaryPart`; it then reflects and edits that
+
+    part''s `Class.BasePart.PivotOffset|PivotOffset`, and
+
+    `Class.Model:GetPivot()` aliases the primary part''s pivot.
+
+
+    Not available to scripts; scripts read and write the equivalent through
+
+    the concrete class, such as `Class.BasePart.PivotOffset`.
+
+    '
+  code_samples: []
+  type: CFrame
+  tags:
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Pivot
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: Origin
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: CFrame
+  category: Transform
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: Pivot Offset
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: CFrame
+  category: Pivot
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+methods:
+- name: PVInstance:GetPivot
+  summary: 'Gets the pivot of a `Class.PVInstance`.
+
+    '
+  description: 'This function gets the pivot of a `Class.PVInstance`. This is often
+    used
+
+    with `Class.PVInstance:PivotTo()` to move a model.
+
+
+    `Class.Model|Models` and `Class.BasePart|BaseParts` are both
+
+    `Class.PVInstance|PVInstances` ("Position Velocity Instances") and so both
+
+    have this function.
+
+    '
+  code_samples:
+  - simple-character-teleportation
+  parameters: []
+  returns:
+  - type: CFrame
+    summary: 'The world-space `Datatype.CFrame` of the instance''s pivot.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities: []
+  simulationAccess: true
+- name: PVInstance:PivotTo
+  summary: 'Transforms the `Class.PVInstance` along with all of its descendant
+
+    `Class.PVInstance|PVInstances` such that the pivot is now located at the
+
+    specified `Datatype.CFrame`.
+
+    '
+  description: 'Transforms the `Class.PVInstance` along with all of its descendant
+
+    `Class.PVInstance|PVInstances` such that the pivot is now located at the
+
+    specified `Datatype.CFrame`. This is the primary function that should be
+
+    used to move `Class.Model|Models` via scripting.
+
+
+    `Class.BasePart|BaseParts` are moved in this way by having their
+
+    `Datatype.CFrame` transformed by the necessary offset.
+
+    `Class.Model|Models` are moved in this way by having their
+
+    `Class.Model.WorldPivot` transformed by the necessary offset.
+
+
+    Note that for efficiency purposes, `Class.Object.Changed` events are not
+
+    fired for `Class.BasePart.Position|Position` and
+
+    `Class.BasePart.Orientation|Orientation` of `Class.BasePart|BaseParts`
+
+    moved in this way; they are only fired for `Datatype.CFrame`.
+
+
+    When calling `Class.PVInstance:PivotTo()|PivotTo` on `Class.Model|Models`,
+
+    the offsets of the descendant parts and models are cached, such that
+
+    subsequent calls to `Class.PVInstance:PivotTo()|PivotTo` on the same model
+
+    do not accumulate floating point drift between the parts making up the
+
+    model.
+
+
+    `Class.Model|Models` and `Class.BasePart|BaseParts` are both
+
+    `Class.PVInstance|PVInstances` ("Position Velocity Instances") and so both
+
+    have this function.
+
+    '
+  code_samples:
+  - simple-character-teleportation
+  parameters:
+  - name: targetCFrame
+    type: CFrame
+    default: null
+    summary: 'The `Datatype.CFrame` that the `Class.PVInstance` pivot should equal
+
+      after moving it.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+  simulationAccess: true
+- name: GetPivot
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters: []
+  returns:
+  - type: CFrame
+- name: PivotTo
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: targetCFrame
+    type: CFrame
+  returns:
+  - type: 'null'
+events: []
+callbacks: []

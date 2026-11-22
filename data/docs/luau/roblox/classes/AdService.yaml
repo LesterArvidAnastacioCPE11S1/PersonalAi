@@ -1,0 +1,1319 @@
+name: AdService
+type: class
+memory_category: Instances
+summary: 'The service responsible for in-experience advertising.
+
+  '
+description: '`Class.AdService` is responsible for in-experience advertising. This
+  includes
+
+  [rewarded video](../../../production/promotion/rewarded-video-ads.md) and
+
+  [ad integrations](../../../production/promotion/ad-integrations.md).
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+deprecation_message: ''
+properties: []
+methods:
+- name: AdService:CreateAdRewardFromDevProductId
+  summary: 'Creates an `Datatype.AdReward` to give users who watch a video ad.
+
+    '
+  description: 'Constructs an `Datatype.AdReward` that wraps the given developer product
+
+    so it can be passed to
+
+    `Class.AdService:ShowRewardedVideoAdAsync()|ShowRewardedVideoAdAsync`.
+
+    When the user watches the entire rewarded video ad, the developer product
+
+    identified by `devProductId` is granted through the
+
+    `Class.MarketplaceService.ProcessReceipt|ProcessReceipt` callback with a
+
+    `ProductPurchaseChannel` of `Enum.ProductPurchaseChannel.AdReward`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: devProductId
+    type: int64
+    default: null
+    summary: 'The ID of the developer product you want to grant as a reward.
+
+      '
+  returns:
+  - type: AdReward
+    summary: 'An `Datatype.AdReward` configured as a developer product reward for
+
+      the specified product.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Monetization
+- name: AdService:GetAdAvailabilityNowAsync
+  summary: 'Checks if an ad with the specified format is available to be shown to
+    the
+
+    `Class.Players.LocalPlayer|LocalPlayer`.
+
+    '
+  description: 'This method may only be called from a `Class.Script` with
+
+    `Enum.RunContext.Client`.
+
+
+    Note that you should call this method as close as possible to the moment
+
+    you plan to show the ad. For example, if you have a "Watch video ad to get
+
+    a reward" button in a shop menu, only call this method when the user opens
+
+    the shop menu. This approach improves performance by preventing ads from
+
+    unnecessarily being held in memory, and it benefits CPM (cost-per-thousand
+
+    impressions) and earnings by optimizing the ad fill rate.
+
+    '
+  code_samples: []
+  parameters:
+  - name: adFormat
+    type: AdFormat
+    default: null
+    summary: 'The format of the requested ad. For example,
+
+      `Enum.AdFormat.RewardedVideo`.
+
+      '
+  returns:
+  - type: GetAdAvailabilityNowResult
+    summary: 'A dictionary that looks like
+
+      `{ AdAvailabilityResult: Enum.AdAvailabilityResult }`.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Monetization
+- name: AdService:GetCampaignEligibilityAsync
+  summary: 'Checks a `Class.Player`''s eligibility to be shown an
+
+    [ad integration](../../../production/promotion/ad-integrations.md)
+
+    campaign.
+
+    '
+  description: '`Class.AdService:GetCampaignEligibilityAsync()|GetCampaignEligibilityAsync`
+
+    checks whether a `Class.Player` is eligible to be shown a specific
+
+    [ad integration](../../../production/promotion/ad-integrations.md)
+
+    campaign, returning a dictionary that looks like
+
+    `{ IsEligible: boolean }`.
+
+
+    Call this method and confirm that `result.IsEligible` is `true` before you
+
+    display any of the campaign''s ad integration assets or register their
+
+    disclosure buttons with
+
+    `Class.AdService:RegisterDisclosureButton()|RegisterDisclosureButton`. All
+
+    ad integration assets should remain hidden until the `Class.Player` is
+
+    confirmed eligible.
+
+
+    When called from the client, the `player` argument defaults to the
+
+    `Class.Players.LocalPlayer|LocalPlayer`. When called from the server,
+
+    `player` is required. The call raises an error if the supplied
+
+    `campaignId` exceeds the maximum allowed length.
+
+    '
+  code_samples:
+  - AdService-AdIntegrations
+  parameters:
+  - name: campaignId
+    type: string
+    default: null
+    summary: 'The ID of the campaign that you want to check a `Class.Player`''s
+
+      eligibility for.
+
+      '
+  - name: player
+    type: Player?
+    default: nil
+    summary: 'The `Class.Player` you want to check eligibility for. If omitted, it
+
+      will default to the `Class.Players.LocalPlayer|LocalPlayer`. On the
+
+      server, `player` argument is required.
+
+      '
+  returns:
+  - type: GetCampaignEligibilityResult
+    summary: 'A dictionary that looks like `{ IsEligible: boolean }`.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Monetization
+- name: AdService:RegisterAdOpportunityAsync
+  summary: 'Tracks how many times a user had the chance to watch a video ad and the
+
+    rate at which they actually watched the ad.
+
+    '
+  description: 'This method may only be called from a `Class.Script` with
+
+    `Enum.RunContext.Client`.
+
+
+    Registers a `Class.GuiButton` for ad opportunity tracking. Once
+
+    registered, the system periodically checks whether the button is visible
+
+    and unobstructed (the topmost input-sinking element at its center point).
+
+    These visibility transitions are reported as ad opportunity impressions
+
+    and used to measure the rate at which users are presented with, and choose
+
+    to watch, rewarded video ads.
+
+
+    The `instance` must be a `Class.GuiButton` that is a descendant of a
+
+    `Class.ScreenGui` under `Class.PlayerGui`. If the instance is moved out of
+
+    a valid hierarchy at runtime, tracking pauses automatically and resumes
+
+    when it returns to a valid ancestor. Call
+
+    `Class.AdService:UnregisterAdOpportunity()|UnregisterAdOpportunity` to
+
+    stop tracking the instance.
+
+    '
+  code_samples:
+  - AdService-RegisterAdOpportunityAsync
+  parameters:
+  - name: instance
+    type: Instance
+    default: null
+    summary: 'The `Class.GuiButton` to track as a rewarded video ad opportunity.
+
+      Must be a descendant of a `Class.ScreenGui`.
+
+      '
+  - name: placementId
+    type: int64?
+    default: null
+    summary: 'The ID of the placement of the rewarded video ad inside the
+
+      experience. Allows for reporting on the performance of individual ad
+
+      placements.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Monetization
+- name: AdService:RegisterDisclosureButton
+  summary: 'Registers an ad disclosure button for an
+
+    [ad integration](../../../production/promotion/ad-integrations.md).
+
+    '
+  description: 'This method may only be called from a `Class.Script` with
+
+    `Enum.RunContext.Client`.
+
+
+    `Class.AdService:RegisterDisclosureButton()|RegisterDisclosureButton`
+
+    marks a button in your experience as an ad disclosure for an ad
+
+    integration. When a user clicks it, they can see who is paying for the ad.
+
+    See
+
+    [ad integrations](../../../production/promotion/ad-integrations.md#labeling-and-disclosure)
+
+    for guidance on what the disclosures should look like and when they should
+
+    be visible.
+
+
+    Note: you must verify that the `Class.Players.LocalPlayer|LocalPlayer` is
+
+    eligible to see the associated ad integration campaign by calling
+
+    `Class.AdService:GetCampaignEligibilityAsync()|GetCampaignEligibilityAsync`
+
+    and verifying that `result.IsEligible` is `true` before attempting to
+
+    register a disclosure button for it. If you do not wait, or the
+
+    `Class.Players.LocalPlayer|LocalPlayer` is not eligible to see the
+
+    associated campaign, then
+
+    `Class.AdService:RegisterDisclosureButton()|RegisterDisclosureButton` will
+
+    raise an error.
+
+    '
+  code_samples: []
+  parameters:
+  - name: disclosureButton
+    type: GuiButton
+    default: null
+    summary: 'The `Class.GuiButton` you want to mark as an ad integration
+
+      disclosure. The `Class.GuiButton` must follow labeling guidelines
+
+      outlined
+
+      [here](../../../production/promotion/ad-integrations.md#labeling-and-disclosure).
+
+      '
+  - name: adIntegrationPlacementId
+    type: string
+    default: null
+    summary: 'The ID of the placement that this disclosure is attached to.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Monetization
+- name: AdService:ShowRewardedVideoAdAsync
+  summary: 'Plays the video ad to the current user inside the experience.
+
+    '
+  description: '**Warning**: Rewarded Video ads must be user opt-in and clearly disclosed.
+
+    For details, review our
+
+    [eligibility requirements](../../../production/promotion/rewarded-video-ads.md#eligibility-requirements)
+
+    and
+
+    [advertising standards](https://en.help.roblox.com/hc/en-us/articles/13722260778260-Advertising-Standards).
+
+
+    This method may only be called from a `Class.Script` with
+
+    `Enum.RunContext.Server`.
+
+
+    Note: before calling this method, you must first verify that the specified
+
+    user has a rewarded video ad available to show by calling
+
+    `Class.AdService:GetAdAvailabilityNowAsync()|GetAdAvailabilityNowAsync`.
+
+    If the client does not have an available ad, then
+
+    `Class.AdService:ShowRewardedVideoAdAsync()|ShowRewardedVideoAdAsync` will
+
+    return `Enum.ShowAdResult.AdNotReady`.
+
+    '
+  code_samples:
+  - AdService-RewardedVideo
+  parameters:
+  - name: player
+    type: Player
+    default: null
+    summary: 'The `Class.Player` to trigger a rewarded video ad play for.
+
+      '
+  - name: reward
+    type: AdReward
+    default: null
+    summary: 'The `Datatype.AdReward` to grant the user after they view the ad.
+
+      '
+  - name: placementId
+    type: int64?
+    default: null
+    summary: 'The ID of the placement of the rewarded video ad inside the
+
+      experience. Allows for reporting on the performance of individual ad
+
+      placements.
+
+      '
+  returns:
+  - type: ShowAdResult
+    summary: 'The `Enum.ShowAdResult` of the client''s ad presentation. You should
+
+      not use this result to grant the reward. Instead, you should grant the
+
+      reward from your
+
+      `Class.MarketplaceService.ProcessReceipt|ProcessReceipt`
+
+      implementation. For
+
+      [developer products](../../../production/monetization/developer-products.md)
+
+      earned through rewarded video ads, the
+
+      `receipt.ProductPurchaseChannel` will be
+
+      `Enum.ProductPurchaseChannel.AdReward`.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+  - Monetization
+- name: AdService:ShowVideoAd
+  summary: 'Show mobile video advertisements.
+
+    '
+  description: 'Show mobile video advertisements.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: '`Class.AdService.ShowVideoAd|ShowVideoAd` has been decommissioned
+    and is
+
+    no longer operational.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Monetization
+- name: AdService:UnregisterAdOpportunity
+  summary: 'Stops tracking an instance that was previously registered with
+
+    `Class.AdService:RegisterAdOpportunityAsync()|RegisterAdOpportunityAsync`.
+
+    '
+  description: 'Removes `instance` from the ad opportunity tracker so that it no longer
+
+    counts toward the rewarded video ad opportunity reporting started by
+
+    `Class.AdService:RegisterAdOpportunityAsync()|RegisterAdOpportunityAsync()`.
+
+    Call it once an instance should no longer be treated as an ad opportunity,
+
+    such as when its associated UI is closed or removed.
+
+
+    If the supplied `instance` is not currently being tracked, this method has
+
+    no effect.
+
+    '
+  code_samples: []
+  parameters:
+  - name: instance
+    type: Instance
+    default: null
+    summary: 'The instance to stop tracking. This should be an instance that you
+
+      previously passed to
+
+      `Class.AdService:RegisterAdOpportunityAsync()|RegisterAdOpportunityAsync()`.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Monetization
+- name: CompleteRewardedVideoGrant
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: int64
+  - name: productId
+    type: int64
+  returns:
+  - type: 'null'
+- name: CreateAdRewardFromDevProductId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: devProductId
+    type: int64
+  returns:
+  - type: AdReward
+- name: GetAdTeleportInfo
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Tuple
+- name: GetReportAdInfo
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+- name: GetUniversalAppAdsEligibility
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Dictionary
+- name: HandleWhyThisAdClicked
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: advertiserName
+    type: string
+  - name: payerName
+    type: string
+  returns:
+  - type: 'null'
+- name: HideEudsaDisclosure
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: IsAdLoaded
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: adFormat
+    type: Enum.AdFormat
+  returns:
+  - type: bool
+- name: OnDemandVideoCompleteFromUI
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: result
+    type: Enum.ShowAdResult
+  - name: encryptedAdTrackingData
+    type: string
+  - name: encryptionMetadata
+    type: string
+  - name: rewardDetails
+    type: string
+  returns:
+  - type: 'null'
+- name: PlayRewardedVideoAdOnClient
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+  - name: rewardDetails
+    type: Dictionary
+  - name: placementId
+    type: int64
+  returns:
+  - type: 'null'
+- name: RegisterDisclosureButton
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: disclosureButton
+    type: GuiButton
+  - name: adIntegrationPlacementId
+    type: string
+  returns:
+  - type: 'null'
+- name: RegisterImpressionSource
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: instance
+    type: Instance
+  - name: adIntegrationPlacementId
+    type: string
+  returns:
+  - type: 'null'
+- name: ReturnToPublisherExperience
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: adTeleportMethod
+    type: Enum.AdTeleportMethod
+  returns:
+  - type: 'null'
+- name: SetAdGuiInteractivityHandlerInitialized
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: ShowVideoAd
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: SubmitAdNotification
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: universeId
+    type: int64
+  - name: isShowAdSuccessful
+    type: bool
+  - name: earnedReward
+    type: bool
+  - name: rewardProductName
+    type: string
+  - name: rewardProductImageAssetId
+    type: int64
+  returns:
+  - type: 'null'
+- name: UnregisterAdOpportunity
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: instance
+    type: Instance
+  returns:
+  - type: 'null'
+- name: GetAdAvailabilityNowAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: adFormat
+    type: Enum.AdFormat
+  returns:
+  - type: Dictionary
+- name: GetAdAvailabilityNowForUniverseAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: adFormat
+    type: Enum.AdFormat
+  - name: universeId
+    type: int64
+  - name: isUniversalAppDM
+    type: bool
+  returns:
+  - type: Dictionary
+- name: GetCampaignEligibilityAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: campaignId
+    type: string
+  - name: player
+    type: Player
+    default: nil
+  returns:
+  - type: Dictionary
+- name: RegisterAdOpportunityAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: instance
+    type: Instance
+  - name: placementId
+    type: int64?
+  returns:
+  - type: 'null'
+- name: ShowRewardedVideoAdAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+  - name: reward
+    type: AdReward
+  - name: placementId
+    type: int64?
+  returns:
+  - type: Enum.ShowAdResult
+- name: ShowRewardedVideoAdAtClientAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: universeId
+    type: int64
+  returns:
+  - type: Enum.ShowAdResult
+events:
+- name: AdService.VideoAdClosed
+  summary: 'Fires when an `Class.AdService` video closes.
+
+    '
+  description: 'Fires when an `Class.AdService` video closes.
+
+    '
+  code_samples: []
+  parameters:
+  - name: adShown
+    type: boolean
+    default: null
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: '`Class.AdService.VideoAdClosed|VideoAdClosed` has been decommissioned
+    and
+
+    is no longer operational.
+
+    '
+  security: None
+  capabilities:
+  - Monetization
+- name: AdTeleportEnded
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: AdTeleportInitiated
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: CampaignEligibilityResponseFailureSignalFromClient
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: campaignId
+    type: string
+  - name: error
+    type: string
+- name: CampaignEligibilityResponseSuccessSignalFromClient
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: campaignId
+    type: string
+  - name: response
+    type: Dictionary
+- name: GetCampaignEligibilitySignalFromServer
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: campaignId
+    type: string
+- name: ReportImpressionSignal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: ad_instance_name
+    type: string
+  - name: encrypted_ad_tracking_data
+    type: string
+  - name: encryption_metadata
+    type: string
+- name: ReportTeleportSignal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: ad_instance_name
+    type: string
+  - name: encrypted_ad_tracking_data
+    type: string
+  - name: encryption_metadata
+    type: string
+  - name: teleport_type
+    type: string
+  - name: teleport_source_universe_id
+    type: int64
+  - name: teleport_source_place_id
+    type: int64
+  - name: teleport_dest_place_id
+    type: int64
+- name: RewardedVideoAdEnded
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: RewardedVideoAdStarted
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: ServeAdResponseSignal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: uuid
+    type: string
+  - name: response
+    type: string
+  - name: isError
+    type: bool
+- name: ServeAdSignal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: uuid
+    type: string
+  - name: request
+    type: string
+- name: ShowDynamicEudsaDisclosure
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: advertiserName
+    type: string
+  - name: payerName
+    type: string
+- name: ShowReportAdPopup
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: adInfo
+    type: Dictionary
+- name: VideoAdClosed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: adShown
+    type: bool
+- name: adGuiRegisterUI
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: adGui
+    type: Instance
+- name: rewardedVideoAdPlayServerToClient
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: rewardDetails
+    type: string
+- name: rewardedVideoAdPlayServerToClientWithPlacement
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: rewardDetails
+    type: string
+  - name: placementId
+    type: int64
+- name: rewardedVideoAdResultClientToServer
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: result
+    type: Enum.ShowAdResult
+  - name: encryptedAdTrackingData
+    type: string
+  - name: encryptionMetadata
+    type: string
+callbacks:
+- name: OnImmersiveBrandedAdDisclosureButtonActivated
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NoYield
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: data
+    type: Dictionary
+  returns:
+  - type: 'null'
+- name: OnRewardedVideoAdResult
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NoYield
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+  - name: result
+    type: Enum.ShowAdResult
+  - name: encryptedAdTrackingData
+    type: string
+  - name: encryptionMetadata
+    type: string
+  returns:
+  - type: 'null'
+- name: OnShowRewardedVideoAd
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+  - name: request
+    type: Dictionary
+  returns:
+  - type: Tuple
+- name: onDemandVideoPlayInUI
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: data
+    type: Dictionary
+  returns:
+  - type: VideoFrame

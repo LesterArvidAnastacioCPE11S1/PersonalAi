@@ -1,0 +1,1860 @@
+name: CaptureService
+type: class
+memory_category: Instances
+summary: 'A service which provides control over screenshot and video capture features.
+
+  '
+description: '`CaptureService` is a client-side service that allows developers to
+  control
+
+  how the screenshot and video capture feature integrates with their
+
+  experiences. It can be used to include preset moments where a capture is
+
+  automatically taken for a user, and that user can then save, share, or delete
+
+  the capture.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+deprecation_message: ''
+properties: []
+methods:
+- name: CaptureService:CaptureScreenshot
+  summary: 'Takes a screenshot and provides a temporary `contentId` to identify it.
+
+    '
+  description: 'This method captures a screenshot for the user but does not immediately
+
+    save it to their **Captures** gallery within the experience''s main menu.
+
+    Instead, a temporary `contentId` is created to identify the new capture.
+
+
+    Note that any screenshots taken by this method will not be accessible via
+
+    `Class.CaptureService:ReadCapturesFromGalleryAsync()|ReadCapturesFromGalleryAsync()`
+
+    or be uploadable via
+
+    `Class.CaptureService:UploadCaptureAsync()|UploadCaptureAsync()`.
+
+
+    The `onCaptureReady` callback can be used to prompt the user to save or
+
+    share the screenshot:
+
+    '
+  code_samples:
+  - CaptureService-CaptureScreenshot
+  parameters:
+  - name: onCaptureReady
+    type: Function
+    default: null
+    summary: 'A callback function that is called with the `contentId` of the new
+
+      capture once it is ready.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Capture
+- name: CaptureService:CheckUploadCaptureStatusAsync
+  summary: 'Polls the status of an in-progress capture upload started by
+
+    `Class.CaptureService:StartUploadCaptureAsync()|StartUploadCaptureAsync()`.
+
+    '
+  description: 'Client-side function that checks the status of a capture upload started
+
+    with
+
+    `Class.CaptureService:StartUploadCaptureAsync()|StartUploadCaptureAsync()`,
+
+    using the returned `token`. Returns a tuple of the current
+
+    `Enum.UploadCaptureResult` and, once the upload finishes successfully, the
+
+    asset ID of the uploaded capture.
+
+
+    Poll until a terminal state. While processing, the result is
+
+    `Enum.UploadCaptureResult.UploadPending` and the asset ID is `0`.
+
+    `Enum.UploadCaptureResult.Success` includes the final asset ID;
+
+    `Enum.UploadCaptureResult.CaptureModerated` means moderation rejected the
+
+    capture; `Enum.UploadCaptureResult.UploadFailed` means the upload did not
+
+    complete.
+
+    '
+  code_samples: []
+  parameters:
+  - name: token
+    type: string
+    default: null
+    summary: 'The token returned by
+
+      `Class.CaptureService:StartUploadCaptureAsync()|StartUploadCaptureAsync()`
+
+      that identifies the in-progress upload.
+
+      '
+  returns:
+  - type: Tuple
+    summary: 'Tuple of (result: `Enum.UploadCaptureResult`, assetId: `number`)
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Capture
+- name: CaptureService:PromptCaptureGalleryPermissionAsync
+  summary: 'Prompts the user for permission to access their local capture gallery.
+
+    '
+  description: 'This client-side function prompts a user for permission to access
+    their
+
+    local captures. Once they have accepted or rejected the prompt, it returns
+
+    a boolean representing their choice. This function is a necessary
+
+    prerequisite to `ReadCapturesFromGalleryAsync` and `UploadCaptureAsync`,
+
+    as both of these require gallery permissions to work.
+
+    '
+  code_samples:
+  - PromptCaptureGalleryPermissionAsync-example
+  parameters:
+  - name: captureGalleryPermission
+    type: CaptureGalleryPermission
+    default: null
+    summary: 'An `Enum.CaptureGalleryPermission` representing the type of access for
+
+      which the user will be prompted.
+
+      '
+  returns:
+  - type: boolean
+    summary: 'A boolean representing whether or not the user has allowed access to
+
+      their captures.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Capture
+- name: CaptureService:PromptSaveCapturesToGallery
+  summary: 'Prompts the user to save specified captures to their gallery.
+
+    '
+  description: 'This method prompts the user to save the captures identified by the
+
+    provided `contentIds` or `Class.Capture` objects to their **Captures**
+
+    gallery within the experience''s main menu.
+
+    '
+  code_samples: []
+  parameters:
+  - name: captures
+    type: Array
+    default: null
+    summary: 'An array of content IDs and/or `Class.Capture` objects.
+
+      '
+  - name: resultCallback
+    type: Function
+    default: null
+    summary: 'A callback function that will be invoked with a dictionary mapping
+
+      each `contentId` and/or `Class.Capture` object to a boolean indicating
+
+      if the user accepted saving that capture.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Capture
+- name: CaptureService:PromptShareCapture
+  summary: 'Prompts the user to share a specified capture.
+
+    '
+  description: 'This method prompts the user to share the capture identified by the
+
+    provided `contentId` or `Class.Capture` object using the native share
+
+    sheet on their device.
+
+
+    The capture is shared along with an invite link to the experience when
+
+    supported. Not all devices support including both a screenshot or video
+
+    and an invite link.
+
+
+    The `launchData` will be available in the `launchData` field for users who
+
+    join through the invite link.
+
+
+    For users or devices who are not eligible to use share sheets, this method
+
+    prompts them to download the capture instead.
+
+    '
+  code_samples:
+  - CaptureService-PromptShareCapture
+  parameters:
+  - name: captureContent
+    type: Content
+    default: null
+    summary: 'A `Datatype.Content` containing a `contentId` or `Class.Capture`
+
+      object.
+
+      '
+  - name: launchData
+    type: string
+    default: null
+    summary: 'An optional string to include as launch data in the invite link.
+
+      '
+  - name: onAcceptedCallback
+    type: Function
+    default: null
+    summary: 'An optional callback function invoked if the user accepts sharing.
+
+      '
+  - name: onDeniedCallback
+    type: Function
+    default: null
+    summary: 'An optional callback function invoked if the user denies sharing.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Capture
+- name: CaptureService:ReadCapturesFromGalleryAsync
+  summary: 'Returns a paginated list of captures from the user''s gallery.
+
+    '
+  description: 'This client-side function returns a paginated list of captures from
+    the
+
+    user''s gallery as a `Class.CapturesPages` object sorted
+
+    reverse-chronologically, which can be used to iterate through the
+
+    captures. The results can be filtered by capture type with the
+
+    `captureTypeFilters` parameter. If this parameter isn''t provided, the
+
+    function returns all captures.
+
+
+    If `readFromAllEligibleExperiences` is `true`, captures from all eligible
+
+    experiences will be read. If `false`, only those from the current
+
+    experience will be read. Additionally, captures taken with
+
+    `Class.CaptureService:CaptureScreenshot()|CaptureScreenshot()` and
+
+    subsequently saved with
+
+    `Class.CaptureService:PromptSaveCapturesToGallery()|PromptSaveCapturesToGallery()`
+
+    will not be returned by this method.
+
+    '
+  code_samples:
+  - ReadCapturesFromGalleryAsync-example
+  parameters:
+  - name: captureTypeFilters
+    type: Array
+    default: '{}'
+    summary: 'An array of `Enum.CaptureType`.
+
+      '
+  - name: readFromAllEligibleExperiences
+    type: boolean
+    default: false
+    summary: 'A boolean; default is `false`.
+
+      '
+  returns:
+  - type: Tuple
+    summary: 'Tuple of (result: `Enum.ReadCapturesFromGalleryResult`, capturesPages:
+
+      `Class.CapturesPages`)
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Capture
+- name: CaptureService:StartUploadCaptureAsync
+  summary: 'Begins uploading a capture to the asset system and returns a token used
+    to
+
+    poll the upload''s status.
+
+    '
+  description: 'Client-side function that begins uploading a `Class.Capture` (for
+    example,
+
+    one from
+
+    `Class.CaptureService:ReadCapturesFromGalleryAsync()|ReadCapturesFromGalleryAsync()`)
+
+    to the asset system. Unlike
+
+    `Class.CaptureService:UploadCaptureAsync()|UploadCaptureAsync()`, which
+
+    blocks until the asset is created, this returns as soon as the upload
+
+    starts with a tuple of `Enum.UploadCaptureResult` and a `token` string.
+
+    Use this when the user might leave before the upload finishes; a pending
+
+    `UploadCaptureAsync` is lost if the player leaves. Pass the token to
+
+    `Class.CaptureService:CheckUploadCaptureStatusAsync()|CheckUploadCaptureStatusAsync()`
+
+    to poll for completion and the resulting asset ID.
+
+
+    The user must grant gallery access through
+
+    `Class.CaptureService:PromptCaptureGalleryPermissionAsync()|PromptCaptureGalleryPermissionAsync()`;
+
+    without it, the result is `Enum.UploadCaptureResult.NeedPermission`. The
+
+    capture must be eligible and present in the gallery. Uploads are
+
+    rate-limited per user and return
+
+    `Enum.UploadCaptureResult.UploadQuotaReached` when exceeded.
+
+    '
+  code_samples: []
+  parameters:
+  - name: capture
+    type: Capture
+    default: null
+    summary: 'The `Class.Capture` to upload.
+
+      '
+  returns:
+  - type: Tuple
+    summary: 'Tuple of (result: `Enum.UploadCaptureResult`, token: `string`)
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Capture
+- name: CaptureService:StartVideoCaptureAsync
+  summary: 'Initiates a video capture recording.
+
+    '
+  description: 'This method initiates a video capture recording. The recording will
+
+    continue until the
+
+    `Class.CaptureService:StopVideoCapture()|StopVideoCapture()` method is
+
+    called, or when 30 seconds have passed, whichever comes first. During the
+
+    video recording, all user voices are muted.
+
+
+    The `onCaptureReady` callback can be used to prompt the user to save or
+
+    share the video capture.
+
+
+    The `captureParams` parameter is currently non-operational.
+
+    '
+  code_samples:
+  - CaptureService-StartVideoCaptureAsync
+  parameters:
+  - name: onCaptureReady
+    type: Function
+    default: null
+    summary: 'A callback function that is called on video capture completion with
+      a
+
+      `Enum.VideoCaptureResult` and, if successful, a `Class.VideoCapture`.
+
+      '
+  - name: captureParams
+    type: Dictionary
+    default: nil
+    summary: 'A dictionary of optional parameters that modify capture behavior.
+
+      Currently non-operational.
+
+      '
+  returns:
+  - type: VideoCaptureStartedResult
+    summary: 'A `Enum.VideoCaptureStartedResult` indicating whether the video
+
+      recording started successfully.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Capture
+- name: CaptureService:StopVideoCapture
+  summary: 'Ends a video capture initiated by
+
+    `Class.CaptureService:StartVideoCaptureAsync()|StartVideoCaptureAsync()`.
+
+    '
+  description: 'This method ends a video capture that was started by the
+
+    `Class.CaptureService:StartVideoCaptureAsync()|StartVideoCaptureAsync()`
+
+    method.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Capture
+- name: CaptureService:TakeScreenshotCaptureAsync
+  summary: 'Initiates a screenshot capture.
+
+    '
+  description: 'This method initiates a screenshot capture. The `onCaptureReady` callback
+
+    can be used to prompt the user to save or share the screenshot capture.
+
+
+    Use the `Enum.UICaptureMode` parameter in `captureParams` to specify
+
+    whether UI elements should be in the screenshot. By default, this is set
+
+    to `Enum.UICaptureMode.None`.
+
+    '
+  code_samples:
+  - CaptureService-TakeScreenshotCaptureAsync
+  parameters:
+  - name: onCaptureReady
+    type: Function
+    default: null
+    summary: 'A callback function that is called on screenshot capture completion
+
+      with a `Enum.ScreenshotCaptureResult` and, if successful, a
+
+      `Class.ScreenshotCapture`.
+
+      '
+  - name: captureParams
+    type: Dictionary
+    default: nil
+    summary: 'A dictionary that modifies capture behavior.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Capture
+- name: CaptureService:UploadCaptureAsync
+  summary: 'Uploads a capture to the asset system and returns the result and asset
+    ID.
+
+    '
+  description: "This client-side function uploads a capture, like one retrieved from\n\
+    `ReadCapturesFromGalleryAsync`, to the asset system. It returns a tuple of\nthe\
+    \ result and the asset ID.\n\nNotes:\n\n- This function will only work properly\
+    \ if the Maturity and Compliance\n  questionnaire has been filled out for the\
+    \ experience.\n- For video capture types, there is an upload limit of 20 videos\
+    \ per day\n  per user; when that limit is exceeded, the result is\n  `Enum.UploadCaptureResult.UploadQuotaReached`,\
+    \ which lets you\n  distinguish quota exhaustion from other failures.\n- This\
+    \ function can take up to several minutes to finish executing, and\n  the user\
+    \ will need to remain in the experience.\n"
+  code_samples:
+  - UploadCaptureAsync-example
+  parameters:
+  - name: capture
+    type: Capture
+    default: null
+    summary: 'The `Class.Capture` to upload.
+
+      '
+  returns:
+  - type: Tuple
+    summary: 'Tuple of (result: `Enum.UploadCaptureResult`, assetId: `number`)
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Capture
+- name: CanCaptureVideo
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+- name: CaptureScreenshot
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: onCaptureReady
+    type: Function
+  returns:
+  - type: 'null'
+- name: CloneForSnapshot
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: instances
+    type: Instances
+  - name: includeNonArchivable
+    type: bool
+    default: 'false'
+  returns:
+  - type: SceneSnapshot
+- name: DeleteCapture
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: capturePath
+    type: string
+  returns:
+  - type: 'null'
+- name: DeleteVideoCapture
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: videoCapture
+    type: VideoCapture
+  returns:
+  - type: 'null'
+- name: GetDeviceInfo
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Dictionary
+- name: GetScreenshotCaptureObject
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: capturePath
+    type: string
+  returns:
+  - type: Capture
+- name: IsCapturingVideo
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+- name: OnCaptureBegan
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: OnCaptureEnded
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: OnCaptureObjectShared
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: capture
+    type: Capture
+  returns:
+  - type: 'null'
+- name: OnCapturePermissionsPromptFinished
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: promptId
+    type: int64
+  - name: wasAccepted
+    type: bool
+  returns:
+  - type: 'null'
+- name: OnCaptureShared
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: capturePath
+    type: string
+  returns:
+  - type: 'null'
+- name: OnSavePromptFinished
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: promptId
+    type: int64
+  - name: results
+    type: Dictionary
+  returns:
+  - type: 'null'
+- name: OnSharePromptFinished
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: promptId
+    type: int64
+  - name: accepted
+    type: bool
+  returns:
+  - type: 'null'
+- name: OnVideoCaptureShared
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: videoCapture
+    type: VideoCapture
+  returns:
+  - type: 'null'
+- name: PreCaptureShared
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: capture
+    type: Capture
+  returns:
+  - type: string
+- name: PreVideoCaptureShared
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: videoCapture
+    type: VideoCapture
+  returns:
+  - type: string
+- name: PromptSaveCapturesToGallery
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: captures
+    type: Array
+  - name: resultCallback
+    type: Function
+  returns:
+  - type: 'null'
+- name: PromptShareCapture
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: captureContent
+    type: Content
+  - name: launchData
+    type: string
+  - name: onAcceptedCallback
+    type: Function
+  - name: onDeniedCallback
+    type: Function
+  returns:
+  - type: 'null'
+- name: RetrieveCaptures
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+- name: SaveCaptureObjectToExternalStorage
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: capture
+    type: Capture
+  returns:
+  - type: 'null'
+- name: SaveCaptureToExternalStorage
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: capturePath
+    type: string
+  returns:
+  - type: 'null'
+- name: SaveScreenshotCapture
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: additionalInfo
+    type: string
+  returns:
+  - type: 'null'
+- name: SaveVideoCaptureToExternalStorage
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: videoCapture
+    type: VideoCapture
+  returns:
+  - type: 'null'
+- name: StopVideoCapture
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: StopVideoCaptureForMCP
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: StopVideoCaptureInternal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: TakeScreenshotCaptureAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: onCaptureReady
+    type: Function
+  - name: captureParams
+    type: Dictionary
+    default: nil
+  returns:
+  - type: 'null'
+- name: UploadCaptureAndPostMoment
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: capture
+    type: Capture
+  - name: momentMetadata
+    type: Dictionary
+    default: nil
+  - name: feedRegistrationInfo
+    type: Dictionary
+    default: nil
+  returns:
+  - type: 'null'
+- name: CheckMomentTextStatusAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: token
+    type: string
+  returns:
+  - type: Tuple
+- name: CheckUploadCaptureStatusAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: token
+    type: string
+  returns:
+  - type: Tuple
+- name: CheckUploadCaptureStatusForSupportTicketAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: operationId
+    type: string
+  returns:
+  - type: Tuple
+- name: CreatePostAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: pathArr
+    type: Array
+  - name: caption
+    type: string
+  returns:
+  - type: Dictionary
+- name: DeleteCapturesAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: pathArr
+    type: Array
+  returns:
+  - type: int64
+- name: DeleteVideoCaptureAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: videoCapture
+    type: VideoCapture
+  returns:
+  - type: bool
+- name: GenerateMomentTextAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: capture
+    type: Capture
+  - name: tone
+    type: string
+  returns:
+  - type: Tuple
+- name: GetCaptureFilePathAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: captureContent
+    type: Content
+  returns:
+  - type: string
+- name: GetCaptureSizeAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: captureContent
+    type: Content
+  returns:
+  - type: Vector2
+- name: GetCaptureStorageSizeAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: pathArr
+    type: Array
+  returns:
+  - type: int64
+- name: GetCaptureUploadDataAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: capturePath
+    type: string
+  returns:
+  - type: Dictionary
+- name: InternalCheckPlayabilityAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: universeId
+    type: int64
+  returns:
+  - type: bool
+- name: InternalGetStartPlaceIdAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: universeId
+    type: int64
+  returns:
+  - type: int64
+- name: PromptCaptureGalleryPermissionAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: captureGalleryPermission
+    type: Enum.CaptureGalleryPermission
+  returns:
+  - type: bool
+- name: ReadCapturesFromGalleryAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: captureTypeFilters
+    type: Array
+    default: '{}'
+  - name: readFromAllEligibleExperiences
+    type: bool
+    default: 'false'
+  returns:
+  - type: Tuple
+- name: SaveCapturesToExternalStorageAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: pathArr
+    type: Array
+  returns:
+  - type: int64
+- name: StartUploadCaptureAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: capture
+    type: Capture
+  returns:
+  - type: Tuple
+- name: StartUploadCaptureForSupportTicketAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: capture
+    type: Capture
+  returns:
+  - type: Tuple
+- name: StartVideoCaptureAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: onCaptureReady
+    type: Function
+  - name: captureParams
+    type: Dictionary
+    default: nil
+  returns:
+  - type: Enum.VideoCaptureStartedResult
+- name: StartVideoCaptureForMCPAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: onCaptureReady
+    type: Function
+  returns:
+  - type: Enum.VideoCaptureStartedResult
+- name: StartVideoCaptureInternalAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Enum.VideoCaptureStartedResult
+- name: UploadCaptureAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: capture
+    type: Capture
+  returns:
+  - type: Tuple
+- name: UploadPostAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: capture
+    type: Capture
+  - name: postMetadata
+    type: Dictionary
+    default: nil
+  returns:
+  - type: Dictionary
+events:
+- name: CaptureService.CaptureBegan
+  summary: 'Fires immediately before a capture begins.
+
+    '
+  description: 'This event fires right before a new capture is taken. It can be used
+    to
+
+    customize the capture experience, for example by hiding certain GUI
+
+    elements.
+
+    '
+  code_samples: []
+  parameters:
+  - name: captureType
+    type: CaptureType
+    default: null
+    summary: 'An `Enum.CaptureType` indicating whether the capture is a screenshot
+
+      or video.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Capture
+- name: CaptureService.CaptureEnded
+  summary: 'Fires after a capture finishes.
+
+    '
+  description: 'This event fires after a new capture completes. It can be used to
+    restore
+
+    any changes made when the `Class.CaptureService.CaptureBegan|CaptureBegan`
+
+    event fired.
+
+    '
+  code_samples: []
+  parameters:
+  - name: captureType
+    type: CaptureType
+    default: null
+    summary: 'An `Enum.CaptureType` indicating whether the capture was a screenshot
+
+      or video.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Capture
+- name: CaptureService.CaptureSaved
+  summary: 'Fires when a screenshot capture is saved to the user''s gallery.
+
+    '
+  description: 'Fires when a screenshot capture is saved to the user''s gallery. Provides
+    a
+
+    `captureInfo` dictionary with `contentId`, `filePath`, and `type`. Fires
+
+    only for screenshot captures, not video captures.
+
+
+    Deprecated; use `Class.CaptureService.UserCaptureSaved|UserCaptureSaved`
+
+    instead, which fires with the saved capture''s `contentId` directly.
+
+    '
+  code_samples: []
+  parameters:
+  - name: captureInfo
+    type: Dictionary
+    default: null
+    summary: 'A dictionary containing `contentId`, `filePath`, and `type` fields
+
+      describing the saved capture.
+
+      '
+  tags:
+  - Deprecated
+  deprecation_message: 'This event has been superseded by the
+
+    `Class.CaptureService.UserCaptureSaved|UserCaptureSaved` event.
+
+    '
+  security: None
+  capabilities:
+  - Capture
+- name: CaptureService.UserCaptureSaved
+  summary: 'Fires when the user saves a capture.
+
+    '
+  description: 'This event fires when the user saves a screenshot using the Roblox
+
+    screenshot capture UI. It can be used for analytics or to prompt the user
+
+    to share their capture.
+
+    '
+  code_samples: []
+  parameters:
+  - name: captureContentId
+    type: ContentId
+    default: null
+    summary: 'The `contentId` identifying the screenshot that the user saved.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Capture
+- name: CaptureBegan
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: captureType
+    type: Enum.CaptureType
+- name: CaptureEnded
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: captureType
+    type: Enum.CaptureType
+- name: CaptureObjectSavedInternal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: capture
+    type: Capture
+  - name: triggerSource
+    type: string
+- name: CaptureSaved
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''UserCaptureSaved'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: captureInfo
+    type: Dictionary
+- name: CaptureSavedInternal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: captureInfo
+    type: Dictionary
+  - name: triggerSource
+    type: string
+- name: OnCaptureAndMetadataSignatureResult
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: content
+    type: string
+  - name: captureSignature
+    type: string
+  - name: captureSignatureVersion
+    type: int
+  - name: metadataSignature
+    type: string
+  - name: metadataSignatureVersion
+    type: int
+- name: OpenCapturePermissionsPrompt
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: promptId
+    type: int64
+  - name: captureGalleryPermission
+    type: Enum.CaptureGalleryPermission
+- name: OpenSaveCapturesPrompt
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: promptId
+    type: int64
+  - name: captures
+    type: Array
+- name: OpenShareCapturePrompt
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: promptId
+    type: int64
+  - name: captureContent
+    type: Variant
+  - name: launchData
+    type: string
+- name: RequestCaptureAndMetadataSignature
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: content
+    type: string
+  - name: audioAssetIds
+    type: string
+- name: UserCaptureSaved
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: captureContentId
+    type: ContentId
+- name: UserVideoCaptureFailed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: result
+    type: Enum.VideoCaptureResult
+- name: UserVideoCaptureStartFailed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: result
+    type: Enum.VideoCaptureStartedResult
+- name: VideoCaptureInProgress
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: isInProgress
+    type: bool
+  - name: captureTrigger
+    type: string
+callbacks: []

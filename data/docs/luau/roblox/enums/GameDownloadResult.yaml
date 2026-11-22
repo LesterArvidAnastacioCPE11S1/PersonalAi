@@ -1,0 +1,46 @@
+name: GameDownloadResult
+type: enum
+summary: Reference for Enum.GameDownloadResult, generated automatically from the Roblox
+  API dump 0.748.0.7481526.
+description: Reference for Enum.GameDownloadResult, generated automatically from the
+  Roblox API dump 0.748.0.7481526.
+code_samples: []
+tags: []
+deprecation_message: ''
+items:
+- name: Success
+  summary: ''
+  value: 0
+  tags: []
+- name: ManifestUnavailable
+  summary: ''
+  value: 1
+  tags: []
+- name: NotEnoughSpace
+  summary: ''
+  value: 2
+  tags: []
+- name: NotOnWiFi
+  summary: ''
+  value: 3
+  tags: []
+- name: NetworkMetered
+  summary: ''
+  value: 4
+  tags: []
+- name: LowPowerMode
+  summary: ''
+  value: 5
+  tags: []
+- name: Moderated
+  summary: ''
+  value: 6
+  tags: []
+- name: NetworkError
+  summary: ''
+  value: 7
+  tags: []
+- name: Cancelled
+  summary: ''
+  value: 8
+  tags: []

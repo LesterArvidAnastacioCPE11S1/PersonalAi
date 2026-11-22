@@ -1,0 +1,233 @@
+name: Debris
+type: class
+memory_category: Instances
+summary: 'Allows scheduling the guaranteed destruction of an object without yielding.
+
+  '
+description: "The **Debris** service allows scheduling guaranteed destruction of an\
+  \ object\nwithout yielding.\n\n#### Advantages\n\nBesides creating a bit of a mess,\
+  \ objects that are no longer required can use\nup system memory and cause an experience\
+  \ to run slower over time. For this\nreason, it's always advised to call `Class.Instance:Destroy()`\
+  \ on objects you\nno longer need. In some cases, however, an object may have a specific\
+  \ period\nof utility before it can be destroyed.\n\nConsider a wall being smashed\
+  \ into individual bricks. If you want a brick to\nlinger for 3 seconds before being\
+  \ destroyed, you can use the following code:\n\n```lua\ntask.wait(3)\nbrick:Destroy()\n\
+  ```\n\nHowever, waiting causes the thread to yield which may be undesired. To avoid\n\
+  yielding, a callback function can be scheduled to run on a new thread after 3\n\
+  seconds:\n\n```lua\ntask.delay(3, function()\n\tbrick:Destroy()\nend)\n```\n\nOr\
+  \ in one line:\n\n```lua\ntask.delay(3, brick.Destroy, brick)\n```\n\nWhile this\
+  \ now avoids yielding, it has a potential drawback in that the\nscheduled callback\
+  \ will never run if the script is disabled or destroyed\nbefore the callback runs.\n\
+  \nThis is where `Class.Debris` has a specific advantage, as it does not yield\n\
+  the current thread and runs outside the context of the script, guaranteeing\nthe\
+  \ instance is eventually destroyed even if the script is disabled or\ndestroyed.\
+  \ The following code does not yield and guarantees the instance will\nbe destroyed:\n\
+  \n```lua\nDebris:AddItem(brick, 3)\n```\n\nNote that `Class.Debris` has a hardcoded\
+  \ maximum of 1,000 objects, so if more\nthan 1,000 items are added, the oldest debris\
+  \ will be destroyed instantly to\nmake room for new debris.\n"
+code_samples:
+- Debris-AddItem
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+deprecation_message: ''
+properties:
+- name: Debris.MaxItems
+  summary: 'The maximum number of items that can be assigned to the `Class.Debris`
+
+    service at one time.
+
+    '
+  description: 'The maximum number of items that can be assigned to the Debris service
+    at
+
+    one time.
+
+
+    If this number is exceeded, objects are automatically destroyed in order
+
+    from oldest to newest until the amount is less than or equal to MaxItems.
+
+
+    This property is currently restricted and will error if set. The value is
+
+    hardcoded to 1,000 items.
+
+    '
+  code_samples: []
+  type: int
+  tags:
+  - Deprecated
+  deprecation_message: 'This property is deprecated and should not be used in new
+    work.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: MaxItems
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+methods:
+- name: Debris:AddItem
+  summary: 'Schedules a given `Class.Instance` for destruction within the specified
+
+    lifetime.
+
+    '
+  description: 'Schedules a given `Class.Instance` for destruction within the specified
+
+    lifetime. After the `lifetime` argument has elapsed, the object is
+
+    destroyed in the same manner as `Class.Instance:Destroy()`. Note that the
+
+    `lifetime` argument is optional and defaults to 10 seconds.
+
+
+    Note that `Class.Debris` has a hardcoded maximum of 1,000 objects, so if
+
+    more than 1,000 items are added, the oldest debris will be destroyed
+
+    instantly to make room for new debris. This means you should treat the
+
+    `lifetime` parameter as a **maximum** lifetime, not an exact lifetime.
+
+    '
+  code_samples:
+  - Debris-AddItem
+  parameters:
+  - name: item
+    type: Instance
+    default: null
+    summary: 'The `Class.Instance` to add to `Class.Debris`.
+
+      '
+  - name: lifetime
+    type: double
+    default: 10
+    summary: 'Number of seconds before the `Class.Instance` should be destroyed.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: Debris:addItem
+  summary: ''
+  description: ''
+  code_samples: []
+  parameters:
+  - name: item
+    type: Instance
+    default: null
+    summary: ''
+  - name: lifetime
+    type: double
+    default: 10
+    summary: ''
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This function is a deprecated variant of `Class.Debris:AddItem()`
+    which
+
+    should be used instead.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: AddItem
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: item
+    type: Instance
+  - name: lifetime
+    type: double
+    default: '10'
+  returns:
+  - type: 'null'
+- name: SetLegacyMaxItems
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: LocalUserSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: enabled
+    type: bool
+  returns:
+  - type: 'null'
+- name: addItem
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: item
+    type: Instance
+  - name: lifetime
+    type: double
+    default: '10'
+  returns:
+  - type: 'null'
+events: []
+callbacks: []

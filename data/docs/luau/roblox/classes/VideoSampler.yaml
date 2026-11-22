@@ -1,0 +1,173 @@
+name: VideoSampler
+type: class
+memory_category: Instances
+summary: 'An object for sampling frames from video content.
+
+  '
+description: 'This object lets you get image frames from selected timestamps of a
+  video. To
+
+  create a `Class.VideoSampler`, call
+
+  `Class.VideoService:CreateVideoSamplerAsync()`.
+
+  '
+code_samples: []
+inherits:
+- Object
+descendants: []
+tags:
+- NotCreatable
+- NotReplicated
+deprecation_message: ''
+properties:
+- name: VideoSampler.TimeLength
+  summary: 'The length of the `Class.VideoSampler.VideoContent|VideoContent` in
+
+    seconds.
+
+    '
+  description: 'The length of the `Class.VideoSampler.VideoContent|VideoContent` in
+
+    seconds.
+
+    '
+  code_samples: []
+  type: double
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - UI
+- name: VideoSampler.VideoContent
+  summary: 'The asset loaded into the `Class.VideoSampler`.
+
+    '
+  description: 'The asset loaded into the `Class.VideoSampler`.
+
+    '
+  code_samples: []
+  type: Content
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - UI
+- name: TimeLength
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: double
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_failed_to_create_class__
+- name: VideoContent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Content
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_no_string_value__
+methods:
+- name: VideoSampler:GetSamplesAtTimesAsync
+  summary: 'Gets image frames at the specified timestamps.
+
+    '
+  description: 'This method allows you to get a set of image frames from a video at
+
+    specified timestamps as image `Datatype.Content` objects.
+
+    '
+  code_samples: []
+  parameters:
+  - name: times
+    type: Array
+    default: null
+    summary: 'An array of requested timestamps in seconds for which to retrieve
+
+      image frames. Each timestamp should be a number between `0` and
+
+      `Class.VideoSampler.TimeLength|TimeLength`.
+
+      '
+  returns:
+  - type: List<VideoSample>
+    summary: "An array of dictionary or nil values for each requested timestamp. If\n\
+      a requested timestamp is out of range or the `Class.VideoSampler` was\nunable\
+      \ to produce a sample, the corresponding entry in the returned\narray will be\
+      \ nil.\n\nEach dictionary contains the following keys:\n\n- `Time` (number):\
+      \ The timestamp of the returned image frame in\n  seconds. This value may differ\
+      \ slightly from the requested\n  timestamp.\n- `Image` (`Datatype.Content`):\
+      \ A `Datatype.Content` with a\n  `Datatype.Content.SourceType|SourceType` of\n\
+      \  `Enum.ContentSourceType.Opaque` containing the image frame at the\n  corresponding\
+      \ timestamp.\n"
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: GetSamplesAtTimesAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: times
+    type: Array
+  returns:
+  - type: Array
+events: []
+callbacks: []

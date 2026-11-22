@@ -1,0 +1,193 @@
+name: CoreGuiConfiguration
+type: class
+memory_category: Instances
+summary: 'Service that groups the configuration objects controlling Roblox''s built-in
+
+  `Class.CoreGui` elements.
+
+  '
+description: '`Class.CoreGuiConfiguration` is a service that groups the per-element
+
+  configuration objects controlling Roblox''s built-in `Class.CoreGui` elements.
+
+  When it is added to the data model, it automatically creates one child of each
+
+  configuration type — `Class.PlayerListConfiguration`,
+
+  `Class.CapturesViewConfiguration`, and `Class.SelfViewConfiguration` — and
+
+  exposes each of them through a property of the same name.
+
+
+  Each child configuration object inherits
+
+  `Class.BaseCoreGuiConfiguration.Enabled|Enabled` to toggle whether its
+
+  corresponding core GUI element is displayed.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+- NotReplicated
+deprecation_message: ''
+properties:
+- name: CoreGuiConfiguration.CapturesViewConfiguration
+  summary: 'References the `Class.CapturesViewConfiguration` object that controls
+    the
+
+    built-in captures view.
+
+    '
+  description: 'References the `Class.CapturesViewConfiguration` object that controls
+    the
+
+    built-in captures view — the `Class.CoreGui` element that lets players
+
+    browse and manage the screenshots and video captures they take within an
+
+    experience. The service creates this child automatically, so the property
+
+    refers to that instance for the lifetime of the service.
+
+    '
+  code_samples: []
+  type: CapturesViewConfiguration
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+  - Capture
+- name: CoreGuiConfiguration.PlayerListConfiguration
+  summary: 'References the `Class.PlayerListConfiguration` object that controls the
+
+    built-in player list.
+
+    '
+  description: 'References the `Class.PlayerListConfiguration` object that controls
+    the
+
+    built-in player list — the `Class.CoreGui` element that displays the
+
+    players currently in the experience. The service creates this child
+
+    automatically, so the property refers to that instance for the lifetime of
+
+    the service.
+
+    '
+  code_samples: []
+  type: PlayerListConfiguration
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: CoreGuiConfiguration.SelfViewConfiguration
+  summary: 'References the `Class.SelfViewConfiguration` object that controls the
+
+    built-in self view.
+
+    '
+  description: 'References the `Class.SelfViewConfiguration` object that controls
+    the
+
+    built-in self view — the `Class.CoreGui` element that shows players a
+
+    preview of their own camera feed. The service creates this child
+
+    automatically, so the property refers to that instance for the lifetime of
+
+    the service.
+
+    '
+  code_samples: []
+  type: SelfViewConfiguration
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: CapturesViewConfiguration
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: CapturesViewConfiguration
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: PlayerListConfiguration
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: PlayerListConfiguration
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: SelfViewConfiguration
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: SelfViewConfiguration
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+methods: []
+events: []
+callbacks: []

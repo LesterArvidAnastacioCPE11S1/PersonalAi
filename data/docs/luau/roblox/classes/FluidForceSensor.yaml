@@ -1,0 +1,283 @@
+name: FluidForceSensor
+type: class
+memory_category: Instances
+summary: 'A `Class.SensorBase` that outputs `Class.FluidForceSensor.Force|Force`,
+
+  `Class.FluidForceSensor.Torque|Torque` and
+
+  `Class.FluidForceSensor.CenterOfPressure|CenterOfPressure`.
+
+  '
+description: '`FluidForceSensor` is a `Class.SensorBase` which outputs the results
+  of fluid
+
+  force simulation from the last physics frame for the part it is attached to.
+
+  The sensor outputs the `Class.FluidForceSensor.Force|Force`,
+
+  `Class.FluidForceSensor.Torque|Torque` and
+
+  `Class.FluidForceSensor.CenterOfPressure|CenterOfPressure` which were computed
+
+  by the fluid force simulation on the last physics frame.
+
+  '
+code_samples: []
+inherits:
+- SensorBase
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: FluidForceSensor.CenterOfPressure
+  summary: 'Assembly center of pressure offset from its center of mass in world
+
+    coordinates.
+
+    '
+  description: 'Assembly center of pressure offset from its center of mass in world
+
+    coordinates.
+
+    '
+  code_samples: []
+  type: Vector3
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Output
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - Basic
+  simulationAccess: true
+- name: FluidForceSensor.Force
+  summary: 'Assembly fluid force in world coordinates.
+
+    '
+  description: 'Assembly fluid force in world coordinates.
+
+    '
+  code_samples: []
+  type: Vector3
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Output
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - Basic
+  simulationAccess: true
+- name: FluidForceSensor.Torque
+  summary: 'Assembly fluid torque in world coordinates.
+
+    '
+  description: 'Assembly fluid torque in world coordinates.
+
+    '
+  code_samples: []
+  type: Vector3
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Output
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - Basic
+  simulationAccess: true
+- name: BuoyancyForce
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Output
+  serialization:
+    can_load: false
+    can_save: true
+  default: 0, 0, 0
+- name: BuoyancyTorque
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Output
+  serialization:
+    can_load: false
+    can_save: true
+  default: 0, 0, 0
+- name: CenterOfPressure
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Output
+  serialization:
+    can_load: false
+    can_save: true
+  default: 0, 0, 0
+- name: Force
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Output
+  serialization:
+    can_load: false
+    can_save: true
+  default: 0, 0, 0
+- name: Torque
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Output
+  serialization:
+    can_load: false
+    can_save: true
+  default: 0, 0, 0
+methods:
+- name: FluidForceSensor:EvaluateAsync
+  summary: 'Asynchronously computes force, torque, and center of pressure for the
+
+    parent part of a sensor given provided inputs.
+
+    '
+  description: 'Asynchronously computes force, torque, and center of pressure for
+    the
+
+    parent part of a sensor given provided inputs.
+
+    '
+  code_samples: []
+  parameters:
+  - name: linearVelocity
+    type: Vector3
+    default: null
+    summary: 'Linear velocity in world coordinates.
+
+      '
+  - name: angularVelocity
+    type: Vector3
+    default: null
+    summary: 'Angular velocity in world coordinates.
+
+      '
+  - name: cframe
+    type: CFrame
+    default: null
+    summary: '`Datatype.CFrame` to be used for evaluation.
+
+      '
+  returns:
+  - type: Tuple
+    summary: 'Tuple of `Class.FluidForceSensor.Force|Force`,
+
+      `Class.FluidForceSensor.Torque|Torque` and
+
+      `Class.FluidForceSensor.CenterOfPressure|CenterOfPressure` calculated
+
+      given the input parameters.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+  simulationAccess: true
+- name: EvaluateAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: linearVelocity
+    type: Vector3
+  - name: angularVelocity
+    type: Vector3
+  - name: cframe
+    type: CFrame
+  returns:
+  - type: Tuple
+events: []
+callbacks: []

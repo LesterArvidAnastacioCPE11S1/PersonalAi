@@ -1,0 +1,410 @@
+name: MemoryStoreSortedMap
+type: class
+memory_category: Instances
+summary: 'Provides access to a sorted map within `Class.MemoryStoreService`.
+
+  '
+description: 'Provides access to a sorted map within `Class.MemoryStoreService`. A
+  sorted
+
+  map is a collection of items where string keys are associated with arbitrary
+
+  values (up to the maximum allowed size -- see
+
+  [Memory Stores](../../../cloud-services/memory-stores/sorted-map.md)). Each
+
+  item can also have an optional sort key, which can be a number or a string. In
+
+  the ordering of items, the sort key, if provided, takes precedence over the
+
+  key. Items with numeric sort keys are sorted before items with string sort
+
+  keys, which are sorted before items with no sort key. Items with the same sort
+
+  key and items with no sort key are arranged in alphabetical order by key.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- NotReplicated
+deprecation_message: ''
+properties: []
+methods:
+- name: MemoryStoreSortedMap:GetAsync
+  summary: 'Retrieves the value and sort key of a key in the sorted map.
+
+    '
+  description: 'Retrieves the value and sort key of a key in the sorted map.
+
+    '
+  code_samples: []
+  parameters:
+  - name: key
+    type: string
+    default: null
+    summary: 'Key whose value and sort key to retrieve.
+
+      '
+  returns:
+  - type: Tuple
+    summary: "A tuple of two values:\n\n- Key value, or `nil` if there's no item with\
+      \ the specified key.\n- Sort key, or `nil` if there's no sort key associated\
+      \ with the\n  specified key.\n"
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DataStore
+- name: MemoryStoreSortedMap:GetRangeAsync
+  summary: 'Retrieves items within a sorted range of keys and sort keys.
+
+    '
+  description: 'Gets items within a sorted range of keys and sort keys.
+
+    '
+  code_samples:
+  - retrieving-memorystore-keys
+  parameters:
+  - name: direction
+    type: SortDirection
+    default: null
+    summary: 'Sort direction, ascending or descending.
+
+      '
+  - name: count
+    type: int
+    default: null
+    summary: 'The number of items to retrieve; the maximum allowed value for this
+
+      parameter is 200.
+
+      '
+  - name: exclusiveLowerBound
+    type: Variant
+    default: null
+    summary: '**(Optional)** Lower bound, exclusive, for the returned keys. This is
+
+      provided as a table where one or both of key and sort key can be
+
+      specified: { key: string, sortKey: Variant } .
+
+      '
+  - name: exclusiveUpperBound
+    type: Variant
+    default: null
+    summary: '**(Optional)** Upper bound, exclusive, for the returned keys. This is
+
+      provided as a table where one or both of key and sort key can be
+
+      specified: { key: string, sortKey: Variant } .
+
+      '
+  returns:
+  - type: Array
+    summary: 'Item keys, values and sort keys in the requested range.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DataStore
+- name: MemoryStoreSortedMap:GetSizeAsync
+  summary: 'Gets the size of the sorted map.
+
+    '
+  description: 'Gets the size of the sorted map.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: int
+    summary: 'The number of items currently stored in the sorted map.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DataStore
+- name: MemoryStoreSortedMap:RemoveAsync
+  summary: 'Removes the provided key from the sorted map.
+
+    '
+  description: 'Removes the provided key from the sorted map.
+
+    '
+  code_samples: []
+  parameters:
+  - name: key
+    type: string
+    default: null
+    summary: 'Key to remove.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DataStore
+- name: MemoryStoreSortedMap:SetAsync
+  summary: 'Sets the value of a key.
+
+    '
+  description: 'Sets the value and sort key of the key overwriting any existing key
+    value
+
+    and sort key.
+
+    '
+  code_samples: []
+  parameters:
+  - name: key
+    type: string
+    default: null
+    summary: 'Key whose value to set.
+
+      '
+  - name: value
+    type: Variant
+    default: null
+    summary: 'Key value to set.
+
+      '
+  - name: expiration
+    type: int64
+    default: null
+    summary: 'Item expiration, in seconds. The item is automatically removed from
+
+      the sorted map once the expiration duration is reached. The maximum
+
+      expiration time is 45 days (3,888,000 seconds).
+
+      '
+  - name: sortKey
+    type: Variant
+    default: null
+    summary: '**(Optional)** Sort key to set for this key. Accepted types are a
+
+      number (integer or decimal) or a string.
+
+      '
+  returns:
+  - type: boolean
+    summary: '`true` if the value of an existing key was overwritten, or `false` if
+
+      a new key was added to the sorted map.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DataStore
+- name: MemoryStoreSortedMap:UpdateAsync
+  summary: 'Retrieves the value and sort key of a key from a sorted map and updates
+    it
+
+    with a new value and sort key.
+
+    '
+  description: "Retrieves the value and sort key of a key from a sorted map and lets\
+    \ you\nupdate it to a new value and sort key via a callback function.\n\nThis\
+    \ method accepts a callback function that transforms the old value and\nold sort\
+    \ key into the updated value and updated sort key as required. The\nmethod retrieves\
+    \ the existing key value and sort key and passes it to the\ntransform function\
+    \ which returns the new value and sort key for the item,\nwith these exceptions:\n\
+    \n- If the key does not exist, the old value and old sort key passed to the\n\
+    \  function will be `nil`.\n- If the function returns `nil`, the update is canceled.\n\
+    \nThe new value and new sort key is saved only if the key was not updated\n(e.g.\
+    \ by a different game server) since the moment it was read. If the\nvalue or sort\
+    \ key did change, the transform function is invoked again with\nthe most recent\
+    \ item value and sort key. This cycle repeats until the\nvalue and sort key are\
+    \ saved successfully or the transform function\nreturns `nil` to abort the operation.\n"
+  code_samples:
+  - updating-sorted-map-memory-store
+  parameters:
+  - name: key
+    type: string
+    default: null
+    summary: 'Key whose value to update.
+
+      '
+  - name: transformFunction
+    type: Function
+    default: null
+    summary: 'A function which you need to provide. The function takes the key''s
+      old
+
+      value and old sort key as input and returns the new value and new sort
+
+      key.
+
+      '
+  - name: expiration
+    type: int64
+    default: null
+    summary: 'Item expiration time, in seconds, after which the item will be
+
+      automatically removed from the sorted map. The maximum expiration time
+
+      is 45 days (3,888,000 seconds).
+
+      '
+  returns:
+  - type: Tuple
+    summary: 'The return value is a tuple of the last value and sort key returned
+      by
+
+      the transform function.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DataStore
+- name: GetAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: key
+    type: string
+  returns:
+  - type: Tuple
+- name: GetRangeAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: direction
+    type: Enum.SortDirection
+  - name: count
+    type: int
+  - name: exclusiveLowerBound
+    type: Variant
+  - name: exclusiveUpperBound
+    type: Variant
+  returns:
+  - type: Array
+- name: GetSizeAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: int
+- name: RemoveAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: key
+    type: string
+  returns:
+  - type: 'null'
+- name: SetAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: key
+    type: string
+  - name: value
+    type: Variant
+  - name: expiration
+    type: int64
+  - name: sortKey
+    type: Variant
+  returns:
+  - type: bool
+- name: UpdateAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: key
+    type: string
+  - name: transformFunction
+    type: Function
+  - name: expiration
+    type: int64
+  returns:
+  - type: Tuple
+events: []
+callbacks: []

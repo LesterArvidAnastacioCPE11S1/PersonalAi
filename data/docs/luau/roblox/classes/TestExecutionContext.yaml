@@ -1,0 +1,77 @@
+name: TestExecutionContext
+type: class
+memory_category: Instances
+summary: 'Passed to a running test''s callback to control how the test runs.
+
+  '
+description: 'A `TestExecutionContext` is the second argument passed to a test''s
+  callback
+
+  when `Class.TestService:RunTestsAsync()` runs it. Use it to skip the test with
+
+  `Class.TestExecutionContext:Skip()|Skip()`.
+
+
+  A `TestExecutionContext` isn''t an `Class.Instance` and can''t be parented.
+
+  '
+code_samples: []
+inherits:
+- Object
+descendants: []
+tags:
+- NotCreatable
+- NotReplicated
+deprecation_message: ''
+properties: []
+methods:
+- name: TestExecutionContext:Skip
+  summary: 'Stops the running test and records it as skipped.
+
+    '
+  description: "Stops the test's callback and records the test as\n`Enum.TestCaseStatus.Skipped`,\
+    \ with `reason` as its\n`Class.TestResult.SkipReason`. A skipped test isn't a\
+    \ failure. Use it when\na test doesn't apply in the current session, such as a\
+    \ touch-input test on\na device without a touch screen.\n\nThe test is reported\
+    \ as failed rather than skipped if a\n`Class.TestCase:Check()` or `Class.TestCase:Require()`\
+    \ failed in it, or if\nthe callback catches the skip with `Global.LuaGlobals.pcall()`\
+    \ and then\nthrows a different error.\n\n```lua\nlocal TestService = game:GetService(\"\
+    TestService\")\nlocal UserInputService = game:GetService(\"UserInputService\"\
+    )\n\nTestService:RegisterTest(\"tap opens the menu\", function(test, context)\n\
+    \tif not UserInputService.TouchEnabled then\n\t\tcontext:Skip(\"needs a touch\
+    \ screen\")\n\tend\n\t-- Touch-only checks go here\nend)\n```\n"
+  code_samples: []
+  parameters:
+  - name: reason
+    type: string
+    default: null
+    summary: 'Optional text explaining why the test was skipped.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: Skip
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: reason
+    type: string
+  returns:
+  - type: 'null'
+events: []
+callbacks: []

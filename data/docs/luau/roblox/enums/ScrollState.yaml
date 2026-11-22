@@ -1,0 +1,18 @@
+name: ScrollState
+type: enum
+summary: Reference for Enum.ScrollState, generated automatically from the Roblox API
+  dump 0.748.0.7481526.
+description: Reference for Enum.ScrollState, generated automatically from the Roblox
+  API dump 0.748.0.7481526.
+code_samples: []
+tags: []
+deprecation_message: ''
+items:
+- name: Idle
+  summary: ''
+  value: 0
+  tags: []
+- name: Scrolling
+  summary: ''
+  value: 1
+  tags: []

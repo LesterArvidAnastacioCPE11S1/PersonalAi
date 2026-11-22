@@ -1,0 +1,18 @@
+name: TextChannelDisplayMode
+type: enum
+summary: Reference for Enum.TextChannelDisplayMode, generated automatically from the
+  Roblox API dump 0.748.0.7481526.
+description: Reference for Enum.TextChannelDisplayMode, generated automatically from
+  the Roblox API dump 0.748.0.7481526.
+code_samples: []
+tags: []
+deprecation_message: ''
+items:
+- name: AllTextChannels
+  summary: ''
+  value: 0
+  tags: []
+- name: DefaultTextChannels
+  summary: ''
+  value: 1
+  tags: []

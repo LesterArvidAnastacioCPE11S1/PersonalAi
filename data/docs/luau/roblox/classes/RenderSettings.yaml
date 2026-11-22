@@ -1,0 +1,768 @@
+name: RenderSettings
+type: class
+memory_category: Instances
+summary: 'A singleton settings class that exposes rendering configuration for graphics
+
+  quality, framerate management, and debug visualization in Roblox Studio.
+
+  '
+description: '`RenderSettings` is a singleton class which lets developers debug components
+
+  of Roblox''s graphics engine. It can be found in Roblox Studio''s settings under
+
+  the **Rendering** tab.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+- NotReplicated
+- NotBrowsable
+deprecation_message: ''
+properties:
+- name: RenderSettings.AutoFRMLevel
+  summary: 'Sets the starting quality level of the framerate manager.
+
+    '
+  description: 'Sets the starting quality level of the framerate manager when
+
+    `Class.RenderSettings.EnableFRM|EnableFRM` is set to `true`.
+
+    '
+  code_samples: []
+  type: int
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  category: Debug
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: RenderSettings.EagerBulkExecution
+  summary: 'Whether all scene updates will be given an unlimited budget, regardless
+    of
+
+    how computationally expensive it may be.
+
+    '
+  description: 'When set to `true`, all scene updates will be given an unlimited budget,
+
+    regardless of how computationally expensive it may be. This ensures each
+
+    frame will look as it should, at the cost of a more unstable frame rate.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  category: Performance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: RenderSettings.EditQualityLevel
+  summary: 'Sets the graphics quality level in Roblox Studio.
+
+    '
+  description: 'Sets the graphics quality level in Roblox Studio when
+
+    `Class.RenderSettings.EnableFRM|EnableFRM` is set to `false`.
+
+    '
+  code_samples: []
+  type: QualityLevel
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  category: Performance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: RenderSettings.Enable VR Mode
+  summary: 'Toggles whether virtual reality (VR) mode is enabled.
+
+    '
+  description: 'When set to `true`, virtual reality (VR) mode is enabled. This property
+
+    reflects the same underlying setting as
+
+    `Class.UserGameSettings.VREnabled`, so reading or writing it reads or
+
+    writes that shared value. Defaults to `false`.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  category: General
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: RenderSettings.EnableFRM
+  summary: 'Toggles the enabled state of the framerate manager.
+
+    '
+  description: 'When set to `true`, the framerate manager (FRM) dynamically adjusts
+    the
+
+    rendering quality level during gameplay to maintain a stable framerate.
+
+    When set to `false`, the quality level is fixed at
+
+    `Class.RenderSettings.EditQualityLevel` and no automatic adjustment
+
+    occurs. Defaults to `true`.
+
+
+    The `Class.RenderSettings.AutoFRMLevel|AutoFRMLevel` property reports the
+
+    current quality level that the FRM has assigned when this property is
+
+    enabled.
+
+    '
+  code_samples: []
+  type: boolean
+  tags:
+  - Hidden
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  category: Debug
+  serialization:
+    can_load: true
+    can_save: false
+  capabilities: []
+- name: RenderSettings.ExportMergeByMaterial
+  summary: 'Sets whether materials should be generated per part, or per unique
+
+    appearance in Roblox''s exporter.
+
+    '
+  description: 'Controls how materials are written during `.obj` export from Studio.
+    When
+
+    set to `true`, parts that share the same material appearance are merged
+
+    into shared material definitions in the exported `.obj` file, reducing
+
+    material count. When set to `false`, each part receives its own
+
+    independent material definition. Defaults to `false`.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  category: General
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: RenderSettings.FrameRateManager
+  summary: 'Specifies the behavior of the framerate manager.
+
+    '
+  description: 'Determines how the framerate manager (FRM) manages rendering quality
+    using
+
+    a `Enum.FramerateManagerMode` value. When set to
+
+    `Enum.FramerateManagerMode.Automatic`, the engine decides whether to
+
+    enable FRM quality adjustment based on context (typically enabled during
+
+    gameplay). When set to `Enum.FramerateManagerMode.On`, the FRM is always
+
+    active. When set to `Enum.FramerateManagerMode.Off`, the FRM does not
+
+    adjust quality and block culling is forced to the lowest-quality distance
+
+    setting. Defaults to `Enum.FramerateManagerMode.Automatic`.
+
+    '
+  code_samples: []
+  type: FramerateManagerMode
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  category: General
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: RenderSettings.GraphicsMode
+  summary: 'The graphics API that Roblox will use on startup.
+
+    '
+  description: 'Determines which graphics rendering API Roblox uses on startup, specified
+
+    as a `Enum.GraphicsMode` value. When set to `Enum.GraphicsMode.Automatic`,
+
+    the engine selects the best available backend for the current platform.
+
+    Available options are platform-dependent; for example,
+
+    `Enum.GraphicsMode.Metal` is only available on macOS and
+
+    `Enum.GraphicsMode.Direct3D11` is only available on Windows. If an
+
+    unsupported mode is selected, the engine silently falls back to
+
+    `Enum.GraphicsMode.Automatic`. Defaults to `Enum.GraphicsMode.Automatic`.
+
+
+    Because the graphics API is initialized at startup, changing this property
+
+    only takes effect after restarting Roblox Studio.
+
+    '
+  code_samples: []
+  type: GraphicsMode
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  category: General
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: RenderSettings.MeshCacheSize
+  summary: 'The size in bytes of the mesh cache.
+
+    '
+  description: 'The size in bytes of the mesh cache. Defaults to 32 MiB.
+
+    '
+  code_samples: []
+  type: int
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  category: Cache
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: RenderSettings.MeshPartDetailLevel
+  summary: 'Studio only. Used to visually verify the quality of
+
+    `Class.MeshPart|MeshParts` at lower level of detail at close range.
+
+    '
+  description: 'Determines the mode for the selection of detail levels for mesh parts.
+    For
+
+    a good balance between performance and fidelity, this should be set to
+
+    `Enum.MeshPartDetailLevel.DistanceBased` (default), which is what the
+
+    client uses.
+
+
+    Note that the `Class.MeshPart.RenderFidelity` needs to be set to
+
+    `Enum.RenderFidelity.Automatic` for this to work. If you set it to
+
+    `Enum.RenderFidelity.Precise`, you will always see the higher resolution
+
+    version and the `Enum.MeshPartDetailLevel` value will be ignored for that
+
+    `Class.MeshPart`.
+
+    '
+  code_samples: []
+  type: MeshPartDetailLevel
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  category: Debug
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: RenderSettings.QualityLevel
+  summary: 'Controls the quality level in Roblox Studio.
+
+    '
+  description: 'If `Class.RenderSettings.EnableFRM|EnableFRM` is set to `true`, this
+
+    property controls the quality level in Roblox Studio.
+
+    '
+  code_samples: []
+  type: QualityLevel
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  category: Performance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: RenderSettings.ReloadAssets
+  summary: 'Whether Roblox Studio will automatically reload changes that are made
+    to
+
+    files in Roblox''s `content` folder.
+
+    '
+  description: 'When set to `true`, Roblox Studio will automatically reload changes
+    that
+
+    are made to files in Roblox''s `content` folder.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  category: Debug
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: RenderSettings.RenderCSGTrianglesDebug
+  summary: 'Whether a wireframe of polygons will be shown on all `Class.PartOperation`
+
+    objects.
+
+    '
+  description: 'When set to `true`, a wireframe of polygons will be shown on all
+
+    `Class.PartOperation` objects.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  category: Debug
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: RenderSettings.ShowBoundingBoxes
+  summary: 'Whether bounding boxes are rendered around each individual rendered entity
+
+    in the scene.
+
+    '
+  description: 'If set to `true`, renders bounding boxes around each individual rendered
+
+    entity in the scene.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  category: Debug
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: RenderSettings.ViewMode
+  summary: 'Studio only. Selects a debug rendering visualization overlay for the
+
+    viewport.
+
+    '
+  description: 'Studio only. Determines which debug rendering visualization is drawn
+    over
+
+    the viewport, using a value of `Enum.ViewMode`. Defaults to
+
+    `Enum.ViewMode.None`, which disables the overlay. Other values enable
+
+    overdraw visualizations for geometry complexity, transparency, or decals.
+
+    '
+  code_samples: []
+  type: ViewMode
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  category: Debug
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: AutoFRMLevel
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  type: int
+  category: Debug
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+- name: EagerBulkExecution
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Performance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+- name: EditQualityLevel
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  type: Enum.QualityLevel
+  category: Performance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+- name: EnableFRM
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Debug
+  serialization:
+    can_load: true
+    can_save: false
+  default: __api_dump_skipped_class__
+- name: Enable VR Mode
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: General
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+- name: ExportMergeByMaterial
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: General
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+- name: FrameRateManager
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  type: Enum.FramerateManagerMode
+  category: General
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+- name: GraphicsMode
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  type: Enum.GraphicsMode
+  category: General
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+- name: MeshCacheSize
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  type: int
+  category: Cache
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+- name: MeshPartDetailLevel
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  type: Enum.MeshPartDetailLevel
+  category: Debug
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+- name: QualityLevel
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  type: Enum.QualityLevel
+  category: Performance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+- name: ReloadAssets
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Debug
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+- name: RenderCSGTrianglesDebug
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Debug
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+- name: ShowBoundingBoxes
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Debug
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+- name: ViewMode
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  type: Enum.ViewMode
+  category: Debug
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+methods:
+- name: RenderSettings:GetMaxQualityLevel
+  summary: 'Returns the maximum quality level.
+
+    '
+  description: 'Returns the total number of quality levels available in the rendering
+
+    quality system. Quality levels are numbered from
+
+    `Enum.QualityLevel.Automatic` (0) through `Enum.QualityLevel.Level21`
+
+    (21), so this method returns 22. Use `GetMaxQualityLevel() - 1` to obtain
+
+    the highest numeric quality level.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: int
+    summary: 'The total number of quality levels available in the rendering system.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: GetMaxQualityLevel
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: int
+events: []
+callbacks: []

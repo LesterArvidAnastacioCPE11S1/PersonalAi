@@ -1,0 +1,709 @@
+name: AnimationClipProvider
+type: class
+memory_category: Animation
+summary: 'Provides functions to load and preview `Class.AnimationClip|AnimationClips`.
+
+  '
+description: "Provides functions to load and preview `Class.AnimationClip|AnimationClips`.\n\
+  It includes a number of functions that are useful when working with an\n`Class.Animation`.\n\
+  \nThe `Class.AnimationClipProvider` replaces the deprecated\n`Class.KeyframeSequenceProvider`\
+  \ that was used to download `KeyframeSequences`\nby content ID.\n\nThe AnimationClipProvider\
+  \ has a number of uses.\n\n- Download the `Class.AnimationClip` associated with\
+  \ an animation content ID\n  from the Roblox website, regardless of the underlying\
+  \ type of\n  `Class.AnimationClip` (`Class.KeyframeSequence` or `Class.CurveAnimation`).\n\
+  - Generate a temporary ID to locally preview an animation.\n- Fetch the content\
+  \ IDs of animations owned by a particular user.\n"
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+- NotReplicated
+deprecation_message: ''
+properties: []
+methods:
+- name: AnimationClipProvider:GetAnimationClip
+  summary: 'Returns a `Class.AnimationClip` from a given asset URL.
+
+    '
+  description: 'Returns a `Class.AnimationClip` from a given asset URL.
+
+    '
+  code_samples: []
+  parameters:
+  - name: assetId
+    type: ContentId
+    default: null
+    summary: 'The content ID of the animation.
+
+      '
+  returns:
+  - type: AnimationClip
+    summary: 'The `Class.AnimationClip` found.
+
+      '
+  tags:
+  - Deprecated
+  deprecation_message: 'This function is deprecated and can lead to the game freezing
+    until the
+
+    animation is loaded. Developers are recommended to use
+
+    `GetAnimationClipAsync` instead.
+
+    '
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities:
+  - Animation
+- name: AnimationClipProvider:GetAnimationClipAsync
+  summary: 'Returns a `Class.AnimationClip` based on the specified assetId
+
+    asynchronously.
+
+    '
+  description: 'Fetches an `Class.AnimationClip` based on the specified assetId. The
+
+    assetId must correspond to an animation asset in Roblox. The function will
+
+    yield until the `Class.AnimationClip` is loaded from the website and
+
+    should be wrapped in a `pcall`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: assetId
+    type: ContentId
+    default: null
+    summary: 'The content ID of the animation.
+
+      '
+  returns:
+  - type: AnimationClip
+    summary: 'The `Class.AnimationClip` found.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Animation
+- name: AnimationClipProvider:GetAnimationClipById
+  summary: 'Returns a `Class.AnimationClip` from the supplied assetId.
+
+    '
+  description: 'Returns a `Class.AnimationClip` from the supplied assetId. Can optionally
+
+    cache to reduce unnecessary loading freezes.
+
+    '
+  code_samples: []
+  parameters:
+  - name: assetId
+    type: int64
+    default: null
+    summary: 'The content ID of the animation.
+
+      '
+  - name: useCache
+    type: boolean
+    default: null
+    summary: 'True if a cached version can be returned.
+
+      '
+  returns:
+  - type: AnimationClip
+    summary: 'The `Class.AnimationClip` found.
+
+      '
+  tags:
+  - Deprecated
+  deprecation_message: 'This function is deprecated and can lead to the game freezing
+    until the
+
+    animation is loaded. Developers are recommended to use
+
+    `GetAnimationClipAsync` instead.
+
+    '
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities:
+  - Animation
+- name: AnimationClipProvider:GetAnimations
+  summary: 'This function returns an `Class.InventoryPages` object which can be used
+
+    to iterate over animations owned by a specific user.
+
+    '
+  description: 'This function returns an `Class.InventoryPages` object which can be
+    used
+
+    to iterate over animations owned by a specific user. It yields until the
+
+    first page of results is loaded from the website. The `userId` must be a
+
+    positive number; otherwise the call errors.
+
+
+    This function is deprecated. Use
+
+    `Class.AnimationClipProvider:GetAnimationsAsync()|GetAnimationsAsync`
+
+    instead, which behaves identically.
+
+    '
+  code_samples: []
+  parameters:
+  - name: userId
+    type: User
+    default: null
+    summary: 'The user ID of the user.
+
+      '
+  returns:
+  - type: Instance
+    summary: 'An `Class.InventoryPages` of animations.
+
+      '
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Animation
+- name: AnimationClipProvider:GetAnimationsAsync
+  summary: 'This function returns an `Class.InventoryPages` object which can be used
+
+    to iterate over animations owned by a specific user.
+
+    '
+  description: 'This function returns an `Class.InventoryPages` object which can be
+    used
+
+    to iterate over animations owned by a specific user.
+
+
+    This function has a number of potential uses, such as allowing users to
+
+    browse and import animations into a custom animation plugin.
+
+    '
+  code_samples: []
+  parameters:
+  - name: userId
+    type: User
+    default: null
+    summary: 'The user ID of the user.
+
+      '
+  returns:
+  - type: Instance
+    summary: 'An `Class.InventoryPages` of animations.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Animation
+- name: AnimationClipProvider:GetClipEvaluatorAsync
+  summary: 'Returns a `ClipEvaluator` for the `Class.AnimationClip` at the given
+
+    content ID, loaded asynchronously.
+
+    '
+  description: 'Fetches the `Class.AnimationClip` at the specified `assetId` and returns
+    a
+
+    `ClipEvaluator` that wraps it. A `ClipEvaluator` samples the clip at an
+
+    arbitrary time to produce an animation pose, so you can read animation
+
+    data directly instead of playing it back through an `Class.Animator`.
+
+
+    The `assetId` must be an animation asset on Roblox. Yields until the clip
+
+    is loaded and should be wrapped in a `pcall`. Loads through the same path
+
+    as
+
+    `Class.AnimationClipProvider:GetAnimationClipAsync()|GetAnimationClipAsync`,
+
+    at the local player animation priority.
+
+    '
+  code_samples: []
+  parameters:
+  - name: assetId
+    type: ContentId
+    default: null
+    summary: 'The content ID of the animation to load.
+
+      '
+  returns:
+  - type: ClipEvaluator
+    summary: 'A `ClipEvaluator` that can sample the loaded `Class.AnimationClip`.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Animation
+- name: AnimationClipProvider:RegisterActiveAnimationClip
+  summary: 'Generates a temporary asset ID from a `Class.AnimationClip` that can be
+
+    used for localized testing of an animation.
+
+    '
+  description: 'Generates a temporary asset ID from a `Class.AnimationClip` that can
+    be
+
+    used for localized testing of an animation. This performs the same
+
+    function as
+
+    `Class.AnimationClipProvider:RegisterAnimationClip()|RegisterAnimationClip()`
+
+    but generates an `active://` URL instead of a hash. The generated ID can
+
+    be used as an `Class.Animation.AnimationId|AnimationId` property for
+
+    testing.
+
+
+    The asset ID generated by this function is temporary and cannot be used
+
+    outside of Studio. Developers wishing to generate an asset ID that can be
+
+    used online should upload the `Class.AnimationClip` to Roblox.
+
+    '
+  code_samples: []
+  parameters:
+  - name: animationClip
+    type: AnimationClip
+    default: null
+    summary: 'The `Class.AnimationClip` to be used.
+
+      '
+  returns:
+  - type: ContentId
+    summary: 'A temporary asset ID generated for localized animation playback.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Animation
+- name: AnimationClipProvider:RegisterAnimationClip
+  summary: 'Generates a temporary asset ID from a `Class.AnimationClip` that can be
+
+    used for localized testing of an animation. Generates a hash.
+
+    '
+  description: 'Generates a temporary asset ID from a `Class.AnimationClip` that can
+    be
+
+    used for localized testing of an animation.
+
+
+    This function performs the same function to
+
+    `Class.AnimationClipProvider:RegisterActiveAnimationClip()|RegisterActiveAnimationClip`
+
+    yet generates a hash instead of an `active://` URL.
+
+
+    The ID generated can be used for the `Class.Animation.AnimationId`
+
+    property to test animations.
+
+
+    The asset ID generated by this function is temporary and cannot be used
+
+    outside of Studio. Developers wishing to generate an asset ID that can be
+
+    used online should upload the `Class.AnimationClip` to Roblox.
+
+    '
+  code_samples: []
+  parameters:
+  - name: animationClip
+    type: AnimationClip
+    default: null
+    summary: 'The `Class.AnimationClip` to be used.
+
+      '
+  returns:
+  - type: ContentId
+    summary: 'A temporary asset ID generated for localized animation playback.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Animation
+- name: GetAnimatedImageClipsChangedSignal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: content
+    type: Content
+  returns:
+  - type: RBXScriptSignal
+- name: GetAnimationClip
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''GetAnimationClipAsync'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: assetId
+    type: ContentId
+  returns:
+  - type: AnimationClip
+- name: GetAnimationClipById
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''GetAnimationClipAsync'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: assetId
+    type: int64
+  - name: useCache
+    type: bool
+  returns:
+  - type: AnimationClip
+- name: GetAnimationNodeDefinition
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: type
+    type: Enum.AnimationNodeType
+  returns:
+  - type: Dictionary
+- name: GetAnimationNodeTypes
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+- name: GetAnimationValueNodeDefinition
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: type
+    type: Enum.AnimationValueNodeType
+  returns:
+  - type: Dictionary
+- name: GetAnimationValueNodeTypes
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+- name: GetMemStats
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Dictionary
+- name: RegisterActiveAnimationClip
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: animationClip
+    type: AnimationClip
+  returns:
+  - type: ContentId
+- name: RegisterAnimationClip
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: animationClip
+    type: AnimationClip
+  returns:
+  - type: ContentId
+- name: AddAnimatedImageClipAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: content
+    type: Content
+  - name: clipName
+    type: string
+  - name: frames
+    type: Array
+  returns:
+  - type: 'null'
+- name: GetAnimatedImageClipFramesAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: content
+    type: Content
+  - name: clipName
+    type: string
+  returns:
+  - type: Array
+- name: GetAnimatedImageClipsAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: content
+    type: Content
+  returns:
+  - type: Array
+- name: GetAnimatedImageFrameIndexAtTimeAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: content
+    type: Content
+  - name: clipName
+    type: string
+  - name: timePosition
+    type: double
+  returns:
+  - type: int
+- name: GetAnimationClipAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: assetId
+    type: ContentId
+  returns:
+  - type: AnimationClip
+- name: GetAnimations
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''GetAnimationsAsync'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: User
+  returns:
+  - type: Instance
+- name: GetAnimationsAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: User
+  returns:
+  - type: Instance
+- name: GetClipEvaluatorAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: assetId
+    type: ContentId
+  returns:
+  - type: ClipEvaluator
+- name: ReloadAnimationClipAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: assetId
+    type: ContentId
+  returns:
+  - type: AnimationClip
+events: []
+callbacks: []

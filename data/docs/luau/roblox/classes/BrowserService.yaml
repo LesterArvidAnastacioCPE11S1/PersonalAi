@@ -1,0 +1,268 @@
+name: BrowserService
+type: class
+memory_category: Instances
+summary: 'Bridges the Roblox client to its native web browser or WebView.
+
+  '
+description: 'This service is reserved for Roblox''s own code and isn''t accessible
+  from
+
+  experience scripts.
+
+
+  `BrowserService` bridges the Roblox client to its native web browser or
+
+  embedded WebView. It opens browser windows and native overlays, runs
+
+  JavaScript inside the resulting WebView, and relays messages to and from the
+
+  web-side hybrid bridge (`window.Roblox.Hybrid`).
+
+
+  `OpenBrowserWindow` opens a URL only if it is allowlisted (a Roblox site, a
+
+  `youtube.com/watch` page, or a `stripe.com` or `vnggames.com` subdomain);
+
+  otherwise the request is rejected. `OpenNativeOverlay` opens a native overlay
+
+  for Roblox URLs only. `SendCommand` forwards a JSON command to the WebView,
+
+  `ExecuteJavaScript` evaluates a script inside it, and `CloseBrowserWindow`
+
+  closes it. `OpenWeChatAuthWindow` launches the Tencent (WeChat) authentication
+
+  flow, while `ReturnToJavaScript` and `EmitHybridEvent` invoke callbacks and
+
+  dispatch events on the web-side hybrid bridge. Signals such as
+
+  `BrowserWindowClosed`, `BrowserWindowWillNavigate`, `JavaScriptCallback`, and
+
+  `AuthCookieCopiedToEngine` report WebView activity back to the client.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+- NotReplicated
+deprecation_message: ''
+properties: []
+methods:
+- name: CloseBrowserWindow
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: CopyAuthCookieFromBrowserToEngine
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: EmitHybridEvent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: moduleName
+    type: string
+  - name: eventName
+    type: string
+  - name: params
+    type: string
+  returns:
+  - type: 'null'
+- name: ExecuteJavaScript
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: javascript
+    type: string
+  returns:
+  - type: 'null'
+- name: OpenBrowserWindow
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: url
+    type: string
+  returns:
+  - type: 'null'
+- name: OpenNativeOverlay
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: title
+    type: string
+  - name: url
+    type: string
+  returns:
+  - type: 'null'
+- name: OpenWeChatAuthWindow
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: ReturnToJavaScript
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: callbackId
+    type: string
+  - name: success
+    type: bool
+  - name: params
+    type: string
+  returns:
+  - type: 'null'
+- name: SendCommand
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: command
+    type: string
+  returns:
+  - type: 'null'
+events:
+- name: AuthCookieCopiedToEngine
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: BrowserWindowClosed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: BrowserWindowWillNavigate
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: url
+    type: string
+- name: JavaScriptCallback
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: content
+    type: string
+callbacks: []

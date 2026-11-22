@@ -1,0 +1,398 @@
+name: ViewportFrame
+type: class
+memory_category: Gui
+summary: '`Class.GuiObject` that renders 3D objects inside its bounds.
+
+  '
+description: "`ViewportFrame` is a `Class.GuiObject` that renders 3D objects inside\
+  \ its\nbounds, offering a way to display 3D objects in a 2D space like a\n`Class.ScreenGui`.\
+  \ This object has the following caveats:\n\n- No shadows or\n  [post-processing](../../../environment/post-processing-effects.md)\
+  \ effects\n  are rendered.\n\n- `Enum.Material.Neon` and `Enum.Material.Glass` materials\
+  \ render at the\n  lowest quality.\n\n- Nested `Class.GuiObject|GuiObjects` aren't\
+  \ supported.\n\n- By default, lighting inside a `ViewportFrame` acts as if\n  `Class.Lighting.EnvironmentSpecularScale`\
+  \ and\n  `Class.Lighting.EnvironmentDiffuseScale` are both set to `0`, so properties\n\
+  \  that rely on these fields, such as `Class.SurfaceAppearance.MetalnessMap`,\n\
+  \  may look different.\n\n- This object can use a `Class.Sky` child as a cubemap\
+  \ for reflections, in\n  which case only the `Class.Sky` object's six `Skybox[…]`\
+  \ properties are\n  used. Assuming these properties are valid, lighting inside the\n\
+  \  `ViewportFrame` acts similarly to if\n  `Class.Lighting.EnvironmentSpecularScale`\
+  \ and\n  `Class.Lighting.EnvironmentDiffuseScale` are both set to `1`. For details,\n\
+  \  see [here](../../../ui/viewport-frames.md).\n"
+code_samples:
+- viewportframe---create-gui
+- viewportframe---control-camera
+inherits:
+- GuiObject
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: ViewportFrame.Ambient
+  summary: 'The lighting hue applied to the area within the `ViewportFrame`.
+
+    '
+  description: 'This property determines the lighting hue applied to the area within
+    the
+
+    `ViewportFrame`. Defaults to
+
+    <Typography noWrap>`Datatype.Color3|Color3.fromRGB(200, 200, 200)`</Typography>
+
+    (ghost grey).
+
+    '
+  code_samples: []
+  type: Color3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: ViewportFrame.CurrentCamera
+  summary: '`Class.Camera` that is used to render children objects.
+
+    '
+  description: '`Class.Camera` instance that is used to render children objects. Defaults
+
+    to `nil`.
+
+
+    The `Class.Camera` object does not replicate so the
+
+    `Class.ViewportFrame.CurrentCamera` won''t replicate either. When you set
+
+    this property, `Class.Camera.CFrame` and `Class.Camera.FieldOfView` will
+
+    be saved and replicate with the `ViewportFrame` internally so the client
+
+    can render the frame without a `Class.Camera` object.
+
+    '
+  code_samples: []
+  type: Camera
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: false
+  capabilities:
+  - UI
+- name: ViewportFrame.ImageColor3
+  summary: 'Determines how the rendered viewport image will be colorized.
+
+    '
+  description: 'This property determines how the rendered viewport image will be
+
+    colorized, allowing you to change the color without directly modifying the
+
+    rendered object. The default colorization value is <Typography
+
+    noWrap>`Datatype.Color3|Color3.new(1, 1, 1)`</Typography> (white) at which
+
+    no color modification occurs.
+
+
+    See also `Class.ViewportFrame.ImageTransparency|ImageTransparency` which
+
+    determines the transparency of the rendered image.
+
+    '
+  code_samples: []
+  type: Color3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Image
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: ViewportFrame.ImageTransparency
+  summary: 'Determines the transparency of the rendered viewport image.
+
+    '
+  description: 'This property determines the transparency of the rendered viewport
+    image,
+
+    allowing you to change the transparency without directly modifying the
+
+    rendered object. A value of `0` (default) is completely opaque and a value
+
+    of `1` is completely transparent (invisible).
+
+
+    See also `Class.ViewportFrame.ImageColor3|ImageColor3` which determines
+
+    how the rendered image will be colorized.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Image
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: ViewportFrame.LightColor
+  summary: 'The color of the emitted light.
+
+    '
+  description: 'The color of the emitted light. Defaults to
+
+    <Typography noWrap>`Datatype.Color3|Color3.fromRGB(140, 140, 140)`</Typography>
+
+    (silver).
+
+    '
+  code_samples: []
+  type: Color3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: ViewportFrame.LightDirection
+  summary: 'A `Datatype.Vector3` representing the direction of the light source.
+
+    '
+  description: 'A `Datatype.Vector3` representing the direction of the light source
+    from
+
+    position <Typography noWrap>`(0, 0, 0)`</Typography>. Defaults to
+
+    <Typography noWrap>`Datatype.Vector3|Vector3.new(-1, -1, -1)`</Typography>.
+
+    '
+  code_samples: []
+  type: Vector3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: Ambient
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Color3
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: 0.784314, 0.784314, 0.784314
+- name: CameraCFrame
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: CFrame
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1
+- name: CameraFieldOfView
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '1.22173059'
+- name: CurrentCamera
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Camera
+  category: Data
+  serialization:
+    can_load: true
+    can_save: false
+  default: __api_dump_no_string_value__
+- name: ImageColor3
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Color3
+  category: Image
+  serialization:
+    can_load: true
+    can_save: true
+  default: 1, 1, 1
+- name: ImageTransparency
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Image
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: IsMirrored
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+  default: 'false'
+- name: LightColor
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Color3
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: 0.54902, 0.54902, 0.54902
+- name: LightDirection
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: -1, -1, -1
+methods:
+- name: CaptureSnapshotAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: ContentId
+events: []
+callbacks: []

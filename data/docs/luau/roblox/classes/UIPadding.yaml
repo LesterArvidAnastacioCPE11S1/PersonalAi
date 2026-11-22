@@ -1,0 +1,184 @@
+name: UIPadding
+type: class
+memory_category: Instances
+summary: 'Applies padding to the borders of the parent `Class.GuiObject`.
+
+  '
+description: '`Class.UIPadding` applies padding to the borders of the parent
+
+  `Class.GuiObject`, either as a pixel amount (`Datatype.UDim.Offset|Offset`) or
+
+  percentage of the parent''s size (`Datatype.UDim.Scale|Scale`).
+
+  '
+code_samples: []
+inherits:
+- UIComponent
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: UIPadding.PaddingBottom
+  summary: 'Padding to apply on the bottom side, relative to the parent''s normal
+    size.
+
+    '
+  description: 'Padding to apply on the bottom side, relative to the parent''s normal
+    size.
+
+    '
+  code_samples: []
+  type: UDim
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: UIPadding.PaddingLeft
+  summary: 'Padding to apply on the left side, relative to the parent''s normal size.
+
+    '
+  description: 'Padding to apply on the left side, relative to the parent''s normal
+    size.
+
+    '
+  code_samples: []
+  type: UDim
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: UIPadding.PaddingRight
+  summary: 'Padding to apply on the right side, relative to the parent''s normal size.
+
+    '
+  description: 'Padding to apply on the right side, relative to the parent''s normal
+    size.
+
+    '
+  code_samples: []
+  type: UDim
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: UIPadding.PaddingTop
+  summary: 'Padding to apply on the top side, relative to the parent''s normal size.
+
+    '
+  description: 'Padding to apply on the top side, relative to the parent''s normal
+    size.
+
+    '
+  code_samples: []
+  type: UDim
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: PaddingBottom
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: UDim
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: 0, 0
+- name: PaddingLeft
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: UDim
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: 0, 0
+- name: PaddingRight
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: UDim
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: 0, 0
+- name: PaddingTop
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: UDim
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: 0, 0
+methods: []
+events: []
+callbacks: []

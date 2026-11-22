@@ -1,0 +1,40 @@
+name: AdEventType
+type: enum
+summary: Reference for Enum.AdEventType, generated automatically from the Roblox API
+  dump 0.748.0.7481526.
+description: Reference for Enum.AdEventType, generated automatically from the Roblox
+  API dump 0.748.0.7481526.
+code_samples: []
+tags: []
+deprecation_message: ''
+items:
+- name: VideoLoaded
+  summary: ''
+  value: 0
+  tags:
+  - Deprecated
+- name: VideoRemoved
+  summary: ''
+  value: 1
+  tags:
+  - Deprecated
+- name: UserCompletedVideo
+  summary: ''
+  value: 2
+  tags:
+  - Deprecated
+- name: RewardedAdLoaded
+  summary: ''
+  value: 3
+  tags:
+  - Deprecated
+- name: RewardedAdGrant
+  summary: ''
+  value: 4
+  tags:
+  - Deprecated
+- name: RewardedAdUnloaded
+  summary: ''
+  value: 5
+  tags:
+  - Deprecated

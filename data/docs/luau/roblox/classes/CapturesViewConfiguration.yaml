@@ -1,0 +1,85 @@
+name: CapturesViewConfiguration
+type: class
+memory_category: Instances
+summary: 'Controls the built-in captures view, the `Class.CoreGui` element that lets
+
+  players browse and manage screenshots and video captures they take within an
+
+  experience.
+
+  '
+description: '`Class.CapturesViewConfiguration` is the per-element configuration object
+  that
+
+  controls the built-in captures view — the `Class.CoreGui` element that lets
+
+  players browse and manage the screenshots and video captures they take within
+
+  an experience. It''s created automatically as a child of the
+
+  `Class.CoreGuiConfiguration` service.
+
+
+  It inherits `Class.BaseCoreGuiConfiguration.Enabled|Enabled` to toggle whether
+
+  the captures view is displayed, and adds
+
+  `Class.CapturesViewConfiguration.Open|Open` to control whether the view is
+
+  currently open.
+
+  '
+code_samples: []
+inherits:
+- BaseCoreGuiConfiguration
+descendants: []
+tags:
+- NotCreatable
+- NotReplicated
+deprecation_message: ''
+properties:
+- name: CapturesViewConfiguration.Open
+  summary: 'Determines whether the built-in captures view is currently open.
+
+    '
+  description: 'When `true`, the built-in captures view is open and shown to the player;
+
+    when `false`, the view is closed. Defaults to `false`.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: State
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+  - Capture
+- name: Open
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: State
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+methods: []
+events: []
+callbacks: []

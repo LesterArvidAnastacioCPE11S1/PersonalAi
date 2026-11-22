@@ -1,0 +1,209 @@
+name: Motor
+type: class
+memory_category: BaseParts
+summary: 'Makes a movable `Class.JointInstance` between two parts.
+
+  '
+description: 'An object used to make movable `Class.JointInstance` between two Parts.
+
+  '
+code_samples: []
+inherits:
+- JointInstance
+descendants:
+- Motor6D
+tags: []
+deprecation_message: ''
+properties:
+- name: Motor.CurrentAngle
+  summary: 'Displays the current rotation of the motor in radians.
+
+    '
+  description: 'Displays the current rotation of the motor in radians.
+
+    '
+  code_samples: []
+  type: float
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: false
+  capabilities:
+  - Physics
+- name: Motor.DesiredAngle
+  summary: 'The desired angle to turn the motor to in radians.
+
+    '
+  description: 'The desired angle to turn the motor to in radians. The motor will
+    attempt
+
+    to reach this angle (provided `Class.Motor.MaxVelocity` is greater than 0.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+- name: Motor.MaxVelocity
+  summary: 'The maximum velocity the motor can use to reach `Class.Motor.DesiredAngle`
+
+    measured in radians per physics frame (1/60th of a second).
+
+    '
+  description: 'The maximum velocity the motor can use to reach `Class.Motor.DesiredAngle`
+
+    measured in radians per physics frame (1/60th of a second).
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+- name: CurrentAngle
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Data
+  serialization:
+    can_load: true
+    can_save: false
+  default: '0'
+- name: DesiredAngle
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: MaxVelocity
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: ReplicateCurrentAngle
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: float
+  category: Replication
+  serialization:
+    can_load: false
+    can_save: false
+  default: '0'
+methods:
+- name: Motor:SetDesiredAngle
+  summary: 'Sets `Class.Motor.DesiredAngle` of the motor.
+
+    '
+  description: 'Sets `Class.Motor.DesiredAngle` of the motor.
+
+    '
+  code_samples: []
+  parameters:
+  - name: value
+    type: float
+    default: null
+    summary: 'The target angle, in radians, to set as the motor''s
+
+      `Class.Motor.DesiredAngle`.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Physics
+- name: SetDesiredAngle
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: value
+    type: float
+  returns:
+  - type: 'null'
+events: []
+callbacks: []

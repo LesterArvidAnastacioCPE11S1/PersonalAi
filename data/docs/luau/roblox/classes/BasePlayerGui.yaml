@@ -1,0 +1,119 @@
+name: BasePlayerGui
+type: class
+memory_category: Instances
+summary: '`BasePlayerGui` is an abstract class which the GUI drawing storage classes
+
+  inherit from.
+
+  '
+description: '`BasePlayerGui` is an abstract class that all GUI drawing storage classes
+
+  inherit from.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants:
+- CoreGui
+- PlayerGui
+- StarterGui
+tags:
+- NotCreatable
+deprecation_message: ''
+properties: []
+methods:
+- name: BasePlayerGui:GetGuiObjectsAtPosition
+  summary: 'Returns a list of all `Class.GuiObject` instances occupying the given
+
+    '
+  description: 'Takes a screen position and returns a list of all the `Class.GuiObject`
+
+    instances which are occupying that screen position, sorted in the order
+
+    they appear on screen from top to bottom as the first and last index,
+
+    respectively. The main use case is to get GUI objects under the player''s
+
+    mouse or touch inputs to allow for selection or highlighting.
+
+
+    Since the child classes of `Class.BasePlayerGui` inherit this function, it
+
+    can be fired by container classes such as `Class.PlayerGui` and
+
+    `Class.StarterGui`.
+
+    '
+  code_samples:
+  - selecting-guis-at-a-position
+  parameters:
+  - name: x
+    type: int
+    default: null
+    summary: 'The **X** position on the screen relative to the top-left corner after
+
+      the GUI inset is applied (see `Class.GuiService:GetGuiInset()`).
+
+      '
+  - name: y
+    type: int
+    default: null
+    summary: 'The **Y** position on the screen relative to the top-left corner after
+
+      the GUI inset is applied (see `Class.GuiService:GetGuiInset()`).
+
+      '
+  returns:
+  - type: Instances
+    summary: 'A table of the `Class.GuiObject` instances that occupy the given
+
+      screen space.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: GetGuiObjectsAtPosition
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: x
+    type: int
+  - name: y
+    type: int
+  returns:
+  - type: Instances
+- name: GetGuiObjectsInCircle
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: position
+    type: Vector2
+  - name: radius
+    type: float
+  returns:
+  - type: Instances
+events: []
+callbacks: []

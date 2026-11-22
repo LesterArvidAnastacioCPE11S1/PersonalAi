@@ -1,0 +1,583 @@
+name: PartOperation
+type: class
+memory_category: Instances
+summary: 'An abstract class that all parts based on solid modeling inherit from.
+
+  '
+description: 'An abstract class that all parts based on
+
+  [solid modeling](../../../parts/solid-modeling.md) inherit from.
+
+  '
+code_samples: []
+inherits:
+- TriangleMeshPart
+descendants:
+- IntersectOperation
+- NegateOperation
+- UnionOperation
+tags: []
+deprecation_message: ''
+properties:
+- name: PartOperation.RenderFidelity
+  summary: 'The level of detail used to render the solid modeled part.
+
+    '
+  description: "This property determines the level of detail that the solid modeled\
+    \ part\nwill be shown in. It can be set to the possible values of the\n`Enum.RenderFidelity`\
+    \ enum except for\n`Enum.RenderFidelity.Performance|Performance`.\n\nThe default\
+    \ value is `Enum.RenderFidelity.Automatic|Automatic`, meaning\nthe part's detail\
+    \ is based on its distance from the camera as outlined in\nthe following table.\n\
+    \n<table>\n    <thead>\n        <tr>\n            <th>Distance From Camera</th>\n\
+    \            <th>Render Fidelity</th>\n        </tr>\n    </thead>\n    <tbody>\n\
+    \        <tr>\n            <td>Less than 250 studs</td>\n            <td>Highest</td>\n\
+    \        </tr>\n        <tr>\n            <td>250-500 studs</td>\n           \
+    \ <td>Medium</td>\n        </tr>\n        <tr>\n            <td>500 or more studs</td>\n\
+    \            <td>Lowest</td>\n        </tr>\n    </tbody>\n</table>\n"
+  code_samples: []
+  type: RenderFidelity
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  - CSG
+- name: PartOperation.SmoothingAngle
+  summary: 'An angle in degrees which affects the smooth shading of a solid modeled
+
+    part.
+
+    '
+  description: 'This property represents an angle in degrees for a threshold value
+    between
+
+    face normals on a [solid modeled](../../../parts/solid-modeling.md) part.
+
+    If the normal difference is less than the value, normals will be adjusted
+
+    to smooth the difference. While a value between 30 and 70 degrees usually
+
+    produces a good result, values between 90 and 180 are not recommended as
+
+    they may cause a "shadowing" effect on unions with sharp edges.
+
+
+    Note that smoothing does not affect the normals between different
+
+    materials or different colors.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  - CSG
+- name: PartOperation.TriangleCount
+  summary: 'The number of polygons in this solid model.
+
+    '
+  description: 'The number of polygons in this solid model.
+
+    '
+  code_samples: []
+  type: int
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: RobloxEngineSecurity
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  - CSG
+- name: PartOperation.UsePartColor
+  summary: 'Sets whether the `Class.PartOperation` can be recolored using inherited
+
+    color properties.
+
+    '
+  description: 'Sets whether the `Class.PartOperation` can be recolored using the
+
+    `Class.BasePart.Color` or `Class.BasePart.BrickColor` properties. When
+
+    true, the entire union will be colored as per `Class.BasePart.Color|Color`
+
+    or `Class.BasePart.BrickColor|BrickColor`. When false, the parts in the
+
+    union will maintain their original colors from before the onion operation
+
+    was performed.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  - CSG
+- name: AssetId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: ContentId
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+- name: ChildData
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: BinaryString
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+- name: ChildData2
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: SharedString
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: ComponentIndex
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: int
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '-1'
+- name: Content
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: Content
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: DCDPropertyData
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: CSGPropertyData
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_no_string_value__
+- name: FormFactor
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: Enum.FormFactor
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: Custom
+- name: InitialSize
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 1, 1, 1
+- name: ManifoldMesh_DEPRECATED
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - NotScriptable
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: SharedString
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_no_string_value__
+- name: MeshData
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: BinaryString
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+- name: MeshData2
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: SharedString
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: OffCentered
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+- name: PhysicsData
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: BinaryString
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+- name: RenderFidelity
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.RenderFidelity
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: Automatic
+- name: SmoothingAngle
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: SolidMeshHolder
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: NetAssetRef
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: TriangleCount
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: int
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: UsePartColor
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+methods:
+- name: PartOperation:SubstituteGeometry
+  summary: 'Substitutes the geometry of this `Class.PartOperation` with the geometry
+
+    of another `Class.PartOperation`.
+
+    '
+  description: 'Substitutes the geometry of this `Class.PartOperation` with the geometry
+
+    of another `Class.PartOperation`. This makes it easier to utilize the
+
+    geometry of a solid modeling operation like
+
+    `Class.GeometryService:UnionAsync()|UnionAsync()`,
+
+    `Class.GeometryService:SubtractAsync()|SubtractAsync()`, or
+
+    `Class.GeometryService:IntersectAsync()|IntersectAsync()` but maintain
+
+    properties, attributes, tags, and children of the main part such as
+
+    `Class.Attachment|Attachments`, `Class.Constraint|Constraints`,
+
+    `Class.ParticleEmitter|ParticleEmitters`, light objects, decals, and more.
+
+    This approach also circumvents the potential "flicker" of completely
+
+    replacing the original `Class.PartOperation` with another.
+
+
+    Note that if you''re calling this method on a `Class.PartOperation` with
+
+    child `Class.Attachment|Attachments` or `Class.Constraint|Constraints`,
+
+    you should calculate the affected instances with
+
+    `Class.GeometryService:CalculateConstraintsToPreserve()|CalculateConstraintsToPreserve()`,
+
+    then drop those whose recommended parent is `nil`.
+
+    '
+  code_samples:
+  - PartOperation-SubstituteGeometry
+  parameters:
+  - name: source
+    type: Instance
+    default: null
+    summary: 'The `Class.PartOperation` whose geometry will substitute the geometry
+
+      of this `Class.PartOperation`.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+  - CSG
+- name: SubstituteGeometry
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: source
+    type: Instance
+  returns:
+  - type: 'null'
+events: []
+callbacks: []

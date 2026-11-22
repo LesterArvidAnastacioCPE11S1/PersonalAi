@@ -1915,10 +1915,52 @@
     "text": "what model is this",
     "intent": "question"
   },
-  {"text": "actually, how about we just chat for a bit", "intent": "mode_chat"},
-  {"text": "on second thought, can we talk first", "intent": "mode_chat"},
-  {"text": "lets have a normal talk first", "intent": "mode_chat"},
-  {"text": "stop the story creation, lets chat", "intent": "mode_chat"},
-  {"text": "never mind the story, can we talk", "intent": "mode_chat"},
-  {"text": "wait, lets chat instead of the story", "intent": "mode_chat"}
+  {
+    "text": "actually, how about we just chat for a bit",
+    "intent": "mode_chat"
+  },
+  {
+    "text": "on second thought, can we talk first",
+    "intent": "mode_chat"
+  },
+  {
+    "text": "lets have a normal talk first",
+    "intent": "mode_chat"
+  },
+  {
+    "text": "stop the story creation, lets chat",
+    "intent": "mode_chat"
+  },
+  {
+    "text": "never mind the story, can we talk",
+    "intent": "mode_chat"
+  },
+  {
+    "text": "wait, lets chat instead of the story",
+    "intent": "mode_chat"
+  },
+  {
+    "text": "take me into story mode",
+    "intent": "begin_story"
+  },
+  {
+    "text": "can we do a story now",
+    "intent": "begin_story"
+  },
+  {
+    "text": "i feel like starting a story",
+    "intent": "begin_story"
+  },
+  {
+    "text": "open a new story",
+    "intent": "begin_story"
+  },
+  {
+    "text": "switch us to story mode",
+    "intent": "begin_story"
+  },
+  {
+    "text": "story mode now",
+    "intent": "begin_story"
+  }
 ]

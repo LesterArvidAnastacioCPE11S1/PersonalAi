@@ -9,3 +9,6 @@ scipy>=1.14
 transformers>=4.45
 --extra-index-url https://download.pytorch.org/whl/cpu
 torch==2.15.0+cpu
+lz4>=4.0
+zstandard>=0.23
+

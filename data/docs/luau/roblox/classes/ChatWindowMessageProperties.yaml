@@ -1,0 +1,278 @@
+name: ChatWindowMessageProperties
+type: class
+memory_category: Instances
+summary: 'Customizes the appearance of an individual text chat message displayed in
+  the
+
+  chat window.
+
+  '
+description: "Can be used to customize the appearance of text chat messages sent to\
+  \ the\nChatWindow. Inherits from `Class.TextChatMessageProperies`. To create a new\n\
+  `ChatWindowMessageProperties` instance, use\n`Class.ChatWindowConfiguration:DeriveNewMessageProperties()`\
+  \ which will have\nthe current properties from `Class.ChatWindowConfiguration`.\n\
+  \n```lua\nlocal TextChatService = game:GetService(\"TextChatService\")\n\nlocal\
+  \ ChatWindowConfiguration = TextChatService:FindFirstChildOfClass(\"ChatWindowConfiguration\"\
+  )\n\nTextChatService.OnChatWindowAdded = function(message: TextChatMessage)\n  --\
+  \ Derive chat message properties\n  local properties = ChatWindowConfiguration:DeriveNewMessageProperties()\n\
+  \n  -- Change color of message within the chat window\n  properties.TextColor3 =\
+  \ Color3.fromRGB(255, 121, 121)\n\n  return properties\nend\n```\n"
+code_samples: []
+inherits:
+- TextChatMessageProperties
+descendants: []
+tags:
+- NotCreatable
+deprecation_message: ''
+properties:
+- name: ChatWindowMessageProperties.FontFace
+  summary: 'Font used to render text in the chat window.
+
+    '
+  description: 'Determines the font used to render text in the chat window. Default
+    is
+
+    `Enum.Font.BuilderSansMedium`.
+
+    '
+  code_samples: []
+  type: Datatype.Font
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Chat
+- name: ChatWindowMessageProperties.PrefixTextProperties
+  summary: 'Determines the properties of the
+
+    `Class.TextChatMessage.PrefixText|PrefixText` preceding the chat message.
+
+    '
+  description: 'Determines the properties of the `Class.TextChatMessage.PrefixText`
+
+    preceding the chat message.
+
+    '
+  code_samples: []
+  type: ChatWindowMessageProperties
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Chat
+- name: ChatWindowMessageProperties.TextColor3
+  summary: 'Color of the text in the chat window.
+
+    '
+  description: 'Determines the color of the text in the chat window. Default value
+    is
+
+    `Datatype.Color3.fromRGB(255, 255, 255)` (white).
+
+    '
+  code_samples: []
+  type: Color3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Chat
+- name: ChatWindowMessageProperties.TextSize
+  summary: 'Size of the text in the chat window.
+
+    '
+  description: 'Determines the size of the text in the chat window.
+
+    '
+  code_samples: []
+  type: int
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Chat
+- name: ChatWindowMessageProperties.TextStrokeColor3
+  summary: 'Stroke color applied to text in the chat window.
+
+    '
+  description: 'Determines the stroke color applied to text in the chat window. Default
+
+    value is `Datatype.Color3.fromRGB(0, 0, 0)` (black).
+
+    '
+  code_samples: []
+  type: Color3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Chat
+- name: ChatWindowMessageProperties.TextStrokeTransparency
+  summary: 'Transparency of the stroke applied to text in the chat window.
+
+    '
+  description: 'Determines the transparency of the stroke applied to text in the chat
+
+    window. Default value is `0.5`.
+
+    '
+  code_samples: []
+  type: double
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Chat
+- name: FontFace
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Font
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_no_string_value__
+- name: PrefixTextProperties
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: ChatWindowMessageProperties
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_no_string_value__
+- name: TextColor3
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Color3
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+  default: 1, 1, 1
+- name: TextSize
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+  default: '18'
+- name: TextStrokeColor3
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Color3
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+  default: 0, 0, 0
+- name: TextStrokeTransparency
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: double
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+  default: '0.5'
+methods: []
+events: []
+callbacks: []

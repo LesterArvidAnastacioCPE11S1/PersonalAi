@@ -1,0 +1,786 @@
+name: BadgeService
+type: class
+memory_category: Instances
+summary: 'Provides information on badges and awards them.
+
+  '
+description: '`BadgeService` provides information and functionality related to
+
+  [badges](../../../production/publishing/badges.md). Badges are used across the
+
+  platform to recognize a player''s achievements and activity. Upon awarding a
+
+  badge to a player, it is added to their inventory and displayed on their
+
+  profile page.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+deprecation_message: ''
+properties: []
+methods:
+- name: BadgeService:AwardBadge
+  summary: 'Award a badge to a player given the ID of each.
+
+    '
+  description: ''
+  code_samples: []
+  parameters:
+  - name: userId
+    type: User
+    default: null
+    summary: 'The `Class.Player.UserId` of the user the badge is to be awarded to.
+
+      '
+  - name: badgeId
+    type: int64
+    default: null
+    summary: 'The ID of the badge to be awarded.
+
+      '
+  returns:
+  - type: boolean
+    summary: 'Boolean of `true` if the badge was awarded successfully.
+
+      '
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: 'Use `Class.BadgeService:AwardBadgeAsync()|AwardBadgeAsync()`
+    instead.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AssetManagement
+- name: BadgeService:AwardBadgeAsync
+  summary: 'Award a badge to a player given the ID of each.
+
+    '
+  description: "Grants a `Class.Player` a badge with the `Class.Player.UserId|UserId`\
+    \ and\nthe badge ID.\n\nIn order to successfully award a badge:\n\n- The player\
+    \ must be presently connected to the experience.\n- The player must not already\
+    \ have the badge (note that a player may\n  delete an awarded badge from their\
+    \ profile and be awarded the badge\n  again).\n- The badge must be awarded from\
+    \ a server script (a `Class.Script` with\n  `Class.BaseScript.RunContext|RunContext`\
+    \ of `Enum.RunContext.Server` or\n  `Enum.RunContext.Legacy`) or a `Class.ModuleScript`\
+    \ eventually required\n  by one, not from a client script.\n- The badge must be\
+    \ awarded in a place that is part of the experience\n  associated with the badge.\n\
+    - The badge must be enabled; check this using the `IsEnabled` property of\n  the\
+    \ badge fetched through `Class.BadgeService:GetBadgeInfoAsync()`.\n\nRate limit\
+    \ is `50 + 35 * [number of users]` per minute.\n"
+  code_samples:
+  - badges---awarding-a-badge
+  parameters:
+  - name: userId
+    type: User
+    default: null
+    summary: 'The `Class.Player.UserId` of the user the badge is to be awarded to.
+
+      '
+  - name: badgeId
+    type: int64
+    default: null
+    summary: 'The ID of the badge to be awarded.
+
+      '
+  returns:
+  - type: boolean
+    summary: 'Boolean of `true` if the badge was awarded successfully.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AssetManagement
+- name: BadgeService:CheckUserBadgesAsync
+  summary: 'Checks a list of badge IDs against a `Class.Player.UserId|UserId` and
+
+    returns a list of badge IDs that the player owns.
+
+    '
+  description: 'Checks a list of badge IDs against a `Class.Player.UserId|UserId`
+    and
+
+    returns a list of badge IDs that the player owns. This method supports
+
+    batches of up to 10 badges; use `Class.BadgeService:UserHasBadgeAsync()`
+
+    for single badge lookups.
+
+
+    When called from a server script, any `Class.Player.UserId|UserId` can be
+
+    used. If the user with the target user ID has not recently been in the
+
+    server, only badge IDs that are associated with the requesting experience
+
+    will be checked, and any badge IDs that are not associated with the
+
+    requesting experience will not be included in the response (as if they
+
+    were not owned).
+
+
+    For users that have recently been in the server, any badges for any
+
+    experiences can be queried, no matter who created the badge or which
+
+    experience it is used for.
+
+
+    In a client script (a `Class.LocalScript` or a `Class.Script` with
+
+    `Class.BaseScript.RunContext|RunContext` of `Enum.RunContext.Client`),
+
+    only the `Class.Player.UserId|UserId` of the local user whose client is
+
+    running the script can be used.
+
+
+    Rate limit is `10 + 5 * [number of players]` per minute in each server.
+
+    '
+  code_samples:
+  - badges---checking-earned-badges-batch
+  parameters:
+  - name: userId
+    type: User
+    default: null
+    summary: 'The `Class.Player.UserId|UserId` of the player to check for ownership
+
+      of the specified badges.
+
+      '
+  - name: badgeIds
+    type: Array
+    default: null
+    summary: 'The list of IDs of the badges to check ownership of. Maximum length
+
+      of 10.
+
+      '
+  returns:
+  - type: Array
+    summary: 'The list of badge IDs the given user owns out of the provided badge
+
+      IDs. Empty if none of the provided badges are owned by the given user.
+
+      Not guaranteed to be in the same order as the input list. Some badge
+
+      IDs may be omitted if the user with the target `userId` has not
+
+      recently been in the server and the badge IDs are not associated with
+
+      the requesting experience.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AssetManagement
+- name: BadgeService:GetBadgeInfoAsync
+  summary: 'Fetch information about a badge given its ID.
+
+    '
+  description: "This method fetches information about a badge given its ID and returns\
+    \ a\ndictionary with the following fields:\n\n<table>\n\t<thead>\n\t\t<tr>\n\t\
+    \t\t<th>Key</th>\n\t\t\t<th>Type</th>\n\t\t\t<th>Description</th>\n\t\t</tr>\n\
+    \t</thead>\n\t<tbody>\n\t\t<tr>\n\t\t\t<td><code>Name</code></td>\n\t\t\t<td>string</td>\n\
+    \t\t\t<td>The name of the badge.</td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td><code>Description</code></td>\n\
+    \t\t\t<td>string</td>\n\t\t\t<td>The description of the badge.</td>\n\t\t</tr>\n\
+    \t\t<tr>\n\t\t\t<td><code>IconImageId</code></td>\n\t\t\t<td>int64</td>\n\t\t\t\
+    <td>The asset ID of the image for the badge.</td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t\
+    <td><code>IsEnabled</code></td>\n\t\t\t<td>boolean</td>\n\t\t\t<td>Indicates whether\
+    \ the badge is available to be awarded.</td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td><code>AwardCount</code></td>\n\
+    \t\t\t<td>int64</td>\n\t\t\t<td>The total number of times the badge has been awarded.</td>\n\
+    \t\t</tr>\n\t\t<tr>\n\t\t\t<td><code>PastDayAwardCount</code></td>\n\t\t\t<td>int64</td>\n\
+    \t\t\t<td>The number of times the badge was awarded in the past day.</td>\n\t\t\
+    </tr>\n\t\t<tr>\n\t\t\t<td><code>Rarity</code></td>\n\t\t\t<td>number</td>\n\t\
+    \t\t<td>The rarity of the badge as a value from 0.0 (0%) to 1.0 (100%), representing\
+    \ the percentage of players who earned the badge in the past day.</td>\n\t\t</tr>\n\
+    \t</tbody>\n</table>\n\nThis method takes a brief moment to load the information\
+    \ from Roblox;\nrepeated calls will cache for a short duration.\n"
+  code_samples:
+  - getbadgeinfoasync
+  parameters:
+  - name: badgeId
+    type: int64
+    default: null
+    summary: 'The badge ID of the badge whose information should be fetched.
+
+      '
+  returns:
+  - type: Dictionary
+    summary: 'A dictionary of information about the specified badge.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AssetManagement
+- name: BadgeService:GetUserBadgesAsync
+  summary: 'Checks a list of badge IDs against a `Datatype.User` and returns, for
+    each
+
+    badge the player owns, its ID and the date it was awarded.
+
+    '
+  description: "Checks a list of badge IDs against a `Datatype.User` and returns,\
+    \ for each\nbadge the player owns, a dictionary containing the badge's ID and\
+    \ the date\nit was awarded. This method supports batches of up to 100 badges;\
+    \ use\n`Class.BadgeService:UserHasBadgeAsync()` for single badge lookups.\n\n\
+    Each entry in the returned list is a dictionary with the following fields:\n\n\
+    <table>\n\t<thead>\n\t\t<tr>\n\t\t\t<th>Key</th>\n\t\t\t<th>Type</th>\n\t\t\t\
+    <th>Description</th>\n\t\t</tr>\n\t</thead>\n\t<tbody>\n\t\t<tr>\n\t\t\t<td><code>BadgeId</code></td>\n\
+    \t\t\t<td>int64</td>\n\t\t\t<td>The ID of the owned badge.</td>\n\t\t</tr>\n\t\
+    \t<tr>\n\t\t\t<td><code>AwardedDate</code></td>\n\t\t\t<td>DateTime</td>\n\t\t\
+    \t<td>The date and time the badge was awarded to the user.</td>\n\t\t</tr>\n\t\
+    </tbody>\n</table>\n\nWhen called from a server script, any `Datatype.User` can\
+    \ be used. If the\nuser with the target `Datatype.User` has not recently been\
+    \ in the server,\nonly badge IDs that are associated with the requesting experience\
+    \ will be\nchecked, and any badge IDs that are not associated with the requesting\n\
+    experience will not be included in the response (as if they were not\nowned).\n\
+    \nFor users that have recently been in the server, any badges for any\nexperiences\
+    \ can be queried, no matter who created the badge or which\nexperience it is used\
+    \ for.\n\nIn a client script (a `Class.LocalScript` or a `Class.Script` with\n\
+    `Class.BaseScript.RunContext|RunContext` of `Enum.RunContext.Client`),\nonly the\
+    \ `Datatype.User` of the local user whose client is running the\nscript can be\
+    \ used.\n\nRate limit is `10 + 5 * [number of players]` per minute in each server.\n"
+  code_samples:
+  - badges---getting-earned-badges
+  parameters:
+  - name: userId
+    type: User
+    default: null
+    summary: 'The `Datatype.User` of the player to check for ownership of the
+
+      specified badges.
+
+      '
+  - name: badgeIds
+    type: Array
+    default: null
+    summary: 'The list of IDs of the badges to check ownership of. Maximum length
+
+      of 100.
+
+      '
+  returns:
+  - type: Array
+    summary: 'A list of dictionaries, one for each badge the given user owns out of
+
+      the provided badge IDs. Each dictionary contains a `BadgeId` and an
+
+      `AwardedDate`. Empty if none of the provided badges are owned by the
+
+      given user. Not guaranteed to be in the same order as the input list.
+
+      Some badge IDs may be omitted if the user with the target
+
+      `Datatype.User` has not recently been in the server and the badge IDs
+
+      are not associated with the requesting experience.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AssetManagement
+- name: BadgeService:IsDisabled
+  summary: 'Returns whether a given badge is disabled.
+
+    '
+  description: 'This function returns whether the badge with the given ID is marked
+
+    **disabled** on the Roblox website. A badge can be disabled by its owner
+
+    on its page on the Roblox website, in the settings sub-menu. When a badge
+
+    is disabled, this function returns true and the badge can no longer be
+
+    awarded. A badge may be quickly re-enabled through the same menu.
+
+
+    In Studio, a badge can only be tested if it is **disabled**. Calling this
+
+    function with an enabled badge in Studio will return **true** and produce
+
+    a warning "Sorry, badges can only be tested if they are disabled on Roblox
+
+    game servers".
+
+
+    Note that even if a badge is enabled it may not necessarily be awardable
+
+    (for example if it isn''t associated with the current game).
+
+
+    Badges that are associated with special events are a common reason for a
+
+    badge to be disabled. Often, it is easier to simply disable a badge
+
+    instead of hard-coding a time check for when some event ends.
+
+    '
+  code_samples: []
+  parameters:
+  - name: badgeId
+    type: int64
+    default: null
+    summary: 'The ID of the badge.
+
+      '
+  returns:
+  - type: boolean
+    summary: 'True if the specified badge is not available to be awarded.
+
+      '
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: 'This function is deprecated. Do not use it for new work. Instead,
+    it can
+
+    be checked by calling BadgeService:GetBadgeInfoAsync() and checking the
+
+    IsEnabled field.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AssetManagement
+- name: BadgeService:IsLegal
+  summary: 'Determines if a given badge is associated with the current game.
+
+    '
+  description: 'This function determines if a given badge is associated with the current
+
+    game. It returns true if the badge is associated with the current game.
+
+
+    Badges can only be awarded from a place that is part of the game
+
+    associated with the badge. This means, for example, a developer cannot
+
+    award a badge associated with another developer''s game.
+
+
+    Even if this returns true, a badge may still not be award-able. For
+
+    example, it may be disabled.
+
+    '
+  code_samples: []
+  parameters:
+  - name: badgeId
+    type: int64
+    default: null
+    summary: 'The badge ID of the badge.
+
+      '
+  returns:
+  - type: boolean
+    summary: 'True if the badge is associated with the current game.
+
+      '
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: 'This function is deprecated and will always return true. Do
+    not use it for
+
+    new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AssetManagement
+- name: BadgeService:UserHasBadge
+  summary: 'Checks whether a user has the badge given the `Class.Player.UserId` and
+
+    the badge ID.
+
+    '
+  description: 'Checks and returns whether a `Class.Player` owns a badge given their
+
+    `Class.Player.UserId|UserId` and the badge ID. You can call the function
+
+    from a server script or a `Class.ModuleScript` eventually required by one.
+
+    When calling the method from a client script (a `Class.LocalScript` or a
+
+    `Class.Script` with `Class.BaseScript.RunContext|RunContext` of
+
+    `Enum.RunContext.Client`), it only works for the local user whose client
+
+    is running the script.
+
+
+    When called from a server script, any `Class.Player.UserId|UserId` can be
+
+    used. If the user with the target user ID has not recently been in the
+
+    server, only badge IDs that are associated with the requesting experience
+
+    will be checked. If the requested badge ID is not associated with the
+
+    requesting experience and the target user has not recently been in the
+
+    server, the method behaves as if the badge is not owned.
+
+
+    For users that have recently been in the server, any badge for any
+
+    experience can be queried, no matter who created the badge or which
+
+    experience it is used for.
+
+    '
+  code_samples: []
+  parameters:
+  - name: userId
+    type: User
+    default: null
+    summary: 'The user ID of the user.
+
+      '
+  - name: badgeId
+    type: int64
+    default: null
+    summary: 'The badge ID of the badge.
+
+      '
+  returns:
+  - type: boolean
+    summary: 'True if the user has the badge.
+
+      '
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: 'This method has been superseded by
+
+    `Class.BadgeService:UserHasBadgeAsync()` which should be used for new work
+
+    instead.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AssetManagement
+- name: BadgeService:UserHasBadgeAsync
+  summary: 'Checks whether a player has the badge given the `Class.Player.UserId`
+    and
+
+    the badge ID.
+
+    '
+  description: 'Checks and returns whether a `Class.Player` owns a badge given their
+
+    `Class.Player.UserId|UserId` and the badge ID. You can call this method
+
+    from a server script or a `Class.ModuleScript` eventually required by one.
+
+    When calling this method from a client script (a `Class.LocalScript` or a
+
+    `Class.Script` with `Class.BaseScript.RunContext|RunContext` of
+
+    `Enum.RunContext.Client`), it only works for the local user whose client
+
+    is running the script.
+
+
+    When called from a server script, any `Class.Player.UserId|UserId` can be
+
+    used. If the user with the target user ID has not recently been in the
+
+    server, only badge IDs that are associated with the requesting experience
+
+    will be checked. If the requested badge ID is not associated with the
+
+    requesting experience and the target user has not recently been in the
+
+    server, the method behaves as if the badge is not owned.
+
+
+    For users that have recently been in the server, any badge for any
+
+    experience can be queried, no matter who created the badge or which
+
+    experience it is used for.
+
+
+    Rate limit is `50 + 35 * [number of players]` per minute.
+
+    '
+  code_samples:
+  - badges---checking-earned-badges
+  parameters:
+  - name: userId
+    type: User
+    default: null
+    summary: 'The `Class.Player.UserId` of the player to check for ownership of the
+
+      specified badge.
+
+      '
+  - name: badgeId
+    type: int64
+    default: null
+    summary: 'The badge ID of the badge whose ownership will be checked.
+
+      '
+  returns:
+  - type: boolean
+    summary: 'Indicates if the specified user has the specified badge.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AssetManagement
+- name: AwardBadge
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''AwardBadgeAsync'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: User
+  - name: badgeId
+    type: int64
+  returns:
+  - type: bool
+- name: AwardBadgeAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: User
+  - name: badgeId
+    type: int64
+  returns:
+  - type: bool
+- name: CheckUserBadgesAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: User
+  - name: badgeIds
+    type: Array
+  returns:
+  - type: Array
+- name: GetBadgeInfoAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: badgeId
+    type: int64
+  returns:
+  - type: Dictionary
+- name: GetUserBadgesAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: User
+  - name: badgeIds
+    type: Array
+  returns:
+  - type: Array
+- name: IsDisabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: badgeId
+    type: int64
+  returns:
+  - type: bool
+- name: IsLegal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: badgeId
+    type: int64
+  returns:
+  - type: bool
+- name: UserHasBadge
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: User
+  - name: badgeId
+    type: int64
+  returns:
+  - type: bool
+- name: UserHasBadgeAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: User
+  - name: badgeId
+    type: int64
+  returns:
+  - type: bool
+events:
+- name: BadgeAwarded
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: message
+    type: string
+  - name: userId
+    type: int64
+  - name: badgeId
+    type: int64
+- name: OnBadgeAwarded
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: int64
+  - name: creatorId
+    type: int64
+  - name: badgeId
+    type: int64
+callbacks: []

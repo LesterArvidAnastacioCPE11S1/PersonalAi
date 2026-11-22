@@ -15,6 +15,7 @@ if exist "%PAI_HOME%\config.json" (
 set "OLLAMA_URL=http://127.0.0.1:11434/api/tags"
 set "APP_URL=http://127.0.0.1:%PORT%/api/ping"
 set "UI_URL=http://127.0.0.1:%PORT%/"
+set "PAI_OPEN_BROWSER=1"
 
 "%CURL%" -s -m 2 "%OLLAMA_URL%" >nul 2>&1
 if not errorlevel 1 goto ollama_ok
@@ -58,6 +59,7 @@ if not errorlevel 1 (
   echo PersonalAI is already running. Opening %UI_URL%
   if exist "%PAI_HOME%\.venv\Scripts\python.exe" (
     "%PAI_HOME%\.venv\Scripts\python.exe" "%PAI_HOME%\open_ui.py" "%UI_URL%"
+    if errorlevel 1 pause
   ) else (
     start "" "%UI_URL%"
   )

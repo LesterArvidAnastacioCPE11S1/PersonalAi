@@ -1,0 +1,67 @@
+name: FaceInstance
+type: class
+memory_category: Instances
+summary: 'An abstract class from which the `Class.Decal` and `Class.Texture` classes
+
+  inherit.
+
+  '
+description: '`Class.FaceInstance` is an abstract class from which the `Class.Decal`
+  and
+
+  `Class.Texture` classes inherit.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants:
+- Decal
+tags:
+- NotCreatable
+- NotBrowsable
+deprecation_message: ''
+properties:
+- name: FaceInstance.Face
+  summary: 'Sets which face of the parent `Class.BasePart` the object appears on.
+
+    '
+  description: 'Sets which face of the parent `Class.BasePart` the object appears
+    on.
+
+    '
+  code_samples: []
+  type: NormalId
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: Face
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.NormalId
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+methods: []
+events: []
+callbacks: []

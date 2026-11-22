@@ -1,0 +1,261 @@
+name: LiveScriptingService
+type: class
+memory_category: Instances
+summary: API reference for LiveScriptingService, generated automatically from the
+  Roblox API dump 0.748.0.7481526. Prose documentation is not available for this class
+  yet.
+description: API reference for LiveScriptingService, generated automatically from
+  the Roblox API dump 0.748.0.7481526. Prose documentation is not available for this
+  class yet.
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+deprecation_message: ''
+properties:
+- name: ServerLiveEditingMode
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.ServerLiveEditingMode
+  category: Scripting
+  serialization:
+    can_load: false
+    can_save: false
+  default: Uninitialized
+methods: []
+events:
+- name: BeginEdit
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: id
+    type: int64
+  - name: guid
+    type: string
+- name: BeginEditWithUri
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: id
+    type: int64
+  - name: uri
+    type: string
+- name: BroadcastMessage
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: message
+    type: string
+  - name: type
+    type: Enum.LiveEditingBroadcastMessageType
+- name: EndEdit
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: id
+    type: int64
+- name: FailedToOpen
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: id
+    type: int64
+  - name: legalToOpenLocal
+    type: bool
+- name: KickFromEdit
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: id
+    type: int64
+  - name: msg
+    type: string
+- name: LiveEditingClientConfiguration
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: serializedConfig
+    type: string
+- name: OpenedWithSource
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: id
+    type: int64
+  - name: source
+    type: string
+- name: SendAtomicOperation
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: requestId
+    type: int
+  - name: guid
+    type: string
+  - name: op
+    type: string
+  - name: hash
+    type: string
+- name: SendAtomicOperationWithUri
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: requestId
+    type: int
+  - name: uri
+    type: string
+  - name: op
+    type: string
+  - name: hash
+    type: string
+- name: SendAtomicUpdateResponse
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: guid
+    type: int
+  - name: response
+    type: Enum.LiveEditingAtomicUpdateResponse
+- name: SendOperation
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: id
+    type: int64
+  - name: op
+    type: string
+callbacks: []

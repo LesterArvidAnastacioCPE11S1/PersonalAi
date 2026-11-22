@@ -1,0 +1,781 @@
+name: LinearVelocity
+type: class
+memory_category: BaseParts
+summary: 'Applies force on an assembly to maintain a constant linear velocity.
+
+  '
+description: "The `LinearVelocity` constraint applies force on an assembly to maintain\
+  \ a\n**constant** linear velocity. It can be set to apply force along a\n`Datatype.Vector3`,\
+  \ line, or 2D&nbsp;plane. Alternatively:\n\n- If you want to control the amount\
+  \ of force applied, use a\n  `Class.VectorForce` constraint.\n- If you only need\
+  \ **initial** linear velocity, set the\n  `Class.BasePart.AssemblyLinearVelocity|AssemblyLinearVelocity`\
+  \ property\n  directly on the assembly.\n\nWhen configuring this constraint, it\
+  \ may be helpful to study\n[Roblox Units](../../../physics/units.md) to understand\
+  \ how Roblox units\ncompare to metric units.\n\n#### Relativity\n\nApplication of\
+  \ velocity can be controlled through the constraint's\n`Class.LinearVelocity.RelativeTo|RelativeTo`\
+  \ property. If set to\n`Enum.ActuatorRelativeTo|World`, force will be applied in\
+  \ world coordinates,\nindependent of the parent or attachment orientations. If set\
+  \ to\n`Enum.ActuatorRelativeTo|Attachment0` or\n`Enum.ActuatorRelativeTo|Attachment1`,\
+  \ force will be applied relative to\n`Class.Constraint.Attachment0|Attachment0`\
+  \ or\n`Class.Constraint.Attachment1|Attachment1` respectively.\n"
+code_samples: []
+inherits:
+- Constraint
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: LinearVelocity.ForceLimitMode
+  summary: 'Determines how the constraint force will be limited.
+
+    '
+  description: 'Determines how the constraint force will be limited. When set to
+
+    `Enum.ForceLimitMode|Magnitude`, the constraint force will have a
+
+    magnitude less than `Class.LinearVelocity.MaxForce|MaxForce`. When set to
+
+    `Enum.ForceLimitMode|PerAxis`, the force along each axis will be less than
+
+    the corresponding value in
+
+    `Class.LinearVelocity.MaxAxesForce|MaxAxesForce` when
+
+    `Class.LinearVelocity.VelocityConstraintMode|VelocityConstraintMode` is
+
+    `Enum.VelocityConstraintMode|Vector` or the corresponding value in
+
+    `Class.LinearVelocity.MaxPlanarAxesForce|MaxPlanarAxesForce` when
+
+    `Class.LinearVelocity.VelocityConstraintMode|VelocityConstraintMode` is
+
+    `Enum.VelocityConstraintMode|Plane`. Only used when
+
+    `Class.LinearVelocity.ForceLimitsEnabled|ForceLimitsEnabled` is `true`.
+
+    '
+  code_samples: []
+  type: ForceLimitMode
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Limits
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  simulationAccess: true
+- name: LinearVelocity.ForceLimitsEnabled
+  summary: 'Determines if the constraint force will be limited or if the physics
+
+    solver can apply an unlimited force to achieve the target velocity.
+
+    '
+  description: 'Determines if the constraint force will be limited or if the physics
+
+    solver can apply an unlimited force to achieve the target velocity. When
+
+    enabled, the constraint force is limited based on
+
+    `Class.LinearVelocity.ForceLimitMode|ForceLimitMode`. When disabled, the
+
+    physics solver will always apply a force that is large enough to achieve
+
+    the target velocity.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Mode
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  simulationAccess: true
+- name: LinearVelocity.LineDirection
+  summary: 'The normalized `Datatype.Vector3` direction for constraining the velocity
+
+    along a line.
+
+    '
+  description: 'The normalized `Datatype.Vector3` direction for constraining the velocity
+
+    along a line, when
+
+    `Class.LinearVelocity.VelocityConstraintMode|VelocityConstraintMode` is
+
+    set to `Enum.VelocityConstraintMode|Line`.
+
+    '
+  code_samples: []
+  type: Vector3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Line
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  simulationAccess: true
+- name: LinearVelocity.LineVelocity
+  summary: 'Float value of the velocity when
+
+    `Class.LinearVelocity.VelocityConstraintMode|VelocityConstraintMode` is
+
+    set to `Enum.VelocityConstraintMode|Line`.
+
+    '
+  description: 'Float value of the velocity when
+
+    `Class.LinearVelocity.VelocityConstraintMode|VelocityConstraintMode` is
+
+    set to `Enum.VelocityConstraintMode|Line`.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Line
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  simulationAccess: true
+- name: LinearVelocity.MaxAxesForce
+  summary: 'Maximum force along each axis that the constraint can apply to achieve
+    the
+
+    vector velocity. Only used if
+
+    `Class.LinearVelocity.ForceLimitsEnabled|ForceLimitsEnabled` is `true`,
+
+    `Class.LinearVelocity.ForceLimitMode|ForceLimitMode` is
+
+    `Enum.ForceLimitMode|PerAxis`, and
+
+    `Class.LinearVelocity.VelocityConstraintMode|VelocityConstraintMode` is
+
+    `Enum.VelocityConstraintMode|Vector`.
+
+    '
+  description: 'Maximum force along each axis that the constraint can apply to achieve
+    the
+
+    target velocity. Only used if
+
+    `Class.LinearVelocity.ForceLimitsEnabled|ForceLimitsEnabled` is `true`,
+
+    `Class.LinearVelocity.ForceLimitMode|ForceLimitMode` is
+
+    `Enum.ForceLimitMode|PerAxis`, and
+
+    `Class.LinearVelocity.VelocityConstraintMode|VelocityConstraintMode` is
+
+    `Enum.VelocityConstraintMode|Vector`. The axes used to apply the limit
+
+    correspond to the `Class.LinearVelocity.RelativeTo|RelativeTo` property.
+
+    '
+  code_samples: []
+  type: Vector3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Limits
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  simulationAccess: true
+- name: LinearVelocity.MaxForce
+  summary: 'Maximum magnitude of the force vector the constraint can apply.
+
+    '
+  description: 'Maximum magnitude of the force vector the constraint can apply. Only
+    used
+
+    if `Class.LinearVelocity.ForceLimitsEnabled|ForceLimitsEnabled` is `true`
+
+    and `Class.LinearVelocity.ForceLimitMode|ForceLimitMode` is
+
+    `Enum.ForceLimitMode|Magnitude`.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Limits
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  simulationAccess: true
+- name: LinearVelocity.MaxPlanarAxesForce
+  summary: 'Maximum force along each axis that the constraint can apply to achieve
+    the
+
+    plane velocity. Only used if
+
+    `Class.LinearVelocity.ForceLimitsEnabled|ForceLimitsEnabled` is `true`,
+
+    `Class.LinearVelocity.ForceLimitMode|ForceLimitMode` is
+
+    `Enum.ForceLimitMode|PerAxis`, and
+
+    `Class.LinearVelocity.VelocityConstraintMode|VelocityConstraintMode` is
+
+    `Enum.VelocityConstraintMode|Plane`.
+
+    '
+  description: 'Maximum force along each axis that the constraint can apply to achieve
+    the
+
+    plane velocity. Only used if
+
+    `Class.LinearVelocity.ForceLimitsEnabled|ForceLimitsEnabled` is `true`,
+
+    `Class.LinearVelocity.ForceLimitMode|ForceLimitMode` is
+
+    `Enum.ForceLimitMode|PerAxis`, and
+
+    `Class.LinearVelocity.VelocityConstraintMode|VelocityConstraintMode` is
+
+    `Enum.VelocityConstraintMode|Plane`. The axes used to apply the limit
+
+    correspond to the `Class.LinearVelocity.RelativeTo|RelativeTo` property.
+
+    '
+  code_samples: []
+  type: Vector2
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Limits
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  simulationAccess: true
+- name: LinearVelocity.PlaneVelocity
+  summary: '`Datatype.Vector2` value of the velocity in each tangent direction of
+    the
+
+    plane.
+
+    '
+  description: '`Datatype.Vector2` value of the velocity in each tangent direction
+    of the
+
+    plane, when
+
+    `Class.LinearVelocity.VelocityConstraintMode|VelocityConstraintMode` is
+
+    set to `Enum.VelocityConstraintMode|Plane`.
+
+    '
+  code_samples: []
+  type: Vector2
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Plane
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  simulationAccess: true
+- name: LinearVelocity.PrimaryTangentAxis
+  summary: 'The primary axis in the plane, when
+
+    `Class.LinearVelocity.VelocityConstraintMode|VelocityConstraintMode` is
+
+    set to `Enum.VelocityConstraintMode|Plane`.
+
+    '
+  description: "The primary axis in the plane, when\n`Class.LinearVelocity.VelocityConstraintMode|VelocityConstraintMode`\
+    \ is\nset to `Enum.VelocityConstraintMode|Plane`. Value depends on the value of\n\
+    `Class.LinearVelocity.RelativeTo|RelativeTo` as follows:\n\n- If `Class.LinearVelocity.RelativeTo|RelativeTo`\
+    \ is set to\n  `Enum.ActuatorRelativeTo|Attachment0`, this axis is the\n  `Class.Attachment.Axis|Axis`\
+    \ of\n  `Class.Constraint.Attachment0|Attachment0`.\n- If `Class.LinearVelocity.RelativeTo|RelativeTo`\
+    \ is set to\n  `Enum.ActuatorRelativeTo|Attachment1`, this axis is the\n  `Class.Attachment.Axis|Axis`\
+    \ of\n  `Class.Constraint.Attachment1|Attachment1`.\n- If `Class.LinearVelocity.RelativeTo|RelativeTo`\
+    \ is set to\n  `Enum.ActuatorRelativeTo|World`, this value must be specified in\
+    \ the\n  world space.\n"
+  code_samples: []
+  type: Vector3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Plane
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  simulationAccess: true
+- name: LinearVelocity.ReactionForceEnabled
+  summary: 'Determines whether an equal and opposite reaction force is also applied
+    to
+
+    the assembly of `Class.Constraint.Attachment1|Attachment1` when
+
+    `Class.LinearVelocity.RelativeTo|RelativeTo` is
+
+    `Enum.ActuatorRelativeTo|Attachment1`.
+
+    '
+  description: 'Determines whether the constraint applies an equal and opposite reaction
+
+    force to the assembly of `Class.Constraint.Attachment1|Attachment1`.
+
+    Defaults to `true`. This reaction force is relevant when
+
+    `Class.LinearVelocity.RelativeTo|RelativeTo` is
+
+    `Enum.ActuatorRelativeTo.Attachment1` — the mode in which the constraint
+
+    drives the `Attachment0` assembly''s velocity relative to the `Attachment1`
+
+    assembly. Because `RelativeTo` defaults to
+
+    `Enum.ActuatorRelativeTo.World`, this property is typically only
+
+    meaningful once `RelativeTo` is set to `Attachment1`.
+
+
+    When enabled in that mode, the constraint applies the reaction force to
+
+    the `Attachment1` assembly, coupling the two assemblies. When disabled,
+
+    the constraint applies force only to the `Attachment0` assembly; the
+
+    `Attachment1` assembly receives no reaction force, though its pose and
+
+    velocity are still read as the reference frame for the target velocity.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Mode
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  simulationAccess: true
+- name: LinearVelocity.RelativeTo
+  summary: 'Sets the `Enum.ActuatorRelativeTo` property for the constraint.
+
+    '
+  description: 'Sets the `Enum.ActuatorRelativeTo` property for the constraint.
+
+    '
+  code_samples: []
+  type: ActuatorRelativeTo
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Mode
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  simulationAccess: true
+- name: LinearVelocity.SecondaryTangentAxis
+  summary: 'The secondary axis in the plane, when
+
+    `Class.LinearVelocity.VelocityConstraintMode|VelocityConstraintMode` is
+
+    set to `Enum.VelocityConstraintMode|Plane`.
+
+    '
+  description: "The secondary axis in the plane, when\n`Class.LinearVelocity.VelocityConstraintMode|VelocityConstraintMode`\
+    \ is\nset to `Enum.VelocityConstraintMode|Plane`. Value depends on the value of\n\
+    `Class.LinearVelocity.RelativeTo|RelativeTo` as follows:\n\n- If `Class.LinearVelocity.RelativeTo|RelativeTo`\
+    \ is set to\n  `Enum.ActuatorRelativeTo|Attachment0`, this axis is the\n  `Class.Attachment.SecondaryAxis|SecondaryAxis`\
+    \ of\n  `Class.Constraint.Attachment0|Attachment0`.\n- If `Class.LinearVelocity.RelativeTo|RelativeTo`\
+    \ is set to\n  `Enum.ActuatorRelativeTo|Attachment1`, this axis is the\n  `Class.Attachment.SecondaryAxis|SecondaryAxis`\
+    \ of\n  `Class.Constraint.Attachment1|Attachment1`.\n- If `Class.LinearVelocity.RelativeTo|RelativeTo`\
+    \ is set to\n  `Enum.ActuatorRelativeTo|World`, this value must be specified in\
+    \ the\n  world space.\n"
+  code_samples: []
+  type: Vector3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Plane
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  simulationAccess: true
+- name: LinearVelocity.VectorVelocity
+  summary: '`Datatype.Vector3` velocity value when
+
+    `Class.LinearVelocity.VelocityConstraintMode|VelocityConstraintMode` is
+
+    set to `Enum.VelocityConstraintMode|Vector`.
+
+    '
+  description: '`Datatype.Vector3` velocity value when
+
+    `Class.LinearVelocity.VelocityConstraintMode|VelocityConstraintMode` is
+
+    set to `Enum.VelocityConstraintMode|Vector`.
+
+    '
+  code_samples: []
+  type: Vector3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Vector
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  simulationAccess: true
+- name: LinearVelocity.VelocityConstraintMode
+  summary: 'The mode of the constraint.
+
+    '
+  description: 'The mode of the constraint: `Enum.VelocityConstraintMode|Line`,
+
+    `Enum.VelocityConstraintMode|Plane`, or
+
+    `Enum.VelocityConstraintMode|Vector`. Default is
+
+    `Enum.VelocityConstraintMode|Vector`.
+
+    '
+  code_samples: []
+  type: VelocityConstraintMode
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Mode
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  simulationAccess: true
+- name: ForceLimitMode
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.ForceLimitMode
+  category: Limits
+  serialization:
+    can_load: true
+    can_save: true
+  default: Magnitude
+- name: ForceLimitsEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Mode
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'true'
+- name: LineDirection
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Line
+  serialization:
+    can_load: true
+    can_save: true
+  default: 1, 0, 0
+- name: LineVelocity
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Line
+  serialization:
+    can_load: true
+    can_save: true
+  default: '-0'
+- name: MaxAxesForce
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Limits
+  serialization:
+    can_load: true
+    can_save: true
+  default: 1000, 1000, 1000
+- name: MaxForce
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Limits
+  serialization:
+    can_load: true
+    can_save: true
+  default: '1000'
+- name: MaxPlanarAxesForce
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector2
+  category: Limits
+  serialization:
+    can_load: true
+    can_save: true
+  default: 1000, 1000
+- name: PlaneVelocity
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector2
+  category: Plane
+  serialization:
+    can_load: true
+    can_save: true
+  default: 0, 0
+- name: PrimaryTangentAxis
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Plane
+  serialization:
+    can_load: true
+    can_save: true
+  default: 1, 0, 0
+- name: ReactionForceEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Mode
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'true'
+- name: RelativeTo
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.ActuatorRelativeTo
+  category: Mode
+  serialization:
+    can_load: true
+    can_save: true
+  default: World
+- name: SecondaryTangentAxis
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Plane
+  serialization:
+    can_load: true
+    can_save: true
+  default: 0, 1, 0
+- name: VectorVelocity
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Vector
+  serialization:
+    can_load: true
+    can_save: true
+  default: 0, 0, 0
+- name: VelocityConstraintMode
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.VelocityConstraintMode
+  category: Mode
+  serialization:
+    can_load: true
+    can_save: true
+  default: Vector
+methods: []
+events: []
+callbacks: []

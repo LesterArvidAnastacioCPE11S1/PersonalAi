@@ -1,0 +1,934 @@
+name: Sky
+type: class
+memory_category: Instances
+summary: 'Changes the default appearance of the experience''s sky.
+
+  '
+description: 'The `Sky` object, when placed inside `Class.Lighting`, changes the default
+
+  appearance of the experience''s sky. This object''s
+
+  [skybox](../../../environment/skybox.md) is composed of six sides, like a
+
+  cube. Rotation of the skybox can be changed through
+
+  `Class.Sky.SkyboxOrientation|SkyboxOrientation`.
+
+
+  The skybox sun, moon, and other celestial objects remain visible unless you
+
+  turn off the `Class.Sky.CelestialBodiesShown|CelestialBodiesShown` property.
+
+  By adjusting the `Class.Sky.StarCount|StarCount` property, you can change how
+
+  many stars appear in the sky at night.
+
+
+  This object can also be used as a cubemap for reflections in
+
+  `Class.ViewportFrame|ViewportFrames`, in which case only the `Class.Sky`
+
+  object''s six‑side `Skybox[…]` properties are used. For details, see
+
+  [viewport frames](../../../ui/viewport-frames.md).
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: Sky.CelestialBodiesShown
+  summary: 'Sets whether the sun, moon, and stars will render in the skybox.
+
+    '
+  description: 'Determines whether the sun, moon, and stars are rendered in the skybox.
+
+    Defaults to `true`. When set to `false`, the sun, moon, and stars are
+
+    hidden, regardless of the values of other properties.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Environment
+- name: Sky.MoonAngularSize
+  summary: 'The perceived angular size of the moon while using this skybox, in
+
+    degrees. Defaults to `11` and is clamped to the range `[0, 60]`.
+
+    '
+  description: 'The perceived angular size of the moon while using this skybox, measured
+
+    in degrees.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Environment
+- name: Sky.MoonTextureContent
+  summary: 'The image displayed for the moon while using this skybox.
+
+    '
+  description: 'The `Datatype.Content` image displayed for the moon while using this
+
+    skybox. Defaults to `rbxasset://sky/moon.jpg`.
+
+    '
+  code_samples: []
+  type: Content
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Environment
+- name: Sky.MoonTextureId
+  summary: 'The texture of the moon while using this skybox.
+
+    '
+  description: 'The texture asset ID for the moon while using this skybox. Defaults
+    to
+
+    `rbxasset://sky/moon.jpg`.
+
+    '
+  code_samples: []
+  type: ContentId
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Environment
+- name: Sky.SkyboxBackContent
+  summary: 'The image displayed on the back surface of the skybox.
+
+    '
+  description: 'The `Datatype.Content` image displayed on the back surface of the
+    skybox.
+
+    Defaults to `rbxasset://textures/sky/sky512_bk.tex`.
+
+    '
+  code_samples: []
+  type: Content
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Environment
+- name: Sky.SkyboxBk
+  summary: 'The URL link to a picture for the back surface of the sky.
+
+    '
+  description: 'The texture asset ID for the back surface of the skybox. Defaults
+    to
+
+    `rbxasset://textures/sky/sky512_bk.tex`.
+
+    '
+  code_samples: []
+  type: ContentId
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Environment
+- name: Sky.SkyboxDn
+  summary: 'Asset ID for the bottom surface of the skybox.
+
+    '
+  description: 'The texture asset ID for the bottom surface of the skybox. Defaults
+    to
+
+    `rbxasset://textures/sky/sky512_dn.tex`.
+
+    '
+  code_samples: []
+  type: ContentId
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Environment
+- name: Sky.SkyboxDownContent
+  summary: 'The image displayed on the bottom surface of the skybox.
+
+    '
+  description: 'The `Datatype.Content` image displayed on the bottom surface of the
+
+    skybox. Defaults to `rbxasset://textures/sky/sky512_dn.tex`.
+
+    '
+  code_samples: []
+  type: Content
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Environment
+- name: Sky.SkyboxFrontContent
+  summary: 'The image displayed on the front surface of the skybox.
+
+    '
+  description: 'The `Datatype.Content` image displayed on the front surface of the
+    skybox.
+
+    Defaults to `rbxasset://textures/sky/sky512_ft.tex`.
+
+    '
+  code_samples: []
+  type: Content
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Environment
+- name: Sky.SkyboxFt
+  summary: 'Asset ID for the front surface of the skybox.
+
+    '
+  description: 'The texture asset ID for the front surface of the skybox. Defaults
+    to
+
+    `rbxasset://textures/sky/sky512_ft.tex`.
+
+    '
+  code_samples: []
+  type: ContentId
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Environment
+- name: Sky.SkyboxLeftContent
+  summary: 'The image displayed on the left surface of the skybox.
+
+    '
+  description: 'The `Datatype.Content` image displayed on the left surface of the
+    skybox.
+
+    Defaults to `rbxasset://textures/sky/sky512_lf.tex`.
+
+    '
+  code_samples: []
+  type: Content
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Environment
+- name: Sky.SkyboxLf
+  summary: 'Asset ID for the left surface of the skybox.
+
+    '
+  description: 'The texture asset ID for the left surface of the skybox. Defaults
+    to
+
+    `rbxasset://textures/sky/sky512_lf.tex`.
+
+    '
+  code_samples: []
+  type: ContentId
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Environment
+- name: Sky.SkyboxOrientation
+  summary: 'Angle of the skybox, in degrees, with rotation order of **Y**, **X**,
+
+    **Z**.
+
+    '
+  description: "Changes the orientation of the skybox surfaces. This property takes\
+    \ a\n`Datatype.Vector3` of degree values in the typical **XYZ** order, but\napplies\
+    \ rotation **first** around the **Y** axis. After applying the Y\naxis rotation,\
+    \ the orientation is applied to the **X** and **Z** axes to\nallow for predictable\
+    \ control over complex movements. Your camera and\nobject orientation can affect\
+    \ how this rotation appears to be applied.\n\nAn easy way to script an orientation\
+    \ animation is to spin around the **Y**\naxis (keeping the horizon level), then\
+    \ tilt this axis by setting **X** and\n**Z** to a fixed value:\n\n```lua\nlocal\
+    \ Lighting = game:GetService(\"Lighting\")\nlocal RunService = game:GetService(\"\
+    RunService\")\n\nlocal sky = Lighting:FindFirstChild(\"Sky\")\n\nlocal ROTATION_SPEED\
+    \ = 5  -- In degrees per second\n\nRunService.Heartbeat:Connect(function(deltaTime)\n\
+    \tsky.SkyboxOrientation = Vector3.new(\n\t\t30,\n\t\t(sky.SkyboxOrientation.Y\
+    \ + ROTATION_SPEED * deltaTime) % 360,\n\t\t0\n\t)\nend)\n```\n\nSee [here](../../../environment/skybox.md#orientation)\
+    \ for further info\nand limitations.\n"
+  code_samples:
+  - Skybox-Orientation
+  type: Vector3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Environment
+- name: Sky.SkyboxRightContent
+  summary: 'The image displayed on the right surface of the skybox.
+
+    '
+  description: 'The `Datatype.Content` image displayed on the right surface of the
+    skybox.
+
+    Defaults to `rbxasset://textures/sky/sky512_rt.tex`.
+
+    '
+  code_samples: []
+  type: Content
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Environment
+- name: Sky.SkyboxRt
+  summary: 'Asset ID for the right surface of the skybox.
+
+    '
+  description: 'The texture asset ID for the right surface of the skybox. Defaults
+    to
+
+    `rbxasset://textures/sky/sky512_rt.tex`.
+
+    '
+  code_samples: []
+  type: ContentId
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Environment
+- name: Sky.SkyboxUp
+  summary: 'Asset ID for the top surface of the skybox.
+
+    '
+  description: 'The texture asset ID for the top surface of the skybox. Defaults to
+
+    `rbxasset://textures/sky/sky512_up.tex`.
+
+    '
+  code_samples: []
+  type: ContentId
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Environment
+- name: Sky.SkyboxUpContent
+  summary: 'The image displayed on the top surface of the skybox.
+
+    '
+  description: 'The `Datatype.Content` image displayed on the top surface of the skybox.
+
+    Defaults to `rbxasset://textures/sky/sky512_up.tex`.
+
+    '
+  code_samples: []
+  type: Content
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Environment
+- name: Sky.StarCount
+  summary: 'How many stars are shown in the skybox.
+
+    '
+  description: 'How many stars are shown in the skybox. Only works if
+
+    `Class.Sky.CelestialBodiesShown|CelestialBodiesShown` is `true`.
+
+    '
+  code_samples: []
+  type: int
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Environment
+- name: Sky.SunAngularSize
+  summary: 'The perceived angular size of the sun while using this skybox, in degrees.
+
+    '
+  description: 'The perceived angular size of the sun while using this skybox, in
+    degrees.
+
+    Defaults to `21` and is clamped to the range `[0, 60]`.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Environment
+- name: Sky.SunTextureContent
+  summary: 'The image displayed for the sun while using this skybox.
+
+    '
+  description: 'The `Datatype.Content` image displayed for the sun while using this
+
+    skybox. Defaults to `rbxasset://sky/sun.jpg`.
+
+    '
+  code_samples: []
+  type: Content
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Environment
+- name: Sky.SunTextureId
+  summary: 'The texture of the sun while using this skybox.
+
+    '
+  description: 'The texture asset ID for the sun while using this skybox. Defaults
+    to
+
+    `rbxasset://sky/sun.jpg`.
+
+    '
+  code_samples: []
+  type: ContentId
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Environment
+- name: CelestialBodiesShown
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'true'
+- name: MoonAngularSize
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: '11'
+- name: MoonTextureContent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Content
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: MoonTextureId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: ContentId
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: rbxasset://sky/moon.jpg
+- name: SkyboxBackContent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Content
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: SkyboxBk
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: ContentId
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: rbxasset://textures/sky/sky512_bk.tex
+- name: SkyboxDn
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: ContentId
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: rbxasset://textures/sky/sky512_dn.tex
+- name: SkyboxDownContent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Content
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: SkyboxFrontContent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Content
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: SkyboxFt
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: ContentId
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: rbxasset://textures/sky/sky512_ft.tex
+- name: SkyboxLeftContent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Content
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: SkyboxLf
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: ContentId
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: rbxasset://textures/sky/sky512_lf.tex
+- name: SkyboxOrientation
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: 0, 0, 0
+- name: SkyboxRightContent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Content
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: SkyboxRt
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: ContentId
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: rbxasset://textures/sky/sky512_rt.tex
+- name: SkyboxUp
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: ContentId
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: rbxasset://textures/sky/sky512_up.tex
+- name: SkyboxUpContent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Content
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: StarCount
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: '3000'
+- name: SunAngularSize
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: '21'
+- name: SunTextureContent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Content
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: SunTextureId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: ContentId
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: rbxasset://sky/sun.jpg
+methods: []
+events: []
+callbacks: []

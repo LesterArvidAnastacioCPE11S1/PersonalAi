@@ -1,0 +1,121 @@
+name: PathfindingModifier
+type: class
+memory_category: Instances
+summary: 'Modifiers used to represent space that has a higher or lower cost to be
+
+  traversed when creating paths using `Class.PathfindingService`.
+
+  '
+description: 'Pathfinding modifiers can be used to represent space that has a higher
+  or
+
+  lower cost to be traversed. You can include pathfinding modifiers in the
+
+  `Class.PathfindingService:CreatePath()` parameters and compute smarter paths
+
+  across various materials or around defined regions. See
+
+  [Pathfinding](../../../characters/pathfinding.md#pathfinding-modifiers) for
+
+  details.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: PathfindingModifier.Label
+  summary: 'The name of the navigation area inside or on top of the parts enclosed
+    by
+
+    the modifier.
+
+    '
+  description: 'The name of the navigation area inside or on top of the parts enclosed
+    by
+
+    the modifier.
+
+    '
+  code_samples: []
+  type: string
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: PathfindingModifier.PassThrough
+  summary: 'Determines if the parts enclosed by the modifier are traversable, even
+    if
+
+    they would normally be collided with.
+
+    '
+  description: 'Determines if the parts enclosed by the modifier are traversable,
+    even if
+
+    they would normally be collided with.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: Label
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+- name: PassThrough
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+methods: []
+events: []
+callbacks: []

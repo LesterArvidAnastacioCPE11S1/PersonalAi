@@ -1,0 +1,254 @@
+name: BodyPartDescription
+type: class
+memory_category: Instances
+summary: 'Describes the appearance of an avatar body part for the
+
+  `Class.HumanoidDescription`.
+
+  '
+description: '**BodyPartDescription** is an object that stores the description for
+  an
+
+  avatar''s body parts, such as the `Class.BodyPartDescription.Color|Color`. It
+
+  is meant to be placed underneath a `Class.HumanoidDescription` in order to
+
+  work with `Class.Humanoid:ApplyDescriptionAsync()`.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: BodyPartDescription.AssetId
+  summary: 'The asset ID that should be applied when applying this
+
+    `Class.BodyPartDescription`.
+
+    '
+  description: 'The asset ID that should be applied when applying this
+
+    `Class.BodyPartDescription`.
+
+    '
+  code_samples: []
+  type: int64
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - AvatarAppearance
+- name: BodyPartDescription.BodyPart
+  summary: 'The type of body part.
+
+    '
+  description: 'The type of body part.
+
+    '
+  code_samples: []
+  type: BodyPart
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - AvatarAppearance
+- name: BodyPartDescription.Color
+  summary: 'The `Datatype.Color3` for this body part.
+
+    '
+  description: 'The `Datatype.Color3` for this body part.
+
+    '
+  code_samples: []
+  type: Color3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - AvatarAppearance
+- name: BodyPartDescription.HeadShape
+  summary: 'Specifies the head shape identifier to apply to a Dynamic Head when this
+
+    `Class.BodyPartDescription` is applied.
+
+    '
+  description: "**HeadShape** specifies a Classic Head shape identifier to apply to\
+    \ a\ncompatible Dynamic Head. This property is only relevant when\n`Class.BodyPartDescription.BodyPart|BodyPart`\
+    \ is set to\n`Enum.BodyPart|Head` and `Class.BodyPartDescription.AssetId|AssetId`\n\
+    references a Dynamic Head that supports head shapes.\n\n#### Example\n\n```lua\n\
+    local AvatarEditorService = game:GetService(\"AvatarEditorService\")\n\n-- Get\
+    \ available head shapes for the user\nlocal headShapes = AvatarEditorService:GetHeadShapesAsync(userId)\n\
+    \n-- Create a BodyPartDescription for a Dynamic Head with a Classic shape\nlocal\
+    \ bodyPartDescription = Instance.new(\"BodyPartDescription\")\nbodyPartDescription.BodyPart\
+    \ = Enum.BodyPart.Head\nbodyPartDescription.AssetId = dynamicHeadAssetId\nbodyPartDescription.HeadShape\
+    \ = headShapes[1] -- Apply the first owned head shape\nbodyPartDescription.Parent\
+    \ = humanoidDescription\n\n-- Apply the description\nhumanoid:ApplyDescriptionAsync(humanoidDescription)\n\
+    ```\n\nSee also:\n\n- `Class.AvatarEditorService:GetHeadShapesAsync()`, which\
+    \ returns head\n  shape identifiers that can be used with this property\n- `Class.BodyPartDescription.AssetId|AssetId`,\
+    \ which specifies the Dynamic\n  Head asset to apply the shape to\n- `Class.BodyPartDescription.BodyPart|BodyPart`,\
+    \ which must be set to\n  `Enum.BodyPart|Head` for this property to have effect\n\
+    - `Class.Humanoid:ApplyDescriptionAsync()`, which applies the description\n  containing\
+    \ this `Class.BodyPartDescription`\n"
+  code_samples: []
+  type: string
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - AvatarAppearance
+- name: BodyPartDescription.Instance
+  summary: 'A reference to the `Class.Instance` that should be applied when applying
+
+    this `Class.BodyPartDescription`.
+
+    '
+  description: 'A reference to the `Class.Instance` that should be applied when applying
+
+    this `Class.BodyPartDescription`. This property can be used instead of
+
+    `Class.BodyPartDescription.AssetId|AssetId` to apply accessories without
+
+    uploading them to the platform. This can reference either a body part with
+
+    R15, **R15ArtistIntent** and **R6** folders, or only reference a single
+
+    subfolder.
+
+    '
+  code_samples: []
+  type: Instance
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - AvatarAppearance
+- name: AssetId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int64
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: BodyPart
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.BodyPart
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: Head
+- name: Color
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Color3
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 0, 0, 0
+- name: HeadShape
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+- name: Instance
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Instance
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+methods: []
+events: []
+callbacks: []

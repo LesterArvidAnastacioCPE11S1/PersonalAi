@@ -1,0 +1,108 @@
+name: GamePassService
+type: class
+memory_category: Instances
+summary: 'A service associated with the legacy game pass system. Use
+
+  `Class.MarketplaceService` for all new work.
+
+  '
+description: 'The GamePassService is a service that supports legacy game passes using
+  _Asset
+
+  IDs_. `Class.MarketplaceService` should be used for all new game passes.
+
+
+  For more information about game passes, please see
+
+  [Game Passes](../../../production/monetization/passes.md).
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+deprecation_message: ''
+properties: []
+methods:
+- name: GamePassService:PlayerHasPass
+  summary: 'Returns `true` if the `Class.Player` has the specified **legacy** game
+
+    pass. Does not work with new game passes.
+
+    '
+  description: "This function will not work with new game passes; use\n`Class.MarketplaceService:UserOwnsGamePassAsync()`\
+    \ instead.\n\nThis function returns `true` if the `Class.Player` has the specified\n\
+    legacy game pass. The result of this function may be cached, meaning it\nshould\
+    \ not be relied on to give an up to date result.\n\nSee [Passes](../../../production/monetization/passes.md)\
+    \ for further\ninformation.\n\n#### Legacy Game Passes\n\nHistorically, game passes\
+    \ on Roblox had an **asset ID** associated with\nthem. Although such game passes\
+    \ still have an asset ID, they now also have\na **pass ID**. All new game passes\
+    \ created **only** have a pass ID.\n\nWhether you are using an **Asset ID** or\
+    \ a **pass ID** determines which\nAPI members you can use.\n\n<table>\n    <thead>\n\
+    \        <tr>\n            <td></td>\n            <td>Asset ID (Legacy)</td>\n\
+    \            <td>Pass ID (Current)</td>\n        </tr>\n    </thead>\n    <tbody>\n\
+    \        <tr>\n            <td>Verify Ownership</td>\n            <td><code>Class.GamePassService:PlayerHasPass()</code></td>\n\
+    \            <td><code>Class.MarketplaceService:UserOwnsGamePassAsync()</code></td>\n\
+    \        </tr>\n        <tr>\n            <td>Prompt a purchase</td>\n       \
+    \     <td><code>Class.MarketplaceService:PromptPurchase()</code></td>\n      \
+    \      <td><code>Class.MarketplaceService:PromptGamePassPurchase()</code></td>\n\
+    \        </tr>\n        <tr>\n            <td>Prompted purchase finished</td>\n\
+    \            <td><code>Class.MarketplaceService.PromptPurchaseFinished</code></td>\n\
+    \            <td><code>Class.MarketplaceService.PromptGamePassPurchaseFinished</code></td>\n\
+    \        </tr>\n    </tbody>\n</table>\n"
+  code_samples:
+  - GamePassService-PlayerHasPass1
+  parameters:
+  - name: player
+    type: Player
+    default: null
+    summary: 'The `Class.Player` for which to check ownership.
+
+      '
+  - name: gamePassId
+    type: int64
+    default: null
+    summary: 'The _Asset ID_ of the game pass. This is **not** the _Game Pass ID_
+
+      (see above).
+
+      '
+  returns:
+  - type: boolean
+    summary: 'Whether the `Class.Player` owns the game pass.
+
+      '
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Monetization
+- name: PlayerHasPass
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+  - name: gamePassId
+    type: int64
+  returns:
+  - type: bool
+events: []
+callbacks: []

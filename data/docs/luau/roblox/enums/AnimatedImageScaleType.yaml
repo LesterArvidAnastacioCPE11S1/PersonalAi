@@ -1,0 +1,26 @@
+name: AnimatedImageScaleType
+type: enum
+summary: Reference for Enum.AnimatedImageScaleType, generated automatically from the
+  Roblox API dump 0.748.0.7481526.
+description: Reference for Enum.AnimatedImageScaleType, generated automatically from
+  the Roblox API dump 0.748.0.7481526.
+code_samples: []
+tags: []
+deprecation_message: ''
+items:
+- name: Stretch
+  summary: ''
+  value: 0
+  tags: []
+- name: Tile
+  summary: ''
+  value: 1
+  tags: []
+- name: Fit
+  summary: ''
+  value: 2
+  tags: []
+- name: Crop
+  summary: ''
+  value: 3
+  tags: []

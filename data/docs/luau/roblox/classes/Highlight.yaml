@@ -1,0 +1,401 @@
+name: Highlight
+type: class
+memory_category: Instances
+summary: 'A visual effect which you can use to call attention to a specific object
+
+  within an experience.
+
+  '
+description: "The `Class.Highlight` instance is a visual effect which you can use\
+  \ to call\nattention to a specific object within an experience. Every highlight\
+  \ effect\nhas a silhouette **outline** that surrounds the object and a solid overlay\n\
+  **interior** that displays over the object. You can customize both of these\ncomponents\
+  \ independently to modify the highlight's visual appearance.\n\n<table size=\"small\"\
+  >\n  <tbody>\n    <tr>\n      <td width=\"30%\">\n        <figure>\n        <img\
+  \ src=\"/assets/ui/highlighting-objects/OutlineTransparency-1.jpg\" />\n       \
+  \ <figcaption>Base object</figcaption>\n        </figure>\n      </td>\n      <td\
+  \ width=\"30%\">\n        <figure>\n        <img src=\"/assets/ui/highlighting-objects/Adding-Highlight.jpg\"\
+  \ />\n        <figcaption>White outline, 50% red interior</figcaption>\n       \
+  \ </figure>\n      </td>\n      <td width=\"30%\">\n        <figure>\n        <img\
+  \ src=\"/assets/ui/highlighting-objects/Overview-Yellow-Outline.jpg\" />\n     \
+  \   <figcaption>Yellow outline, black interior</figcaption>\n        </figure>\n\
+  \      </td>\n    </tr>\n  </tbody>\n</table>\n\nUseful applications of the highlight\
+  \ effect include:\n\n- Providing visual feedback that an object is important and/or\
+  \ interactable.\n- Making distant objects visible through objects that are closer\
+  \ to the user.\n- Indicating the current position and status of other characters.\n\
+  \n#### Limitations\n\nAs a performance limit, Studio only displays 255 simultaneous\n\
+  `Class.Highlight` instances on the client at a time. If you exceed this limit,\n\
+  the additional instances are silently ignored. Note that while a\n`Class.Highlight`\
+  \ with `Class.Highlight.Enabled|Enabled` set to `false`\ndoesn't display, it still\
+  \ takes one of the 255 available slots, so if you plan\nto permanently disable a\
+  \ `Class.Highlight` instance, it's best to delete it\nrather than disable it.\n"
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: Highlight.Adornee
+  summary: 'The `Class.Instance` that the `Class.Highlight` is applied to.
+
+    '
+  description: 'The `Class.Instance` for which to apply the `Class.Highlight`, used
+    to
+
+    apply the effect to an `Class.Instance` outside of a child/parent
+
+    relationship.
+
+    '
+  code_samples: []
+  type: Instance
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: Highlight.DepthMode
+  summary: 'Controls how the `Class.Highlight` effect displays with respect to other
+
+    objects in the world.
+
+    '
+  description: "Controls how the `Class.Highlight` effect displays with respect to\
+    \ other\nobjects in the world. You can set this property to one of the following\n\
+    options:\n\n- `Enum.HighlightDepthMode.AlwaysOnTop|AlwaysOnTop` — Allows the highlight\n\
+    \  to display regardless if there are objects between the camera and the\n  highlighted\
+    \ object. This means the viewer is always able to see the\n  highlight regardless\
+    \ of what is between the highlighted object and the\n  camera.\n\n- `Enum.HighlightDepthMode.Occluded|Occluded`\
+    \ — Hides the highlight if\n  there are objects between the camera and the highlighted\
+    \ object. This\n  means the viewer is only able to see the object if there are\
+    \ no\n  obstructing objects between the highlighted object and the camera's\n\
+    \  view.\n\n<table size=\"small\">\n<tbody>\n  <tr>\n    <td width=\"50%\">\n\
+    \      <figure>\n      <img src=\"/assets/ui/highlighting-objects/DepthMode-AlwaysOnTop.jpg\"\
+    \ />\n      <figcaption>DepthMode = AlwaysOnTop</figcaption>\n      </figure>\n\
+    \    </td>\n    <td width=\"50%\">\n      <figure>\n      <img src=\"/assets/ui/highlighting-objects/DepthMode-Occluded.jpg\"\
+    \ />\n      <figcaption>DepthMode = Occluded</figcaption>\n      </figure>\n \
+    \   </td>\n  </tr>\n</tbody>\n</table>\n"
+  code_samples: []
+  type: HighlightDepthMode
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: Highlight.Enabled
+  summary: 'Sets whether or not the highlight is enabled.
+
+    '
+  description: 'Sets whether or not the highlight is enabled. This does not impact
+
+    performance, but disabled `Class.Highlight` instances will still take one
+
+    of the 255 available slots. If you plan to permanently disable a
+
+    `Class.Highlight` instance, it''s best to delete it rather than disable it.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: Highlight.FillColor
+  summary: 'Sets the `Datatype.Color3` value of the highlight''s interior.
+
+    '
+  description: "Sets the `Datatype.Color3` value of the highlight's interior.\n\n\
+    <table size=\"small\">\n<tbody>\n  <tr>\n    <td width=\"30%\">\n      <figure>\n\
+    \      <img src=\"/assets/ui/highlighting-objects/FillColor-Red.jpg\" />\n   \
+    \   <figcaption>FillColor = [255, 100, 50]</figcaption>\n      </figure>\n   \
+    \ </td>\n    <td width=\"30%\">\n      <figure>\n      <img src=\"/assets/ui/highlighting-objects/FillColor-Green.jpg\"\
+    \ />\n      <figcaption>FillColor = [0, 255, 125]</figcaption>\n      </figure>\n\
+    \    </td>\n    <td width=\"30%\">\n      <figure>\n      <img src=\"/assets/ui/highlighting-objects/FillColor-Blue.jpg\"\
+    \ />\n      <figcaption>FillColor = [75, 150, 255]</figcaption>\n      </figure>\n\
+    \    </td>\n  </tr>\n</tbody>\n</table>\n"
+  code_samples: []
+  type: Color3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: Highlight.FillTransparency
+  summary: 'Sets the transparency of the highlight''s interior.
+
+    '
+  description: "Sets the visibility of the highlight's interior to any value between\
+    \ the\ndefault value of **0** (opaque) and **1** (invisible). You can use this\n\
+    property to determine how much of the object's existing color you want\nviewers\
+    \ to see.\n\n<table size=\"small\">\n<tbody>\n  <tr>\n    <td width=\"30%\">\n\
+    \      <figure>\n      <img src=\"/assets/ui/highlighting-objects/FillTransparency-0.jpg\"\
+    \ />\n      <figcaption>FillTransparency = 0</figcaption>\n      </figure>\n \
+    \   </td>\n    <td width=\"30%\">\n      <figure>\n      <img src=\"/assets/ui/highlighting-objects/FillTransparency-Half.jpg\"\
+    \ />\n      <figcaption>FillTransparency = 0.5</figcaption>\n      </figure>\n\
+    \    </td>\n    <td width=\"30%\">\n      <figure>\n       <img src=\"/assets/ui/highlighting-objects/FillTransparency-1.jpg\"\
+    \ />\n      <figcaption>FillTransparency = 1</figcaption>\n      </figure>\n \
+    \   </td>\n  </tr>\n</tbody>\n</table>\n"
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: Highlight.OutlineColor
+  summary: 'Sets the `Datatype.Color3` value of the highlight''s outline.
+
+    '
+  description: "Sets the `Datatype.Color3` value of the highlight's outline.\n\n<table\
+    \ size=\"small\">\n<tbody>\n  <tr>\n    <td width=\"30%\">\n      <figure>\n \
+    \     <img src=\"/assets/ui/highlighting-objects/OutlineColor-Red.jpg\" />\n \
+    \     <figcaption>OutlineColor = [255, 100, 50]</figcaption>\n      </figure>\n\
+    \    </td>\n    <td width=\"30%\">\n      <figure>\n      <img src=\"/assets/ui/highlighting-objects/OutlineColor-Green.jpg\"\
+    \ />\n      <figcaption>OutlineColor = [0, 255, 125]</figcaption>\n      </figure>\n\
+    \    </td>\n    <td width=\"30%\">\n      <figure>\n       <img src=\"/assets/ui/highlighting-objects/OutlineColor-Blue.jpg\"\
+    \ />\n      <figcaption>OutlineColor = [75, 150, 255]</figcaption>\n      </figure>\n\
+    \    </td>\n  </tr>\n</tbody>\n</table>\n"
+  code_samples: []
+  type: Color3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: Highlight.OutlineTransparency
+  summary: 'Sets the transparency of the highlight''s outline.
+
+    '
+  description: "Sets the visibility of the highlight's outline to a value between\
+    \ **0**\n(opaque) and **1** (transparent).\n\n<table size=\"small\">\n<tbody>\n\
+    \  <tr>\n    <td width=\"30%\">\n      <figure>\n      <img src=\"/assets/ui/highlighting-objects/OutlineTransparency-0.jpg\"\
+    \ />\n      <figcaption>OutlineTransparency = 0</figcaption>\n      </figure>\n\
+    \    </td>\n    <td width=\"30%\">\n      <figure>\n      <img src=\"/assets/ui/highlighting-objects/OutlineTransparency-1.jpg\"\
+    \ />\n      <figcaption>OutlineTransparency = 1</figcaption>\n      </figure>\n\
+    \    </td>\n    <td width=\"30%\">\n    </td>\n  </tr>\n</tbody>\n</table>\n"
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: Adornee
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Instance
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: DepthMode
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.HighlightDepthMode
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: AlwaysOnTop
+- name: Enabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'true'
+- name: FillColor
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Color3
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 1, 0, 0
+- name: FillTransparency
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0.5'
+- name: LineThickness
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: int
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: '1'
+- name: OutlineColor
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Color3
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 1, 1, 1
+- name: OutlineTransparency
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: ReservedId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: Enum.ReservedHighlightId
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: Standard
+methods: []
+events: []
+callbacks: []

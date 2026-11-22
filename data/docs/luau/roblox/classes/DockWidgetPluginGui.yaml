@@ -1,0 +1,93 @@
+name: DockWidgetPluginGui
+type: class
+memory_category: Instances
+summary: 'A `Class.PluginGui` that displays its contents in a dockable, resizable
+  Roblox
+
+  Studio window.
+
+  '
+description: '**DockWidgetPluginGui** is a `Class.PluginGui` that displays its contents
+
+  inside a dockable Roblox Studio window. It is used to create widgets similar
+
+  to the built-in **Animation Editor** and **Terrain Tools**.
+
+
+  This GUI can be created using `Class.Plugin:CreateDockWidgetPluginGuiAsync()`.
+
+  '
+code_samples: []
+inherits:
+- PluginGui
+descendants: []
+tags:
+- NotCreatable
+- NotReplicated
+deprecation_message: ''
+properties:
+- name: DockWidgetPluginGui.HostWidgetWasRestored
+  summary: 'Describes whether the previous state of this DockWidgetPluginGui was
+
+    restored when it was created.
+
+    '
+  description: 'Describes whether the previous state of this `Class.DockWidgetPluginGui`
+
+    was restored when it was created.
+
+    '
+  code_samples: []
+  type: boolean
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - UI
+- name: HostWidgetWasRestored
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: 'false'
+methods:
+- name: RequestRaise
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+events: []
+callbacks: []

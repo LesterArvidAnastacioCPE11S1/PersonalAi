@@ -1,0 +1,184 @@
+name: PackageService
+type: class
+memory_category: Instances
+summary: 'Manages Roblox Studio packages, tracking their metadata and versions and
+
+  handling updates to package contents.
+
+  '
+description: '`Class.PackageService` manages packages in Roblox Studio. A package
+  is a
+
+  reusable asset built from an instance tree that keeps a link back to its
+
+  source asset so changes can be published to and pulled from every place that
+
+  uses it.
+
+
+  The service tracks lightweight metadata for each package, including its latest
+
+  published version number, the creator''s identity, and the current user''s
+
+  access permissions. It also drives operations on package contents: requesting
+
+  and loading a package''s instances, checking whether a package has been
+
+  modified relative to its published version, and updating a package tree to a
+
+  newer version or reverting it to its published state.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+- NotReplicated
+deprecation_message: ''
+properties: []
+methods:
+- name: GetOverrides
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: scopeRoot
+    type: Instance
+  returns:
+  - type: DataModelDiff
+- name: RevertAttributeOverridesAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: scopeRoot
+    type: Instance
+  - name: identities
+    type: Array
+  - name: attributeNames
+    type: Array
+  returns:
+  - type: 'null'
+- name: RevertInstanceOverridesAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: scopeRoot
+    type: Instance
+  - name: identities
+    type: Array
+  returns:
+  - type: 'null'
+- name: RevertPropertyOverridesAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: scopeRoot
+    type: Instance
+  - name: identities
+    type: Array
+  - name: propertyNames
+    type: Array
+  returns:
+  - type: 'null'
+- name: UpdateAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: packageRoot
+    type: Instance
+  - name: version
+    type: int64
+    default: '0'
+  returns:
+  - type: Instance
+events:
+- name: OverrideStateChanged
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: scopeRoot
+    type: Instance
+  - name: identity
+    type: ScopedInstanceIdentity
+  - name: changeType
+    type: Enum.DataModelChangeType
+  - name: propertyNames
+    type: Array
+- name: OverridesCleared
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: scopeRoot
+    type: Instance
+  - name: identity
+    type: ScopedInstanceIdentity
+callbacks: []

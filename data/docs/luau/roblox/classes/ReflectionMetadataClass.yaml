@@ -1,0 +1,204 @@
+name: ReflectionMetadataClass
+type: class
+memory_category: Instances
+summary: 'Registers information about a class, and its members. Should be parented
+  to
+
+  `Class.ReflectionMetadataClasses`.
+
+  '
+description: 'Registers information about a class, and its members. Should be parented
+  to
+
+  `Class.ReflectionMetadataClasses`
+
+  '
+code_samples: []
+inherits:
+- ReflectionMetadataItem
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: ReflectionMetadataClass.ExplorerImageIndex
+  summary: 'A number index, which refers to a specific class icon.
+
+    '
+  description: 'A number index, which refers to a specific class icon.
+
+    '
+  code_samples: []
+  type: int
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Reflection
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: ReflectionMetadataClass.ExplorerOrder
+  summary: 'Determines how this class is sorted in the Explorer compared to other
+
+    classes.
+
+    '
+  description: 'Determines how this class is sorted in the Explorer compared to other
+
+    classes.
+
+    '
+  code_samples: []
+  type: int
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Reflection
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: ReflectionMetadataClass.Insertable
+  summary: 'Toggles whether or not this object can be inserted through the Advanced
+
+    Objects menu.
+
+    '
+  description: 'Toggles whether or not this object can be inserted through the Advanced
+
+    Objects menu.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Reflection
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: ReflectionMetadataClass.PreferredParent
+  summary: 'Sets the class that this class would prefer parenting to.
+
+    '
+  description: 'Sets the class that this class would prefer parenting to.
+
+    '
+  code_samples: []
+  type: string
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Reflection
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: ExplorerImageIndex
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: Reflection
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: ExplorerOrder
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: Reflection
+  serialization:
+    can_load: true
+    can_save: true
+  default: '2147483647'
+- name: Insertable
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Reflection
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'true'
+- name: PreferredParent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Reflection
+  serialization:
+    can_load: true
+    can_save: true
+- name: ServiceVisibility
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: Enum.ServiceVisibility
+  category: Reflection
+  serialization:
+    can_load: true
+    can_save: true
+  default: Always
+methods: []
+events: []
+callbacks: []

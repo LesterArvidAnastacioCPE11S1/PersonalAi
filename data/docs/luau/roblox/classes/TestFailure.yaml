@@ -1,0 +1,342 @@
+name: TestFailure
+type: class
+memory_category: Instances
+summary: 'Details of one failed check in a test.
+
+  '
+description: "A `TestFailure` describes one `Class.TestCase:Check()` or\n`Class.TestCase:Require()`\
+  \ call that failed: its message, the expected and\nactual values, and where in your\
+  \ code it was called. Get them from\n`Class.TestResult:GetFailures()`.\n\nA `TestFailure`\
+  \ isn't an `Class.Instance` and can't be parented.\n\n```lua\nfor _, test in result:GetTests()\
+  \ do\n\tfor _, failure in test:GetFailures() do\n\t\tlocal source = failure:GetSource()\n\
+  \t\tlocal location = if source then `{source:GetFullName()}:{failure.Line}` else\
+  \ \"unknown\"\n\t\twarn(`{test.TestId} at {location}: {failure.Message}`)\n\t\t\
+  warn(`  expected {failure:GetExpected()}, got {failure:GetActual()}`)\n\tend\nend\n\
+  ```\n"
+code_samples: []
+inherits:
+- Object
+descendants: []
+tags:
+- NotCreatable
+- NotReplicated
+deprecation_message: ''
+properties:
+- name: TestFailure.Line
+  summary: 'The line the failed check was called on.
+
+    '
+  description: 'The line number, in the script returned by
+
+    `Class.TestFailure:GetSource()|GetSource()`, of the failed
+
+    `Class.TestCase:Check()` or `Class.TestCase:Require()` call. If you call
+
+    `Class.TestCase:Check()` from a helper function, this is the line inside
+
+    the helper.
+
+    '
+  code_samples: []
+  type: int
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities: []
+- name: TestFailure.Matcher
+  summary: 'The kind of comparison that failed.
+
+    '
+  description: 'The kind of comparison that failed. For `Class.TestCase:Check()` and
+
+    `Class.TestCase:Require()`, it''s `"equal"`.
+
+    '
+  code_samples: []
+  type: string
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities: []
+- name: TestFailure.Message
+  summary: 'The message describing the failed check.
+
+    '
+  description: 'The `message` passed to the failed `Class.TestCase:Check()` or
+
+    `Class.TestCase:Require()` call, or `Values are not equal` if it was
+
+    called without one.
+
+    '
+  code_samples: []
+  type: string
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities: []
+- name: TestFailure.StackTrace
+  summary: 'Reserved for future use; currently always empty.
+
+    '
+  description: 'Reserved for future use. It''s currently always empty for failures
+    from
+
+    `Class.TestCase:Check()` and `Class.TestCase:Require()`, so use
+
+    `Class.TestFailure:GetSource()|GetSource()` and
+
+    `Class.TestFailure.Line|Line` to find where the check was called.
+
+    '
+  code_samples: []
+  type: string
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities: []
+- name: Line
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: Matcher
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: Message
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: StackTrace
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+methods:
+- name: TestFailure:GetActual
+  summary: 'Returns the value the check received.
+
+    '
+  description: 'Returns the `actualValue` passed to the failed `Class.TestCase:Check()`
+    or
+
+    `Class.TestCase:Require()` call, converted for display. Use it to show
+
+    what your code produced, not to compare against. Tables come back as new
+
+    tables that can differ from the original: a table that has an array part
+
+    loses its other keys, and in any other table every key becomes a string.
+
+    Instances come back as the same object, and threads as `nil`. A table that
+
+    can''t be converted, such as one that contains itself, comes back as a
+
+    string naming its type, like `"<table>"`.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Variant
+    summary: 'The `actualValue` passed to the failed check.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: TestFailure:GetExpected
+  summary: 'Returns the value the check expected.
+
+    '
+  description: 'Returns the `expectedValue` passed to the failed `Class.TestCase:Check()`
+
+    or `Class.TestCase:Require()` call, converted for display the same way as
+
+    `Class.TestFailure:GetActual()|GetActual()`.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Variant
+    summary: 'The `expectedValue` passed to the failed check.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: TestFailure:GetSource
+  summary: 'Returns the script the failed check was called from.
+
+    '
+  description: 'Returns the script that called the failed `Class.TestCase:Check()`
+    or
+
+    `Class.TestCase:Require()`. Returns `nil` if the script isn''t known or no
+
+    longer exists. `Class.TestFailure.Line|Line` is still set in that case.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Instance
+    summary: 'The script, or `nil` if it isn''t known or no longer exists.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: GetActual
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Variant
+- name: GetExpected
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Variant
+- name: GetSource
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Instance
+events: []
+callbacks: []

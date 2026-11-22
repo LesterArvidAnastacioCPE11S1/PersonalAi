@@ -1,0 +1,72 @@
+name: TeamCreatePublishService
+type: class
+memory_category: Instances
+summary: API reference for TeamCreatePublishService, generated automatically from
+  the Roblox API dump 0.748.0.7481526. Prose documentation is not available for this
+  class yet.
+description: API reference for TeamCreatePublishService, generated automatically from
+  the Roblox API dump 0.748.0.7481526. Prose documentation is not available for this
+  class yet.
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+deprecation_message: ''
+properties: []
+methods: []
+events:
+- name: TeamCreateErrorStatus
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: result
+    type: Enum.TeamCreateErrorState
+  - name: teamCreateSaveData
+    type: Dictionary
+- name: TeamCreatePlaceUploadRequest
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: metadata
+    type: Dictionary
+- name: TeamCreatePlaceUploadResponse
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: success
+    type: bool
+  - name: metadata
+    type: Dictionary
+callbacks: []

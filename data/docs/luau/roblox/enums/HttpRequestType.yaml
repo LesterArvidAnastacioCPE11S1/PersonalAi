@@ -1,0 +1,38 @@
+name: HttpRequestType
+type: enum
+summary: Reference for Enum.HttpRequestType, generated automatically from the Roblox
+  API dump 0.748.0.7481526.
+description: Reference for Enum.HttpRequestType, generated automatically from the
+  Roblox API dump 0.748.0.7481526.
+code_samples: []
+tags: []
+deprecation_message: ''
+items:
+- name: Default
+  summary: ''
+  value: 0
+  tags: []
+- name: MarketplaceService
+  summary: ''
+  value: 2
+  tags: []
+- name: Players
+  summary: ''
+  value: 7
+  tags: []
+- name: Chat
+  summary: ''
+  value: 15
+  tags: []
+- name: Avatar
+  summary: ''
+  value: 16
+  tags: []
+- name: Analytics
+  summary: ''
+  value: 23
+  tags: []
+- name: Localization
+  summary: ''
+  value: 25
+  tags: []

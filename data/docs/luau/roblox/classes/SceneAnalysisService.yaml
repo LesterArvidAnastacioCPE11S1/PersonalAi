@@ -1,0 +1,466 @@
+name: SceneAnalysisService
+type: class
+memory_category: Instances
+summary: ''
+description: 'Provides programmatic access to the
+
+  [Scene Analysis](../../../performance-optimization/scene-analysis.md) tool''s
+
+  underlying performance data.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+- NotReplicated
+deprecation_message: ''
+properties: []
+methods:
+- name: SceneAnalysisService:GetAnimationMemoryAsync
+  summary: ''
+  description: "Returns loaded animation clip memory. The same asset shared by multiple\n\
+    Animators appears only once, with all owners listed.\n\n#### Root dictionary\n\
+    \n| Key        | Type   | Description                                        \
+    \              |\n| ---------- | ------ | ----------------------------------------------------------------\
+    \ |\n| `Name`     | string | Always `\"AnimationMemory\"`.                   \
+    \                   |\n| `Size`     | number | Total loaded clip memory in bytes.\
+    \                               |\n| `Children` | array  | Array of clip entries\
+    \ and optionally an out-of-data model group. |\n\n#### Clip entry\n\nEach child\
+    \ in `Children` is either a clip entry or the \"not in data model\"\ngroup (see\
+    \ below).\n\n| Key       | Type   | Description                              \
+    \                   |\n| --------- | ------ | -----------------------------------------------------------\
+    \ |\n| `Name`    | string | The asset ID (e.g. `\"rbxassetid://111\"`).      \
+    \             |\n| `Size`    | number | Clip memory in bytes.                \
+    \                       |\n| `AssetId` | string | The asset ID string (same value\
+    \ as `Name`).                 |\n| `Owners`  | array  | Array of owner entries\
+    \ for all Animators playing this clip. |\n\n#### Owner entry\n\n| Key        \
+    \ | Type   | Description                                                     \
+    \             |\n| ----------- | ------ | ----------------------------------------------------------------------------\
+    \ |\n| `Name`      | string | Full path to the owning Animator (e.g. `\"Workspace.NPC.Humanoid.Animator\"\
+    `). |\n| `ClassName` | string | Class name of the owner (e.g. `\"Animator\"`).\
+    \                                 |\n\n#### \"Not in data model\" group\n\nClips\
+    \ from Animators held only by Lua (not parented in the data model) are\ncollected\
+    \ into a single group entry.\n\n| Key        | Type   | Description          \
+    \                         |\n| ---------- | ------ | ---------------------------------------------\
+    \ |\n| `Name`     | string | Always `\"Not In DataModel\"`.                  |\n\
+    | `Size`     | number | Sum of clip bytes in this group.              |\n| `Children`\
+    \ | array  | Array of clip entries (same schema as above). |\n\n#### Example\n\
+    \n```lua\n{\n  Name = \"AnimationMemory\",\n  Size = 1048576,\n  Children = {\n\
+    \    { Name = \"rbxassetid://111\", Size = 32768, AssetId = \"rbxassetid://111\"\
+    ,\n      Owners = {\n        { Name = \"Workspace.Player.Humanoid.Animator\",\
+    \ ClassName = \"Animator\" },\n    }},\n    { Name = \"rbxassetid://444\", Size\
+    \ = 65536, AssetId = \"rbxassetid://444\",\n      Owners = {\n        { Name =\
+    \ \"Workspace.NPC1.Humanoid.Animator\", ClassName = \"Animator\" },\n        {\
+    \ Name = \"Workspace.NPC2.Humanoid.Animator\", ClassName = \"Animator\" },\n \
+    \   }},\n    { Name = \"Not In DataModel\", Size = 32768, Children = {\n     \
+    \   { Name = \"rbxassetid://555\", Size = 32768, AssetId = \"rbxassetid://555\"\
+    ,\n          Owners = {\n            { Name = \"Animator\", ClassName = \"Animator\"\
+    \ },\n        }},\n    }},\n  }\n}\n```\n"
+  code_samples: []
+  parameters: []
+  returns:
+  - type: AnimationMemoryResult
+    summary: 'A dictionary tree of loaded animation clip memory, deduplicated by
+
+      clip.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: SceneAnalysisService:GetAudioMemoryAsync
+  summary: ''
+  description: "Returns loaded audio asset memory, deduplicated by asset ID. Assets\
+    \ whose\nowners share the same parent are organized under that parent path —\n\
+    flattened when there is one child, nested when there are several. Assets\nwhose\
+    \ owners span different parents appear as shared entries with an\n`Owners` array.\n\
+    \n#### Root dictionary\n\n| Key        | Type   | Description                \
+    \                             |\n| ---------- | ------ | -------------------------------------------------------\
+    \ |\n| `Name`     | string | Always `\"AudioMemory\"`.                       \
+    \          |\n| `Size`     | number | Total loaded audio memory in bytes.    \
+    \                 |\n| `Children` | array  | Mix of flat entries, parent groups,\
+    \ and shared entries. |\n\n#### Flat asset entry\n\nEmitted when a parent has\
+    \ exactly one audio child.\n\n| Key       | Type   | Description             \
+    \                             |\n| --------- | ------ | ----------------------------------------------------\
+    \ |\n| `Name`    | string | Full instance path (e.g. `\"Workspace.Map.BGMusic\"\
+    `). |\n| `Size`    | number | Asset memory in bytes.                         \
+    \      |\n| `AssetId` | string | The audio asset ID.                         \
+    \         |\n\n#### Parent group\n\nEmitted when a parent has multiple audio children.\n\
+    \n| Key        | Type   | Description                                        \
+    \                |\n| ---------- | ------ | ------------------------------------------------------------------\
+    \ |\n| `Name`     | string | Parent path (e.g. `\"Workspace.Map.SFX\"`).     \
+    \                     |\n| `Size`     | number | Sum of child asset bytes.   \
+    \                                       |\n| `Children` | array  | Array of flat\
+    \ asset entries (each with `Name`, `Size`, `AssetId`). |\n\n#### Shared asset\
+    \ entry\n\nEmitted when an asset's owners are under different parents.\n\n| Key\
+    \       | Type   | Description                                 |\n| ---------\
+    \ | ------ | ------------------------------------------- |\n| `Name`    | string\
+    \ | The asset ID.                               |\n| `Size`    | number | Asset\
+    \ memory in bytes.                      |\n| `AssetId` | string | The asset ID\
+    \ string (same value as `Name`). |\n| `Owners`  | array  | Array of owner entries.\
+    \                     |\n\n#### Owner entry\n\n| Key         | Type   | Description\
+    \                                            |\n| ----------- | ------ | ------------------------------------------------------\
+    \ |\n| `Name`      | string | Full instance path (e.g. `\"Workspace.Zone1.Ambient\"\
+    `). |\n| `ClassName` | string | `\"Sound\"` or `\"AudioPlayer\"`.            \
+    \              |\n\n#### Example\n\n```lua\n{\n  Name = \"AudioMemory\",\n  Size\
+    \ = 5242880,\n  Children = {\n    -- Single audio under unique parent (flat)\n\
+    \    { Name = \"Workspace.Map.BGMusic\", Size = 2097152,\n      AssetId = \"rbxassetid://111\"\
+    \ },\n\n    -- Multiple audio under same parent (grouped)\n    { Name = \"Workspace.Map.SFX\"\
+    , Size = 1048576, Children = {\n        { Name = \"Workspace.Map.SFX.Explosion\"\
+    , Size = 524288, AssetId = \"rbxassetid://222\" },\n        { Name = \"Workspace.Map.SFX.Gunshot\"\
+    ,   Size = 524288, AssetId = \"rbxassetid://333\" },\n    }},\n\n    -- Shared\
+    \ asset (owners in different locations)\n    { Name = \"rbxassetid://444\", Size\
+    \ = 2097152, AssetId = \"rbxassetid://444\",\n      Owners = {\n        { Name\
+    \ = \"Workspace.Zone1.Ambient\", ClassName = \"Sound\" },\n        { Name = \"\
+    Workspace.Zone2.Ambient\", ClassName = \"Sound\" },\n    }},\n  }\n}\n```\n"
+  code_samples: []
+  parameters: []
+  returns:
+  - type: AudioMemoryResult
+    summary: 'A dictionary tree of loaded audio asset memory, deduplicated by asset
+
+      ID.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: SceneAnalysisService:GetInstanceCompositionAsync
+  summary: ''
+  description: "Returns instance counts by category and class from the data model\
+    \ tree.\nScans descendants of Workspace, Players, Lighting, MaterialService,\n\
+    ReplicatedFirst, ReplicatedStorage, ServerScriptService, ServerStorage,\nStarterGui,\
+    \ StarterPack, StarterPlayer, Teams, SoundService, and\nTextChatService. Each\
+    \ instance is classified into one of the categories\nbelow based on its class\
+    \ hierarchy.\n\n#### Root dictionary\n\n| Key        | Type   | Description  \
+    \                                     |\n| ---------- | ------ | -------------------------------------------------\
+    \ |\n| `Name`     | string | Always `\"InstanceComposition\"`.               \
+    \    |\n| `Size`     | number | Total instance count across all scanned services.\
+    \ |\n| `Children` | array  | Array of category entries.                      \
+    \  |\n\n#### Category entry\n\n| Key        | Type   | Description           \
+    \            |\n| ---------- | ------ | --------------------------------- |\n\
+    | `Name`     | string | Category name (see table below).  |\n| `Size`     | number\
+    \ | Total instances in this category. |\n| `Children` | array  | Array of class\
+    \ entries.           |\n\n#### Class entry (leaf)\n\n| Key    | Type   | Description\
+    \                                            |\n| ------ | ------ | ------------------------------------------------------\
+    \ |\n| `Name` | string | The class name (e.g. `\"Part\"`, `\"Script\"`, `\"Frame\"\
+    `). |\n| `Size` | number | Number of instances of this class.                \
+    \     |\n\n#### Categories\n\n| Category           | Representative Types    \
+    \                                                             |\n| ------------------\
+    \ | ------------------------------------------------------------------------------------\
+    \ |\n| 3D Objects         | BasePart, Model, Camera                          \
+    \                                    |\n| Physics            | Attachment, Constraint,\
+    \ JointInstance, WeldConstraint, ControllerManager, SensorBase |\n| UI       \
+    \          | GuiBase, BasePlayerGui, UIBase, ProximityPrompt, ClickDetector, TextChannel\
+    \          |\n| Lights             | Light                                   \
+    \                                             |\n| PostProcessing     | PostEffect,\
+    \ Highlight, Atmosphere, Sky, Clouds                                       |\n\
+    | Scripts            | LuaSourceContainer, BindableEvent, RemoteEvent, RemoteFunction\
+    \                       |\n| Audio              | Sound, SoundEffect, AudioPlayer,\
+    \ Wire, SoundGroup, AudioEmitter                      |\n| Animation         \
+    \ | Animator, AnimationController, Animation, KeyframeSequence, IKControl    \
+    \            |\n| Values             | ValueBase                             \
+    \                                               |\n| Character          | CharacterAppearance,\
+    \ Humanoid, HumanoidDescription, BaseWrap, FaceControls           |\n| Textures\
+    \           | FaceInstance, SurfaceAppearance, MaterialVariant               \
+    \                      |\n| Meshes             | DataModelMesh               \
+    \                                                         |\n| Particles     \
+    \     | ParticleEmitter, Fire, Trail, Beam, Explosion                        \
+    \                |\n| Services & Storage | Player, Folder, Configuration     \
+    \                                                   |\n| Misc               |\
+    \ Tool, Backpack, Team, ForceField, PathfindingModifier, PackageLink, HapticEffect\
+    \     |\n| Unclassified       | Anything not matching the above              \
+    \                                        |\n\n#### Example\n\n```lua\n{\n  Name\
+    \ = \"InstanceComposition\",\n  Size = 12450,\n  Children = {\n    { Name = \"\
+    3D Objects\", Size = 5200, Children = {\n        { Name = \"Part\", Size = 3100\
+    \ },\n        { Name = \"MeshPart\", Size = 1800 },\n        { Name = \"Model\"\
+    , Size = 300 },\n    }},\n    { Name = \"UI\", Size = 2100, Children = {\n   \
+    \     { Name = \"Frame\", Size = 900 },\n        { Name = \"TextLabel\", Size\
+    \ = 700 },\n        { Name = \"UIListLayout\", Size = 500 },\n    }},\n  }\n}\n\
+    ```\n"
+  code_samples: []
+  parameters: []
+  returns:
+  - type: InstanceCompositionResult
+    summary: 'A dictionary tree of instance counts grouped by category and class
+
+      name.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: SceneAnalysisService:GetScriptMemoryAsync
+  summary: ''
+  description: "Returns per-script Luau VM heap memory usage in bytes. Scripts are\
+    \ grouped\nfirst by their containing service (derived from the first segment of\
+    \ the\ndotted path), then split into `\"ModuleScripts\"` and `\"Scripts\"` subgroups\n\
+    based on the instance's class.\n\n#### Root dictionary\n\n| Key        | Type\
+    \   | Description                        |\n| ---------- | ------ | ----------------------------------\
+    \ |\n| `Name`     | string | Always `\"ScriptMemory\"`.           |\n| `Size`\
+    \     | number | Total Luau VM memory in bytes.     |\n| `Children` | array  |\
+    \ Array of service category entries. |\n\n#### Service category entry\n\n| Key\
+    \        | Type   | Description                                              \
+    \                    |\n| ---------- | ------ | ----------------------------------------------------------------------------\
+    \ |\n| `Name`     | string | Service name (e.g. `\"ServerScriptService\"`, `\"\
+    ReplicatedStorage\"`).          |\n| `Size`     | number | Sum of all script memory\
+    \ in this service, in bytes.                          |\n| `Children` | array\
+    \  | One or two script-type group entries (`\"ModuleScripts\"` and/or `\"Scripts\"\
+    `). |\n\n#### Script-type group entry\n\n| Key        | Type   | Description \
+    \                                       |\n| ---------- | ------ | --------------------------------------------------\
+    \ |\n| `Name`     | string | Either `\"ModuleScripts\"` or `\"Scripts\"`.    \
+    \       |\n| `Size`     | number | Sum of memory for scripts in this group, in\
+    \ bytes. |\n| `Children` | array  | Array of individual script entries.      \
+    \          |\n\n#### Script entry (leaf)\n\n| Key    | Type   | Description  \
+    \                                                          |\n| ------ | ------\
+    \ | ---------------------------------------------------------------------- |\n\
+    | `Name` | string | Dotted path to the script (e.g. `\"ServerScriptService.Shared.Utils\"\
+    `). |\n| `Size` | number | Heap memory used by this script, in bytes.        \
+    \                     |\n\n#### Example\n\n```lua\n{\n  Name = \"ScriptMemory\"\
+    ,\n  Size = 8388608,\n  Children = {\n    { Name = \"ServerScriptService\", Size\
+    \ = 524288, Children = {\n        { Name = \"ModuleScripts\", Size = 409600, Children\
+    \ = {\n            { Name = \"ServerScriptService.Shared.Utils\", Size = 204800\
+    \ },\n            { Name = \"ServerScriptService.Shared.Config\", Size = 204800\
+    \ },\n        }},\n        { Name = \"Scripts\", Size = 114688, Children = {\n\
+    \            { Name = \"ServerScriptService.MainScript\", Size = 114688 },\n \
+    \       }},\n    }},\n    { Name = \"ReplicatedStorage\", Size = 262144, Children\
+    \ = {\n        { Name = \"ModuleScripts\", Size = 262144, Children = {\n     \
+    \       { Name = \"ReplicatedStorage.SharedModule\", Size = 262144 },\n      \
+    \  }},\n    }},\n  }\n}\n```\n"
+  code_samples: []
+  parameters: []
+  returns:
+  - type: ScriptMemoryResult
+    summary: 'A dictionary tree of per-script Luau VM heap memory grouped by service
+
+      and script type.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: SceneAnalysisService:GetTriangleCompositionAsync
+  summary: ''
+  description: "Returns triangle and draw call counts by render pass, sourced from\n\
+    `StatsService` performance data. Unlike other queries, this uses a `Sizes`\ndictionary\
+    \ (with `Triangles` and `Drawcalls` keys) instead of a single\n`Size` field. Render\
+    \ pass entries with zero triangles and zero draw calls\nare omitted.\n\n#### Root\
+    \ dictionary\n\n| Key        | Type       | Description                      \
+    \                                      |\n| ---------- | ---------- | ----------------------------------------------------------------------\
+    \ |\n| `Name`     | string     | Always `\"TriangleComposition\"`.           \
+    \                             |\n| `Sizes`    | dictionary | `{ Triangles: number,\
+    \ Drawcalls: number }` — totals across all passes. |\n| `Children` | array   \
+    \   | Array of render pass entries.                                          |\n\
+    \n#### Render pass entry (leaf)\n\n| Key     | Type       | Description      \
+    \                                         |\n| ------- | ---------- | ---------------------------------------------------------\
+    \ |\n| `Name`  | string     | Render pass type (see table below).            \
+    \           |\n| `Sizes` | dictionary | `{ Triangles: number, Drawcalls: number\
+    \ }` for this pass. |\n\n#### Render pass types\n\n| Name               | Description\
+    \                    |\n| ------------------ | ------------------------------\
+    \ |\n| Opaque             | Opaque geometry                |\n| Transparent  \
+    \      | Transparent geometry           |\n| Terrain            | Voxel/smooth\
+    \ terrain           |\n| Grass              | Terrain grass decoration       |\n\
+    | UI                 | Screen-space UI                |\n| Decal             \
+    \ | Decal rendering                |\n| Cloud              | Volumetric clouds\
+    \              |\n| GenericPostProcess | Generic post-processing        |\n| SSAO\
+    \               | Screen-space ambient occlusion |\n| DOF                | Depth\
+    \ of field                 |\n| Particles          | Particle systems        \
+    \       |\n| Sky                | Skybox                         |\n| Shadows\
+    \            | Shadow map rendering           |\n| Undefined          | Uncategorized\
+    \                  |\n\n#### Example\n\n```lua\n{\n  Name = \"TriangleComposition\"\
+    ,\n  Sizes = { Triangles = 245000, Drawcalls = 1200 },\n  Children = {\n    {\
+    \ Name = \"Opaque\",      Sizes = { Triangles = 180000, Drawcalls = 800 } },\n\
+    \    { Name = \"Transparent\", Sizes = { Triangles = 25000,  Drawcalls = 150 }\
+    \ },\n    { Name = \"Shadows\",     Sizes = { Triangles = 30000,  Drawcalls =\
+    \ 200 } },\n    { Name = \"UI\",          Sizes = { Triangles = 10000,  Drawcalls\
+    \ = 50  } },\n  }\n}\n```\n"
+  code_samples: []
+  parameters: []
+  returns:
+  - type: TriangleCompositionResult
+    summary: 'A dictionary tree of triangle and draw call counts broken down by
+
+      render pass type.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: SceneAnalysisService:GetUnparentedInstancesAsync
+  summary: ''
+  description: "Returns instances held by Luau but no longer in the data model, grouped\
+    \ by\nhost script. Each unparented instance is traced back to the script that\n\
+    holds the reference.\n\nUnparented instances that are flagged for garbage collection\
+    \ but not yet\ndeleted are temporarily shown with a parent of `Unknown`. This\
+    \ is a side\neffect of how garbage collection is intended to work and not indicative\
+    \ of\nany problems.\n\n#### Root dictionary\n\n| Key        | Type   | Description\
+    \                          |\n| ---------- | ------ | ------------------------------------\
+    \ |\n| `Name`     | string | Always `\"UnparentedInstances\"`.      |\n| `Size`\
+    \     | number | Total count of unparented instances. |\n| `Children` | array\
+    \  | Array of host script entries.        |\n\n#### Host script entry\n\n| Key\
+    \        | Type   | Description                                              \
+    \                                   |\n| ---------- | ------ | -------------------------------------------------------------------------------------------\
+    \ |\n| `Name`     | string | Script path (e.g. `\"ServerScriptService.Gameplay.Combat\"\
+    `) or `\"(unknown)\"` if untraceable. |\n| `Size`     | number | Count of unparented\
+    \ instances held by this script.                                          |\n\
+    | `Children` | array  | Array of class entries.                              \
+    \                                       |\n\n#### Class entry (leaf)\n\n| Key\
+    \    | Type   | Description                                                  \
+    \                |\n| ------ | ------ | ----------------------------------------------------------------------------\
+    \ |\n| `Name` | string | Class name of the unparented instance (e.g. `\"Part\"\
+    `, `\"Frame\"`, `\"Sound\"`). |\n| `Size` | number | Count of unparented instances\
+    \ of this class from this host script.           |\n\n#### Example\n\n```lua\n\
+    {\n  Name = \"UnparentedInstances\",\n  Size = 47,\n  Children = {\n    { Name\
+    \ = \"ServerScriptService.Gameplay.Combat\", Size = 30, Children = {\n       \
+    \ { Name = \"Part\", Size = 22 },\n        { Name = \"Attachment\", Size = 8 },\n\
+    \    }},\n    { Name = \"(unknown)\", Size = 17, Children = {\n        { Name\
+    \ = \"Frame\", Size = 12 },\n        { Name = \"Sound\", Size = 5 },\n    }},\n\
+    \  }\n}\n```\n"
+  code_samples: []
+  parameters: []
+  returns:
+  - type: UnparentedInstancesResult
+    summary: 'A dictionary tree of unparented instances grouped by the host script
+
+      holding the reference.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: GetAnimationMemoryAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Dictionary
+- name: GetAudioMemoryAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Dictionary
+- name: GetCollisionGeometryMemoryAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Dictionary
+- name: GetInstanceCompositionAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Dictionary
+- name: GetScriptMemoryAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Dictionary
+- name: GetTriangleCompositionAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Dictionary
+- name: GetUnparentedInstancesAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Dictionary
+events: []
+callbacks: []

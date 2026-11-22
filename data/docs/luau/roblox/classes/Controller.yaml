@@ -1,0 +1,290 @@
+name: Controller
+type: class
+memory_category: Instances
+summary: 'The base class for controller objects, such as the `Class.HumanoidController`
+
+  object.
+
+  '
+description: 'The base class for controller objects, such as the `Class.HumanoidController`
+
+  object.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants:
+- HumanoidController
+- SkateboardController
+- VehicleController
+tags:
+- NotCreatable
+deprecation_message: ''
+properties: []
+methods:
+- name: Controller:BindButton
+  summary: 'Activates an overriding bind on the specified button.
+
+    '
+  description: 'Activates an overriding bind on the specified button.
+
+    '
+  code_samples:
+  - Controller-BindButton1
+  parameters:
+  - name: button
+    type: Button
+    default: null
+    summary: 'The `Enum.Button` to bind.
+
+      '
+  - name: caption
+    type: string
+    default: null
+    summary: 'The text to display for the bound button.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: Controller:bindButton
+  summary: ''
+  description: ''
+  code_samples: []
+  parameters:
+  - name: button
+    type: Button
+    default: null
+    summary: ''
+  - name: caption
+    type: string
+    default: null
+    summary: ''
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This function is a deprecated variant of `Class.Controller:BindButton()`
+
+    which should be used instead.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: Controller:GetButton
+  summary: 'Returns whether or not Button is being pressed.
+
+    '
+  description: 'Returns whether or not Button is being pressed.
+
+    '
+  code_samples: []
+  parameters:
+  - name: button
+    type: Button
+    default: null
+    summary: 'The `Enum.Button` whose pressed state to check.
+
+      '
+  returns:
+  - type: boolean
+    summary: 'Whether the specified button is currently pressed.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: Controller:getButton
+  summary: ''
+  description: ''
+  code_samples: []
+  parameters:
+  - name: button
+    type: Button
+    default: null
+    summary: ''
+  returns:
+  - type: boolean
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This function is a deprecated variant of `Class.Controller:GetButton()`
+
+    which should be used instead.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: Controller:UnbindButton
+  summary: 'Removes the bind on button.
+
+    '
+  description: 'Removes the bind on button.
+
+    '
+  code_samples: []
+  parameters:
+  - name: button
+    type: Button
+    default: null
+    summary: 'The `Enum.Button` to unbind.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: BindButton
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: button
+    type: Enum.Button
+  - name: caption
+    type: string
+  returns:
+  - type: 'null'
+- name: GetButton
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: button
+    type: Enum.Button
+  returns:
+  - type: bool
+- name: UnbindButton
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: button
+    type: Enum.Button
+  returns:
+  - type: 'null'
+- name: bindButton
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''BindButton'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: button
+    type: Enum.Button
+  - name: caption
+    type: string
+  returns:
+  - type: 'null'
+- name: getButton
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''GetButton'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: button
+    type: Enum.Button
+  returns:
+  - type: bool
+events:
+- name: Controller.ButtonChanged
+  summary: 'Fired when the pressed state of a bound button is changed. This event
+    can
+
+    be used in conjunction with `Class.Controller:GetButton()` to see whether
+
+    a bound button is being pressed down or not.
+
+    '
+  description: 'Fired when the pressed state of a bound button is changed. This event
+    can
+
+    be used in conjunction with `Class.Controller:GetButton()` to see whether
+
+    a bound button is being pressed down or not.
+
+    '
+  code_samples: []
+  parameters:
+  - name: button
+    type: Button
+    default: null
+    summary: 'The `Enum.Button` whose pressed state changed.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities: []
+- name: ButtonChanged
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: button
+    type: Enum.Button
+callbacks: []

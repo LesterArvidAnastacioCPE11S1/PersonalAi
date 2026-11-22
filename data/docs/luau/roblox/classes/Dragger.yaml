@@ -1,0 +1,292 @@
+name: Dragger
+type: class
+memory_category: Instances
+summary: 'A helper object used to create tools that can drag parts.
+
+  '
+description: 'The **Dragger** object is a helper object used to create tools that
+  can drag
+
+  parts. It is expected (but not required) to be used with `Class.Mouse` events.
+
+
+  Primarily used with the RbxStamper library.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags: []
+deprecation_message: 'This class has been deprecated, as it does not work well with
+
+  `Class.Workspace.FilteringEnabled|FilteringEnabled`, and should not be used in
+
+  new work.
+
+  '
+properties: []
+methods:
+- name: Dragger:AxisRotate
+  summary: 'Rotates the currently dragged part(s) by 90 degrees on the given axis.
+
+    '
+  description: 'Rotates the currently dragged part(s) by 90 degrees around the specified
+
+    world axis. This method can only be called while a drag is actively in
+
+    progress (after `Class.Dragger:MouseDown()` has been called and
+
+    `Class.Dragger:MouseMove()` has initiated movement). The `axis` parameter
+
+    defaults to `Enum.Axis.X`.
+
+
+    For single-part drags the rotation is performed about the snap face axis.
+
+    For multi-part drags the rotation is applied around the computed center of
+
+    the part group using a collision-aware routine that prevents overlap with
+
+    surrounding geometry.
+
+    '
+  code_samples: []
+  parameters:
+  - name: axis
+    type: Axis
+    default: X
+    summary: 'The `Enum.Axis` (`X`, `Y`, or `Z`) around which to rotate.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Physics
+- name: Dragger:MouseDown
+  summary: 'Initializes a dragging action, specifying which parts to use when
+
+    dragging.
+
+    '
+  description: 'Initializes a dragging action by registering the parts to drag and
+    the
+
+    point on the mouse part where the interaction began. This method does not
+
+    immediately begin moving parts; actual movement starts on a subsequent
+
+    `Class.Dragger:MouseMove()` call once the mouse has moved beyond a
+
+    break-free threshold (half the current grid snap distance).
+
+
+    `mousePart` must be a `Class.BasePart` that is both a member of `parts`
+
+    and a descendant of `Class.Workspace`. Calling this method while a drag is
+
+    already active (before `Class.Dragger:MouseUp()`) throws an error. While a
+
+    drag is pending, camera mouse-pan is disabled so that mouse movement
+
+    applies to the drag instead of the viewport.
+
+    '
+  code_samples: []
+  parameters:
+  - name: mousePart
+    type: Instance
+    default: null
+    summary: 'The `Class.BasePart` under the mouse that serves as the drag handle.
+
+      Must be a member of `parts` and must be in the `Class.Workspace`.
+
+      '
+  - name: pointOnMousePart
+    type: Vector3
+    default: null
+    summary: 'A `Datatype.Vector3` in the local coordinate space of `mousePart`
+
+      indicating where the mouse initially contacted the part.
+
+      '
+  - name: parts
+    type: Instances
+    default: null
+    summary: 'An array of `Class.BasePart|BaseParts` to move together during the
+
+      drag. Must include `mousePart` and contain at least one element.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Physics
+- name: Dragger:MouseMove
+  summary: 'Tries to move the currently dragged part to the point where MouseRay hits
+
+    another part.
+
+    '
+  description: 'Attempts to move the currently dragged parts to the location indicated
+    by
+
+    `mouseRay`. Must be called after `Class.Dragger:MouseDown()`.
+
+
+    On the first call that detects sufficient mouse movement (exceeding half
+
+    the grid snap distance), the method transitions into active dragging: it
+
+    un-joins the dragged parts from surrounding geometry, aligns them to the
+
+    grid, and begins tracking movement. On each subsequent call, the ray is
+
+    cast against other parts in the `Class.Workspace` (or against the world
+
+    ground plane at Y = 0 if nothing is hit), and the dragged parts are moved
+
+    toward that snap point using a collision-aware algorithm that prevents
+
+    them from overlapping existing geometry. Single-part drags use surface
+
+    snapping; multi-part drags use grid-aligned displacement with Y-drop
+
+    collision avoidance.
+
+    '
+  code_samples: []
+  parameters:
+  - name: mouseRay
+    type: Ray
+    default: null
+    summary: 'A `Datatype.Ray` representing the current mouse position in world
+
+      space (origin at the camera, direction toward the pointer).
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Physics
+- name: Dragger:MouseUp
+  summary: 'Stops the current dragging action (made by `Class.Dragger:MouseDown()`).
+
+    '
+  description: 'Stops the current dragging action initiated by
+
+    `Class.Dragger:MouseDown()`. If parts were actively being dragged, this
+
+    method re-joins them to adjacent geometry and finalizes their position. If
+
+    `MouseDown` was called but the mouse never moved far enough to begin
+
+    actual dragging, the state is simply reset. In both cases camera mouse-pan
+
+    is re-enabled.
+
+
+    Calling this method without a prior `Class.Dragger:MouseDown()` throws an
+
+    error.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Physics
+- name: AxisRotate
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: axis
+    type: Enum.Axis
+    default: X
+  returns:
+  - type: 'null'
+- name: MouseDown
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: mousePart
+    type: Instance
+  - name: pointOnMousePart
+    type: Vector3
+  - name: parts
+    type: Instances
+  returns:
+  - type: 'null'
+- name: MouseMove
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: mouseRay
+    type: Ray
+  returns:
+  - type: 'null'
+- name: MouseUp
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+events: []
+callbacks: []

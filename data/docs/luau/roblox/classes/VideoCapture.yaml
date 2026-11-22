@@ -1,0 +1,130 @@
+name: VideoCapture
+type: class
+memory_category: Instances
+summary: 'A child class of `Class.Capture` for videos.
+
+  '
+description: 'A child class of `Class.Capture` for videos.
+
+  '
+code_samples: []
+inherits:
+- Capture
+descendants: []
+tags:
+- NotCreatable
+- NotReplicated
+deprecation_message: ''
+properties:
+- name: VideoCapture.FilePath
+  summary: 'Requires `RobloxScript` security. The local file system path to the
+
+    recorded video file.
+
+    '
+  description: 'Requires `RobloxScript` security; experience scripts cannot read it
+    even
+
+    when they hold the `Class.VideoCapture` object. Absolute path on the
+
+    user''s device to the video file this capture represents: the temporary
+
+    file while recording is in progress, or, after
+
+    `Class.CaptureService:PromptSaveCapturesToGallery()|PromptSaveCapturesToGallery()`,
+
+    the permanent gallery location. Defaults to an empty string until a
+
+    recording has produced a video file.
+
+    '
+  code_samples: []
+  type: string
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - Capture
+- name: VideoCapture.TimeLength
+  summary: 'The length of the recorded video, in seconds.
+
+    '
+  description: 'Duration of the video capture, in seconds. Populated once recording
+
+    finishes, whether via
+
+    `Class.CaptureService:StopVideoCapture()|StopVideoCapture()` or because
+
+    the capture''s time limit was reached. Defaults to `0` until recording has
+
+    finished.
+
+    '
+  code_samples: []
+  type: double
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - Capture
+- name: FilePath
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_failed_to_create_class__
+- name: TimeLength
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: double
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_failed_to_create_class__
+methods: []
+events: []
+callbacks: []

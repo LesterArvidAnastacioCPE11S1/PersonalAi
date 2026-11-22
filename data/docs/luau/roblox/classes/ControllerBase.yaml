@@ -1,0 +1,195 @@
+name: ControllerBase
+type: class
+memory_category: Instances
+summary: 'Abstract base class for the controllers that a `Class.ControllerManager`
+  uses
+
+  to move its character.
+
+  '
+description: '`Class.ControllerBase` is the abstract base class for the controllers
+  that a
+
+  `Class.ControllerManager` uses to move its assigned character:
+
+  `Class.GroundController`, `Class.AirController`, `Class.SwimController`, and
+
+  `Class.ClimbController`. Each controller is parented to a
+
+  `Class.ControllerManager` and supplies the movement and balance behavior for
+
+  one locomotion state, and the manager activates one controller at a time. This
+
+  class isn''t created directly; instead create one of its derived controllers.
+
+  It defines the balance and movement properties shared by all of them.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants:
+- AirController
+- ClimbController
+- GroundController
+- SwimController
+tags:
+- NotCreatable
+deprecation_message: ''
+properties:
+- name: ControllerBase.Active
+  summary: 'Whether this controller is currently the active controller of its
+
+    `Class.ControllerManager`.
+
+    '
+  description: 'Indicates whether this controller is the one currently driving its
+    parent
+
+    `Class.ControllerManager`. The manager activates the controller referenced
+
+    by its `Class.ControllerManager.ActiveController` property and sets that
+
+    controller''s `Active` to `true`; when the controller is no longer the
+
+    active one, it is deactivated and `Active` returns to `false`. This
+
+    property is read-only and defaults to `false`.
+
+    '
+  code_samples: []
+  type: boolean
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+  simulationAccess: true
+- name: ControllerBase.BalanceRigidityEnabled
+  summary: 'Whether the controller holds its balance orientation rigidly instead of
+
+    with a spring response.
+
+    '
+  description: 'Controls how the controller keeps its character oriented while active.
+
+    When `false` (the default), the balance constraint is compliant and
+
+    corrects orientation with a spring-damper response tuned by the
+
+    controller''s balance properties, such as its balance torque and balance
+
+    speed. When `true`, the constraint instead holds the target orientation
+
+    rigidly, and those balance-tuning properties no longer apply. Defaults to
+
+    `false`.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Balance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+  simulationAccess: true
+- name: ControllerBase.MoveSpeedFactor
+  summary: 'The value multiplied by the `Class.ControllerManager.BaseMoveSpeed`.
+
+    '
+  description: 'The value multiplied by the `Class.ControllerManager.BaseMoveSpeed`
+    to
+
+    determine the final desired linear velocity while this controller is
+
+    active.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Movement
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+  simulationAccess: true
+- name: Active
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: BalanceRigidityEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Balance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: MoveSpeedFactor
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Movement
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+methods: []
+events: []
+callbacks: []

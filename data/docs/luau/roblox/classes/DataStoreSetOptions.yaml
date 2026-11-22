@@ -1,0 +1,105 @@
+name: DataStoreSetOptions
+type: class
+memory_category: Instances
+summary: 'Specifies additional parameters for a `Class.GlobalDataStore:SetAsync()`
+  call.
+
+  '
+description: "An object that specifies additional parameters for a\n`Class.GlobalDataStore:SetAsync()`\
+  \ call.\n\nSee also:\n\n- [Data Stores](../../../cloud-services/data-stores/index.md),\
+  \ an in-depth\n  guide on data structure, management, error handling, etc.\n"
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotReplicated
+deprecation_message: ''
+properties: []
+methods:
+- name: DataStoreSetOptions:GetMetadata
+  summary: 'Gets the custom metadata set with this `Class.DataStoreSetOptions`
+
+    instance.
+
+    '
+  description: 'This function gets custom metadata associated with this
+
+    `Class.DataStoreSetOptions` instance.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Dictionary
+    summary: 'Metadata associated with this `Class.DataStoreSetOptions` instance.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DataStore
+- name: DataStoreSetOptions:SetMetadata
+  summary: 'Sets custom metadata to be associated with the key.
+
+    '
+  description: 'This function sets custom metadata used by
+
+    `Class.GlobalDataStore:SetAsync()` to associate metadata with a key.
+
+    Metadata should be in key-value pair form.
+
+    '
+  code_samples: []
+  parameters:
+  - name: attributes
+    type: Dictionary
+    default: null
+    summary: 'Metadata values to set for the key.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DataStore
+- name: GetMetadata
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Dictionary
+- name: SetMetadata
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: attributes
+    type: Dictionary
+  returns:
+  - type: 'null'
+events: []
+callbacks: []

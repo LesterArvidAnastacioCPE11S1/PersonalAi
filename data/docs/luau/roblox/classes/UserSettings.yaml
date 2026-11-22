@@ -1,0 +1,152 @@
+name: UserSettings
+type: class
+memory_category: Instances
+summary: 'A singleton object that houses basic user settings, which persist across
+  all
+
+  games on Roblox.
+
+  '
+description: 'UserSettings is a singleton object that is used to house basic user
+  settings,
+
+  which persist across all games. Currently, it only stores the
+
+  `Class.UserGameSettings` object.
+
+
+  You can retrieve a reference to this object via the
+
+  `Class.UserSettings|UserSettings()` function, which returns it.
+
+  '
+code_samples:
+- IsUserFeatureEnabled-Sample
+- Full-Screen-Mode-Detection
+- UserGameSettings-Listener
+inherits:
+- GenericSettings
+descendants: []
+tags:
+- NotCreatable
+deprecation_message: ''
+properties: []
+methods:
+- name: UserSettings:IsUserFeatureEnabled
+  summary: 'Returns true if the specified user feature is enabled. This will throw
+    an
+
+    error if the user feature does not exist.
+
+    '
+  description: 'Returns true if the specified user feature is enabled. This will throw
+    an
+
+    error if the user feature does not exist.
+
+
+    This function checks user features whose names start with `"User"`. It is
+
+    intended for Roblox-created scripts.
+
+    '
+  code_samples:
+  - IsUserFeatureEnabled-Sample
+  parameters:
+  - name: name
+    type: string
+    default: null
+    summary: 'The name of the user feature to check. Must begin with the `User`
+
+      prefix.
+
+      '
+  returns:
+  - type: boolean
+    summary: '`true` if the named user feature exists and is enabled; otherwise
+
+      `false`.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Players
+- name: UserSettings:Reset
+  summary: 'Erases the saved state of the UserSettings, and restores its default
+
+    values.
+
+    '
+  description: 'Erases the saved state of the UserSettings, and restores its values
+    back
+
+    to default. This function will fail to run correctly from a LocalScript,
+
+    as it does not have permission to restore all of the properties in the
+
+    `Class.UserGameSettings` class.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Players
+- name: IsUserFeatureEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: string
+  returns:
+  - type: bool
+- name: Reset
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: SaveState
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+events: []
+callbacks: []

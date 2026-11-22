@@ -1,0 +1,261 @@
+name: PyramidHandleAdornment
+type: class
+memory_category: Instances
+summary: 'A pyramid-shaped handle that can be adorned to a `Class.BasePart`.
+
+  '
+description: '`PyramidHandleAdornment` is a pyramid-shaped handle that can be adorned
+  to a
+
+  `Class.BasePart`. If parented to a player''s `Class.PlayerGui` or the
+
+  `Class.CoreGui`, handles can listen to input events for purposes such as
+
+  making dragger tools.
+
+  '
+code_samples: []
+inherits:
+- HandleAdornment
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: PyramidHandleAdornment.DoubleSided
+  summary: 'Determines whether to render both faces of polygons in the adornment.
+
+    '
+  description: 'This property determines whether to render both faces of polygons
+    in the
+
+    adornment.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  - UI
+- name: PyramidHandleAdornment.Height
+  summary: 'Height of the pyramid adornment.
+
+    '
+  description: 'The height of the pyramid adornment in studs.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  - UI
+- name: PyramidHandleAdornment.Shading
+  summary: 'The `Enum.AdornShading` mode that controls shading and whether the pyramid
+
+    draws through occluding geometry.
+
+    '
+  description: 'An `Enum.AdornShading` value that selects the material and render
+    pass
+
+    used to draw the pyramid. Defaults to `Enum.AdornShading|Default`, which
+
+    draws the pyramid unlit and occluded by scene geometry like an ordinary
+
+    world object.
+
+
+    `Enum.AdornShading|Shaded` and `Enum.AdornShading|XRayShaded` light the
+
+    pyramid with the scene''s lighting instead of drawing it unlit, while
+
+    `Enum.AdornShading|XRay` and `Enum.AdornShading|XRayShaded` draw the
+
+    pyramid through geometry that would otherwise occlude it.
+
+    `Enum.AdornShading|AlwaysOnTop` draws the pyramid on top of everything
+
+    else with no depth testing.
+
+
+    The legacy `Class.HandleAdornment.AlwaysOnTop` property only takes effect
+
+    while `Shading` is `Enum.AdornShading|Default`; any other `Shading` value
+
+    determines the render pass on its own.
+
+    '
+  code_samples: []
+  type: AdornShading
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  - UI
+- name: PyramidHandleAdornment.Sides
+  summary: 'Number of sides for the pyramid adornment.
+
+    '
+  description: 'The number of sides for the pyramid adornment. Default is `4`, minimum
+    is
+
+    `3`, and maximum is `32`.
+
+    '
+  code_samples: []
+  type: int
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  - UI
+- name: PyramidHandleAdornment.Size
+  summary: 'Size of the pyramid adornment''s base.
+
+    '
+  description: 'The size of the pyramid adornment''s base in studs.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  - UI
+- name: DoubleSided
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+- name: Height
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '2'
+- name: Shading
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.AdornShading
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: Default
+- name: Sides
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '4'
+- name: Size
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '1'
+methods: []
+events: []
+callbacks: []

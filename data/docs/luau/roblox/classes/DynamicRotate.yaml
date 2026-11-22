@@ -1,0 +1,61 @@
+name: DynamicRotate
+type: class
+memory_category: BaseParts
+summary: 'The base class for classic motor joints.
+
+  '
+description: 'The base class for classic motor joints.
+
+  '
+code_samples: []
+inherits:
+- JointInstance
+descendants:
+- RotateP
+- RotateV
+tags:
+- NotCreatable
+deprecation_message: ''
+properties:
+- name: DynamicRotate.BaseAngle
+  summary: 'The base angle of the DynamicRotate object, in radians.
+
+    '
+  description: 'The base angle of the DynamicRotate object, in radians.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+- name: BaseAngle
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+methods: []
+events: []
+callbacks: []

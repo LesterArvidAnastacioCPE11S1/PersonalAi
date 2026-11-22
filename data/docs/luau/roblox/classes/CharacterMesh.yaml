@@ -1,0 +1,358 @@
+name: CharacterMesh
+type: class
+memory_category: Instances
+summary: 'Modifies the appearance of an R6 body part.
+
+  '
+description: 'This property modifies the appearance of an R6 body part. It has no
+  effect in
+
+  R15 characters.
+
+  '
+code_samples: []
+inherits:
+- CharacterAppearance
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: CharacterMesh.BaseTextureContent
+  summary: 'The base texture applied to the mesh, as a `Datatype.Content` value.
+
+    '
+  description: 'The `Datatype.Content`-typed equivalent of
+
+    `Class.CharacterMesh.BaseTextureId`, holding the base texture applied to
+
+    the R6 body part''s mesh. Supports
+
+    [asset URIs](../../../projects/assets/index.md#asset-uris). Can be
+
+    overridden by Shirts, Pants, T-Shirts, and
+
+    `Class.CharacterMesh.OverlayTextureContent`. Defaults to empty
+
+    `Datatype.Content`.
+
+
+    Underlying storage for legacy `Class.CharacterMesh.BaseTextureId`: the two
+
+    stay in sync. Like the rest of `Class.CharacterMesh`, it only affects R6
+
+    characters.
+
+    '
+  code_samples: []
+  type: Content
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - AvatarAppearance
+- name: CharacterMesh.BaseTextureId
+  summary: 'The texture of a CharacterMesh. It can be overridden by Shirts, Pants,
+
+    T-Shirts, and the `Class.CharacterMesh.OverlayTextureId` property.
+
+    '
+  description: 'The texture of a CharacterMesh. It can be overridden by Shirts, Pants,
+
+    T-Shirts, and the `Class.CharacterMesh.OverlayTextureId` property.
+
+    '
+  code_samples: []
+  type: int64
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - AvatarAppearance
+- name: CharacterMesh.BodyPart
+  summary: 'The part of the Character''s body that is affected.
+
+    '
+  description: 'The part of the Character''s body that is affected.
+
+    '
+  code_samples: []
+  type: BodyPart
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - AvatarAppearance
+- name: CharacterMesh.MeshContent
+  summary: 'The mesh applied to the body part given by `Class.CharacterMesh.BodyPart`,
+
+    as a `Datatype.Content` value.
+
+    '
+  description: 'The `Datatype.Content`-typed equivalent of `Class.CharacterMesh.MeshId`.
+
+    Loads a mesh and applies it to the body part given by
+
+    `Class.CharacterMesh.BodyPart`. Supports
+
+    [asset URIs](../../../projects/assets/index.md#asset-uris). Defaults to
+
+    empty `Datatype.Content`.
+
+
+    Underlying storage for legacy `Class.CharacterMesh.MeshId`: the two stay
+
+    in sync. Like the rest of `Class.CharacterMesh`, it only affects R6
+
+    characters.
+
+    '
+  code_samples: []
+  type: Content
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - AvatarAppearance
+- name: CharacterMesh.MeshId
+  summary: 'Used to load a mesh file, and apply it to the given BodyPart.
+
+    '
+  description: 'Used to load a mesh file, and apply it to the given BodyPart.
+
+    '
+  code_samples: []
+  type: int64
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - AvatarAppearance
+- name: CharacterMesh.OverlayTextureContent
+  summary: 'The overlay texture that covers Shirts, Pants, T-Shirts, and the base
+
+    texture, as a `Datatype.Content` value.
+
+    '
+  description: 'The `Datatype.Content`-typed equivalent of
+
+    `Class.CharacterMesh.OverlayTextureId`. The overlay covers Shirts, Pants,
+
+    T-Shirts, and `Class.CharacterMesh.BaseTextureContent`. Supports
+
+    [asset URIs](../../../projects/assets/index.md#asset-uris). Defaults to
+
+    empty `Datatype.Content`.
+
+
+    Setting either `OverlayTextureContent` or
+
+    `Class.CharacterMesh.OverlayTextureId` updates the other; both reflect the
+
+    same texture. Like the rest of `Class.CharacterMesh`, it only affects R6
+
+    characters.
+
+    '
+  code_samples: []
+  type: Content
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - AvatarAppearance
+- name: CharacterMesh.OverlayTextureId
+  summary: 'The assetId of the overlay texture. The overlay covers Shirts, Pants,
+
+    T-Shirts, and the `Class.CharacterMesh.BaseTextureId`.
+
+    '
+  description: 'The assetId of the overlay texture. The overlay covers Shirts, Pants,
+
+    T-Shirts, and the `Class.CharacterMesh.BaseTextureId`.
+
+    '
+  code_samples: []
+  type: int64
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - AvatarAppearance
+- name: BaseTextureContent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Content
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: BaseTextureId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int64
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: BodyPart
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.BodyPart
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: Head
+- name: MeshContent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Content
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: MeshId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int64
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: OverlayTextureContent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Content
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: OverlayTextureId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int64
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+methods: []
+events: []
+callbacks: []

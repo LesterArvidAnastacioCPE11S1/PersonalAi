@@ -1,0 +1,195 @@
+name: TaskScheduler
+type: class
+memory_category: Instances
+summary: 'Collection of settings for the _Task Scheduler_ feature.
+
+  '
+description: 'TaskScheduler is a read-only settings class responsible for the Task
+  Scheduler
+
+  feature. Can be found in Roblox Studio''s settings with the name _Task
+
+  Scheduler_.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+- NotReplicated
+deprecation_message: ''
+properties:
+- name: TaskScheduler.SchedulerDutyCycle
+  summary: 'The average time divided by the average interval of the duty cycle.
+
+    '
+  description: 'The average time divided by the average interval of the duty cycle.
+
+    '
+  code_samples: []
+  type: double
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Diagnostics
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - Basic
+- name: TaskScheduler.SchedulerRate
+  summary: 'The current average rate of the task scheduler.
+
+    '
+  description: 'The current average rate of the task scheduler.
+
+    '
+  code_samples: []
+  type: double
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Diagnostics
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - Basic
+- name: TaskScheduler.ThreadPoolConfig
+  summary: 'The specified thread pooling configuration for the task scheduler.
+
+    '
+  description: 'The specified thread pooling configuration for the task scheduler.
+
+    '
+  code_samples: []
+  type: ThreadPoolConfig
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Configuration
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: TaskScheduler.ThreadPoolSize
+  summary: 'The current size of the thread pool.
+
+    '
+  description: 'The current size of the thread pool.
+
+    '
+  code_samples: []
+  type: int
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Diagnostics
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - Basic
+- name: SchedulerDutyCycle
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: double
+  category: Diagnostics
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_skipped_class__
+- name: SchedulerRate
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: double
+  category: Diagnostics
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_skipped_class__
+- name: ThreadPoolConfig
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.ThreadPoolConfig
+  category: Configuration
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+- name: ThreadPoolSize
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: Diagnostics
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_skipped_class__
+methods: []
+events: []
+callbacks: []

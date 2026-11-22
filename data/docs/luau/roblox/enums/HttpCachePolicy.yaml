@@ -1,0 +1,30 @@
+name: HttpCachePolicy
+type: enum
+summary: Reference for Enum.HttpCachePolicy, generated automatically from the Roblox
+  API dump 0.748.0.7481526.
+description: Reference for Enum.HttpCachePolicy, generated automatically from the
+  Roblox API dump 0.748.0.7481526.
+code_samples: []
+tags: []
+deprecation_message: ''
+items:
+- name: None
+  summary: ''
+  value: 0
+  tags: []
+- name: Full
+  summary: ''
+  value: 1
+  tags: []
+- name: DataOnly
+  summary: ''
+  value: 2
+  tags: []
+- name: Default
+  summary: ''
+  value: 3
+  tags: []
+- name: InternalRedirectRefresh
+  summary: ''
+  value: 4
+  tags: []

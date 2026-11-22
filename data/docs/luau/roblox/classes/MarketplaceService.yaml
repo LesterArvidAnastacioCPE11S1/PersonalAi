@@ -1,0 +1,4567 @@
+name: MarketplaceService
+type: class
+memory_category: Instances
+summary: 'The service responsible for in-experience transactions.
+
+  '
+description: '`Class.MarketplaceService` is responsible for in-experience transactions.
+  The
+
+  most notable methods are
+
+  `Class.MarketplaceService:PromptProductPurchase()|PromptProductPurchase` and
+
+  `Class.MarketplaceService:PromptPurchase()|PromptPurchase`, as well as the
+
+  callback `Class.MarketplaceService.ProcessReceipt|ProcessReceipt` which must
+
+  be defined so that developer product transactions do not fail.
+
+  `Class.MarketplaceService:BindReceiptHandler()|BindReceiptHandler` is a newer
+
+  alternative that processes developer product receipts (and Robux transfer
+
+  receipts) through one or more bound handlers instead of the single
+
+  `ProcessReceipt` callback.
+
+
+  `Class.MarketplaceService` also has methods that fetch information about
+
+  [developer products](../../../production/monetization/developer-products.md)
+
+  (`Class.MarketplaceService:GetProductInfoAsync()|GetProductInfoAsync` and
+
+  `Class.MarketplaceService:GetDeveloperProductsAsync()|GetDeveloperProductsAsync`),
+
+  [passes](../../../production/monetization/passes.md)
+
+  (`Class.MarketplaceService:UserOwnsGamePassAsync()|UserOwnsGamePassAsync()`),
+
+  and other assets
+
+  (`Class.MarketplaceService:PlayerOwnsAssetAsync()|PlayerOwnsAssetAsync`,
+
+  `Class.MarketplaceService:PlayerOwnsBundleAsync()|PlayerOwnsBundleAsync`).
+
+
+  Understanding `Class.MarketplaceService` is the first step towards learning to
+
+  [monetize](../../../production/monetization/index.md) an experience on Roblox,
+
+  as well as learning to use `Class.DataStoreService`, which is responsible for
+
+  saving and loading all data related to purchases.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+deprecation_message: ''
+properties: []
+methods:
+- name: MarketplaceService:BindReceiptHandler
+  summary: 'Registers a callback to process receipts of a specific type.
+
+    '
+  description: "`BindReceiptHandler` registers a callback to process receipts of a\n\
+    specific `Enum.ReceiptType`. You can use it to handle developer product\nreceipts\
+    \ (`Enum.ReceiptType.DeveloperProduct`) and Robux transfer receipts\n(`Enum.ReceiptType.RobuxTransferSender`\
+    \ and\n`Enum.ReceiptType.RobuxTransferReceiver`).\n\nFor `Enum.ReceiptType.DeveloperProduct`,\
+    \ you can register handlers in two\nways:\n\n- **Filtered** &mdash; Pass a `filter`\
+    \ array of developer product IDs so\n  the handler only fires for receipts whose\
+    \ `ProductId` is in that array.\n  Use this to route specific products to dedicated\
+    \ handlers.\n- **Catch-all** &mdash; Omit `filter` so the handler fires for any\n\
+    \  developer product receipt not already claimed by a filtered handler.\n\nFor\
+    \ developer products, `BindReceiptHandler` is an alternative to the\nlegacy `Class.MarketplaceService.ProcessReceipt|ProcessReceipt`\
+    \ callback.\nA bound handler takes precedence; if no bound handler matches a developer\n\
+    product receipt, it falls through to `ProcessReceipt`. This lets you adopt\n`BindReceiptHandler`\
+    \ incrementally without removing an existing\n`ProcessReceipt` callback.\n\nThe\
+    \ `handler` callback receives a receipt info dictionary and must return\nan `Enum.ReceiptDecision`\
+    \ value:\n\n- `Enum.ReceiptDecision.Processed` &mdash; Indicates the receipt was\n\
+    \  successfully processed and all benefits have been granted. The receipt\n  is\
+    \ marked as complete.\n- `Enum.ReceiptDecision.NotProcessedYet` &mdash; Indicates\
+    \ the receipt has\n  not been processed yet. The receipt remains unresolved and\
+    \ will be\n  delivered again on the next opportunity.\n\n#### Receipt Info Dictionary\n\
+    \nThe receipt info dictionary passed to the `handler` contains the following\n\
+    fields:\n\n<table size=\"small\">\n<thead>\n  <tr>\n    <th>Key</th>\n    <th>Type</th>\n\
+    \    <th>Description</th>\n  </tr>\n</thead>\n<tbody>\n<tr>\n  <td><code>PurchaseId</code></td>\n\
+    \  <td>string</td>\n  <td>A unique identifier for this specific receipt.</td>\n\
+    </tr>\n<tr>\n  <td><code>PlayerId</code></td>\n  <td>number</td>\n  <td>The <code>Class.Player.UserId</code>\
+    \ of the user associated with\n  this receipt.</td>\n</tr>\n<tr>\n  <td><code>PlaceIdWherePurchased</code></td>\n\
+    \  <td>number</td>\n  <td>The place ID where the transaction was initiated.</td>\n\
+    </tr>\n<tr>\n  <td><code>ReceiptType</code></td>\n  <td><code>Enum.ReceiptType</code></td>\n\
+    \  <td>The type of this receipt.</td>\n</tr>\n<tr>\n  <td><code>ProductId</code></td>\n\
+    \  <td>number</td>\n  <td>The developer product ID. Only present for\n  <code>Enum.ReceiptType.DeveloperProduct</code>\
+    \ receipts.</td>\n</tr>\n<tr>\n  <td><code>CurrencyType</code></td>\n  <td><code>Enum.CurrencyType</code></td>\n\
+    \  <td>The currency used for the purchase. Only present for\n  <code>Enum.ReceiptType.DeveloperProduct</code>\
+    \ receipts.</td>\n</tr>\n<tr>\n  <td><code>CurrencySpent</code></td>\n  <td>number</td>\n\
+    \  <td>The amount of Robux involved in the transaction. For\n  <code>Enum.ReceiptType.DeveloperProduct</code>\
+    \ receipts, this is the\n  product's price. For\n  <code>Enum.ReceiptType.RobuxTransferSender</code>\
+    \ receipts, this is\n  the amount sent. For\n  <code>Enum.ReceiptType.RobuxTransferReceiver</code>\
+    \ receipts, this is\n  the amount received.</td>\n</tr>\n<tr>\n  <td><code>TransferRequestId</code></td>\n\
+    \  <td>string</td>\n  <td>The transfer request ID from\n  <code>Class.MarketplaceService:PromptRobuxTransferAsync()</code>.\
+    \ Only\n  present for <code>Enum.ReceiptType.RobuxTransferSender</code> and\n\
+    \  <code>Enum.ReceiptType.RobuxTransferReceiver</code> receipts.</td>\n</tr>\n\
+    </tbody>\n</table>\n\n#### Receipt Timing\n\nFor Robux transfer receipts, `handler`\
+    \ is invoked once the transfer\nsettles. A settled receipt is delivered to whichever\
+    \ server the user is\ncurrently in (the user does not need to rejoin).\n\n- `Enum.ReceiptType.RobuxTransferReceiver`\
+    \ &mdash; Delivered to the server\n  the receiver is currently in once the transfer\
+    \ settles. If the receiver\n  is offline at that time, delivery happens the next\
+    \ time they join a\n  server.\n- `Enum.ReceiptType.RobuxTransferSender` &mdash;\
+    \ Delivered immediately if\n  the transfer settles synchronously. If the transfer\
+    \ is gated on receiver\n  approval (for example, parental consent), delivery happens\
+    \ once the\n  receiver accepts, to whichever server the sender is currently in\
+    \ or on\n  their next join if they are offline.\n\nFor developer product receipts,\
+    \ `handler` is invoked when the purchase\ncompletes while the buyer is on a server.\
+    \ If the handler returns\n`Enum.ReceiptDecision.NotProcessedYet`, or the buyer\
+    \ is not reachable, the\nreceipt remains unresolved and is redelivered on a later\
+    \ opportunity or\nthe next time the buyer joins a server.\n\nThe user must be\
+    \ on a server for `handler` to fire.\n\n#### Errors\n\nThis method throws an error\
+    \ if:\n\n- A handler is already registered for the same `Enum.ReceiptType` and\n\
+    \  product ID combination.\n- A catch-all handler is already registered for the\
+    \ same\n  `Enum.ReceiptType`.\n"
+  code_samples:
+  - MarketplaceService-BindReceiptHandler1
+  - MarketplaceService-BindReceiptHandler2
+  parameters:
+  - name: transactionType
+    type: ReceiptType
+    default: null
+    summary: 'The `Enum.ReceiptType` indicating which kind of receipt to handle.
+
+      '
+  - name: handler
+    type: Function
+    default: null
+    summary: 'A callback function that receives a receipt info dictionary and must
+
+      return an `Enum.ReceiptDecision` value.
+
+      '
+  - name: filter
+    type: Array?
+    default: null
+    summary: 'An optional array of product IDs. When provided, the handler only
+
+      fires for receipts matching those product IDs. Not supported for
+
+      `RobuxTransferSender` or `RobuxTransferReceiver` receipt types.
+
+      '
+  returns:
+  - type: RBXScriptConnection
+    summary: 'A `Datatype.RBXScriptConnection` that can be disconnected to
+
+      unregister the handler.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Monetization
+- name: MarketplaceService:GetDeveloperProductsAsync
+  summary: 'Returns a `Class.Pages` object which contains information for all of the
+
+    current experience''s developer products.
+
+    '
+  description: 'Returns a `Class.Pages` object which contains information for all
+    of the
+
+    current experience''s
+
+    [developer products](../../../production/monetization/developer-products.md).
+
+    '
+  code_samples:
+  - MarketplaceService-GetDeveloperProductsAsync1
+  parameters: []
+  returns:
+  - type: Instance
+    summary: 'A `Class.Pages` object whose entries describe the current experience''s
+
+      developer products.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AssetRead
+- name: MarketplaceService:GetProductInfo
+  summary: 'Returns the product information of an asset using its asset ID.
+
+    '
+  description: ''
+  code_samples:
+  - MarketplaceService-GetProductInfo1
+  parameters:
+  - name: assetId
+    type: int64
+    default: null
+    summary: 'The asset ID of the specified product.
+
+      '
+  - name: infoType
+    type: InfoType
+    default: Asset
+    summary: 'An `Enum.InfoType` enum value specifying the type of information being
+
+      retrieved.
+
+      '
+  returns:
+  - type: Dictionary
+    summary: 'A dictionary containing information about the queried item, described
+
+      in the previous tables.
+
+      '
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: 'This method has been superseded by
+
+    `Class.MarketplaceService.GetProductInfoAsync|GetProductInfoAsync()`.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AssetRead
+- name: MarketplaceService:GetProductInfoAsync
+  summary: 'Returns the product information of an asset using its asset ID.
+
+    '
+  description: "This method provides information about an asset,\n[developer product](../../../production/monetization/developer-products.md),\n\
+    or [pass](../../../production/monetization/passes.md) based on the asset\nID and\
+    \ the `Enum.InfoType`. If an item with the given ID does not exist,\nthis method\
+    \ throws an error.\n\nInformation about the queried item is provided in a dictionary\
+    \ with the\nfollowing keys. Note that not all information is provided or necessarily\n\
+    relevant for the kind of product you're querying.\n\n<table size=\"small\">\n\t\
+    <thead>\n\t  <tr>\n\t    <th>Key</th>\n\t    <th>Type</th>\n\t    <th>Description</th>\n\
+    \t  </tr>\n\t</thead>\n  <tbody>\n\t<tr>\n\t  <td><code>Name</code></td>\n\t \
+    \ <td>string</td>\n\t  <td>The name shown on the asset's page.</td>\n  </tr>\n\
+    \t<tr>\n\t  <td><code>Description</code></td>\n\t  <td>string</td>\n\t  <td>The\
+    \ description shown on the asset's page; can be <code>nil</code> if blank.</td>\n\
+    \  </tr>\n\t<tr>\n\t  <td><code>PriceInRobux</code></td>\n\t  <td>number</td>\n\
+    \t  <td>The cost of purchasing the asset using Robux.</td>\n  </tr>\n  <tr>\n\t\
+    \  <td><code>UserBasePriceInRobux</code></td>\n\t  <td>number</td>\n\t  <td>The\
+    \ base price of the asset in Robux before any discounts are applied.</td>\n  </tr>\n\
+    \  <tr>\n\t  <td><code>PriceDiscountDetails</code></td>\n\t  <td>Array</td>\n\t\
+    \  <td>An ordered list of discounts representing the difference between <code>UserBasePriceInRobux</code>\
+    \ and <code>PriceInRobux</code>. Each entry contains the following keys:</td>\n\
+    \  </tr>\n  <tr>\n\t  <td colspan=\"2\"></td>\n\t  <td><code>Type</code>: The\
+    \ type of discount. <code>\"RobloxPlusSubscription\"</code> indicates that the\
+    \ discount was applied due to the user’s Roblox Plus subscription.</td>\n  </tr>\n\
+    \  <tr>\n\t  <td colspan=\"2\"></td>\n\t  <td><code>AmountInRobux</code>: number\
+    \ — The value of the discount in Robux.</td>\n  </tr>\n  <tr>\n\t  <td colspan=\"\
+    2\"></td>\n\t  <td><code>Percent</code>: number — The percentage of the discount.</td>\n\
+    \  </tr>\n  <tr>\n\t  <td><code>ProductId</code></td>\n\t  <td>number</td>\n\t\
+    \  <td>The product ID if <code>Enum.InfoType</code> is <code>Product</code>.</td>\n\
+    \  </tr>\n  <tr>\n\t  <td><code>ProductType</code></td>\n\t  <td>string</td>\n\
+    \t  <td>A string describing what the product is. Not to be confused with <code>Enum.MarketplaceProductType</code>.</td>\n\
+    \  </tr>\n\t<tr>\n\t  <td><code>Created</code></td>\n\t  <td>string</td>\n\t \
+    \ <td>Timestamp of when the asset was created, for example <code>2022-01-02T10:30:45Z</code>.\
+    \ Formatted using ISO 8601.</td>\n  </tr>\n\t<tr>\n\t  <td><code>Updated</code></td>\n\
+    \t  <td>string</td>\n\t  <td>Timestamp of when the asset was last updated by its\
+    \ creator, for example <code>2022-02-12T11:22:15Z</code>. Formatted using ISO\
+    \ 8601.</td>\n  </tr>\n\t<tr>\n\t  <td><code>ContentRatingTypeId</code></td>\n\
+    \t  <td>number</td>\n\t  <td>Indicates whether the item is marked as 13+ in catalog.</td>\n\
+    \  </tr>\n\t<tr>\n\t  <td><code>MinimumMembershipLevel</code></td>\n\t  <td>number</td>\n\
+    \t  <td>The minimum subscription level necessary to purchase the item.</td>\n\
+    \  </tr>\n\t<tr>\n\t  <td><code>IsPublicDomain</code></td>\n\t  <td>boolean</td>\n\
+    \t  <td>Describes whether the asset can be taken for free.</td>\n  </tr>\n  <tr>\n\
+    \t  <td><code>TargetId</code></td>\n\t  <td>number</td>\n\t  <td>The ID of the\
+    \ product or asset.</td>\n  </tr>\n  </tbody>\n</table>\n\n#### Creator Information\n\
+    \n<table size=\"small\">\n  <thead>\n\t  <tr>\n\t    <th>Key</th>\n\t    <th>Type</th>\n\
+    \t    <th>Description</th>\n\t  </tr>\n\t</thead>\n  <tbody>\n\t<tr>\n\t  <td><code>Creator</code></td>\n\
+    \t  <td>table</td>\n\t  <td>Dictionary table of information describing the creator\
+    \ of the asset, containing the following fields:</td>\n  </tr>\n  <tr>\n\t  <td\
+    \ colspan=\"2\"></td>\n    <td><code>CreatorType</code>: Either <code>User</code>\
+    \ or <code>Group</code>.</td>\n  </tr>\n  <tr>\n\t  <td colspan=\"2\"></td>\n\
+    \    <td><code>CreatorTargetId</code>: The ID of the creator user or group.</td>\n\
+    \  </tr>\n  <tr>\n\t  <td colspan=\"2\"></td>\n    <td><code>HasVerifiedBadge</code>:\
+    \ Boolean of whether the creator has a verified badge.</td>\n  </tr>\n  <tr>\n\
+    \t  <td colspan=\"2\"></td>\n    <td><code>Name</code>: The name/username of the\
+    \ creator.</td>\n  </tr>\n  <tr>\n\t  <td colspan=\"2\"></td>\n    <td><code>Id</code>:\
+    \ Use <code>CreatorTargetId</code> instead.</td>\n  </tr>\n  </tbody>\n</table>\n\
+    \n#### Asset Information\n\n<table size=\"small\">\n  <thead>\n\t  <tr>\n\t  \
+    \  <th>Key</th>\n\t    <th>Type</th>\n\t    <th>Description</th>\n\t  </tr>\n\t\
+    </thead>\n  <tbody>\n\t<tr>\n\t  <td><code>AssetId</code></td>\n\t  <td>number</td>\n\
+    \t  <td>The asset ID if <code>Enum.InfoType</code> is <code>Asset</code>.</td>\n\
+    \  </tr>\n\t<tr>\n\t  <td><code>AssetTypeId</code></td>\n\t  <td>number</td>\n\
+    \t  <td>The type of asset. See <code>Enum.AssetType</code> for the asset type\
+    \ ID numbers.</td>\n  </tr>\n  <tr>\n\t  <td><code>IconImageAssetId</code></td>\n\
+    \t  <td>number</td>\n\t  <td>The asset ID of the product's icon, or <code>0</code>\
+    \ if there isn't one.</td>\n  </tr>\n\t<tr>\n\t  <td><code>IsForSale</code></td>\n\
+    \t  <td>boolean</td>\n\t  <td>Describes whether the asset is purchasable.</td>\n\
+    \  </tr>\n\t<tr>\n\t  <td><code>IsLimited</code></td>\n\t  <td>boolean</td>\n\t\
+    \  <td>Describes whether the asset is a Roblox Limited that is no longer (if ever)\
+    \ sold.</td>\n  </tr>\n\t<tr>\n\t  <td><code>IsLimitedUnique</code></td>\n\t \
+    \ <td>boolean</td>\n\t  <td>Describes whether the asset is a unique Roblox Limited\
+    \ (\"Limited&nbsp;U\") item that only has a fixed number sold.</td>\n  </tr>\n\
+    \t<tr>\n\t  <td><code>IsNew</code></td>\n\t  <td>boolean</td>\n\t  <td>Describes\
+    \ whether the asset is marked as \"new\" in the catalog.</td>\n  </tr>\n\t<tr>\n\
+    \t  <td><code>Remaining</code></td>\n\t  <td>number</td>\n\t  <td>The remaining\
+    \ number of times a limited unique item may be sold.</td>\n  </tr>\n\t<tr>\n\t\
+    \  <td><code>Sales</code></td>\n\t  <td>number</td>\n\t  <td>The number of times\
+    \ the asset has been sold.</td>\n  </tr>\n  </tbody>\n</table>\n\n#### Collectibles\
+    \ Information\n\n<table size=\"small\">\n  <thead>\n\t  <tr>\n\t    <th>Key</th>\n\
+    \t    <th>Type</th>\n\t    <th>Description</th>\n\t  </tr>\n\t</thead>\n  <tbody>\n\
+    \  <tr>\n\t  <td><code>CollectibleItemId</code></td>\n\t  <td>string</td>\n\t\
+    \  <td>The unique item ID of the collectible.</td>\n  </tr>\n\t<tr>\n\t  <td><code>CollectibleProductId</code></td>\n\
+    \t  <td>string</td>\n\t  <td>The unique product ID of the collectible.</td>\n\
+    \  </tr>\n  <tr>\n\t  <td><code>CollectiblesItemDetails</code></td>\n\t  <td>table</td>\n\
+    \t  <td>Dictionary table of information describing the collectible, containing\
+    \ the following fields:</td>\n  </tr>\n  <tr>\n\t  <td colspan=\"2\"></td>\n \
+    \   <td><code>CollectibleLowestAvailableResaleItemInstanceId</code>: The unique\
+    \ item instance ID of the lowest available resale for the collectible.</td>\n\
+    \  </tr>\n  <tr>\n\t  <td colspan=\"2\"></td>\n    <td><code>CollectibleLowestAvailableResaleProductId</code>:\
+    \ The unique product ID of the lowest available resale for the collectible.</td>\n\
+    \  </tr>\n  <tr>\n\t  <td colspan=\"2\"></td>\n    <td><code>CollectibleLowestResalePrice</code>:\
+    \ The lowest resale price for the collectible in Robux.</td>\n  </tr>\n  <tr>\n\
+    \t  <td colspan=\"2\"></td>\n    <td><code>IsForSale</code>: Boolean of whether\
+    \ the collectible is available for sale (not resale).</td>\n  </tr>\n  <tr>\n\t\
+    \  <td colspan=\"2\"></td>\n    <td><code>IsLimited</code>: Boolean of whether\
+    \ or not the collectible is limited.</td>\n  </tr>\n  <tr>\n\t  <td colspan=\"\
+    2\"></td>\n    <td><code>TotalQuantity</code>: The total quantity of the collectible\
+    \ available for purchase (not resale).</td>\n  </tr>\n  </tbody>\n</table>\n\n\
+    #### Sale Location Settings\n\n<table size=\"small\">\n  <thead>\n\t  <tr>\n\t\
+    \    <th>Key</th>\n\t    <th>Type</th>\n\t    <th>Description</th>\n\t  </tr>\n\
+    \t</thead>\n  <tbody>\n\t<tr>\n\t  <td><code>CanBeSoldInThisGame</code></td>\n\
+    \t  <td>boolean</td>\n\t  <td>Describes whether the asset is purchasable in the\
+    \ current experience.</td>\n  </tr>\n  <tr>\n\t  <td><code>SaleLocation</code></td>\n\
+    \t  <td>table</td>\n\t  <td>Dictionary table of information describing where the\
+    \ item can be sold, containing the following fields:</td>\n  </tr>\n  <tr>\n\t\
+    \  <td colspan=\"2\"></td>\n\t  <td><code>SaleLocationType</code>: The type of\
+    \ sale location setting. See <code>Enum.ProductLocationRestriction</code> for\
+    \ the sale location setting ID numbers.</td>\n  </tr>\n  <tr>\n\t  <td colspan=\"\
+    2\"></td>\n\t  <td><code>UniverseIds</code>: Array table of universes in which\
+    \ the item can be sold (not currently implemented).</td>\n  </tr>\n  </tbody>\n\
+    </table>\n\n#### Timed Options\n\n<table size=\"small\">\n  <thead>\n\t  <tr>\n\
+    \t    <th>Key</th>\n\t    <th>Type</th>\n\t    <th>Description</th>\n\t  </tr>\n\
+    \t</thead>\n  <tbody>\n  <tr>\n\t  <td><code>TimedOptions</code></td>\n\t  <td>array</td>\n\
+    \t  <td>Optional. An array of available timed options with durations and prices.\
+    \ Only present for assets that support timed ownership. Do not hardcode duration\
+    \ values; always retrieve them from this API as they may change. Each entry contains:</td>\n\
+    \  </tr>\n  <tr>\n\t  <td colspan=\"2\"></td>\n\t  <td><code>Duration</code>:\
+    \ number — The duration in seconds (e.g. 259200 for 3 days, 604800 for 7 days).</td>\n\
+    \  </tr>\n  <tr>\n\t  <td colspan=\"2\"></td>\n\t  <td><code>Price</code>: number\
+    \ — The price in Robux for this duration.</td>\n  </tr>\n  </tbody>\n</table>\n\
+    \n#### Batching behavior\n\nThis method is **Transparent Batching capable**. If\
+    \ you spawn multiple\ncalls concurrently using `task.spawn`, the engine automatically\
+    \ combines\nthem into fewer HTTP requests behind the scenes. This is faster and\
+    \ helps\nyou avoid rate limits. See\n[Transparent Batching](../../../scripting/transparent-batching.md)\
+    \ for\ndetails and a code example.\n"
+  code_samples:
+  - MarketplaceService-GetProductInfo1
+  - MarketplaceService-GetProductInfo2
+  - MarketplaceService-GetProductInfo-TimedOptions
+  - MarketplaceService-GetProductInfo-TransparentBatching
+  parameters:
+  - name: assetId
+    type: int64
+    default: null
+    summary: 'The asset ID of the specified product.
+
+      '
+  - name: infoType
+    type: InfoType
+    default: Asset
+    summary: 'An `Enum.InfoType` enum value specifying the type of information being
+
+      retrieved.
+
+      '
+  returns:
+  - type: Dictionary
+    summary: 'A dictionary containing information about the queried item, described
+
+      in the previous tables.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AssetRead
+- name: MarketplaceService:GetRobloxSubscriptionDetailsAsync
+  summary: 'Returns the subscription details for the given user for the Roblox
+
+    Subscription ecosystem.
+
+    '
+  description: "This method is a streamlined endpoint to check for a single, platform-wide\n\
+    Roblox subscription product. By providing `StartTime` (conditionally) and\n`IsOriginExperience`\
+    \ to reward long-term loyalists without compromising\nuser data across the platform.\n\
+    \nThe returned dictionary contains the following fields:\n\n<table size=\"small\"\
+    >\n  <thead>\n    <tr>\n      <th>Field</th>\n      <th>Type</th>\n      <th>Description</th>\n\
+    \    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td><code>IsSubscribed</code></td>\n\
+    \      <td>bool</td>\n      <td>Returns true if the user has an active Roblox\
+    \ Subscription membership.</td>\n    </tr>\n    <tr>\n      <td><code>IsOriginExperience</code></td>\n\
+    \      <td>bool</td>\n      <td>Returns true if the user originally subscribed\
+    \ to Roblox Subscription while inside the current Experience (Universe).</td>\n\
+    \    </tr>\n    <tr>\n      <td><code>StartTime</code></td>\n      <td>DateTime?</td>\n\
+    \      <td>A <code>Datatype.DateTime</code> object representing the time when\
+    \ the user’s subscription period first began. Note: For privacy reasons, this\
+    \ field is only returned if <code>IsOriginExperience</code> is true. If the user\
+    \ subscribed in a different experience or on the web, this field will be nil.</td>\n\
+    \    </tr>\n  </tbody>\n</table>\n"
+  code_samples:
+  - MarketplaceService-GetRobloxSubscriptionDetailsAsync1
+  parameters:
+  - name: user
+    type: Player
+    default: null
+    summary: 'The user regarding whom to check the subscription status.
+
+      '
+  returns:
+  - type: Dictionary
+    summary: 'A dictionary containing subscription details such as `IsSubscribed`,
+
+      `IsOriginExperience`, and optionally `StartTime`.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Monetization
+- name: MarketplaceService:GetSubscriptionProductInfoAsync
+  summary: 'Returns the product information of a subscription for the given
+
+    `subscriptionId`.
+
+    '
+  description: "Returns the product information of a subscription for the given\n\
+    `subscriptionId`. Because it returns a localized price, you can only call\nthis\
+    \ method from a `Class.Script` with `Enum.RunContext.Client`.\n\n<table size=\"\
+    small\">\n\t<thead>\n\t  <tr>\n\t    <th>Key</th>\n\t    <th>Type</th>\n\t   \
+    \ <th>Description</th>\n\t  </tr>\n\t</thead>\n  <tbody>\n\t<tr>\n\t  <td><code>Name</code></td>\n\
+    \t  <td>string</td>\n\t  <td>The name of the subscription product.</td>\n  </tr>\n\
+    \t<tr>\n\t  <td><code>Description</code></td>\n\t  <td>string</td>\n\t  <td>The\
+    \ description of the subscription product.</td>\n  </tr>\n\t<tr>\n\t  <td><code>IconImageAssetId</code></td>\n\
+    \t  <td>number</td>\n    <td>The asset ID of the subscription product icon.</td>\n\
+    \  </tr>\n\t<tr>\n\t  <td><code>SubscriptionPeriod</code></td>\n\t  <td><code>Enum.SubscriptionPeriod</code></td>\n\
+    \    <td>The duration of the subscription (for example, <code>Month</code>, <code>Year</code>,\
+    \ etc.).</td>\n  </tr>\n\t<tr>\n\t  <td><code>DisplayPrice</code></td>\n\t  <td>string</td>\n\
+    \    <td>Localized price with the appropriate currency symbol for display (for\
+    \ example, <code>$4.99</code>). For users in unsupported countries, <code>DisplayPrice</code>\
+    \ returns a string without specific price information.</td>\n  </tr>\n\t<tr>\n\
+    \t  <td><code>DisplaySubscriptionPeriod</code></td>\n\t  <td>string</td>\n   \
+    \ <td>Localized subscription period text for display (for example, <code>/month</code>).\
+    \ Can be used together with <code>DisplayPrice</code>.</td>\n  </tr>\n\t<tr>\n\
+    \t  <td><code>SubscriptionProviderName</code></td>\n\t  <td>string</td>\n    <td>Name\
+    \ of the subscription benefit provider (for example, the name of the associated\
+    \ experience).</td>\n  </tr>\n\t<tr>\n\t  <td><code>IsForSale</code></td>\n\t\
+    \  <td>boolean</td>\n\t  <td>True if the subscription product is available for\
+    \ sale.</td>\n  </tr>\n  <tr>\n\t  <td><code>PriceTier</code></td>\n\t  <td>number</td>\n\
+    \t  <td>A number that can be used to compare the price of different subscription\
+    \ products. This is not the actual price of the subscription (for example, 499).</td>\n\
+    \  </tr>\n  <tr>\n      \t  <td><code>PriceInRobux</code></td>\n      \t  <td>number</td>\n\
+    \      \t  <td>The equivalent cost of the subscription in Robux. Returns 0 if\
+    \ the subscription product is not available to be purchased in Robux.</td>\n \
+    \ </tr>\n  </tbody>\n</table>\n"
+  code_samples: []
+  parameters:
+  - name: subscriptionId
+    type: string
+    default: null
+    summary: 'The ID of the subscription to check.
+
+      '
+  returns:
+  - type: Dictionary
+    summary: 'A dictionary containing the subscription product information described
+
+      in the following table.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AssetRead
+- name: MarketplaceService:GetUsersPriceLevelsAsync
+  summary: 'Returns the regionalized price levels of users, representing the
+
+    recommended price for an item in each user''s regional market.
+
+    '
+  description: 'Returns the regionalized price levels of users, representing the
+
+    recommended price for an item in each user''s regional market. For example,
+
+    a price level of 100 means that the suggested price for that user (based
+
+    on their region and purchasing power) is 100 Robux.
+
+
+    See
+
+    [Protect your trades and gifts](../../../production/monetization/regional-pricing.md#protect-your-trades-and-gifts)
+
+    for more information.
+
+    '
+  code_samples:
+  - MarketplaceService-GetUsersPriceLevelAsync
+  parameters:
+  - name: userIds
+    type: Array
+    default: null
+    summary: 'An array of user IDs.
+
+      '
+  returns:
+  - type: List<PriceLevelInfo>
+    summary: 'Returns an array of `PriceLevelInfo` objects with a dictionary where
+
+      the keys are user IDs (strings) and their values are the corresponding
+
+      price levels (integers between 1 and 1000).
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Monetization
+- name: MarketplaceService:GetUserSubscriptionDetailsAsync
+  summary: 'Returns a table that contains the details of the user''s subscription
+    for a
+
+    given `subscriptionId`.
+
+    '
+  description: "Returns a dictionary table containing the details of the user's\n\
+    subscription for the given `subscriptionId`. The table contains the\nfollowing\
+    \ keys:\n\n<table size=\"small\">\n\t<thead>\n\t  <tr>\n\t    <th>Key</th>\n\t\
+    \    <th>Type</th>\n\t    <th>Description</th>\n\t  </tr>\n\t</thead>\n  <tbody>\n\
+    \t<tr>\n\t  <td><code>SubscriptionState</code></td>\n\t  <td><code>Enum.SubscriptionState</code></td>\n\
+    \t  <td>Current state of this particular subscription.</td>\n  </tr>\n\t<tr>\n\
+    \t  <td><code>NextRenewTime</code></td>\n\t  <td><code>Datatype.DateTime</code></td>\n\
+    \t  <td>\n      Renewal time for this current subscription. May be in the past\
+    \ if the subscription is in\n      <code>Enum.SubscriptionState.SubscribedRenewalPaymentPending|SubscribedRenewalPaymentPending</code>\
+    \ state. This\n      field is will be <code>nil</code> if the subscription will\
+    \ not renew, is <code>Enum.SubscriptionState.Expired|Expired</code>, or the user\
+    \ never subscribed.\n    </td>\n  </tr>\n  <tr>\n\t  <td><code>ExpireTime</code></td>\n\
+    \t  <td><code>Datatype.DateTime</code></td>\n\t  <td>\n      When this subscription\
+    \ expires. This field will be <code>nil</code>\n      if the subscription is not\
+    \ cancelled or the user never subscribed.\n    </td>\n  </tr>\n  <tr>\n\t  <td><code>ExpirationDetails</code></td>\n\
+    \t  <td><code>Library.table</code></td>\n\t  <td>\n      Table containing the\
+    \ details of the subscription expiration. This\n      field will be <code>nil</code>\
+    \ if the subscription is not in the\n      <code>Enum.SubscriptionState.Expired|Expired</code>\
+    \ state. If populated, the table contains a <code>ExpirationReason</code> key\
+    \ of type <code>Enum.SubscriptionExpirationReason</code> describing why the subscription\
+    \ is expired.\n    </td>\n  </tr>\n  </tbody>\n</table>\n\nNote that this method\
+    \ can only be called from a `Class.Script` with\n`Class.BaseScript.RunContext|RunContext`\
+    \ of\n`Enum.RunContext.Server|Server`. If you only need to determine the\n`IsSubscribed`\
+    \ status of a user, it's recommended to use\n`Class.MarketplaceService:GetUserSubscriptionStatusAsync()|GetUserSubscriptionStatusAsync`\n\
+    as it is faster and more efficient for that particular purpose.\n"
+  code_samples: []
+  parameters:
+  - name: user
+    type: Player
+    default: null
+    summary: 'The `Class.Player` object whose subscription details you want to
+
+      check.
+
+      '
+  - name: subscriptionId
+    type: string
+    default: null
+    summary: 'The ID of the subscription to check.
+
+      '
+  returns:
+  - type: Dictionary
+    summary: 'A dictionary containing the user''s subscription details described in
+
+      the following table.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Monetization
+- name: MarketplaceService:GetUserSubscriptionPaymentHistoryAsync
+  summary: 'Returns an `Library.table|Array` that contains up to one year of the
+
+    user''s subscription payment history for the given `subscriptionId`.
+
+    '
+  description: "Returns an `Library.table|Array` that contains up to one year of the\n\
+    user's subscription payment history for the given `subscriptionId`, sorted\nfrom\
+    \ the most recent status to the least recent. You can only call this\nmethod from\
+    \ a `Class.Script` with `Enum.RunContext.Server`.\n\nEach entry in the payment\
+    \ history `Library.table|Array` contains the\nfollowing keys:\n\n<table size=\"\
+    small\">\n\t<thead>\n\t  <tr>\n\t    <th>Key</th>\n\t    <th>Type</th>\n\t   \
+    \ <th>Description</th>\n\t  </tr>\n\t</thead>\n  <tbody>\n\t<tr>\n\t  <td><code>CycleStartTime</code></td>\n\
+    \t  <td><code>Datatype.DateTime</code></td>\n\t  <td><code>Datatype.DateTime</code>\
+    \ at the start of this particular subscription period.</td>\n  </tr>\n\t<tr>\n\
+    \t  <td><code>CycleEndTime</code></td>\n\t  <td><code>Datatype.DateTime</code></td>\n\
+    \t  <td><code>Datatype.DateTime</code> at the end of this particular subscription\
+    \ period.</td>\n  </tr>\n  <tr>\n\t  <td><code>PaymentStatus</code></td>\n\t \
+    \ <td><code>Enum.SubscriptionPaymentStatus</code></td>\n\t  <td><code>Enum.SubscriptionPaymentStatus.Paid</code>\
+    \ if the user paid for this particular subscription period.\n    <code>Enum.SubscriptionPaymentStatus.Refunded</code>\
+    \ if the user refunded this particular subscription period.\n    </td>\n  </tr>\n\
+    \  </tbody>\n</table>\n\n#### Payment History Length\n\nOnly creators affiliated\
+    \ with the subscription product can access up to\n**one year** worth of the user's\
+    \ subscription payment history.\nNon-associated creators can only get the user's\
+    \ **current** subscription\npayment status or an empty `Library.table|Array` if\
+    \ the user has no active\nsubscription.\n\n#### Grace Period\n\nSubscription renewal\
+    \ payments can have some processing time. Payment\nhistory doesn't return a table\
+    \ for this period. However, in order to\npreserve a user's subscription experience\
+    \ during the processing period,\n`Class.MarketplaceService.GetUserSubscriptionStatusAsync()|GetUserSubscriptionStatusAsync`\n\
+    returns `IsSubscribed: true` for the given user. Don't grant durable items\nor\
+    \ currency type subscription benefits to the user until after payment has\nbeen\
+    \ confirmed for the current cycle.\n\nFor example, on August 31, 2023, User A's\
+    \ Subscription B is up for\nrenewal. On September 1, 2023, the payment has yet\
+    \ to be processed. If you\ncall\n`Class.MarketplaceService.GetUserSubscriptionPaymentHistoryAsync()|GetUserSubscriptionPaymentHistoryAsync`\n\
+    on September 1, 2023 on User A for Subscription B, the first entry of the\nreturn\
+    \ value is:\n\n<table size=\"small\">\n\t<thead>\n\t  <tr>\n\t    <th>Key</th>\n\
+    \t    <th>Value</th>\n\t  </tr>\n\t</thead>\n  <tbody>\n\t<tr>\n\t  <td><code>CycleStartTime</code></td>\n\
+    \t  <td>...</td>\n  </tr>\n\t<tr>\n\t  <td><code>CycleEndTime</code></td>\n\t\
+    \  <td>August 31, 2023</td>\n  </tr>\n  <tr>\n\t  <td><code>PaymentStatus</code></td>\n\
+    \t  <td><code>Enum.SubscriptionPaymentStatus.Paid</code></td>\n  </tr>\n  </tbody>\n\
+    </table>\n\nNote that since the user is within the grace period, the cycle they\
+    \ have\nyet to pay for (September 1, 2023) does not appear in the return value\
+    \ at\nall. This field only populates after the payment has been received and\n\
+    processed.\n\nAt the same time,\n`Class.MarketplaceService.GetUserSubscriptionStatusAsync()|GetUserSubscriptionStatusAsync`\n\
+    returns the following result until the renewal payment process fails or\nthe user\
+    \ cancels:\n\n<table size=\"small\">\n\t<thead>\n\t  <tr>\n\t    <th>Key</th>\n\
+    \t    <th>Return</th>\n\t  </tr>\n\t</thead>\n  <tbody>\n\t<tr>\n\t  <td><code>IsSubscribed</code></td>\n\
+    \t  <td>True</td>\n  </tr>\n\t<tr>\n\t  <td><code>IsRenewing</code></td>\n\t \
+    \ <td>True</td>\n  </tr>\n  </tbody>\n</table>\n"
+  code_samples:
+  - MarketplaceService-GetUserSubscriptionPaymentHistoryAsync1
+  parameters:
+  - name: user
+    type: Player
+    default: null
+    summary: 'The `Class.Player` whose subscription payment history you want to
+
+      retrieve.
+
+      '
+  - name: subscriptionId
+    type: string
+    default: null
+    summary: 'The ID of the subscription whose payment history you want to retrieve.
+
+      '
+  returns:
+  - type: Array
+    summary: 'An array of payment-history entries, ordered from most recent to least
+
+      recent, as described in the following table.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Monetization
+- name: MarketplaceService:GetUserSubscriptionStatusAsync
+  summary: 'Returns a `Library.table` that contains the subscription status of the
+
+    user for the given `subscriptionId`.
+
+    '
+  description: "Returns a `Library.table` that contains the subscription status of\
+    \ the\nuser for the given `subscriptionId`. The table contains the following\n\
+    keys:\n\n<table size=\"small\">\n\t<thead>\n\t  <tr>\n\t    <th>Key</th>\n\t \
+    \   <th>Type</th>\n\t    <th>Description</th>\n\t  </tr>\n\t</thead>\n  <tbody>\n\
+    \t<tr>\n\t  <td><code>IsSubscribed</code></td>\n\t  <td>boolean</td>\n\t  <td>True\
+    \ if the user's subscription is active.</td>\n  </tr>\n\t<tr>\n\t  <td><code>IsRenewing</code></td>\n\
+    \t  <td>boolean</td>\n\t  <td>True if the user is set to renew this subscription\
+    \ after the current subscription period ends.</td>\n  </tr>\n  </tbody>\n</table>\n\
+    \nNote that `IsSubscribed` will be `true` only when a user has purchased the\n\
+    subscription and the payment has been successfully processed. If the\npayment\
+    \ for a user's initial subscription purchase is still processing or\nhas failed,\
+    \ `IsSubscribed` returns `false`. To understand when a user's\nsubscription status\
+    \ has changed, see the\n`Class.Players.UserSubscriptionStatusChanged` event.\n"
+  code_samples:
+  - MarketplaceService-GetUserSubscriptionStatusAsync1
+  parameters:
+  - name: user
+    type: Player
+    default: null
+    summary: 'The `Class.Player` object whose subscription status you want to check.
+
+      '
+  - name: subscriptionId
+    type: string
+    default: null
+    summary: 'The ID of the subscription to check for.
+
+      '
+  returns:
+  - type: Dictionary
+    summary: 'A dictionary containing the user''s subscription status described in
+
+      the following table.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Monetization
+- name: MarketplaceService:OpenShop
+  summary: 'Opens a personalized in-game Shop for the given player.
+
+    '
+  description: 'Opens an [in-game Shop](../../../production/monetization/shop.md)
+    as an
+
+    overlay window for the given `Class.Player`. Shop displays a personalized
+
+    list of the experience''s
+
+    [passes](../../../production/monetization/passes.md) and
+
+    [developer products](../../../production/monetization/developer-products.md)
+
+    ranked for the user.
+
+
+    A default Shop is generated automatically for every game and requires no
+
+    additional developer setup. You can customize which items appear in the
+
+    shop from Creator Hub.
+
+
+    This method can be called from either a server `Class.Script` or a
+
+    `Class.LocalScript`. When called from a `Class.LocalScript`, `player` must
+
+    match the local player.
+
+
+    You can call this method in response to any user action, such as a button
+
+    click, the player reaching a specific location, or joining the experience.
+
+    '
+  code_samples:
+  - MarketplaceService-OpenShop
+  parameters:
+  - name: player
+    type: Player
+    default: null
+    summary: 'The `Class.Player` for whom to open the shop. If called from a
+
+      `Class.LocalScript`, this must be the local player.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - PromptExternalPurchase
+- name: MarketplaceService:PlayerOwnsAsset
+  summary: 'Returns whether the given user has the given asset.
+
+    '
+  description: ''
+  code_samples: []
+  parameters:
+  - name: player
+    type: Instance
+    default: null
+    summary: 'The `Class.Player` whose inventory is tested for ownership of the
+
+      given asset.
+
+      '
+  - name: assetId
+    type: int64
+    default: null
+    summary: 'The asset ID for which the given player''s inventory is tested.
+
+      '
+  returns:
+  - type: boolean
+    summary: 'Indicates whether the given player''s inventory contains the given
+
+      asset.
+
+      '
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: 'This method has been superseded by
+
+    `Class.MarketplaceService:PlayerOwnsAssetAsync()|PlayerOwnsAssetAsync()`.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AssetRead
+- name: MarketplaceService:PlayerOwnsAssetAsync
+  summary: 'Returns whether the given user has the given asset.
+
+    '
+  description: "Returns whether the inventory of a specific user contains an asset,\
+    \ based\non the asset ID. This method throws an error if the query fails, so you\n\
+    should wrap calls to this method in `pcall()`.\n\n- This method should **not**\
+    \ be used for\n  [passes](../../../production/monetization/passes.md) since they\
+    \ use a\n  separate ID system. Legacy passes that still depend on an asset ID\n\
+    \  should use\n  `Class.MarketplaceService:UserOwnsGamePassAsync()|UserOwnsGamePassAsync()`\n\
+    \  instead of this method.\n- This method cannot be used to check for\n  [developer\
+    \ products](../../../production/monetization/developer-products.md)\n  since they\
+    \ can be purchased multiple times but not owned themselves.\n  Instead, use a\
+    \ [data store](../../../cloud-services/data-stores) to save\n  when a user buys\
+    \ a developer product.\n"
+  code_samples:
+  - MarketplaceService-PlayerOwnsAsset1
+  parameters:
+  - name: player
+    type: Instance
+    default: null
+    summary: 'The `Class.Player` whose inventory is tested for ownership of the
+
+      given asset.
+
+      '
+  - name: assetId
+    type: int64
+    default: null
+    summary: 'The asset ID for which the given player''s inventory is tested.
+
+      '
+  returns:
+  - type: boolean
+    summary: 'Indicates whether the given player''s inventory contains the given
+
+      asset.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AssetRead
+- name: MarketplaceService:PlayerOwnsBundle
+  summary: 'Returns whether the given player owns the given bundle.
+
+    '
+  description: ''
+  code_samples: []
+  parameters:
+  - name: player
+    type: Player
+    default: null
+    summary: 'The `Class.Player` whose inventory is tested for ownership of the
+
+      given bundle.
+
+      '
+  - name: bundleId
+    type: int64
+    default: null
+    summary: 'The bundle ID for which the given player''s inventory is tested.
+
+      '
+  returns:
+  - type: boolean
+    summary: 'Indicates whether the given player''s inventory contains the given
+
+      bundle.
+
+      '
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: 'This method has been superseded by
+
+    `Class.MarketplaceService:PlayerOwnsBundleAsync()|PlayerOwnsBundleAsync()`.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AssetRead
+- name: MarketplaceService:PlayerOwnsBundleAsync
+  summary: 'Returns whether the given player owns the given bundle.
+
+    '
+  description: 'Returns whether the inventory of a specific user contains a bundle,
+    based
+
+    on the bundle ID. This method throws an error if the query fails, so you
+
+    should wrap calls to this method in `pcall()`.
+
+    '
+  code_samples:
+  - MarketplaceService-PlayerOwnsBundle1
+  parameters:
+  - name: player
+    type: Player
+    default: null
+    summary: 'The `Class.Player` whose inventory is tested for ownership of the
+
+      given bundle.
+
+      '
+  - name: bundleId
+    type: int64
+    default: null
+    summary: 'The bundle ID for which the given player''s inventory is tested.
+
+      '
+  returns:
+  - type: boolean
+    summary: 'Indicates whether the given player''s inventory contains the given
+
+      bundle.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AssetRead
+- name: MarketplaceService:PromptBulkPurchase
+  summary: 'Prompts a user to purchase multiple avatar items with the given `assetId`
+
+    or `bundleId`.
+
+    '
+  description: "Prompts a user to purchase multiple avatar items with the given `assetId`\n\
+    or `bundleId`. Does not work with non-avatar items.\n\n`PromptBulkPurchase` only\
+    \ allows prompting from server scripts.\n\nFor limited items, original copies\
+    \ are prompted until they run out,\nregardless of the price. Once original copies\
+    \ are out, resale copies are\nprompted.\n\nA maximum of 20 items can be added\
+    \ to a single bulk purchase prompt.\n\n#### PurchaseOptions\n\nEach line item\
+    \ can optionally include a `PurchaseOptions` array to control\nwhich purchase\
+    \ option appears in the prompt. If omitted, the user is\nprompted for a permanent\
+    \ purchase only (default behavior).\n\n`PurchaseOptions` currently supports only\
+    \ one entry. If more than one\noption is provided, the API throws an error.\n\n\
+    Each entry in `PurchaseOptions` contains:\n\n<table size=\"small\">\n  <thead>\n\
+    \    <tr>\n      <th>Key</th>\n      <th>Type</th>\n      <th>Description</th>\n\
+    \    </tr>\n  </thead>\n  <tbody>\n  <tr>\n    <td><code>Type</code></td>\n  \
+    \  <td>Enum</td>\n    <td><code>Enum.PurchaseOption.TimedOption</code> for a timed\
+    \ option, or <code>Enum.PurchaseOption.Permanent</code> for standard purchase.</td>\n\
+    \  </tr>\n  <tr>\n    <td><code>Value</code></td>\n    <td>number</td>\n    <td>Required\
+    \ for <code>TimedOption</code>. The duration in seconds.</td>\n  </tr>\n  </tbody>\n\
+    </table>\n\n**Do not hardcode duration values.** Available durations and prices\
+    \ are\ndetermined by the backend and may change at any time. Always retrieve them\n\
+    from one of the following APIs and pass the values through to\n`PurchaseOptions`:\n\
+    \n- `Class.MarketplaceService:GetProductInfoAsync()`\n- `Class.AvatarEditorService:GetItemDetailsAsync()`\n\
+    - `Class.AvatarEditorService:GetBatchItemDetailsAsync()`\n- `Class.AvatarEditorService:SearchCatalogAsync()`\n"
+  code_samples:
+  - Prompt-Bulk-Purchase-Local
+  - Prompt-Bulk-Purchase-Server
+  - MarketplaceService-PromptBulkPurchase-TimedOptions
+  parameters:
+  - name: player
+    type: Player
+    default: null
+    summary: 'The user to prompt to purchase items.
+
+      '
+  - name: lineItems
+    type: Array
+    default: null
+    summary: "An array of avatar items to be included in the bulk purchase.\n\nEach\
+      \ line item contains the following structure:\n\n```lua\n{\n  Type: MarketplaceProductType,\n\
+      \  Id: string,\n  PurchaseOptions: { {Type: PurchaseOption, Value: number?}\
+      \ }?\n}\n```\n\nEach line item contains the following pairs:\n\n- `Type`: The\
+      \ corresponding `Enum.MarketplaceProductType` (Enum).\n- `Id`: The ID of the\
+      \ asset or bundle.\n- `PurchaseOptions`: Optional. An array containing a single\
+      \ purchase\n  option to display in the prompt. If omitted, the permanent purchase\n\
+      \  is prompted. See the PurchaseOptions section below for details.\n"
+  - name: options
+    type: Dictionary
+    default: null
+    summary: 'Not available at this time.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - PromptExternalPurchase
+- name: MarketplaceService:PromptBundlePurchase
+  summary: 'Prompts a user to purchase a bundle with the given `bundleId`.
+
+    '
+  description: 'Prompts a user to purchase a bundle with the given `bundleId`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: player
+    type: Instance
+    default: null
+    summary: 'The `Class.Player` to prompt.
+
+      '
+  - name: bundleId
+    type: int64
+    default: null
+    summary: 'The ID of the bundle to purchase.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - PromptExternalPurchase
+- name: MarketplaceService:PromptCancelSubscription
+  summary: 'Prompts a user to cancel a subscription for the given `subscriptionId`.
+
+    '
+  description: 'Prompts a user to cancel a subscription for the given `subscriptionId`.
+
+    Once the user successfully cancels the subscription, the
+
+    `Class.Players.UserSubscriptionStatusChanged` event fires.
+
+    '
+  code_samples: []
+  parameters:
+  - name: user
+    type: Player
+    default: null
+    summary: 'The `Class.Player` to prompt.
+
+      '
+  - name: subscriptionId
+    type: string
+    default: null
+    summary: 'The ID of the subscription to cancel.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - PromptExternalPurchase
+- name: MarketplaceService:PromptGamePassPurchase
+  summary: 'Prompts a user to purchase a pass with the given `gamePassId`.
+
+    '
+  description: 'Prompts a user to purchase a
+
+    [pass](../../../production/monetization/passes.md) with the given
+
+    `gamePassId`.
+
+
+    You can only prompt purchases of passes that belong to the current game.
+
+    Purchases of passes from other games fail, even if you own both games.
+
+
+    In Studio, mocked purchases don''t check that the pass belongs to the
+
+    current game, so prompting a pass purchase from another game might appear
+
+    to succeed. Before you publish, verify that the `gamePassId` belongs to
+
+    the current game.
+
+    '
+  code_samples: []
+  parameters:
+  - name: player
+    type: Instance
+    default: null
+    summary: 'The `Class.Player` to prompt.
+
+      '
+  - name: gamePassId
+    type: int64
+    default: null
+    summary: 'The pass ID to purchase. This is the `TargetId` returned by
+
+      `Class.MarketplaceService:GetProductInfo()|GetProductInfo()` when
+
+      `Enum.InfoType` is `GamePass`. It is not the pass''s asset ID and not
+
+      its `ProductId`.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - PromptExternalPurchase
+- name: MarketplaceService:PromptPremiumPurchase
+  summary: 'Prompts a user to purchase Roblox Premium.
+
+    '
+  description: "Prompts a user to purchase\n[Roblox Premium](https://www.roblox.com/premium/membership).\
+    \ To learn more\nabout Premium and about incorporating Premium incentives into\
+    \ your\nexperience, see\n[Engagement-based payouts](../../../production/monetization/engagement-based-payouts.md).\n\
+    \n#### See Also\n\n- `Class.MarketplaceService.PromptPremiumPurchaseFinished`\
+    \ which fires\n  when the Premium purchase UI closes.\n- `Class.Players.PlayerMembershipChanged`\
+    \ which fires when the server\n  recognizes that a user's membership has changed.\n"
+  code_samples:
+  - prompt-premium-upsell
+  parameters:
+  - name: player
+    type: Instance
+    default: null
+    summary: 'The user being prompted to purchase Premium.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This method has been superseded by
+
+    `Class.MarketplaceService:PromptRobloxSubscriptionPurchase()|PromptRobloxSubscriptionPurchase()`.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - PromptExternalPurchase
+- name: MarketplaceService:PromptProductPurchase
+  summary: 'Prompts a user to purchase a developer product with the given `productId`.
+
+    '
+  description: 'Prompts a user to purchase a
+
+    [developer product](../../../production/monetization/developer-products.md)
+
+    with the given `productId`.
+
+
+    You can only prompt purchases of developer products that belong to the
+
+    current game. Purchases of developer products from other games fail, even
+
+    if you own both games.
+
+
+    In Studio, mocked purchases don''t check that the product belongs to the
+
+    current game, so prompting a product purchase from another game might
+
+    appear to succeed. Before you publish, verify that the `productId` belongs
+
+    to the current game.
+
+    '
+  code_samples:
+  - MarketplaceService-PromptProductPurchase1
+  parameters:
+  - name: player
+    type: Instance
+    default: null
+    summary: 'The `Class.Player` to prompt.
+
+      '
+  - name: productId
+    type: int64
+    default: null
+    summary: 'The ID of the developer product to purchase.
+
+      '
+  - name: equipIfPurchased
+    type: boolean
+    default: true
+    summary: 'Ignored.
+
+      '
+  - name: currencyType
+    type: CurrencyType
+    default: Default
+    summary: 'Ignored.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - PromptExternalPurchase
+- name: MarketplaceService:PromptPurchase
+  summary: 'Prompts a user to purchase an item with the given `assetId`. Does not
+    work
+
+    for USD Creator Store purchases.
+
+    '
+  description: "Prompts a user to purchase an item with the given `assetId`.\n\n-\
+    \ This does not work for\n  [USD Creator Store](../../../production/creator-store.md)\
+    \ purchases.\n- If the item has the\n  [Sale Location](../../../marketplace/publish-to-marketplace.md#sale-location)\n\
+    \  set as `Experience By Place ID (API Only)`, you must call\n  `Class.MarketplaceService:PromptPurchase`\
+    \ from a server script.\n- If prompting a purchase of a\n  [limited](../../../marketplace/marketplace-fees-and-commissions.md#limiteds)\n\
+    \  item:\n  - (Recommended) Server requests prompt original copies until they\
+    \ run\n    out, regardless of the price. Once original copies run out, resale\n\
+    \    copies are prompted.\n  - Client requests prompt from the lowest resale price\
+    \ even if original\n    copies are available.\n"
+  code_samples:
+  - MarketplaceService-PromptPurchase1
+  - market
+  parameters:
+  - name: player
+    type: Instance
+    default: null
+    summary: 'The `Class.Player` to prompt.
+
+      '
+  - name: assetId
+    type: int64
+    default: null
+    summary: 'The ID of the asset to purchase.
+
+      '
+  - name: equipIfPurchased
+    type: boolean
+    default: true
+    summary: 'Ignored.
+
+      '
+  - name: currencyType
+    type: CurrencyType
+    default: Default
+    summary: 'Ignored.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - PromptExternalPurchase
+- name: MarketplaceService:PromptRobloxSubscriptionPurchase
+  summary: 'Prompts a user to purchase a Roblox Plus subscription.
+
+    '
+  description: "Prompts a user to purchase a Roblox Plus subscription. When the user\n\
+    successfully subscribes, any experience-defined rewards for the upsell are\ngranted\
+    \ automatically through the engine API.\n\n#### See Also\n\n- `Class.MarketplaceService.PromptRobloxSubscriptionPurchaseFinished`\n\
+    \  which fires when the Roblox Plus purchase UI closes.\n- `Class.Player.HasRobloxSubscription`\
+    \ which can be observed via\n  `Class.Instance:GetPropertyChangedSignal()` to\
+    \ detect when a user's\n  subscription status changes.\n"
+  code_samples:
+  - MarketplaceService-PromptRobloxSubscriptionPurchase
+  parameters:
+  - name: user
+    type: Player
+    default: null
+    summary: 'The `Class.Player` to be prompted to purchase Roblox Plus.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - PromptExternalPurchase
+- name: MarketplaceService:PromptRobuxTransferAsync
+  summary: 'Initiates a Robux transfer from the sender to another user.
+
+    '
+  description: "`PromptRobuxTransferAsync` initiates a Robux transfer from the `sender`\
+    \ to\nthe user specified by `receiverUserId`. This is a server-only method and\n\
+    must be called from a `Class.Script` with `RunContext` set to `Server`.\n\nAfter\
+    \ a successful transfer, both the sender and receiver will have\nreceipts delivered\
+    \ to their respective\n`Class.MarketplaceService:BindReceiptHandler()|BindReceiptHandler`\n\
+    callbacks:\n\n- The sender's receipt has `Enum.ReceiptType.RobuxTransferSender`.\n\
+    - The receiver's receipt has `Enum.ReceiptType.RobuxTransferReceiver`.\n\nBoth\
+    \ receipts include a `TransferRequestId` field matching the\n`transferRequestId`\
+    \ returned by this method, which you can use for logging\nor to correlate sender\
+    \ and receiver receipts.\n\n#### Receipt Timing\n\nBoth receipts are delivered\
+    \ to whichever server the corresponding user is\ncurrently in once the transfer\
+    \ settles (neither side needs to rejoin). If\na transfer is gated on receiver\
+    \ approval, for example parental consent for\nthe receiver's account, it does\
+    \ not settle until approval lands; receipts\nare delivered after that point.\n\
+    \n- **Receiver receipt** is delivered to the server the receiver is\n  currently\
+    \ in once the transfer settles, or on their next session join if\n  they are offline.\n\
+    - **Sender receipt** is delivered immediately if the transfer settles\n  synchronously.\
+    \ If approval is required, it is delivered to the server\n  the sender is currently\
+    \ in once the receiver accepts, or on the sender's\n  next session join if they\
+    \ are offline.\n\n#### Errors\n\nThis method throws an error if:\n\n- The `sender`\
+    \ is not a valid `Class.Player` instance.\n- `receiverUserId` is not a positive\
+    \ integer.\n- `amount` is not a positive integer.\n- The method is called from\
+    \ the client instead of the server.\n"
+  code_samples:
+  - MarketplaceService-PromptRobuxTransferAsync1
+  parameters:
+  - name: sender
+    type: Player
+    default: null
+    summary: 'The `Class.Player` initiating the transfer. Must be a valid player
+
+      currently in the server.
+
+      '
+  - name: receiverUserId
+    type: int64
+    default: null
+    summary: 'The `Class.Player.UserId|UserId` of the user who will receive the
+
+      Robux.
+
+      '
+  - name: amount
+    type: int64
+    default: null
+    summary: 'The amount of Robux to transfer. Must be a positive integer.
+
+      '
+  returns:
+  - type: string
+    summary: 'A string `transferRequestId` that uniquely identifies this transfer
+
+      request. Use this ID to correlate with receipts delivered through
+
+      `Class.MarketplaceService:BindReceiptHandler()|BindReceiptHandler`.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - PromptExternalPurchase
+- name: MarketplaceService:PromptSubscriptionPurchase
+  summary: 'Prompts a user to purchase a subscription for the given `subscriptionId`.
+
+    '
+  description: 'Prompts a user to purchase a subscription for the given `subscriptionId`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: user
+    type: Player
+    default: null
+    summary: 'The `Class.Player` object to be prompted to subscribe.
+
+      '
+  - name: subscriptionId
+    type: string
+    default: null
+    summary: 'The ID of the subscription to subscribe to.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - PromptExternalPurchase
+- name: MarketplaceService:PromptVIPServerPurchase
+  summary: 'Prompts a user to purchase a VIP server for the current experience.
+
+    '
+  description: 'Prompts a user to purchase a VIP server for the current experience.
+    Roblox
+
+    checks whether the user is eligible and, if so, shows the price and
+
+    handles the purchase. Ineligible users see a message explaining that the
+
+    purchase is unavailable.
+
+
+    This method returns immediately and does not report whether the user
+
+    completed the purchase. If a purchase prompt is already open for the user,
+
+    additional calls are ignored.
+
+
+    This method can be called from a `Class.Script` for any player in the
+
+    server, or from a `Class.LocalScript` for the local player only.
+
+    '
+  code_samples:
+  - MarketplaceService-PromptVIPServerPurchase
+  parameters:
+  - name: player
+    type: Player
+    default: null
+    summary: 'The `Class.Player` to be prompted to purchase a private server.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - PromptExternalPurchase
+- name: MarketplaceService:RankProductsAsync
+  summary: 'Takes a list of product IDs and returns a personalized ordered list of
+
+    those products.
+
+    '
+  description: 'Takes a list of product IDs and returns a personalized ordered list
+    of
+
+    those products.
+
+
+    This API has a client-side throttling limit of 10 requests per minute. If
+
+    you exceed this limit, wait 60 seconds and make the request again.
+
+    '
+  code_samples:
+  - MarketplaceService-RankProductsSample
+  parameters:
+  - name: productIdentifiers
+    type: Array
+    default: null
+    summary: "An array of objects identifying the products you want to rank. This\n\
+      array can include up to 50 items.\n\nEach `ProductIdentifier` has:\n\n- `Enum.InfoType`:\
+      \ Enum.InfoType\n  - Must be either `Enum.InfoType.GamePass` or\n    `Enum.InfoType.Product`.\n\
+      - `Id`: number\n  - The ID of the game pass or developer product.\n\n```lua\n\
+      local ProductIdentifier = {\n\tInfoType = Enum.InfoType.GamePass,\n\tId = 123456\n\
+      }\n```\n"
+  returns:
+  - type: List<RankedItem>
+    summary: "The array of ranked items in a personalized order for the current\n\
+      user.\n\nEach array has:\n\n- `ProductIdentifier`: The corresponding ID from\
+      \ the input array.\n- `ProductInfo`: The standard product info dictionary returned\
+      \ by\n  `Class.MarketplaceService.GetProductInfoAsync|GetProductInfoAsync`.\n"
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: MarketplaceService:RecommendTopProductsAsync
+  summary: "- Takes an array of `Enum.InfoType` and returns up to 50 items\n  representing\
+    \ the products a user is most likely to engage with and\n  purchase.\n"
+  description: 'Takes an array of `Enum.InfoType` and returns up to 50 items representing
+
+    the products a user is most likely to engage with and purchase. If no
+
+    recommendations can be determined, the method returns an empty list.
+
+
+    This API has a client-side throttling limit of 5 requests per minute. If
+
+    you exceed this limit, wait 60 seconds and make the request again.
+
+    '
+  code_samples:
+  - MarketplaceService-RecommendTopProductsSample
+  parameters:
+  - name: infoTypes
+    type: Array
+    default: null
+    summary: "An array of `Enum.InfoType` values specifying the types of product to\n\
+      retrieve recommendations for.\n\nSupported `InfoTypes`: `Enum.InfoType.GamePass`,\n\
+      `Enum.InfoType.Product`.\n\n```lua\nlocal infoTypes = {\n\tEnum.InfoType.GamePass,\n\
+      \tEnum.InfoType.Product\n}\n```\n"
+  returns:
+  - type: List<RankedItem>
+    summary: 'A ranked list of up to 50 items the user is most likely to engage
+
+      with, based on the provided `InfoTypes`. If no recommendations can be
+
+      determined, the method returns an empty list.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: MarketplaceService:UserOwnsGamePassAsync
+  summary: 'Returns true if the player with the given `Class.Player.UserId|UserId`
+
+    owns the pass with the given `gamePassId`.
+
+    '
+  description: 'Returns true if the user with the given `Class.Player.UserId|UserId`
+    owns
+
+    the [pass](../../../production/monetization/passes.md) with the given
+
+    `gamePassId` (not to be confused with an asset ID). You can use this
+
+    method on both the client and the server.
+
+
+    #### Caching Behavior
+
+
+    The results of this function are cached so that repeated calls are
+
+    returned faster. When the
+
+    `Class.MarketplaceService.PromptGamePassPurchaseFinished|PromptGamePassPurchaseFinished`
+
+    event fires, the cache gets updated to reflect the latest ownership state
+
+    of the associated game pass.
+
+
+    If the user purchases a game pass outside of the experience while
+
+    remaining in the same session, the cache is eventually updated, but this
+
+    process might take several minutes to propagate.
+
+
+    When a user first enters a server after purchasing a game pass, this
+
+    functions always returns true.
+
+
+    #### Batching behavior
+
+
+    This method is **Transparent Batching capable**. If you spawn multiple
+
+    calls concurrently using `task.spawn`, the engine automatically combines
+
+    them into fewer HTTP requests behind the scenes. This is faster and helps
+
+    you avoid rate limits. See
+
+    [Transparent Batching](../../../scripting/transparent-batching.md) for
+
+    details.
+
+    '
+  code_samples:
+  - MarketplaceService-UserOwnsGamePassAsync-TransparentBatching
+  parameters:
+  - name: userId
+    type: User
+    default: null
+    summary: 'The `Class.Player.UserId|UserId` of the `Class.Player` whose inventory
+
+      you''re checking.
+
+      '
+  - name: gamePassId
+    type: int64
+    default: null
+    summary: 'The pass ID you want to check for. Not to be confused with an asset
+
+      ID.
+
+      '
+  returns:
+  - type: boolean
+    summary: 'Whether the user owns the pass.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AssetRead
+- name: BindReceiptHandler
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: transactionType
+    type: Enum.ReceiptType
+  - name: handler
+    type: Function
+  - name: filter
+    type: Array?
+  returns:
+  - type: RBXScriptConnection
+- name: ClearProductInfoCaches
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: IsPurchaseSimulated
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+- name: OpenShop
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+  returns:
+  - type: 'null'
+- name: PlayerCanMakePurchases
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  returns:
+  - type: bool
+- name: PrepareCollectiblesPurchase
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: assetId
+    type: int64
+  - name: collectibleItemId
+    type: string
+  - name: collectibleItemInstanceId
+    type: string
+  - name: collectibleProductId
+    type: string
+  - name: expectedPrice
+    type: int
+  returns:
+  - type: 'null'
+- name: PromptBulkPurchase
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+  - name: lineItems
+    type: Array
+  - name: options
+    type: Dictionary
+  returns:
+  - type: 'null'
+- name: PromptBundlePurchase
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: bundleId
+    type: int64
+  returns:
+  - type: 'null'
+- name: PromptCancelSubscription
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: user
+    type: Player
+  - name: subscriptionId
+    type: string
+  returns:
+  - type: 'null'
+- name: PromptCollectiblesPurchase
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: assetId
+    type: int64
+  - name: collectibleItemId
+    type: string
+  - name: collectibleItemInstanceId
+    type: string
+  - name: collectibleProductId
+    type: string
+  - name: expectedPrice
+    type: int
+  returns:
+  - type: 'null'
+- name: PromptGamePassPurchase
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: gamePassId
+    type: int64
+  returns:
+  - type: 'null'
+- name: PromptNativePurchase
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: productId
+    type: string
+  returns:
+  - type: 'null'
+- name: PromptNativePurchaseWithContext
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: productId
+    type: string
+  - name: context
+    type: Dictionary
+    default: nil
+  returns:
+  - type: 'null'
+- name: PromptNativePurchaseWithLocalPlayer
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: productId
+    type: string
+  returns:
+  - type: 'null'
+- name: PromptNativePurchaseWithLocalPlayerWithPaymentSessionId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: productId
+    type: string
+  - name: paymentSessionId
+    type: string
+  returns:
+  - type: 'null'
+- name: PromptNativePurchaseWithPaymentSessionId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: productId
+    type: string
+  - name: paymentSessionId
+    type: string
+  returns:
+  - type: 'null'
+- name: PromptPremiumPurchase
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''PromptRobloxSubscriptionPurchase'', ''ThreadSafety'':
+    ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  returns:
+  - type: 'null'
+- name: PromptProductPurchase
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: productId
+    type: int64
+  - name: equipIfPurchased
+    type: bool
+    default: 'true'
+  - name: currencyType
+    type: Enum.CurrencyType
+    default: Default
+  returns:
+  - type: 'null'
+- name: PromptPurchase
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: assetId
+    type: int64
+  - name: equipIfPurchased
+    type: bool
+    default: 'true'
+  - name: currencyType
+    type: Enum.CurrencyType
+    default: Default
+  returns:
+  - type: 'null'
+- name: PromptRobloxPurchase
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: assetId
+    type: int64
+  - name: equipIfPurchased
+    type: bool
+  returns:
+  - type: 'null'
+- name: PromptRobloxSubscriptionPurchase
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: user
+    type: Player
+  returns:
+  - type: 'null'
+- name: PromptSubscriptionPurchase
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: user
+    type: Player
+  - name: subscriptionId
+    type: string
+  returns:
+  - type: 'null'
+- name: PromptThirdPartyPurchase
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: LocalUserSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: productId
+    type: string
+  returns:
+  - type: 'null'
+- name: PromptVIPServerPurchase
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+  returns:
+  - type: 'null'
+- name: RedeemGamePassFreeTrial
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: user
+    type: Player
+  - name: gamePassId
+    type: int64
+  - name: startTime
+    type: string
+  - name: endTime
+    type: string
+  returns:
+  - type: 'null'
+- name: RefreshBulkPurchase
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: batchPurchaseAuthToken
+    type: string
+  - name: options
+    type: Dictionary
+    default: nil
+  returns:
+  - type: 'null'
+- name: ReportAssetSale
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: assetId
+    type: string
+  - name: robuxAmount
+    type: int
+  returns:
+  - type: 'null'
+- name: ReportRobuxUpsellStarted
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: SignalAssetTypePurchased
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: assetType
+    type: Enum.AssetType
+  returns:
+  - type: 'null'
+- name: SignalCheckPlayerHasRobloxSubscription
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: SignalClientPurchaseSuccess
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: ticket
+    type: string
+  - name: playerId
+    type: int64
+  - name: productId
+    type: int64
+  returns:
+  - type: 'null'
+- name: SignalMockPurchasePremium
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: SignalMockPurchaseRobloxSubscription
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: SignalPromptBulkPurchaseFinished
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: status
+    type: Enum.MarketplaceBulkPurchasePromptStatus
+  - name: results
+    type: Dictionary
+  returns:
+  - type: 'null'
+- name: SignalPromptBundlePurchaseFinished
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: bundleId
+    type: int64
+  - name: success
+    type: bool
+  returns:
+  - type: 'null'
+- name: SignalPromptGamePassPurchaseFinished
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: gamePassId
+    type: int64
+  - name: success
+    type: bool
+  returns:
+  - type: 'null'
+- name: SignalPromptPremiumPurchaseFinished
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: didTryPurchasing
+    type: bool
+  returns:
+  - type: 'null'
+- name: SignalPromptProductPurchaseFinished
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: int64
+  - name: productId
+    type: int64
+  - name: success
+    type: bool
+  returns:
+  - type: 'null'
+- name: SignalPromptPurchaseFinished
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: assetId
+    type: int64
+  - name: success
+    type: bool
+  returns:
+  - type: 'null'
+- name: SignalPromptRobloxSubscriptionPurchaseFinished
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: subscriptionId
+    type: string
+  - name: didTryPurchasing
+    type: bool
+  returns:
+  - type: 'null'
+- name: SignalPromptSubscriptionPurchaseFinished
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: subscriptionId
+    type: string
+  - name: didTryPurchasing
+    type: bool
+  returns:
+  - type: 'null'
+- name: SignalRobuxTransferCompleted
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: int64
+  returns:
+  - type: 'null'
+- name: SignalServerLuaDialogClosed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: value
+    type: bool
+  returns:
+  - type: 'null'
+- name: SignalUserSubscriptionStatusChanged
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: subscriptionId
+    type: string
+  returns:
+  - type: 'null'
+- name: CanUsersTransferRobuxAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: sender
+    type: Player
+  - name: receiverUser
+    type: User
+  returns:
+  - type: Enum.RobuxTransferEligibility
+- name: GetAvailableSubscriptionProductsAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: productType
+    type: string
+  returns:
+  - type: Array
+- name: GetDeveloperProductsAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Instance
+- name: GetPassOwnershipAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: user
+    type: Player
+  - name: gamePassId
+    type: int64
+  returns:
+  - type: Dictionary
+- name: GetProductInfo
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''GetProductInfoAsync'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: assetId
+    type: int64
+  - name: infoType
+    type: Enum.InfoType
+    default: Asset
+  returns:
+  - type: Dictionary
+- name: GetProductInfoAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: assetId
+    type: int64
+  - name: infoType
+    type: Enum.InfoType
+    default: Asset
+  returns:
+  - type: Dictionary
+- name: GetRobloxSubscriptionDetailsAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: user
+    type: Player
+  returns:
+  - type: Dictionary
+- name: GetRobuxBalance
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: int
+- name: GetSubscriptionProductInfoAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: subscriptionId
+    type: string
+  returns:
+  - type: Dictionary
+- name: GetSubscriptionPurchaseInfoAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: subscriptionId
+    type: string
+  returns:
+  - type: Dictionary
+- name: GetUserSubscriptionDetailsAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: user
+    type: Player
+  - name: subscriptionId
+    type: string
+  returns:
+  - type: Dictionary
+- name: GetUserSubscriptionDetailsInternalAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: subscriptionId
+    type: string
+  returns:
+  - type: Dictionary
+- name: GetUserSubscriptionPaymentHistoryAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: user
+    type: Player
+  - name: subscriptionId
+    type: string
+  returns:
+  - type: Array
+- name: GetUserSubscriptionStatusAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: user
+    type: Player
+  - name: subscriptionId
+    type: string
+  returns:
+  - type: Dictionary
+- name: GetUsersPriceLevelsAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userIds
+    type: Array
+  returns:
+  - type: Array
+- name: PerformBulkPurchase
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: orderRequest
+    type: Dictionary
+  - name: options
+    type: Dictionary
+  returns:
+  - type: Dictionary
+- name: PerformCancelSubscription
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: subscriptionId
+    type: string
+  returns:
+  - type: 'null'
+- name: PerformPurchase
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: infoType
+    type: Enum.InfoType
+  - name: productId
+    type: int64
+  - name: expectedPrice
+    type: int
+  - name: requestId
+    type: string
+  - name: isRobloxPurchase
+    type: bool
+  - name: collectibleItemId
+    type: string
+  - name: collectibleProductId
+    type: string
+  - name: idempotencyKey
+    type: string
+  - name: purchaseAuthToken
+    type: string
+  - name: timedOptionsDays
+    type: int64
+    default: '0'
+  - name: purchasePayload
+    type: string
+  - name: purchaseOptions
+    type: Dictionary
+    default: nil
+  returns:
+  - type: Dictionary
+- name: PerformPurchaseV2
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: infoType
+    type: Enum.InfoType
+  - name: productId
+    type: int64
+  - name: expectedPrice
+    type: int
+  - name: requestId
+    type: string
+  - name: isRobloxPurchase
+    type: bool
+  - name: collectiblesProductDetails
+    type: Dictionary
+  returns:
+  - type: Dictionary
+- name: PerformSubscriptionPurchase
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: subscriptionId
+    type: string
+  returns:
+  - type: string
+- name: PerformSubscriptionPurchaseV2
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: subscriptionId
+    type: string
+  - name: paymentProvider
+    type: string
+  returns:
+  - type: 'null'
+- name: PerformSubscriptionPurchaseV3Async
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: productType
+    type: string
+  - name: productId
+    type: string
+  - name: paymentProvider
+    type: string
+  - name: paymentSessionId
+    type: string
+  - name: referrerId
+    type: int64?
+  returns:
+  - type: 'null'
+- name: PerformSubscriptionPurchaseWithRobuxAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: subscriptionId
+    type: string
+  - name: priceInRobux
+    type: int
+  returns:
+  - type: 'null'
+- name: PlayerOwnsAsset
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''PlayerOwnsAssetAsync'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: assetId
+    type: int64
+  returns:
+  - type: bool
+- name: PlayerOwnsAssetAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: assetId
+    type: int64
+  returns:
+  - type: bool
+- name: PlayerOwnsBundle
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''PlayerOwnsBundleAsync'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+  - name: bundleId
+    type: int64
+  returns:
+  - type: bool
+- name: PlayerOwnsBundleAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+  - name: bundleId
+    type: int64
+  returns:
+  - type: bool
+- name: PromptRobuxTransferAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: sender
+    type: Player
+  - name: receiverUserId
+    type: int64
+  - name: amount
+    type: int64
+  returns:
+  - type: string
+- name: RankProductsAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: productIdentifiers
+    type: Array
+  returns:
+  - type: Array
+- name: RecommendTopProductsAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: infoTypes
+    type: Array
+  returns:
+  - type: Array
+- name: UserOwnsGamePassAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: User
+  - name: gamePassId
+    type: int64
+  returns:
+  - type: bool
+events:
+- name: MarketplaceService.PromptBulkPurchaseFinished
+  summary: 'Fires when a purchase prompt for bulk avatar items is closed.
+
+    '
+  description: 'This event fires when a purchase prompt for a bulk avatar items closes.
+
+    For example, when a user receives the purchase prompt and clicks
+
+    **Cancel**, or when they receive a success or error message and click
+
+    **OK**.
+
+
+    Note: This is not a trusted event from the client. To check if the user
+
+    owns the items purchased, use
+
+    `Class.MarketplaceService.PlayerOwnsAssetAsync` or
+
+    `Class.MarketplaceService.PlayerOwnsBundleAsync`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: player
+    type: Instance
+    default: null
+    summary: 'The `Class.Player` who received the prompt.
+
+      '
+  - name: status
+    type: MarketplaceBulkPurchasePromptStatus
+    default: null
+    summary: 'The status of the bulk purchase.
+
+      '
+  - name: results
+    type: Dictionary
+    default: null
+    summary: "The table type containing the line items and their status in the\nfollowing\
+      \ format:\n\n```lua\n{\n  RobuxSpent: number\n  Items: {\n    {\n      type:\
+      \ MarketplaceProductType,\n      id: string,\n      status: MarketplaceItemPurchaseStatus\n\
+      \    },\n    ...\n  }\n}\n```\n\nEach line item contains the following pairs:\n\
+      \n- `type`: The corresponding `Enum.MarketplaceProductType` (Enum).\n- `id`:\
+      \ The ID of the asset or bundle (string).\n- `status`: The `Enum.MarketplaceItemPurchaseStatus`\
+      \ of the purchase\n  (Enum)\n"
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - PromptExternalPurchase
+- name: MarketplaceService.PromptBundlePurchaseFinished
+  summary: 'Fires when a bundle purchase prompt closes.
+
+    '
+  description: 'This event fires when a purchase prompt for a bundle closes. Use
+
+    `Class.MarketplaceService:PlayerOwnsBundleAsync()|PlayerOwnsBundleAsync()`
+
+    to verify ownership instead of trusting this client-originated event.
+
+    '
+  code_samples: []
+  parameters:
+  - name: player
+    type: Instance
+    default: null
+    summary: 'The `Class.Player` who received the prompt.
+
+      '
+  - name: bundleId
+    type: int64
+    default: null
+    summary: 'The ID of the bundle shown in the prompt.
+
+      '
+  - name: wasPurchased
+    type: boolean
+    default: null
+    summary: 'Whether the bundle was purchased.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - PromptExternalPurchase
+- name: MarketplaceService.PromptGamePassPurchaseFinished
+  summary: 'Fires when a purchase prompt for a pass is closed.
+
+    '
+  description: "This event fires when a purchase prompt for a\n[pass](../../../production/monetization/passes.md)\
+    \ closes. For example,\nwhen a user receives the purchase prompt and clicks **Cancel**,\
+    \ or when\nthey receive a success or error message and click **OK**.\n\n#### See\
+    \ Also\n\n- For repeatable **developer product** purchase prompts, use\n  `Class.MarketplaceService.PromptProductPurchaseFinished|PromptProductPurchaseFinished`.\n\
+    - For **affiliate gear sales** or other assets, use\n  `Class.MarketplaceService.PromptPurchaseFinished|PromptPurchaseFinished`.\n\
+    - For more information on saving and replicating user data like purchases\n  and\
+    \ progress, see\n  [Implementing player data and purchases](https://devforum.roblox.com/t/implementing-player-data-and-purchasing-systems/2839941).\n"
+  code_samples:
+  - handling-gamepass
+  parameters:
+  - name: player
+    type: Instance
+    default: null
+    summary: 'The `Class.Player` who received the prompt.
+
+      '
+  - name: gamePassId
+    type: int64
+    default: null
+    summary: 'The ID number of the pass shown in the prompt. Not to be confused with
+
+      an asset ID.
+
+      '
+  - name: wasPurchased
+    type: boolean
+    default: null
+    summary: 'Indicates if the user pressed **OK** (true), **Cancel** (false) on the
+
+      purchase prompt, or if the purchase prompt errored (false).
+
+
+      When `PromptGamePassPurchaseFinished` fires, it updates the cache used
+
+      by
+
+      `Class.MarketplaceService:UserOwnsGamePassAsync()|UserOwnsGamePassAsync()`
+
+      to reflect the current ownership state.
+
+
+      `PromptGamePassPurchaseFinished` should only be listened to in a
+
+      server script. When used on the server, values such as `wasPurchased`
+
+      reflect the final outcome of the purchase attempt. When used in a
+
+      local script, these values should not be relied on for validation or
+
+      game logic.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - PromptExternalPurchase
+- name: MarketplaceService.PromptPremiumPurchaseFinished
+  summary: 'Fires when a purchase prompt for Roblox Premium is closed.
+
+    '
+  description: "This event fires when a purchase prompt for\n[Roblox Premium](https://www.roblox.com/premium/membership)\
+    \ closes. For\nexample, when a user receives the purchase prompt and clicks **Cancel**,\n\
+    or when they receive a success or error message and click **OK**.\n\n#### See\
+    \ Also\n\n- `Class.MarketplaceService.PromptPremiumPurchase|PromptPremiumPurchase`\n\
+    \  to prompt a user to purchase Premium.\n- `Class.Players.PlayerMembershipChanged|PlayerMembershipChanged`,\
+    \ which\n  fires when the server recognizes that a user's membership has changed.\n"
+  code_samples: []
+  parameters: []
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - PromptExternalPurchase
+- name: MarketplaceService.PromptProductPurchaseFinished
+  summary: 'Fires when a purchase prompt for a developer product is closed. Do not
+    use
+
+    this event to process purchases.
+
+    '
+  description: "**IMPORTANT:** Do **not** use the `PromptProductPurchaseFinished`\
+    \ event to\nprocess purchases; instead, use the\n`Class.MarketplaceService.ProcessReceipt|ProcessReceipt`\
+    \ callback. The\nfiring of `PromptProductPurchaseFinished` does **not** mean that\
+    \ a user\nhas successfully purchased an item.\n\nThis event fires when a purchase\
+    \ prompt for a\n[developer product](../../../production/monetization/developer-products.md)\n\
+    closes. For example, when a user receives the purchase prompt and clicks\n**Cancel**,\
+    \ or when they receive a success or error message and click\n**OK**. The firing\
+    \ of this event does **not** mean that a user has\nsuccessfully purchased an item.\n\
+    \nWhile you can use the `PromptProductPurchaseFinished` event to detect when\n\
+    a user closes a purchase prompt, you should **not** use it to process\npurchases\
+    \ because those purchases might still fail in the backend for\nseveral reasons.\
+    \ For example, if a Roblox system is offline, or if the\nproduct price has changed\
+    \ and the user now doesn't have enough Robux to\nmake the purchase. To process\
+    \ purchases, you must use\n`Class.MarketplaceService.ProcessReceipt()|ProcessReceipt`.\
+    \ Using\n`ProcessReceipt` allows you to confirm that the purchase has succeeded\n\
+    before you grant the user the item they have purchased.\n\nThe `PromptProductPurchaseFinished`\
+    \ event fires with a `Player.UserId`\ninstead of a reference to the `Player` object.\n\
+    \n#### See Also\n\n- `Class.MarketplaceService.PromptGamePassPurchaseFinished|PromptGamePassPurchaseFinished`\n\
+    \  to prompt a user to purchase a pass.\n- `Class.MarketplaceService.PromptPurchaseFinished|PromptPurchaseFinished`\n\
+    \  to prompt a user to purchase affiliate gear or other assets.\n- For more information\
+    \ on saving and replicating user data like purchases\n  and progress, see\n  [Implementing\
+    \ player data and purchases](https://devforum.roblox.com/t/implementing-player-data-and-purchasing-systems/2839941).\n"
+  code_samples: []
+  parameters:
+  - name: userId
+    type: int64
+    default: null
+    summary: 'The `Class.Player.UserId|UserId` of the user who received the
+
+      developer product prompt.
+
+      '
+  - name: productId
+    type: int64
+    default: null
+    summary: 'The ID number of the developer product shown in the prompt. Not to be
+
+      confused with an asset ID.
+
+      '
+  - name: isPurchased
+    type: boolean
+    default: null
+    summary: 'Indicates if the user pressed **OK** (true), **Cancel** (false) on the
+
+      purchase prompt, or if the purchase prompt errored (false).
+
+
+      Do not use this parameter to process developer product purchases.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - PromptExternalPurchase
+- name: MarketplaceService.PromptPurchaseFinished
+  summary: 'Fires when a purchase prompt for an affiliate gear sale or other asset
+    is
+
+    closed. Does **not** fire for developer product or pass prompts.
+
+    '
+  description: "This event fires when a purchase prompt for an affiliate gear sale\
+    \ or\nother asset closes. For example, when a user receives the purchase prompt\n\
+    and clicks **Cancel**, or when they receive a success or error message and\nclick\
+    \ **OK**.\n\nThis event does not fire for\n[developer product](../../../production/monetization/developer-products.md)\n\
+    or [pass](../../../production/monetization/passes.md) prompts.\n\n#### See Also\n\
+    \n- `Class.MarketplaceService.PromptGamePassPurchaseFinished|PromptGamePassPurchaseFinished`\n\
+    \  to prompt a user to purchase a pass.\n- `Class.MarketplaceService.PromptProductPurchaseFinished|PromptProductPurchaseFinished`\n\
+    \  to prompt a user to purchase a developer product.\n- For more information on\
+    \ saving and replicating user data like purchases\n  and progress, see\n  [Implementing\
+    \ player data and purchases](https://devforum.roblox.com/t/implementing-player-data-and-purchasing-systems/2839941).\n"
+  code_samples:
+  - MarketplaceService-PromptPurchaseFinished1
+  parameters:
+  - name: player
+    type: Instance
+    default: null
+    summary: 'The `Class.Player` who received the prompt.
+
+      '
+  - name: assetId
+    type: int64
+    default: null
+    summary: 'The asset ID of the item shown in the prompt.
+
+      '
+  - name: isPurchased
+    type: boolean
+    default: null
+    summary: 'Indicates if the user pressed **OK** (true), **Cancel** (false) on the
+
+      purchase prompt, or if the purchase prompt errored (false).
+
+
+      This might not accurately reflect if the purchase itself has been
+
+      successfully processed.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - PromptExternalPurchase
+- name: MarketplaceService.PromptRobloxSubscriptionPurchaseFinished
+  summary: 'Fires when a purchase prompt for Roblox Plus is closed.
+
+    '
+  description: "This event fires when a purchase prompt for Roblox Plus closes. For\n\
+    example, when a user receives the purchase prompt and clicks **Cancel**,\nor when\
+    \ they receive a success or error message and click **OK**.\n\nNote that this\
+    \ event firing does **not** guarantee the subscription was\nsuccessfully processed.\
+    \ Listen to `Class.Player.HasRobloxSubscription` via\n`Class.Instance:GetPropertyChangedSignal()`\
+    \ on the server to confirm a\nsubscription change before granting rewards.\n\n\
+    #### See Also\n\n- `Class.MarketplaceService.PromptRobloxSubscriptionPurchase|PromptRobloxSubscriptionPurchase`\n\
+    \  to prompt a user to purchase Roblox Plus.\n- `Class.Player.HasRobloxSubscription`,\
+    \ which can be observed via\n  `Class.Instance:GetPropertyChangedSignal()` to\
+    \ detect when a user's\n  subscription status changes.\n"
+  code_samples:
+  - MarketplaceService-PromptRobloxSubscriptionPurchaseFinished
+  parameters:
+  - name: user
+    type: Player
+    default: null
+    summary: 'The `Class.Player` who received the prompt.
+
+      '
+  - name: didTryPurchasing
+    type: boolean
+    default: null
+    summary: 'Whether the user attempted to purchase Roblox Plus.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - PromptExternalPurchase
+- name: MarketplaceService.PromptSubscriptionPurchaseFinished
+  summary: 'Fires when a purchase prompt for a subscription is closed.
+
+    '
+  description: "This event fires when a purchase prompt for an affiliate gear sale\
+    \ or\nother asset closes. For example, when a user receives the purchase prompt\n\
+    and clicks **Cancel**, or when they receive a success or error message and\nclick\
+    \ **OK**.\n\n#### See Also\n\n- `Class.MarketplaceService.PromptSubscriptionPurchase|PromptSubscriptionPurchase`\n\
+    \  to prompt a user to purchase a subscription.\n- `Class.Players.UserSubscriptionStatusChanged|UserSubscriptionStatusChanged`,\n\
+    \  which fires when the server recognizes that a user's membership has\n  changed.\n"
+  code_samples: []
+  parameters:
+  - name: user
+    type: Player
+    default: null
+    summary: 'The `Class.Player` who received the prompt.
+
+      '
+  - name: subscriptionId
+    type: string
+    default: null
+    summary: 'The ID of the subscription with a status change.
+
+      '
+  - name: didTryPurchasing
+    type: boolean
+    default: null
+    summary: 'Whether the user attempted to purchase the subscription.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - PromptExternalPurchase
+- name: AssetTypePurchased
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: assetType
+    type: Enum.AssetType
+- name: ClientLuaDialogRequested
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: arguments
+    type: Tuple
+- name: ClientPurchaseSuccess
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: ticket
+    type: string
+  - name: playerId
+    type: int64
+  - name: productId
+    type: int64
+- name: ConfirmPlayerHasRobloxSubscription
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: ConfirmPlayerMembership
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: ConfirmUserSubscriptionPurchase
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: subscriptionId
+    type: string
+- name: GamePassFreeTrialRedeemed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: gamePassId
+    type: int64
+- name: LuaDialogCallbackSignal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: value
+    type: bool
+  - name: player
+    type: Instance
+- name: MockConfirmUserSubscriptionPurchase
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: int64
+  - name: subscriptionId
+    type: string
+- name: MockPurchasePremium
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: MockPurchaseRobloxSubscription
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: NativePurchaseFinished
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: productId
+    type: string
+  - name: wasPurchased
+    type: bool
+- name: NativePurchaseFinishedV2
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: productId
+    type: string
+  - name: wasPurchased
+    type: bool
+  - name: checkoutSessionId
+    type: string
+- name: NativePurchaseFinishedWithLocalPlayer
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: productId
+    type: string
+  - name: wasPurchased
+    type: bool
+- name: NativePurchaseFinishedWithLocalPlayerV2
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: productId
+    type: string
+  - name: wasPurchased
+    type: bool
+  - name: checkoutSessionId
+    type: string
+- name: OpenShopRequested
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+- name: PrepareCollectiblesPurchaseRequested
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: assetId
+    type: int64
+  - name: collectibleItemId
+    type: string
+  - name: collectibleItemInstanceId
+    type: string
+  - name: collectibleProductId
+    type: string
+  - name: expectedPrice
+    type: int
+- name: PromptBulkPurchaseFinished
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: status
+    type: Enum.MarketplaceBulkPurchasePromptStatus
+  - name: results
+    type: Dictionary
+- name: PromptBulkPurchaseRefreshed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: status
+    type: Enum.MarketplaceBulkPurchasePromptStatus
+  - name: response
+    type: Dictionary
+- name: PromptBulkPurchaseRequested
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: displayData
+    type: Array
+  - name: orderRequest
+    type: Dictionary
+  - name: purchaserRobuxBalance
+    type: int64
+  - name: orderTotalRobux
+    type: int64
+  - name: options
+    type: Dictionary
+- name: PromptBulkPurchaseRequestedV2
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: displayData
+    type: Array
+  - name: orderRequest
+    type: Dictionary
+  - name: purchaserRobuxBalance
+    type: int64
+  - name: orderTotalRobux
+    type: int64
+  - name: options
+    type: Dictionary
+  - name: discountInformation
+    type: Dictionary
+- name: PromptBulkPurchaseRequestedV3
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: status
+    type: Enum.MarketplaceBulkPurchasePromptStatus
+  - name: response
+    type: Dictionary
+- name: PromptBundlePurchaseFinished
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: bundleId
+    type: int64
+  - name: wasPurchased
+    type: bool
+- name: PromptBundlePurchaseRequested
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: bundleId
+    type: int64
+- name: PromptCancelSubscriptionRequested
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: subscriptionId
+    type: string
+- name: PromptCollectibleBundlePurchaseRequested
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: bundleId
+    type: int64
+  - name: collectibleItemId
+    type: string
+  - name: collectibleItemInstanceId
+    type: string
+  - name: collectibleProductId
+    type: string
+  - name: expectedPrice
+    type: int
+  - name: idempotencyKey
+    type: string
+  - name: purchaseAuthToken
+    type: string
+- name: PromptCollectiblesPurchaseRequested
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: assetId
+    type: int64
+  - name: collectibleItemId
+    type: string
+  - name: collectibleItemInstanceId
+    type: string
+  - name: collectibleProductId
+    type: string
+  - name: expectedPrice
+    type: int
+  - name: idempotencyKey
+    type: string
+  - name: purchaseAuthToken
+    type: string
+- name: PromptGamePassPurchaseFinished
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: gamePassId
+    type: int64
+  - name: wasPurchased
+    type: bool
+- name: PromptGamePassPurchaseRequested
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: gamePassId
+    type: int64
+- name: PromptNativePurchaseRequested
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: productId
+    type: string
+- name: PromptNativePurchaseRequestedWithContext
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: int64
+  - name: productId
+    type: string
+  - name: context
+    type: Dictionary
+- name: PromptNativePurchaseRequestedWithLocalPlayer
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: int64
+  - name: productId
+    type: string
+- name: PromptNativePurchaseRequestedWithLocalPlayerWithPaymentSessionId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: int64
+  - name: productId
+    type: string
+  - name: paymentSessionId
+    type: string
+- name: PromptNativePurchaseRequestedWithPaymentSessionId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: productId
+    type: string
+  - name: paymentSessionId
+    type: string
+- name: PromptPremiumPurchaseFinished
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: PromptPremiumPurchaseRequested
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+- name: PromptProductPurchaseFinished
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: int64
+  - name: productId
+    type: int64
+  - name: isPurchased
+    type: bool
+- name: PromptProductPurchaseRequested
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: productId
+    type: int64
+  - name: equipIfPurchased
+    type: bool
+  - name: currencyType
+    type: Enum.CurrencyType
+- name: PromptPurchaseFinished
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: assetId
+    type: int64
+  - name: isPurchased
+    type: bool
+- name: PromptPurchaseRequested
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: assetId
+    type: int64
+  - name: equipIfPurchased
+    type: bool
+  - name: currencyType
+    type: Enum.CurrencyType
+- name: PromptPurchaseRequestedV2
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: assetId
+    type: int64
+  - name: equipIfPurchased
+    type: bool
+  - name: currencyType
+    type: Enum.CurrencyType
+  - name: idempotencyKey
+    type: string
+  - name: purchaseAuthToken
+    type: string
+- name: PromptRobloxPurchaseRequested
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: assetId
+    type: int64
+  - name: equipIfPurchased
+    type: bool
+- name: PromptRobloxSubscriptionPurchaseFinished
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: user
+    type: Player
+  - name: didTryPurchasing
+    type: bool
+- name: PromptRobloxSubscriptionPurchaseRequested
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: PromptRobuxTransferRequested
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: jsonResponse
+    type: string
+- name: PromptRobuxTransferSubscriptionUpsellRequested
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: PromptSubscriptionPurchaseFinished
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: user
+    type: Player
+  - name: subscriptionId
+    type: string
+  - name: didTryPurchasing
+    type: bool
+- name: PromptSubscriptionPurchaseRequested
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: subscriptionId
+    type: string
+- name: PromptThirdPartyPurchaseRequested
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: productId
+    type: string
+- name: PromptVIPServerPurchaseRequested
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: RefreshBulkPurchaseRequested
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: playerId
+    type: int64
+  - name: batchPurchaseAuthToken
+    type: string
+  - name: options
+    type: Dictionary
+- name: RobuxTransferCompleted
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: int64
+- name: ServerPurchaseVerification
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: serverResponseTable
+    type: Dictionary
+- name: ThirdPartyPurchaseFinished
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: LocalUserSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: productId
+    type: string
+  - name: receipt
+    type: string
+  - name: wasPurchased
+    type: bool
+- name: UserSubscriptionStatusChanged
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: subscriptionId
+    type: string
+callbacks:
+- name: MarketplaceService.ProcessReceipt
+  summary: 'A callback to process receipts of developer product purchases.
+
+    '
+  description: "`ProcessReceipt` is a callback to process receipts from\n[developer\
+    \ product purchases](../../../production/monetization/developer-products.md).\n\
+    You can sell developer products inside an experience using\n`MarketplaceService`\
+    \ functions, or outside an experience on the Store tab\nof your experience details\
+    \ page.\n\nYou should only set the `ProcessReceipt` callback one time in a single\n\
+    server-side `Class.Script|Script`. This callback must handle the receipts\nfor\
+    \ all developer products you have for sale.\n\n**IMPORTANT:** It's **highly recommended**\
+    \ that you properly implement the\n`ProcessReceipt` callback in order to sell\
+    \ your developer products. You\nshould use `ProcessReceipt` to grant users their\
+    \ purchased product over\nany other granting method. If your `ProcessReceipt`\
+    \ implementation isn't\ncorrect, you will **not** be able to grant users the products\
+    \ they have\npurchased on the Store tab of your experience details page.\n\n####\
+    \ Guarantees\n\nThe `ProcessReceipt` callback is called for all unresolved developer\n\
+    product purchases when:\n\n- A user successfully completes the purchase of a developer\
+    \ product.\n- A successful developer product purchase prompt appears to the user.\n\
+    - A user joins the server.\n\nA purchase is considered **successfully initiated**\
+    \ when:\n\n- The purchase is processed on Roblox's backend.\n- The funds are placed\
+    \ in escrow.\n\nA purchase is considered **resolved** when:\n\n- The `ProcessReceipt`\
+    \ callback returns a `Enum.ProductPurchaseDecision`\n  enum of `Enum.ProductPurchaseDecision.PurchaseGranted|PurchaseGranted`.\n\
+    - The purchase is successfully recorded on Roblox's backend.\n\n#### Unresolved\
+    \ Developer Product Purchases\n\nAn **unresolved developer product purchase**\
+    \ takes place when a user's\npurchase of a developer product has not yet been\
+    \ acknowledged by the\nserver through the `ProcessReceipt` function.\n\nUnresolved\
+    \ developer product purchases are not removed or refunded after\nthe escrow period\
+    \ expires.\n\n#### Retries and Timeouts\n\n`ProcessReceipt` has no time-based\
+    \ retry mechanism. If a user makes a\npurchase that returns a `Enum.ProductPurchaseDecision`\
+    \ enum of\n`Enum.ProductPurchaseDecision.PurchaseGranted|NotProcessedYet`, the\n\
+    `ProcessReceipt` callback is only called again on the same server if:\n\n- The\
+    \ user successfully initiates another developer product purchase.\n- The user\
+    \ re-joins any server under the same experience.\n\n`ProcessReceipt` also has\
+    \ no timeout for yielded callbacks. A\n`ProcessReceipt` callback can yield for\
+    \ as long as the server is running,\nand the callback result is still accepted\
+    \ when the result returns.\n\n#### Limitations\n\n- If you don't implement a `ProcessReceipt`\
+    \ callback, your receipts will\n  be auto-acknowledged. You can't get a receipt\
+    \ back after it has been\n  acknowledged.\n- When there are multiple purchases\
+    \ pending for a user, `ProcessReceipt`\n  callbacks are called in a non-deterministic\
+    \ order.\n- The user must be on the server for the `ProcessReceipt` callback to\
+    \ be\n  invoked.\n- The user does not have to be on the server for the result\
+    \ of the\n  `ProcessReceipt` callback to be recorded on the backend.\n- The `ProcessReceipt`\
+    \ callback for a specific purchase might run on two\n  different servers at the\
+    \ same time if the user joins the second server\n  before the callback returns\
+    \ on the first server.\n- The `ProcessReceipt` callback might still fail to be\
+    \ recorded on the\n  backend, even if it returns a `Enum.ProductPurchaseDecision`\
+    \ enum of\n  `Enum.ProductPurchaseDecision.PurchaseGranted|PurchaseGranted`. When\n\
+    \  this happens, the purchase remains unresolved.\n"
+  code_samples:
+  - ProcessReceipt-Example
+  parameters:
+  - name: receiptInfo
+    type: Dictionary
+    default: null
+    summary: "The `receiptInfo` table passed to this callback contains the following\n\
+      data:\n\n- `PurchaseId` &mdash; A unique identifier for the specific purchase.\n\
+      - `PlayerId` &mdash; The user ID of the user who made the purchase.\n- `ProductId`\
+      \ &mdash; The ID of the purchased product.\n- `PlaceIdWherePurchased` &mdash;\
+      \ The place ID in which the purchase\n  was made. Depending on where the user\
+      \ is during gameplay, the\n  purchase place's ID can be the same as or different\
+      \ from the current\n  place's ID.\n- `CurrencySpent` &mdash; The amount of currency\
+      \ spent in the\n  transaction.\n- `CurrencyType` &mdash; The type of currency\
+      \ spent in the purchase;\n  always `Enum.CurrencyType.Robux`.\n- `ProductPurchaseChannel`\
+      \ — How the user acquired the developer\n  product. One of `Enum.ProductPurchaseChannel`.\n"
+  returns:
+  - type: ProductPurchaseDecision
+    summary: "An enum that represents how the developer product receipt was\nprocessed.\n\
+      \n- `PurchaseGranted`:\n  - Indicates that the experience successfully granted\
+      \ the player the\n    developer product.\n  - Indicates to Roblox that the developer\
+      \ product sale was\n    successful.\n- `NotProcessedYet`:\n  - Indicates that\
+      \ the experience failed to grant the player the\n    developer product.\n"
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Monetization
+  writeCapabilities: []
+- name: ProcessReceipt
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: receiptInfo
+    type: Dictionary
+  returns:
+  - type: Enum.ProductPurchaseDecision

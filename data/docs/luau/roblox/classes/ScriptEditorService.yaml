@@ -1,0 +1,1052 @@
+name: ScriptEditorService
+type: class
+memory_category: Instances
+summary: 'This service is used for interacting with `Class.ScriptDocument` instances.
+
+  '
+description: 'This service is used for interacting with `Class.ScriptDocument` instances.
+  It
+
+  provides methods to open, find, and list script documents that represent
+
+  scripts currently open in the Studio
+
+  [Script Editor](../../../studio/script-editor.md). It also enables plugins to
+
+  register custom callbacks for autocomplete and script analysis, and fires
+
+  events when script documents are opened, closed, or changed.
+
+
+  This service is only available in Studio plugins and the command bar (Plugin
+
+  security level).
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+- NotReplicated
+deprecation_message: ''
+properties: []
+methods:
+- name: ScriptEditorService:DeregisterAutocompleteCallback
+  summary: 'Removes a previously registered callback with the name `name`.
+
+    '
+  description: 'Removes a previously registered autocomplete callback with the name
+
+    `name`. The callback must have been registered with
+
+    `Class.ScriptEditorService:RegisterAutocompleteCallback()`. Throws an
+
+    error if no callback with the given name is currently registered.
+
+    '
+  code_samples:
+  - ScriptEditorService-DeregisterAutocompleteCallback
+  parameters:
+  - name: name
+    type: string
+    default: null
+    summary: 'The identifier that was used when registering the callback with
+
+      `Class.ScriptEditorService:RegisterAutocompleteCallback()`.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: ScriptEditorService:DeregisterScriptAnalysisCallback
+  summary: 'Removes a previously registered callback with the name `name`.
+
+    '
+  description: 'Removes a previously registered Script Analysis callback with the
+    name
+
+    `name`. The callback must have been registered with
+
+    `Class.ScriptEditorService:RegisterScriptAnalysisCallback()`. Throws an
+
+    error if no callback with the given name is currently registered.
+
+
+    After the callback is removed, Script Analysis automatically reruns on all
+
+    open scripts to update diagnostics.
+
+    '
+  code_samples:
+  - ScriptEditorService-DeregisterScriptAnalysisCallback
+  parameters:
+  - name: name
+    type: string
+    default: null
+    summary: 'The identifier that was used when registering the callback with
+
+      `Class.ScriptEditorService:RegisterScriptAnalysisCallback()`.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: ScriptEditorService:FindScriptDocument
+  summary: 'Returns the open `Class.ScriptDocument` corresponding to the given
+
+    `Class.LuaSourceContainer`, or `nil` if the given script is not open.
+
+    '
+  description: 'Returns the open `Class.ScriptDocument` corresponding to the given
+
+    `Class.LuaSourceContainer`, or `nil` if the given script is not open.
+
+
+    A `Class.ScriptDocument` only exists while the script has an open tab in
+
+    the Script Editor. If the script''s editor tab is closed, this method
+
+    returns `nil` even if the script instance still exists in the DataModel.
+
+    '
+  code_samples:
+  - ScriptDocument-CloseAsync
+  - ScriptDocument-ViewportChanged
+  parameters:
+  - name: script
+    type: LuaSourceContainer
+    default: null
+    summary: 'The `Class.LuaSourceContainer` (such as a `Class.Script`,
+
+      `Class.LocalScript`, or `Class.ModuleScript`) to find the open
+
+      document for.
+
+      '
+  returns:
+  - type: ScriptDocument
+    summary: 'The open `Class.ScriptDocument` corresponding to the given script, or
+
+      nil if the script is not currently open in the Script Editor.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: ScriptEditorService:GetEditorSource
+  summary: 'Returns the edit-time source for the given script.
+
+    '
+  description: 'Returns the edit-time source for the given script.
+
+
+    If the script is open in the
+
+    [Script Editor](../../../studio/script-editor.md), this method returns the
+
+    text currently being displayed in the editor. If the script is not open in
+
+    the editor, the method returns the text that the editor would display if
+
+    it''s opened. The edit-time source is not always be consistent with the
+
+    `Class.Script.Source` property.
+
+    '
+  code_samples: []
+  parameters:
+  - name: script
+    type: LuaSourceContainer
+    default: null
+    summary: 'The `Class.LuaSourceContainer` to retrieve the edit-time source text
+
+      for.
+
+      '
+  returns:
+  - type: string
+    summary: 'The edit-time source text of the script as a string.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: ScriptEditorService:GetScriptDocuments
+  summary: 'Returns an array of the currently open script documents, including the
+
+    command bar.
+
+    '
+  description: 'Returns an array of the currently open script documents, including
+    the
+
+    command bar. Each entry is a `Class.ScriptDocument` representing one open
+
+    editor tab. The command bar''s document can be identified with
+
+    `Class.ScriptDocument:IsCommandBar()` if you need to exclude it.
+
+    '
+  code_samples:
+  - ScriptEditorService-GetScriptDocuments
+  parameters: []
+  returns:
+  - type: List<ScriptDocument>
+    summary: 'An array of `Class.ScriptDocument` objects representing all currently
+
+      open editor tabs, including the command bar.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: ScriptEditorService:OpenScriptDocumentAsync
+  summary: 'Requests that a Script Editor open the specified script. Returns (true,
+
+    nil) if the request succeeds. Returns (false, string) if the request
+
+    fails, with a string that describes the problem.
+
+    '
+  description: 'Requests that a Script Editor open the specified script. Returns (true,
+
+    nil) if the request succeeds. Returns (false, string) if the request
+
+    fails, with a string that describes the problem.
+
+
+    If the script is already open, this function succeeds and switches tabs to
+
+    the associated editor.
+
+    '
+  code_samples:
+  - ScriptEditorService-OpenScriptDocumentAsync
+  - ScriptEditorService-OpenScriptDocumentAsync-InitialReadOnlyReasons
+  parameters:
+  - name: script
+    type: LuaSourceContainer
+    default: null
+    summary: 'The `Class.LuaSourceContainer` to open in the Script Editor.
+
+      '
+  - name: options
+    type: Dictionary
+    default: nil
+    summary: "A dictionary that supports the following options:\n\n- `Temporary` &mdash;\
+      \ Boolean. Whether to open the script in a preview\n  tab. Default is false.\n\
+      - `HighlightRange` &mdash; A nested dictionary containing a line and\n  character\
+      \ range to highlight in the editor. Example:\n  `HighlightRange = { Start =\
+      \ { Line = 10, Character = 1 }, End = { Line = 15, Character = 20 }}`.\n  Lines\
+      \ and characters are 1-based. Out-of-range positions are clamped\n  to the nearest\
+      \ valid position: a `Line` or `Character` below 1\n  becomes 1, a `Character`\
+      \ past the end of its line becomes the end of\n  that line, and a `Line` past\
+      \ the last line becomes the end of the\n  script. `Start` and `End` are clamped\
+      \ independently; if `End` is\n  before `Start` after clamping, they are swapped,\
+      \ so the same text is\n  highlighted with the cursor at the later position.\n\
+      - `InitialReadOnlyReasons` &mdash; An array of strings. Reasons to add\n  with\
+      \ `Class.ScriptDocument:AddReadOnlyReasonsAsync()` once the\n  editor opens,\
+      \ so the script is read-only as soon as the call\n  returns. Example:\n  `InitialReadOnlyReasons\
+      \ = { \"MyPluginTemplateScript\" }`.\n"
+  returns:
+  - type: Tuple
+    summary: 'A tuple where the first value is a boolean indicating success and the
+
+      second is nil on success or a string describing the problem on
+
+      failure.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: ScriptEditorService:RegisterAutocompleteCallback
+  summary: 'Registers an autocomplete callback `callbackFunction` named `name` with
+
+    priority `priority`.
+
+    '
+  description: "Registers an autocomplete callback `callbackFunction` named `name`\
+    \ with\npriority `priority`.\n\nWhen the Script Editor invokes autocomplete, all\
+    \ registered autocomplete\ncallbacks call in order of ascending priority with\
+    \ the autocomplete\nrequest and response. Multiple callbacks may share a priority,\
+    \ but then\ntheir calling order is unpredictable. Each callback is intended to\
+    \ return\na response table with the same format as the response input table.\n\
+    Callbacks shouldn't yield. The first callback invoked receives the\ninternal autocomplete's\
+    \ response as its response table, and subsequent\ncallbacks receive the previous\
+    \ callback's output as their response table.\nCallbacks may either modify the\
+    \ passed table or return a new table of the\nsame format.\n\nThe `callbackFunction`\
+    \ must have the following type:\n`(Request: table, Response: table) -> table`\n\
+    \nThe Request table has the following format:\n\n```lua\ntype Request = {\n  position:\
+    \ {\n    line: number,\n    character: number\n  },\n  textDocument: {\n    document:\
+    \ ScriptDocument?,\n    script: LuaSourceContainer?\n  }\n}\n```\n\n- `position`\
+    \ is the one-indexed cursor position where you are\n  autocompleting.\n- `textDocument.document`\
+    \ is the open `Class.ScriptDocument` you are\n  completing in, if it exists.\n\
+    - `textDocument.script` is the `Class.LuaSourceContainer` you are\n  completing\
+    \ in, if it exists.\n\nIf both `textDocument.document` and `textDocument.script`\
+    \ are present,\nthen they correspond to each other:\n`req.textDocument.document:GetScript()\
+    \ == req.textDocument.script`\n\nThe Response table has the following format:\n\
+    \n```\ntype Response = {\n  items: {\n    {\n      label: string, -- The label\n\
+    \      kind: Enum.CompletionItemKind?,\n      tags: {Enum.CompletionItemTag}?,\n\
+    \      detail: string?,\n      documentation: {\n        value: string,\n    \
+    \  }?,\n      overloads: number?,\n      learnMoreLink: string?,\n      codeSample:\
+    \ string?,\n      preselect: boolean?,\n      textEdit: {\n        newText: string,\n\
+    \        insert: { start: { line: number, character: number }, [\"end\"]: { line:\
+    \ number, character: number } },\n        replace: { start: { line: number, character:\
+    \ number }, [\"end\"]: { line: number, character: number } },\n      }?\n    }\n\
+    \  }\n}\n```\n\n- `Response.items` is an array of the completion items. The order\
+    \ of this\n  array is insignificant, and it resorts in the editor as the user\
+    \ types.\n- `Response.items[n].label` is the label of the item which display in\
+    \ the\n  autocomplete menu.\n- `Response.items[n].kind` specifies what type of\
+    \ autocomplete item this\n  is. Primarily this controls the icon given to the\
+    \ item in the editor.\n  Not all kinds have a unique icon. If not specified, the\
+    \ editor uses the\n  \"Text\" icon. Unsupported kinds default to displaying the\
+    \ \"Property\"\n  icon.\n- `Response.items[n].tags` specifies an array of tags\
+    \ describing this\n  completion item. See the `Enum.CompletionItemTag` for details\
+    \ on their\n  function.\n- `Response.items[n].details` specifies a string describing\
+    \ details about\n  the completion item. For default items, this is a string representation\n\
+    \  of their type. Note that, in order for the documentation widget to\n  display,\
+    \ `documentation` must be present, but `documentation.value` may\n  be empty.\n\
+    - `Response.items[n].documentation` specifies the main body of the\n  documentation\
+    \ in its `value` field. `documentation` is present, even if\n  value is empty,\
+    \ so the documentation window displays if either details\n  or overloads are specified.\n\
+    - `Response.items[n].overloads` specifies the number of overloads of a\n  function\
+    \ autocompletion.\n- `Response.items[n].learnMoreLink` links to a relevant page\
+    \ on the\n  creator docs. This URL must be a `https` request to create.roblox.com;\n\
+    \  no other URLs display in the editor.\n- `Response.items[n].codeSample` specifies\
+    \ a sample use of the completion\n  item. `documentation` must be non-empty to\
+    \ display this field.\n- `Response.items[n].preselect` If true, the editor sorts\
+    \ this completion\n  item ahead of all others and selects it for the user by default.\
+    \ No\n  effect if false or missing.\n- `Response.items[n].textEdit` If present,\
+    \ accepting the completion\n  applies this text edit - inserting or replacing\
+    \ the span between the\n  positions start and end with newText.\n\nIf a callback\
+    \ returns a malformed result or encounters an error, the\neditor discards the\
+    \ modified Response table and uses the built-in\nautocomplete result list.\n"
+  code_samples:
+  - ScriptEditorService-RegisterAutocompleteCallback
+  parameters:
+  - name: name
+    type: string
+    default: null
+    summary: 'A unique identifier for this callback, used to deregister it later
+
+      with `Class.ScriptEditorService:DeregisterAutocompleteCallback()`.
+
+      '
+  - name: priority
+    type: int
+    default: null
+    summary: 'The invocation order among registered callbacks; lower values run
+
+      first.
+
+      '
+  - name: callbackFunction
+    type: Function
+    default: null
+    summary: 'The function invoked during autocomplete with the signature
+
+      `(Request: table, Response: table) -> table`.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: ScriptEditorService:RegisterScriptAnalysisCallback
+  summary: 'Registers a Script Analysis callback `callbackFunction` named `name` with
+
+    `priority`.
+
+    '
+  description: "Registers a Script Analysis callback `callbackFunction` named `name`\
+    \ with\n`priority`. When Script Analysis in Studio runs, all registered callbacks\n\
+    call in order of ascending priority. Each callback is intended to return a\nresponse\
+    \ table matching the format specified below. Callbacks should not\nyield.\n\n\
+    The request table has the following format, where `script` is the\n`LuaSourceContainer`\
+    \ that is going to be analyzed.\n\n```\ntype Request = {\n  script: LuaSourceContainer?\n\
+    }\n```\n\nThe response table has the following format, where `diagnostics` is\
+    \ an\narray of diagnostic tables. Each diagnostic table has the entries listed\n\
+    below.\n\n```\ntype Response = {\n  diagnostics: {\n    {\n      range: {\n  \
+    \      start: {\n          line: number,\n          character: number,\n     \
+    \   },\n        [\"end\"]: {\n          line: number,\n          character: number,\n\
+    \        }\n      },\n      code: string?,\n      message: string,\n      severity:\
+    \ Enum.Severity?,\n      codeDescription: { href: string }?\n    }\n  }\n}\n```\n\
+    \n- `range` represents a text range that should be highlighted by the\n  linter,\
+    \ providing what line/character to start highlighting and what\n  line/character\
+    \ to stop highlighting.\n- `code` is a label for the message.\n- `message` is\
+    \ a warning message to be displayed for the line. This will\n  also appear on\
+    \ a tooltip when the user hovers their cursor over the line\n  in the Script Editor.\n\
+    - `severity` is a `Enum.Severity` value for the diagnostics. This\n  determines\
+    \ how the diagnostic is categorized in the Script Analysis tool\n  in Studio,\
+    \ as well as how text is highlighted in the Script Editor.\n- `codeDescription`\
+    \ links to a relevant page on the creator docs. This URL\n  must be an `https`\
+    \ request to `create.roblox.com`; no other URLs display\n  in the editor.\n"
+  code_samples:
+  - ScriptEditorService-RegisterScriptAnalysisCallback
+  parameters:
+  - name: name
+    type: string
+    default: null
+    summary: 'A unique identifier for this callback, used to deregister it later
+
+      with `Class.ScriptEditorService:DeregisterScriptAnalysisCallback()`.
+
+      '
+  - name: priority
+    type: int
+    default: null
+    summary: 'The invocation order among registered callbacks; lower values run
+
+      first.
+
+      '
+  - name: callbackFunction
+    type: Function
+    default: null
+    summary: 'The function invoked during Script Analysis with the signature
+
+      `(Request: table) -> table`, returning a response containing
+
+      diagnostics.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: ScriptEditorService:UpdateSourceAsync
+  summary: 'Generates new content from the old script and updates the script editor
+    if
+
+    it''s open, or the `Class.Script` instance if the script editor is closed.
+
+    '
+  description: 'Returns the edit-time `Class.Script.Source` for the given script.
+
+
+    This function calls the passed callback using the old contents of the
+
+    script to calculate the new contents of the script.
+
+
+    If the script is open in the
+
+    [Script Editor](../../../studio/script-editor.md), then it issues a
+
+    request to the editor to update its source. The editor may reject this
+
+    update if the `Class.Script.Source` property was out of date with the
+
+    user''s version of the script when this function was called, in which case
+
+    the callback will be re-invoked and the attempt will be repeated.
+
+
+    The callback may not yield. If the callback returns `nil`, the operation
+
+    is cancelled. This function yields until the operation is cancelled or
+
+    succeeds.
+
+
+    If the script is not open in the editor, the new content updates to the
+
+    script source, which is the text the editor would display if it is opened.
+
+    '
+  code_samples:
+  - ScriptEditorService-UpdateSourceAsync
+  parameters:
+  - name: script
+    type: LuaSourceContainer
+    default: null
+    summary: 'Script instance to be updated.
+
+      '
+  - name: callback
+    type: Function
+    default: null
+    summary: 'The function to return new script content.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: ClearUriScript
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: uri
+    type: string
+  returns:
+  - type: 'null'
+- name: DeregisterAutocompleteCallback
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: string
+  returns:
+  - type: 'null'
+- name: DeregisterScriptAnalysisCallback
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: string
+  returns:
+  - type: 'null'
+- name: FindScriptDocument
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: script
+    type: LuaSourceContainer
+  returns:
+  - type: ScriptDocument
+- name: ForceReloadSource
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: uri
+    type: string
+  - name: newsrc
+    type: string
+  returns:
+  - type: 'null'
+- name: GetActiveScriptDocument
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: ScriptDocument
+- name: GetEditorSource
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: script
+    type: LuaSourceContainer
+  returns:
+  - type: string
+- name: GetScriptDocuments
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Instances
+- name: IsAutocompleteCallbackRegistered
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: string
+  returns:
+  - type: bool
+- name: IsScriptAnalysisCallbackRegistered
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: string
+  returns:
+  - type: bool
+- name: RegisterAutocompleteCallback
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: string
+  - name: priority
+    type: int
+  - name: callbackFunction
+    type: Function
+  returns:
+  - type: 'null'
+- name: RegisterScriptAnalysisCallback
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: string
+  - name: priority
+    type: int
+  - name: callbackFunction
+    type: Function
+  returns:
+  - type: 'null'
+- name: SetUriScript
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: uri
+    type: string
+  - name: source
+    type: string
+  returns:
+  - type: 'null'
+- name: StripComments
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: code
+    type: string
+  returns:
+  - type: string
+- name: EditSourceAsyncWithRanges
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: script
+    type: LuaSourceContainer
+  - name: newText
+    type: string
+  - name: startLine
+    type: int
+  - name: startCharacter
+    type: int
+  - name: endLine
+    type: int
+  - name: endCharacter
+    type: int
+  returns:
+  - type: Tuple
+- name: OpenScriptDocumentAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: script
+    type: LuaSourceContainer
+  - name: options
+    type: Dictionary
+    default: nil
+  returns:
+  - type: Tuple
+- name: OpenStringValueDocumentAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: stringValue
+    type: StringValue
+  - name: options
+    type: Dictionary
+    default: nil
+  returns:
+  - type: Tuple
+- name: OpenTemporaryDocumentAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: scriptId
+    type: string
+  - name: initialContent
+    type: string
+  - name: options
+    type: Dictionary
+    default: nil
+  returns:
+  - type: Tuple
+- name: OpenTextDocumentAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: textDocument
+    type: TextDocument
+  - name: options
+    type: Dictionary
+    default: nil
+  returns:
+  - type: Tuple
+- name: UpdateSourceAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: script
+    type: LuaSourceContainer
+  - name: callback
+    type: Function
+  returns:
+  - type: 'null'
+events:
+- name: ScriptEditorService.TextDocumentDidChange
+  summary: 'Fires just after a `Class.ScriptDocument` changes.
+
+    '
+  description: 'Fires just after a `Class.ScriptDocument` changes. The `textChanged`
+    is an
+
+    array of change structures of the format:
+
+
+    `{ range : { start : { line : number, character : number }, end : { line : number,
+    character : number } }, text: string }`
+
+    '
+  code_samples:
+  - ScriptEditorService-TextDocumentDidChange
+  parameters:
+  - name: document
+    type: ScriptDocument
+    default: null
+    summary: 'The `Class.ScriptDocument` that changed.
+
+      '
+  - name: changesArray
+    type: Variant
+    default: null
+    summary: 'An array of change structures, each describing a range that was
+
+      replaced and the new text.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  capabilities: []
+- name: ScriptEditorService.TextDocumentDidClose
+  summary: 'Fires just before a `Class.ScriptDocument` object is destroyed, which
+
+    happens right after the script editor closes.
+
+    '
+  description: 'Fires just before a `Class.ScriptDocument` object is destroyed, which
+
+    happens right after the script editor closes. After this event fires, the
+
+    `Class.ScriptDocument` enters a "Closed" state, and trying to call its
+
+    methods throws an error. `Class.ScriptDocument` objects aren''t reusable,
+
+    even if the script editor reopens the same script.
+
+    '
+  code_samples:
+  - ScriptEditorService-TextDocumentDidClose
+  parameters:
+  - name: oldDocument
+    type: ScriptDocument
+    default: null
+    summary: 'The `Class.ScriptDocument` that is about to be destroyed.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  capabilities: []
+- name: ScriptEditorService.TextDocumentDidOpen
+  summary: 'Fires just after a `Class.ScriptDocument` object is created and parented
+
+    to the service, which happens right after the script editor opens.
+
+    '
+  description: 'Fires just after a `Class.ScriptDocument` object is created and parented
+
+    to the service, which happens right after the script editor opens. The
+
+    `Class.ScriptDocument` passed to the handler is fully initialized and
+
+    ready to read or modify. This event also fires for the command bar
+
+    document.
+
+    '
+  code_samples:
+  - ScriptEditorService-TextDocumentDidOpen
+  parameters:
+  - name: newDocument
+    type: ScriptDocument
+    default: null
+    summary: 'The newly created `Class.ScriptDocument` representing the opened
+
+      editor tab.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  capabilities: []
+- name: ActiveScriptDocumentChanged
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: newDocument
+    type: ScriptDocument
+- name: TextDocumentDidChange
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: document
+    type: ScriptDocument
+  - name: changesArray
+    type: Variant
+- name: TextDocumentDidClose
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: oldDocument
+    type: ScriptDocument
+- name: TextDocumentDidOpen
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: newDocument
+    type: ScriptDocument
+callbacks: []

@@ -1,0 +1,546 @@
+name: AudioRecorder
+type: class
+memory_category: Internal
+summary: 'Records audio streams in-experience.
+
+  '
+description: '**This API is in development and is not available yet.**
+
+
+  `AudioRecorder` records audio streams in-experience with a fixed time limit of
+
+  60 seconds. The results can be loaded into an `Class.AudioPlayer` for
+
+  playback.
+
+
+  At this time, `Class.AudioDeviceInput` cannot be recorded. The
+
+  `Class.AudioRecorder:GetUnrecordableInstancesAsync()|GetUnrecordableInstancesAsync()`
+
+  method can be used to check specifically which instances aren''t recordable.
+
+  '
+code_samples:
+- audio-recorder
+inherits:
+- Instance
+descendants: []
+tags:
+- NotBrowsable
+deprecation_message: ''
+properties:
+- name: AudioRecorder.IsRecording
+  summary: 'Whether the `AudioRecorder` is currently recording.
+
+    '
+  description: 'Returns whether the `AudioRecorder` is currently recording.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: RobloxEngineSecurity
+  thread_safety: ReadSafe
+  category: State
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Audio
+- name: AudioRecorder.TimeLength
+  summary: 'The current length of the recording in seconds.
+
+    '
+  description: 'Returns the current length of the recording in seconds.
+
+    '
+  code_samples: []
+  type: double
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - Audio
+- name: IsRecording
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: State
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+- name: TimeLength
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: double
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: '0'
+methods:
+- name: AudioRecorder:CanRecordAsync
+  summary: 'Returns whether the `AudioRecorder` can currently record.
+
+    '
+  description: 'Returns whether the `AudioRecorder` can currently record. For instance,
+
+    this will return `false` if the current recording data has reached the
+
+    recording time limit. To clear the recording, use
+
+    `Class.AudioRecorder:Clear()|Clear()`.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: boolean
+    summary: '`true` if recording is possible, `false` otherwise.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Audio
+- name: AudioRecorder:Clear
+  summary: 'Clears out the recording from the `AudioRecorder`.
+
+    '
+  description: 'Clears out the recording from the `AudioRecorder`.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Audio
+- name: AudioRecorder:GetConnectedWires
+  summary: 'Returns an array of `Class.Wire|Wires` that are connected to the specified
+
+    pin.
+
+    '
+  description: 'Returns an array of `Class.Wire|Wires` that are connected to the specified
+
+    pin. `Class.AudioRecorder` has one "Input" pin.
+
+    '
+  code_samples: []
+  parameters:
+  - name: pin
+    type: string
+    default: null
+    summary: 'An input or output pin on this instance
+
+      '
+  returns:
+  - type: List<Wire>
+    summary: 'An array of `Class.Wire|Wires`
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Audio
+- name: AudioRecorder:GetInputPins
+  summary: 'Gets the list of pins that `Class.Wire` can use in `Class.Wire.TargetName`
+
+    to connect to this instance via its `Class.Wire.TargetInstance` property.
+
+    '
+  description: 'Gets the list of pins that `Class.Wire` can use in `Class.Wire.TargetName`
+
+    to connect to this instance via its `Class.Wire.TargetInstance` property.
+
+
+    For `Class.AudioRecorder`, this is `Input` only.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Array
+    summary: 'An array of strings representing valid pin names.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Audio
+- name: AudioRecorder:GetOutputPins
+  summary: 'Gets the list of pins that `Class.Wire` can use in `Class.Wire.SourceName`
+
+    to connect to this instance via its `Class.Wire.SourceInstance` property.
+
+    '
+  description: 'Gets the list of pins that `Class.Wire` can use in `Class.Wire.SourceName`
+
+    to connect to this instance via its `Class.Wire.SourceInstance` property.
+
+
+    For `Class.AudioRecorder`, there are none.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Array
+    summary: 'An array of strings representing valid pin names.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Audio
+- name: AudioRecorder:GetTemporaryContent
+  summary: 'Returns a `Content` object representing the current audio recording.
+
+    '
+  description: 'Returns recorded content that can be played back with `Class.AudioPlayer`.
+
+    The content retrieved from this method is only valid in the current
+
+    session.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Content
+    summary: 'A temporary `Content` ID that can be used with `Class.AudioPlayer`.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Audio
+- name: AudioRecorder:GetUnrecordableInstancesAsync
+  summary: 'Returns any instances which cannot be recorded.
+
+    '
+  description: 'Traverses the audio graph, starting from this recorder''s inputs,
+    to find
+
+    unrecordable instances. Currently, `Class.AudioDeviceInput` is not
+
+    recordable.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: List<Instance>
+    summary: 'A table of `Class.Instance|Instances` that are not recordable.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Audio
+- name: AudioRecorder:RecordAsync
+  summary: 'Starts recording audio.
+
+    '
+  description: 'Starts recording audio. If
+
+    `Class.AudioRecorder:CanRecordAsync()|CanRecordAsync()` returns `true`,
+
+    recording begins. If recording cannot begin, this method produces an
+
+    error.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Audio
+- name: AudioRecorder:Stop
+  summary: 'Stops recording audio.
+
+    '
+  description: 'Stops recording audio.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Audio
+- name: Clear
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: GetConnectedWires
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: pin
+    type: string
+  returns:
+  - type: Instances
+- name: GetInputPins
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+- name: GetOutputPins
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+- name: GetTemporaryContent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Content
+- name: Stop
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: CanRecordAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+- name: GetUnrecordableInstancesAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Instances
+- name: RecordAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+events:
+- name: AudioRecorder.WiringChanged
+  summary: 'Fires when another instance is connected to or disconnected from the
+
+    `Class.AudioRecorder` via a `Class.Wire`.
+
+    '
+  description: 'Event that fires after a `Class.Wire` becomes connected or disconnected,
+
+    and that `Class.Wire` is now or was previously connected to a pin on the
+
+    `Class.AudioRecorder` and to some other wirable instance.
+
+    '
+  code_samples: []
+  parameters:
+  - name: connected
+    type: boolean
+    default: null
+    summary: 'Whether the instance got connected or disconnected.
+
+      '
+  - name: pin
+    type: string
+    default: null
+    summary: 'The pin on the `Class.AudioRecorder` that the `Class.Wire` targets.
+
+      '
+  - name: wire
+    type: Wire
+    default: null
+    summary: 'The `Class.Wire` between the `Class.AudioRecorder` and the other
+
+      instance.
+
+      '
+  - name: instance
+    type: Instance
+    default: null
+    summary: 'The other instance that is or was connected through the `Class.Wire`.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Audio
+- name: WiringChanged
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: connected
+    type: bool
+  - name: pin
+    type: string
+  - name: wire
+    type: Wire
+  - name: instance
+    type: Instance
+callbacks: []

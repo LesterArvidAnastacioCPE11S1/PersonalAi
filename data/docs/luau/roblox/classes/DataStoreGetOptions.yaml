@@ -1,0 +1,76 @@
+name: DataStoreGetOptions
+type: class
+memory_category: Instances
+summary: 'Specifies additional parameters for a `Class.GlobalDataStore:GetAsync()`
+  call.
+
+  '
+description: "An object that specifies additional parameters for a\n`Class.GlobalDataStore:GetAsync()`\
+  \ call.\n\nSee also:\n\n- [Data Stores](../../../cloud-services/data-stores/index.md),\
+  \ an in-depth\n  guide on data structure, management, error handling, etc.\n"
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotReplicated
+deprecation_message: ''
+properties:
+- name: DataStoreGetOptions.UseCache
+  summary: 'Specifies whether `Class.GlobalDataStore:GetAsync()` can return a locally
+
+    cached value.
+
+    '
+  description: 'This property controls whether `Class.GlobalDataStore:GetAsync()`
+    may
+
+    return a locally cached value instead of fetching from the data store
+
+    backend. It defaults to `true`.
+
+
+    When `true`, if a cached value for the key exists and has not expired,
+
+    `Class.GlobalDataStore:GetAsync()` returns that cached value immediately
+
+    without a backend request. When `false`, the cache is bypassed and the
+
+    call always retrieves the latest value from the data store backend.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - DataStore
+- name: UseCache
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'true'
+methods: []
+events: []
+callbacks: []

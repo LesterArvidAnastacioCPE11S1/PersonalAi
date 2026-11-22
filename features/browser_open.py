@@ -296,29 +296,78 @@ def _wait_for_window():
     return False
 
 
+def _kill_stale_browser(profile):
+
+    if profile is None:
+
+        return
+
+    command = (
+        "Get-CimInstance Win32_Process -Filter \"Name='chrome.exe'\" | "
+        "Where-Object { $_.CommandLine -like '*"
+        + str(profile)
+        + "*' } | ForEach-Object { $_.ProcessId }"
+    )
+
+    try:
+
+        output = subprocess.run(
+            ["powershell", "-NoProfile", "-Command", command],
+            capture_output=True,
+            text=True,
+            timeout=30,
+            creationflags=0x08000000
+        ).stdout
+
+    except Exception:
+
+        return
+
+    for line in output.splitlines():
+
+        line = line.strip()
+
+        if line.isdigit():
+
+            subprocess.run(
+                ["taskkill", "/PID", line, "/F"],
+                capture_output=True,
+                timeout=30,
+                creationflags=0x08000000
+            )
+
+
 def open_ui(url):
 
     if focus_window("PersonalAI"):
 
-        return True
+        return "window"
 
     path = _browser_path()
 
-    if path is not None and path.name.lower() in CHROMIUM:
+    if path is None or path.name.lower() not in CHROMIUM:
 
-        _launch(path, url)
+        return "browser" if webbrowser.open(url) else None
+
+    profile = _profile_dir()
+
+    for attempt in range(2):
+
+        try:
+
+            _launch(path, url)
+
+        except OSError as error:
+
+            print(f"[ui] Could not start {path.name}: {error}")
+            break
 
         if _wait_for_window():
 
-            return True
+            return "window"
 
-        time.sleep(1.0)
-        _launch(path, url)
+        if attempt == 0:
 
-        if _wait_for_window():
+            _kill_stale_browser(profile)
 
-            return True
-
-    webbrowser.open(url)
-
-    return True
+    return "browser" if webbrowser.open(url) else None

@@ -1,0 +1,2 @@
+FROM personalai:latest
+PARAMETER num_ctx 32768

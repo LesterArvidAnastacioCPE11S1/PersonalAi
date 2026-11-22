@@ -1,0 +1,861 @@
+name: StudioDeviceSimulatorService
+type: class
+memory_category: Instances
+summary: 'Service allowing you to control Studio''s Device Simulator.
+
+  '
+description: "Provides programmatic control over Studio's Device Simulator. Use this\
+  \ service\nto switch between device presets, override resolution and pixel density,\n\
+  control orientation and scaling, and manage custom device profiles from a\nplugin\
+  \ or from an external tool connected through the MCP server.\n\nAll methods are\
+  \ asynchronous and yield the calling coroutine. The service is\navailable in **Edit\
+  \ mode** and **Play Client**. Methods that modify the active\nsimulation state are\
+  \ blocked in **PlayServer** mode.\n\n##### Limitations\n\n- All methods are asynchronous\
+  \ and yield the calling coroutine.\n- Methods that modify the active simulation\
+  \ state (`SetDeviceAsync`,\n  `StopSimulationAsync`, `SetOrientationAsync`, `SetResolutionAsync`,\n\
+  \  `SetPixelDensityAsync`, `SetScalingModeAsync`) error in PlayServer mode.\n  They\
+  \ work in Edit mode and Play Client.\n- `UpdateDeviceAsync` and `RemoveDeviceAsync`\
+  \ error when called on built-in\n  presets.\n- Resolution, DPI, and scaling mode\
+  \ methods require an active device and error\n  when `GetDeviceAsync()` returns\
+  \ \"default\".\n- Resolution and DPI overrides are session-level. They are not persisted\
+  \ and\n  are cleared on `SetDeviceAsync`.\n- Built-in presets are immutable.\n"
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+- NotReplicated
+deprecation_message: ''
+properties: []
+methods:
+- name: StudioDeviceSimulatorService:CreateDeviceAsync
+  summary: 'Creates a custom device preset and returns its ID.
+
+    '
+  description: 'Creates a custom device and returns its newly assigned ID. Custom
+    devices
+
+    are persisted to disk and appear in the Device Simulator UI.
+
+
+    Errors if any required field is missing or out of range.
+
+    '
+  code_samples:
+  - StudioDeviceSimulatorService-CreateDeviceAsync
+  parameters:
+  - name: config
+    type: Dictionary
+    default: null
+    summary: 'A dictionary describing the new device. Required fields: `Name`
+
+      (string, 1-200 characters, cannot be `"default"`), `Width` (int,
+
+      1-7680 pixels), `Height` (int, 1-4320 pixels), `PixelDensity` (int,
+
+      72-10000 DPI). Optional fields: `DeviceForm` (`Enum.DeviceForm`,
+
+      default Phone), `ResolutionScale` (float, default 1.0, max 10.0),
+
+      `PortraitKeyboardHeight` (int, default 0), `LandscapeKeyboardHeight`
+
+      (int, default 0).
+
+      '
+  returns:
+  - type: string
+    summary: 'string
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: StudioDeviceSimulatorService:GetDeviceAsync
+  summary: 'Returns the ID of the currently active device, or `"default"` if none
+    is
+
+    active.
+
+    '
+  description: 'Returns the ID of the currently active device, or `"default"` if no
+    device
+
+    is active.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: string
+    summary: 'string
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: StudioDeviceSimulatorService:GetDeviceInfoAsync
+  summary: 'Returns the configuration dictionary for the specified device.
+
+    '
+  description: "Returns a `DeviceConfiguration` for the specified device without\n\
+    activating it. Useful for inspecting presets before choosing one to switch\nto.\n\
+    \nThe returned dictionary contains the following fields:\n\n<table size=\"small\"\
+    >\n  <thead>\n    <tr>\n      <th>Field</th>\n      <th>Type</th>\n\t  <th>Create/Update</th>\n\
+    \      <th>Description</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n    \
+    \  <td><code>DeviceId</code></td>\n      <td>string</td>\n\t  <td>Read-only</td>\n\
+    \      <td>Unique identifier assigned by the service.</td>\n    </tr>\n    <tr>\n\
+    \      <td><code>Name</code></td>\n      <td>string</td>\n\t  <td>Required</td>\n\
+    \      <td>Display name. 1 to 200 characters. Cannot be <code>\"default\"</code>.</td>\n\
+    \    </tr>\n    <tr>\n      <td><code>Width</code></td>\n      <td>number</td>\n\
+    \t  <td>Required</td>\n      <td>Screen width in pixels. Range: 1 to 7680.</td>\n\
+    \    </tr>\n    <tr>\n      <td><code>Height</code></td>\n      <td>number</td>\n\
+    \t  <td>Required</td>\n      <td>Screen height in pixels. Range: 1 to 4320.</td>\n\
+    \    </tr>\n    <tr>\n      <td><code>PixelDensity</code></td>\n      <td>number</td>\n\
+    \t  <td>Required</td>\n      <td>Pixel density in DPI. Range: 72 to 10000.</td>\n\
+    \    </tr>\n    <tr>\n      <td><code>DeviceForm</code></td>\n      <td><code>Enum.DeviceForm</code></td>\n\
+    \t  <td>Optional (default: Phone)</td>\n      <td>One of Phone, Tablet, Desktop,\
+    \ Console, VR.</td>\n    </tr>\n    <tr>\n      <td><code>IsCustom</code></td>\n\
+    \      <td>boolean</td>\n\t  <td>Read-only</td>\n      <td><code>true</code> if\
+    \ the device was user-created.</td>\n    </tr>\n    <tr>\n      <td><code>ResolutionScale</code></td>\n\
+    \      <td>number</td>\n\t  <td>Optional (default: 1.0)</td>\n      <td>Resolution\
+    \ scaling factor. Must be greater than 0, max 10.0.</td>\n    </tr>\n    <tr>\n\
+    \      <td><code>PortraitKeyboardHeight</code></td>\n      <td>number</td>\n\t\
+    \  <td>Optional (default: 0)</td>\n      <td>Virtual keyboard height in portrait\
+    \ mode.</td>\n    </tr>\n    <tr>\n      <td><code>LandscapeKeyboardHeight</code></td>\n\
+    \      <td>number</td>\n\t  <td>Optional (default: 0)</td>\n      <td>Virtual\
+    \ keyboard height in landscape mode.</td>\n    </tr>\n  </tbody>\n</table>\n"
+  code_samples: []
+  parameters:
+  - name: deviceId
+    type: string
+    default: null
+    summary: 'The unique identifier of the device to query. Must be a valid ID from
+
+      `GetDeviceListAsync()`; cannot be `"default"`.
+
+      '
+  returns:
+  - type: Dictionary
+    summary: 'A dictionary containing the device configuration and passed to
+
+      `CreateDeviceAsync` and `UpdateDeviceAsync`.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: StudioDeviceSimulatorService:GetDeviceListAsync
+  summary: 'Returns an array of all available device IDs.
+
+    '
+  description: 'Returns an array of device IDs for all available presets, including
+
+    built-in and custom devices.
+
+    '
+  code_samples:
+  - StudioDeviceSimulatorService-GetDeviceListAsync
+  parameters: []
+  returns:
+  - type: Array
+    summary: 'An array of device IDs.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: StudioDeviceSimulatorService:GetOrientationAsync
+  summary: 'Returns the current simulated screen orientation.
+
+    '
+  description: 'Returns the current simulated orientation.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: ScreenOrientation
+    summary: 'ScreenOrientation
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: StudioDeviceSimulatorService:GetPixelDensityAsync
+  summary: 'Returns the current simulated pixel density in DPI.
+
+    '
+  description: 'Returns the current simulated pixel density.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: float
+    summary: 'number
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: StudioDeviceSimulatorService:GetResolutionAsync
+  summary: 'Returns the current simulated viewport resolution.
+
+    '
+  description: 'Returns the current simulated resolution.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Vector2
+    summary: 'Vector2
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: StudioDeviceSimulatorService:GetScalingModeAsync
+  summary: 'Returns how the simulated resolution currently maps to the Studio
+
+    viewport.
+
+    '
+  description: 'Returns the current `Enum.DeviceSimulatorScalingMode` for how the
+
+    simulated resolution maps to the Studio viewport. See
+
+    `Class.StudioDeviceSimulatorService:SetScalingModeAsync()|SetScalingModeAsync()`
+
+    for the available modes.
+
+
+    Requires an active device; errors when `GetDeviceAsync()` returns
+
+    `"default"`.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: DeviceSimulatorScalingMode
+    summary: 'The current `Enum.DeviceSimulatorScalingMode`.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: StudioDeviceSimulatorService:RemoveDeviceAsync
+  summary: 'Removes a custom device from the catalog.
+
+    '
+  description: 'Removes a custom device.
+
+
+    Errors if the target is a built-in preset.
+
+    '
+  code_samples: []
+  parameters:
+  - name: deviceId
+    type: string
+    default: null
+    summary: 'The unique identifier of the custom device to remove.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: StudioDeviceSimulatorService:SetDeviceAsync
+  summary: 'Activates the specified device or stops simulation if `"default"` is
+
+    passed.
+
+    '
+  description: 'Activates the specified device. Passing `"default"` stops simulation
+    and
+
+    is equivalent to calling `StopSimulationAsync`.
+
+
+    Errors in PlayServer mode. Errors if the device ID does not exist.
+
+    '
+  code_samples: []
+  parameters:
+  - name: deviceId
+    type: string
+    default: null
+    summary: 'The unique identifier of the device to activate, or `"default"` to
+
+      stop simulation.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: StudioDeviceSimulatorService:SetOrientationAsync
+  summary: 'Sets the simulated screen orientation.
+
+    '
+  description: 'Sets or gets the simulated screen orientation. Accepts Portrait,
+
+    LandscapeLeft, or LandscapeRight. Other values will error.
+
+
+    Errors in PlayServer mode.
+
+    '
+  code_samples: []
+  parameters:
+  - name: orientation
+    type: ScreenOrientation
+    default: null
+    summary: 'The target screen orientation. Accepted values are
+
+      `Enum.ScreenOrientation.Portrait`,
+
+      `Enum.ScreenOrientation.LandscapeLeft`, or
+
+      `Enum.ScreenOrientation.LandscapeRight`.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: StudioDeviceSimulatorService:SetPixelDensityAsync
+  summary: 'Overrides the simulated pixel density in DPI for the current session.
+
+    '
+  description: 'Overrides or returns the simulated pixel density in DPI. Session-level;
+
+    cleared on device switch.
+
+
+    This method requires an active device. `SetPixelDensityAsync` also errors
+
+    in PlayServer mode.
+
+    '
+  code_samples: []
+  parameters:
+  - name: density
+    type: float
+    default: null
+    summary: 'The pixel density override in DPI. Must be between 72 and 10000.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: StudioDeviceSimulatorService:SetResolutionAsync
+  summary: 'Overrides the simulated viewport resolution for the current session.
+
+    '
+  description: 'Overrides the simulated viewport resolution or returns the current
+
+    resolution as a Vector2. Overrides are session-level and cleared when you
+
+    switch devices.
+
+
+    Coordinates are in landscape space: the first parameter maps to the
+
+    horizontal axis in landscape, the second to the vertical axis. In
+
+    portrait, axes are swapped automatically.
+
+
+    Both methods require an active device. They error if `GetDeviceAsync()`
+
+    returns `"default"`. `SetResolutionAsync` also errors in PlayServer mode.
+
+    '
+  code_samples: []
+  parameters:
+  - name: width
+    type: int
+    default: null
+    summary: 'The viewport width in pixels (horizontal axis in landscape
+
+      orientation). Range: 1 to 7680.
+
+      '
+  - name: height
+    type: int
+    default: null
+    summary: 'The viewport height in pixels (vertical axis in landscape
+
+      orientation). Range: 1 to 4320.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: StudioDeviceSimulatorService:SetScalingModeAsync
+  summary: 'Sets how the simulated resolution maps to the Studio viewport.
+
+    '
+  description: "Controls how the simulated resolution maps to the Studio viewport.\n\
+    \n- `ScaleToPhysicalSize` scales the viewport to approximate physical device\n\
+    \  size.\n- `ActualResolution` renders at exact pixel resolution.\n- `FitToWindow`\
+    \ scales to fill the viewport.\n\nBoth methods require an active device. `SetScalingModeAsync`\
+    \ also errors\nin PlayServer mode.\n"
+  code_samples: []
+  parameters:
+  - name: mode
+    type: DeviceSimulatorScalingMode
+    default: null
+    summary: 'The scaling mode to apply. One of
+
+      `Enum.DeviceSimulatorScalingMode.ScaleToPhysicalSize`,
+
+      `Enum.DeviceSimulatorScalingMode.ActualResolution`, or
+
+      `Enum.DeviceSimulatorScalingMode.FitToWindow`.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: StudioDeviceSimulatorService:StopSimulationAsync
+  summary: 'Stops the active device simulation.
+
+    '
+  description: 'Stops the active simulation. Prefer this over `SetDeviceAsync("default")`
+
+    for clarity.
+
+
+    Errors in PlayServer mode.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: StudioDeviceSimulatorService:UpdateDeviceAsync
+  summary: 'Updates the configuration of an existing custom device.
+
+    '
+  description: 'Updates a custom device''s configuration.
+
+
+    Errors if the target is a built-in preset.
+
+    '
+  code_samples:
+  - StudioDeviceSimulatorService-UpdateDeviceAsync
+  parameters:
+  - name: deviceId
+    type: string
+    default: null
+    summary: 'The unique identifier of the custom device to update.
+
+      '
+  - name: config
+    type: Dictionary
+    default: null
+    summary: 'A dictionary of device fields to apply. Uses patch semantics: omitted
+
+      optional fields retain their current values. Same schema as
+
+      `CreateDeviceAsync()`.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: CreateDeviceAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: config
+    type: Dictionary
+  returns:
+  - type: string
+- name: GetDeviceAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: string
+- name: GetDeviceInfoAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: deviceId
+    type: string
+  returns:
+  - type: Dictionary
+- name: GetDeviceListAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+- name: GetOrientationAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Enum.ScreenOrientation
+- name: GetPixelDensityAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: float
+- name: GetResolutionAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Vector2
+- name: GetScalingModeAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Enum.DeviceSimulatorScalingMode
+- name: RemoveDeviceAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: deviceId
+    type: string
+  returns:
+  - type: 'null'
+- name: SetDeviceAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: deviceId
+    type: string
+  returns:
+  - type: 'null'
+- name: SetOrientationAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: orientation
+    type: Enum.ScreenOrientation
+  returns:
+  - type: 'null'
+- name: SetPixelDensityAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: density
+    type: float
+  returns:
+  - type: 'null'
+- name: SetResolutionAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: width
+    type: int
+  - name: height
+    type: int
+  returns:
+  - type: 'null'
+- name: SetScalingModeAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: mode
+    type: Enum.DeviceSimulatorScalingMode
+  returns:
+  - type: 'null'
+- name: StopSimulationAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: UpdateDeviceAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: deviceId
+    type: string
+  - name: config
+    type: Dictionary
+  returns:
+  - type: 'null'
+events:
+- name: StudioDeviceSimulatorService.ConfigurationChanged
+  summary: 'Fires when the active simulation state changes.
+
+    '
+  description: 'Fires when the active simulation state changes: device switch,
+
+    orientation, resolution, pixel density, scaling mode, or user interaction
+
+    with the Device Simulator UI. Does not fire for catalog-only operations
+
+    such as `CreateDeviceAsync`, `UpdateDeviceAsync` on a non-active device,
+
+    `RemoveDeviceAsync` on a non-active device, or `GetDeviceInfoAsync`.
+
+
+    Getter calls inside the handler are async and will yield.
+
+    '
+  code_samples:
+  - StudioDeviceSimulatorService-ConfigurationChanged
+  parameters: []
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  capabilities: []
+- name: ConfigurationChanged
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+callbacks: []

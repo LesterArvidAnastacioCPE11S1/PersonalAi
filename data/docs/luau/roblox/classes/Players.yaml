@@ -1,0 +1,3346 @@
+name: Players
+type: class
+memory_category: Instances
+summary: 'A service that contains presently connected `Class.Player` objects.
+
+  '
+description: 'The `Class.Players` service contains `Class.Player` objects for presently
+
+  connected clients to a Roblox server. It also contains information about a
+
+  place''s configuration. It can fetch information about players not connected to
+
+  the server, such as character appearances, friends, and avatar thumbnail.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+deprecation_message: ''
+properties:
+- name: Players.BanningEnabled
+  summary: 'Enables or disables the three `Class.Players` methods
+
+    (`Class.Players:BanAsync()|BanAsync()`,
+
+    `Class.Players:UnbanAsync()|UnbanAsync()`, and
+
+    `Class.Players:GetBanHistoryAsync()|GetBanHistoryAsync()`) that constitute
+
+    the ban API. This property cannot be set through developer-facing Luau and
+
+    must be set in Studio through the Players properties window.
+
+    '
+  description: 'Enables or disables the three `Class.Players` methods
+
+    (`Class.Players:BanAsync()|BanAsync()`,
+
+    `Class.Players:UnbanAsync()|UnbanAsync()`, and
+
+    `Class.Players:GetBanHistoryAsync()|GetBanHistoryAsync()`) that constitute
+
+    the ban API. This property cannot be set through developer-facing Luau and
+
+    must be set in Studio through the Players properties window.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Players
+  - PluginOrOpenCloud
+- name: Players.BubbleChat
+  summary: 'Indicates whether or not bubble chat is enabled. It is set with the
+
+    `Class.Players:SetChatStyle()` method.
+
+    '
+  description: 'This property indicates whether or not bubble chat is enabled. It
+    is set
+
+    with the `Class.Players:SetChatStyle()` method using the `Enum.ChatStyle`
+
+    enum.
+
+
+    When this chat mode is enabled, the experience displays chats in the chat
+
+    user interface at the top-left corner of the screen.
+
+
+    There are two other chat modes, `Class.Players.ClassicChat` and a chat
+
+    mode where both classic and bubble chat are enabled.
+
+    '
+  code_samples: []
+  type: boolean
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Chat
+  - Players
+- name: Players.CharacterAutoLoads
+  summary: 'Indicates whether `Class.Player.Character|characters` will respawn
+
+    automatically.
+
+    '
+  description: 'This property indicates whether `Class.Player.Character|characters`
+    will
+
+    respawn automatically. The default value is true.
+
+
+    If this property is disabled (false), player
+
+    `Class.Player.Character|characters` will not spawn until the
+
+    `Class.Player:LoadCharacterAsync()` function is called for each
+
+    `Class.Player`, including when players join the experience.
+
+
+    This can be useful in experiences where players have finite lives, such as
+
+    competitive experiences in which players do not respawn until a round
+
+    ends.
+
+    '
+  code_samples:
+  - player-respawn-timer
+  type: boolean
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Players
+- name: Players.ClassicChat
+  summary: 'Indicates whether or not classic chat is enabled; set by the
+
+    `Class.Players:SetChatStyle()` method.
+
+    '
+  description: 'Indicates whether or not classic chat is enabled. This property is
+    set by
+
+    the `Class.Players:SetChatStyle()` method using the `Enum.ChatStyle` enum.
+
+
+    When this chat mode is enabled, the experience displays chats in a bubble
+
+    above the sender''s head.
+
+
+    There are two other chat modes, `Class.Players.BubbleChat` and a chat mode
+
+    where both classic and bubble chat are enabled.
+
+    '
+  code_samples: []
+  type: boolean
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Chat
+  - Players
+- name: Players.LocalPlayer
+  summary: 'The `Class.Player` that the `Class.LocalScript` is running for.
+
+    '
+  description: 'This read-only property refers to the `Class.Player` whose client
+    is
+
+    running the experience.
+
+
+    This property is only defined for `Class.LocalScript|LocalScripts` and
+
+    `Class.ModuleScript|ModuleScripts` required by them, since they run on the
+
+    client. For the server, on which `Class.Script` objects run their code,
+
+    this property is `nil`.
+
+    '
+  code_samples: []
+  type: Player
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Players
+- name: Players.localPlayer
+  summary: ''
+  description: ''
+  code_samples: []
+  type: Player
+  tags:
+  - Hidden
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  deprecation_message: 'This property is a deprecated variant of `Class.Players.LocalPlayer`
+    which
+
+    should be used instead.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Players
+- name: Players.MaxPlayers
+  summary: 'The maximum number of players that can be in a server.
+
+    '
+  description: 'This property determines the maximum number of players that can be
+    in a
+
+    server. This property can only be set through a specific place''s settings
+
+    on the [Creator Dashboard](https://create.roblox.com/dashboard/creations).
+
+    '
+  code_samples: []
+  type: int
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Players
+- name: Players.NumPlayers
+  summary: 'Returns the number of people in the server at the current time.
+
+    '
+  description: 'This property indicates the number of people in the server at the
+    current
+
+    time. It is read only. Meaning it cannot be written to, only read.
+
+    '
+  code_samples: []
+  type: int
+  tags:
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  deprecation_message: 'This item is deprecated. Instead, of using this item, you
+    should count the
+
+    number of players returned by `Class.Players:GetPlayers()`.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Players
+- name: Players.numPlayers
+  summary: 'Returns the number of people in the server at the current time.
+
+    '
+  description: 'This property indicates the number of people in the server at the
+    current
+
+    time. It is read only. Meaning it cannot be written to, only read.
+
+    '
+  code_samples: []
+  type: int
+  tags:
+  - Hidden
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  deprecation_message: 'This property is a deprecated variant of `Class.Players.NumPlayers`
+    which
+
+    has also been deprecated. Neither property should be used in new work.
+
+    Instead, you should count the number of players returned by
+
+    `Class.Players:GetPlayers()`.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Players
+- name: Players.PreferredPlayers
+  summary: 'The preferred number of players for a server.
+
+    '
+  description: 'This property indicates the number of players to which Roblox''s matchmaker
+
+    will fill servers. This number will be less than the maximum number of
+
+    players (`Class.Players.MaxPlayers`) supported by the experience.
+
+    '
+  code_samples: []
+  type: int
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Players
+- name: Players.RespawnTime
+  summary: 'Controls the amount of time taken for a players character to respawn.
+
+    '
+  description: 'This property controls the time, in seconds, it takes for a player
+    to
+
+    respawn when `Class.Players.CharacterAutoLoads` is true. It defaults to
+
+    5.0 seconds.
+
+
+    This is useful when you want to change how long it takes to respawn based
+
+    on the type of your experience but don''t want to handle spawning players
+
+    individually.
+
+
+    Although this property can be set from within a `Class.Script`, you can
+
+    more easily set it directly on the `Class.Players` object in Studio''s
+
+    [Explorer](../../../studio/explorer.md) window.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Players
+- name: Players.UseStrafingAnimations
+  summary: 'Determines whether R15 character models play directional strafing and
+
+    backpedaling animations instead of always turning to face their direction
+
+    of movement.
+
+    '
+  description: 'When enabled, R15 character `Class.Humanoid|Humanoids` play directional
+
+    locomotion animations, strafing sideways and backpedaling while keeping
+
+    their current facing direction instead of rotating to face whichever
+
+    direction they move. When disabled, characters turn to face their
+
+    direction of movement. Defaults to `false`.
+
+
+    This property cannot be set through developer-facing Luau and must be set
+
+    in Studio through the `Class.Players` properties window.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Players
+  - PluginOrOpenCloud
+- name: BanningEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: BubbleChat
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: CharacterAutoLoads
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: ClassicChat
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: LocalPlayer
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Player
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: MaxPlayers
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: MaxPlayersInternal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: LocalUserSecurity
+    write: LocalUserSecurity
+  thread_safety: ReadSafe
+  type: int
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: NumPlayers
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''GetPlayers'', ''ThreadSafety'': ''Safe''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: PreferredPlayers
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: PreferredPlayersInternal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: LocalUserSecurity
+    write: LocalUserSecurity
+  thread_safety: ReadSafe
+  type: int
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: RespawnTime
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: ServerGitHash
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: ServerLogPrefix
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: UseStrafingAnimations
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: localPlayer
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''LocalPlayer'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Player
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: numPlayers
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''NumPlayers'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+methods:
+- name: Players:BanAsync
+  summary: 'Bans users from your experience, with options to specify duration, reason,
+
+    whether the ban applies to the entire universe or just the current place,
+
+    and more. This method is enabled and disabled by the
+
+    `Class.Players.BanningEnabled` property, which you can toggle in Studio.
+
+    '
+  description: 'The `Class.Players:BanAsync()` method allows you to easily ban users
+    who
+
+    violate your experience''s guidelines. You can specify the ban duration,
+
+    enable the ban to propagate to suspected alternate accounts, enable the
+
+    ban to temporarily block the banned user''s device from rejoining the
+
+    experience, and provide a message to the banned user in accordance with
+
+    the [Usage Guidelines](../../../players/index.md#ban-users). You should
+
+    also post your experience rules somewhere accessible to all users and
+
+    provide a way for them to appeal. This method is enabled and disabled by
+
+    the `Class.Players.BanningEnabled` property, which you can toggle in
+
+    Studio.
+
+
+    #### Banning and Messaging
+
+
+    Banned users will be immediately evicted and prevented from rejoining your
+
+    experiences. They will be presented with an error modal displaying the
+
+    time left on their ban and your `DisplayReason`. Roblox''s backend systems
+
+    will evict players across all servers from the place(s) that you specify.
+
+    `DisplayReason` can have a maximum length of 400 characters and is subject
+
+    to a text filter. For more information on acceptable modal text, see
+
+    [ban messaging](../../../players/index.md#message-guidelines).
+
+
+    #### Places and Universe
+
+
+    By default, bans extend to any place within that universe. To limit the
+
+    ban to only the place from which this API is called, configure
+
+    `ApplyToUniverse` to `false`. However, if a user is banned in the start
+
+    place of the universe, it effectively results in the user being excluded
+
+    from the entirety of the universe, irrespective of whether a universal ban
+
+    is in place or not.
+
+
+    #### Alternative Accounts
+
+
+    Users often play under multiple different accounts, known as alternate
+
+    accounts, which are sometimes used to circumvent account bans. To help you
+
+    keep banned users out, the default behavior of this API will propagate all
+
+    bans from the source account you banned to any of their suspected
+
+    alternate accounts. You can turn off ban propagations to alternate
+
+    accounts by configuring `ExcludeAltAccounts` to `true`.
+
+
+    #### Device Blocks
+
+
+    To help address disruptive users who circumvent alternate account
+
+    detection, set `ApplyDeviceBlock` to `true`. This blocks the banned user''s
+
+    device from rejoining the experience for 24 hours after the ban is
+
+    applied.
+
+
+    #### Ban Duration
+
+
+    Not all transgressions are the same, so not all bans should be the same
+
+    length. This API lets you configure the duration of the ban, in seconds,
+
+    with the `Duration` field. To specify a permanent ban, set the field to
+
+    `-1`. You may also want to dynamically configure the ban duration based on
+
+    the user''s ban history, which you can query for using
+
+    `Class.Players:GetBanHistoryAsync()`. For example, you may want to
+
+    consider the number of bans, the duration of previous bans, or build logic
+
+    off of the notes you save under `PrivateReason` which can be up to 1000
+
+    characters and are not text filtered. `PrivateReason` notes are never
+
+    shared with the client and can be considered safe from attackers.
+
+
+    #### Errors and Throttling
+
+
+    This method invokes an HTTP call to backend services which are subject to
+
+    throttling and may fail. If you''re calling this API with more than one
+
+    `Class.Player.UserId|UserId`, this method will attempt to make the HTTP
+
+    call for each ID. It will then aggregate any error messages and join them
+
+    as a comma separated list. For example, if this method is invoked for five
+
+    users and requests for those with `Class.Player.UserId|UserIds` 2 and 4
+
+    fail, the following error message appears:
+
+
+    `HTTP failure for UserId 2: Timedout, HTTP 504 (Service unavailable) failure for
+    UserId 4: Service exception`
+
+
+    The message will always include `failure for UserId {}` if it is an HTTP
+
+    error.
+
+
+    #### Client-Side Requirement
+
+
+    Because of the risks associated with banning users, this method may only
+
+    be called on the backend experience server (client-side calls will result
+
+    in an error). You may test this API in Studio, during
+
+    [collaborative](../../../projects/collaboration.md) creation, or in a
+
+    [team test](../../../studio/testing-modes.md#collaborative-testing), but
+
+    the bans will not apply to production.
+
+
+    This API uses the
+
+    [User Restrictions Open Cloud API](/cloud/reference/UserRestriction). You
+
+    will be able to utilize these APIs to manage your bans in third party
+
+    applications.
+
+    '
+  code_samples:
+  - Players-Ban
+  parameters:
+  - name: config
+    type: Dictionary
+    default: null
+    summary: "- `UserIds` (required; array) — Array of `Class.Player.UserId|UserIds`\n\
+      \  of players to be banned. Max size is `50`.\n\n- `ApplyToUniverse` (optional;\
+      \ boolean) — Whether ban propagates to\n  all places within the experience universe.\
+      \ Default is `true`.\n\n- `Duration` (required; integer) — Duration of the ban,\
+      \ in seconds.\n  Permanent bans should have a value of `-1`. `0` and all other\n\
+      \  negative values are invalid.\n\n- `DisplayReason` (required; string) — The\
+      \ message that will be\n  displayed to users when they attempt to and fail to\
+      \ join an\n  experience. Maximum string length is `400`.\n\n- `PrivateReason`\
+      \ (required; string) — Internal messaging that will be\n  returned when querying\
+      \ the user's ban history. Maximum string length\n  is `1000`.\n\n- `ExcludeAltAccounts`\
+      \ (optional; boolean) — When `true`, Roblox does\n  not attempt to ban alternate\
+      \ accounts. Default is `false`.\n\n- `ApplyDeviceBlock` (optional; boolean)\
+      \ — When `true`, Roblox will\n  block banned users' devices from rejoining the\
+      \ experience for 24\n  hours after the ban is applied. Default is `false`. The\
+      \ block can be\n  overridden by unbanning a user via a call to\n  `Class.Players:UnbanAsync()`.\
+      \ Note that unbanning a user through any\n  other method will not lift the device\
+      \ block.\n"
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Players
+  - Consequences
+- name: Players:Chat
+  summary: 'Makes the local player chat the given message.
+
+    '
+  description: 'This function makes the local player chat the given message. Since
+    this
+
+    item is protected, attempting to use it in a `Class.Script` or
+
+    `Class.LocalScript` will cause an error.
+
+
+    Instead, when creating a custom chat system, or a system that needs access
+
+    to the chat, you can use the `Class.Chat` service''s `Class.Chat:Chat()`
+
+    function instead.
+
+    '
+  code_samples:
+  - Players-Chat1
+  parameters:
+  - name: message
+    type: string
+    default: null
+    summary: 'The message chatted.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities:
+  - Players
+- name: Players:CreateHumanoidModelFromDescription
+  summary: 'Returns a character `Class.Model` equipped with everything specified in
+
+    the passed in `Class.HumanoidDescription`.
+
+    '
+  description: 'Returns a character `Class.Model` equipped with everything specified
+    in
+
+    the passed in `Class.HumanoidDescription`, and is R6 or R15 as specified
+
+    by `rigType`. This method has been superseded by
+
+    `Class.Players:CreateHumanoidModelFromDescriptionAsync()|CreateHumanoidModelFromDescriptionAsync()`,
+
+    which should be used in new work.
+
+    '
+  code_samples: []
+  parameters:
+  - name: description
+    type: HumanoidDescription
+    default: null
+    summary: 'Specifies the appearance of the returned character.
+
+      '
+  - name: rigType
+    type: HumanoidRigType
+    default: null
+    summary: 'Specifies whether the returned character will be R6 or R15.
+
+      '
+  - name: assetTypeVerification
+    type: AssetTypeVerification
+    default: Default
+    summary: 'The asset type verification mode.
+
+      '
+  returns:
+  - type: Model
+    summary: 'A `Class.Humanoid` character `Class.Model`.
+
+      '
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: 'This method has been superseded by
+
+    `Class.Players:CreateHumanoidModelFromDescriptionAsync()|CreateHumanoidModelFromDescriptionAsync()`.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AvatarAppearance
+  - Players
+- name: Players:CreateHumanoidModelFromDescriptionAsync
+  summary: 'Returns a character `Class.Model` equipped with everything specified in
+
+    the passed in `Class.HumanoidDescription`. If
+
+    `HumanoidDescription.UseAvatarSettings` is set to true, Avatar Settings in
+
+    the experience will be applied to the returned model.
+
+    '
+  description: 'Returns a character `Class.Model` equipped with everything specified
+    in
+
+    the passed in `Class.HumanoidDescription`, and is R6 or R15 as specified
+
+    by `rigType`.
+
+    '
+  code_samples:
+  - create-humanoid-model-from-description
+  parameters:
+  - name: description
+    type: HumanoidDescription
+    default: null
+    summary: 'Specifies the appearance of the returned character.
+
+      '
+  - name: rigType
+    type: HumanoidRigType
+    default: null
+    summary: 'Specifies whether the returned character will be R6 or R15.
+
+      '
+  - name: assetTypeVerification
+    type: AssetTypeVerification
+    default: Default
+    summary: 'The asset type verification mode.
+
+      '
+  returns:
+  - type: Model
+    summary: 'A `Class.Humanoid` character `Class.Model`.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AvatarAppearance
+  - Players
+- name: Players:CreateHumanoidModelFromUserId
+  summary: 'Returns a character Model set-up with everything equipped to match the
+
+    avatar of the user specified by the passed in userId.
+
+    '
+  description: 'Returns a character `Class.Model` set up with everything equipped
+    to match
+
+    the avatar of the user specified by the passed in `userId`, including
+
+    whether that character is currently R6 or R15. This method has been
+
+    superseded by
+
+    `Class.Players:CreateHumanoidModelFromUserIdAsync()|CreateHumanoidModelFromUserIdAsync()`,
+
+    which should be used in new work.
+
+    '
+  code_samples:
+  - create-humanoid-model-from-userid
+  parameters:
+  - name: userId
+    type: User
+    default: null
+    summary: 'The userId for a Roblox user. (The UserId is the number in the profile
+
+      of the user e.g www.roblox.com/users/1/profile).
+
+      '
+  returns:
+  - type: Model
+    summary: 'A Humanoid character Model.
+
+      '
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: 'This method has been superseded by
+
+    `Class.Players:CreateHumanoidModelFromUserIdAsync()|CreateHumanoidModelFromUserIdAsync()`.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Players
+- name: Players:CreateHumanoidModelFromUserIdAsync
+  summary: 'Returns a character Model set-up with everything equipped to match the
+
+    avatar of the user specified by the passed in userId.
+
+    '
+  description: 'Returns a character Model set-up with everything equipped to match
+    the
+
+    avatar of the user specified by the passed in userId. This includes
+
+    whether that character is currently R6 or R15.
+
+    '
+  code_samples:
+  - create-humanoid-model-from-userid
+  parameters:
+  - name: userId
+    type: User
+    default: null
+    summary: 'The userId for a Roblox user. (The UserId is the number in the profile
+
+      of the user e.g www.roblox.com/users/1/profile).
+
+      '
+  returns:
+  - type: Model
+    summary: 'A Humanoid character Model.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Players
+- name: Players:GetBanHistoryAsync
+  summary: 'Retrieves the ban and unban history of any user within the experience''s
+
+    universe. This method is enabled and disabled by the
+
+    `Class.Players.BanningEnabled` property, which you can toggle in Studio.
+
+    '
+  description: 'Retrieves the ban and unban history of any user within the experience''s
+
+    universe. This method returns a `Class.BanHistoryPages` instance that
+
+    inherits from `Class.Pages`. This method is enabled and disabled by the
+
+    `Class.Players.BanningEnabled` property, which you can toggle in Studio.
+
+
+    This function call will only succeed on production servers and not on
+
+    client devices or in Studio.
+
+
+    This API uses the
+
+    [User Restrictions Open Cloud API](/cloud/reference/UserRestriction). You
+
+    will be able to utilize these APIs to manage your bans in third party
+
+    applications.
+
+    '
+  code_samples: []
+  parameters:
+  - name: userId
+    type: User
+    default: null
+    summary: 'The `Class.Player.UserId` of the player whose ban history to retrieve.
+
+      '
+  returns:
+  - type: BanHistoryPages
+    summary: 'See `Class.BanHistoryPages` for return reference.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Players
+  - Consequences
+- name: Players:GetCharacterAppearanceAsync
+  summary: 'Returns a `Class.Model` containing the assets which the player is wearing,
+
+    excluding gear.
+
+    '
+  description: 'This function returns a `Class.Model` containing the assets which
+    the
+
+    player is wearing, excluding gear.
+
+
+    If you prefer a Luau table of information about these assets instead of a
+
+    model, use `Class.Players:GetCharacterAppearanceInfoAsync()`.
+
+
+    This method behaves similar to `Class.InsertService:LoadAsset()`, and is
+
+    like using `Class.InsertService:LoadAsset()|LoadAsset` on the asset
+
+    information returned by `Class.Players:GetCharacterAppearanceInfoAsync()`
+
+    except faster.
+
+    '
+  code_samples:
+  - how-to-get-a-character-s-appearance
+  parameters:
+  - name: userId
+    type: User
+    default: null
+    summary: 'The `Class.Player.UserId` of the specified player.
+
+      '
+  returns:
+  - type: Model
+    summary: 'A `Class.Model` containing the assets the player is wearing, excluding
+
+      gear.
+
+      '
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: 'This method is deprecated. Do not use it for new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Players
+- name: Players:GetCharacterAppearanceInfoAsync
+  summary: 'Returns information about the character appearance of a given user.
+
+    '
+  description: "This function returns information about a player's avatar on the Roblox\n\
+    website in the form of a dictionary. It is not to be confused with\n`Class.Players:GetCharacterAppearanceAsync()|GetCharacterAppearanceAsync`,\n\
+    which actually loads the assets described by this method. You can use\n`Class.InsertService:LoadAsset()`\
+    \ to load the assets that are used in the\nplayer's avatar. The structure of the\
+    \ returned dictionary is as follows:\n\n<table>\n\t<thead>\n\t\t<tr>\n\t\t\t<th>Name</th>\n\
+    \t\t\t<th>Type</th>\n\t\t\t<th>Description</th>\n\t\t</tr>\n\t</thead>\n  <tr>\n\
+    \    <td><code>assets</code></td>\n    <td>table (see below)</td>\n    <td>Describes\
+    \ the equipped assets (hats, body parts, etc)</td>\n  </tr>\n  <tr>\n    <td><code>bodyColors</code></td>\n\
+    \    <td>table (see below)</td>\n    <td>Describes the BrickColor values for each\
+    \ limb</td>\n  </tr>\n  <tr>\n    <td><code>bodyColor3s</code></td>\n    <td>table\
+    \ (see below)</td>\n    <td>Describes the Color3 instance for each limb which\
+    \ may not match perfectly with bodyColors</td>\n  </tr>\n\t<tr>\n    <td><code>defaultPantsApplied</code></td>\n\
+    \    <td>bool</td>\n    <td>Describes whether default pants are applied</td>\n\
+    \  </tr>\n\t<tr>\n    <td><code>defaultShirtApplied</code></td>\n    <td>bool</td>\n\
+    \    <td>Describes whether default shirt is applied</td>\n  </tr>\n  <tr>\n  \
+    \  <td><code>emotes</code></td>\n    <td>table (see below)</td>\n    <td>Describes\
+    \ the equipped emote animations</td>\n  </tr>\n\t<tr>\n    <td><code>playerAvatarType</code></td>\n\
+    \    <td>string</td>\n    <td>Either \"R15\" or \"R6\"</td>\n  </tr>\n\t<tr>\n\
+    \    <td><code>scales</code></td>\n    <td>table (see below)</td>\n    <td>Describes\
+    \ various body scaling factors</td>\n  </tr>\n</table>\n\n#### Assets Sub-Table\n\
+    \nThe `assets` table is an array of tables containing the following keys\nthat\
+    \ describe the assets currently equipped by the player:\n\n<table>\n\t<thead>\n\
+    \t\t<tr>\n\t\t\t<th>Name</th>\n\t\t\t<th>Type</th>\n\t\t\t<th>Description</th>\n\
+    \t\t</tr>\n\t</thead>\n\t<tr>\n    <td><code>id</code></td>\n    <td>number</td>\n\
+    \    <td>The asset ID of the equipped asset</td>\n  </tr>\n\t<tr>\n    <td><code>assetType</code></td>\n\
+    \    <td>table</td>\n    <td>A table with <code>name</code> and <code>id</code>\
+    \ fields, each describing the kind of asset equipped (\"Hat\", \"Face\", etc.)</td>\n\
+    \  </tr>\n\t<tr>\n    <td><code>name</code></td>\n    <td>string</td>\n    <td>The\
+    \ name of the equipped asset</td>\n  </tr>\n</table>\n\n#### Scales Sub-Table\n\
+    \nThe `scales` table has the following keys, each a number corresponding to\n\
+    one `Class.Humanoid` scaling property: `bodyType`, `head`, `height`,\n`proportion`,\
+    \ `depth`, `width`.\n\n#### Body Colors Sub-Table\n\nThe `bodyColors` table has\
+    \ the following keys, each a number corresponding\nto a `Datatype.BrickColor`\
+    \ ID number which can be used with\n`Datatype.BrickColor.new(id)`: `leftArmColorId`,\
+    \ `torsoColorId`,\n`rightArmColorId`, `headColorId`, `leftLegColorId`, `rightLegColorId`.\n\
+    \n#### Example Return Value\n\nThe following is the dictionary returned for a\
+    \ player whose avatar uses a\npackage and wears several hats:\n\n```lua\nlocal\
+    \ appearanceInfo = {\n\tplayerAvatarType = \"R15\",\n\tdefaultPantsApplied = false,\n\
+    \tdefaultShirtApplied = false,\n\tscales = {\n\t\tbodyType = 0,\n\t\thead = 1,\n\
+    \t\theight = 1.05,\n\t\tproportion = 0,\n\t\tdepth = 0.92,\n\t\twidth = 0.85,\n\
+    \t},\n\tbodyColors = {\n\t\tleftArmColorId = 1030,\n\t\ttorsoColorId = 1001,\n\
+    \t\trightArmColorId = 1030,\n\t\theadColorId = 1030,\n\t\tleftLegColorId = 1001,\n\
+    \t\trightLegColorId = 1001,\n\t},\n\tassets = {\n\t\t{\n\t\t\tid = 1031492,\n\t\
+    \t\tassetType = {\n\t\t\t\tname = \"Hat\",\n\t\t\t\tid = 8,\n\t\t\t},\n\t\t\t\
+    name = \"Striped Hat\",\n\t\t},\n\t\t{\n\t\t\tid = 13062491,\n\t\t\tassetType\
+    \ = {\n\t\t\t\tname = \"Face Accessory\",\n\t\t\t\tid = 42,\n\t\t\t},\n\t\t\t\
+    name = \"Vision Française \",\n\t\t},\n\t\t{\n\t\t\tid = 16598440,\n\t\t\tassetType\
+    \ = {\n\t\t\t\tname = \"Neck Accessory\",\n\t\t\t\tid = 43,\n\t\t\t},\n\t\t\t\
+    name = \"Red Bow Tie\",\n\t\t},\n\t\t{\n\t\t\tid = 28999228,\n\t\t\tassetType\
+    \ = {\n\t\t\t\tname = \"Face\",\n\t\t\t\tid = 18,\n\t\t\t},\n\t\t\tname = \"Joyous\
+    \ Surprise\",\n\t\t},\n\t\t{\n\t\t\tid = 86896488,\n\t\t\tassetType = {\n\t\t\t\
+    \tname = \"Shirt\",\n\t\t\t\tid = 11,\n\t\t\t},\n\t\t\tname = \"Expensive Red\
+    \ Tuxedo Jacket\",\n\t\t},\n\t\t{\n\t\t\tid = 86896502,\n\t\t\tassetType = {\n\
+    \t\t\t\tname = \"Pants\",\n\t\t\t\tid = 12,\n\t\t\t},\n\t\t\tname = \"Expensive\
+    \ Red Tuxedo Pants\",\n\t\t},\n\t\t{\n\t\t\tid = 376530220,\n\t\t\tassetType =\
+    \ {\n\t\t\t\tname = \"Left Arm\",\n\t\t\t\tid = 29,\n\t\t\t},\n\t\t\tname = \"\
+    ROBLOX Boy Left Arm\",\n\t\t},\n\t\t{\n\t\t\tid = 376531012,\n\t\t\tassetType\
+    \ = {\n\t\t\t\tname = \"Right Arm\",\n\t\t\t\tid = 28,\n\t\t\t},\n\t\t\tname =\
+    \ \"ROBLOX Boy Right Arm\",\n\t\t},\n\t\t{\n\t\t\tid = 376531300,\n\t\t\tassetType\
+    \ = {\n\t\t\t\tname = \"Left Leg\",\n\t\t\t\tid = 30,\n\t\t\t},\n\t\t\tname =\
+    \ \"ROBLOX Boy Left Leg\",\n\t\t},\n\t\t{\n\t\t\tid = 376531703,\n\t\t\tassetType\
+    \ = {\n\t\t\t\tname = \"Right Leg\",\n\t\t\t\tid = 31,\n\t\t\t},\n\t\t\tname =\
+    \ \"ROBLOX Boy Right Leg\",\n\t\t},\n\t\t{\n\t\t\tid = 376532000,\n\t\t\tassetType\
+    \ = {\n\t\t\t\tname = \"Torso\",\n\t\t\t\tid = 27,\n\t\t\t},\n\t\t\tname = \"\
+    ROBLOX Boy Torso\",\n\t\t},\n\t},\n}\n```\n"
+  code_samples:
+  - Players-GetCharacterAppearanceInfoAsync
+  parameters:
+  - name: userId
+    type: User
+    default: null
+    summary: 'The \*_userId_ of the specified player.
+
+      '
+  returns:
+  - type: Dictionary
+    summary: 'A dictionary containing information about the character appearance of
+
+      a given user.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Players
+- name: Players:GetFriendsAsync
+  summary: 'Returns a `Class.FriendPages` object which contains information for all
+    of
+
+    the given player''s friends.
+
+    '
+  description: "The GetFriendsAsync `Class.Players` function returns a `Class.FriendPages`\n\
+    object which contains information for all of the given user's friends. The\nitems\
+    \ within the `Class.FriendPages` object are tables with the following\nfields:\n\
+    \n<table>\n\t<thead>\n\t\t<tr>\n\t\t\t<th>Name</th>\n\t\t\t<th>Type</th>\n\t\t\
+    \t<th>Description</th>\n\t\t</tr>\n\t</thead>\n\t<tr>\n\t\t<td>Id</td>\n\t\t<td>int64</td>\n\
+    \t\t<td>The friend's UserId</td>\n\t</tr>\n\t<tr>\n\t\t<td>Username</td>\n\t\t\
+    <td>string</td>\n\t\t<td>The friend's username</td>\n\t</tr>\n    <tr>\n     \
+    \ <td>DisplayName</td>\n      <td>string</td>\n      <td>The <code>Class.Player.DisplayName|display\
+    \ name</code> of the friend.</td>\n    </tr>\n</table>\n\nSee the code samples\
+    \ for an easy way to iterate over all a player's\nfriends.\n"
+  code_samples:
+  - print-roblox-friends
+  parameters:
+  - name: userId
+    type: User
+    default: null
+    summary: 'The user ID of the player being specified.
+
+      '
+  returns:
+  - type: FriendPages
+    summary: 'A `Class.FriendPages` object containing information for all of the
+
+      given user''s friends.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Players
+  - Social
+- name: Players:GetHumanoidDescriptionFromOutfitId
+  summary: 'Returns the HumanoidDescription for a specified outfit, which will be
+    set
+
+    with the parts/colors/Animations etc of the outfit.
+
+    '
+  description: 'Returns the `Class.HumanoidDescription` for the specified `outfitId`,
+    set
+
+    with the parts, colors, animations, and other properties of the outfit. An
+
+    outfit can be one created by a user, or the outfit for a bundle created by
+
+    Roblox. This method has been superseded by
+
+    `Class.Players:GetHumanoidDescriptionFromOutfitIdAsync()|GetHumanoidDescriptionFromOutfitIdAsync()`,
+
+    which should be used in new work.
+
+    '
+  code_samples:
+  - get-humanoiddescription-from-outfitid
+  parameters:
+  - name: outfitId
+    type: int64
+    default: null
+    summary: 'The ID of the outfit for which the HumanoidDescription is sought.
+
+      '
+  returns:
+  - type: HumanoidDescription
+    summary: 'HumanoidDescription initialized with the specification for the passed
+
+      in outfitId.
+
+      '
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: 'This method has been superseded by
+
+    `Class.Players:GetHumanoidDescriptionFromOutfitIdAsync()|GetHumanoidDescriptionFromOutfitIdAsync()`.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AvatarAppearance
+  - Players
+- name: Players:GetHumanoidDescriptionFromOutfitIdAsync
+  summary: 'Returns the HumanoidDescription for a specified outfit, which will be
+    set
+
+    with the parts/colors/Animations etc of the outfit.
+
+    '
+  description: 'Returns the HumanoidDescription for a specified outfitId, which will
+    be
+
+    set with the parts/colors/Animations etc of the outfit. An outfit can be
+
+    one created by a user, or it can be the outfit for a bundle created by
+
+    Roblox.
+
+    '
+  code_samples:
+  - get-humanoiddescription-from-outfitid
+  parameters:
+  - name: outfitId
+    type: int64
+    default: null
+    summary: 'The ID of the outfit for which the HumanoidDescription is sought.
+
+      '
+  returns:
+  - type: HumanoidDescription
+    summary: 'HumanoidDescription initialized with the specification for the passed
+
+      in outfitId.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AvatarAppearance
+  - Players
+- name: Players:GetHumanoidDescriptionFromUserId
+  summary: 'Returns a HumanoidDescription which specifies everything equipped for
+    the
+
+    avatar of the user specified by the passed in userId.
+
+    '
+  description: 'Returns a `Class.HumanoidDescription` which specifies everything equipped
+
+    for the avatar of the user specified by the passed in `userId`, including
+
+    scales and body colors. This method has been superseded by
+
+    `Class.Players:GetHumanoidDescriptionFromUserIdAsync()|GetHumanoidDescriptionFromUserIdAsync()`,
+
+    which should be used in new work.
+
+    '
+  code_samples:
+  - get-humanoiddescription-from-userid
+  parameters:
+  - name: userId
+    type: User
+    default: null
+    summary: 'The userId for a Roblox user. (The UserId is the number in the profile
+
+      of the user e.g www.roblox.com/users/1/profile).
+
+      '
+  returns:
+  - type: HumanoidDescription
+    summary: 'HumanoidDescription initialized with the passed in user''s avatar
+
+      specification.
+
+      '
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: 'This method has been superseded by
+
+    `Class.Players.GetHumanoidDescriptionFromUserIdAsync|GetHumanoidDescriptionFromUserIdAsync()`.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AvatarAppearance
+  - Players
+- name: Players:GetHumanoidDescriptionFromUserIdAsync
+  summary: 'Returns a HumanoidDescription which specifies everything equipped for
+    the
+
+    avatar of the user specified by the passed in userId.
+
+    '
+  description: 'Returns a HumanoidDescription which specifies everything equipped
+    for the
+
+    avatar of the user specified by the passed in userId. Also includes scales
+
+    and body colors.
+
+    '
+  code_samples:
+  - get-humanoiddescription-from-userid
+  parameters:
+  - name: userId
+    type: User
+    default: null
+    summary: 'The userId for a Roblox user. (The UserId is the number in the profile
+
+      of the user e.g www.roblox.com/users/1/profile).
+
+      '
+  returns:
+  - type: HumanoidDescription
+    summary: 'HumanoidDescription initialized with the passed in user''s avatar
+
+      specification.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AvatarAppearance
+  - Players
+- name: Players:GetNameFromUserIdAsync
+  summary: 'Sends a query to the Roblox website for the username of an account with
+    a
+
+    given `Class.Player.UserId|UserId`.
+
+    '
+  description: 'The GetNameFromUserIdAsync `Class.Players` function will send a query
+    to
+
+    the Roblox website asking what the username is of the account with the
+
+    given `Class.Player.UserId|UserId`.
+
+
+    This method errors if no account exists with the given UserId. If you
+
+    aren''t certain such an account exists, it''s recommended to wrap calls to
+
+    this function with `Global.LuaGlobals.pcall()`. In addition, you can
+
+    manually cache results to make future calls with the same UserId fast. See
+
+    the code samples to learn more.
+
+    '
+  code_samples:
+  - Name-From-UserId
+  - Name-From-UserId-Cache
+  parameters:
+  - name: userId
+    type: User
+    default: null
+    summary: 'The `Class.Player.UserId` of the player being specified.
+
+      '
+  returns:
+  - type: string
+    summary: 'The name of a user with the specified `Class.Player.UserId`.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Players
+- name: Players:GetPlayerByUserId
+  summary: 'Returns the `Class.Player` with the given `Class.Player.UserId|UserId`
+    if
+
+    they are in-experience.
+
+    '
+  description: 'This function searches each `Class.Player` in `Class.Players` for
+    one
+
+    whose `Class.Player.UserId` matches the given `userId`. If such a player
+
+    does not exist, it returns `nil`.
+
+
+    This method is useful in finding the purchaser of a developer product
+
+    using `Class.MarketplaceService.ProcessReceipt` which provides a table
+
+    that includes the purchaser''s `Class.Player.UserId|UserId` and not a
+
+    reference to the `Class.Player` object itself. Most experiences will
+
+    require a reference to the player in order to grant products.
+
+    '
+  code_samples:
+  - Players-GetPlayerByUserId1
+  parameters:
+  - name: userId
+    type: User
+    default: null
+    summary: 'The `Class.Player.UserId` of the player being specified.
+
+      '
+  returns:
+  - type: Player
+    summary: 'The `Class.Player` with the given `Class.Player.UserId`, or `nil` if
+
+      no connected player has that UserId.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - Players
+- name: Players:GetPlayerFromCharacter
+  summary: 'Returns the `Class.Player` whose `Class.Player.Character` matches the
+
+    given instance, or `nil` if one cannot be found.
+
+    '
+  description: "This function returns the `Class.Player` associated with the given\n\
+    `Class.Player.Character`, or `nil` if one cannot be found. It is\nequivalent to\
+    \ the following function:\n\n```lua\nlocal function getPlayerFromCharacter(character)\n\
+    \tfor _, player in game:GetService(\"Players\"):GetPlayers() do\n\t\tif player.Character\
+    \ == character then\n\t\t\treturn player\n\t\tend\n\tend\nend\n```\n\nThis method\
+    \ is often used when some event in player's character fires\n(such as their `Class.Humanoid`\
+    \ `Class.Humanoid.Died|dying`). Such an\nevent might not directly reference the\
+    \ Player object, but this method\nprovides easy access. The inverse of this function\
+    \ can be described as\ngetting the Character of a Player. To do this, simply access\
+    \ the Character\nproperty.\n"
+  code_samples:
+  - Players-GetPlayerFromCharacter1
+  parameters:
+  - name: character
+    type: Model
+    default: null
+    summary: 'A character instance that you want to get the player from.
+
+      '
+  returns:
+  - type: Player
+    summary: 'The `Class.Player` whose `Class.Player.Character` matches the given
+
+      model, or `nil` if one cannot be found.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Players
+  simulationAccess: true
+- name: Players:GetPlayers
+  summary: 'Returns a table of all presently connected `Class.Player` objects.
+
+    '
+  description: "This method returns a table of all presently connected `Class.Player`\n\
+    objects. It functions the same way `Class.Instance:GetChildren()` would\nexcept\
+    \ that it only returns `Class.Player` objects found under\n`Class.Players`. When\
+    \ used with a `for` loop, it is useful for iterating\nover all players in an experience.\n\
+    \n```lua\nlocal Players = game:GetService(\"Players\")\n\nfor _, player in Players:GetPlayers()\
+    \ do\n\tprint(player.Name)\nend\n```\n\nScripts that connect to `Class.Players.PlayerAdded`\
+    \ are often trying to\nprocess every Player that connects to the experience. This\
+    \ method is\nuseful for iterating over already-connected players that wouldn't\
+    \ fire\n`Class.Players.PlayerAdded|PlayerAdded`. Using this method ensures that\
+    \ no\nplayer is missed!\n\n```lua\nlocal Players = game:GetService(\"Players\"\
+    )\n\nlocal function onPlayerAdded(player)\n\tprint(\"Player: \" .. player.Name)\n\
+    end\n\nfor _, player in Players:GetPlayers() do\n\tonPlayerAdded(player)\nend\n\
+    Players.PlayerAdded:Connect(onPlayerAdded)\n```\n"
+  code_samples:
+  - Give-Sparkles-to-Everyone
+  parameters: []
+  returns:
+  - type: List<Player>
+    summary: 'A table containing all the players in the server.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - Players
+- name: Players:getPlayers
+  summary: ''
+  description: ''
+  code_samples: []
+  parameters: []
+  returns:
+  - type: List<Player>
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This function is a deprecated variant of `Class.Players:GetPlayers()`
+
+    which should be used instead.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Players
+- name: Players:GetProfileConfigurationFromUserIdAsync
+  summary: 'Returns the profile configuration of a user as a dictionary.
+
+    '
+  description: 'Returns the profile configuration of the user specified by the given
+
+    `Class.Player.UserId` as a dictionary. The dictionary can include a
+
+    `BackgroundAssetId` field for the user''s profile background asset ID and a
+
+    `FrameAssetId` field for the user''s profile frame image asset ID.
+
+
+    Can only be called from the server and is throttled to a limited number of
+
+    requests per minute.
+
+    '
+  code_samples: []
+  parameters:
+  - name: userId
+    type: User
+    default: null
+    summary: 'The `Class.Player.UserId` of the user whose profile configuration to
+
+      retrieve.
+
+      '
+  returns:
+  - type: ProfileConfiguration
+    summary: 'A dictionary containing the user''s profile configuration, such as the
+
+      background asset ID.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AvatarAppearance
+  - Players
+- name: Players:GetUserIdFromNameAsync
+  summary: 'Sends a query to the Roblox website for the `Class.Player.UserId|userId`
+
+    of an account with a given username.
+
+    '
+  description: 'This function will send a query to the Roblox website asking what
+    the
+
+    `Class.Player.UserId` is of the account with the given `Class.Player`
+
+    name.
+
+
+    This method errors if no account exists with the given username. If you
+
+    aren''t certain such an account exists, it''s recommended to wrap calls to
+
+    this function with `Global.LuaGlobals.pcall()`. In addition, you can
+
+    manually cache results to quickly make future calls with the same
+
+    username. See the code samples to learn more.
+
+    '
+  code_samples:
+  - UserId-From-Name
+  - UserId-From-Name-Cache
+  parameters:
+  - name: userName
+    type: string
+    default: null
+    summary: 'The username of the player being specified.
+
+      '
+  returns:
+  - type: int64
+    summary: 'The `Class.Player.UserId` of a user whose name is specified.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Players
+- name: Players:GetUserThumbnailAsync
+  summary: 'Returns the content URL of a player thumbnail given the size and type,
+    as
+
+    well as a boolean describing if the image is ready to use.
+
+    '
+  description: 'This function returns the content URL of an image of a player''s avatar
+
+    given their `Class.Player.UserId|UserId`, the desired image size as a
+
+    `Enum.ThumbnailSize` enum, and the desired type as a `Enum.ThumbnailType`
+
+    enum. It also returns a boolean describing if the image is ready to use.
+
+
+    Most often, this method is used with `Class.ImageLabel.Image` or
+
+    `Class.Decal.Texture` to display user avatar pictures in an experience.
+
+    '
+  code_samples:
+  - display-player-thumbnail
+  parameters:
+  - name: userId
+    type: User
+    default: null
+    summary: 'The `Class.Player.UserId` of the player being specified.
+
+      '
+  - name: thumbnailType
+    type: ThumbnailType
+    default: null
+    summary: 'A `Enum.ThumbnailType` describing the type of thumbnail.
+
+      '
+  - name: thumbnailSize
+    type: ThumbnailSize
+    default: null
+    summary: 'A `Enum.ThumbnailSize` specifying the size of the thumbnail.
+
+      '
+  returns:
+  - type: Tuple
+    summary: 'A tuple containing the content URL of a user thumbnail based on the
+
+      specified parameters, and a bool describing if the image is ready to
+
+      be used or not.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Players
+- name: Players:playerFromCharacter
+  summary: ''
+  description: ''
+  code_samples: []
+  parameters:
+  - name: character
+    type: Model
+    default: null
+    summary: ''
+  returns:
+  - type: Player
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This function is a deprecated variant of
+
+    `Class.Players:GetPlayerFromCharacter()` which should be used in new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Players
+- name: Players:players
+  summary: 'Returns a list of players in an experience.
+
+    '
+  description: 'This function was once used to return a list of players in an experience,
+
+    but has since been deprecated in favor of `Class.Players:GetPlayers()`
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: List<Player>
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This item has been superseded by `Class.Players:GetPlayers()`
+    which should
+
+    be used in all new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Players
+- name: Players:SetChatStyle
+  summary: 'Sets whether BubbleChat and ClassicChat are being used, and tells TeamChat
+
+    and `Class.Chat` what to do.
+
+    '
+  description: 'This function sets whether BubbleChat and ClassicChat are being used,
+    and
+
+    tells TeamChat and Chat what to do using the `Enum.ChatStyle` enum. Since
+
+    this item is protected, attempting to use it in a `Class.Script` or
+
+    `Class.LocalScript` will cause an error.
+
+
+    This function is used internally when the chat mode is set by the
+
+    experience.
+
+    '
+  code_samples:
+  - setting-a-player-s-chat-style
+  parameters:
+  - name: style
+    type: ChatStyle
+    default: Classic
+    summary: 'The specified chat style being set.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities:
+  - Players
+- name: Players:TeamChat
+  summary: 'Makes the local player chat the given message, which will only be viewable
+
+    by users on the same team.
+
+    '
+  description: 'This function makes the `Class.Players.LocalPlayer` chat the given
+
+    message, which will only be viewable by users on the same team. Since this
+
+    item is protected, attempting to use it in a `Class.Script` or
+
+    `Class.LocalScript` will cause an error.
+
+
+    This function is used internally when the `Class.Players.LocalPlayer`
+
+    sends a message to their team.
+
+    '
+  code_samples:
+  - sending-team-chat
+  parameters:
+  - name: message
+    type: string
+    default: null
+    summary: 'The message being chatted.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities:
+  - Players
+- name: Players:UnbanAsync
+  summary: 'Unbans players banned from `Class.Players:BanAsync()` or the User
+
+    Restrictions Open Cloud API. This method is enabled and disabled by the
+
+    `Class.Players.BanningEnabled` property, which you can toggle in Studio.
+
+    '
+  description: 'Unbans players banned from `Class.Players:BanAsync()` or the
+
+    [User Restrictions Open Cloud API](/cloud/reference/UserRestriction). This
+
+    method is enabled and disabled by the `Class.Players.BanningEnabled`
+
+    property, which you can toggle in Studio.
+
+
+    Like `Class.Players:BanAsync()`, this method takes in a `config`
+
+    dictionary that will let you bulk unban users. This configures the users
+
+    that are unbanned and the scope from which they are unbanned from.
+
+
+    Unbans will only take effect on bans with the same `ApplyToUniverse`
+
+    scope. For example, an unban with `ApplyToUniverse` set to `true` will not
+
+    invalidate a previous ban with `ApplyToUniverse` set to `false`. In other
+
+    words, a universe level unban will not invalidate a place level ban. The
+
+    opposite also holds true.
+
+
+    For the case where a user''s device may be blocked by a ban where
+
+    `ApplyDeviceBlock` was set to `true`, an unban applied by this method will
+
+    override the device block for the unbanned player. Please note that
+
+    unbanning a user through any other method, such as the Open Cloud API or
+
+    the Creator Hub, will not lift the device block.
+
+
+    This method invokes a HTTP call to backend services, which are throttled
+
+    and may fail. If you are calling this API with multiple UserIds, this
+
+    method will attempt to make this HTTP call for each UserId. It will then
+
+    aggregate any error messages and join them as a comma separated list. For
+
+    example, if this method is invoked for five `UserIds`: `{1, 2, 3, 4, 5}`
+
+    and requests for users 2 and 4 fail then the following error message
+
+    appears:
+
+    `HTTP failure for UserId 2: Timedout, HTTP 504 (Service unavailable) failure for
+    UserId 4: Service exception.`
+
+    The message will always include `failure for UserId {}` if it is an HTTP
+
+    error. It is undefined behavior if you pass in both valid and invalid
+
+    UserIds, i.e. a `UserId` that is not a positive number, as some network
+
+    requests may succeed before all input is validated.
+
+
+    Because of the risks associated with banning users, this method may only
+
+    be called on the backend server. Client side calls will result in an
+
+    error. You may test this API in Studio, Team Create, and Team Test, but
+
+    the bans will not apply to production. This function call will only
+
+    attempt ban requests on production servers and not in Studio testing.
+
+    However, all input validation steps will still work in Studio.
+
+
+    This API uses the
+
+    [User Restrictions Open Cloud API](/cloud/reference/UserRestriction). You
+
+    will be able to utilize these APIs to manage your bans in third party
+
+    applications.
+
+    '
+  code_samples:
+  - Players-Unban
+  parameters:
+  - name: config
+    type: Dictionary
+    default: null
+    summary: "<table><thead>\n<tr>\n  <th>Name</th>\n  <th>Type</th>\n  <th>Description</th>\n\
+      </tr></thead>\n<tbody>\n  <tr>\n    <td><code>UserIds</code></td>\n    <td>array</td>\n\
+      \    <td>UserIDs to be force allowed into the experience(s). <br /> <br />Max\
+      \ size is <code>50</code>.</td>\n  </tr>\n  <tr>\n    <td><code>ApplyToUniverse</code></td>\n\
+      \    <td>boolean</td>\n    <td>Propagates the unban to all places within this\
+      \ universe.<br /></td>\n  </tr>\n</tbody>\n</table>\n"
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Players
+  - Consequences
+- name: Chat
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: message
+    type: string
+  returns:
+  - type: 'null'
+- name: CreateLocalPlayer
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: LocalUserSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Player
+- name: CreateThumbnailPlayer
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Player
+- name: GetPlayerByUserId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: userId
+    type: User
+  returns:
+  - type: Player
+- name: GetPlayerFromCharacter
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: character
+    type: Model
+  returns:
+  - type: Player
+- name: GetPlayers
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters: []
+  returns:
+  - type: Instances
+- name: ReportAbuse
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: LocalUserSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+  - name: reason
+    type: string
+  - name: optionalMessage
+    type: string
+  returns:
+  - type: 'null'
+- name: ReportAbuseV3
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+  - name: jsonTags
+    type: string
+  returns:
+  - type: 'null'
+- name: ReportAvatarAbuse
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: targetUserId
+    type: int64
+  - name: tags
+    type: Dictionary
+  returns:
+  - type: 'null'
+- name: ReportChatAbuse
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: eligibleChatLines
+    type: Array
+  - name: targetChatLines
+    type: Array
+  - name: tags
+    type: Dictionary
+  returns:
+  - type: 'null'
+- name: ResetLocalPlayer
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: LocalUserSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: SetChatStyle
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: style
+    type: Enum.ChatStyle
+    default: Classic
+  returns:
+  - type: 'null'
+- name: SetLocalPlayerInfo
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: int64
+  - name: userName
+    type: string
+  - name: displayName
+    type: string
+  - name: membershipType
+    type: Enum.MembershipType
+  - name: isUnder13
+    type: bool
+  - name: hasRobloxSubscription
+    type: bool
+    default: 'false'
+  - name: ageCheckedStatus
+    type: Enum.AgeCheckStatus
+    default: Unchecked
+  returns:
+  - type: 'null'
+- name: TeamChat
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: message
+    type: string
+  returns:
+  - type: 'null'
+- name: WhisperChat
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: LocalUserSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: message
+    type: string
+  - name: player
+    type: Instance
+  returns:
+  - type: 'null'
+- name: getPlayers
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''GetPlayers'', ''ThreadSafety'': ''Safe''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Instances
+- name: playerFromCharacter
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''GetPlayerFromCharacter'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: character
+    type: Model
+  returns:
+  - type: Player
+- name: players
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''GetPlayers'', ''ThreadSafety'': ''Safe''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Instances
+- name: BanAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: config
+    type: Dictionary
+  returns:
+  - type: 'null'
+- name: CreateHumanoidModelFromDescription
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''CreateHumanoidModelFromDescriptionAsync'', ''ThreadSafety'':
+    ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: description
+    type: HumanoidDescription
+  - name: rigType
+    type: Enum.HumanoidRigType
+  - name: assetTypeVerification
+    type: Enum.AssetTypeVerification
+    default: Default
+  returns:
+  - type: Model
+- name: CreateHumanoidModelFromDescriptionAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: description
+    type: HumanoidDescription
+  - name: rigType
+    type: Enum.HumanoidRigType
+  - name: assetTypeVerification
+    type: Enum.AssetTypeVerification
+    default: Default
+  returns:
+  - type: Model
+- name: CreateHumanoidModelFromUserId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''CreateHumanoidModelFromUserIdAsync'', ''ThreadSafety'':
+    ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: User
+  returns:
+  - type: Model
+- name: CreateHumanoidModelFromUserIdAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: User
+  returns:
+  - type: Model
+- name: GetBanHistoryAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: User
+  returns:
+  - type: BanHistoryPages
+- name: GetCharacterAppearanceAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: User
+  returns:
+  - type: Model
+- name: GetCharacterAppearanceInfoAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: User
+  returns:
+  - type: Dictionary
+- name: GetFriendsAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: User
+  returns:
+  - type: FriendPages
+- name: GetHumanoidDescriptionFromOutfitId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''GetHumanoidDescriptionFromOutfitIdAsync'', ''ThreadSafety'':
+    ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: outfitId
+    type: int64
+  returns:
+  - type: HumanoidDescription
+- name: GetHumanoidDescriptionFromOutfitIdAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: outfitId
+    type: int64
+  returns:
+  - type: HumanoidDescription
+- name: GetHumanoidDescriptionFromUserId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''GetHumanoidDescriptionFromUserIdAsync'', ''ThreadSafety'':
+    ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: User
+  returns:
+  - type: HumanoidDescription
+- name: GetHumanoidDescriptionFromUserIdAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: User
+  returns:
+  - type: HumanoidDescription
+- name: GetNameFromUserIdAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: User
+  returns:
+  - type: string
+- name: GetProfileConfigurationFromUserIdAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: User
+  returns:
+  - type: Dictionary
+- name: GetUserIdFromNameAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userName
+    type: string
+  returns:
+  - type: int64
+- name: GetUserThumbnailAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: User
+  - name: thumbnailType
+    type: Enum.ThumbnailType
+  - name: thumbnailSize
+    type: Enum.ThumbnailSize
+  returns:
+  - type: Tuple
+- name: UnbanAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: config
+    type: Dictionary
+  returns:
+  - type: 'null'
+events:
+- name: Players.PlayerAdded
+  summary: 'Fires when a player enters the experience.
+
+    '
+  description: "This event fires when a player enters the experience, such as loading\
+    \ the\nplayer's saved `Class.GlobalDataStore` data.\n\nThis can be used alongside\
+    \ the `Class.Players.PlayerRemoving` event, which\nfires when a player is about\
+    \ to leave the experience. For instance, if you\nwould like print a message every\
+    \ time a new player joins or leaves:\n\n```lua\nlocal Players = game:GetService(\"\
+    Players\")\n\nPlayers.PlayerAdded:Connect(function(player)\n\tprint(player.Name\
+    \ .. \" joined the experience!\")\nend)\n\nPlayers.PlayerRemoving:Connect(function(player,\
+    \ reason)\n\tprint(player.Name .. \" left the experience! Reason: \" .. tostring(exitReason))\n\
+    end)\n```\n\nIf you want to track when a player's character is added or removed\
+    \ from\nthe experience, such as when a player respawns or dies, you can use the\n\
+    `Class.Player.CharacterAdded` and `Class.Player.CharacterRemoving`\nfunctions.\n\
+    \nNote that this event does not work as expected in a solo playtest mode\nbecause\
+    \ the player is created before scripts run that connect to\n`Class.Players.PlayerAdded|PlayerAdded`.\
+    \ To handle this case, as well as\ncases in which the script is added into the\
+    \ experience after a player\nenters, create an `onPlayerAdded()` function that\
+    \ you can call to handle a\nplayer's entrance.\n"
+  code_samples:
+  - Players-PlayerAdded1
+  parameters:
+  - name: player
+    type: Player
+    default: null
+    summary: 'An instance of the player that joined the experience.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Players
+- name: Players.PlayerMembershipChanged
+  summary: 'Fires when the experience server recognizes that a player''s membership
+    has
+
+    changed.
+
+    '
+  description: "This event fires when the experience server recognizes that a player's\n\
+    membership has changed. Note, however, that the server will only attempt\nto check\
+    \ and update the membership **after** the Premium modal has been\nclosed. Thus,\
+    \ to account for cases where the user purchases Premium\n**outside** of the experience\
+    \ while playing, you must still prompt them to\npurchase Premium; this will then\
+    \ show a message telling them they're\nalready upgraded and, once they close the\
+    \ modal, the server will update\ntheir membership and trigger this event.\n\n\
+    To learn more about and incorporating Premium into your experience and\nmonetizing\
+    \ with the engagement-based payouts system, see\n[Engagement-Based Payouts](../../../production/monetization/engagement-based-payouts.md).\n\
+    \nSee also:\n\n- `Class.MarketplaceService:PromptPremiumPurchase()`, used to prompt\
+    \ a\n  user to purchase Premium\n- `Class.MarketplaceService.PromptPremiumPurchaseFinished`,\
+    \ fires when the\n  Premium purchase UI closes\n"
+  code_samples:
+  - handling-premium-membership-changes
+  parameters:
+  - name: player
+    type: Player
+    default: null
+    summary: 'The `Class.Player` whose membership has changed.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Players
+- name: Players.PlayerRemoving
+  summary: 'Fires when a player is about to leave the experience.
+
+    '
+  description: "This event fires right before a `Class.Player` leaves the experience,\n\
+    before `Class.Instance.ChildRemoved|ChildRemoved` fires on\n`Class.Players`, and\
+    \ behaves somewhat similarly to\n`Class.Instance.DescendantRemoving`. Since it\
+    \ fires before the actual\nremoval of a `Class.Player`, this event is useful for\
+    \ storing player data\nusing a `Class.GlobalDataStore`.\n\nThis can be used alongside\
+    \ the `Class.Player.PlayerAdded` event, which\nfires when a player joins the experience.\
+    \ For instance, to print a message\nevery time a new player joins or leaves:\n\
+    \n```lua\nlocal Players = game:GetService(\"Players\")\n\nPlayers.PlayerAdded:Connect(function(player)\n\
+    \tprint(player.Name .. \" joined the experience!\")\nend)\n\nPlayers.PlayerRemoving:Connect(function(player,\
+    \ exitReason)\n\tprint(player.Name .. \" left the experience! - Reason: \" ..\
+    \ tostring(exitReason))\nend)\n```\n\nIf you want to track when a player's character\
+    \ is added or removed from\nthe experience, such as when a player respawns or\
+    \ dies, you can use the\n`Class.Player.CharacterAdded` and `Class.Player.CharacterRemoving`\n\
+    functions.\n"
+  code_samples:
+  - Players-PlayerRemoving1
+  parameters:
+  - name: player
+    type: Player
+    default: null
+    summary: 'An instance of the player that is leaving.
+
+      '
+  - name: reason
+    type: PlayerExitReason
+    default: null
+    summary: 'Enum.PlayerExitReason in attempt to inform why.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Players
+- name: Players.UserSubscriptionStatusChanged
+  summary: 'Fires when the experience server recognizes that the user''s status for
+    a
+
+    certain subscription has changed.
+
+    '
+  description: 'This event fires when the experience server recognizes that the user''s
+
+    status for a certain subscription has changed. Note that the server only
+
+    attempts to check and update the status **after** the Subscription
+
+    Purchase modal has been closed. To account for cases in which the user
+
+    purchases the subscription **outside** of the experience while playing,
+
+    you must still prompt them to purchase the subscription; the prompt shows
+
+    a message telling the user they''re already subscribed, and after they
+
+    close the modal, the server updates their subscription status and triggers
+
+    this event.
+
+
+    Note that only server scripts receive this event.
+
+    '
+  code_samples: []
+  parameters:
+  - name: user
+    type: Player
+    default: null
+    summary: 'User whose subscription status has changed.
+
+      '
+  - name: subscriptionId
+    type: string
+    default: null
+    summary: 'The ID of the subscription with a status change.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Players
+  - Monetization
+- name: CloudEditApplyEditsMessage
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: playerName
+    type: string
+  - name: scriptName
+    type: string
+- name: FriendRequestEvent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+  - name: player
+    type: Player
+  - name: friendRequestEvent
+    type: Enum.FriendRequestEvent
+- name: PlayerAdded
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+- name: PlayerChatted
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: LocalUserSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: chatType
+    type: Enum.PlayerChatType
+  - name: player
+    type: Player
+  - name: message
+    type: string
+  - name: targetPlayer
+    type: Player
+- name: PlayerConnecting
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: LocalUserSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+- name: PlayerDisconnecting
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: LocalUserSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+- name: PlayerMembershipChanged
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+- name: PlayerRejoining
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: LocalUserSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+- name: PlayerRemoving
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+  - name: reason
+    type: Enum.PlayerExitReason
+- name: PromptAgeCheckRequested
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+- name: PromptGameServerAvatarReportEnrichment
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: reportId
+    type: string
+  - name: targetUserId
+    type: int64
+- name: PromptGameServerReportEnrichment
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: reportId
+    type: string
+- name: PromptGameServerTargetedChatReportEnrichment
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: reportId
+    type: string
+  - name: eligibleChatLines
+    type: Array
+  - name: targetChatLines
+    type: Array
+- name: PromptReportServerEnrichmentAndScan
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: v1comment
+    type: string
+  - name: submitterId
+    type: int64
+  - name: abuserId
+    type: int64
+  - name: reportId
+    type: string
+- name: RequestCloudEditKick
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: playerId
+    type: int64
+- name: RequestCloudEditShutdown
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: TeamCreateServerMessage
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: messageType
+    type: Enum.MessageType
+  - name: message
+    type: string
+  - name: printToStatusBar
+    type: bool
+- name: UserSubscriptionStatusChanged
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: user
+    type: Player
+  - name: subscriptionId
+    type: string
+callbacks: []

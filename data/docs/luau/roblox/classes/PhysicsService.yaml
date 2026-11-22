@@ -1,0 +1,1072 @@
+name: PhysicsService
+type: class
+memory_category: Instances
+summary: 'Service that provides methods for creating and managing collision groups,
+
+  which control whether sets of `Class.BasePart|BaseParts` collide with each
+
+  other.
+
+  '
+description: '`Class.PhysicsService` primarily contains methods for working with **collision
+
+  groups** which define whether a set of parts may or may not collide with parts
+
+  in other collision groups. You can register a collision group through
+
+  `Class.PhysicsService:RegisterCollisionGroup()|RegisterCollisionGroup()` and
+
+  assign parts to it by setting those parts''
+
+  `Class.BasePart.CollisionGroup|CollisionGroup` property to the **name** of the
+
+  collision group.
+
+
+  Creating, deleting, and modifying collision relationships between collision
+
+  groups is limited to server-side `Class.Script|Scripts`.
+
+
+  See
+
+  [Collision Filtering](../../../workspace/collisions.md#collision-filtering)
+
+  for usage details in Studio and within scripts.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+deprecation_message: 'This service has been deprecated in favor of per-world collision
+  group
+
+  configuration through `Class.WorldRoot` which should be used for collision
+
+  group management. Existing `Class.PhysicsService` calls will forward to
+
+  `Class.Workspace`.
+
+  '
+properties: []
+methods:
+- name: PhysicsService:CollisionGroupContainsPart
+  summary: 'Returns whether the part is in the collision group.
+
+    '
+  description: 'Returns whether the specified part is in the specified collision group.
+
+    This method will throw a runtime error in the following circumstances:
+
+
+    - The specified group does not exist.
+
+    - The specified part is not a `Class.BasePart`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: name
+    type: string
+    default: null
+    summary: 'The name of the collision group to check.
+
+      '
+  - name: part
+    type: BasePart
+    default: null
+    summary: 'The `BasePart` to check for membership in the collision group.
+
+      '
+  returns:
+  - type: boolean
+    summary: '`true` if the part belongs to the specified collision group, `false`
+
+      otherwise.
+
+      '
+  tags:
+  - Deprecated
+  deprecation_message: 'This method has been deprecated. It''s recommended that you
+    query a part''s
+
+    collision group through its `Class.BasePart.CollisionGroup|CollisionGroup`
+
+    property.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Physics
+- name: PhysicsService:CollisionGroupsAreCollidable
+  summary: 'Returns whether the two groups will collide.
+
+    '
+  description: 'Returns whether the two specified collision groups will collide. This
+
+    method will also return true if either of the groups are unregistered, as
+
+    the default collision mask collides with all groups.
+
+    '
+  code_samples: []
+  parameters:
+  - name: name1
+    type: string
+    default: null
+    summary: 'The name of the first collision group.
+
+      '
+  - name: name2
+    type: string
+    default: null
+    summary: 'The name of the second collision group.
+
+      '
+  returns:
+  - type: boolean
+    summary: '`true` if the two groups are set to collide, `false` otherwise. Also
+
+      returns `true` if either group is unregistered.
+
+      '
+  tags: []
+  deprecation_message: 'This method has been superseded by
+
+    `Class.WorldRoot:CollisionGroupsAreCollidable()` which should be used for
+
+    all new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Physics
+  simulationAccess: true
+- name: PhysicsService:CollisionGroupSetCollidable
+  summary: 'Sets the collision status between two groups.
+
+    '
+  description: 'Sets the collision status between two groups. This method will throw
+    an
+
+    error if either of the groups is unregistered, so it''s recommended that
+
+    you confirm each group''s registration through
+
+    `Class.PhysicsService:IsCollisionGroupRegistered()` before making this
+
+    call.
+
+    '
+  code_samples: []
+  parameters:
+  - name: name1
+    type: string
+    default: null
+    summary: 'The name of the first collision group.
+
+      '
+  - name: name2
+    type: string
+    default: null
+    summary: 'The name of the second collision group.
+
+      '
+  - name: collidable
+    type: boolean
+    default: null
+    summary: 'Whether the two groups should collide with each other.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: 'This method has been superseded by
+
+    `Class.WorldRoot:CollisionGroupSetCollidable()` which should be used for
+
+    all new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Physics
+  simulationAccess: true
+- name: PhysicsService:CreateCollisionGroup
+  summary: 'Creates a new collision group with the given name, and returns the ID
+    of
+
+    the created group.
+
+    '
+  description: 'Creates a new collision group with the given name, and returns the
+    ID of
+
+    the created group.
+
+    '
+  code_samples: []
+  parameters:
+  - name: name
+    type: string
+    default: null
+    summary: 'The name of the new collision group to create.
+
+      '
+  returns:
+  - type: int
+    summary: 'The integer ID assigned to the newly created collision group.
+
+      '
+  tags:
+  - Deprecated
+  deprecation_message: 'This method has been superseded by
+
+    `Class.WorldRoot:RegisterCollisionGroup()|RegisterCollisionGroup()` which
+
+    should be used for all new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Physics
+- name: PhysicsService:GetCollisionGroupId
+  summary: 'Returns the ID of the collision group with the specified name.
+
+    '
+  description: 'This method returns the ID of the collision group with the specified
+    name.
+
+    It will throw an error if no group with the given name exists.
+
+    '
+  code_samples: []
+  parameters:
+  - name: name
+    type: string
+    default: null
+    summary: 'The name of the collision group being retrieved.
+
+      '
+  returns:
+  - type: int
+    summary: 'The ID of the retrieved collision group, or `nil` if no such group
+
+      exists.
+
+      '
+  tags:
+  - Deprecated
+  deprecation_message: 'This method has been deprecated. It''s recommended that you
+    query collision
+
+    groups by **name** through a part''s
+
+    `Class.BasePart.CollisionGroup|CollisionGroup` property.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Physics
+- name: PhysicsService:GetCollisionGroupName
+  summary: 'Returns the name of the group with the corresponding ID.
+
+    '
+  description: 'Returns the name of the collision group with the corresponding ID,
+    or an
+
+    empty string if that ID (`0`–`31`) has not been assigned to a group. The
+
+    method throws an error if the ID is outside the valid range.
+
+    '
+  code_samples: []
+  parameters:
+  - name: name
+    type: int
+    default: null
+    summary: 'The integer ID of the collision group to look up.
+
+      '
+  returns:
+  - type: string
+    summary: 'The name of the collision group with the given ID, or an empty string
+
+      if the ID has not been assigned to a group.
+
+      '
+  tags:
+  - Deprecated
+  deprecation_message: 'This method has been deprecated. It''s recommended that you
+    query collision
+
+    groups by **name** through a part''s
+
+    `Class.BasePart.CollisionGroup|CollisionGroup` property.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Physics
+- name: PhysicsService:GetCollisionGroups
+  summary: 'Returns a table with info on all of the place''s collision groups.
+
+    '
+  description: "Returns a table with info on all of the place's collision groups.\
+    \ Each\nvalue in the returned table is itself a table containing three members:\n\
+    \n<table>\n  <thead>\n    <tr>\n      <th>Member</th>\n      <th>Type</th>\n \
+    \     <th>Description</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n     \
+    \ <td>id</td>\n      <td>integer</td>\n      <td>The ID of the group.</td>\n \
+    \   </tr>\n    <tr>\n      <td>mask</td>\n      <td>integer</td>\n      <td>The\
+    \ collision group's mask; only for internal use.</td>\n    </tr>\n    <tr>\n \
+    \     <td>name</td>\n      <td>string</td>\n      <td>The name of the collision\
+    \ group.</td>\n    </tr>\n  </tbody>\n</table>\n"
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Array
+    summary: 'An array of tables, each containing `name` (string), `id` (integer),
+
+      and `mask` (integer) fields for a registered collision group.
+
+      '
+  tags:
+  - Deprecated
+  deprecation_message: 'This method has been superseded by
+
+    `Class.WorldRoot:GetRegisteredCollisionGroups()|GetRegisteredCollisionGroups()`
+
+    which should be used for all new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Physics
+- name: PhysicsService:GetMaxCollisionGroups
+  summary: 'Returns the maximum number of collision groups.
+
+    '
+  description: 'Returns the maximum number of collision groups the engine supports.
+    This
+
+    value is currently 32.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: int
+    summary: 'The maximum number of collision groups supported, currently 32.
+
+      '
+  tags: []
+  deprecation_message: 'This method has been superseded by
+
+    `Class.WorldRoot:GetMaxCollisionGroups()` which should be used for all new
+
+    work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Physics
+  simulationAccess: true
+- name: PhysicsService:GetRegisteredCollisionGroups
+  summary: 'Returns a table with info on all of the place''s collision groups.
+
+    '
+  description: "Returns a table with info on all of the place's collision groups.\
+    \ Each\nvalue in the returned table is itself a table and containing two members:\n\
+    \n<table>\n  <thead>\n    <tr>\n      <th>Member</th>\n      <th>Type</th>\n \
+    \     <th>Description</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n     \
+    \ <td>mask</td>\n      <td>integer</td>\n      <td>The collision group's mask;\
+    \ only for internal use.</td>\n    </tr>\n    <tr>\n      <td>name</td>\n    \
+    \  <td>string</td>\n      <td>Name of the collision group.</td>\n    </tr>\n \
+    \ </tbody>\n</table>\n"
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Array
+    summary: 'An array of tables, each containing `name` (string) and `mask`
+
+      (integer) fields for a registered collision group.
+
+      '
+  tags: []
+  deprecation_message: 'This method has been superseded by
+
+    `Class.WorldRoot:GetRegisteredCollisionGroups()` which should be used for
+
+    all new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Physics
+  simulationAccess: true
+- name: PhysicsService:IsCollisionGroupRegistered
+  summary: 'Checks if a collision group is registered.
+
+    '
+  description: 'Checks if a collision group is registered. It''s recommended that
+    you call
+
+    this method before calling methods that throw errors for unregistered
+
+    collision groups, such as
+
+    `Class.PhysicsService:CollisionGroupSetCollidable()`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: name
+    type: string
+    default: null
+    summary: 'The name of the collision group to check.
+
+      '
+  returns:
+  - type: boolean
+    summary: '`true` if a collision group with the given name is registered, `false`
+
+      otherwise.
+
+      '
+  tags: []
+  deprecation_message: 'This method has been superseded by
+
+    `Class.WorldRoot:IsCollisionGroupRegistered()` which should be used for
+
+    all new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Physics
+  simulationAccess: true
+- name: PhysicsService:RegisterCollisionGroup
+  summary: 'Registers a new collision group with the given name.
+
+    '
+  description: 'Registers a new collision group with the given name. The name cannot
+    be
+
+    `"Default"`.
+
+
+    Note that this method has a slight performance overhead based on the
+
+    number of `Class.BasePart|BaseParts` in the workspace, so it''s recommended
+
+    that you register all collision groups at edit time through the Studio
+
+    [editor](../../../workspace/collisions.md#collision-groups) and call
+
+    `Class.PhysicsService:UnregisterCollisionGroup()|UnregisterCollisionGroup()`
+
+    and `Class.PhysicsService:RenameCollisionGroup()|RenameCollisionGroup()`
+
+    as infrequently as possible.
+
+    '
+  code_samples:
+  - PhysicsService-RegisterCollisionGroup
+  parameters:
+  - name: name
+    type: string
+    default: null
+    summary: 'The name of the collision group to register.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: 'This method has been superseded by
+
+    `Class.WorldRoot:RegisterCollisionGroup()` which should be used for all
+
+    new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Physics
+  simulationAccess: true
+- name: PhysicsService:RemoveCollisionGroup
+  summary: 'Removes the collision group with the given name.
+
+    '
+  description: 'Removes the collision group with the given name. If an invalid name
+    is
+
+    provided, this method will not do anything, although if the reserved name
+
+    `"Default"` is provided, it will throw an error. If there are any parts in
+
+    the collision group when it is removed, these parts will still maintain
+
+    the same collision group ID. The physical behavior of parts in a removed
+
+    group is undefined, so it is recommended to move any parts in a removed
+
+    group to another group. This method will throw a runtime error in the
+
+    following circumstances:
+
+
+    - The name `"Default"` is provided.
+
+    - The method is called from a client.
+
+    '
+  code_samples: []
+  parameters:
+  - name: name
+    type: string
+    default: null
+    summary: 'The name of the collision group to remove.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This method has been superseded by
+
+    `Class.WorldRoot:UnregisterCollisionGroup()|UnregisterCollisionGroup()`
+
+    which should be used for all new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Physics
+- name: PhysicsService:RenameCollisionGroup
+  summary: 'Renames specified collision group.
+
+    '
+  description: 'Renames the specified registered collision group, but does **not**
+    rename
+
+    the `Class.BasePart.CollisionGroup|CollisionGroup` property of parts that
+
+    utilize the group. The first argument of this method is the name of the
+
+    group to rename, the second argument is the new name for the group. If the
+
+    specified group does not exist, this method will not do anything. The
+
+    naming conventions for the new name follow the same rules as if the group
+
+    was being created with
+
+    `Class.PhysicsService:RegisterCollisionGroup()|RegisterCollisionGroup()`.
+
+
+    This method will throw a runtime error in the following circumstances:
+
+
+    - Invalid or empty name provided for either argument.
+
+    - The method is called from a client.
+
+
+    Note that this method has a slight performance overhead based on the
+
+    number of `Class.BasePart|BaseParts` in the workspace, so it''s recommended
+
+    that you register all collision groups at edit time through the Studio
+
+    [editor](../../../workspace/collisions.md#collision-groups) and rename
+
+    them as infrequently as possible.
+
+    '
+  code_samples: []
+  parameters:
+  - name: from
+    type: string
+    default: null
+    summary: 'The current name of the collision group to rename.
+
+      '
+  - name: to
+    type: string
+    default: null
+    summary: 'The new name for the collision group.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: 'This method has been superseded by
+
+    `Class.WorldRoot:RenameCollisionGroup()` which should be used for all new
+
+    work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Physics
+  simulationAccess: true
+- name: PhysicsService:SetPartCollisionGroup
+  summary: 'Sets the collision group of a part.
+
+    '
+  description: 'This method sets the collision group of the specified part to the
+    group
+
+    with the specified name. It is equivalent to setting the
+
+    `Class.BasePart.CollisionGroupId`, although calling this method is the
+
+    recommended approach.
+
+
+    This method will throw a runtime error in the following circumstances:
+
+
+    - The part parameter is not a `Class.BasePart` instance.
+
+    - The specified group does not exist.
+
+    '
+  code_samples: []
+  parameters:
+  - name: part
+    type: BasePart
+    default: null
+    summary: 'The part being set.
+
+      '
+  - name: name
+    type: string
+    default: null
+    summary: 'The name of collision group that the part''s collision group is being
+
+      set to.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This method has been deprecated. It''s recommended that you
+    set a part''s
+
+    collision group by **name** through its
+
+    `Class.BasePart.CollisionGroup|CollisionGroup` property.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Physics
+- name: PhysicsService:UnregisterCollisionGroup
+  summary: 'Unregisters the collision group for the given name.
+
+    '
+  description: "Unregisters the collision group for the given name, with the following\n\
+    behaviors:\n\n- If an invalid name is provided, the method will not do anything.\n\
+    - If the reserved name `\"Default\"` is provided **or** if the method is\n  called\
+    \ from a client, it will throw an error.\n- If there are any parts in the collision\
+    \ group when it is removed, those\n  parts will still maintain the same collision\
+    \ group name. The physical\n  behavior of parts in a removed group is undefined,\
+    \ so it's recommended\n  to move any parts in a removed group to another group,\
+    \ such as the\n  `\"Default\"` group.\n\nNote that this method has a slight performance\
+    \ overhead based on the\nnumber of `Class.BasePart|BaseParts` in the workspace,\
+    \ so it's recommended\nthat you register all collision groups at edit time through\
+    \ the Studio\n[editor](../../../workspace/collisions.md#collision-groups) and\
+    \ call this\nmethod as infrequently as possible.\n"
+  code_samples: []
+  parameters:
+  - name: name
+    type: string
+    default: null
+    summary: 'The name of the collision group to unregister.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: 'This method has been superseded by
+
+    `Class.WorldRoot:UnregisterCollisionGroup()` which should be used for all
+
+    new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Physics
+  simulationAccess: true
+- name: CollisionGroupContainsPart
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''CollisionGroup'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: string
+  - name: part
+    type: BasePart
+  returns:
+  - type: bool
+- name: CollisionGroupSetCollidable
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name1
+    type: string
+  - name: name2
+    type: string
+  - name: collidable
+    type: bool
+  returns:
+  - type: 'null'
+- name: CollisionGroupsAreCollidable
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name1
+    type: string
+  - name: name2
+    type: string
+  returns:
+  - type: bool
+- name: CreateCollisionGroup
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''RegisterCollisionGroup'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: string
+  returns:
+  - type: int
+- name: GetCollisionGroupId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''CollisionGroup'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: string
+  returns:
+  - type: int
+- name: GetCollisionGroupName
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''CollisionGroup'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: int
+  returns:
+  - type: string
+- name: GetCollisionGroups
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''GetRegisteredCollisionGroups'', ''ThreadSafety'':
+    ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+- name: GetMaxCollisionGroups
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: int
+- name: GetRegisteredCollisionGroups
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+- name: IkSolve
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: part
+    type: BasePart
+  - name: target
+    type: CFrame
+  - name: translateStiffness
+    type: float
+  - name: rotateStiffness
+    type: float
+  returns:
+  - type: 'null'
+- name: IsCollisionGroupRegistered
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: string
+  returns:
+  - type: bool
+- name: LocalIkSolve
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: LocalUserSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: part
+    type: BasePart
+  - name: target
+    type: CFrame
+  - name: translateStiffness
+    type: float
+  - name: rotateStiffness
+    type: float
+  returns:
+  - type: 'null'
+- name: RegisterCollisionGroup
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: string
+  returns:
+  - type: 'null'
+- name: RemoveCollisionGroup
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''UnregisterCollisionGroup'', ''ThreadSafety'':
+    ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: string
+  returns:
+  - type: 'null'
+- name: RenameCollisionGroup
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: from
+    type: string
+  - name: to
+    type: string
+  returns:
+  - type: 'null'
+- name: SetPartCollisionGroup
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''CollisionGroup'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: part
+    type: BasePart
+  - name: name
+    type: string
+  returns:
+  - type: 'null'
+- name: UnregisterCollisionGroup
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: string
+  returns:
+  - type: 'null'
+events:
+- name: CollisionGroupCollidableChanged
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: collisionGroupIndex1
+    type: int
+  - name: collisionGroupIndex2
+    type: int
+callbacks: []

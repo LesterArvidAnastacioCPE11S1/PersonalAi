@@ -1,0 +1,233 @@
+name: AngularVelocity
+type: class
+memory_category: BaseParts
+summary: 'Applies torque on an assembly to maintain a constant angular velocity.
+
+  '
+description: "The `AngularVelocity` constraint applies torque on an assembly to maintain\
+  \ a\n**constant** angular velocity. Alternatively:\n\n- If you want to control the\
+  \ amount of torque applied, use a `Class.Torque`\n  constraint.\n- If you only need\
+  \ **initial** angular velocity, set the\n  `Class.BasePart.AssemblyAngularVelocity|AssemblyAngularVelocity`\
+  \ method\n  directly on the assembly.\n\nWhen configuring this constraint, it may\
+  \ be helpful to study\n[Roblox Units](../../../physics/units.md) to understand how\
+  \ Roblox units\ncompare to metric units.\n\n#### Relativity\n\nApplication of velocity\
+  \ can be controlled through the constraint's\n`Class.AngularVelocity.RelativeTo|RelativeTo`\
+  \ property. If set to\n`Enum.ActuatorRelativeTo|World`, the angular velocity vector\
+  \ is used as is. If\nset to `Enum.ActuatorRelativeTo|Attachment1` and the constraint's\n\
+  `Class.Constraint.Attachment1|Attachment1` property is set to another\nattachment,\
+  \ the angular velocity will be affected by that of the other\nattachment. Setting\
+  \ `Class.AngularVelocity.RelativeTo|RelativeTo` to\n`Enum.ActuatorRelativeTo|Attachment1`\
+  \ also exposes the\n`Class.AngularVelocity.ReactionTorqueEnabled|ReactionTorqueEnabled`\
+  \ property.\n"
+code_samples: []
+inherits:
+- Constraint
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: AngularVelocity.AngularVelocity
+  summary: 'A `Datatype.Vector3` that gives the desired or target angular velocity.
+
+    '
+  description: 'A `Datatype.Vector3` that gives the desired or target angular velocity.
+
+    This vector is set in the `Datatype.CFrame` expressed by the
+
+    `Class.AngularVelocity.RelativeTo|RelativeTo` property.
+
+    '
+  code_samples: []
+  type: Vector3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Torque
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  simulationAccess: true
+- name: AngularVelocity.MaxTorque
+  summary: 'Magnitude of the maximum torque the constraint can apply.
+
+    '
+  description: 'Magnitude of the maximum torque the constraint can apply.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Torque
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  simulationAccess: true
+- name: AngularVelocity.ReactionTorqueEnabled
+  summary: 'Causes the constraint to apply equal and opposite reaction forces.
+
+    '
+  description: 'This property, when enabled, causes the constraint to apply equal
+    and
+
+    opposite reaction forces. This is important if the two attached parts can
+
+    collide, since without reaction forces collisions can create energy that
+
+    would otherwise be disregarded.
+
+
+    When enabled, the reaction forces cause the constraint to act like an
+
+    angular motor between the two attachments.
+
+
+    Only meaningful when `Class.AngularVelocity.RelativeTo|RelativeTo` is set
+
+    to `Enum.ActuatorRelativeTo|Attachment1`.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Torque
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  simulationAccess: true
+- name: AngularVelocity.RelativeTo
+  summary: 'The `Enum.ActuatorRelativeTo` value specifying the coordinate frame in
+
+    which the `Class.AngularVelocity.AngularVelocity|AngularVelocity` vector
+
+    is expressed; defaults to `Enum.ActuatorRelativeTo|World`.
+
+    '
+  description: 'The coordinate frame in which the
+
+    `Class.AngularVelocity.AngularVelocity|AngularVelocity` vector is
+
+    expressed, selected by an `Enum.ActuatorRelativeTo` value. If set to
+
+    `Enum.ActuatorRelativeTo|World`, the angular velocity vector is used as
+
+    is. If set to `Enum.ActuatorRelativeTo|Attachment1`, the angular velocity
+
+    is transformed by the `Datatype.CFrame` of the assigned attachment.
+
+
+    `Class.AngularVelocity.RelativeTo|RelativeTo` can also be set to
+
+    `Enum.ActuatorRelativeTo|Attachment0`, but it makes no physical sense and
+
+    will lead to unpredictable behaviors.
+
+    '
+  code_samples: []
+  type: ActuatorRelativeTo
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Torque
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  simulationAccess: true
+- name: AngularVelocity
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Torque
+  serialization:
+    can_load: true
+    can_save: true
+  default: 0, 0, 0
+- name: MaxTorque
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Torque
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: ReactionTorqueEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Torque
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+- name: RelativeTo
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.ActuatorRelativeTo
+  category: Torque
+  serialization:
+    can_load: true
+    can_save: true
+  default: World
+methods: []
+events: []
+callbacks: []

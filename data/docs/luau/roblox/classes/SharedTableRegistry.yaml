@@ -1,0 +1,137 @@
+name: SharedTableRegistry
+type: class
+memory_category: Instances
+summary: 'Provides a global registry of named `Datatype.SharedTable` objects.
+
+  '
+description: 'Provides a global registry of named `Datatype.SharedTable` objects.
+  It can be
+
+  used to store `Datatype.SharedTable` objects that are used by multiple
+
+  scripts.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+- NotReplicated
+deprecation_message: ''
+properties: []
+methods:
+- name: SharedTableRegistry:GetSharedTable
+  summary: 'Gets the registered `Datatype.SharedTable` with the specified name.
+
+    '
+  description: 'Gets the registered `Datatype.SharedTable` with the specified name.
+    If no
+
+    `Datatype.SharedTable` with that name exists, a new `Datatype.SharedTable`
+
+    is created with that name and is returned.
+
+    '
+  code_samples:
+  - SharedTableRegistry-GetSharedTable
+  parameters:
+  - name: name
+    type: string
+    default: null
+    summary: 'The name of the registered `Datatype.SharedTable`.
+
+      '
+  returns:
+  - type: SharedTable
+    summary: 'The registered `Datatype.SharedTable` with the specified name, or a
+
+      newly created and registered `Datatype.SharedTable` if no
+
+      `Datatype.SharedTable` was previously registered under that name.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - ScriptGlobals
+- name: SharedTableRegistry:SetSharedTable
+  summary: 'Registers the provided `Datatype.SharedTable` with the specified name.
+
+    '
+  description: 'Registers the provided `Datatype.SharedTable` with the specified name.
+    If
+
+    the provided `Datatype.SharedTable` is `nil`, any existing
+
+    `Datatype.SharedTable` with the specified name is unregistered.
+
+    '
+  code_samples:
+  - SharedTableRegistry-SetSharedTable
+  parameters:
+  - name: name
+    type: string
+    default: null
+    summary: 'The name of the registered `Datatype.SharedTable`.
+
+      '
+  - name: st
+    type: SharedTable?
+    default: null
+    summary: 'The `Datatype.SharedTable` object to register, or `nil` to unregister
+
+      any previously registered `Datatype.SharedTable` object.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - ScriptGlobals
+- name: GetSharedTable
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: name
+    type: string
+  returns:
+  - type: SharedTable
+- name: SetSharedTable
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: name
+    type: string
+  - name: st
+    type: SharedTable?
+  returns:
+  - type: 'null'
+events: []
+callbacks: []

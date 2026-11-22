@@ -1,0 +1,163 @@
+name: DataStoreObjectVersionInfo
+type: class
+memory_category: Instances
+summary: 'An instance describing version information for a key.
+
+  '
+description: "An instance describing version information for a key, including the\
+  \ version\nstring, created time, and whether it has been marked as deleted.\n\n\
+  See also:\n\n- [Data Stores](../../../cloud-services/data-stores/index.md), an in-depth\n\
+  \  guide on data structure, management, error handling, etc.\n"
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- NotReplicated
+deprecation_message: ''
+properties:
+- name: DataStoreObjectVersionInfo.CreatedTime
+  summary: 'Indicates when the version was created in milliseconds since epoch.
+
+    '
+  description: 'This property indicates when the version was created in milliseconds
+    since
+
+    epoch.
+
+    '
+  code_samples: []
+  type: int64
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - DataStore
+- name: DataStoreObjectVersionInfo.IsDeleted
+  summary: 'Whether the version has been marked as deleted.
+
+    '
+  description: 'This property describes whether the version has been marked as deleted.
+
+    Deleted versions will be permanently deleted after 30 days.
+
+    '
+  code_samples: []
+  type: boolean
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - DataStore
+- name: DataStoreObjectVersionInfo.Version
+  summary: 'Uniquely identifies a particular version of the key.
+
+    '
+  description: 'This property uniquely identifies a particular version of the key.
+    It can
+
+    be passed to `Class.DataStore:GetVersionAsync()` or
+
+    `Class.DataStore:RemoveVersionAsync()` to get or remove the version
+
+    respectively.
+
+    '
+  code_samples: []
+  type: string
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - DataStore
+- name: CreatedTime
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int64
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: IsDeleted
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: Version
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+methods: []
+events: []
+callbacks: []

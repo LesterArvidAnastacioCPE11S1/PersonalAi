@@ -1,0 +1,78 @@
+name: DataStoreKey
+type: class
+memory_category: Instances
+summary: 'Object representing a key on a `Class.DataStoreKeyPages` object.
+
+  '
+description: "Object representing a key on a `Class.DataStoreKeyPages` object. It\
+  \ contains\nthe key name as `Class.DataStoreKey.KeyName`. This object is a member\
+  \ of the\n`Class.DataStoreKeyPages` object returned by\n`Class.DataStore:ListKeysAsync()`.\n\
+  \nSee also:\n\n- [Data Stores](../../../cloud-services/data-stores/index.md), an\
+  \ in-depth\n  guide on data structure, management, error handling, etc.\n"
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- NotReplicated
+deprecation_message: ''
+properties:
+- name: DataStoreKey.KeyName
+  summary: 'The name of the key.
+
+    '
+  description: 'This property indicates the name of the key. This name can then be
+    used in
+
+    other operations such as `Class.GlobalDataStore:GetAsync()` and
+
+    `Class.GlobalDataStore:SetAsync()`.
+
+
+    If `Class.DataStoreOptions.AllScopes` was set to true when accessing the
+
+    data store through `Class.DataStoreService:GetDataStore()`, the name will
+
+    include its scope as a prefix.
+
+    '
+  code_samples: []
+  type: string
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - DataStore
+- name: KeyName
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+methods: []
+events: []
+callbacks: []

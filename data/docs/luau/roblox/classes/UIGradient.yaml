@@ -1,0 +1,461 @@
+name: UIGradient
+type: class
+memory_category: Instances
+summary: 'Applies a color and transparency gradient to the parent `Class.GuiObject`.
+
+  '
+description: "`UIGradient` applies a color and transparency gradient to the parent\n\
+  `Class.GuiObject`. The appearance of the gradient is configurable through its\n\
+  `Class.UIGradient.Color|Color`, `Class.UIGradient.Transparency|Transparency`,\n\
+  `Class.UIGradient.Offset|Offset`, `Class.UIGradient.Rotation|Rotation`,\n`Class.UIGradient.Scale|Scale`,\
+  \ `Class.UIGradient.TileMode|TileMode`, and\n`Class.UIGradient.Type|Type`.\n\n`UIGradient`\
+  \ will not apply to child or descendant\n`Class.GuiObject|GuiObjects`. In order\
+  \ to apply the same gradient to multiple\nobjects, you will need multiple gradient\
+  \ instances.\n\nSee also [appearance modifiers](../../../ui/appearance-modifiers.md#gradient)\n\
+  for more information on the `UIGradient` modifier and how it works.\n\n#### Supported\
+  \ Objects\n\nYou can apply `UIGradient` modifiers to `Class.Frame`, `Class.TextLabel`,\n\
+  `Class.TextButton`, `Class.ImageLabel`, `Class.ImageButton`, `Class.Path2D`,\nand\
+  \ `Class.ViewportFrame`. However, `Class.ScrollingFrame` and `Class.TextBox`\nare\
+  \ not currently supported.\n\n#### Performance Considerations\n\nIn order to efficiently\
+  \ use a `UIGradient`, follow these principles:\n\n- Avoid using more than 6 color\
+  \ stops on the `Class.UIGradient.Color|Color`\n  sequence.\n\n- Avoid using a `UIGradient`\
+  \ on any object that applies a text stroke\n  (`Class.TextLabel.TextStrokeColor3|TextStrokeColor3`),\
+  \ as the gradient will\n  try to blend with strokes and borders, and may cause performance\
+  \ issues.\n\n- Avoid setting `Class.UIGradient.Color|Color` and\n  `Class.UIGradient.Transparency|Transparency`\
+  \ frequently: this causes the\n  sequence of colors to rebuild often, which is expensive.\
+  \ If possible, set\n  these properties only once and try to animate the\n  `Class.UIGradient.Offset|Offset`\
+  \ or `Class.UIGradient.Rotation|Rotation`\n  properties to achieve a similar effect.\
+  \ Alternatively, you can change the\n  color of the parent `Class.GuiObject` using\
+  \ such properties as\n  `Class.GuiObject.BackgroundColor3|BackgroundColor3`,\n \
+  \ `Class.ImageLabel.ImageColor3|ImageColor3`, or\n  `Class.TextLabel.TextColor3|TextColor3`.\n\
+  \n- When applying an unchanging gradient on a UI element whose state changes a\n\
+  \  lot, there is a tradeoff between using a `UIGradient` (processing time) and\n\
+  \  a static gradient image (memory).\n"
+code_samples: []
+inherits:
+- UIComponent
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: UIGradient.Color
+  summary: 'Determines the color blended with the parent `Class.GuiObject` along the
+
+    length of the gradient.
+
+    '
+  description: 'This property describes the color to blend with the parent
+
+    `Class.GuiObject` along the provided `Datatype.ColorSequence`. This
+
+    property works in a similar manner to `Class.Beam.Color` or
+
+    `Class.Trail.Color`, except that it applies over a distance determined by
+
+    the `Class.UIGradient.Offset|Offset` and
+
+    `Class.UIGradient.Rotation|Rotation`.
+
+    '
+  code_samples: []
+  type: ColorSequence
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: UIGradient.Enabled
+  summary: 'Whether the gradient is enabled or not.
+
+    '
+  description: 'Whether the gradient is enabled or not.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: UIGradient.Offset
+  summary: 'Determines the scalar translation of the gradient from the center of the
+
+    parent `Class.GuiObject`.
+
+    '
+  description: 'This property determines the scalar translation of the gradient from
+    the
+
+    center of the parent `Class.GuiObject`. It is a scalar translation,
+
+    meaning that the actual pixel offset is determined by the
+
+    `Class.GuiBase2d.AbsoluteSize|AbsoluteSize` of the parent
+
+    `Class.GuiObject`. For example, a value of `(1, 0)` shifts the gradient
+
+    horizontally to the right by a distance equal to the parent object''s size.
+
+    Depending on the `Class.UIGradient.Rotation|Rotation`, this may cause the
+
+    gradient to be partially visible or not visible at all.
+
+
+    Also see `Class.UIGradient.Rotation|Rotation` which also affects the
+
+    geometry of the applied gradient.
+
+    '
+  code_samples: []
+  type: Vector2
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: UIGradient.Rotation
+  summary: 'Determines the clockwise rotation in degrees of the gradient starting
+    from
+
+    left to right.
+
+    '
+  description: 'This property determines the **clockwise** rotation in degrees of
+    the
+
+    `UIGradient` starting from left to right. The beginning and end control
+
+    points snap to the edges of the parent `Class.GuiObject`, but maintain the
+
+    provided rotation.
+
+
+    Also see `Class.UIGradient.Offset|Offset` which also affects the geometry
+
+    of the applied gradient.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: UIGradient.Scale
+  summary: 'Multiplies the extent of the gradient, controlling how much of the
+
+    color/transparency sequence is visible within the element.
+
+    '
+  description: "This property multiplies the extent of the gradient, controlling how\
+    \ much\nof the color/transparency sequence is visible within the parent\n`Class.GuiObject`.\n\
+    \n- A value of `1` (default) means the full sequence spans the element\n  exactly\
+    \ once.\n\n- Values **less** than `1` compress the gradient so that the full sequence\n\
+    \  fits in a smaller region. The remaining area is determined by\n  `Class.UIGradient.TileMode|TileMode`.\
+    \ Note that `Scale` is clamped to a\n  minimum of `0.001` to avoid degenerate\
+    \ gradients.\n\n- Values **greater** than `1` stretch the gradient beyond the\
+    \ element\n  bounds so that only a portion of the sequence is visible.\n\nThe\
+    \ effect of `Scale` also depends on the gradient's\n`Class.UIGradient.Type|Type`:\n\
+    \n- `Enum.GradientType.Linear` — `Scale` affects the distance between the\n  start\
+    \ and end control points.\n\n- `Enum.GradientType.Radial` — `Scale` affects the\
+    \ radius of the radial\n  gradient.\n\n- `Enum.GradientType.Elliptical` — `Scale`\
+    \ affects both radii of the\n  elliptical gradient.\n\n- `Enum.GradientType.Conical`\
+    \ — `Scale` affects the angular sweep, clamped\n  so that the sweep does not exceed\
+    \ a full revolution.\n\nSee also `Class.UIGradient.TileMode|TileMode` which determines\
+    \ how the\ngradient repeats when `Scale` causes it to not fill the entire element.\n"
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: UIGradient.TileMode
+  summary: 'Determines how the gradient repeats.
+
+    '
+  description: 'This property determines what happens when the gradient
+
+    `Class.UIGradient.Scale|Scale` is less than `1` or when
+
+    `Class.UIGradient.Offset|Offset` shifts the gradient so that it does not
+
+    fully cover the element. See `Enum.GradientTileMode` for possible values
+
+    and their effect.
+
+
+    See also `Class.UIGradient.Scale|Scale` which controls how much of the
+
+    color/transparency sequence is visible.
+
+    '
+  code_samples: []
+  type: GradientTileMode
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: UIGradient.Transparency
+  summary: 'Determines how much the parent `Class.GuiObject` can be seen through along
+
+    the length of the gradient.
+
+    '
+  description: 'This property describes how opaque the parent UI element will be along
+    the
+
+    provided `Datatype.NumberSequence`. This property works in a similar
+
+    manner to `Class.Beam.Transparency` or `Class.Trail.Transparency`, except
+
+    that it applies over a distance determined by the
+
+    `Class.UIGradient.Offset|Offset` and `Class.UIGradient.Rotation|Rotation`.
+
+
+    Note that the envelope values of the
+
+    `Datatype.NumberSequenceKeypoint|NumberSequenceKeypoints` are ignored.
+
+    '
+  code_samples: []
+  type: NumberSequence
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: UIGradient.Type
+  summary: 'Determines the shape of the gradient as linear, radial, elliptical, or
+
+    conical.
+
+    '
+  description: 'This property determines how the gradient varies across the parent
+
+    `Class.GuiObject`. See `Enum.GradientType` for possible values and their
+
+    effect.
+
+
+    See also `Class.UIGradient.Scale|Scale` which controls how much of the
+
+    color/transparency sequence is visible, and
+
+    `Class.UIGradient.TileMode|TileMode` which determines repetition behavior.
+
+    '
+  code_samples: []
+  type: GradientType
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: Color
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: ColorSequence
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0 1 1 1 0 1 1 1 1 0 '
+- name: Enabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'true'
+- name: Offset
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector2
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: 0, 0
+- name: Rotation
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: Scale
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: '1'
+- name: TileMode
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.GradientTileMode
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: Clamp
+- name: Transparency
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: NumberSequence
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0 0 0 1 0 0 '
+- name: Type
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.GradientType
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: Linear
+methods: []
+events: []
+callbacks: []

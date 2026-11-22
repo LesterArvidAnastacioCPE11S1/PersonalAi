@@ -1,0 +1,155 @@
+name: UserService
+type: class
+memory_category: Instances
+summary: 'A service that handles queries regarding users on the Roblox platform.
+
+  '
+description: 'A service that handles queries regarding users on the Roblox platform.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+deprecation_message: ''
+properties: []
+methods:
+- name: UserService:GetUserInfosByUserIdsAsync
+  summary: 'Returns an array of user information including user name and display name.
+
+    '
+  description: "This function lets you request information about users outside of\
+    \ the\ncurrent `Class.DataModel` in bulk. The input and output values are both\n\
+    arrays.\n\n- The order of the user info objects in the return value's array may\
+    \ not\n  match the order of the `Class.Player.UserId|UserIds` sent in the input\n\
+    \  parameter's array. Use the `Id` field of the user info object to\n  identify\
+    \ your input array with the output array.\n- It's possible to receive fewer user\
+    \ info objects than requested if one\n  or more of the `Class.Player.UserId|UserIds`\
+    \ in the request array are\n  invalid, such as negative numbers or user IDs that\
+    \ don't have accounts\n  associated with them. It's possible to receive a response\
+    \ with zero\n  results if all `Class.Player.UserId|UserIds` are invalid.\n- If\
+    \ a Roblox user does not have a `Class.Player.DisplayName|DisplayName`\n  associated\
+    \ with their account, this function will instead return the\n  same string as\
+    \ the user's username in their info object's `DisplayName`\n  field. While a user's\
+    \ `Class.Player.UserId|UserId` will never change,\n  they may change their username\
+    \ or display name, so the same input\n  `Class.Player.UserId|UserIds` may return\
+    \ a different string for these\n  fields from one day to another.\n- Since\n \
+    \ `Class.UserService:GetUserInfosByUserIdsAsync()|GetUserInfosByUserIdsAsync()`\n\
+    \  makes an external web request, it will yield and may fail if the backend\n\
+    \  service is experiencing interruptions. Ensure you can handle downtime\n  appropriately\
+    \ by wrapping this method with a\n  `Global.LuaGlobals.pcall()`.\n- Results are\
+    \ limited to 250 per minute, so if you receive an HTTP 429\n  error, try again\
+    \ later, ideally after reducing the number of\n  `Class.Player.UserId|UserIds`\
+    \ in your input array, reducing the number\n  of method calls, or both.\n\nThe\
+    \ signature of a singular user info object is:\n\n<table>\n<thead>\n<tr>\n  <th>Key</th>\n\
+    \  <th>Type</th>\n  <th>Description</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n  <td><code>Id</code></td>\n\
+    \  <td>number</td>\n  <td>The\n  <code>Class.Player.UserId|UserId</code> associated\
+    \ with the user.</td>\n</tr>\n<tr>\n  <td><code>Username</code></td>\n  <td>string</td>\n\
+    \  <td>The username associated with the user.</td>\n</tr>\n<tr>\n  <td><code>DisplayName</code></td>\n\
+    \  <td>string</td>\n  <td>The\n  <code>Class.Player.DisplayName|DisplayName</code>\
+    \ associated with the\n  user.</td>\n</tr>\n<tr>\n  <td><code>HasVerifiedBadge</code></td>\n\
+    \  <td>boolean</td>\n  <td>The\n  <code>Class.Player.HasVerifiedBadge|HasVerifiedBadge</code>\
+    \ value\n  associated with the user.</td>\n</tr>\n</tbody>\n</table>\n"
+  code_samples:
+  - userservice-getuserinfosbyuseridsasync-example
+  parameters:
+  - name: userIds
+    type: Array
+    default: null
+    summary: 'An array of `Class.Player.UserId|UserIds` requested.
+
+      '
+  returns:
+  - type: Array
+    summary: 'An array of dictionary objects that contain user information.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: UserService:GetUserFromGlobalUserIdAsync
+  summary: 'Returns a `Datatype.User` for the given global user ID within the current
+
+    experience.
+
+    '
+  description: 'Resolves a global user ID to a `Datatype.User` for the current experience
+
+    domain. Use this when you have a legacy global user ID (for example, one
+
+    previously saved in a data store) and need the corresponding
+
+    `Datatype.User` value.
+
+
+    This is a server-only yielding call.
+
+    '
+  code_samples:
+  - UserService-GetUserFromGlobalUserIdAsync
+  parameters:
+  - name: userId
+    type: int64
+    default: null
+    summary: 'The global user ID to resolve.
+
+      '
+  returns:
+  - type: User
+    summary: 'User: The `Datatype.User` representing the resolved domain-scoped
+
+      identity.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: GetUserFromGlobalUserIdAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: int64
+  returns:
+  - type: User
+- name: GetUserInfosByUserIdsAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userIds
+    type: Array
+  returns:
+  - type: Array
+events: []
+callbacks: []

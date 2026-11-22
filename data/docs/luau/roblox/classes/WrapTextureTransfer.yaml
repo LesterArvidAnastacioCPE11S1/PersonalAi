@@ -1,0 +1,270 @@
+name: WrapTextureTransfer
+type: class
+memory_category: Instances
+summary: '`Class.WrapTextureTransfer` allows a parent `Class.Decal` to be wrapped
+  around
+
+  its parent `Class.MeshPart` based on the cage of its `Class.WrapTarget`.
+
+  '
+description: "WrapTextureTransfer provides an alternative projection mode for `Class.Decal`\n\
+  where this `Class.Decal` is fit to the parent `Class.MeshPart` based on it's\nCageMesh\
+  \ provided in `Class.WrapTarget`.\n\nThis is useful as it allows fitting of Decals\
+  \ to a wide variety of differently\nshaped MeshParts that share a similar WrapTarget\
+  \ CageMesh topology. By\nauthoring textures that are in the WrapTarget UV space,\
+  \ these textures can be\nreused across many different MeshParts with different texture\
+  \ layouts.\n\n- DataModel Structure\n  - `Class.MeshPart`\n    - `Class.WrapTarget`\n\
+  \    - `Class.Decal`\n      - `Class.WrapTextureTransfer`\n\nA way to visualize\
+  \ how this works is to imagine the Decals textures on the\nWrapTarget CageMesh,\
+  \ which is wrapped around the MeshPart. These textures are\nthen projected from\
+  \ the CageMesh onto the MeshPart surface. Geometry that is\ninternal to the MeshPart,\
+  \ or that is not covered by the CageMesh, will not\nreceive any projected decal\
+  \ textures. Segmented regions of the target\n`Class.MeshPart` are used to improve\
+  \ projection quality near holes or\nboundaries in the CageMesh.\n"
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: WrapTextureTransfer.ReferenceCageMeshContent
+  summary: 'An optional reference mesh used for pruning and validating the target
+
+    cage.
+
+    '
+  description: 'The reference cage mesh is the cage mesh that the texture was authored
+
+    for. This target cage mesh defined in `Class.WrapTarget` is pruned against
+
+    this `ReferenceCageMeshContent`. If the target cage mesh contains vertices
+
+    or faces that are not present in the reference cage mesh, these vertices
+
+    and faces are removed from the target cage mesh before performing the
+
+    texture transfer. If there are no shared UVs between
+
+    `ReferenceCageMeshContent` and cage mesh defined in `Class.WrapTarget`,
+
+    the texture transfer fails.
+
+
+    When not defined, the cage in `Class.WrapTarget` in ancestor
+
+    `Class.MeshPart` is used for transfer without any pruning or validation.
+
+    '
+  code_samples: []
+  type: Content
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - AvatarAppearance
+- name: WrapTextureTransfer.UVMaxBound
+  summary: 'Determines the maximum bound of the UV space to include in the transfer.
+
+    '
+  description: 'Determines the maximum bound of the UV space to include in the transfer.
+
+    Areas of the cage mesh with UV values greater than the maximum bound
+
+    aren''t included when applying the texture.
+
+
+    The Decal textures apply to the parent `Class.MeshPart` with the textures
+
+    scaling linearly between UVMinBound and UVMaxBound.
+
+
+    When set to default -inf, the maximum UV value is used from WrapTarget''s
+
+    cage.
+
+    '
+  code_samples: []
+  type: Vector2
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - AvatarAppearance
+- name: WrapTextureTransfer.UVMinBound
+  summary: 'Determines the minimum bound of the UV space to include in the transfer.
+
+    '
+  description: 'Determines the minimum bound of the UV space to include in the transfer.
+
+    Areas of the cage mesh with UV values smaller than the minimum bound
+
+    aren''t included when applying the texture.
+
+
+    The Decal textures apply to the parent `Class.MeshPart` with the textures
+
+    scaling linearly between UVMinBound and UVMaxBound.
+
+
+    When set to default inf, uses the minimum UV value from WrapTarget''s cage.
+
+    '
+  code_samples: []
+  type: Vector2
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - AvatarAppearance
+- name: ReferenceCageMeshContent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Content
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: UVMaxBound
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector2
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: -INF, -INF
+- name: UVMinBound
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector2
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: INF, INF
+methods:
+- name: WrapTextureTransfer:PrepareProjectionMeshDataAsync
+  summary: 'Prepares and caches projection data for using this
+
+    `Class.WrapTextureTransfer` with projected `Class.EditableImage`
+
+    operations.
+
+    '
+  description: "Prepares this `Class.WrapTextureTransfer` for use as the\n`projectionSource`\
+    \ in `Class.EditableImage:DrawImageProjected()` and\n`Class.EditableImage:SampleImageProjected()`.\
+    \ This method takes no\nparameters, yields until preparation completes, and returns\
+    \ no value.\n\nThis allows projected texture editing, such as painting makeup\
+    \ on a\nplayer's current head, without creating an `Class.EditableMesh` from the\n\
+    target asset or requiring permission to create one. The prepared data is\ncached\
+    \ internally; it is not returned to scripts and cannot be inspected,\nconverted\
+    \ to `Datatype.Content`, or published.\n\nThe `Class.WrapTextureTransfer` must\
+    \ be parented to a `Class.Decal` whose\nparent is a `Class.MeshPart` with mesh\
+    \ content and a valid\n`Class.WrapTarget` child. This hierarchy must be in the\
+    \ data model.\nConfigure `Class.WrapTextureTransfer.ReferenceCageMeshContent`,\n\
+    `Class.WrapTextureTransfer.UVMinBound`, and\n`Class.WrapTextureTransfer.UVMaxBound`\
+    \ as needed before calling this\nmethod.\n\nThe prepared data combines the target\
+    \ mesh's positions, normals, and\ntriangle connectivity within the region covered\
+    \ by the transfer with the\ntransferred UVs computed from the current cage configuration\
+    \ and UV\nbounds. The geometry is scaled to match the target `Class.MeshPart`'s\n\
+    current `Class.BasePart.Size`. Projection positions and directions use the\ntarget\
+    \ MeshPart's local space.\n\nPreparation is reused across projected image operations\
+    \ while the data\nremains valid. Changes to the target mesh or its size, cage\
+    \ configuration,\nUV bounds, or hierarchy invalidate the cached data. Call this\
+    \ method again\nafter such a change. Both projection methods raise an error if\
+    \ preparation\nhas not completed successfully or the cached data has been invalidated.\n\
+    Passing an `Class.EditableMesh` to those methods does not require this\npreparation.\n\
+    \nUse `pcall()` to handle preparation errors, including invalid hierarchy,\nunavailable\
+    \ mesh or cage data, failed UV transfer, or inputs changing\nduring preparation.\
+    \ Only perform projected image operations after the call\nsucceeds.\n\nFor example,\
+    \ with the head, decal, images, reference cage content, UV\nbounds, and brush\
+    \ configurations already defined:\n\n```lua\nlocal projectionTransfer = Instance.new(\"\
+    WrapTextureTransfer\")\nprojectionTransfer.ReferenceCageMeshContent = referenceCageContent\n\
+    projectionTransfer.UVMinBound = makeupUVMin\nprojectionTransfer.UVMaxBound = makeupUVMax\n\
+    projectionTransfer.Parent = makeupDecal\nmakeupDecal.Parent = playerHead\n\nlocal\
+    \ success, errorMessage = pcall(function()\n    projectionTransfer:PrepareProjectionMeshDataAsync()\n\
+    end)\n\nif not success then\n    warn(\"Failed to prepare makeup projection: \"\
+    \ .. tostring(errorMessage))\n    return\nend\n\nmakeupTexture:DrawImageProjected(projectionTransfer,\
+    \ projection, brushConfig)\nsampledBrush:SampleImageProjected(\n    projectionTransfer,\n\
+    \    makeupTexture,\n    projection,\n    sampleBrushConfig\n)\n```\n"
+  code_samples: []
+  parameters: []
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AvatarAppearance
+  - DynamicGeneration
+- name: PrepareProjectionMeshDataAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+events: []
+callbacks: []

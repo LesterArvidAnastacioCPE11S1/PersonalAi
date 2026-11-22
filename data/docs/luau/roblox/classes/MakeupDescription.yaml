@@ -1,0 +1,244 @@
+name: MakeupDescription
+type: class
+memory_category: Instances
+summary: 'Describes the appearance of a makeup item for the `Class.HumanoidDescription`.
+
+  '
+description: '`MakeupDescription` is an object that stores the description for a makeup
+
+  item. It is meant to be placed underneath a `Class.HumanoidDescription` in
+
+  order to work with `Class.Humanoid:ApplyDescriptionAsync()`.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: MakeupDescription.AssetId
+  summary: 'The asset ID that should be applied when applying this
+
+    `Class.MakeupDescription`.
+
+    '
+  description: 'The asset ID that should be applied when applying this
+
+    `Class.MakeupDescription`.
+
+    '
+  code_samples: []
+  type: int64
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - AvatarAppearance
+- name: MakeupDescription.Instance
+  summary: 'A reference to the `Class.Instance` that should be used when applying
+    this
+
+    `Class.MakeupDescription`.
+
+    '
+  description: 'A reference to the `Class.Instance` that should be used when applying
+    this
+
+    `Class.MakeupDescription`. This property can be used instead of
+
+    `Class.MakeupDescription.AssetId|AssetId` to apply makeup without
+
+    uploading it to the platform.
+
+    '
+  code_samples: []
+  type: Instance
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - AvatarAppearance
+- name: MakeupDescription.MakeupType
+  summary: 'The `Enum.MakeupType` of the makeup item referred to by this description.
+
+    '
+  description: 'The `Enum.MakeupType` of the makeup item referred to by this description.
+
+    '
+  code_samples: []
+  type: MakeupType
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - AvatarAppearance
+- name: MakeupDescription.Order
+  summary: 'The layering sort order for the makeup item.
+
+    '
+  description: 'The sort order used when layering this makeup item relative to other
+
+    makeup items. Lower values are applied first, with higher values rendered
+
+    on top. If the same ordered values is used, the tie breaker will be the
+
+    AssetID.
+
+    '
+  code_samples: []
+  type: int
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - AvatarAppearance
+- name: AssetId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int64
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: Instance
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Instance
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: MakeupType
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.MakeupType
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: Face
+- name: Order
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+methods:
+- name: MakeupDescription:GetAppliedInstance
+  summary: 'Returns the applied makeup `Class.Instance`.
+
+    '
+  description: 'Returns the applied makeup `Class.Decal` if this `Class.MakeupDescription`
+
+    is the child of an applied `Class.HumanoidDescription` parented to a
+
+    `Class.Humanoid`. However, if multiple `Class.MakeupDescription` exist in
+
+    the parented `Class.MakeupDescription`, they will be composed into a
+
+    single makeup `Class.Decal`.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Instance
+    summary: 'The single composed makeup `Class.Decal` parented under the
+
+      character''s head.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AvatarAppearance
+- name: GetAppliedInstance
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Instance
+events: []
+callbacks: []

@@ -1,0 +1,214 @@
+name: Seat
+type: class
+memory_category: BaseParts
+summary: 'A type of `Class.BasePart` that characters can ''sit'' in. When a character
+
+  touches an enabled Seat object, it will be attached to the part by a
+
+  `Class.Weld` and the default character scripts will play a sitting animation.
+
+  '
+description: "A type of `Class.BasePart` that a player character can 'sit' in. When\
+  \ a\ncharacter touches an enabled Seat object, it will be attached to the part by\
+  \ a\n`Class.Weld` and the default character scripts will play a sitting animation.\n\
+  \n## How do Seats work?\n\nWhen a model containing a `Class.Humanoid` and a `Class.BasePart`\
+  \ called\n'HumanoidRootPart' (generally a player character) touches a seat, a\n\
+  `Class.Weld` is created between the seat and the part. The\n`Class.JointInstance.C0|C0`\
+  \ and `Class.JointInstance.C1|C1` properties are\nconfigured so that the character\
+  \ is welded 2 studs above the seat. This weld\nis named 'SeatWeld' and parented\
+  \ to the seat.\n\nWhen sitting the `Class.Seat.Occupant` property is set to the\
+  \ `Class.Humanoid`\nthat is 'sitting' in the seat. Furthermore the `Class.Humanoid.SeatPart`\n\
+  property of the humanoid is set to the seat.\n\nA character can also be forced to\
+  \ sit in a seat using the `Class.Seat:Sit()`\nfunction.\n\nThere are two ways for\
+  \ a character to get out of a seat. When a player jumps,\nthey are removed from\
+  \ the seat. However this can also be done manually by\ndestroying the seat weld,\
+  \ for example:\n\n    seat:FindFirstChild(\"SeatWeld\"):Destroy()\n\nNote seats\
+  \ have a cooldown (currently 3 seconds) that is on a per-character\nper-seat basis.\
+  \ This means once a character has gotten out of a seat they\ncannot sit back on\
+  \ the same seat for 3 seconds. This cooldown behavior may\nchange and should not\
+  \ be relied upon by developers.\n\n## What can Seats be used for?\n\nSeats have\
+  \ a diverse range of uses, ranging from the obvious to the more\nunconventional.\n\
+  \n- Creating chairs or benches without the need for any programming\n- Allowing\
+  \ characters to 'sit' in moving objects such as vehicles without\n  getting flung\
+  \ around\n- Creating interfaces that are controlled by the character in the seat\
+  \ using\n  the `Class.Seat.Occupant` property\n"
+code_samples:
+- Seat-Occupant
+inherits:
+- Part
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: Seat.Disabled
+  summary: 'Whether or not the seat is usable. If set to true, the seat will act as
+    a
+
+    normal part.
+
+    '
+  description: 'Whether or not the seat is usable. If set to true, the seat will act
+    as a
+
+    normal part.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Control
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  - AvatarBehavior
+  simulationAccess: true
+- name: Seat.Occupant
+  summary: 'The humanoid that is sitting in the seat.
+
+    '
+  description: 'The humanoid that is sitting in the seat
+
+    '
+  code_samples: []
+  type: Humanoid
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Control
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Basic
+  - AvatarBehavior
+  simulationAccess: true
+- name: Disabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Control
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+- name: Occupant
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Humanoid
+  category: Control
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_no_string_value__
+methods:
+- name: Seat:Sit
+  summary: 'Forces the character with the specified `Class.Humanoid` to sit in the
+
+    Seat.
+
+    '
+  description: 'Forces the character with the specified `Class.Humanoid` to sit in
+    the
+
+    Seat.
+
+    '
+  code_samples: []
+  parameters:
+  - name: humanoid
+    type: Instance
+    default: null
+    summary: 'The `Class.Humanoid` being forced to sit in the `Seat`.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+  - AvatarBehavior
+- name: Sit
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: humanoid
+    type: Instance
+  returns:
+  - type: 'null'
+events:
+- name: RemoteCreateSeatWeld
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: humanoid
+    type: Instance
+- name: RemoteDestroySeatWeld
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+callbacks: []

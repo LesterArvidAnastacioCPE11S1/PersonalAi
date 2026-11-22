@@ -1,0 +1,401 @@
+name: FunctionalTest
+type: class
+memory_category: Instances
+summary: 'Deprecated container for automated test scripts; use `Class.TestService`
+
+  instead.
+
+  '
+description: 'A deprecated container for automated test scripts that delegates its
+
+  test-result methods to `Class.TestService` and then signals test completion.
+
+  New scripts should use `Class.TestService` directly.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- Deprecated
+deprecation_message: 'FunctionalTest has been deprecated, developers are advised to
+  use
+
+  `Class.TestService` instead.
+
+  '
+properties:
+- name: FunctionalTest.Description
+  summary: 'The description of the FunctionalTest.
+
+    '
+  description: 'The description of the FunctionalTest.
+
+    '
+  code_samples: []
+  type: string
+  tags: []
+  deprecation_message: 'FunctionalTest has been deprecated, developers are advised
+    to use
+
+    `Class.TestService` instead.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: AllowSleep
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Physics
+  serialization:
+    can_load: true
+    can_save: false
+  default: 'true'
+- name: Description
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '?'
+- name: HasMigratedSettingsToTestService
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Settings
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+- name: Is30FpsThrottleEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Physics
+  serialization:
+    can_load: true
+    can_save: false
+  default: 'true'
+- name: PhysicsEnvironmentalThrottle
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Physics
+  serialization:
+    can_load: true
+    can_save: false
+  default: 'true'
+- name: Timeout
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: double
+  category: Settings
+  serialization:
+    can_load: true
+    can_save: false
+  default: '60'
+methods:
+- name: FunctionalTest:Error
+  summary: 'Prints a red failure message to the output and signals test completion.
+
+    '
+  description: 'Prints a red message to the output, prefixed by _"TestService: "_,
+    then
+
+    signals test completion. Same behavior as `Class.FunctionalTest:Failed()`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: message
+    type: string
+    default: null
+    summary: ''
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: 'FunctionalTest has been deprecated, developers are advised
+    to use
+
+    `Class.TestService` instead.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: FunctionalTest:Failed
+  summary: 'Prints a red message to the output, prefixed by _"TestService: "_.
+
+    '
+  description: 'Prints a red message to the output, prefixed by _"TestService: "_.
+
+    '
+  code_samples: []
+  parameters:
+  - name: message
+    type: string
+    default: null
+    summary: ''
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: 'FunctionalTest has been deprecated, developers are advised
+    to use
+
+    `Class.TestService` instead.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: FunctionalTest:Pass
+  summary: 'Records a successful test result and signals test completion.
+
+    '
+  description: 'Records a successful test result and signals test completion. Same
+
+    behavior as `Class.FunctionalTest:Passed()`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: message
+    type: string
+    default: null
+    summary: ''
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: 'FunctionalTest has been deprecated, developers are advised
+    to use
+
+    `Class.TestService` instead.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: FunctionalTest:Passed
+  summary: 'Records a successful test result and signals test completion.
+
+    '
+  description: 'Records a successful test result and signals test completion. Same
+
+    behavior as `Class.FunctionalTest:Pass()`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: message
+    type: string
+    default: null
+    summary: ''
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: 'FunctionalTest has been deprecated, developers are advised
+    to use
+
+    `Class.TestService` instead.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: FunctionalTest:Warn
+  summary: 'Prints if a condition is true, otherwise prints a warning.
+
+    '
+  description: 'Prints if a condition is true, otherwise prints a warning.
+
+    '
+  code_samples:
+  - FunctionalTest-Warn1
+  parameters:
+  - name: message
+    type: string
+    default: null
+    summary: ''
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: 'FunctionalTest has been deprecated, developers are advised
+    to use
+
+    `Class.TestService` instead.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: Error
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: message
+    type: string
+  returns:
+  - type: 'null'
+- name: Failed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: message
+    type: string
+  returns:
+  - type: 'null'
+- name: Pass
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: message
+    type: string
+  returns:
+  - type: 'null'
+- name: Passed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: message
+    type: string
+  returns:
+  - type: 'null'
+- name: Warn
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: message
+    type: string
+  returns:
+  - type: 'null'
+events: []
+callbacks: []

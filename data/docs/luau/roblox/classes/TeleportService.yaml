@@ -1,0 +1,1948 @@
+name: TeleportService
+type: class
+memory_category: Instances
+summary: 'Enables transporting `Class.Player|Players` between places and servers.
+  For
+
+  more information on how to teleport players between servers, see
+
+  [Teleport between places](../../../projects/teleport.md).
+
+  '
+description: '**TeleportService** is responsible for transporting `Class.Player|Players`
+
+  between different places and servers.
+
+
+  For more information on how to teleport players between servers, see
+
+  [Teleport between places](../../../projects/teleport.md).
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+deprecation_message: ''
+properties:
+- name: TeleportService.CustomizedTeleportUI
+  summary: 'No longer functional.
+
+    '
+  description: 'This property used to control whether or not a `Class.Message` would
+    be
+
+    shown by default. The default message has been removed, so this no longer
+
+    does anything.
+
+    '
+  code_samples: []
+  type: boolean
+  tags:
+  - NotReplicated
+  - Deprecated
+  deprecation_message: 'This item is deprecated since the default message it controls
+    has been
+
+    removed. Do not use it for new work.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: false
+  capabilities:
+  - Teleport
+- name: CustomizedTeleportUI
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: false
+  default: __api_dump_class_not_creatable__
+methods:
+- name: TeleportService:GetArrivingTeleportGui
+  summary: 'Returns the _customLoadingScreen_ the
+
+    `Class.Players.LocalPlayer|LocalPlayer` arrived into the place with.
+
+    '
+  description: 'This function returns the _customLoadingScreen_ the
+
+    `Class.Players.LocalPlayer|LocalPlayer` arrived into the place with.
+
+
+    Note, the _customLoadingScreen_ will not be used if the destination place
+
+    is in a different game.
+
+
+    #### Loading Screen
+
+
+    During a teleport, while the destination place is loading, the
+
+    _customLoadingScreen_ is parented to the `Class.CoreGui`. Once the place
+
+    has loaded the `Class.ScreenGui|loading screen` is
+
+    `Class.Instance.Parent|parented` to _nil_.
+
+
+    If you wish to preserve the _customLoadingScreen_ and perform your own
+
+    transitions, you will need to parent it to the local player''s
+
+    `Class.PlayerGui`. For an example of this, see the code sample below.
+
+    '
+  code_samples:
+  - handling-a-teleport-loading-gui
+  parameters: []
+  returns:
+  - type: Instance
+    summary: 'The _customLoadingScreen_ the `Class.Players.LocalPlayer|LocalPlayer`
+
+      arrived into the place with.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+  - Teleport
+- name: TeleportService:GetLocalPlayerTeleportData
+  summary: 'Returns the _teleportData_ the `Class.Players.LocalPlayer` arrived into
+
+    the place with.
+
+    '
+  description: 'This function returns the teleport data the `Class.Players.LocalPlayer`
+
+    arrived with. It can only be called from the client.
+
+
+    Exploiters can spoof teleport data. Send secure data such as player
+
+    currency through a server-side service such as `Class.DataStoreService` to
+
+    prevent tampering.
+
+    '
+  code_samples:
+  - getting-LocalPlayer-teleport-data
+  parameters: []
+  returns:
+  - type: Variant
+    summary: 'The teleport data the `Class.Players.LocalPlayer` arrived into the
+
+      place with.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Teleport
+- name: TeleportService:GetPlayerPlaceInstanceAsync
+  summary: 'Returns the `Class.DataModel.PlaceId|PlaceId` and
+
+    `Class.DataModel.JobId|JobId` of the server the user with the given
+
+    `Class.Player.UserId|UserId` is in provided it is in the same game as the
+
+    current place.
+
+    '
+  description: "This function returns the `Class.DataModel.PlaceId|PlaceId` and\n\
+    `Class.DataModel.JobId|JobId` of the server the user with the given\n`Class.Player.UserId|UserId`\
+    \ is in, provided it is in the same game as the\ncurrent place.\n\nThen, `Class.TeleportService:TeleportToPlaceInstance()`\
+    \ can be called with\nthis information to allow a user to join the target user's\
+    \ server.\n\nUpon a successful lookup, the function returns the following values:\n\
+    \n<table>\n\t<thead>\n\t\t<tr>\n\t\t\t<th>#</th>\n\t\t\t<th>Name</th>\n\t\t\t\
+    <th>Type</th>\n\t\t\t<th>Description</th>\n\t\t</tr>\n\t</thead>\n\t<tbody>\n\t\
+    \t<tr>\n\t\t\t<td><b>1</b></td>\n   \t\t\t<td> currentInstance</td>\n\t\t\t<td>bool</td>\n\
+    \t\t\t<td>A bool indicating if the user was found in the current instance</td>\n\
+    \t\t</tr>\n\t\t<tr>\n\t\t\t<td><b>2</b></td>\n   \t\t\t<td>error</td>\n\t\t\t\
+    <td>string</td>\n\t\t\t<td>An error message in the event of the lookup failing</td>\n\
+    \t\t</tr>\n\t\t<tr>\n\t\t\t<td><b>3</b></td>\n   \t\t\t<td>placeId</td>\n\t\t\t\
+    <td>int64</td>\n\t\t\t<td>The PlaceId of the server the user is in</td>\n\t\t\
+    </tr>\n\t\t<tr>\n\t\t\t<td><b>4</b></td>\n   \t\t\t<td>instanceId</td>\n\t\t\t\
+    <td>string</td>\n\t\t\t<td>The JobId of the server the user is in</td>\n\t\t</tr>\n\
+    \t</tbody>\n</table>\n\nIf there is a problem during lookup, such as the user\
+    \ being offline, an\nerror is thrown. It is recommended that you wrap calls to\
+    \ this function in\n`pcall`.\n\n#### Limitations\n\nYou should be aware of the\
+    \ following limitations when using this function:\n\n- This function can only\
+    \ be called by the server.\n- This function may fail to return the correct information\
+    \ if the user is\n  teleporting.\n- It is possible for this function to throw\
+    \ an error, hence developers\n  should wrap it in a `Global.LuaGlobals.pcall()`\
+    \ (see example below)\n- As this function returns the JobId of the server and\
+    \ not the access code\n  returned by `Class.TeleportService:ReserveServerAsync()`,\
+    \ the ID\n  returned is not appropriate for use with reserved servers.\n\n####\
+    \ Studio Limitation\n\nNote that this function does not work during playtesting\
+    \ in Roblox Studio;\nto use it, you must publish the experience and play it in\
+    \ the Roblox\napplication.\n"
+  code_samples:
+  - following-a-player-in-a-universe
+  parameters:
+  - name: userId
+    type: User
+    default: null
+    summary: 'The `Class.Player.UserId` of the `Class.Player`.
+
+      '
+  returns:
+  - type: Tuple
+    summary: 'See the table above.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Teleport
+- name: TeleportService:GetTeleportSetting
+  summary: 'Retrieves a teleport setting saved using
+
+    `Class.TeleportService:SetTeleportSetting()` using the given key.
+
+    '
+  description: "This function retrieves a teleport setting saved using\n`Class.TeleportService:SetTeleportSetting()`\
+    \ using the given key.\n\nThis method is intended for use on the client only and\
+    \ should not be used\non the server.\n\nTeleport settings are preserved across\
+    \ teleportations within the same\ngame. This means data can be saved using\n`Class.TeleportService:SetTeleportSetting()`\
+    \ in one place and retrieved\nusing GetTeleportSetting in another place the user\
+    \ has been teleported to.\n\nFor example, in a game that allowed crouching you\
+    \ could save whether the\nuser is currently crouching prior to teleporting as\
+    \ a teleport setting.\nThis could then be retrieved in the destination place after\
+    \ the\nteleportation:\n\n```lua\nlocal TeleportService = game:GetService(\"TeleportService\"\
+    )\n\nlocal isCrouching = TeleportService:GetTeleportSetting(\"isCrouching\")\n\
+    ```\n\nIf no teleport setting exists under the given key, this function will\n\
+    return _nil_.\n\n#### Differences from GlobalDataStores\n\nAlthough they share\
+    \ some similarities, there are some key differences\nbetween teleport settings\
+    \ and datastores:\n\n- `Class.GlobalDataStore:SetAsync()` stores the data on Roblox\
+    \ servers\n  whereas SetTeleportSetting stores the data locally\n- Data stored\
+    \ in a `Class.GlobalDataStore` is preserved after the user\n  leaves the game\
+    \ universe whereas teleport settings are not\n- `Class.GlobalDataStore|GlobalDataStores`\
+    \ can only be accessed on the\n  server, whereas teleport settings can only be\
+    \ accessed on the client\n- `Class.GlobalDataStore|GlobalDataStores` have usage\
+    \ limits, whereas\n  teleport settings do not\n\nIn general teleport settings\
+    \ should be used to preserve client side\ninformation within a single play session\
+    \ across different places in a\ngame. `Class.GlobalDataStore|GlobalDataStores`\
+    \ should be used to save\nimportant player data that needs to be accessed across\
+    \ player sessions.\n\n#### Teleport settings and security\n\nAs teleport settings\
+    \ are stored locally, it is possible they can be\nmanipulated by malicious users.\
+    \ This risk can be mitigated by employing\nserver side validation.\n\n#### Studio\
+    \ Limitation\n\nSee\n[Test teleports](https://create.roblox.com/docs/projects/teleport#test-teleports-in-studio)\n\
+    for information on using this function in Studio testing.\n"
+  code_samples: []
+  parameters:
+  - name: setting
+    type: string
+    default: null
+    summary: 'The key the value was stored under using
+
+      `Class.TeleportService:SetTeleportSetting()`.
+
+      '
+  returns:
+  - type: Variant
+    summary: 'The value stored under the given key.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Teleport
+- name: TeleportService:PromptExperienceDetailsAsync
+  summary: 'Prompts a `Class.Player` with information about the specified experience.
+
+    The player can choose to teleport to the target experience through the
+
+    prompt.
+
+    '
+  description: "Prompts the specified `Class.Player` with information of the specified\n\
+    experience. The prompt includes the experience name, creator name,\nmaturity rating,\
+    \ etc. The prompt also includes a **Join** button which the\nplayer can use to\
+    \ be teleported to the target experience. If the player is\nineligible to join\
+    \ the target experience, the button will be disabled.\n\nAny teleport failures\
+    \ after the player clicks the **Join** button will\nalso fire `Class.TeleportService.TeleportInitFailed`\
+    \ providing a reason\nfor the failure.\n\n#### Limitations\n\n- For security purposes,\
+    \ teleporting a user from your experience to\n  another experience owned by others\
+    \ fails by default. See\n  [here](../../../projects/teleport.md#enable-cross-experience-teleportation)\n\
+    \  for steps to enable cross-experience teleportation.\n- This function currently\
+    \ can only be called from the client with\n  `Class.Players.LocalPlayer` as the\
+    \ `player` parameter.\n- The join button will always be disabled during Studio\
+    \ playtesting; to\n  test aspects of your experience using it, you must publish\
+    \ the\n  experience and play it in the Roblox application.\n"
+  code_samples:
+  - present-experience-details-page
+  parameters:
+  - name: player
+    type: Player
+    default: null
+    summary: 'The `Class.Player` to be presented the prompt.
+
+      '
+  - name: universeId
+    type: int64
+    default: null
+    summary: '`Class.DataModel.UniverseId` of the experience to be presented to the
+
+      `Class.Player`.
+
+      '
+  returns:
+  - type: PromptExperienceDetailsResult
+    summary: '`Enum.PromptExperienceDetailsResult`
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Teleport
+- name: TeleportService:ReserveServer
+  summary: 'Returns an access code that can be used to teleport players to a reserved
+
+    server, along with the `Class.DataModel.PrivateServerId` for it.
+
+    '
+  description: 'This function is deprecated and no longer supported. It remains available
+
+    for backward compatibility but should not be used for new work.
+
+    '
+  code_samples:
+  - TeleportService-ReserveServer1
+  - teleportservice-teleport-to-a-reserved-server-via-chat
+  parameters:
+  - name: placeId
+    type: int64
+    default: null
+    summary: 'The `Class.DataModel.PlaceId` of the place the reserved server is
+
+      being created for.
+
+      '
+  returns:
+  - type: Tuple
+    summary: 'The server access code required by
+
+      `Class.TeleportService:TeleportToPrivateServer()` and the
+
+      `Class.DataModel.PrivateServerId` for the reserved server.
+
+      '
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: 'Use `Class.TeleportService:TeleportAsync()|TeleportAsync()`
+    with
+
+    `Class.TeleportOptions.ReservedServerId` instead. Generate a GUID with
+
+    `Class.HttpService:GenerateGUID()` and pass it as
+
+    `Class.TeleportOptions.ReservedServerId`.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Teleport
+- name: TeleportService:ReserveServerAsync
+  summary: 'Returns an access code that can be used to teleport players to a reserved
+
+    server, along with the `Class.DataModel.PrivateServerId` for it.
+
+    '
+  description: 'This function is deprecated and no longer supported. It remains available
+
+    for backward compatibility but should not be used for new work. It can
+
+    only be called on the server.
+
+
+    For new work, generate a GUID with `Class.HttpService:GenerateGUID()`, set
+
+    `Class.TeleportOptions.ReservedServerId`, and call
+
+    `Class.TeleportService:TeleportAsync()`.
+
+
+    You can see if the current server is a reserved server by using the
+
+    following code:
+
+
+    ```lua
+
+    local isReserved = game.PrivateServerId ~= "" and game.PrivateServerOwnerId ==
+    0
+
+    ```
+
+
+    The `Class.DataModel.PrivateServerId` is constant across all server
+
+    instances associated with the server access code, the
+
+    `Class.DataModel.JobId` is not.
+
+
+    #### Studio Limitation
+
+
+    See
+
+    [Test teleports](https://create.roblox.com/docs/projects/teleport#test-teleports-in-studio)
+
+    for information on using this function in Studio testing.
+
+
+    #### Cross-Platform Play
+
+
+    Players on Xbox and PlayStation with cross‑play disabled will arrive in a
+
+    different server than players with cross‑play enabled. This can cause
+
+    multiple game servers with the same
+
+    `Class.DataModel.PrivateServerId|PrivateServerId` to exist. You can use
+
+    `Class.DataModel.MatchmakingType` to differentiate these game servers.
+
+    '
+  code_samples:
+  - TeleportService-ReserveServer1
+  - teleportservice-teleport-to-a-reserved-server-via-chat
+  parameters:
+  - name: placeId
+    type: int64
+    default: null
+    summary: 'The `Class.DataModel.PlaceId` of the place the reserved server is
+
+      being created for.
+
+      '
+  returns:
+  - type: Tuple
+    summary: 'The server access code required by
+
+      `Class.TeleportService:TeleportToPrivateServer()` and the
+
+      `Class.DataModel.PrivateServerId` for the reserved server.
+
+      '
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: 'Use `Class.TeleportService:TeleportAsync()|TeleportAsync()`
+    with
+
+    `Class.TeleportOptions.ReservedServerId` instead. Generate a GUID with
+
+    `Class.HttpService:GenerateGUID()` and pass it as
+
+    `Class.TeleportOptions.ReservedServerId`.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Teleport
+- name: TeleportService:SetTeleportGui
+  summary: 'Sets the custom `Class.ScreenGui|teleport GUI` that will be shown to the
+
+    local user during teleportation, prior to the teleport being invoked.
+
+    '
+  description: 'This function sets the custom `Class.ScreenGui|teleport GUI` that
+    will be
+
+    shown to the local user during teleportation, prior to the teleport being
+
+    invoked.
+
+
+    Note, the `Class.ScreenGui|teleport GUI` will not be used if the
+
+    destination place is in a different game. It will also not persist across
+
+    multiple teleports and will need to be set prior to each one.
+
+
+    This function should only be used on the client. If the teleportation
+
+    function is called from the server (as is the case with
+
+    `Class.TeleportService:TeleportAsync()`) then this function should be
+
+    called on the client prior to this. One way of doing this is listening to
+
+    a `Class.RemoteEvent` that fires several seconds before teleportation.
+
+
+    #### Loading screen
+
+
+    During a teleport, while the destination place is loading, the
+
+    _customLoadingScreen_ is parented to the `Class.CoreGui`. Once the place
+
+    has loaded the `Class.ScreenGui|loading screen` is
+
+    `Class.Instance.Parent|parented` to _nil_.
+
+
+    This `Class.ScreenGui` can be fetched at the destination place using
+
+    `Class.TeleportService:GetArrivingTeleportGui()`, allowing you to parent
+
+    it to the `Class.PlayerGui` and perform your own transitions.
+
+
+    You are advised to also `Class.Instance.Parent|parent` the
+
+    `Class.ScreenGui` to the `Class.PlayerGui` in the start place while the
+
+    teleport is initiating.
+
+
+    #### External references
+
+
+    The teleport GUI and all of its descendants are carried to the destination
+
+    place, but any property that references an `Class.Instance` **outside**
+
+    the GUI''s own tree is cleared during the teleport. For example, a
+
+    `Class.Sound` inside the GUI whose `Class.Sound.SoundGroup|SoundGroup`
+
+    points to a `Class.SoundGroup` under `Class.SoundService` will arrive with
+
+    that reference set to `nil`, because the target lives outside the GUI and
+
+    cannot safely cross the boundary between servers.
+
+
+    References that point to other instances **within** the GUI tree are
+
+    preserved. If your loading screen depends on an external instance,
+
+    recreate that instance inside the GUI tree.
+
+
+    #### Studio Limitation
+
+
+    See
+
+    [Test teleports](https://create.roblox.com/docs/projects/teleport#test-teleports-in-studio)
+
+    for information on using this function in Studio testing.
+
+    '
+  code_samples:
+  - teleporting-the-local-player
+  parameters:
+  - name: gui
+    type: Instance
+    default: null
+    summary: 'The loading `Class.ScreenGui` that is to be displayed during
+
+      teleportation.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+  - Teleport
+- name: TeleportService:SetTeleportSetting
+  summary: 'Stores a value under a given key that persists across all teleportations
+
+    in the same game.
+
+    '
+  description: "This function stores a value under a given key that persists across\
+    \ all\nteleportations in the same game.\n\nThis method is intended for use on\
+    \ the client only and should not be used\non the server.\n\nThe stored value can\
+    \ later be retrieved using\n`Class.TeleportService:GetTeleportSetting()`. This\
+    \ will work in the\ncurrent place and any subsequent places the `Class.Players.LocalPlayer`\n\
+    teleports to, provided they are in the same game.\n\nFor example, in a game that\
+    \ allowed crouching you could save whether the\nuser is currently crouching prior\
+    \ to teleporting as a teleport setting:\n\n```lua\nlocal TeleportService = game:GetService(\"\
+    TeleportService\")\n\nlocal isCrouching = false\nTeleportService:SetTeleportSetting(\"\
+    isCrouching\", isCrouching)\n```\n\nThe stored value may only contain value types.\
+    \ It cannot contain\n`Class.Instance|Instances` or other types that reference\
+    \ engine state, as\nthese cannot safely cross the boundary between servers.\n\n\
+    Allowed values:\n\n- Primitives: a `bool`, a `number`, or a `string`\n- Value\
+    \ types such as `Datatype.Vector3`, `Datatype.CFrame`,\n  `Datatype.Color3`, `Datatype.UDim2`,\
+    \ `Datatype.NumberSequence`,\n  `Datatype.ColorSequence`, `Enum` items, and similar\n\
+    - A table without mixed keys (all strings or all integers) containing only\n \
+    \ the allowed types above\n\nNot allowed (these will be removed before the teleport\
+    \ completes):\n\n- `Class.Instance` and instance references\n- `Datatype.RBXScriptConnection|Connections`,\
+    \ `Datatype.RBXScriptSignal`,\n  and functions\n- `SharedTable`\n- Types that\
+    \ reference engine or `Class.DataModel` state, such as\n  `Class.InputObject`,\
+    \ `Datatype.RaycastParams`, and\n  `Datatype.RaycastResult`\n\nIf a stored setting\
+    \ contains a disallowed type, that value is removed and\nan error is written to\
+    \ the developer console. Convert instance references\nto plain values (for example,\
+    \ a numeric ID or a string path).\n\nIf data is already stored under the given\
+    \ key, the previous value will be\noverwritten by the new value.\n\n#### Differences\
+    \ from GlobalDataStores\n\nAlthough they share some similarities, there are some\
+    \ key differences\nbetween teleport settings and datastores:\n\n- `Class.GlobalDataStore:SetAsync()`\
+    \ stores the data on Roblox servers\n  whereas SetTeleportSetting stores the data\
+    \ locally\n- Data stored in a `Class.GlobalDataStore` is preserved after the user\n\
+    \  leaves the game universe whereas teleport settings are not\n- `Class.GlobalDataStore|GlobalDataStores`\
+    \ can only be accessed on the\n  server, whereas teleport settings can only be\
+    \ accessed on the client\n- `Class.GlobalDataStore|GlobalDataStores` have usage\
+    \ limits, whereas\n  teleport settings do not\n\nIn general teleport settings\
+    \ should be used to preserve client side\ninformation within a single play session\
+    \ across different places in a\ngame. `Class.GlobalDataStore|GlobalDataStores`\
+    \ should be used to save\nimportant player data that needs to be accessed across\
+    \ player sessions.\n\n#### Teleport settings and security\n\nAs teleport settings\
+    \ are stored locally, it is possible they can be\nmanipulated by malicious users.\
+    \ This risk can be mitigated by employing\nserver side validation.\n\n#### Studio\
+    \ Limitation\n\nSee\n[Test teleports](https://create.roblox.com/docs/projects/teleport#test-teleports-in-studio)\n\
+    for information on using this function in Studio testing.\n"
+  code_samples: []
+  parameters:
+  - name: setting
+    type: string
+    default: null
+    summary: 'The key to store the _value_ under. This key can be used to retrieve
+
+      the value using `Class.TeleportService:GetTeleportSetting()`.
+
+      '
+  - name: value
+    type: Variant
+    default: null
+    summary: 'The value to store.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Teleport
+- name: TeleportService:Teleport
+  summary: 'Teleports a `Class.Player` to the place associated with the given
+
+    `placeId`.
+
+    '
+  description: 'This method should not be used for new work; the numerous teleport
+
+    functions have been combined into a single method,
+
+    `Class.TeleportService:TeleportAsync()|TeleportAsync()`, which should be
+
+    used instead.
+
+    '
+  code_samples:
+  - teleporting-the-local-player
+  - teleporting-from-the-server
+  parameters:
+  - name: placeId
+    type: int64
+    default: null
+    summary: 'The ID of the place to teleport to.
+
+      '
+  - name: player
+    type: Instance
+    default: nil
+    summary: 'The `Class.Player` to teleport, if this function is being called from
+
+      the client this defaults to the `Class.Players.LocalPlayer`.
+
+      '
+  - name: teleportData
+    type: Variant
+    default: null
+    summary: 'Optional data to be passed to the destination place. Can be retrieved
+
+      using `Class.TeleportService:GetLocalPlayerTeleportData()`.
+
+      '
+  - name: customLoadingScreen
+    type: Instance
+    default: nil
+    summary: 'Optional custom loading screen to be placed in the `Class.CoreGui` at
+
+      the destination place. Can be retrieved using
+
+      `Class.TeleportService:GetArrivingTeleportGui()`.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: 'Use `Class.TeleportService:TeleportAsync()|TeleportAsync()`
+    for
+
+    server-side teleports. For client-side teleports, use a
+
+    `Class.RemoteEvent` to signal the server to call `TeleportAsync()`. For a
+
+    migration guide, see
+
+    [Teleport between places](../../../projects/teleport.md#migrate-to-secure-teleports).
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+  - Teleport
+- name: TeleportService:TeleportAsync
+  summary: 'The all-encompassing method to teleport a player or group of players from
+
+    one server to another.
+
+    '
+  description: "This function serves as the all-encompassing method to teleport a\
+    \ player\nor group of players from one server to another. It can be used to:\n\
+    \n- Teleport players to a different place.\n- Teleport players to a specific server.\n\
+    - Teleport players to a reserved server.\n\nFor a single-player teleport with\
+    \ no server routing option, the engine can\ninfer that the player should return\
+    \ to a VIP server if the player\noriginally joined in a VIP server. If that inferred\
+    \ VIP join fails for an\neligible reason, the engine can fall back to a public\
+    \ server. Set\n`Class.TeleportOptions.ForcePublicServer` to skip this inference\
+    \ for the\ncurrent teleport.\n\n#### Server-Only\n\nThis method can only be called\
+    \ from the server. If you need to initiate a\nteleport from the client, use a\
+    \ `Class.RemoteEvent` to signal the server,\nthen call `Class.TeleportService:TeleportAsync()`\
+    \ from a server\n`Class.Script`. Client-side teleports using\n`Class.TeleportService:Teleport()`\
+    \ is not recommended for new work. See\n[Teleport between places](../../../projects/teleport.md)\
+    \ for more\ninformation.\n\n#### Group Teleport Limitations\n\n- Groups of players\
+    \ can only be teleported within a single experience.\n- No more than 50 players\
+    \ can be teleported with a single\n  `Class.TeleportService:TeleportAsync()` call.\n\
+    \n#### Studio Limitation\n\nSee\n[Test teleports](https://create.roblox.com/docs/projects/teleport#test-teleports-in-studio)\n\
+    for information on using this function in Studio testing.\n\n#### Potential Errors\n\
+    \nThis is a list of potential reasons a teleport may fail, ranging from\ninvalid\
+    \ teleports to network issues.\n\n<table>\n    <thead>\n        <tr>\n       \
+    \     <th>Error</th>\n           \t<th>Description</th>\n        </tr>\n    </thead>\n\
+    \    <tbody>\n        <tr>\n            <td>Invalid placeId</td>\n           \
+    \ <td>The provided place ID is below 0.</td>\n        </tr>\n        <tr>\n  \
+    \          <td>Players empty</td>\n            <td>The provided list of players\
+    \ to teleport is empty.</td>\n        </tr>\n        <tr>\n            <td>List\
+    \ of players instances is incorrect</td>\n            <td>Any of the provided\
+    \ players is not a Player object.</td>\n        </tr>\n        <tr>\n        \
+    \    <td>TeleportOptions not of correct type</td>\n            <td>The provided\
+    \ teleportOption is not a TeleportOptions object.</td>\n        </tr>\n      \
+    \  <tr>\n            <td>TeleportAsync called from Client</td>\n            <td>The\
+    \ client called TeleportAsync, which can only be called from the server.</td>\n\
+    \        </tr>\n        <tr>\n            <td>Incompatible Parameters</td>\n \
+    \           <td>\n              Conflicting teleport options were used and TeleportService\
+    \ doesn't know where to send the player.<br><br>\n              Only one of the\
+    \ following private-server routing fields may be set at a time:<br>\n        \
+    \       * ReservedServerId<br>\n               * VipServerId<br>\n           \
+    \    * ReservedServerAccessCode<br>\n               * ShouldReserveServer<br>\n\
+    \               * ServerInstanceId\n            </td>\n        </tr>\n    </tbody>\n\
+    </table>\n\nFor more information on how to teleport players between servers and\n\
+    receive user data from a teleport, see\n[Teleport between places](../../../projects/teleport.md#sending-user-data-along-with-teleports).\n"
+  code_samples: []
+  parameters:
+  - name: placeId
+    type: int64
+    default: null
+    summary: 'The place ID the player(s) should be teleported to.
+
+      '
+  - name: players
+    type: Instances
+    default: null
+    summary: 'An array of the player(s) to teleport.
+
+      '
+  - name: teleportOptions
+    type: Instance
+    default: nil
+    summary: 'An optional `Class.TeleportOptions` object containing additional
+
+      arguments to the `Class.TeleportService:TeleportAsync()` call. If this
+
+      is not passed, no result will be returned.
+
+      '
+  returns:
+  - type: Instance
+    summary: 'If a `Class.TeleportOptions` parameter is passed with a VIP or
+
+      reserved server destination, this will be a
+
+      `Class.TeleportAsyncResult` object that provides information about the
+
+      final teleport destination.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+  - Teleport
+- name: TeleportService:TeleportPartyAsync
+  summary: 'Teleports a group of `Class.Player|Players` to the same server of the
+
+    place with the given `Class.DataModel.PlaceId|PlaceId`, returning the
+
+    `Class.DataModel.JobId|JobId` of the server instance they were teleported
+
+    to.
+
+    '
+  description: 'This method should not be used for new work; the numerous teleport
+
+    functions have been combined into a single method,
+
+    `Class.TeleportService:TeleportAsync()|TeleportAsync()`, which should be
+
+    used instead.
+
+    '
+  code_samples:
+  - teleport-all-players-in-the-server
+  parameters:
+  - name: placeId
+    type: int64
+    default: null
+    summary: 'The ID of the place to teleport to.
+
+      '
+  - name: players
+    type: Instances
+    default: null
+    summary: 'An array containing the `Class.Player|Players` to teleport.
+
+      '
+  - name: teleportData
+    type: Variant
+    default: null
+    summary: 'Optional data to be passed to the destination place. Can be retrieved
+
+      using `Class.TeleportService:GetLocalPlayerTeleportData()`.
+
+      '
+  - name: customLoadingScreen
+    type: Instance
+    default: nil
+    summary: 'Optional custom loading screen to be placed in the `Class.CoreGui` at
+
+      the destination place. Can be retrieved using
+
+      `Class.TeleportService:GetArrivingTeleportGui()`.
+
+      '
+  returns:
+  - type: string
+    summary: 'The `Class.DataModel.JobId` of the server instance the
+
+      `Class.Player|Players` were teleported to.
+
+      '
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: 'Use `Class.TeleportService:TeleportAsync()|TeleportAsync()`
+    instead. For a
+
+    migration guide, see
+
+    [Teleport between places](../../../projects/teleport.md#migrate-to-secure-teleports).
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+  - Teleport
+- name: TeleportService:TeleportToPlaceInstance
+  summary: 'Teleports a `Class.Player` to the server instance associated with the
+
+    given _placeId_ and _instanceId_.
+
+    '
+  description: 'This method should not be used for new work; the numerous teleport
+
+    functions have been combined into a single method,
+
+    `Class.TeleportService:TeleportAsync()|TeleportAsync()`, which should be
+
+    used instead.
+
+    '
+  code_samples:
+  - following-a-player-in-a-universe
+  parameters:
+  - name: placeId
+    type: int64
+    default: null
+    summary: 'The ID of the place to teleport to.
+
+      '
+  - name: instanceId
+    type: string
+    default: null
+    summary: 'The `Class.DataModel.JobId` of the server instance to teleport to.
+
+      '
+  - name: player
+    type: Instance
+    default: nil
+    summary: 'The `Class.Player` to teleport, if this function is being called from
+
+      the client this defaults to the `Class.Players.LocalPlayer`.
+
+      '
+  - name: spawnName
+    type: string
+    default: null
+    summary: 'Optional name of the `Class.SpawnLocation` to spawn at.
+
+      '
+  - name: teleportData
+    type: Variant
+    default: null
+    summary: 'Optional data to be passed to the destination place. Can be retrieved
+
+      using `Class.TeleportService:GetLocalPlayerTeleportData()`.
+
+      '
+  - name: customLoadingScreen
+    type: Instance
+    default: nil
+    summary: 'Optional custom loading screen to be placed in the `Class.CoreGui` at
+
+      the destination place. Can be retrieved using
+
+      `Class.TeleportService:GetArrivingTeleportGui()`.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'Use `Class.TeleportService:TeleportAsync()|TeleportAsync()`
+    instead. For a
+
+    migration guide, see
+
+    [Teleport between places](../../../projects/teleport.md#migrate-to-secure-teleports).
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+  - Teleport
+- name: TeleportService:TeleportToPrivateServer
+  summary: 'Teleport a group of `Class.Player|Players` to a reserved server created
+
+    using `Class.TeleportService:ReserveServerAsync()`.
+
+    '
+  description: 'This method is deprecated and no longer supported. It remains available
+
+    for backward compatibility but should not be used for new work. Use
+
+    `Class.TeleportService:TeleportAsync()|TeleportAsync()` with
+
+    `Class.TeleportOptions.ReservedServerId` instead.
+
+    '
+  code_samples:
+  - teleportservice-teleport-to-a-reserved-server-via-chat
+  - TeleportService-ReserveServer1
+  parameters:
+  - name: placeId
+    type: int64
+    default: null
+    summary: 'The ID of the place to teleport to.
+
+      '
+  - name: reservedServerAccessCode
+    type: string
+    default: null
+    summary: 'The reserved server access code returned by
+
+      `Class.TeleportService:ReserveServerAsync()`.
+
+      '
+  - name: players
+    type: Instances
+    default: null
+    summary: 'An array of `Class.Player|Players` to teleport.
+
+      '
+  - name: spawnName
+    type: string
+    default: null
+    summary: 'Optional name of the `Class.SpawnLocation` to spawn at.
+
+      '
+  - name: teleportData
+    type: Variant
+    default: null
+    summary: 'Optional data to be passed to the destination place. Can be retrieved
+
+      using `Class.TeleportService:GetLocalPlayerTeleportData()`.
+
+      '
+  - name: customLoadingScreen
+    type: Instance
+    default: nil
+    summary: 'Optional custom loading screen to be placed in the `Class.CoreGui` at
+
+      the destination place. Can be retrieved using
+
+      `Class.TeleportService:GetArrivingTeleportGui()`.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'Use `Class.TeleportService:TeleportAsync()|TeleportAsync()`
+    with
+
+    `Class.TeleportOptions.ReservedServerId` instead. Generate a GUID with
+
+    `Class.HttpService:GenerateGUID()` and pass it as
+
+    `Class.TeleportOptions.ReservedServerId`.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+  - Teleport
+- name: TeleportService:TeleportToSpawnByName
+  summary: 'A variant of `Class.TeleportService:Teleport()` that causes the
+
+    `Class.Player` to spawn at a `Class.SpawnLocation` of the given name at
+
+    the destination place.
+
+    '
+  description: 'This method should not be used for new work; the numerous teleport
+
+    functions have been combined into a single method,
+
+    `Class.TeleportService:TeleportAsync()|TeleportAsync()`, which should be
+
+    used instead.
+
+    '
+  code_samples:
+  - TeleportService-TeleportToSpawnByName1
+  parameters:
+  - name: placeId
+    type: int64
+    default: null
+    summary: 'The ID of the place to teleport to.
+
+      '
+  - name: spawnName
+    type: string
+    default: null
+    summary: 'The name of the `Class.SpawnLocation` to spawn at.
+
+      '
+  - name: player
+    type: Instance
+    default: nil
+    summary: 'The `Class.Player` to teleport, if this function is being called from
+
+      the client this defaults to the `Class.Players.LocalPlayer`.
+
+      '
+  - name: teleportData
+    type: Variant
+    default: null
+    summary: 'Optional data to be passed to the destination place. Can be retrieved
+
+      using `Class.TeleportService:GetLocalPlayerTeleportData()`.
+
+      '
+  - name: customLoadingScreen
+    type: Instance
+    default: nil
+    summary: 'Optional custom loading screen to be placed in the `Class.CoreGui` at
+
+      the destination place. Can be retrieved using
+
+      `Class.TeleportService:GetArrivingTeleportGui()`.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'Use `Class.TeleportService:TeleportAsync()|TeleportAsync()`
+    instead. For a
+
+    migration guide, see
+
+    [Teleport between places](../../../projects/teleport.md#migrate-to-secure-teleports).
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+  - Teleport
+- name: Block
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: GetArrivingTeleportGui
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Instance
+- name: GetLocalPlayerTeleportData
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Variant
+- name: GetTeleportSetting
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: setting
+    type: string
+  returns:
+  - type: Variant
+- name: GetThirdPartyTeleportInfo
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: goForth
+    type: bool
+  returns:
+  - type: Tuple
+- name: PromptExperienceDetailsCompleted
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: resultEnum
+    type: Enum.PromptExperienceDetailsResult
+  - name: errorMessage
+    type: string
+  returns:
+  - type: 'null'
+- name: SetTeleportGui
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: gui
+    type: Instance
+  returns:
+  - type: 'null'
+- name: SetTeleportSetting
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: setting
+    type: string
+  - name: value
+    type: Variant
+  returns:
+  - type: 'null'
+- name: Teleport
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: placeId
+    type: int64
+  - name: player
+    type: Instance
+    default: nil
+  - name: teleportData
+    type: Variant
+  - name: customLoadingScreen
+    type: Instance
+    default: nil
+  returns:
+  - type: 'null'
+- name: TeleportCancel
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: TeleportReconnect
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: TeleportSwitchServer
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: gameIdsToExclude
+    type: Array
+    default: '{}'
+  returns:
+  - type: 'null'
+- name: TeleportToPlaceInstance
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''TeleportAsync'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: placeId
+    type: int64
+  - name: instanceId
+    type: string
+  - name: player
+    type: Instance
+    default: nil
+  - name: spawnName
+    type: string
+  - name: teleportData
+    type: Variant
+  - name: customLoadingScreen
+    type: Instance
+    default: nil
+  returns:
+  - type: 'null'
+- name: TeleportToPrivateServer
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''TeleportAsync'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: placeId
+    type: int64
+  - name: reservedServerAccessCode
+    type: string
+  - name: players
+    type: Instances
+  - name: spawnName
+    type: string
+  - name: teleportData
+    type: Variant
+  - name: customLoadingScreen
+    type: Instance
+    default: nil
+  returns:
+  - type: 'null'
+- name: TeleportToSpawnByName
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''TeleportAsync'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: placeId
+    type: int64
+  - name: spawnName
+    type: string
+  - name: player
+    type: Instance
+    default: nil
+  - name: teleportData
+    type: Variant
+  - name: customLoadingScreen
+    type: Instance
+    default: nil
+  returns:
+  - type: 'null'
+- name: TeleportTrustedBackForth
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: goForth
+    type: bool
+  returns:
+  - type: 'null'
+- name: TeleportTrustedBackHistory
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: placeId
+    type: int64
+  returns:
+  - type: 'null'
+- name: TeleportedPlacesBackHistory
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+- name: TeleportedUniversesBackHistory
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+- name: GetPlayerPlaceInstanceAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: User
+  returns:
+  - type: Tuple
+- name: PromptExperienceDetailsAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+  - name: universeId
+    type: int64
+  returns:
+  - type: Enum.PromptExperienceDetailsResult
+- name: ReserveServer
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''TeleportAsync'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: placeId
+    type: int64
+  returns:
+  - type: Tuple
+- name: ReserveServerAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''TeleportAsync'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: placeId
+    type: int64
+  returns:
+  - type: Tuple
+- name: TeleportAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: placeId
+    type: int64
+  - name: players
+    type: Instances
+  - name: teleportOptions
+    type: Instance
+    default: nil
+  returns:
+  - type: Instance
+- name: TeleportPartyAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''TeleportAsync'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: placeId
+    type: int64
+  - name: players
+    type: Instances
+  - name: teleportData
+    type: Variant
+  - name: customLoadingScreen
+    type: Instance
+    default: nil
+  returns:
+  - type: string
+- name: UnblockAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Tuple
+events:
+- name: TeleportService.LocalPlayerArrivedFromTeleport
+  summary: 'Fires when the `Class.Players.LocalPlayer|LocalPlayer` enters the place
+
+    following a teleport.
+
+    '
+  description: "This function fires when the `Class.Players.LocalPlayer` enters the\
+    \ place\nfollowing a teleport. The `teleportData` and `customLoadingScreen` are\n\
+    provided as arguments.\n\nWhen fetching _teleportData_ and the _customLoadingScreen_\
+    \ you are advised\nto use `Class.TeleportService:GetLocalPlayerTeleportData()`\
+    \ and\n`Class.TeleportService:GetArrivingTeleportGui()` instead. This is because\n\
+    these functions can be called immediately without having to wait for this\nevent\
+    \ to fire.\n\nThis event should be connected immediately in a `Class.LocalScript`\n\
+    parented to `Class.ReplicatedFirst`. Otherwise, when the connection is\nmade the\
+    \ event may have already fired.\n\n#### Loading Screen\n\nDuring a teleport, while\
+    \ the destination place is loading, the\n_customLoadingScreen_ is parented to\
+    \ the `Class.CoreGui`. Once the place\nhas loaded the `Class.ScreenGui|loading\
+    \ screen` is\n`Class.Instance.Parent|parented` to _nil_.\n\nIf you wish to preserve\
+    \ the _customLoadingScreen_ and perform your own\ntransitions, you will need to\
+    \ parent it to the local player's\n`Class.PlayerGui`. For example, using the following\
+    \ code inside a\n`Class.LocalScript` in `Class.ReplicatedFirst`:\n\n```lua\nlocal\
+    \ TeleportService = game:GetService(\"TeleportService\")\nlocal Players = game:GetService(\"\
+    Players\")\nlocal ReplicatedFirst = game:GetService(\"ReplicatedFirst\")\n\nTeleportService.LocalPlayerArrivedFromTeleport:Connect(function(customLoadingScreen,\
+    \ teleportData)\n\tlocal playerGui = Players.LocalPlayer:WaitForChild(\"PlayerGui\"\
+    )\n\tReplicatedFirst:RemoveDefaultLoadingScreen()\n\n\tcustomLoadingScreen.Parent\
+    \ = playerGui\n\t-- animate screen here\n\twait(5)\n\t-- destroy screen\n\tcustomLoadingScreen:Destroy()\n\
+    end)\n```\n\nThe _customLoadingScreen_ will not be used if the destination place\
+    \ is in\na different game.\n\n#### Studio Limitation\n\nSee\n[Test teleports](https://create.roblox.com/docs/projects/teleport#test-teleports-in-studio)\n\
+    for information on using this function in Studio testing.\n"
+  code_samples: []
+  parameters:
+  - name: loadingGui
+    type: Instance
+    default: null
+    summary: 'The _customLoadingScreen_ the `Class.Players.LocalPlayer|LocalPlayer`
+
+      arrived into the place with.
+
+      '
+  - name: dataTable
+    type: Variant
+    default: null
+    summary: 'The _teleportData_ the `Class.Players.LocalPlayer|LocalPlayer` arrived
+
+      into the place with.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Teleport
+- name: TeleportService.TeleportInitFailed
+  summary: 'Fires when a teleport fails to start, leaving the player in their current
+
+    server.
+
+    '
+  description: "This event fires on both the client and the server when a request\
+    \ to\nteleport from a function such as `Class.TeleportService:TeleportAsync()`\n\
+    fails and the player does not leave the current server. It provides a\nreason\
+    \ for the failure, as well as all of the information necessary to\nretry the teleport.\
+    \ If a group teleport fails, the event will fire once\nper player.\n\n#### TeleportOptions\n\
+    \nThe `Class.TeleportOptions` object provided by this event is not identical\n\
+    to the one passed to the original `Class.TeleportService:TeleportAsync()`\ncall.\
+    \ It is a new object populated with the necessary parameters to retry\nthe teleport\
+    \ and send the player to the exact same destination. This is\nespecially important\
+    \ for facilitating group teleports when they fail. If\n`Class.TeleportOptions.ForcePublicServer`\
+    \ was set for a single-player\nteleport, it remains set in the retry options.\
+    \ For a group teleport, once\na server has been chosen, the retry options use\n\
+    `Class.TeleportOptions.ServerInstanceId` to send the player to that same\nserver\
+    \ instead. In this case, `Class.TeleportOptions.ForcePublicServer` is\nnot set,\
+    \ because the two options cannot be used together.\n\n<table>\n    <thead>\n \
+    \       <tr>\n            <th>Original Teleport Type</th>\n            <th>Teleport\
+    \ Data</th>\n            <th>ReservedServerId</th>\n            <th>VipServerId</th>\n\
+    \            <th>ReservedServerAccessCode</th>\n            <th>ServerInstanceId</th>\n\
+    \            <th>ShouldReserveServer</th>\n        </tr>\n    </thead>\n    <tbody>\n\
+    \        <tr>\n            <td>Individual player to place</td>\n            <td>Original\
+    \ value</td>\n            <td>None</td>\n            <td>None</td>\n         \
+    \   <td>None</td>\n            <td>None</td>\n            <td>false</td>\n   \
+    \     </tr>\n        <tr>\n            <td>Player(s) to reserved server (ReservedServerId)</td>\n\
+    \            <td>Original value</td>\n            <td>Original value</td>\n  \
+    \          <td>None</td>\n            <td>None</td>\n            <td>None</td>\n\
+    \            <td>false</td>\n        </tr>\n        <tr>\n            <td>Player(s)\
+    \ to VIP server (VipServerId)</td>\n            <td>Original value</td>\n    \
+    \        <td>None</td>\n            <td>Original value</td>\n            <td>None</td>\n\
+    \            <td>None</td>\n            <td>false</td>\n        </tr>\n      \
+    \  <tr>\n            <td>Player(s) to reserved server (legacy access code)</td>\n\
+    \            <td>Original value</td>\n            <td>None</td>\n            <td>None</td>\n\
+    \            <td>Original value, or the code generated if ShouldReserveServer\
+    \ was originally true</td>\n            <td>None</td>\n            <td>false</td>\n\
+    \        </tr>\n        <tr>\n            <td>Player(s) to specific server</td>\n\
+    \            <td>Original value</td>\n            <td>None</td>\n            <td>None</td>\n\
+    \            <td>None</td>\n            <td>Original value</td>\n            <td>false</td>\n\
+    \        </tr>\n        <tr>\n            <td>Players to place</td>\n        \
+    \    <td>Original value</td>\n            <td>None</td>\n            <td>None</td>\n\
+    \            <td>None</td>\n            <td>Same destination ID as the other players\
+    \ in the original teleport</td>\n            <td>false</td>\n        </tr>\n \
+    \   </tbody>\n</table>\n\nWhen the engine routes a plain teleport to a VIP server,\
+    \ VIP-specific join\nfailures such as a full or flooded server fall back to a\
+    \ public join and\nthis event does not fire. Only teleports with an explicit\n\
+    `Class.TeleportOptions.VipServerId` surface a VIP join failure through\nthis event.\n\
+    \nFor more information on how to teleport players between servers, see\n[Teleport\
+    \ between places](../../../projects/teleport.md).\n"
+  code_samples: []
+  parameters:
+  - name: player
+    type: Instance
+    default: null
+    summary: 'The `Class.Player` instance that failed to teleport.
+
+      '
+  - name: teleportResult
+    type: TeleportResult
+    default: null
+    summary: 'The reason for the teleport failure.
+
+      '
+  - name: errorMessage
+    type: string
+    default: null
+    summary: 'The message provided to the player explaining the teleport failure.
+
+      '
+  - name: placeId
+    type: int64
+    default: null
+    summary: 'The original target place ID of the teleport.
+
+      '
+  - name: teleportOptions
+    type: Instance
+    default: null
+    summary: 'A `Class.TeleportOptions` object that can be passed back to
+
+      `Class.TeleportService:TeleportAsync()` to retry the failed teleport.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Teleport
+- name: LocalPlayerArrivedFromTeleport
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: loadingGui
+    type: Instance
+  - name: dataTable
+    type: Variant
+- name: MenuTeleportAttempt
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: OpenExperienceDetailsPrompt
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: universeId
+    type: int64
+- name: ReconnectTeleportInitFailed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: teleportResult
+    type: Enum.TeleportResult
+  - name: errorMessage
+    type: string
+  - name: placeId
+    type: int64
+  - name: teleportOptions
+    type: Instance
+- name: SendVIPData
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: vipServerCode
+    type: string
+  - name: dmPlaceID
+    type: int64
+- name: TeleportInProgress
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: teleportInfo
+    type: Dictionary
+- name: TeleportInitFailed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: teleportResult
+    type: Enum.TeleportResult
+  - name: errorMessage
+    type: string
+  - name: placeId
+    type: int64
+  - name: teleportOptions
+    type: Instance
+- name: TeleportInitFailedInternal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: teleportResult
+    type: Enum.TeleportResult
+  - name: errorMessage
+    type: string
+  - name: guid
+    type: string
+callbacks: []

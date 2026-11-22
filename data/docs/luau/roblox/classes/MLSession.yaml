@@ -1,0 +1,93 @@
+name: MLSession
+type: class
+memory_category: Instances
+summary: 'A machine-learning inference session that wraps a single loaded model and
+  runs
+
+  it through `Class.MLSession:ForwardAsync()`.
+
+  '
+description: 'An `MLSession` wraps a single loaded neural-network model and runs inference
+
+  on it. You don''t construct a session directly; instead,
+
+  `Class.MLService:CreateSessionAsync()` loads a model bundle for a given asset
+
+  and returns a ready-to-use session. Call
+
+  `Class.MLSession:ForwardAsync()|ForwardAsync()` on that session to run the
+
+  model''s forward pass on your input data and receive its output.
+
+  '
+code_samples: []
+inherits:
+- Object
+descendants: []
+tags:
+- NotCreatable
+- NotReplicated
+deprecation_message: ''
+properties: []
+methods:
+- name: MLSession:ForwardAsync
+  summary: 'Runs the session''s model on the given input and asynchronously returns
+    the
+
+    model''s output.
+
+    '
+  description: 'Runs inference for the session''s loaded model.
+
+
+    If the model declares a dynamic output dimension, the call errors. Calling
+
+    this method on a session with no valid loaded model also errors.
+
+    '
+  code_samples: []
+  parameters:
+  - name: data
+    type: Dictionary
+    default: null
+    summary: 'A dictionary mapping each of the model''s input names to that input''s
+
+      tensor, given as a nested array of numbers matching the input''s shape.
+
+      '
+  returns:
+  - type: Dictionary
+    summary: 'A dictionary mapping each of the model''s output names to that output''s
+
+      tensor, given as a nested array of numbers matching the output''s
+
+      shape.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: ForwardAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: data
+    type: Dictionary
+  returns:
+  - type: Dictionary
+events: []
+callbacks: []

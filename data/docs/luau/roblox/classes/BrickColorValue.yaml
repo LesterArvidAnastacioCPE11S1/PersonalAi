@@ -1,0 +1,151 @@
+name: BrickColorValue
+type: class
+memory_category: Instances
+summary: 'A container object for a single BrickColor value.
+
+  '
+description: 'An instance which is used to store a BrickColor value.
+
+  '
+code_samples: []
+inherits:
+- ValueBase
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: BrickColorValue.Value
+  summary: 'Used to hold a `Datatype.BrickColor` value.
+
+    '
+  description: 'Used to hold a `Datatype.BrickColor` value.
+
+    '
+  code_samples: []
+  type: BrickColor
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+  simulationAccess: true
+- name: Value
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: BrickColor
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+methods: []
+events:
+- name: BrickColorValue.Changed
+  summary: 'Fired whenever the `Class.BrickColorValue.Value` of the BrickColorValue
+    is
+
+    changed.
+
+    '
+  description: 'Fired whenever the `Class.BrickColorValue.Value` of the
+
+    `Class.BrickColorValue` is changed. It will run with the new value being
+
+    stored in the argument object, instead of a string representing the
+
+    property being changed.
+
+
+    This event, like other changed events, can be used to track when an
+
+    BrickColorValue changes and to track the different values that it may
+
+    change to.
+
+
+    Equivalent changed events exist for similar objects, such as
+
+    `Class.NumberValue` and `Class.StringValue`, depending on what object type
+
+    best suits the need.
+
+    '
+  code_samples:
+  - BrickColorValue-Changed1
+  parameters:
+  - name: value
+    type: BrickColor
+    default: null
+    summary: 'The new value after the change.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities: []
+- name: BrickColorValue.changed
+  summary: ''
+  description: ''
+  code_samples: []
+  parameters:
+  - name: value
+    type: BrickColor
+    default: null
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This event is a deprecated variant of `Class.BrickColorValue.Changed`
+
+    which should be used instead.
+
+    '
+  security: None
+  capabilities: []
+- name: Changed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: value
+    type: BrickColor
+- name: changed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''Changed'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: value
+    type: BrickColor
+callbacks: []

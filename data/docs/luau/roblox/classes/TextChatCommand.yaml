@@ -1,0 +1,424 @@
+name: TextChatCommand
+type: class
+memory_category: Instances
+summary: 'Represents a text chat command.
+
+  '
+description: 'Represents a text chat command. Can be used to create custom text chat
+
+  commands when a descendant of `Class.TextChatService`.
+
+
+  Custom commands can have up to two aliases, and the Triggered event fires when
+
+  a user''s message matches the value of either the
+
+  `Class.TextChatCommand.PrimaryAlias|PrimaryAlias` or
+
+  `Class.TextChatCommand.SecondaryAlias|SecondaryAlias`. Matching is
+
+  case-insensitive and controlled by
+
+  `Class.TextChatCommand.MatchMode|MatchMode`. When
+
+  `Class.TextChatCommand.DeliverMessage|DeliverMessage` is `false`, a match
+
+  sinks the message. For an example of custom commands, see
+
+  [Custom text chat commands](../../../chat/examples/custom-text-chat-commands.md).
+
+
+  To learn more about using `Class.TextChatService`, see
+
+  [In-experience text chat](../../../chat/in-experience-text-chat.md).
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: TextChatCommand.MatchMode
+  summary: 'How a message is compared to this command''s aliases.
+
+    '
+  description: 'How a message is compared to
+
+    `Class.TextChatCommand.PrimaryAlias|PrimaryAlias` and
+
+    `Class.TextChatCommand.SecondaryAlias|SecondaryAlias`. Defaults to
+
+    `Enum.TextChatCommandMatchMode.StartsWith`.
+
+
+    The primary alias is tested before the secondary alias. For
+
+    `Enum.TextChatCommandMatchMode.Exact` and
+
+    `Enum.TextChatCommandMatchMode.WholeWord`, aliases shorter than the
+
+    minimum length never match.
+
+
+    See `Enum.TextChatCommandMatchMode` for available options.
+
+    '
+  code_samples: []
+  type: TextChatCommandMatchMode
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Chat
+- name: TextChatCommand.AutocompleteVisible
+  summary: 'Determines whether the `Class.TextChatCommand` is shown as a suggestion
+    in
+
+    the chat autocomplete menu.
+
+    '
+  description: 'Whether this `Class.TextChatCommand` appears as a suggestion in the
+    chat
+
+    autocomplete menu. Defaults to `true`.
+
+
+    When `true`, `Class.TextChatCommand.PrimaryAlias|PrimaryAlias` is offered
+
+    in the autocomplete list. Set to `false` to hide it from suggestions; the
+
+    command still works when typed in full via
+
+    `Class.TextChatCommand.PrimaryAlias|PrimaryAlias` or
+
+    `Class.TextChatCommand.SecondaryAlias|SecondaryAlias`.
+
+
+    Autocomplete itself is controlled by
+
+    `Class.ChatInputBarConfiguration.AutocompleteEnabled`.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Chat
+- name: TextChatCommand.DeliverMessage
+  summary: 'Whether a match is also sent as a chat message.
+
+    '
+  description: 'Whether a match is also sent as a chat message. Defaults to `false`.
+
+
+    When `false`, `Class.TextChatCommand.Triggered` receives the full message
+
+    text, `Class.TextChatService.SendingMessage` does not fire, and other
+
+    users do not receive the message. When `true`,
+
+    `Class.TextChatCommand.Triggered|Triggered` receives the matched alias as
+
+    it was authored, and the message continues through the normal send and
+
+    delivery path, including `Class.TextChatService.SendingMessage`.
+
+
+    `Class.TextChatCommand.Triggered|Triggered` still runs only on the sending
+
+    client and the server. If any matching command has `DeliverMessage` set to
+
+    `false`, only those commands fire and the message is sunk.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Chat
+- name: TextChatCommand.Enabled
+  summary: 'Determines whether the `Class.TextChatCommand` is enabled.
+
+    '
+  description: 'Determines whether the `Class.TextChatCommand` is enabled.
+
+
+    When disabled, messages that match the value of
+
+    `Class.TextChatCommand.PrimaryAlias|PrimaryAlias` or
+
+    `Class.TextChatCommand.SecondaryAlias|SecondaryAlias` are not sunk and is
+
+    sent to other users.
+
+
+    Use this to disable default commands on a case-by-case basis.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Chat
+- name: TextChatCommand.PrimaryAlias
+  summary: 'A primary alias used to trigger the `Class.TextChatCommand`.
+
+    '
+  description: 'A primary alias used to trigger the `Class.TextChatCommand`.
+
+
+    If a user sends a message with `Class.TextChannel:SendAsync()` that
+
+    matches the `Class.TextChatCommand.PrimaryAlias|PrimaryAlias`,
+
+    `Class.TextChatCommand.Triggered` fires. Whether the message is also
+
+    delivered depends on
+
+    `Class.TextChatCommand.DeliverMessage|DeliverMessage`.
+
+    '
+  code_samples: []
+  type: string
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Chat
+- name: TextChatCommand.SecondaryAlias
+  summary: 'A secondary alias used to trigger the `Class.TextChatCommand`.
+
+    '
+  description: 'A secondary alias used to trigger the `Class.TextChatCommand`, in
+    addition
+
+    to its `Class.TextChatCommand.PrimaryAlias|PrimaryAlias`.
+
+
+    If a user sends a message with `Class.TextChannel:SendAsync()` that
+
+    matches the `Class.TextChatCommand.SecondaryAlias|SecondaryAlias`,
+
+    `Class.TextChatCommand.Triggered` fires, exactly as it is for the
+
+    `Class.TextChatCommand.PrimaryAlias|PrimaryAlias`. The primary alias wins
+
+    when both match. Matching is case-insensitive. With the default
+
+    `Enum.TextChatCommandMatchMode.StartsWith`, the alias must be followed by
+
+    the end of the message or a space, so a
+
+    `Class.TextChatCommand.SecondaryAlias|SecondaryAlias` of `"/e"` matches
+
+    `"/e"` and `"/e dance"` but not `"/emote"`.
+
+
+    Defaults to an empty string, in which case only the
+
+    `Class.TextChatCommand.PrimaryAlias|PrimaryAlias` triggers the command.
+
+    '
+  code_samples: []
+  type: string
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Chat
+- name: AutocompleteVisible
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'true'
+- name: Enabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'true'
+- name: PrimaryAlias
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+- name: SecondaryAlias
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+methods: []
+events:
+- name: TextChatCommand.Triggered
+  summary: 'An event that developers can bind to execute commands.
+
+    '
+  description: 'An event that developers can bind to execute commands.
+
+
+    When a user sends a message to the server via
+
+    `Class.TextChannel:SendAsync()`, a matching `Class.TextChatCommand` fires
+
+    `Triggered` on the sending client and the server. Other clients do not
+
+    fire `Triggered`. The message is not replicated to other users when
+
+    `Class.TextChatCommand.DeliverMessage|DeliverMessage` is `false`.
+
+
+    For example, for a `Class.TextChatCommand` with
+
+    `Class.TextChatCommand.PrimaryAlias` as "mute", if a user sends "/mute
+
+    SomeUserName", then the relevant `Class.TextChatCommand` for mute will
+
+    fire its `Class.TextChatCommand.Triggered`. The message "/mute
+
+    SomeUserName" is not replicated to other users.
+
+    '
+  code_samples: []
+  parameters:
+  - name: originTextSource
+    type: TextSource
+    default: null
+    summary: 'A reference to the `Class.TextSource` responsible for triggering the
+
+      command via `Class.TextChannel:SendAsync()`.
+
+      '
+  - name: unfilteredText
+    type: string
+    default: null
+    summary: 'The text passed to the command. When
+
+      `Class.TextChatCommand.DeliverMessage|DeliverMessage` is `false`, this
+
+      is the full unfiltered message. When it is `true`, this is the matched
+
+      alias as authored.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Chat
+- name: Triggered
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: originTextSource
+    type: TextSource
+  - name: unfilteredText
+    type: string
+callbacks: []

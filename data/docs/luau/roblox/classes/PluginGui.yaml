@@ -1,0 +1,621 @@
+name: PluginGui
+type: class
+memory_category: Instances
+summary: 'An abstract base class for GUIs that display `Class.GuiObject|GuiObjects`
+  in
+
+  Roblox Studio widgets.
+
+  '
+description: 'PluginGui is an abstract class for GUIs that allow the display of
+
+  `Class.GuiObject|GuiObjects` in various Roblox Studio widgets. As of right
+
+  now, the only available PluginGui type is `Class.DockWidgetPluginGui`, but
+
+  there may be more in the future!
+
+  '
+code_samples: []
+inherits:
+- LayerCollector
+descendants:
+- DockWidgetPluginGui
+tags:
+- NotCreatable
+- NotReplicated
+deprecation_message: ''
+properties:
+- name: PluginGui.Title
+  summary: 'The title that is displayed above the contents of the `Class.PluginGui`.
+
+    '
+  description: 'The title that is displayed above the contents of the `Class.PluginGui`.
+
+    Defaults to empty string.
+
+    '
+  code_samples: []
+  type: string
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: Plugin
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: Plugin
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: Title
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+methods:
+- name: PluginGui:BindToClose
+  summary: 'Binds a function that runs when the user closes the `Class.PluginGui`.
+
+    '
+  description: "This method binds a function that runs when the user clicks the close\n\
+    button of the `Class.PluginGui`. The widget closes and its\n`Class.LayerCollector.Enabled|Enabled`\
+    \ property becomes `false` even when\na function is bound, so the function can't\
+    \ prevent or delay closing. Use\nit to perform tasks such as saving work when\
+    \ the widget closes.\n\nFor example, the following code saves work when the user\
+    \ closes the\nwidget:\n\n```lua\nlocal function saveWork()\n\t-- Save the user's\
+    \ work here.\nend\n\npluginGui:BindToClose(function()\n\tsaveWork()\nend)\n```\n\
+    \nCall `BindToClose()` without an argument to unbind the current function:\n\n\
+    ```lua\npluginGui:BindToClose()\n```\n\nSee also:\n\n- `Class.Plugin:CreateDockWidgetPluginGuiAsync()`\
+    \ to create a\n  `Class.PluginGui`\n- `Class.DataModel:BindToClose()`, which can\
+    \ be used to bind a function to\n  the game ending and should not be confused\
+    \ with this function\n"
+  code_samples: []
+  parameters:
+  - name: function
+    type: Function
+    default: nil
+    summary: 'The function to bind the close button to. If no function is specified
+
+      then any previously specified function will be unbound.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: PluginGui:GetRelativeMousePosition
+  summary: 'Returns the position of the mouse relative to the PluginGui.
+
+    '
+  description: 'GetRelativeMousePosition returns the position of the mouse relative
+    to the
+
+    top-left corner of the `Class.PluginGui`. The returned value changes only
+
+    if a mouse input began on the PluginGui, or if the mouse is presently
+
+    hovering over the window.
+
+    '
+  code_samples:
+  - plugingui-getrelativemouseposition
+  parameters: []
+  returns:
+  - type: Vector2
+    summary: 'The screen position of the mouse relative to the PluginGui in pixels.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: BindToClose
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: function
+    type: Function
+    default: nil
+  returns:
+  - type: 'null'
+- name: GetRelativeMousePosition
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Vector2
+- name: OverrideStudioAction
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: studioAction
+    type: Enum.StudioAction
+  returns:
+  - type: StudioActionOverride
+events:
+- name: PluginGui.PluginDragDropped
+  summary: 'Fires when the user releases their mouse when hovering over a PluginGui
+
+    during a drag operation started by `Class.Plugin:StartDrag()`.
+
+    '
+  description: '**PluginDragDropped** fires when the user releases their mouse over
+    a
+
+    `Class.PluginGui` during a drag operation started by
+
+    `Class.Plugin:StartDrag()`.
+
+
+    See also:
+
+
+    - `Class.PluginGui.PluginDragEntered`
+
+    - `Class.PluginGui.PluginDragLeft`
+
+    - `Class.PluginGui.PluginDragMoved`
+
+    '
+  code_samples:
+  - plugin-drag-and-drop
+  parameters:
+  - name: dragData
+    type: Dictionary
+    default: null
+    summary: 'A copy of the data originally passed to `Class.Plugin:StartDrag()`.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  capabilities:
+  - UI
+- name: PluginGui.PluginDragEntered
+  summary: 'Fires when the user''s mouse enters a PluginGui during a drag operation
+
+    started by `Class.Plugin:StartDrag()`.
+
+    '
+  description: '**PluginDragEntered** fires when the user''s mouse enters the
+
+    `Class.PluginGui` during a drag operation started by
+
+    `Class.Plugin:StartDrag()`.
+
+
+    This event is useful for displaying a "Drop Here" UI on PluginGuis where a
+
+    drag operation can be dropped. Such a UI should be hidden when either
+
+    `Class.PluginGui.PluginDragLeft|PluginDragLeft` or
+
+    `Class.PluginGui.PluginDragDropped|PluginDragDropped` fire.
+
+
+    See also:
+
+
+    - `Class.PluginGui.PluginDragLeft`
+
+    - `Class.PluginGui.PluginDragMoved`
+
+    - `Class.PluginGui.PluginDragDropped`
+
+    '
+  code_samples:
+  - plugin-drag-and-drop
+  parameters:
+  - name: dragData
+    type: Dictionary
+    default: null
+    summary: 'A copy of the data originally passed to `Class.Plugin:StartDrag()`.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  capabilities:
+  - UI
+- name: PluginGui.PluginDragLeft
+  summary: 'Fires when the user''s mouse leaves a PluginGui during a drag operation
+
+    started by `Class.Plugin:StartDrag()`.
+
+    '
+  description: '**PluginDragLeft** fires when the user''s mouse leaves a `Class.PluginGui`
+
+    during a drag operation started by `Class.Plugin:StartDrag()`.
+
+
+    This event and `Class.PluginGui.PluginDragDropped|PluginDragDropped` are
+
+    useful for hiding a "Drop Here" UI on PluginGuis where a drag operation
+
+    can be dropped. Such a UI should be shown when either
+
+    `Class.PluginGui.PluginDragEntered|PluginDragEntered` fires.
+
+
+    See also:
+
+
+    - `Class.PluginGui.PluginDragEntered`
+
+    - `Class.PluginGui.PluginDragMoved`
+
+    - `Class.PluginGui.PluginDragDropped`
+
+    '
+  code_samples:
+  - plugin-drag-and-drop
+  parameters:
+  - name: dragData
+    type: Dictionary
+    default: null
+    summary: 'A copy of the data originally passed to `Class.Plugin:StartDrag()`.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  capabilities:
+  - UI
+- name: PluginGui.PluginDragMoved
+  summary: 'Fires when the user''s mouse moves within a PluginGui during a drag
+
+    operation started by `Class.Plugin:StartDrag()`.
+
+    '
+  description: '**PluginDragMoved** fires when the user''s mouse moves within a
+
+    `Class.PluginGui` during a drag operation started by
+
+    `Class.Plugin:StartDrag()`.
+
+
+    See also:
+
+
+    - `Class.PluginGui.PluginDragEntered`
+
+    - `Class.PluginGui.PluginDragLeft`
+
+    - `Class.PluginGui.PluginDragDropped`
+
+    '
+  code_samples: []
+  parameters:
+  - name: dragData
+    type: Dictionary
+    default: null
+    summary: 'A copy of the data originally passed to `Class.Plugin:StartDrag()`.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  capabilities:
+  - UI
+- name: PluginGui.WindowFocused
+  summary: 'Fires when the user begins interacting with the window of the PluginGui.
+
+    '
+  description: '**WindowFocused** fires immediately when the user starts interacting
+    with
+
+    the PluginGui''s window, usually by clicking on it. This functions works
+
+    similarly to the similarly-named `Class.UserInputService.WindowFocused`
+
+    event. It fires before any `Class.GuiObject.InputBegan` events related to
+
+    mouse buttons.
+
+
+    If another `Class.PluginGui` is in focus and the user focuses this
+
+    PluginGui, then this event fires after the other''s
+
+    `Class.PluginGui.WindowFocusReleased|WindowFocusReleased` event. However,
+
+    if the main game window was in focus, this event fires **after**
+
+    `Class.UserInputService.WindowFocusReleased`.
+
+    '
+  code_samples:
+  - plugingui-focus
+  parameters: []
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  capabilities:
+  - UI
+- name: PluginGui.WindowFocusReleased
+  summary: 'Fires when the user stops interacting with the window of the PluginGui.
+
+    '
+  description: '**WindowFocusReleased** fires immediately when the user stops interacting
+
+    with the PluginGui''s window, usually by clicking on something not in the
+
+    window. This functions works similarly to the similarly-named
+
+    `Class.UserInputService.WindowFocusReleased` event.
+
+
+    If focus is moving to another `Class.PluginGui` while the user had this
+
+    PluginGui in focus, then this event fires before the other''s
+
+    `Class.PluginGui.WindowFocused|WindowFocused` event. However, if the main
+
+    game window is being put in focus, this event fires **after**
+
+    `Class.UserInputService.WindowFocused`.
+
+    '
+  code_samples:
+  - plugingui-focus
+  parameters: []
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  capabilities:
+  - UI
+- name: InputBegan
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: input
+    type: InputObject
+  - name: gameProcessedEvent
+    type: bool
+- name: InputChanged
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: input
+    type: InputObject
+  - name: gameProcessedEvent
+    type: bool
+- name: InputEnded
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: input
+    type: InputObject
+  - name: gameProcessedEvent
+    type: bool
+- name: MouseEnter
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: MouseLeave
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: PluginDragDropped
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: dragData
+    type: Dictionary
+- name: PluginDragEntered
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: dragData
+    type: Dictionary
+- name: PluginDragLeft
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: dragData
+    type: Dictionary
+- name: PluginDragMoved
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: dragData
+    type: Dictionary
+- name: PointerAction
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: wheel
+    type: float
+  - name: pan
+    type: Vector2
+  - name: pinch
+    type: float
+  - name: gameProcessedEvent
+    type: bool
+- name: WindowFocusReleased
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: WindowFocused
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+callbacks: []

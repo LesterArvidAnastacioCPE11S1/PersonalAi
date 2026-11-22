@@ -1,0 +1,22 @@
+name: BasicMeshPartShape
+type: enum
+summary: Reference for Enum.BasicMeshPartShape, generated automatically from the Roblox
+  API dump 0.748.0.7481526.
+description: Reference for Enum.BasicMeshPartShape, generated automatically from the
+  Roblox API dump 0.748.0.7481526.
+code_samples: []
+tags: []
+deprecation_message: ''
+items:
+- name: Capsule
+  summary: ''
+  value: 5
+  tags: []
+- name: Cone
+  summary: ''
+  value: 6
+  tags: []
+- name: RoundedBox
+  summary: ''
+  value: 7
+  tags: []

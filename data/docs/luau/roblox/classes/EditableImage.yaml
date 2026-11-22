@@ -1,0 +1,1053 @@
+name: EditableImage
+type: class
+memory_category: Instances
+summary: 'Object which allows for the runtime creation and manipulation of images.
+
+  '
+description: "`EditableImage` allows for the runtime creation and manipulation of\
+  \ images.\n\nTo create a blank `EditableImage`, use\n`Class.AssetService:CreateEditableImage()`.\
+  \ To create an `EditableImage` from\nan existing image, use `Class.AssetService:CreateEditableImageAsync()`.\n\
+  \n`EditableImage` can be used in any `Datatype.Content` property which takes an\n\
+  image, such as `Class.ImageLabel.ImageContent` or\n`Class.MeshPart.TextureContent`.\
+  \ This is done by setting the content property\nto `Datatype.Content.fromObject(editableImage)`.\n\
+  \nThe `EditableImage` coordinate system is relative to the top left of the\nimage:\n\
+  \n- Top-left: `(0, 0)`\n- Bottom-right: `(Size.X - 1, Size.Y - 1)`\n\nWhen you use\
+  \ `Class.AssetService:PromptCreatePlatformContentAsync()` to\npublish an object\
+  \ that has a `Datatype.Content` property which references an\n`EditableImage`, the\
+  \ editable image is published as an image and the property\nis set to a new asset\
+  \ ID.\n\n#### Update Limitations\n\nOnly a single `EditableImage` can be updated\
+  \ per frame on the display side.\nFor example, if you update three `EditableImage`\
+  \ objects which are currently\nbeing displayed, it will take three frames for all\
+  \ of them to be updated.\n\n#### Enabling for Published Experiences\n\nFor security\
+  \ purposes, using `EditableImage` fails by default in published\ngames. To enable\
+  \ it, open the\n[Creator Dashboard](https://create.roblox.com/dashboard/creations),\
+  \ go to the\ngame's **Configure**&nbsp;⟩ **Settings**, and toggle on **Enable Mesh\
+  \ / Image\nAPIs**. Alternatively, in Studio, open **Experience Settings** and toggle\
+  \ on\n**Allow Mesh / Image APIs** under **Security**. Remember to review the\n[Terms\
+  \ of Use](https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use#creators-restrictions-on-use)\n\
+  before enabling the toggle.\n\n#### Permissions\n\nTo prevent misuse, `Class.AssetService:CreateEditableImageAsync()`\
+  \ only allows\nyou to load and edit image assets if any of the following is true:\n\
+  \n- Owned by or explicitly shared with the experience owner.\n- Owned by or explicitly\
+  \ shared with the logged in Studio user.\n- Owned by or explicitly shared with the\
+  \ logged in player if the\n  `EditableImage` is on the client side.\n- Owned by\
+  \ a group where the experience owner, Studio user, or player has a\n  role with\
+  \ permission to edit the group's assets. See\n  [Roles and permissions](../../../projects/groups.md#roles-and-permissions)\n\
+  \  for more information.\n\nSee [Grant permissions](../../../projects/assets/privacy.md#grant-permissions)\n\
+  to learn how to share assets with users or groups.\n\nThe APIs throw an error if\
+  \ they are used to load an asset that does not meet\nthe criteria above.\n\n####\
+  \ Memory Limits\n\nEditable assets are currently expensive for memory usage. To\
+  \ minimize its\nimpact on client performance, `EditableImage` has strict client-side\
+  \ memory\nbudgets, although the server, Studio, and plugins operate with unlimited\n\
+  memory. Linking one `Class.EditableImage` to multiple image-related\n`Datatype.Content`\
+  \ data types (multi-referencing) can help with memory\noptimization.\n\nIf an `EditableImage`\
+  \ no longer changes, you can save a significant amount of\nmemory budget by converting\
+  \ it to `Enum.ContentSourceType|Opaque` content with\n`Class.AssetService:CreateDataModelContentAsync()`.\
+  \ Use the returned\n`Datatype.Content` in place of the `EditableImage`, then call\n\
+  `Class.EditableImage:Destroy()|Destroy()` to release the editable copy. To\nedit\
+  \ the image again, pass the opaque content to\n`Class.AssetService:CreateEditableImageAsync()`.\n"
+code_samples: []
+inherits:
+- Object
+descendants: []
+tags:
+- NotCreatable
+deprecation_message: ''
+properties:
+- name: EditableImage.Size
+  summary: 'Size of the `EditableImage` in pixels.
+
+    '
+  description: 'Size of the `EditableImage` in pixels. The maximum size is
+
+    1024&times;1024. An `EditableImage` cannot be resized; this property is
+
+    read-only. In order to resize or crop an image, create a new
+
+    `EditableImage` and use
+
+    `Class.EditableImage:DrawImageTransformed()|DrawImageTransformed()` to
+
+    transfer the contents; then call
+
+    `Class.EditableImage:Destroy()|Destroy()`.
+
+    '
+  code_samples: []
+  type: Vector2
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - DynamicGeneration
+- name: ImageData
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: BinaryString
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_failed_to_create_class__
+- name: ImageHolder
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: NetAssetRef
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_no_string_value__
+- name: IsReplicatedCopy
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_failed_to_create_class__
+- name: Size
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector2
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_failed_to_create_class__
+methods:
+- name: EditableImage:Destroy
+  summary: 'Destroys the image contents and immediately reclaims the memory they use.
+
+    '
+  description: 'Destroys the contents of the image, immediately reclaiming used memory.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableImage:DrawCircle
+  summary: 'Draws a circle at the specified point.
+
+    '
+  description: 'Draws a circle at the specified point on the `EditableImage`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: center
+    type: Vector2
+    default: null
+    summary: 'Center of the circle, relative to the top-left corner of the
+
+      `EditableImage`. Positions outside the canvas bounds are allowed.
+
+      '
+  - name: radius
+    type: int
+    default: null
+    summary: 'Radius of the circle in pixels.
+
+      '
+  - name: color
+    type: Color3
+    default: null
+    summary: 'Color of the circle.
+
+      '
+  - name: transparency
+    type: float
+    default: 0
+    summary: 'Transparency of the circle with 0 being fully opaque and 1 being fully
+
+      transparent. Default is `0`.
+
+      '
+  - name: combineType
+    type: ImageCombineType
+    default: Overwrite
+    summary: 'How the drawn pixels (source) are combined with the existing pixels
+      of
+
+      this image (destination). Default is
+
+      `Enum.ImageCombineType.Overwrite`.
+
+      '
+  - name: antiAliasing
+    type: AntiAliasing
+    default: Enabled
+    summary: 'Determines whether anti-aliasing is applied to the circle. When set
+      to
+
+      `Enum.AntiAliasing.Enabled`, circle edges are soft. When set to
+
+      `Enum.AntiAliasing.Disabled`, circle edges are hard.
+
+      '
+  - name: alphaBlendType
+    type: ImageAlphaType
+    default: Default
+    summary: 'Determines how this draw will blend alpha values.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableImage:DrawImage
+  summary: 'Draws another `EditableImage` into this `EditableImage` at the given
+
+    position.
+
+    '
+  description: 'Draws another `EditableImage` into this `EditableImage` at the given
+
+    position. Positions outside the canvas bounds are allowed such that only
+
+    part of the new image is drawn.
+
+    '
+  code_samples: []
+  parameters:
+  - name: position
+    type: Vector2
+    default: null
+    summary: 'Position at which the top-left corner of the source image will be
+
+      drawn.
+
+      '
+  - name: image
+    type: EditableImage
+    default: null
+    summary: 'The source `EditableImage` to draw into this `EditableImage`.
+
+      '
+  - name: combineType
+    type: ImageCombineType
+    default: AlphaBlend
+    summary: 'How the pixels of the source image are combined with the existing
+
+      pixels of this image (destination). Default is
+
+      `Enum.ImageCombineType.AlphaBlend`.
+
+      '
+  - name: alphaBlendType
+    type: ImageAlphaType
+    default: Default
+    summary: 'Determines how this draw will blend alpha values.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableImage:DrawImageProjected
+  summary: 'Projects another `EditableImage` onto a surface using an
+
+    `Class.EditableMesh` or prepared `Class.WrapTextureTransfer` and stores
+
+    the result on this `EditableImage`.
+
+    '
+  description: 'Projects another `EditableImage` onto the surface defined by
+
+    `projectionSource` and stores the result on this `EditableImage` using the
+
+    source''s UV mapping and the specified projection and brush configuration.
+
+    `projectionSource` accepts an `Class.EditableMesh` or a
+
+    `Class.WrapTextureTransfer`.
+
+
+    When passing a `Class.WrapTextureTransfer`, first call
+
+    `Class.WrapTextureTransfer:PrepareProjectionMeshDataAsync()` and wait for
+
+    it to complete successfully.
+
+    '
+  code_samples: []
+  parameters:
+  - name: projectionSource
+    type: Object
+    default: null
+    summary: 'The `Class.EditableMesh` or prepared `Class.WrapTextureTransfer` that
+
+      provides the geometry and UV mapping for projection.
+
+      '
+  - name: projection
+    type: Dictionary
+    default: null
+    summary: "Projection configuration dictionary including the following key-value\n\
+      pairs:\n\n- `Direction` (`Datatype.Vector3`) where the projector is facing.\n\
+      - `Position` (`Datatype.Vector3`) as the position in local space with\n  respect\
+      \ to the mesh.\n- `Size` (`Datatype.Vector3`) as the size of the projector.\n\
+      - `Up` (`Datatype.Vector3`) as the up vector of the projector in local\n  space\
+      \ with respect to the mesh.\n"
+  - name: brushConfig
+    type: Dictionary
+    default: null
+    summary: "Brush configuration dictionary including the following key-value\npairs:\n\
+      \n- `AlphaBlendType` (`Enum.ImageAlphaType`) which determines how this\n  projection\
+      \ will blend alpha values.\n- `ColorBlendType` (`Enum.ImageCombineType`) which\
+      \ determines how this\n  projection will blend color values.\n- `Decal` (`EditableImage`)\
+      \ as the image used for projection.\n- `FadeAngle` (number) as the angle in\
+      \ degrees for the projection\n  edges to start to fall off. The projection will\
+      \ be fully faded out\n  at 90 degrees. An angle of 0 means fading starts immediately\
+      \ at 0\n  degrees and an angle of 90 means no fading but instead a hard edge\n\
+      \  at 90 degrees. An angle of 70 degrees would mean the projection\n  starts\
+      \ to fade at 70 degrees and is fully faded out at 90 degrees.\n- `BlendIntensity`\
+      \ (number) as the value between `0` and `1` which\n  controls how much of the\
+      \ projection is blended into the resulting\n  image.\n"
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableImage:SampleImageProjected
+  summary: 'Projects pixels from a texture into this `EditableImage` using an
+
+    `Class.EditableMesh` or prepared `Class.WrapTextureTransfer`.
+
+    '
+  description: 'Projects the pixels in `sourceTexture`, using the geometry and UV
+    mapping
+
+    of `projectionSource`, onto this `EditableImage`. `projectionSource`
+
+    accepts an `Class.EditableMesh` or a `Class.WrapTextureTransfer`. This is
+
+    the inverse of
+
+    `Class.EditableImage:DrawImageProjected()|DrawImageProjected()`: it reads
+
+    from the mesh texture and writes the sampled pixels into this image in
+
+    place.
+
+
+    Only mesh surfaces facing the projector and within the projection volume
+
+    are sampled. When multiple mesh surfaces project to the same destination
+
+    pixel, the closest surface is used. This makes the method suitable for
+
+    sampling a brush-sized region, modifying it in place, and then using
+
+    `Class.EditableImage:DrawImageProjected()|DrawImageProjected()` to write
+
+    it back onto a texture.
+
+
+    When passing a `Class.WrapTextureTransfer`, first call
+
+    `Class.WrapTextureTransfer:PrepareProjectionMeshDataAsync()` and wait for
+
+    it to complete successfully.
+
+    '
+  code_samples: []
+  parameters:
+  - name: projectionSource
+    type: Object
+    default: null
+    summary: 'The `Class.EditableMesh` or prepared `Class.WrapTextureTransfer` that
+
+      maps `sourceTexture` onto the surface being sampled.
+
+      '
+  - name: sourceTexture
+    type: EditableImage
+    default: null
+    summary: 'The `EditableImage` from which pixels are sampled.
+
+      '
+  - name: projectionConfig
+    type: Dictionary
+    default: null
+    summary: "Projection configuration dictionary containing the following key-value\n\
+      pairs:\n\n- `Direction` (`Datatype.Vector3`) where the projector is facing.\n\
+      - `Position` (`Datatype.Vector3`) as the projector position in local\n  space\
+      \ with respect to the mesh.\n- `Size` (`Datatype.Vector3`) as the size of the\
+      \ projector. The **X**\n  and **Y** components specify its dimensions, while\
+      \ the **Z**\n  component specifies the projection depth.\n- `Up` (`Datatype.Vector3`)\
+      \ as the up vector of the projector in local\n  space with respect to the mesh.\n"
+  - name: brushConfig
+    type: Dictionary
+    default: null
+    summary: "Brush configuration dictionary containing the following key-value\n\
+      pairs:\n\n- `AlphaBlendType` (`Enum.ImageAlphaType`) which determines how the\n\
+      \  sampled alpha values are blended.\n- `ColorBlendType` (`Enum.ImageCombineType`)\
+      \ which determines how the\n  sampled color values are blended.\n- `FadeAngle`\
+      \ (number) as the angle in degrees at which the projection\n  begins to fade\
+      \ based on the surface normal. A value of `180` applies\n  no normal-angle fade.\n"
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableImage:DrawImageTransformed
+  summary: 'Draws an image into this `EditableImage` with transformations including
+
+    scaling and rotation, placing it at the specified position.
+
+    '
+  description: 'This method lets you draw an `EditableImage` into this `EditableImage`
+
+    with transformations applied, such as scaling and rotation. The position
+
+    parameter specifies where the pivot point of the source image will be
+
+    placed on this image after transformations. Positions outside the canvas
+
+    bounds are allowed such that only part of the new image is drawn.
+
+    '
+  code_samples:
+  - EditableImage-DrawImageTransformed
+  - EditableImage-DrawImageTransformed-Crop
+  parameters:
+  - name: position
+    type: Vector2
+    default: null
+    summary: 'Position in pixels where the pivot point of the source image will be
+
+      placed on this image.
+
+      '
+  - name: scale
+    type: Vector2
+    default: null
+    summary: 'Scaling factors for the source image along the X and Y axes.
+
+      '
+  - name: rotation
+    type: float
+    default: null
+    summary: 'The rotation angle in degrees, applied around the pivot point of the
+
+      source image.
+
+      '
+  - name: image
+    type: EditableImage
+    default: null
+    summary: 'The source `EditableImage` to be drawn into this image.
+
+      '
+  - name: options
+    type: Dictionary?
+    default: null
+    summary: "Optional dictionary for additional configuration:\n\n- `CombineType`:\
+      \ Specifies how the pixels of the source image blend\n  with those of the destination.\
+      \ Default is\n  `Enum.ImageCombineType.AlphaBlend`.\n- `SamplingMode`: Specifies\
+      \ the sampling method (e.g. `Default` for\n  bilinear or `Pixelated` for nearest\
+      \ neighbor). Default is\n  `Enum.ResamplerMode.Default`.\n- `PivotPoint`: Specifies\
+      \ the pivot point within the source image for\n  scaling and rotation. Default\
+      \ is the center of the source image\n  (i.e. `Image.Size / 2`).\n- `AlphaBlendType`:\
+      \ Determines how this draw will blend alpha values.\n  Default is `Enum.ImageAlphaType.Default`.\n"
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableImage:DrawLine
+  summary: 'Draws a line between two provided points.
+
+    '
+  description: 'Draws a line on the `EditableImage` one pixel thick between the two
+
+    provided points.
+
+    '
+  code_samples: []
+  parameters:
+  - name: p1
+    type: Vector2
+    default: null
+    summary: 'Start point of the line.
+
+      '
+  - name: p2
+    type: Vector2
+    default: null
+    summary: 'End point of the line.
+
+      '
+  - name: color
+    type: Color3
+    default: null
+    summary: 'Color of the line.
+
+      '
+  - name: transparency
+    type: float
+    default: 0
+    summary: 'Transparency of the line. Default is `0`.
+
+      '
+  - name: combineType
+    type: ImageCombineType
+    default: Overwrite
+    summary: 'How the drawn pixels (source) are combined with the existing pixels
+      of
+
+      this image (destination). Default is
+
+      `Enum.ImageCombineType.Overwrite`.
+
+      '
+  - name: antiAliasing
+    type: AntiAliasing
+    default: Enabled
+    summary: 'Determines whether anti-aliasing is applied to the line. When set to
+
+      `Enum.AntiAliasing.Enabled`, line edges are soft. When set to
+
+      `Enum.AntiAliasing.Disabled`, line edges are hard.
+
+      '
+  - name: alphaBlendType
+    type: ImageAlphaType
+    default: Default
+    summary: 'Determines how this draw will blend alpha values.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableImage:DrawRectangle
+  summary: 'Draws a rectangle of the given size at the given top-left position.
+
+    '
+  description: 'Draws a rectangle on the `EditableImage` of the given size at the
+    given
+
+    top-left position.
+
+    '
+  code_samples: []
+  parameters:
+  - name: position
+    type: Vector2
+    default: null
+    summary: 'Position of the top-left of the rectangle. Unlike other drawing
+
+      methods, this cannot be outside the canvas bounds of the
+
+      `EditableImage`.
+
+      '
+  - name: size
+    type: Vector2
+    default: null
+    summary: 'Size of the rectangle to draw, in pixels.
+
+      '
+  - name: color
+    type: Color3
+    default: null
+    summary: 'Color of the rectangle.
+
+      '
+  - name: transparency
+    type: float
+    default: 0
+    summary: 'Transparency of the rectangle. Default is `0`.
+
+      '
+  - name: combineType
+    type: ImageCombineType
+    default: Overwrite
+    summary: 'How the drawn pixels (source) are combined with the existing pixels
+      of
+
+      this image (destination). Default is
+
+      `Enum.ImageCombineType.Overwrite`.
+
+      '
+  - name: alphaBlendType
+    type: ImageAlphaType
+    default: Default
+    summary: 'Determines how this draw will blend alpha values.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableImage:ReadPixelsBuffer
+  summary: 'Reads a rectangular region of pixels into a buffer.
+
+    '
+  description: 'Reads a rectangular region of pixels from an `EditableImage` and returns
+
+    it as a buffer. Each number in the buffer is a single byte, with pixels
+
+    stored in a sequence of four bytes (red, green, blue, and alpha).
+
+
+    Note that this method uses alpha instead of transparency, unlike the
+
+    `EditableImage` drawing methods.
+
+    '
+  code_samples:
+  - EditableImage-ReadPixels1
+  parameters:
+  - name: position
+    type: Vector2
+    default: null
+    summary: 'Top-left corner of the rectangular region of pixels to read.
+
+      '
+  - name: size
+    type: Vector2
+    default: null
+    summary: 'Size of the rectangular region of pixels to read.
+
+      '
+  returns:
+  - type: buffer
+    summary: 'Buffer where each pixel is represented by four bytes (red, green, blue
+
+      and alpha respectively). The length of the buffer can be calculated as
+
+      `Size.X * Size.Y * 4` bytes.
+
+      '
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableImage:WritePixelsBuffer
+  summary: 'Writes a rectangular region of pixels into the image.
+
+    '
+  description: 'Writes a rectangular region of pixels to an `EditableImage` from a
+    buffer.
+
+    Each number in the buffer is a single byte, with pixels stored in a
+
+    sequence of four bytes (red, green, blue, and alpha).
+
+
+    Note that this method uses alpha instead of transparency, unlike the
+
+    `EditableImage` drawing methods.
+
+    '
+  code_samples:
+  - EditableImage-ReadPixelsWritePixels1
+  parameters:
+  - name: position
+    type: Vector2
+    default: null
+    summary: 'Top-left corner of the rectangular region to draw the pixels into.
+
+      '
+  - name: size
+    type: Vector2
+    default: null
+    summary: 'Size of the rectangular region of pixels to write.
+
+      '
+  - name: buffer
+    type: buffer
+    default: null
+    summary: 'A buffer where each pixel is represented by four bytes (red, green,
+
+      blue, and alpha respectively). The length of the buffer should be
+
+      `Size.X * Size.Y * 4` bytes.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: Destroy
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: DrawCircle
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: center
+    type: Vector2
+  - name: radius
+    type: int
+  - name: color
+    type: Color3
+  - name: transparency
+    type: float
+    default: '0'
+  - name: combineType
+    type: Enum.ImageCombineType
+    default: Overwrite
+  - name: antiAliasing
+    type: Enum.AntiAliasing
+    default: Enabled
+  - name: alphaBlendType
+    type: Enum.ImageAlphaType
+    default: Default
+  returns:
+  - type: 'null'
+- name: DrawImage
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: position
+    type: Vector2
+  - name: image
+    type: EditableImage
+  - name: combineType
+    type: Enum.ImageCombineType
+    default: AlphaBlend
+  - name: alphaBlendType
+    type: Enum.ImageAlphaType
+    default: Default
+  returns:
+  - type: 'null'
+- name: DrawImageProjected
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: projectionSource
+    type: Object
+  - name: projection
+    type: Dictionary
+  - name: brushConfig
+    type: Dictionary
+  returns:
+  - type: 'null'
+- name: DrawImageTransformed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: position
+    type: Vector2
+  - name: scale
+    type: Vector2
+  - name: rotation
+    type: float
+  - name: image
+    type: EditableImage
+  - name: options
+    type: Dictionary?
+  returns:
+  - type: 'null'
+- name: DrawLine
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: p1
+    type: Vector2
+  - name: p2
+    type: Vector2
+  - name: color
+    type: Color3
+  - name: transparency
+    type: float
+    default: '0'
+  - name: combineType
+    type: Enum.ImageCombineType
+    default: Overwrite
+  - name: antiAliasing
+    type: Enum.AntiAliasing
+    default: Enabled
+  - name: alphaBlendType
+    type: Enum.ImageAlphaType
+    default: Default
+  returns:
+  - type: 'null'
+- name: DrawRectangle
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: position
+    type: Vector2
+  - name: size
+    type: Vector2
+  - name: color
+    type: Color3
+  - name: transparency
+    type: float
+    default: '0'
+  - name: combineType
+    type: Enum.ImageCombineType
+    default: Overwrite
+  - name: alphaBlendType
+    type: Enum.ImageAlphaType
+    default: Default
+  returns:
+  - type: 'null'
+- name: DrawTriangle
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: p1
+    type: Vector2
+  - name: p2
+    type: Vector2
+  - name: p3
+    type: Vector2
+  - name: color
+    type: Color3
+  - name: transparency
+    type: float
+  returns:
+  - type: 'null'
+- name: ReadPixelsBuffer
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: position
+    type: Vector2
+  - name: size
+    type: Vector2
+  returns:
+  - type: buffer
+- name: SampleImageProjected
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: projectionSource
+    type: Object
+  - name: sourceTexture
+    type: EditableImage
+  - name: projectionConfig
+    type: Dictionary
+  - name: brushConfig
+    type: Dictionary
+  returns:
+  - type: 'null'
+- name: WritePixelsBuffer
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: position
+    type: Vector2
+  - name: size
+    type: Vector2
+  - name: buffer
+    type: buffer
+  returns:
+  - type: 'null'
+events: []
+callbacks: []

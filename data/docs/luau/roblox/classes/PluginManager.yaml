@@ -1,0 +1,174 @@
+name: PluginManager
+type: class
+memory_category: Instances
+summary: 'A deprecated singleton that was previously required to create plugins.
+
+  '
+description: '`PluginManager` is a deprecated singleton that was previously required
+  to
+
+  create plugins. It still has some applicable uses, such as if you need to
+
+  create a `Class.Plugin` object from Studio''s
+
+  [Command Bar](../../../studio/ui-overview.md#command-bar).
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+deprecation_message: ''
+properties: []
+methods:
+- name: PluginManager:CreatePlugin
+  summary: 'Creates a new `Class.Plugin` object and returns it.
+
+    '
+  description: 'Creates a new `Class.Plugin` object and returns it.
+
+
+    Creating plugins this way is deprecated; see `Class.Plugin` for the
+
+    current process. `CreatePlugin` still has limited uses, such as creating a
+
+    `Class.Plugin` from Studio''s
+
+    [Command Bar](../../../studio/ui-overview.md#command-bar).
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Instance
+    summary: 'The newly created `Class.Plugin`.
+
+      '
+  tags:
+  - Deprecated
+  - CustomLuaState
+  deprecation_message: 'The steps to create a plugin have changed. To learn more,
+    see
+
+    `Class.Plugin`.
+
+    '
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: PluginManager:ExportPlace
+  summary: 'Exports the place to an `.obj` file that is saved to the path chosen by
+
+    the user in a file save dialogue.
+
+    '
+  description: 'This method exports all geometry in the place to an `.obj` file. The
+    file
+
+    is saved to the path chosen by the user in a file save dialogue (the
+
+    `filePath` argument is ignored).
+
+    '
+  code_samples: []
+  parameters:
+  - name: filePath
+    type: string
+    default: null
+    summary: 'Ignored. A file save dialogue determines the export path.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: PluginManager:ExportSelection
+  summary: 'Exports the current `Class.Selection` to an `.obj` file that is saved
+    to
+
+    the path chosen by the user in a file save dialogue.
+
+    '
+  description: 'This method exports all geometry in the current `Class.Selection`
+    to an
+
+    `.obj` file. The file is saved to the path chosen by the user in a file
+
+    save dialogue (the `filePath` argument is ignored).
+
+    '
+  code_samples: []
+  parameters:
+  - name: filePath
+    type: string
+    default: null
+    summary: 'Ignored. A file save dialogue determines the export path.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: CreatePlugin
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Instance
+- name: ExportPlace
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: filePath
+    type: string
+  returns:
+  - type: 'null'
+- name: ExportSelection
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: filePath
+    type: string
+  returns:
+  - type: 'null'
+events: []
+callbacks: []

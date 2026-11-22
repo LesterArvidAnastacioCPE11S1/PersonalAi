@@ -1,0 +1,22 @@
+name: PhysicsSimulationRate
+type: enum
+summary: Reference for Enum.PhysicsSimulationRate, generated automatically from the
+  Roblox API dump 0.748.0.7481526.
+description: Reference for Enum.PhysicsSimulationRate, generated automatically from
+  the Roblox API dump 0.748.0.7481526.
+code_samples: []
+tags: []
+deprecation_message: ''
+items:
+- name: Fixed240Hz
+  summary: ''
+  value: 0
+  tags: []
+- name: Fixed120Hz
+  summary: ''
+  value: 1
+  tags: []
+- name: Fixed60Hz
+  summary: ''
+  value: 2
+  tags: []

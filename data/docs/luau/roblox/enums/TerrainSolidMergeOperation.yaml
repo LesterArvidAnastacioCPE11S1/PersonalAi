@@ -1,0 +1,46 @@
+name: TerrainSolidMergeOperation
+type: enum
+summary: Reference for Enum.TerrainSolidMergeOperation, generated automatically from
+  the Roblox API dump 0.748.0.7481526.
+description: Reference for Enum.TerrainSolidMergeOperation, generated automatically
+  from the Roblox API dump 0.748.0.7481526.
+code_samples: []
+tags: []
+deprecation_message: ''
+items:
+- name: None
+  summary: ''
+  value: 0
+  tags: []
+- name: Paint
+  summary: ''
+  value: 1
+  tags: []
+- name: Source
+  summary: ''
+  value: 2
+  tags: []
+- name: Union
+  summary: ''
+  value: 3
+  tags: []
+- name: Dig
+  summary: ''
+  value: 4
+  tags: []
+- name: Difference
+  summary: ''
+  value: 5
+  tags: []
+- name: Intersect
+  summary: ''
+  value: 6
+  tags: []
+- name: Cut
+  summary: ''
+  value: 7
+  tags: []
+- name: Place
+  summary: ''
+  value: 8
+  tags: []

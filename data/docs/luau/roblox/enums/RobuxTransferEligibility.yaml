@@ -1,0 +1,26 @@
+name: RobuxTransferEligibility
+type: enum
+summary: Reference for Enum.RobuxTransferEligibility, generated automatically from
+  the Roblox API dump 0.748.0.7481526.
+description: Reference for Enum.RobuxTransferEligibility, generated automatically
+  from the Roblox API dump 0.748.0.7481526.
+code_samples: []
+tags: []
+deprecation_message: ''
+items:
+- name: Unknown
+  summary: ''
+  value: 0
+  tags: []
+- name: Eligible
+  summary: ''
+  value: 1
+  tags: []
+- name: SenderNotEligible
+  summary: ''
+  value: 2
+  tags: []
+- name: ReceiverNotEligible
+  summary: ''
+  value: 3
+  tags: []

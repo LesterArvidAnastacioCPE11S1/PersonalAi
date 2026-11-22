@@ -1,0 +1,197 @@
+name: HttpRbxApiService
+type: class
+memory_category: Instances
+summary: API reference for HttpRbxApiService, generated automatically from the Roblox
+  API dump 0.748.0.7481526. Prose documentation is not available for this class yet.
+description: API reference for HttpRbxApiService, generated automatically from the
+  Roblox API dump 0.748.0.7481526. Prose documentation is not available for this class
+  yet.
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+deprecation_message: ''
+properties: []
+methods:
+- name: GetDocumentationUrl
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: partialUrl
+    type: string
+  returns:
+  - type: string
+- name: GetAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: apiUrlPath
+    type: string
+  - name: priority
+    type: Enum.ThrottlingPriority
+    default: Default
+  - name: httpRequestType
+    type: Enum.HttpRequestType
+    default: Default
+  returns:
+  - type: string
+- name: GetAsyncFullUrl
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: apiUrl
+    type: string
+  - name: priority
+    type: Enum.ThrottlingPriority
+    default: Default
+  - name: httpRequestType
+    type: Enum.HttpRequestType
+    default: Default
+  returns:
+  - type: string
+- name: PostAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: apiUrlPath
+    type: string
+  - name: data
+    type: string
+  - name: priority
+    type: Enum.ThrottlingPriority
+    default: Default
+  - name: content_type
+    type: Enum.HttpContentType
+    default: ApplicationJson
+  - name: httpRequestType
+    type: Enum.HttpRequestType
+    default: Default
+  returns:
+  - type: string
+- name: PostAsyncFullUrl
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: apiUrl
+    type: string
+  - name: data
+    type: string
+  - name: priority
+    type: Enum.ThrottlingPriority
+    default: Default
+  - name: content_type
+    type: Enum.HttpContentType
+    default: ApplicationJson
+  - name: httpRequestType
+    type: Enum.HttpRequestType
+    default: Default
+  returns:
+  - type: string
+- name: RequestAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: requestOptions
+    type: Dictionary
+  - name: priority
+    type: Enum.ThrottlingPriority
+    default: Default
+  - name: content_type
+    type: Enum.HttpContentType
+    default: ApplicationJson
+  - name: httpRequestType
+    type: Enum.HttpRequestType
+    default: Default
+  returns:
+  - type: string
+- name: RequestLimitedAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: requestOptions
+    type: Dictionary
+  - name: priority
+    type: Enum.ThrottlingPriority
+    default: Default
+  - name: content_type
+    type: Enum.HttpContentType
+    default: ApplicationJson
+  - name: httpRequestType
+    type: Enum.HttpRequestType
+    default: Default
+  returns:
+  - type: string
+events: []
+callbacks: []

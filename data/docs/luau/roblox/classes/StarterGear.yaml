@@ -1,0 +1,63 @@
+name: StarterGear
+type: class
+memory_category: Instances
+summary: 'If the game allows gear, `StarterGear` is a container automatically inserted
+
+  into each `Class.Player` object when the player joins the game. Whenever the
+
+  player''s character spawns, the contents of that player''s `StarterGear` are
+
+  copied into the player''s `Class.Backpack`.
+
+  '
+description: "When a player spawns, the contents of that player's `StarterGear` is\
+  \ copied\ninto the player's `Class.Backpack`. Additionally, if the game allows gear,\
+  \ all\nof the appropriate gear `Class.Tool|Tools` that the player owns are inserted\n\
+  into that player's `StarterGear`.\n\nUnlike `Class.StarterPack`, `StarterGear` isn't\
+  \ a service but rather a child\nof each `Class.Player` object, so its contents are\
+  \ player‑specific. Whether or\nnot gear can be permitted is determined in a place's\
+  \ **Permissions** settings.\nYou can enable gear by its genre or choose specific\
+  \ types to allow. To disable\ngear, ensure all the gear types are unselected.\n\n\
+  Listening to the `Class.Players.PlayerAdded` event from a server\n`Class.Script`\
+  \ is useful for accessing `StarterGear`:\n\n```lua\nlocal Players = game:GetService(\"\
+  Players\")\n\nlocal toolPrefab = Instance.new(\"Tool\")\ntoolPrefab.Name = \"Example\
+  \ Tool\"\n\nlocal function onPlayerAdded(player)\n\t-- Wait for StarterGear to be\
+  \ added\n\tlocal starterGear = player:WaitForChild(\"StarterGear\")\n\t-- Clone\
+  \ prefab tool to StarterGear\n\tlocal toolClone = toolPrefab:Clone()\n\ttoolClone.Parent\
+  \ = starterGear\nend\n\nPlayers.PlayerAdded:Connect(onPlayerAdded)\n```\n\n####\
+  \ Gameplay Considerations\n\nAlways test experiences after adding gear to them to\
+  \ check that users can't\neasily abuse them there. Gear may include `Class.Script`\
+  \ objects which allow\nthe player to perform actions that you might not consider;\
+  \ for example,\nnavigational gear might allow the player to access a part of the\
+  \ map that you\ndon't want them to, and weapon gear may allow the holder to damage\
+  \ other\nplayers, possibly without retribution or retaliation.\n"
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: Loaded
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Behavior
+  serialization:
+    can_load: false
+    can_save: false
+  default: 'false'
+methods: []
+events: []
+callbacks: []

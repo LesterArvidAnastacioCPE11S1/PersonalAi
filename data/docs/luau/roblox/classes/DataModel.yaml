@@ -1,0 +1,2591 @@
+name: DataModel
+type: class
+memory_category: Instances
+summary: 'The root of Roblox''s parent-child hierarchy. Its direct children are services,
+
+  such as `Class.Workspace` and `Class.Lighting`, that act as the fundamental
+
+  components of a Roblox game.
+
+  '
+description: 'The [Data Model](../../../projects/data-model.md) (commonly known as
+  `game`
+
+  after the global variable used to access it) is the root of Roblox''s
+
+  parent-child hierarchy. Its direct children are services, such as
+
+  `Class.Workspace` and `Class.Lighting`, that act as the fundamental components
+
+  of a Roblox game.
+
+  '
+code_samples:
+- DataModel1
+inherits:
+- ServiceProvider
+descendants: []
+tags:
+- NotCreatable
+deprecation_message: ''
+properties:
+- name: DataModel.CreatorId
+  summary: 'Describes the ID of the user or group that owns the place.
+
+    '
+  description: 'This property describes the ID of the user or group that owns the
+    place.
+
+    If the `Class.DataModel.CreatorType` property is `User` then `CreatorId`
+
+    will be the `Class.Player.UserId` of the place''s owner. If the
+
+    `Class.DataModel.CreatorType` is `Group` then `CreatorId` will be the ID
+
+    of the group that owns the place.
+
+    '
+  code_samples:
+  - detect-when-the-place-owner-joins-the-game
+  type: int64
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: State
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: DataModel.CreatorType
+  summary: 'Describes the `Enum.CreatorType` of the place, whether the place is owned
+
+    by a user or a group.
+
+    '
+  description: 'This property describes the `Enum.CreatorType` of the place, whether
+    the
+
+    place is owned by a user or a group. If `User`, then the
+
+    `Class.DataModel.CreatorId` property will describe the
+
+    `Class.Player.UserId|UserId` of the account that owns the game. If
+
+    `Group`, then it will describe the group ID.
+
+    '
+  code_samples:
+  - detect-when-the-place-owner-joins-the-game
+  type: CreatorType
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: State
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: DataModel.GameId
+  summary: 'Describes the ID of the experience that the place running on the server
+
+    belongs to.
+
+    '
+  description: "This property describes the ID of the experience that the place running\
+    \ on\nthe server belongs to.\n\n#### See Also\n\n- `Class.DataModel.PlaceId`,\
+    \ which describes the ID of the place running\n  on the server\n- `Class.DataModel.JobId`,\
+    \ which is a unique identifier for the server\n  game instance running\n- `Class.TeleportService`,\
+    \ which is a service that can be used to\n  transport `Class.Player|Players` between\
+    \ games\n"
+  code_samples: []
+  type: int64
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: State
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: DataModel.GearGenreSetting
+  summary: 'Not functional. Historically described the gear permissions of the place
+
+    as set on the Roblox website.
+
+    '
+  description: 'This property, along with `Class.DataModel.Genre`, no longer functions
+
+    correctly and attempting to read it may throw an error.
+
+    '
+  code_samples: []
+  type: GearGenreSetting
+  tags:
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  deprecation_message: 'This property is deprecated and is no longer functional. It
+    should not be
+
+    used.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: State
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: DataModel.Genre
+  summary: 'Not functional. Historically described the `Enum.Genre` of the place as
+
+    set on the Roblox website.
+
+    '
+  description: 'This property is broken and should not be used.
+
+
+    This property historically described the `Enum.Genre` of the place as set
+
+    on the Roblox website.
+
+
+    This property, along with `Class.DataModel.GearGenreSetting`, no longer
+
+    functions correctly due to genres existing on the Roblox website that are
+
+    not reflected in the `Enum.Genre` enum. As a result, attempting to read
+
+    this property may throw an error.
+
+    '
+  code_samples: []
+  type: Genre
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: 'This property is deprecated and is no longer functional. It
+    should not be
+
+    used.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: State
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: DataModel.JobId
+  summary: 'A unique identifier for the running game server instance.
+
+    '
+  description: "This property is a unique identifier for the running game server instance.\n\
+    It is a universally unique identifier (UUID), meaning that no two servers,\npast\
+    \ or present, will ever have the same ID.\n\nDefaults to an empty string in Studio.\n\
+    \n#### See Also\n\n- `Class.TeleportService:GetPlayerPlaceInstanceAsync()` which\
+    \ can be used\n  to retrieve the `Class.DataModel.JobId` of a user's current server.\n\
+    - `Class.TeleportService:TeleportToPlaceInstance()` which can be used to\n  teleport\
+    \ a `Class.Player` to a specific server.\n- `Class.DataModel.PrivateServerId`\
+    \ describes the ID of the private server\n  the game server instance belongs to.\n\
+    - `Class.HttpService:GenerateGUID()`, a function that can be used to\n  generate\
+    \ your own UUIDs.\n"
+  code_samples: []
+  type: string
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: JobInfo
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: DataModel.lighting
+  summary: 'Refers to the game''s `Class.Lighting` service.
+
+    '
+  description: 'This property was once used to get the game''s `Class.Lighting` service.
+
+    '
+  code_samples: []
+  type: Instance
+  tags:
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  deprecation_message: 'This item has been superseded by
+
+    `Class.ServiceProvider:GetService()|game:GetService("Lighting")`, which
+
+    should be used instead.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: DataModel.MatchmakingType
+  summary: 'Represents how players in the server are handled by matchmaking.
+
+    '
+  description: 'This property represents how players in the server are handled by
+
+    matchmaking. Players with different
+
+    `Class.DataModel.MatchmakingType|MatchmakingTypes` cannot be in or
+
+    teleport to the same server.
+
+
+    Note that this property is only valid on the server `Class.DataModel` and
+
+    it will be the `Enum.MatchmakingType.Default` value for all clients, so
+
+    only reference this property inside of a server‑side `Class.Script`.
+
+    '
+  code_samples: []
+  type: MatchmakingType
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities: []
+- name: DataModel.PlaceId
+  summary: 'Describes the ID of the place running on the server.
+
+    '
+  description: "This property describes the ID of the place running on the server.\n\
+    \nIf the place has not been published to Roblox, this ID will correspond\nwith\
+    \ the template being used.\n\n#### See Also\n\n- `Class.DataModel.GameId`, which\
+    \ describes the ID of the experience that\n  the current place belongs to\n- `Class.DataModel.JobId`,\
+    \ which is a unique identifier for the server\n  game instance running\n- `Class.TeleportService`,\
+    \ which is a service that can be used to\n  transport `Class.Player|Players` between\
+    \ places\n"
+  code_samples: []
+  type: int64
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: State
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: DataModel.PlaceVersion
+  summary: 'Describes the version of the place the server is running on.
+
+    '
+  description: 'This property describes the version of the place the server is running
+    on.
+
+
+    This version number corresponds with the version number shown under the
+
+    **Version History** section of the place''s settings. It is not the current
+
+    version of the Roblox client. This property is 0 for all unpublished
+
+    experiences.
+
+
+    When a server instance is created for a place, it uses the place''s current
+
+    version. If the place is later updated while this server is running, the
+
+    server will remain at its current version.
+
+
+    This property can be used to display a `Class.ScreenGui` showing the
+
+    current version of the game to `Class.Player|Players` to assist with
+
+    debugging.
+
+    '
+  code_samples:
+  - server-version-number-gui
+  type: int
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: State
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: DataModel.PrivateServerId
+  summary: 'Describes the private server ID of the server, if the server is a VIP
+
+    server or a reserved server. VIP servers and reserved servers are the two
+
+    types of private servers.
+
+    '
+  description: "This property describes the private server ID of the server, if the\
+    \ server\nis a private server.\n\nIf the server is not a private server, then\
+    \ this property will be an empty\nstring.\n\n#### Private servers\n\nPrivate servers\
+    \ refer to the following:\n\n- [VIP servers](../../../production/monetization/private-servers.md),\n\
+    \  private servers that users can purchase from the games page.\n- Reserved servers,\
+    \ private servers created by the developer using\n  `Class.TeleportService:TeleportAsync()`\
+    \ with\n  `Class.TeleportOptions.ReservedServerId`.\n\n#### PrivateServerId vs\
+    \ JobId\n\nThe PrivateServerId of a server is different from the\n`Class.DataModel.JobId`.\
+    \ The `Class.DataModel.JobId|JobId` is the unique\nidentifier of the current server\
+    \ instance.\n\nPrivate servers (private or reserved servers) can have multiple\
+    \ server\ninstances associated with them over time. This is because, although\
+    \ only\none server instance can be running at once for a private server, new\n\
+    server instances can open and close as players join and leave the game.\nFor example,\
+    \ no server instance is running when nobody is playing in the\nserver. The PrivateServerId\
+    \ will be consistent across all of these server\ninstances, and the `Class.DataModel.JobId`\
+    \ will be unique for each one.\n\nSee also:\n\n- `Class.DataModel.PrivateServerOwnerId`,\
+    \ a property describing the owner\n  of a private server\n- `Class.TeleportService:TeleportAsync()`,\
+    \ a function which can create a\n  reserved server when used with `Class.TeleportOptions.ReservedServerId`\n"
+  code_samples:
+  - detecting-private-servers
+  type: string
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities: []
+- name: DataModel.PrivateServerOwnerId
+  summary: 'Describes the `Class.Player.UserId|UserId` of the `Class.Player` that
+    owns
+
+    the private server if the server is VIP.
+
+    '
+  description: "This property describes the `Class.Player.UserId|UserId` of the\n\
+    `Class.Player` that owns the\n[VIP server](../../../production/monetization/private-servers.md)\
+    \ if the\nserver is a VIP server.\n\nIf the server is a standard or reserved server\
+    \ then this property will be\nset to `0`.\n\nThis property could be used to identify\
+    \ if a `Class.Player` is the owner\nof the private server, for example:\n\n```lua\n\
+    local Players = game:GetService(\"Players\")\n\n-- is this a private server?\n\
+    if game.PrivateServerId ~= \"\" and game.PrivateServerOwnerId ~= 0 then\n\n  \
+    \  -- listen for new players being added\n    Players.PlayerAdded:Connect(function(player)\n\
+    \n        -- check if the player is the server owner\n        if player.UserId\
+    \ == game.PrivateServerOwnerId then\n            print(\"The private server owner\
+    \ has joined the game\")\n        end\n    end)\nend\n```\n\nSee also:\n\n- `Class.DataModel.PrivateServerId`,\
+    \ a property describing the unique ID\n  of VIP and reserved servers\n"
+  code_samples:
+  - detecting-private-servers
+  type: int64
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities: []
+- name: DataModel.RunService
+  summary: 'A reference to the `Class.RunService` service.
+
+    '
+  description: 'A reference to the `Class.RunService` service. Always points to
+
+    `Class.RunService` and is never `nil`. You can also retrieve it with
+
+    `Class.ServiceProvider:GetService()|GetService()`, for example
+
+    `game:GetService("RunService")`.
+
+    '
+  code_samples: []
+  type: RunService
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: DataModel.ServerRegion
+  summary: 'The region code of the datacenter hosting the current game server.
+
+    '
+  description: 'This read-only property is a three-letter IATA airport code (such
+    as
+
+    `IAD`, `LAX`, `LHR`, `NRT`, or `SYD`) identifying the datacenter region
+
+    hosting the current game server.
+
+
+    Defaults to an empty string in Studio and client contexts, or when the
+
+    server''s region is unknown.
+
+    '
+  code_samples: []
+  type: string
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: JobInfo
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: DataModel.VIPServerId
+  summary: 'A string that could identify the current server as a private server.
+
+    '
+  description: 'This property was string that could identify the current server as
+    a
+
+    private server.
+
+    '
+  code_samples: []
+  type: string
+  tags:
+  - Hidden
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  deprecation_message: 'This property has been deprecated. Use `Class.DataModel.PrivateServerId`
+
+    instead.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities: []
+- name: DataModel.VIPServerOwnerId
+  summary: 'The `Class.Player.UserId|UserId` of the account who owns the private
+
+    server.
+
+    '
+  description: 'This property indicates the `Class.Player.UserId|UserId` of the account
+
+    who owns the private server.
+
+    '
+  code_samples: []
+  type: int64
+  tags:
+  - Hidden
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  deprecation_message: 'This property has been deprecated. Use
+
+    `Class.DataModel.PrivateServerOwnerId` instead.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities: []
+- name: DataModel.Workspace
+  summary: 'A reference to the `Class.Workspace` service.
+
+    '
+  description: 'This property is a reference to the `Class.Workspace` service. It
+    always
+
+    points to `Class.Workspace` and will never be `nil`.
+
+    '
+  code_samples: []
+  type: Workspace
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: DataModel.workspace
+  summary: ''
+  description: ''
+  code_samples: []
+  type: Workspace
+  tags:
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  deprecation_message: 'This deprecated property is a variant of `Class.DataModel.Workspace`
+    which
+
+    should be used instead.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: CreatorId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int64
+  category: State
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: CreatorType
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.CreatorType
+  category: State
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: Environment
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: string
+  category: State
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: ForceR15
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: State
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: GameId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int64
+  category: State
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: GearGenreSetting
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.GearGenreSetting
+  category: State
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: Genre
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.Genre
+  category: State
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: IsPioneerBuild
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: State
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: IsSFFlagsLoaded
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: JobId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: JobInfo
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: MatchmakingType
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.MatchmakingType
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: PioneerSource
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: Enum.PioneerSource
+  category: State
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: PlaceId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int64
+  category: State
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: PlaceVersion
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: State
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: PrivateServerId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: PrivateServerOwnerId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int64
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: ServerRegion
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: JobInfo
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: VIPServerId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''PrivateServerId'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: VIPServerOwnerId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''PrivateServerOwnerId'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int64
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: GameAvatarType
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: Enum.GameAvatarType
+  category: State
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: R15CollisionType
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: Enum.R15CollisionType
+  category: State
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: RunService
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: RunService
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: lighting
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Instance
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: Workspace
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Workspace
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: workspace
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''Workspace'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Workspace
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+methods:
+- name: DataModel:BindToClose
+  summary: 'Binds a function to be called before the server shuts down.
+
+    '
+  description: "Binds a function to be called before the server shuts down. If the\
+    \ bound\nfunction accepts a parameter, it passes `Enum.CloseReason` specifying\
+    \ the\nreason for the server shutdown.\n\nYou can bind multiple functions by calling\n\
+    `Class.DataModel:BindToClose()|BindToClose()` repeatedly. Bound functions\nare\
+    \ called in parallel and run at the same time.\n\nThe experience server waits\
+    \ 30 seconds for all bound functions to stop\nrunning before it shuts down. After\
+    \ 30 seconds, the server shuts down even\nif functions are still running. Teleports\
+    \ are disabled during moderation\nshutdowns.\n\nTo verify that the current session\
+    \ is not in Roblox Studio, use\n`Class.RunService:IsStudio()`. This prevents bound\
+    \ functions from\ncompleting their run in offline testing sessions.\n\nWhen you\
+    \ use `Class.DataStoreService`, you should also use `BindToClose`\nto bind a function\
+    \ saving all unsaved data to\n`Class.GlobalDataStore|DataStores`. This prevents\
+    \ data loss if the server\nshuts down unexpectedly.\n\nSee also:\n\n- `Enum.CloseReason`\
+    \ for reasons for the experience server shutdown.\n- `Class.PluginGui:BindToClose()`,\
+    \ which binds a function to a\n  `Class.PluginGui` close button.\n"
+  code_samples:
+  - saving-player-data-before-shutting-down
+  - DataModel-BindToClose1
+  parameters:
+  - name: function
+    type: Function
+    default: null
+    summary: 'A function called before the experience server shuts down. If the
+
+      bound function accepts a parameter, it passes `Enum.CloseReason`
+
+      specifying the reason for the server shutdown.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: DataModel:GetJobsInfo
+  summary: 'Returns a table containing basic information about the jobs performed
+    by
+
+    the task scheduler.
+
+    '
+  description: "Returns a table containing basic information about the jobs performed\
+    \ by\nthe task scheduler.\n\nIn computing, a task scheduler is a system responsible\
+    \ for executing key\ntasks at the appropriate intervals.\n\nYou can also find\
+    \ live task scheduler statistics in the Task Scheduler\nwindow in Roblox Studio.\n\
+    \nThe first entry in the table returned is a reference dictionary containing\n\
+    the statistics (or headings) available. It is in the following format:\n\n```lua\n\
+    {\n    [\"name\"] = \"name\",\n    [\"averageDutyCycle\"] = \"averageDutyCycle\"\
+    ,\n    [\"averageStepsPerSecond\"] = \"averageStepsPerSecond\",\n    [\"averageStepTime\"\
+    ] = \"averageStepTime\",\n    [\"averageError\"] = \"averageError\",\n    [\"\
+    isRunning\"] = \"isRunning\",\n}\n```\n\nThe subsequent entries in the table returned\
+    \ are dictionaries containing\nthe above statistics for jobs performed by the\
+    \ task scheduler. For\nexample:\n\n```lua\n{\n    [\"name\"] = \"Heartbeat\",\n\
+    \    [\"averageDutyCycle\"] = 0,\n    [\"averageStepsPerSecond\"] = 0,\n    [\"\
+    averageStepTime\"] = 0,\n    [\"averageError\"] = 0,\n    [\"isRunning\"] = false,\n\
+    }\n```\n\nSee also:\n\n- `Class.TaskScheduler`\n"
+  code_samples:
+  - DataModel-GetJobsInfo1
+  parameters: []
+  returns:
+  - type: Array
+    summary: 'A table containing information about the jobs performed by the task
+
+      scheduler, see above for the format.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: DataModel:GetMessage
+  summary: '**_[OBSOLETE]:_** This function will always return a blank string.
+
+    '
+  description: 'This function will always return a blank string. It was originally
+    used to
+
+    set the message displayed on screen while the game was loading.
+
+
+    This system was phased out a very long time ago, and recently the APIs for
+
+    setting this message were removed.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: string
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This item is deprecated since the system was phased out a
+    very long time
+
+    ago, and recently the APIs for setting this message were removed.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: DataModel:GetObjects
+  summary: 'Returns an array of `Class.Instance|Instances` associated with the given
+
+    content URL.
+
+    '
+  description: 'This method returns an array of `Class.Instance|Instances` associated
+    with
+
+    the given content URL. It can be used to insert content from the Roblox
+
+    library. It''s not possible to insert `Class.Sound|Sounds` using this
+
+    method as they do not have an `Class.Instance` associated with them and
+
+    have only a content URL.
+
+
+    Unlike `Class.InsertService:LoadAsset()`, `DataModel:GetObjects()` does
+
+    not require an asset to be "trusted," meaning that an asset doesn''t need
+
+    to be owned by the logged in user, or created by Roblox, to be inserted.
+
+    However, if the asset is not owned by the logged in user it must be freely
+
+    available.
+
+
+    Due to this function''s security context it can only be used by plugins or
+
+    the command bar. For an alternative that can be used in
+
+    `Class.Script|Scripts` and `Class.LocalScript|LocalScripts`, see
+
+    `Class.InsertService:LoadAsset()`.
+
+    '
+  code_samples:
+  - view-a-plugin-s-source-code
+  - batch-convert-decal-web-urls-to-image-content-ids
+  parameters:
+  - name: url
+    type: ContentId
+    default: null
+    summary: 'The given content URL.
+
+      '
+  returns:
+  - type: Instances
+    summary: 'An array of `Class.Instance|Instances` associated with the content
+
+      URL.
+
+      '
+  tags: []
+  deprecation_message: 'This item is deprecated. Do not use it for new work.
+
+    '
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: DataModel:GetRemoteBuildMode
+  summary: 'This method is no longer useful and will always return false.
+
+    '
+  description: 'This method is no longer useful and will always return false. Use
+
+    `Class.RunService:IsServer()` to see if your code is running on the
+
+    server.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: boolean
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This item is deprecated. Use `Class.RunService:IsServer()`
+    to see if your
+
+    code is running on the server.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: DataModel:IsGearTypeAllowed
+  summary: 'Returns whether gear of the given `Enum.GearType` is permitted to be added
+
+    to `Class.Player|Players''` `Class.StarterGear|StarterGears`.
+
+    '
+  description: 'Currently this function only returns the correct value on the client
+
+
+    This function returns whether gear of the given `Enum.GearType` is
+
+    permitted to be added to `Class.Player|Players''`
+
+    `Class.StarterGear|StarterGears`. For example:
+
+
+    ```lua
+
+    local meleeWeaponsAllowed = game:IsGearTypeAllowed(Enum.GearType.MeleeWeapons)
+
+    ```
+
+
+    Whether gear of a specific `Enum.GearType` is permitted in the game is
+
+    determined in a place''s settings page under ''Permissions''. Note, all of a
+
+    gear''s associated `Enum.GearType|GearTypes` must be enabled for it to be
+
+    permitted in a place.
+
+    '
+  code_samples: []
+  parameters:
+  - name: gearType
+    type: GearType
+    default: null
+    summary: 'The given `Enum.GearType`.
+
+      '
+  returns:
+  - type: boolean
+    summary: 'Whether gear of the given `Enum.GearType` is permitted in the game.
+
+      '
+  tags:
+  - Deprecated
+  deprecation_message: 'This property is deprecated and is no longer functional. It
+    should not be
+
+    used.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: DataModel:IsLoaded
+  summary: 'Returns true if the client has finished loading the game for the first
+
+    time.
+
+    '
+  description: "When all initial `Class.Instance|Instances` in the game have finished\n\
+    replicating to the client, this function returns true.\n\nUnless they are parented\
+    \ to `Class.ReplicatedFirst`,\n`Class.LocalScript|LocalScripts` do not run until\
+    \ the game has loaded. The\nfollowing snippet, run from a `Class.LocalScript`\
+    \ in\n`Class.ReplicatedFirst` yields until the game has loaded:\n\n```lua\nif\
+    \ not game:IsLoaded() then\n    game.Loaded:Wait()\nend\n```\n\nSee also:\n\n\
+    - [Replication order](../../../scripting/attributes.md#replication-order)\n  for\
+    \ a more detailed summary of the loading process.\n- `Class.DataModel.Loaded`,\
+    \ an event that fires when the game has loaded\n- `Class.Instance:WaitForChild()`,\
+    \ a function which can be used to wait\n  for an individual `Class.Instance` to\
+    \ replicate without having to wait\n  for the whole game to finish loading.\n"
+  code_samples:
+  - Custom-Loading-Screen
+  parameters: []
+  returns:
+  - type: boolean
+    summary: 'Whether the client has finished loading the game for the first time.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: DataModel:SavePlace
+  summary: 'Saves the current place.
+
+    '
+  description: "This function was used by an ancient data persistence method to save\
+    \ the\ncurrent place.\n\nNote:\n\n- In order for this method to work the save\
+    \ place API has to be enabled\n  for the current place.\n"
+  code_samples: []
+  parameters:
+  - name: saveFilter
+    type: SaveFilter
+    default: SaveAll
+    summary: ''
+  returns:
+  - type: boolean
+    summary: ''
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: 'This item is deprecated. Do not use it for new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: DataModel:SetPlaceId
+  summary: 'Sets the `Class.DataModel.PlaceId` of the current game instance.
+
+    '
+  description: 'This function sets the `Class.DataModel.PlaceId` of the game instance
+    to
+
+    the given `placeId`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: placeId
+    type: int64
+    default: null
+    summary: 'The ID to set the `Class.DataModel.PlaceId` to.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: DataModel:SetUniverseId
+  summary: 'Sets the `Class.DataModel.GameId` of the current game instance to the
+
+    given `universeId`.
+
+    '
+  description: 'This function sets the `Class.DataModel.GameId` of the current game
+
+    instance to the given `universeId`. This is useful when testing local
+
+    .rbxl files that have not been published to Roblox.
+
+
+    To access the `Class.DataStoreService` in an unpublished place, both
+
+    `Class.DataModel:SetUniverseId()` and `Class.DataModel:SetPlaceId()` must
+
+    be set.
+
+    '
+  code_samples: []
+  parameters:
+  - name: universeId
+    type: int64
+    default: null
+    summary: 'The ID to set the `Class.DataModel.GameId` to.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: getGameTime
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: double
+- name: SetPlaceId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: placeId
+    type: int64
+  returns:
+  - type: 'null'
+- name: SetUniverseId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: universeId
+    type: int64
+  returns:
+  - type: 'null'
+- name: GetObjects
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: url
+    type: ContentId
+  returns:
+  - type: Instances
+- name: GetObjectsAllOrNone
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: url
+    type: ContentId
+  returns:
+  - type: Instances
+- name: GetObjectsList
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: urls
+    type: Array
+  returns:
+  - type: Array
+- name: BindToClose
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: function
+    type: Function
+  returns:
+  - type: 'null'
+- name: DefineFastFlag
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: string
+  - name: defaultValue
+    type: bool
+  returns:
+  - type: bool
+- name: DefineFastInt
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: string
+  - name: defaultValue
+    type: int
+  returns:
+  - type: int
+- name: DefineFastString
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: string
+  - name: defaultValue
+    type: string
+  returns:
+  - type: string
+- name: GetEngineFeature
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: LocalUserSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: string
+  returns:
+  - type: bool
+- name: GetFastFlag
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: LocalUserSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: string
+  returns:
+  - type: bool
+- name: GetFastInt
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: LocalUserSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: string
+  returns:
+  - type: int
+- name: GetFastString
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: LocalUserSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: string
+  returns:
+  - type: string
+- name: GetJobsInfo
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+- name: GetMessage
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: string
+- name: GetPioneerRootPlaceId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: int64
+- name: GetPioneerSource
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Enum.PioneerSource
+- name: GetPlaySessionId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: string
+- name: GetRemoteBuildMode
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+- name: IsContentLoaded
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+- name: IsGearTypeAllowed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: gearType
+    type: Enum.GearType
+  returns:
+  - type: bool
+- name: IsLoaded
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+- name: IsPioneerApp
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+- name: IsUniverseMetadataLoaded
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+- name: Load
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: LocalUserSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: url
+    type: ContentId
+  returns:
+  - type: 'null'
+- name: OpenLogsFolder
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: OpenScreenshotsFolder
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: OpenVideosFolder
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: SetFlagVersion
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: string
+  - name: version
+    type: int
+  returns:
+  - type: 'null'
+- name: SetIsLoaded
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: value
+    type: bool
+  - name: placeSizeInBytes
+    type: int?
+  returns:
+  - type: 'null'
+- name: Shutdown
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: LocalUserSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: SetFastFlagForTesting
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: string
+  - name: newValue
+    type: bool
+  returns:
+  - type: bool
+- name: SetFastIntForTesting
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: string
+  - name: newValue
+    type: int
+  returns:
+  - type: int
+- name: SetFastStringForTesting
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: string
+  - name: newValue
+    type: string
+  returns:
+  - type: string
+- name: GetObjectsAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: url
+    type: ContentId
+  returns:
+  - type: Instances
+- name: InsertObjectsAndJoinIfLegacyAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: url
+    type: ContentId
+  returns:
+  - type: Instances
+- name: SavePlace
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: saveFilter
+    type: Enum.SaveFilter
+    default: SaveAll
+  returns:
+  - type: bool
+- name: HttpGetAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: url
+    type: string
+  - name: httpRequestType
+    type: Enum.HttpRequestType
+    default: Default
+  returns:
+  - type: string
+- name: HttpPostAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: url
+    type: string
+  - name: data
+    type: string
+  - name: contentType
+    type: string
+    default: '*/*'
+  - name: httpRequestType
+    type: Enum.HttpRequestType
+    default: Default
+  returns:
+  - type: string
+events:
+- name: DataModel.AllowedGearTypeChanged
+  summary: 'Fires when SetGearSettings is called with a different value for
+
+    `allowedGenres`.
+
+    '
+  description: 'This event fires when SetGearSettings is called with a different value
+    for
+
+    `allowedGenres`.
+
+    '
+  code_samples: []
+  parameters: []
+  tags:
+  - Deprecated
+  deprecation_message: 'This item is deprecated . Do not use it for new work.
+
+    '
+  security: None
+  capabilities: []
+- name: DataModel.GraphicsQualityChangeRequest
+  summary: 'Fires when the user prompts and increase or decrease in graphics quality
+
+    using the hotkeys.
+
+    '
+  description: "Fires when the user prompts an increase or decrease in graphics quality\n\
+    using the hotkeys.\n\nThis event fires under the following conditions:\n\n- If\
+    \ the user presses <kbd>F10</kbd>, this event fires with a\n  `betterQuality`\
+    \ argument of `true`.\n- If the user presses <kbd>Shift</kbd><kbd>F10</kbd>, this\
+    \ event fires\n  with a `betterQuality` argument of `false`.\n\nThis event does\
+    \ not provide the current graphics quality level or cover\nall updates to the\
+    \ graphics quality. For example, changes made in the core\nGUI escape menu are\
+    \ not registered.\n\nYou can retrieve a user's `Enum.SavedQualitySetting` using\n\
+    `Class.UserGameSettings` with the following snippet:\n\n```lua\nUserSettings():GetService(\"\
+    UserGameSettings\").SavedQualityLevel\n```\n\nIf the user's graphics settings\
+    \ are set to automatic then the\n`Enum.SavedQualitySetting` will be\n`Enum.SavedQualitySetting.Automatic|Automatic`.\
+    \ There is currently no way\nfor developers to reliably get the current graphics\
+    \ quality level of a\nuser's machine.\n"
+  code_samples:
+  - DataModel-GraphicsQualityChangeRequest1
+  parameters:
+  - name: betterQuality
+    type: boolean
+    default: null
+    summary: 'Whether the user has prompted an increase (_true_) or a decrease
+
+      (_false_) in graphics quality.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities: []
+- name: DataModel.ItemChanged
+  summary: 'Fires when a property of any object in the `Class.DataModel` is changed.
+
+    '
+  description: 'This event fires when a property of any object in the `Class.DataModel`
+    is
+
+    changed.
+
+    '
+  code_samples:
+  - DataModel-ItemChanged1
+  parameters:
+  - name: object
+    type: Instance
+    default: null
+    summary: ''
+  - name: descriptor
+    type: string
+    default: null
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This function has been superseded by `Class.Object.Changed`,
+    which should
+
+    be used in new work instead.
+
+    '
+  security: None
+  capabilities: []
+- name: DataModel.Loaded
+  summary: 'Fires on the client when the game finishes loading for the first time.
+
+    '
+  description: "This event fires on the client when all initial `Class.Instance|Instances`\n\
+    in the game have finished replicating to the client.\n\nUnless they are parented\
+    \ to `Class.ReplicatedFirst`,\n`Class.LocalScript|LocalScripts` do not run until\
+    \ the game has loaded. The\nfollowing snippet, run from a `Class.LocalScript`\
+    \ in\n`Class.ReplicatedFirst` yields until the game has loaded:\n\n```lua\nif\
+    \ not game:IsLoaded() then\n    game.Loaded:Wait()\nend\n```\n\nSee also:\n\n\
+    - [Replication order](../../../scripting/attributes.md#replication-order)\n  for\
+    \ a more detailed summary of the loading process.\n- `Class.DataModel.Loaded`,\
+    \ an event that fires when the game has loaded\n- `Class.Instance:WaitForChild()`,\
+    \ a function which can be used to wait\n  for an individual `Class.Instance` to\
+    \ replicate without having to wait\n  for the whole game to finish loading.\n"
+  code_samples: []
+  parameters: []
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities: []
+- name: DataModel.ServerLowMemoryWarning
+  summary: 'Fires on the server when Roblox detects that the server is under memory
+
+    pressure.
+
+    '
+  description: 'Fires on the server when Roblox detects that the server is under memory
+
+    pressure. Use this event as a best-effort opportunity to reduce
+
+    nonessential memory use.
+
+
+    This event can fire more than once while the server remains under memory
+
+    pressure. Make handlers idempotent and avoid memory-intensive work. The
+
+    event does not guarantee that the server will shut down or that it can
+
+    avoid shutting down.
+
+    '
+  code_samples:
+  - DataModel-ServerLowMemoryWarning1
+  parameters: []
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities: []
+- name: DataModel.ServerRestartScheduled
+  summary: 'Fires on the server when the server has been scheduled to restart.
+
+    Provides the scheduled restart time, source, and custom attributes.
+
+    '
+  description: 'Fires when the server has been scheduled to restart, for example when
+    you
+
+    restart servers from the Creator Hub or
+
+    [Open Cloud](https://create.roblox.com/docs/cloud/reference/features/universes#Restarts_LaunchRestart)
+
+    to [release an experience update](../../../projects/update-games.md), or
+
+    when Roblox needs to restart servers for infrastructure maintenance.
+
+
+    You can use this event to inform players on the server of the impending
+
+    restart. You could then let them save their progress or teleport them to
+
+    updated servers at the most convenient time for your game.
+
+    '
+  code_samples:
+  - DataModel-ServerRestartScheduled1
+  parameters:
+  - name: restartTime
+    type: DateTime
+    default: null
+    summary: 'A `Datatype.DateTime` indicating when the server is scheduled to shut
+
+      down. The actual restart may happen slightly after this projected
+
+      time, but not before.
+
+      '
+  - name: source
+    type: CloseReason
+    default: null
+    summary: 'An `Enum.CloseReason` describing what triggered the restart. The value
+
+      will be `Enum.CloseReason.DeveloperUpdate` for experience updates, and
+
+      `Enum.CloseReason.RobloxMaintenance` for server maintenance updates.
+
+      '
+  - name: attributes
+    type: Dictionary
+    default: null
+    summary: 'A dictionary of developer-supplied metadata associated with the
+
+      restart. If no attributes are provided, then this will be an empty
+
+      table.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - ServerCommunication
+- name: AllowedGearTypeChanged
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: GraphicsQualityChangeRequest
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: betterQuality
+    type: bool
+- name: ItemChanged
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: object
+    type: Instance
+  - name: descriptor
+    type: string
+- name: Loaded
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: ScreenshotReady
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: path
+    type: string
+- name: ScreenshotSavedToAlbum
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: filename
+    type: string
+  - name: success
+    type: bool
+  - name: message
+    type: string
+- name: ServerLifecycleChanged
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: serverLifecycleChangedEvent
+    type: Dictionary
+- name: ServerLowMemoryWarning
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: ServerRestartScheduled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: restartTime
+    type: DateTime
+  - name: source
+    type: Enum.CloseReason
+  - name: attributes
+    type: Dictionary
+- name: UniverseMetadataLoaded
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+callbacks:
+- name: DataModel.OnClose
+  summary: 'Invoked before the game is shut down. When this callback returns, or the
+
+    timeout period is hit, the game finishes shutting down.
+
+    '
+  description: 'Invoked before the game is shut down. When this callback returns,
+    or the
+
+    timeout period is hit, the game finishes shutting down.
+
+    '
+  code_samples:
+  - DataModel-OnClose1
+  parameters: []
+  returns:
+  - type: Tuple
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This function is deprecated. It is recommended to use
+
+    `Class.DataModel:BindToClose()` instead.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+  writeCapabilities: []
+- name: OnClose
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''BindToClose'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Tuple

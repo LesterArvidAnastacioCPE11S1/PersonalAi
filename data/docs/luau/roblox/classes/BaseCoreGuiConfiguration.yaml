@@ -1,0 +1,94 @@
+name: BaseCoreGuiConfiguration
+type: class
+memory_category: Instances
+summary: 'Base class for the configuration objects that control individual built-in
+
+  `Class.CoreGui` elements.
+
+  '
+description: '`Class.BaseCoreGuiConfiguration` is the base class inherited by the
+
+  per-element configuration objects that control Roblox''s built-in
+
+  `Class.CoreGui` elements: `Class.PlayerListConfiguration`,
+
+  `Class.SelfViewConfiguration`, and `Class.CapturesViewConfiguration`. Each of
+
+  these concrete configuration objects is created automatically as a child of
+
+  the `Class.CoreGuiConfiguration` service.
+
+
+  It defines the shared `Class.BaseCoreGuiConfiguration.Enabled|Enabled`
+
+  property that toggles whether the corresponding core GUI element is enabled.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants:
+- CapturesViewConfiguration
+- PlayerListConfiguration
+- SelfViewConfiguration
+tags:
+- NotCreatable
+- NotReplicated
+deprecation_message: ''
+properties:
+- name: BaseCoreGuiConfiguration.Enabled
+  summary: 'Determines whether the built-in `Class.CoreGui` element controlled by
+    this
+
+    configuration object is enabled.
+
+    '
+  description: 'When `true`, the built-in `Class.CoreGui` element associated with
+    the
+
+    inheriting configuration object is enabled; when `false`, that element is
+
+    disabled. Enabled is not the same as currently shown. Defaults to `true`.
+
+
+    Each concrete subclass — `Class.PlayerListConfiguration`,
+
+    `Class.SelfViewConfiguration`, and `Class.CapturesViewConfiguration` —
+
+    inherits this property to toggle its respective element.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: State
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: Enabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: State
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+methods: []
+events: []
+callbacks: []

@@ -1,0 +1,163 @@
+name: DataStoreInfo
+type: class
+memory_category: Instances
+summary: 'Object describing data store information.
+
+  '
+description: "Object describing data store information such as name, created time,\
+  \ and time\nlast updated. This object is a member of the `Class.DataStoreListingPages`\n\
+  object returned by `Class.DataStoreService:ListDataStoresAsync()`.\n\nSee also:\n\
+  \n- [Data Stores](../../../cloud-services/data-stores/index.md), an in-depth\n \
+  \ guide on data structure, management, error handling, etc.\n"
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- NotReplicated
+deprecation_message: ''
+properties:
+- name: DataStoreInfo.CreatedTime
+  summary: 'Indicates when the data store was created in milliseconds since epoch.
+
+    '
+  description: 'This property indicates when the data store was created in milliseconds
+
+    since epoch.
+
+    '
+  code_samples: []
+  type: int64
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - DataStore
+- name: DataStoreInfo.DataStoreName
+  summary: 'The name of the data store.
+
+    '
+  description: 'This property indicates the name of the data store. It is used as
+    a unique
+
+    identifier to retrieve a data store instance with
+
+    `Class.DataStoreService:GetDataStore()`.
+
+    '
+  code_samples: []
+  type: string
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - DataStore
+- name: DataStoreInfo.UpdatedTime
+  summary: 'Indicates the last time the data store was updated in milliseconds since
+
+    epoch.
+
+    '
+  description: 'This property indicates the last time the data store was updated in
+
+    milliseconds since epoch.
+
+    '
+  code_samples: []
+  type: int64
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - DataStore
+- name: CreatedTime
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int64
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: DataStoreName
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: UpdatedTime
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int64
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+methods: []
+events: []
+callbacks: []

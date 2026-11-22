@@ -1,0 +1,249 @@
+name: JointsService
+type: class
+memory_category: Instances
+summary: 'A service that stores joints created by surface connections.
+
+  '
+description: 'The JointsService is a service that stores joints created by surface
+
+  connections. It also has API available for visualizing surface to surface
+
+  contact, and joining surfaces together.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+- Deprecated
+deprecation_message: 'This service has been deprecated in favor of
+
+  [constraints](../../../physics/mechanical-constraints.md) which should be used
+
+  for surface connections instead
+
+  '
+properties: []
+methods:
+- name: JointsService:ClearJoinAfterMoveJoints
+  summary: 'Will remove any ''create joints'' that were made visible via the
+
+    `Class.JointsService:ShowPermissibleJoints()` method.
+
+    '
+  description: 'Will remove any ''create joints'' that were made visible via the
+
+    `Class.JointsService:ShowPermissibleJoints()` method.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Physics
+- name: JointsService:CreateJoinAfterMoveJoints
+  summary: 'Updates all visible joints for the parts assigned by the
+
+    `Class.JointsService:SetJoinAfterMoveTarget()` and
+
+    `Class.JointsService:SetJoinAfterMoveInstance()` methods.
+
+    '
+  description: 'Updates all visible joints for the parts assigned by the
+
+    `Class.JointsService:SetJoinAfterMoveTarget()` and
+
+    `Class.JointsService:SetJoinAfterMoveInstance()` methods.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Physics
+- name: JointsService:SetJoinAfterMoveInstance
+  summary: 'Sets the PVInstance that will be connected with the target PVInstance
+
+    specified by `Class.JointsService:SetJoinAfterMoveTarget()`.
+
+    '
+  description: 'Sets the PVInstance that will be connected with the target PVInstance
+
+    specified by `Class.JointsService:SetJoinAfterMoveTarget()`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: joinInstance
+    type: Instance
+    default: null
+    summary: 'The `Class.PVInstance` to be joined to the target set by
+
+      `Class.JointsService:SetJoinAfterMoveTarget()`.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Physics
+- name: JointsService:SetJoinAfterMoveTarget
+  summary: 'Sets the PVInstance that will be connected with the PVInstance specified
+
+    by `Class.JointsService:SetJoinAfterMoveInstance()`.
+
+    '
+  description: 'Sets the PVInstance that will be connected with the PVInstance specified
+
+    by `Class.JointsService:SetJoinAfterMoveInstance()`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: joinTarget
+    type: Instance
+    default: null
+    summary: 'The `Class.PVInstance` to serve as the connection target for the
+
+      instance set by `Class.JointsService:SetJoinAfterMoveInstance()`.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Physics
+- name: JointsService:ShowPermissibleJoints
+  summary: 'When used it will visibly display a potential surface connection between
+
+    the two `Class.BasePart`, which were set with
+
+    `Class.JointsService:SetJoinAfterMoveTarget()` and
+
+    `Class.JointsService:SetJoinAfterMoveInstance()`.
+
+    '
+  description: 'When used it will visibly display a potential surface connection between
+
+    the two `Class.BasePart`, which were set with
+
+    `Class.JointsService:SetJoinAfterMoveTarget()` and
+
+    `Class.JointsService:SetJoinAfterMoveInstance()`.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Physics
+- name: ClearJoinAfterMoveJoints
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: CreateJoinAfterMoveJoints
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: SetJoinAfterMoveInstance
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: joinInstance
+    type: Instance
+  returns:
+  - type: 'null'
+- name: SetJoinAfterMoveTarget
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: joinTarget
+    type: Instance
+  returns:
+  - type: 'null'
+- name: ShowPermissibleJoints
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+events: []
+callbacks: []

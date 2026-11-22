@@ -1,0 +1,112 @@
+name: Torque
+type: class
+memory_category: BaseParts
+summary: 'Applies constant torque to an assembly from its center of mass.
+
+  '
+description: "A `Torque` constraint applies constant torque to an assembly from its\
+  \ center\nof mass. Alternatively:\n\n- Because the `Torque` constraint applies **constant**\
+  \ torque and angular\n  acceleration, very high speeds may result if no other forces\
+  \ are involved.\n  If you want to maintain a more steady velocity over time, use\
+  \ an\n  `Class.AngularVelocity` constraint.\n- If you only need **initial** velocity,\
+  \ set the\n  `Class.BasePart.AssemblyAngularVelocity|AssemblyAngularVelocity` property\n\
+  \  directly on the assembly.\n\nWhen configuring this constraint, it may be helpful\
+  \ to study\n[Roblox Units](../../../physics/units.md) to understand how Roblox units\n\
+  compare to metric units.\n\n#### Relativity\n\nBy default, torque is applied relative\
+  \ to\n`Class.Constraint.Attachment0|Attachment0`. If the parent assembly rotates,\n\
+  the torque will change direction to match the adjusted orientation of the\nattachment.\n\
+  \nIf `Class.Torque.RelativeTo|RelativeTo` is set to\n`Enum.ActuatorRelativeTo|World`,\
+  \ torque will be applied in world coordinates,\nindependent of the parent or attachment\
+  \ orientations.\n\nIf `Class.Torque.RelativeTo|RelativeTo` is set to\n`Enum.ActuatorRelativeTo|Attachment1`,\
+  \ torque will be applied relative to\n`Class.Constraint.Attachment1|Attachment1`\
+  \ and, if the attachment rotates,\nchange to match its orientation.\n"
+code_samples: []
+inherits:
+- Constraint
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: Torque.RelativeTo
+  summary: 'The `Datatype.CFrame` in which the torque is expressed.
+
+    '
+  description: 'The `Datatype.CFrame` in which the torque is expressed.
+
+    '
+  code_samples: []
+  type: ActuatorRelativeTo
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Torque
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  simulationAccess: true
+- name: Torque.Torque
+  summary: 'The strength and direction of the torque.
+
+    '
+  description: 'The strength and direction of the torque.
+
+    '
+  code_samples: []
+  type: Vector3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Torque
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  simulationAccess: true
+- name: RelativeTo
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.ActuatorRelativeTo
+  category: Torque
+  serialization:
+    can_load: true
+    can_save: true
+  default: Attachment0
+- name: Torque
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Torque
+  serialization:
+    can_load: true
+    can_save: true
+  default: 0, 0, 0
+methods: []
+events: []
+callbacks: []

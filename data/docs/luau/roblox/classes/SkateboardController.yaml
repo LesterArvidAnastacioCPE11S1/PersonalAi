@@ -1,0 +1,169 @@
+name: SkateboardController
+type: class
+memory_category: Instances
+summary: 'Translates player input into throttle and steer axis values for a
+
+  `Class.SkateboardPlatform`.
+
+  '
+description: 'A SkateboardController is an object responsible for translating PlayerActions
+
+  to movements with a `Class.SkateboardPlatform`.
+
+  '
+code_samples: []
+inherits:
+- Controller
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: SkateboardController.Steer
+  summary: 'The direction of movement, tied to the keys A and D. Must be 1 (right),
+    0
+
+    (straight), or -1 (left). Will refresh back to 0 unless constantly set.
+
+    '
+  description: 'The direction of movement, tied to the keys A and D. Must be 1 (right),
+    0
+
+    (straight), or -1 (left). Will refresh back to 0 unless constantly set.
+
+    '
+  code_samples: []
+  type: float
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Axes
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Basic
+- name: SkateboardController.Throttle
+  summary: 'The direction of movement, tied to the keys W and S. Must be an integer
+    1
+
+    (forward), 0 (null), or -1 (reverse). Will refresh back to 0 unless
+
+    constantly set.
+
+    '
+  description: 'The direction of movement, tied to the keys W and S. Must be an integer
+    1
+
+    (forward), 0 (null), or -1 (reverse). Will refresh back to 0 unless
+
+    constantly set.
+
+    '
+  code_samples: []
+  type: float
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Axes
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Basic
+- name: Steer
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Axes
+  serialization:
+    can_load: false
+    can_save: false
+  default: '0'
+- name: Throttle
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Axes
+  serialization:
+    can_load: false
+    can_save: false
+  default: '0'
+methods: []
+events:
+- name: SkateboardController.AxisChanged
+  summary: 'Fired when any input state of the skateboard controller is updated.
+
+    '
+  description: 'Fired when any input state of the skateboard controller is updated.
+    The
+
+    `axis` is fired with either `"Throttle"` if the throttle state of the
+
+    skateboard was updated or `"Steer"` if the steering state of the
+
+    skateboard was updated.
+
+    '
+  code_samples: []
+  parameters:
+  - name: axis
+    type: string
+    default: null
+    summary: 'A string, either `"Throttle"` or `"Steer"`, indicating which input
+
+      state of the skateboard controller changed.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Basic
+- name: AxisChanged
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: axis
+    type: string
+callbacks: []

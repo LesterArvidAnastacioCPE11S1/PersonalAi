@@ -1,0 +1,94 @@
+name: BinaryStringValue
+type: class
+memory_category: Instances
+summary: 'An internal type of `Class.StringValue` object, that stores a `BinaryString`
+
+  value.
+
+  '
+description: 'An internal type of `Class.StringValue` object, that stores a `BinaryString`
+
+  value.
+
+  '
+code_samples: []
+inherits:
+- ValueBase
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: Value
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: BinaryString
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+methods: []
+events:
+- name: BinaryStringValue.Changed
+  summary: 'Fires if the BinaryStringValue''s value is changed.
+
+    '
+  description: 'Fires if the `Class.BinaryStringValue.Value` of the
+
+    `Class.BinaryStringValue` is changed by the engine.
+
+
+    In practice, this object is stored out of reach from normal scripts, so
+
+    this event cannot be connected to. If a BinaryStringValue is created by a
+
+    script, the engine will not do anything with it, so the event will never
+
+    fire.
+
+
+    Equivalent changed events exist for similar objects, such as
+
+    `Class.NumberValue` and `Class.StringValue`, depending on what object type
+
+    best suits the need.
+
+    '
+  code_samples: []
+  parameters:
+  - name: value
+    type: BinaryString
+    default: null
+    summary: 'The new value after the change.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities: []
+- name: Changed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: value
+    type: BinaryString
+callbacks: []

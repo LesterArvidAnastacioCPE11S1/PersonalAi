@@ -1,0 +1,897 @@
+name: NetworkSettings
+type: class
+memory_category: Instances
+summary: 'Settings related to networked engine behaviors.
+
+  '
+description: '`NetworkSettings` is a class that allows you to debug several features
+  with
+
+  Roblox''s server/client networking. It can be found in Roblox Studio''s settings
+
+  under the **Network** tab.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+- NotReplicated
+- NotBrowsable
+deprecation_message: ''
+properties:
+- name: NetworkSettings.EmulatedTotalMemoryInMB
+  summary: 'The total device memory, in MiB, that the client emulates when testing
+
+    under a simulated device.
+
+    '
+  description: 'Sets the total amount of memory, in MiB, that the client pretends
+    the
+
+    device has when testing under a simulated device. Studio''s device emulator
+
+    writes this property when you select a device to emulate. Values are
+
+    clamped to a minimum of `0`, and the property defaults to the machine''s
+
+    actual total physical memory.
+
+    '
+  code_samples: []
+  type: int
+  tags:
+  - Hidden
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Network
+- name: NetworkSettings.FreeMemoryMBytes
+  summary: 'Describes how much free memory is available, in MiBs.
+
+    '
+  description: '`FreeMemoryMBytes` is a read-only property that describes how much
+    free
+
+    memory is available, in MiBs.
+
+    '
+  code_samples: []
+  type: float
+  tags:
+  - Hidden
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Network
+- name: NetworkSettings.HttpProxyEnabled
+  summary: 'Whether the client routes HTTP traffic through the proxy configured by
+
+    `Class.NetworkSettings.HttpProxyURL`.
+
+    '
+  description: 'When `true`, the client routes its HTTP traffic through the proxy
+    server
+
+    specified by `Class.NetworkSettings.HttpProxyURL|HttpProxyURL`. This
+
+    property defaults to `false`.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  category: Proxy Settings
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Network
+- name: NetworkSettings.HttpProxyURL
+  summary: 'The address of the proxy server used when
+
+    `Class.NetworkSettings.HttpProxyEnabled` is `true`.
+
+    '
+  description: 'Specifies the address of the proxy server through which the client
+    routes
+
+    its HTTP traffic when
+
+    `Class.NetworkSettings.HttpProxyEnabled|HttpProxyEnabled` is `true`. This
+
+    property defaults to an empty string.
+
+    '
+  code_samples: []
+  type: string
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  category: Proxy Settings
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Network
+- name: NetworkSettings.InboundNetworkJitterMs
+  summary: 'Adds jitter to playtest connections in the server-to-client direction.
+
+    '
+  description: 'On [playtest](/studio/testing-modes.md#playtesting) connections, this
+
+    property adds variability (jitter) in milliseconds to the latency added to
+
+    packets sent from server to client. This variable latency is in addition
+
+    to any latency introduced by
+
+    `Class.NetworkSettings.InboundNetworkMinDelayMs|InboundNetworkMinDelayMs`.
+
+    Per-packet delay sampled from delay and jitter is rounded to 1
+
+    millisecond. See
+
+    [network simulation](/studio/testing-modes.md#network-simulation) for
+
+    additional details.
+
+    '
+  code_samples: []
+  type: float
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Network
+- name: NetworkSettings.InboundNetworkLossPercent
+  summary: 'Sets the probability that packets on playtest connections from server
+    to
+
+    client are dropped.
+
+    '
+  description: 'On [playtest](/studio/testing-modes.md#playtesting) connections, this
+
+    property sets a percent probability that packets sent from server to
+
+    client are dropped. To maintain a stable test environment, the value is
+
+    capped at 0.5%. See
+
+    [network simulation](/studio/testing-modes.md#network-simulation) for
+
+    additional details.
+
+    '
+  code_samples: []
+  type: float
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Network
+- name: NetworkSettings.InboundNetworkMinDelayMs
+  summary: 'Adds latency to playtest connections in the server-to-client direction.
+
+    '
+  description: 'On [playtest](/studio/testing-modes.md#playtesting) connections, this
+
+    property adds a minimum latency in milliseconds for packets sent from
+
+    server to client. Per-packet delay sampled from delay and jitter is
+
+    rounded to 1 millisecond. See
+
+    [network simulation](/studio/testing-modes.md#network-simulation) for
+
+    additional details.
+
+    '
+  code_samples: []
+  type: float
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Network
+- name: NetworkSettings.IncomingReplicationLag
+  summary: 'Simulates additional network latency in the network receiving path.
+
+    '
+  description: 'This property instructs the engine to simulate additional replication
+    lag
+
+    by delaying all incoming messages. Units are seconds.
+
+    '
+  code_samples: []
+  type: double
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Diagnostics
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Network
+- name: NetworkSettings.OutboundNetworkJitterMs
+  summary: 'Adds jitter to playtest connections in the client-to-server direction.
+
+    '
+  description: 'On [playtest](/studio/testing-modes.md#playtesting) connections, this
+
+    property adds variability (jitter) in milliseconds to the latency added to
+
+    packets sent from client to server. This variable latency is in addition
+
+    to any latency introduced by
+
+    `Class.NetworkSettings.OutboundNetworkMinDelayMs|OutboundNetworkMinDelayMs`.
+
+    Per-packet delay sampled from delay and jitter is rounded to 1
+
+    millisecond. See
+
+    [network simulation](/studio/testing-modes.md#network-simulation) for
+
+    additional details.
+
+    '
+  code_samples: []
+  type: float
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Network
+- name: NetworkSettings.OutboundNetworkLossPercent
+  summary: 'Sets the probability that packets on playtest connections from client
+    to
+
+    server are dropped.
+
+    '
+  description: 'On [playtest](/studio/testing-modes.md#playtesting) connections, this
+
+    property sets a percent probability that packets sent from client to
+
+    server are dropped. To maintain a stable test environment, the value is
+
+    capped at 0.5%. See
+
+    [network simulation](/studio/testing-modes.md#network-simulation) for
+
+    additional details.
+
+    '
+  code_samples: []
+  type: float
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Network
+- name: NetworkSettings.OutboundNetworkMinDelayMs
+  summary: 'Adds latency to playtest connections in the client-to-server direction.
+
+    '
+  description: 'On [playtest](/studio/testing-modes.md#playtesting) connections, this
+
+    property adds a minimum latency in milliseconds for packets sent from
+
+    client to server. Per-packet delay sampled from delay and jitter is
+
+    rounded to 1 millisecond. See
+
+    [network simulation](/studio/testing-modes.md#network-simulation) for
+
+    additional details.
+
+    '
+  code_samples: []
+  type: float
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Network
+- name: NetworkSettings.PrintJoinSizeBreakdown
+  summary: 'Prints diagnostic information about data sent on connect.
+
+    '
+  description: 'Prints diagnostic information to the **Output** window after connecting.
+
+    The data will indicate the largest individual `Class.Instance|Instances`
+
+    sent, as well as aggregate data about data sent by `Class.Instance` type.
+
+    The data sent for initial loading is compressed so the contributions are
+
+    approximate.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Diagnostics
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Network
+- name: NetworkSettings.PrintPhysicsErrors
+  summary: 'Whether debug messages will be printed to the output pertaining to physics
+
+    replication errors.
+
+    '
+  description: "When set to `true`, debug messages will be printed to the **Output**\n\
+    window pertaining to physics replication errors. The following are debug\noutputs\
+    \ that are made available:\n\n- `Physics-in old packet` prints for a part that\
+    \ has been updated ahead of\n  the packet's submission time. This happens if the\
+    \ packet is received\n  late, and a newer packet has already been processed.\n\
+    \n- `Physics-in of unidentified {GUID}` prints for an unfound part that is\n \
+    \ trying to be updated because the provided `Class.Instance` identifier\n  was\
+    \ invalid, where `{GUID}` is the unknown `Class.Instance:GetDebugId()`\n  identifier\
+    \ that is supposed to be targeting the part. This typically\n  happens if a part\
+    \ is removed before the physics update packet is\n  received.\n\n- `Physics-in\
+    \ of part not in workspace {GUID}` prints for a request to\n  update the physics\
+    \ of a part that is not a descendant of the\n  `Class.Workspace`, where `{GUID}`\
+    \ is the `Class.Instance:GetDebugId()`\n  identifier of the target part. This\
+    \ happens if the part was just moved\n  out of the `Class.Workspace`, and was\
+    \ previously being simulated.\n"
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Diagnostics
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Network
+- name: NetworkSettings.PrintStreamInstanceQuota
+  summary: 'Whether debug information is printed to the output regarding the
+
+    replication of instances when `Class.Workspace.StreamingEnabled` is set to
+
+    `true`.
+
+    '
+  description: 'When set to `true`, debug information is printed to the **Output**
+    window
+
+    regarding the replication of instances when
+
+    `Class.Workspace.StreamingEnabled` is set to `true`.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Diagnostics
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Network
+- name: NetworkSettings.RandomizeJoinInstanceOrder
+  summary: 'Special facility to help catch bugs related to how your experience loads.
+
+    '
+  description: 'Emulates the behavior of a server that has been online a long time
+    by
+
+    randomizing the order that instances initially arrive on clients. It is
+
+    recommended to keep this setting enabled to help discover potential bugs
+
+    while testing in Studio.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Advanced
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Network
+- name: NetworkSettings.RenderStreamedRegions
+  summary: 'Whether regions of space that are being streamed to the client will be
+
+    outlined in red.
+
+    '
+  description: 'When set to `true`, regions of space that are being streamed to the
+    client
+
+    will be outlined in red. This will only be shown if
+
+    `Class.Workspace.StreamingEnabled` is set to `true`.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Network
+- name: NetworkSettings.ShowActiveAnimationAsset
+  summary: 'Whether a label will be shown above each player character''s head, showing
+
+    the current animation being played.
+
+    '
+  description: 'When set to `true`, a label will be shown above each player character''s
+
+    head, showing the current animation (if any) being played by the
+
+    character''s `Class.Humanoid`.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Network
+  - Animation
+- name: EmulatedTotalMemoryInMB
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  type: int
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_skipped_class__
+- name: FreeMemoryMBytes
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  type: float
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_skipped_class__
+- name: HttpProxyEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Proxy Settings
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+- name: HttpProxyURL
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: string
+  category: Proxy Settings
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+- name: InboundNetworkJitterMs
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  type: float
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+- name: InboundNetworkLossPercent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  type: float
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+- name: InboundNetworkMinDelayMs
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  type: float
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+- name: IncomingReplicationLag
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: double
+  category: Diagnostics
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+- name: OpenCertManagerDialog
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: NotAccessibleSecurity
+    write: NotAccessibleSecurity
+  thread_safety: ReadSafe
+  type: int
+  category: Proxy Settings
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_skipped_class__
+- name: OutboundNetworkJitterMs
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  type: float
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+- name: OutboundNetworkLossPercent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  type: float
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+- name: OutboundNetworkMinDelayMs
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  type: float
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+- name: PrintJoinSizeBreakdown
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Diagnostics
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+- name: PrintPhysicsErrors
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Diagnostics
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+- name: PrintStreamInstanceQuota
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Diagnostics
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+- name: RandomizeJoinInstanceOrder
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Advanced
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+- name: RenderStreamedRegions
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+- name: ShowActiveAnimationAsset
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+methods: []
+events: []
+callbacks: []

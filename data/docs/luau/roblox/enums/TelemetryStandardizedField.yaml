@@ -1,0 +1,54 @@
+name: TelemetryStandardizedField
+type: enum
+summary: Reference for Enum.TelemetryStandardizedField, generated automatically from
+  the Roblox API dump 0.748.0.7481526.
+description: Reference for Enum.TelemetryStandardizedField, generated automatically
+  from the Roblox API dump 0.748.0.7481526.
+code_samples: []
+tags: []
+deprecation_message: ''
+items:
+- name: AddDatacenterId
+  summary: ''
+  value: 0
+  tags: []
+- name: AddPlaceId
+  summary: ''
+  value: 1
+  tags: []
+- name: AddUniverseId
+  summary: ''
+  value: 2
+  tags: []
+- name: AddPlaceInstanceId
+  summary: ''
+  value: 3
+  tags: []
+- name: AddPlaySessionId
+  summary: ''
+  value: 4
+  tags: []
+- name: AddCurrentContextName
+  summary: ''
+  value: 5
+  tags: []
+- name: AddOsInfo
+  summary: ''
+  value: 6
+  tags: []
+- name: AddArchitectureInfo
+  summary: ''
+  value: 7
+  tags: []
+- name: AddCpuInfo
+  summary: ''
+  value: 8
+  tags: []
+- name: AddMemoryInfo
+  summary: ''
+  value: 9
+  tags: []
+- name: AddSessionInfo
+  summary: ''
+  value: 10
+  tags: []

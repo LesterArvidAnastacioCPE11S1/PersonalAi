@@ -1,0 +1,86 @@
+name: KeyframeMarker
+type: class
+memory_category: Animation
+summary: 'An instance meant to represent an event that will eventually be fired when
+  a
+
+  `Class.Keyframe` is hit.
+
+  '
+description: "A KeyframeMarker is an instance meant to represent an event that will\n\
+  eventually be fired when a `Class.Keyframe` is hit.\n\n## Using a KeyframeMarker\n\
+  \nKeyframeMarkers should always be parented to a Keyframe via setting the parent\n\
+  directly or using the `Class.Keyframe:AddMarker()` function of Keyframe.\nKeyframeMarkers\
+  \ can also be removed directly or using the\n`Class.Keyframe:RemoveMarker()` function,\
+  \ and polled to check which markers\nare attached to a specific Keyframe using `Class.Keyframe:GetMarkers()`.\n\
+  \nWhenever a Keyframe is detected as an animation is running, there will be an\n\
+  event fired for each KeyframeMarker that is parented to the Keyframe. These\nevents\
+  \ are identifiable by the name of the KeyframeMarker. You can retrieve\nand listen\
+  \ to these events using the\n`Class.AnimationTrack.GetKeyframeMarkerReached` function.\
+  \ Optionally, you may\nset the `Class.KeyframeMarker.Value` property of the KeyframeMarker\
+  \ in order\nto pass along a value with the event being fired.\n\nIt inherits the\
+  \ `Class.Instance.Name|Keyframe.Name` property from\n`Class.Instance` and behaves\
+  \ identically. Names are used for identification\nand do not need to be unique.\
+  \ When multiple `KeyframeMarker` instances with\nthe same name are attached to a\
+  \ `Class.Keyframe`, events such as the one\nreturned by `Class.AnimationTrack:GetMarkerReachedSignal()`\
+  \ will fire for\nevery marker.\n\nSee also:\n\n- `Class.Keyframe`, holds the `Class.Pose|Poses`\
+  \ applied to joints in a\n  `Class.Model` at a given point of time in an animation\n\
+  - `Class.AnimationTrack`, controls the playback of an animation on a\n  `Class.Humanoid`\
+  \ or `Class.AnimationController`\n- `Class.Animation`, holds a reference to animation\
+  \ data required to play\n  custom animations on characters or other models using\
+  \ the Roblox animation\n  system\n"
+code_samples:
+- get-keyframe-markers-attached-to-a-keyframe
+- listening-to-keyframemarkers
+inherits:
+- Instance
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: KeyframeMarker.Value
+  summary: 'A value that is specified for a `Class.KeyframeMarker`.
+
+    '
+  description: "A value that is specified for a `Class.KeyframeMarker`. Whenever the\n\
+    signal created from `Class.AnimationTrack:GetMarkerReachedSignal()` gets\nfired,\
+    \ this value will be passed into the connected function.\n\nSee also:\n\n- `Class.Keyframe`,\
+    \ holds the `Class.Pose|Poses` applied to joints in a\n  `Class.Model` at a given\
+    \ point of time in an animation\n- `Class.AnimationTrack`, controls the playback\
+    \ of an animation on a\n  `Class.Humanoid` or `Class.AnimationController`\n"
+  code_samples:
+  - get-keyframe-markers-attached-to-a-keyframe
+  - add-marker-remove-marker
+  type: string
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Animation
+- name: Value
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+methods: []
+events: []
+callbacks: []

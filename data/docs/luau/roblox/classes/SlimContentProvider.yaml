@@ -1,0 +1,53 @@
+name: SlimContentProvider
+type: class
+memory_category: Instances
+summary: 'A service that fetches and caches SLIM (Scalable Lightweight Interactive
+
+  Models) asset content representations for model rendering.
+
+  '
+description: 'Not intended for use from experience scripts. `Class.SlimContentProvider`
+
+  retrieves SLIM (Scalable Lightweight Interactive Models) asset content
+
+  representations, parses them into mesh and level-of-detail metadata for the
+
+  model rendering pipeline, and signals when an asset is ready, needs a retry,
+
+  or has failed.
+
+
+  As a variant of `Class.CacheableContentProvider`, it caches parsed results
+
+  under a memory budget and evicts least-recently-used entries when the budget
+
+  is exceeded.
+
+  '
+code_samples: []
+inherits:
+- CacheableContentProvider
+descendants: []
+tags:
+- NotCreatable
+- Service
+deprecation_message: ''
+properties: []
+methods:
+- name: GetContentMemoryData
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Dictionary
+events: []
+callbacks: []

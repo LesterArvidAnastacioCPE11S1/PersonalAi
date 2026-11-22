@@ -1,0 +1,42 @@
+name: MeshContentProvider
+type: class
+memory_category: Instances
+summary: 'An internal Roblox service that is responsible for fetching, parsing and
+
+  caching meshes. This service cannot be used by developers.
+
+  '
+description: 'A service that is internally responsible for fetching, parsing, and
+  caching
+
+  meshes.
+
+  '
+code_samples: []
+inherits:
+- CacheableContentProvider
+descendants: []
+tags:
+- NotCreatable
+- Service
+- NotReplicated
+deprecation_message: ''
+properties: []
+methods:
+- name: GetContentMemoryData
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Dictionary
+events: []
+callbacks: []

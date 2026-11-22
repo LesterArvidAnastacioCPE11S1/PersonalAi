@@ -1,0 +1,516 @@
+name: ScreenshotHud
+type: class
+memory_category: Instances
+summary: 'A 2D user interface that allows users to capture and save screenshots to
+  their
+
+  local device.
+
+  '
+description: "The `Class.ScreenshotHud` is a 2D user interface that allows users to\
+  \ capture\nand save screenshots to their local device. It consists of the following\
+  \ UI\nelements:\n\n- An overlay containing the experience name and Roblox branding.\
+  \ These remain\n  on screen when a screenshot is taken, although the experience\
+  \ name can be\n  disabled through the `Class.ScreenshotHud.ExperienceNameOverlayEnabled`\n\
+  \  property.\n- A camera button that hides all UI except for the overlay and takes\
+  \ a\n  screenshot.\n- A close button that closes the `Class.ScreenshotHud`.\n\n\
+  <img src=\"../../../assets/engine-api/classes/ScreenshotHud/Diagram.jpg\" width=\"\
+  100%\" />\n"
+code_samples:
+- ScreenshotHud
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- NotReplicated
+deprecation_message: ''
+properties:
+- name: ScreenshotHud.CameraButtonIcon
+  summary: 'Asset ID of the icon used for the camera button.
+
+    '
+  description: 'Asset ID of the icon used for the camera button.
+
+    '
+  code_samples: []
+  type: ContentId
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: ScreenshotHud.CameraButtonIconContent
+  summary: 'The image content used as the icon for the camera button.
+
+    '
+  description: 'The image `Datatype.Content` used as the icon for the camera button
+    on the
+
+    `Class.ScreenshotHud`. This is the `Datatype.Content`-type equivalent of
+
+    the legacy `Class.ScreenshotHud.CameraButtonIcon` property and supports
+
+    asset URIs. When set, the camera button displays the specified image
+
+    instead of the default icon.
+
+    '
+  code_samples: []
+  type: Content
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: ScreenshotHud.CameraButtonPosition
+  summary: 'Screen location of the camera button.
+
+    '
+  description: 'Screen location of the camera button.
+
+    '
+  code_samples: []
+  type: UDim2
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: ScreenshotHud.CloseButtonPosition
+  summary: 'Screen location of the close button.
+
+    '
+  description: 'Screen location of the close button.
+
+    '
+  code_samples: []
+  type: UDim2
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: ScreenshotHud.CloseWhenScreenshotTaken
+  summary: 'Whether the `Class.ScreenshotHud` closes automatically when a screenshot
+
+    is taken.
+
+    '
+  description: 'Determines whether the `Class.ScreenshotHud` closes automatically
+    when a
+
+    screenshot is taken.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: ScreenshotHud.ExperienceNameOverlayEnabled
+  summary: 'Whether the experience name in the overlay is enabled.
+
+    '
+  description: 'Determines whether the experience name in the overlay is enabled.
+
+    '
+  code_samples: []
+  type: boolean
+  tags:
+  - Hidden
+  - Deprecated
+  deprecation_message: 'This property is deprecated. Do not use it for new work.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: ScreenshotHud.HideCoreGuiForCaptures
+  summary: 'Whether Roblox''s core GUI is hidden while a screenshot is captured.
+
+    '
+  description: 'Determines whether Roblox''s core GUI is hidden while a screenshot
+    is
+
+    captured through the `Class.ScreenshotHud`. Defaults to `true`, so any
+
+    enabled `Enum.CoreGuiType` elements are hidden for the duration of the
+
+    capture and restored afterward. A saved capture is only flagged as
+
+    GUI-free when both this property and
+
+    `Class.ScreenshotHud.HidePlayerGuiForCaptures` are enabled.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: ScreenshotHud.HidePlayerGuiForCaptures
+  summary: 'Whether the local player''s GUI is hidden while a screenshot is captured.
+
+    '
+  description: 'Determines whether the local player''s GUI is hidden while a screenshot
+    is
+
+    captured through the `Class.ScreenshotHud`. Defaults to `true`, so any
+
+    enabled `Class.ScreenGui` instances under the
+
+    `Class.Players.LocalPlayer`''s `Class.PlayerGui` are hidden for the
+
+    duration of the capture and restored afterward. A saved capture is only
+
+    flagged as GUI-free when both this property and
+
+    `Class.ScreenshotHud.HideCoreGuiForCaptures` are enabled.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: ScreenshotHud.OverlayFont
+  summary: '`Datatype.Font` used for the experience name in the overlay.
+
+    '
+  description: 'The `Datatype.Font` used for the experience name in the overlay.
+
+    '
+  code_samples: []
+  type: Enum.Font
+  tags:
+  - Hidden
+  - Deprecated
+  deprecation_message: 'This property is deprecated. Do not use it for new work.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: ScreenshotHud.UsernameOverlayEnabled
+  summary: 'Has no effect.
+
+    '
+  description: 'Currently has no effect.
+
+    '
+  code_samples: []
+  type: boolean
+  tags:
+  - Hidden
+  - Deprecated
+  deprecation_message: 'This property is deprecated. Do not use it for new work.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: ScreenshotHud.Visible
+  summary: 'Determines whether the `Class.ScreenshotHud` is visible.
+
+    '
+  description: 'Determines whether the `Class.ScreenshotHud` is visible.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: State
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: CameraButtonIcon
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: ContentId
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: CameraButtonIconContent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Content
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: CameraButtonPosition
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: UDim2
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: CloseButtonPosition
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: UDim2
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: CloseWhenScreenshotTaken
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: ExperienceNameOverlayEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: HideCoreGuiForCaptures
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: HidePlayerGuiForCaptures
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: OverlayFont
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.Font
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: UsernameOverlayEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: Visible
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: State
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+methods: []
+events: []
+callbacks: []

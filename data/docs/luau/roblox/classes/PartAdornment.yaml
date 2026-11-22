@@ -1,0 +1,67 @@
+name: PartAdornment
+type: class
+memory_category: Instances
+summary: 'An abstract class for GUI elements that are adorned to (displayed as attached
+
+  to) objects deriving from `Class.BasePart`.
+
+  '
+description: 'An abstract class for GUI elements that are adorned to (displayed as
+  attached
+
+  to) objects deriving from `Class.BasePart`.
+
+  '
+code_samples: []
+inherits:
+- GuiBase3d
+descendants:
+- HandlesBase
+- SurfaceSelection
+tags:
+- NotCreatable
+deprecation_message: ''
+properties:
+- name: PartAdornment.Adornee
+  summary: 'Sets the object to adorn to.
+
+    '
+  description: 'Sets the object to adorn to.
+
+    '
+  code_samples: []
+  type: BasePart
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  - UI
+- name: Adornee
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: BasePart
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+methods: []
+events: []
+callbacks: []

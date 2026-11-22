@@ -1,0 +1,112 @@
+name: EventIngestService
+type: class
+memory_category: Instances
+summary: API reference for EventIngestService, generated automatically from the Roblox
+  API dump 0.748.0.7481526. Prose documentation is not available for this class yet.
+description: API reference for EventIngestService, generated automatically from the
+  Roblox API dump 0.748.0.7481526. Prose documentation is not available for this class
+  yet.
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+deprecation_message: ''
+properties: []
+methods:
+- name: SendEventDeferred
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: target
+    type: string
+  - name: eventContext
+    type: string
+  - name: eventName
+    type: string
+  - name: additionalArgs
+    type: Dictionary
+  returns:
+  - type: 'null'
+- name: SendEventImmediately
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: target
+    type: string
+  - name: eventContext
+    type: string
+  - name: eventName
+    type: string
+  - name: additionalArgs
+    type: Dictionary
+  returns:
+  - type: 'null'
+- name: SetRBXEvent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: target
+    type: string
+  - name: eventContext
+    type: string
+  - name: eventName
+    type: string
+  - name: additionalArgs
+    type: Dictionary
+  returns:
+  - type: 'null'
+- name: SetRBXEventStream
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: target
+    type: string
+  - name: eventContext
+    type: string
+  - name: eventName
+    type: string
+  - name: additionalArgs
+    type: Dictionary
+  returns:
+  - type: 'null'
+events: []
+callbacks: []

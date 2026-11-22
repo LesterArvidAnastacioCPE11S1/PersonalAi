@@ -1,0 +1,86 @@
+name: SelfViewConfiguration
+type: class
+memory_category: Instances
+summary: 'Controls the built-in self view, the `Class.CoreGui` element that shows
+  a
+
+  player a preview of their own character within an experience.
+
+  '
+description: '`Class.SelfViewConfiguration` is the configuration object for the built-in
+
+  self view — the `Class.CoreGui` element that shows a player a preview of their
+
+  own character within an experience. A single instance is created automatically
+
+  as a child of the `Class.CoreGuiConfiguration` service and is reached through
+
+  `Class.CoreGuiConfiguration.SelfViewConfiguration`.
+
+
+  It inherits `Class.BaseCoreGuiConfiguration.Enabled|Enabled`, which toggles
+
+  whether the self view is available, and adds
+
+  `Class.SelfViewConfiguration.Open|Open`, which you can read and write to open
+
+  or close the view.
+
+  '
+code_samples: []
+inherits:
+- BaseCoreGuiConfiguration
+descendants: []
+tags:
+- NotCreatable
+- NotReplicated
+deprecation_message: ''
+properties:
+- name: SelfViewConfiguration.Open
+  summary: 'Determines whether the built-in self view is currently open.
+
+    '
+  description: 'When `true`, the self view is open; when `false`, it is closed. Defaults
+
+    to `false`. This property does not update when the view is shown or hidden
+
+    through `Class.SocialService:ShowSelfView()` or
+
+    `Class.SocialService:HideSelfView()`.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: State
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: Open
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: State
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+methods: []
+events: []
+callbacks: []

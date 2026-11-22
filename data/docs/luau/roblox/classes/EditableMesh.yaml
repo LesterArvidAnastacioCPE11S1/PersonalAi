@@ -1,0 +1,5472 @@
+name: EditableMesh
+type: class
+memory_category: Instances
+summary: 'Object which allows for the runtime creation and manipulation of meshes.
+
+  '
+description: "`EditableMesh` changes the applied visual mesh when linked to a\n`Class.MeshPart`,\
+  \ allowing for querying and modification of the mesh both in\nStudio and in-game.\n\
+  \n#### Enabling for published games\n\nFor security purposes, using `EditableMesh`\
+  \ fails by default in published\ngames. To enable it, open the\n[Creator Dashboard](https://create.roblox.com/dashboard/creations),\
+  \ go to the\ngame's **Configure**&nbsp;⟩ **Settings**, and toggle on **Enable Mesh\
+  \ / Image\nAPIs**. Alternatively, in Studio, open **Experience Settings** and toggle\
+  \ on\n**Allow Mesh / Image APIs** under **Security**. Remember to review the\n[Terms\
+  \ of Use](https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use#creators-restrictions-on-use)\n\
+  before enabling the toggle.\n\n#### Permissions\n\nTo prevent misuse, `Class.AssetService:CreateEditableMeshAsync()`\
+  \ only allows\nyou to load and edit mesh assets if any of the following is true:\n\
+  \n- Owned by or explicitly shared with the game owner.\n- Owned by or explicitly\
+  \ shared with the logged in Studio user.\n- Owned by or explicitly shared with the\
+  \ logged in player if the\n  `EditableMesh` is on the client side.\n- Owned by a\
+  \ group where the game owner, Studio user, or player has a role\n  with permission\
+  \ to edit the group's assets. See\n  [Roles and permissions](../../../projects/groups.md#roles-and-permissions)\n\
+  \  for more information.\n\nSee [Grant permissions](../../../projects/assets/privacy.md#grant-permissions)\n\
+  to learn how to share assets with users or groups.\n\nThe APIs throw an error if\
+  \ they are used to load an asset that does not meet\nthe criteria above.\n\n####\
+  \ Memory limits\n\nEditable assets are currently expensive for memory usage. To\
+  \ minimize its\nimpact on client performance, `EditableMesh` has strict client-side\
+  \ memory\nbudgets, although the server, Studio, and plugins operate with unlimited\n\
+  memory. Using `Class.EditableMesh.FixedSize|FixedSize` may help you stay\nwithin\
+  \ the memory budget and, in some scenarios, linking one `EditableMesh` to\nmultiple\
+  \ `Class.MeshPart|MeshParts` (multi-referencing) can help with memory\noptimization.\n\
+  \nIf an `EditableMesh` no longer changes, you can save a significant amount of\n\
+  memory budget by converting it to `Enum.ContentSourceType|Opaque` content with\n\
+  `Class.AssetService:CreateDataModelContentAsync()`. Use the returned\n`Datatype.Content`\
+  \ in place of the `EditableMesh`, then call\n`Class.EditableMesh:Destroy()|Destroy()`\
+  \ to release the editable copy. To edit\nthe mesh again, pass the opaque content\
+  \ to\n`Class.AssetService:CreateEditableMeshAsync()`.\n\n#### Creation and display\n\
+  \nAn `EditableMesh` can be created from an existing `Datatype.Content` of a\n`Class.MeshPart`\
+  \ or a mesh ID using\n`Class.AssetService:CreateEditableMeshAsync()`, or a blank\
+  \ `EditableMesh` can\nbe created with `Class.AssetService:CreateEditableMesh()`.\
+  \ It can then be\ndisplayed, modified, and its collision model updated. Not all\
+  \ of the steps are\nnecessary; for example, you might want to create an `EditableMesh`\
+  \ just to\nraycast without ever displaying it.\n\n```lua\nlocal AssetService = game:GetService(\"\
+  AssetService\")\n\n-- Create empty EditableMesh\nlocal editableMesh = AssetService:CreateEditableMesh()\n\
+  \n-- Create EditableMesh from asset ID\nlocal editableMeshFromAsset = nil\nlocal\
+  \ success, errorMessage = pcall(function()\n\teditableMeshFromAsset = AssetService:CreateEditableMeshAsync(Content.fromAssetId(ASSET_ID))\n\
+  end)\n\n-- Create EditableMesh from another EditableMesh\nlocal editableMeshFromAnother\
+  \ = nil\nlocal success, errorMessage = pcall(function()\n\teditableMeshFromAnother\
+  \ = AssetService:CreateEditableMeshAsync(Content.fromObject(OTHER_EDITABLE_MESH))\n\
+  end)\n\n-- Create EditableMesh from MeshPart\nlocal editableMeshFromMeshPart = nil\n\
+  local success, errorMessage = pcall(function()\n\teditableMeshFromMeshPart = AssetService:CreateEditableMeshAsync(MESH_PART.MeshContent)\n\
+  end)\n```\n\nAn `EditableMesh` is displayed when it's linked to a new `Class.MeshPart`,\n\
+  through `Class.AssetService:CreateMeshPartAsync()`. You can create more\n`Class.MeshPart`\
+  \ instances that reference the same `EditableMesh`\n`Datatype.Content`, or link\
+  \ to an existing `Class.MeshPart` through\n`Class.MeshPart:ApplyMesh()`.\n\n```lua\n\
+  local AssetService = game:GetService(\"AssetService\")\nlocal Workspace = game:GetService(\"\
+  Workspace\")\n\n-- Create EditableMesh from asset ID\nlocal editableMeshFromAsset\
+  \ = nil\nlocal success, errorMessage = pcall(function()\n\teditableMeshFromAsset\
+  \ = AssetService:CreateEditableMeshAsync(Content.fromAssetId(ASSET_ID))\nend)\n\n\
+  -- Create new MeshPart linked to the EditableMesh\nlocal newMeshPart = nil\nlocal\
+  \ success, errorMessage = pcall(function()\n\tnewMeshPart = AssetService:CreateMeshPartAsync(Content.fromObject(editableMeshFromAsset))\n\
+  end)\n\n-- Alternatively, link the new MeshPart created above to an existing MeshPart\n\
+  local existingMeshPart = Workspace:FindFirstChild(\"EXISTING_MESH_PART\")\nexistingMeshPart:ApplyMesh(newMeshPart)\n\
+  ```\n\nTo recalculate collision and fluid geometry after editing, you can again\
+  \ call\n`Class.AssetService:CreateMeshPartAsync()` and `Class.MeshPart:ApplyMesh()`\
+  \ to\nupdate an existing `Class.MeshPart`. It's generally recommended to do this\
+  \ at\nthe end of a conceptual edit, not after individual calls to methods that\n\
+  manipulate geometry. Visual changes to the mesh will always be immediately\nreflected\
+  \ by the engine, without the need to call\n`Class.AssetService:CreateMeshPartAsync()`.\n\
+  \n#### Fixed-size meshes\n\nWhen creating an `EditableMesh` from an existing mesh\
+  \ asset (via\n`Class.AssetService:CreateEditableMeshAsync()`), the resulting editable\
+  \ mesh\nis fixed-size by default. Fixed-size meshes are more efficient in terms\
+  \ of\nmemory but you cannot change the number of vertices, faces, or attributes.\n\
+  Only the values of vertex attributes and positions can be edited.\n\n```lua\nlocal\
+  \ AssetService = game:GetService(\"AssetService\")\n\n-- Create EditableMesh without\
+  \ fixed-size default\nlocal editableMeshFromAsset = nil\nlocal success, errorMessage\
+  \ = pcall(function()\n\teditableMeshFromAsset = AssetService:CreateEditableMeshAsync(Content.fromAssetId(ASSET_ID),\
+  \ {FixedSize = false})\nend)\n```\n\n#### Stable IDs\n\nMany `EditableMesh` methods\
+  \ take **vertex**, **normal**, **UV**, **color** and\n**face** IDs. These are represented\
+  \ as integers in Luau but they require some\nspecial handling. The main difference\
+  \ is that IDs are stable and they remain\nthe same even if other parts of the mesh\
+  \ change. For example, if an\n`EditableMesh` has five vertices `{1, 2, 3, 4, 5}`\
+  \ and you remove vertex `4`,\nthe new vertices will be `{1, 2, 3, 5}`.\n\nNote that\
+  \ the IDs are not guaranteed to be in order and there may be holes in\nthe numbering,\
+  \ so when iterating through vertices or faces, you should iterate\nthrough the table\
+  \ returned by `Class.EditableMesh:GetVertices()|GetVertices()`\nor `Class.EditableMesh:GetFaces()|GetFaces()`.\n\
+  \nFor debugging purposes, it can be very helpful to get a more readable string\n\
+  for a stable ID with `Class.EditableMesh:IdDebugString()|IdDebugString()`.\n\n####\
+  \ Split vertex attributes\n\nA **vertex** is a corner of a face, and topologically\
+  \ connects faces together.\nEach vertex has a single **position**, while its **normal**,\
+  \ **UV\ncoordinate**, and **color** (with transparency) are stored per face corner.\
+  \ A\nvertex shared by multiple faces can use the same values on every face, or\n\
+  different values on each.\n\nSometimes it's useful for all faces that touch a vertex\
+  \ to use the same\nattribute values, but sometimes you'll want different faces to\
+  \ use different\nattribute values on the same vertex. For example, on a smooth sphere,\
+  \ each\nvertex will only have a single normal. In contrast, at the corner of a cube,\n\
+  the vertex will have 3 different normals (one for each adjacent face). You can\n\
+  also have seams in the UV coordinates or sharp changes in the vertex colors.\n\n\
+  When creating faces with `Class.EditableMesh:AddFace()|AddFace()` or\n`Class.EditableMesh:AddTriangle()|AddTriangle()`,\
+  \ each corner of the new face\nis automatically assigned a normal, UV, and color\
+  \ attribute. If a vertex\nalready belongs to an existing face, the new face **reuses**\
+  \ that vertex's\nexisting attributes (producing smooth shading and continuous UVs).\
+  \ If the\nvertex is new, fresh attribute IDs are created with default values\n(auto-computed\
+  \ normal, UV of `(0, 0)`, white color). To create a seam, you\nshould create new\
+  \ attributes and set them on the face. For example, this code\nwill create a sharp\
+  \ cube:\n\n```lua\nlocal AssetService = game:GetService(\"AssetService\")\n\n--\
+  \ Given 4 vertex IDs, adds a new normal and a quad face, making a sharp quad\nlocal\
+  \ function addSharpQuad(editableMesh, vid0, vid1, vid2, vid3)\n\tlocal nid = editableMesh:AddNormal()\
+  \ -- This creates a normal ID which is automatically computed\n\n\tlocal fid = editableMesh:AddFace(vid0,\
+  \ vid1, vid2, vid3)\n\teditableMesh:SetFaceNormals(fid, {nid, nid, nid, nid})\n\
+  end\n\n-- Makes a cube with creased edges between the 6 sides\nlocal function makeSharpCube()\n\
+  \tlocal editableMesh = AssetService:CreateEditableMesh()\n\n\tlocal v1 = editableMesh:AddVertex(Vector3.new(0,\
+  \ 0, 0))\n\tlocal v2 = editableMesh:AddVertex(Vector3.new(1, 0, 0))\n\tlocal v3\
+  \ = editableMesh:AddVertex(Vector3.new(0, 1, 0))\n\tlocal v4 = editableMesh:AddVertex(Vector3.new(1,\
+  \ 1, 0))\n\tlocal v5 = editableMesh:AddVertex(Vector3.new(0, 0, 1))\n\tlocal v6\
+  \ = editableMesh:AddVertex(Vector3.new(1, 0, 1))\n\tlocal v7 = editableMesh:AddVertex(Vector3.new(0,\
+  \ 1, 1))\n\tlocal v8 = editableMesh:AddVertex(Vector3.new(1, 1, 1))\n\n\taddSharpQuad(editableMesh,\
+  \ v5, v6, v8, v7) -- Front\n\taddSharpQuad(editableMesh, v1, v3, v4, v2) -- Back\n\
+  \taddSharpQuad(editableMesh, v1, v5, v7, v3) -- Left\n\taddSharpQuad(editableMesh,\
+  \ v2, v4, v8, v6) -- Right\n\taddSharpQuad(editableMesh, v1, v2, v6, v5) -- Bottom\n\
+  \taddSharpQuad(editableMesh, v3, v7, v8, v4) -- Top\n\n\teditableMesh:RemoveUnused()\n\
+  \treturn editableMesh\nend\n```\n\n#### Winding\n\nMesh faces have a front side\
+  \ and a back side. When drawing meshes, only the\nfront of the faces are drawn by\
+  \ default, although you can change this by\nsetting the mesh' `Class.MeshPart.DoubleSided|DoubleSided`\
+  \ property to `true`.\n\nThe order of the vertices around the face determines whether\
+  \ you are looking\nat the front or the back. The front of the face is visible when\
+  \ the vertices\ngo counterclockwise around it.\n\n<img src=\"../../../assets/engine-api/classes/EditableMesh/Winding.png\"\
+  \ alt=\"Order of the vertices around the face\" width=\"550\" />\n\n#### FACS poses\n\
+  \nAnimatable heads use the Facial Action Coding System (FACS). See the\n[FACS poses\
+  \ reference](../../../avatar/dynamic-heads/facs-poses-reference.md)\nfor helpful\
+  \ information when using\n`Class.EditableMesh:GetFacsPoses()|GetFacsPoses()` and\
+  \ similar methods.\n\nEach FACS pose is specified by an `Enum.FacsActionUnit` value.\
+  \ For the FACS\npose, virtual bones can each have a `Datatype.CFrame` that transforms\
+  \ the\nbones' initial `Datatype.CFrame` in the bind pose of the mesh into the\n\
+  `Datatype.CFrame` for that FACS action unit's pose. All bone\n`Datatype.CFrame|CFrames`\
+  \ are in the mesh's local space.\n\nThese FACS poses are blended together during\
+  \ animation. Sometimes, the\nblending of the base poses produces poor results. In\
+  \ those cases, you can\noverride the blending of specific combinations of base poses\
+  \ with a\n[corrective pose](../../../art/characters/facial-animation/create-basic-heads.md#combination-poses)\n\
+  that is more pleasing. A corrective pose is specified by 2 or 3\n`Enum.FacsActionUnit`\
+  \ values. Like a base FACS pose, for a corrective pose,\nvirtual bones can each\
+  \ have a `Datatype.CFrame` that transforms the bones'\ninitial `Datatype.CFrame`\
+  \ in the bind pose of the mesh into the\n`Datatype.CFrame` for that FACS corrective.\n\
+  \nPlease note that corrective poses that operate on both left and right action\n\
+  units are not currently expressible. For example, using `LeftCheekPuff` and\n`RightEyeClosed`\
+  \ together in a corrective pose is not currently possible.\n\n#### Batching\n\n\
+  The **batch** methods let you create, read, update, and remove many mesh\nelements\
+  \ in a single call instead of invoking the singular methods\n(`Class.EditableMesh:AddVertex()|AddVertex()`,\n\
+  `Class.EditableMesh:SetPosition()|SetPosition()`,\n`Class.EditableMesh:GetColor()|GetColor()`,\
+  \ and so on) once per element.\nBatching your mesh operations is typically much\
+  \ more performant than handling\nthem one by one.\n\nRather than one method per\
+  \ attribute, each batch method shares a small set of\ngeneral entry points and uses\
+  \ an `Enum.MeshAttribute` value (or the type\nalready encoded in each mesh ID) to\
+  \ determine which attribute you mean. For\nexample, `Class.EditableMesh:BatchSetValues()|BatchSetValues()`\
+  \ sets positions\nwhen called with vertex IDs, but sets normals when called with\
+  \ normal IDs. You\ncannot mix-and-match ID types within a single call.\n\nBatch\
+  \ setters take parallel arrays: element `i` of every argument array\ndescribes the\
+  \ same logical operation. In\n`Class.EditableMesh:BatchSetValues()|BatchSetValues(ids,\
+  \ values)`, `values[i]`\nis written to `ids[i]`. All argument arrays must be the\
+  \ same length or the\ncall errors. Batch getters take an array of IDs and return\
+  \ results in the same\norder.\n\nIf a mesh ID is invalid, batching still applies\
+  \ updates to all elements before\nthe invalid ID, then stops.\n\n#### Limitations\n\
+  \n`EditableMesh` currently has a limit of 60,000 vertices and 20,000 triangles.\n\
+  Faces can be triangles or quads, and each quad counts as 2 triangles toward\nthe\
+  \ triangle limit. Attempting to add too many vertices or triangles will\ncause an\
+  \ error.\n"
+code_samples: []
+inherits:
+- Object
+descendants: []
+tags:
+- NotCreatable
+deprecation_message: ''
+properties:
+- name: EditableMesh.FixedSize
+  summary: 'Returns `true` if a mesh is fixed-size.
+
+    '
+  description: 'Fixed-sized meshes allow changing the values of vertex attributes
+    but do
+
+    not allow vertices and faces to be added or deleted.
+
+    '
+  code_samples: []
+  type: boolean
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: RobloxEngineSecurity
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - DynamicGeneration
+- name: EditableMeshDataHolder
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: NetAssetRef
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_no_string_value__
+- name: FixedSize
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_failed_to_create_class__
+- name: IsReplicatedCopy
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_failed_to_create_class__
+- name: MeshData
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: SharedString
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+methods:
+- name: EditableMesh:AddBone
+  summary: 'Adds a new bone and returns a bone ID.
+
+    '
+  description: 'Adds a new bone to the mesh and returns a bone ID that persists across
+
+    topology changes. An error is thrown if the bone name is already in use,
+
+    the parent ID is invalid, or the mesh already contains the maximum number
+
+    of bones.
+
+    '
+  code_samples: []
+  parameters:
+  - name: boneProperties
+    type: Dictionary
+    default: null
+    summary: "Options table containing bone parameters:\n\n- `Name` — A string that\
+      \ specifies the bone name. Note that all bone\n  names in a mesh must be unique,\
+      \ and the maximum length is 100\n  characters.\n- `ParentId` — Optional bone\
+      \ ID of the new bone's parent.\n- `CFrame` — Initial `Datatype.CFrame` of the\
+      \ bone in the bind pose of\n  the mesh, in the mesh's local space.\n- `Virtual`\
+      \ — Boolean that specifies whether this bone is virtual.\n  Virtual bones can\
+      \ only be bound to a `Class.FaceControls` instance.\n"
+  returns:
+  - type: int64
+    summary: 'Bone ID of the new bone.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:AddColor
+  summary: 'Adds a new color to the geometry and returns a color ID.
+
+    '
+  description: 'Adds a new vertex color attribute to the mesh and returns a color
+    ID.
+
+    '
+  code_samples: []
+  parameters:
+  - name: color
+    type: Color3
+    default: null
+    summary: 'The new color.
+
+      '
+  - name: alpha
+    type: float
+    default: null
+    summary: 'The color alpha (transparency). `0` is fully transparent, and `1` is
+
+      fully opaque.
+
+      '
+  returns:
+  - type: int64
+    summary: 'Color ID of the new color.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:AddFace
+  summary: 'Adds a new triangle or quad face to the mesh and returns a face ID.
+
+    '
+  description: "Adds a new face from the given vertex IDs and returns a stable face\
+    \ ID. A\nface is either a **triangle** (3 vertex IDs) or a **quad** (4 vertex\
+    \ IDs);\nany other count throws an error. For adding triangles specifically, this\n\
+    method is equivalent to `Class.EditableMesh:AddTriangle()|AddTriangle()`.\n\n\
+    For rendering and collision, each quad is internally split into 2\ntriangles,\
+    \ so a quad counts as 2 triangles toward the mesh's triangle\nlimit.\n\n#### Automatic\
+    \ attribute assignment\n\n`AddFace()` only takes vertex IDs as arguments. For\
+    \ each vertex of the new\nface, it automatically assigns normal, UV, and color\
+    \ attributes using the\nfollowing logic:\n\n- If the vertex **already belongs\
+    \ to another face**, the new face corner\n  **reuses** the same normal, UV, and\
+    \ color IDs from the existing face.\n  This produces smooth shading and continuous\
+    \ UVs across adjacent faces by\n  default.\n- If the vertex **does not yet belong\
+    \ to any face**, new normal, UV, and\n  color IDs are created with default values\
+    \ (auto-computed normal, UV\n  coordinate of `(0, 0)`, and white color).\n\n<img\
+    \ src=\"../../../assets/engine-api/classes/EditableMesh/Shared-Attributes.png\"\
+    \ alt=\"Two adjacent faces sharing vertex attribute IDs at their common vertices\"\
+    \ width=\"690\" />\n\n#### Overriding attributes after adding a face\n\nThe auto-assigned\
+    \ attributes can be customized after adding a face. The\napproach depends on whether\
+    \ you want to change attribute **values** while\nkeeping the topology intact,\
+    \ or create entirely new attribute IDs to add\nor remove **seams** between faces.\n\
+    \n**To change values in-place**, retrieve the auto-created IDs with methods\n\
+    like `Class.EditableMesh:GetVertexFaceUV()|GetVertexFaceUV()` and set\ntheir values\
+    \ directly. This is more performant and avoids leaving unused\nIDs in the mesh:\n\
+    \n```lua\n-- Create a triangle\nlocal faceId = editableMesh:AddFace(v0, v1, v2)\n\
+    \n-- Get the UV IDs that were automatically created\nlocal uvId0 = editableMesh:GetVertexFaceUV(v0,\
+    \ faceId)\nlocal uvId1 = editableMesh:GetVertexFaceUV(v1, faceId)\nlocal uvId2\
+    \ = editableMesh:GetVertexFaceUV(v2, faceId)\n\n-- Set UV values on those existing\
+    \ UV IDs\neditableMesh:SetUV(uvId0, Vector2.new(0, 0))\neditableMesh:SetUV(uvId1,\
+    \ Vector2.new(1, 0))\neditableMesh:SetUV(uvId2, Vector2.new(0, 1))\n```\n\n**To\
+    \ create a seam** — where the same vertex needs different attribute\nvalues on\
+    \ different faces (for example, a UV seam or a sharp edge) —\ncreate new attribute\
+    \ IDs with `Class.EditableMesh:AddUV()|AddUV()`,\n`Class.EditableMesh:AddNormal()|AddNormal()`,\
+    \ or\n`Class.EditableMesh:AddColor()|AddColor()`, then assign them to the face\n\
+    with `Class.EditableMesh:SetFaceUVs()|SetFaceUVs()`,\n`Class.EditableMesh:SetFaceNormals()|SetFaceNormals()`,\
+    \ or\n`Class.EditableMesh:SetFaceColors()|SetFaceColors()`:\n\n```lua\n-- Create\
+    \ a triangle\nlocal faceId = editableMesh:AddFace(v0, v1, v2)\n\n-- Create new\
+    \ UV IDs with custom coordinates\nlocal uv0 = editableMesh:AddUV(Vector2.new(0,\
+    \ 0))\nlocal uv1 = editableMesh:AddUV(Vector2.new(1, 0))\nlocal uv2 = editableMesh:AddUV(Vector2.new(0,\
+    \ 1))\n\n-- Replace the face's UV IDs (creates a seam if the vertex had different\
+    \ UVs on another face)\neditableMesh:SetFaceUVs(faceId, {uv0, uv1, uv2})\n```\n\
+    \n#### Normal sharing and smooth vs. sharp edges\n\nBecause new faces reuse normal\
+    \ IDs from adjacent faces by default, meshes\nappear smooth. To create a **sharp\
+    \ edge** (crease) between faces, create a\nseparate normal ID for each face and\
+    \ assign it with\n`Class.EditableMesh:SetFaceNormals()|SetFaceNormals()`:\n\n\
+    <img src=\"../../../assets/engine-api/classes/EditableMesh/Faceted-Normals.png\"\
+    \ alt=\"Two adjacent faces with separate normal IDs producing flat shading\" width=\"\
+    690\" />\n\n```lua\n-- Two triangles sharing vertices v0 and v1, but with a sharp\
+    \ edge between them\nlocal fid1 = editableMesh:AddFace(v0, v1, v2)\nlocal fid2\
+    \ = editableMesh:AddFace(v0, v3, v1)\n\n-- Create separate normals for each face\
+    \ to produce a hard edge\nlocal n1 = editableMesh:AddNormal() -- Auto-computed\
+    \ for fid1\nlocal n2 = editableMesh:AddNormal() -- Auto-computed for fid2\neditableMesh:SetFaceNormals(fid1,\
+    \ {n1, n1, n1})\neditableMesh:SetFaceNormals(fid2, {n2, n2, n2})\n```\n\nSee also\
+    \ `Class.EditableMesh:SetNormal()|SetNormal()` to manually specify\na normal vector,\
+    \ and `Class.EditableMesh:ResetNormal()|ResetNormal()` to\nrevert a normal back\
+    \ to automatic computation.\n"
+  code_samples: []
+  parameters:
+  - name: vertexIds
+    type: Tuple
+    default: null
+    summary: 'The new face''s vertex IDs passed as separate arguments in order around
+
+      the face. Provide 3 IDs to create a triangle or 4 IDs to create a
+
+      quad.
+
+      '
+  returns:
+  - type: int64
+    summary: 'Face ID of the new face.
+
+      '
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:AddNormal
+  summary: 'Adds a new normal to the geometry and returns a normal ID.
+
+    '
+  description: 'Adds a new normal to the geometry and returns a normal ID. If the
+    normal
+
+    value isn''t specified, the normal will be automatically calculated.
+
+    '
+  code_samples: []
+  parameters:
+  - name: normal
+    type: Vector3?
+    default: null
+    summary: 'The normal vector. If the normal value isn''t specified, the normal
+
+      will be automatically calculated.
+
+      '
+  returns:
+  - type: int64
+    summary: 'Normal ID of the new normal.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:AddTriangle
+  summary: 'Adds a new triangle to the mesh and returns a face ID.
+
+    '
+  description: 'Adds a new triangle to the mesh and returns a stable face ID. This
+    is
+
+    equivalent to calling `Class.EditableMesh:AddFace()|AddFace()` with 3
+
+    vertex IDs.
+
+
+    See `Class.EditableMesh:AddFace()|AddFace()` for information on how all
+
+    faces are added, including those added by
+
+    `Class.EditableMesh:AddTriangle()|AddTriangle()`. This includes details
+
+    related to automatic attribute assignment, overriding attributes, and
+
+    more.
+
+    '
+  code_samples: []
+  parameters:
+  - name: vertexId0
+    type: int64
+    default: null
+    summary: 'ID of the first vertex of the triangle.
+
+      '
+  - name: vertexId1
+    type: int64
+    default: null
+    summary: 'ID of the second vertex of the triangle.
+
+      '
+  - name: vertexId2
+    type: int64
+    default: null
+    summary: 'ID of the third vertex of the triangle.
+
+      '
+  returns:
+  - type: int64
+    summary: 'Stable face ID of the new face.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:AddUV
+  summary: 'Adds a new UV to the geometry and returns a UV ID.
+
+    '
+  description: 'Adds a new UV coordinate attribute to the mesh and returns a UV ID.
+
+    '
+  code_samples: []
+  parameters:
+  - name: uv
+    type: Vector2
+    default: null
+    summary: 'The new UV coordinate.
+
+      '
+  returns:
+  - type: int64
+    summary: 'UV ID of the new UV.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:AddVertex
+  summary: 'Adds a new vertex to the geometry and returns a vertex ID.
+
+    '
+  description: 'Adds a new vertex to the mesh and returns a vertex ID. The position
+    is
+
+    specified in the mesh''s local object space. An error is thrown if the mesh
+
+    already contains 60,000 vertices.
+
+    '
+  code_samples: []
+  parameters:
+  - name: p
+    type: Vector3
+    default: null
+    summary: 'Position in the mesh''s local object space.
+
+      '
+  returns:
+  - type: int64
+    summary: 'Vertex ID of the new vertex.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:BatchAdd
+  summary: 'Creates new mesh elements of the given attribute type and returns their
+
+    IDs.
+
+    '
+  description: "Creates new mesh elements of the given attribute type and returns\
+    \ their\nIDs in the same order as the input data. This method always requires\
+    \ an\nexplicit `Enum.MeshAttribute` because its input is raw values with no\n\
+    existing IDs to inspect. Throws an error if the attribute type is invalid,\nthe\
+    \ data format does not match, or adding the elements would exceed mesh\nlimits.\n\
+    \n```lua\nlocal vIds = mesh:BatchAdd(Enum.MeshAttribute.Vertex, positions)   \
+    \  -- Positions: {Vector3}\nlocal nIds = mesh:BatchAdd(Enum.MeshAttribute.Normal,\
+    \ normals)       -- Normals: {Vector3}\nlocal uIds = mesh:BatchAdd(Enum.MeshAttribute.UV,\
+    \ uvs)               -- UVs: {Vector2}\nlocal cIds = mesh:BatchAdd(Enum.MeshAttribute.Color,\
+    \ colors, alphas) -- Colors: {Color3}, Alphas: {number}\nlocal fIds = mesh:BatchAdd(Enum.MeshAttribute.Face,\
+    \ {\n    {vIds[1], vIds[2], vIds[3]},\n    {vIds[1], vIds[3], vIds[4]},\n})\n\
+    ```\n"
+  code_samples: []
+  parameters:
+  - name: attr
+    type: MeshAttribute
+    default: null
+    summary: 'The `Enum.MeshAttribute` type of element to create.
+
+      '
+  - name: data
+    type: Array
+    default: null
+    summary: 'Values to initialize the new elements. An array of `Datatype.Vector3`
+
+      for `Enum.MeshAttribute|Vertex` or `Enum.MeshAttribute|Normal`; an
+
+      array of `Datatype.Vector2` for `Enum.MeshAttribute|UV`; an array of
+
+      `Datatype.Color3` followed by a matching array of alpha numbers (same
+
+      length) for `Enum.MeshAttribute|Color`; a 2D array of vertex-ID arrays
+
+      for `Enum.MeshAttribute|Face`.
+
+      '
+  returns:
+  - type: Array
+    summary: 'Ordered array of new element IDs matching the input order.
+
+      '
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:BatchGetFaceAttributes
+  summary: 'Returns the per-corner attribute IDs for each face in a batch.
+
+    '
+  description: 'Returns, for each face, the array of per-corner attribute IDs, one
+    per
+
+    corner in the same order as
+
+    `Class.EditableMesh:GetFaceVertices()|GetFaceVertices()`.
+
+
+    ```lua
+
+    local faceNormals = mesh:BatchGetFaceAttributes(Enum.MeshAttribute.Normal, faceIds)
+    -- {{normalId}}
+
+    local faceVerts = mesh:BatchGetFaceAttributes(Enum.MeshAttribute.Vertex, faceIds)   --
+    {{vertexId}}
+
+    ```
+
+    '
+  code_samples: []
+  parameters:
+  - name: attr
+    type: MeshAttribute
+    default: null
+    summary: 'The attribute to retrieve for each face''s corners. Must be
+
+      `Enum.MeshAttribute.Vertex`, `Enum.MeshAttribute.Normal`,
+
+      `Enum.MeshAttribute.Color`, or `Enum.MeshAttribute.UV`;
+
+      `Enum.MeshAttribute.Face` is not supported and throws an error.
+
+      '
+  - name: faceIds
+    type: Array
+    default: null
+    summary: 'Faces to query.
+
+      '
+  returns:
+  - type: Array
+    summary: '2D array where `result[i]` is the array of attribute IDs at the
+
+      corners of `faceIds[i]`.
+
+      '
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:BatchGetValues
+  summary: 'Returns attribute values for each ID in a batch.
+
+    '
+  description: 'Returns attribute values for the given IDs in the same order as the
+    input.
+
+    Passing an empty array returns an empty result.
+
+
+    ```lua
+
+    local positions = mesh:BatchGetValues(vertexIds)     -- {Vector3}
+
+    local normals = mesh:BatchGetValues(normalIds)       -- {Vector3}
+
+    local uvs = mesh:BatchGetValues(uvIds)               -- {Vector2}
+
+    local colors, alphas = mesh:BatchGetValues(colorIds) -- {Color3}, {number}
+
+    ```
+
+    '
+  code_samples: []
+  parameters:
+  - name: ids
+    type: Array
+    default: null
+    summary: 'IDs of the elements to read. All must be the same attribute type —
+
+      vertex, normal, color, or UV. The attribute is determined by the ID
+
+      type, so no `Enum.MeshAttribute` argument is needed. Mixing types, or
+
+      passing face or bone IDs, throws an error.
+
+      '
+  returns:
+  - type: Tuple
+    summary: 'A tuple of two values. The first is an array of attribute values:
+
+      `Datatype.Vector3` for vertex or normal IDs, `Datatype.Vector2` for UV
+
+      IDs, `Datatype.Color3` for color IDs. The second is `nil` for all
+
+      attribute types except color, where it is an array of alpha numbers.
+
+      '
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:BatchGetVertexAttributes
+  summary: 'Returns the attribute IDs associated with each vertex in a batch.
+
+    '
+  description: 'Returns, for each vertex, the array of associated attribute IDs, gathered
+
+    across all faces adjacent to that vertex. For example, using
+
+    `Enum.MeshAttribute.Face` returns every face that references each vertex.
+
+
+    ```lua
+
+    local adjFaces = mesh:BatchGetVertexAttributes(Enum.MeshAttribute.Face, vertexIds)
+    -- {{faceId}}
+
+    ```
+
+    '
+  code_samples: []
+  parameters:
+  - name: attr
+    type: MeshAttribute
+    default: null
+    summary: 'The attribute type to look up. Must be `Enum.MeshAttribute.Face`
+
+      (faces that reference each vertex), `Enum.MeshAttribute.Normal`,
+
+      `Enum.MeshAttribute.Color`, or `Enum.MeshAttribute.UV`;
+
+      `Enum.MeshAttribute.Vertex` is not supported and throws an error (to
+
+      read vertex positions, use
+
+      `Class.EditableMesh:BatchGetValues()|BatchGetValues()`).
+
+      '
+  - name: vertexIds
+    type: Array
+    default: null
+    summary: 'Vertices to query.
+
+      '
+  returns:
+  - type: Array
+    summary: '2D array where `result[i]` is the array of attribute IDs associated
+
+      with `vertexIds[i]`.
+
+      '
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:BatchGetVertexFaceAttributes
+  summary: 'Returns the attribute ID at each specified corner for a batch of
+
+    vertex–face pairs.
+
+    '
+  description: 'Returns the attribute ID at each corner specified by a vertex–face
+    pair.
+
+
+    ```lua
+
+    local cornerColors = mesh:BatchGetVertexFaceAttributes(Enum.MeshAttribute.Color,
+    vertexIds, faceIds)
+
+    ```
+
+    '
+  code_samples: []
+  parameters:
+  - name: attr
+    type: MeshAttribute
+    default: null
+    summary: 'The attribute to retrieve. Must be `Enum.MeshAttribute.Normal`,
+
+      `Enum.MeshAttribute.Color`, or `Enum.MeshAttribute.UV`;
+
+      `Enum.MeshAttribute.Vertex` and `Enum.MeshAttribute.Face` are not
+
+      supported and throw an error.
+
+      '
+  - name: vertexIds
+    type: Array
+    default: null
+    summary: 'Vertices that identify each corner.
+
+      '
+  - name: faceIds
+    type: Array
+    default: null
+    summary: 'Faces that identify each corner. Must be the same length as
+
+      `vertexIds`.
+
+      '
+  returns:
+  - type: Array
+    summary: 'Array of attribute IDs at each corner, in the same order as the
+
+      inputs.
+
+      '
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:BatchRemove
+  summary: 'Removes a batch of faces.
+
+    '
+  description: 'Removes a batch of faces. As with
+
+    `Class.EditableMesh:RemoveFace()|RemoveFace()`, the vertices and
+
+    attributes used by the removed faces are not automatically deleted; call
+
+    `Class.EditableMesh:RemoveUnused()|RemoveUnused()` afterward to clean up
+
+    unused elements.
+
+
+    ```lua
+
+    mesh:BatchRemove(faceIds)
+
+    ```
+
+    '
+  code_samples: []
+  parameters:
+  - name: faceIds
+    type: Array
+    default: null
+    summary: 'Face IDs to remove. An invalid or already-removed ID throws an error
+
+      and removes nothing; duplicate IDs are collapsed to a single removal.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:BatchSetFaceAttributes
+  summary: 'Sets the per-corner attribute IDs for each face in a batch.
+
+    '
+  description: "Sets the per-corner attribute IDs for each face.\n\n```lua\n-- Assign\
+    \ normal IDs to every corner of two faces\nmesh:BatchSetFaceAttributes(faceIds,\
+    \ {\n\t{n1, n2, n3},\n\t{n4, n5, n6},\n})\n```\n"
+  code_samples: []
+  parameters:
+  - name: faceIds
+    type: Array
+    default: null
+    summary: 'Face IDs to update. Must be the same length as `attrIdArrays`.
+
+      '
+  - name: attrIdArrays
+    type: Array
+    default: null
+    summary: '2D array. `attrIdArrays[i]` is the list of attribute IDs for the
+
+      corners of `faceIds[i]`, in order. Each inner array must have one
+
+      entry per corner of the face. All IDs must be of the same attribute
+
+      type — vertex, normal, color, or UV; mixing types (or passing another
+
+      ID type) throws an error.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:BatchSetValues
+  summary: 'Writes attribute values to a batch of mesh element IDs.
+
+    '
+  description: 'Writes attribute values to the given IDs. `values[i]` is written to
+
+    `ids[i]`; the `ids` and `values` arrays must be the same length, unless
+
+    `values` is `nil` to reset normals.
+
+
+    For color IDs, pass an array of `Datatype.Color3` to set the colors, or an
+
+    array of numbers to set the alphas. Mixing types in one call is an error.
+
+
+    ```lua
+
+    mesh:BatchSetValues(vertexIds, positions) -- Positions: {Vector3}
+
+    mesh:BatchSetValues(normalIds, normals)   -- Normals: {Vector3}
+
+    mesh:BatchSetValues(uvIds, uvs)           -- UVs: {Vector2}
+
+    mesh:BatchSetValues(colorIds, colors)     -- Colors: {Color3}
+
+    mesh:BatchSetValues(colorIds, alphas)     -- Alphas: {number}
+
+    mesh:BatchSetValues(normalIds, nil)       -- Resets each normal to auto-computed
+
+    ```
+
+    '
+  code_samples: []
+  parameters:
+  - name: ids
+    type: Array
+    default: null
+    summary: 'IDs of the elements to write. All must be the same attribute type —
+
+      vertex, normal, color, or UV. The attribute is determined by the ID
+
+      type, so no `Enum.MeshAttribute` argument is needed. Mixing types, or
+
+      passing face or bone IDs, throws an error.
+
+      '
+  - name: values
+    type: Array
+    default: null
+    summary: 'Values to assign. Type depends on the ID type: `Datatype.Vector3` for
+
+      vertex or normal IDs, `Datatype.Vector2` for UV IDs, `Datatype.Color3`
+
+      or a number for color IDs. Pass `nil` for normal IDs to reset each
+
+      normal to auto-computed values, equivalent to calling
+
+      `Class.EditableMesh:ResetNormal()|ResetNormal()` on each.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:BatchSetVertexFaceAttributes
+  summary: 'Sets the attribute at a specific corner for each vertex–face pair in a
+
+    batch.
+
+    '
+  description: 'Sets the attribute at a specific corner — identified by a vertex–face
+    pair
+
+    — for each element in the batch. For each index `i`, the attribute at
+
+    corner `(vertexIds[i], faceIds[i])` is set to `attrIds[i]`.
+
+
+    ```lua
+
+    mesh:BatchSetVertexFaceAttributes(vertexIds, faceIds, colorIds)
+
+    ```
+
+    '
+  code_samples: []
+  parameters:
+  - name: vertexIds
+    type: Array
+    default: null
+    summary: 'Vertex IDs that identify each corner.
+
+      '
+  - name: faceIds
+    type: Array
+    default: null
+    summary: 'Face IDs that identify each corner. Must be the same length as
+
+      `vertexIds`.
+
+      '
+  - name: attrIds
+    type: Array
+    default: null
+    summary: 'Attribute IDs to assign, one per pair; must be the same length as
+
+      `vertexIds`. All must be the same attribute type — normal, color, or
+
+      UV; passing a vertex or face ID throws an error.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:Clear
+  summary: 'Clears all of an EditableMesh''s geometry.
+
+    '
+  description: 'Removes all vertex data (including positions, normals, UV coordinates,
+    and
+
+    colors), faces, bones, and FACS data without destroying the
+
+    `Class.EditableMesh` or its allocated space.
+
+
+    This method cannot be called on a fixed-size mesh (where
+
+    `Class.EditableMesh.FixedSize|FixedSize` is `true`). Attempting to do so
+
+    throws an error because fixed-size meshes do not allow adding or removing
+
+    elements.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:Destroy
+  summary: 'Destroys the mesh.
+
+    '
+  description: 'Destroys the contents of the mesh, immediately reclaiming used memory.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:FindClosestPointOnSurface
+  summary: 'Finds the closest point on the mesh''s surface.
+
+    '
+  description: 'Finds the closest point on the mesh''s surface. Returns the face ID,
+    point
+
+    on the mesh in local object space, the barycentric coordinates of the
+
+    position within the face, and the 3 vertex IDs that the barycentric
+
+    coordinates correspond to. See
+
+    `Class.EditableMesh:RaycastLocal()|RaycastLocal()` for more information on
+
+    barycentric coordinates, including how they apply to quad faces. When the
+
+    mesh is skinned, this query operates against the bind-pose geometry, not
+
+    the deformed mesh as it appears at runtime.
+
+    '
+  code_samples: []
+  parameters:
+  - name: point
+    type: Vector3
+    default: null
+    summary: 'Point position in the mesh''s local object space.
+
+      '
+  returns:
+  - type: Tuple
+    summary: 'Tuple of the face ID, point on the mesh in local object space, the
+
+      barycentric coordinate of the position within the face, and the 3
+
+      vertex IDs that the barycentric coordinate weights.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:FindClosestVertex
+  summary: 'Finds the closest vertex to a specific point in space.
+
+    '
+  description: 'Finds the closest vertex to a specific point in space and returns
+    a vertex
+
+    ID. When the mesh is skinned, this query operates against the bind-pose
+
+    geometry, not the deformed mesh as it appears at runtime.
+
+    '
+  code_samples: []
+  parameters:
+  - name: toThisPoint
+    type: Vector3
+    default: null
+    summary: 'Point position in the mesh''s local object space.
+
+      '
+  returns:
+  - type: int64
+    summary: 'Closest vertex ID to the specified point in space.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:FindVerticesWithinSphere
+  summary: 'Finds all vertices within a specific sphere.
+
+    '
+  description: 'Finds all vertices within a specific sphere and returns a list of
+    vertex
+
+    IDs. When the mesh is skinned, this query operates against the bind-pose
+
+    geometry, not the deformed mesh as it appears at runtime.
+
+    '
+  code_samples: []
+  parameters:
+  - name: center
+    type: Vector3
+    default: null
+    summary: 'Center of the sphere in the mesh''s local object space.
+
+      '
+  - name: radius
+    type: float
+    default: null
+    summary: 'Radius of the sphere.
+
+      '
+  returns:
+  - type: Array
+    summary: 'List of vertex IDs within the requested sphere.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetAdjacentFaces
+  summary: 'Returns a list of faces adjacent to a given face.
+
+    '
+  description: 'Given a face ID, returns a list of adjacent faces.
+
+
+    <img src="../../../assets/engine-api/classes/EditableMesh/GetAdjacentTriangles.png"
+    alt="Adjacent faces indicated around requested face" width="120" />
+
+    '
+  code_samples: []
+  parameters:
+  - name: faceId
+    type: int64
+    default: null
+    summary: 'Face ID for which to get adjacent faces.
+
+      '
+  returns:
+  - type: Array
+    summary: 'List of face IDs adjacent to the given face.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetAdjacentVertices
+  summary: 'Returns a list of vertices adjacent to a given vertex.
+
+    '
+  description: 'Given a vertex ID, returns a list of adjacent vertices.
+
+
+    <img src="../../../assets/engine-api/classes/EditableMesh/GetAdjacentVertices.png"
+    alt="Adjacent vertices indicated around requested vertex" width="120" />
+
+    '
+  code_samples: []
+  parameters:
+  - name: vertexId
+    type: int64
+    default: null
+    summary: 'Vertex ID around which to get adjacent vertices.
+
+      '
+  returns:
+  - type: Array
+    summary: 'List of IDs of adjacent vertices around the given vertex ID.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetBoneByName
+  summary: 'Finds the bone ID of the bone with the given name.
+
+    '
+  description: 'Finds the bone ID of the bone with the given name. Errors if no bone
+    with
+
+    that name exists.
+
+    '
+  code_samples: []
+  parameters:
+  - name: boneName
+    type: string
+    default: null
+    summary: 'Bone name to search for.
+
+      '
+  returns:
+  - type: int64
+    summary: 'Bone ID of the bone with the given name.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetBoneCFrame
+  summary: 'Returns the initial `Datatype.CFrame` of the bone in the bind pose of
+    the
+
+    mesh.
+
+    '
+  description: 'Returns the initial `Datatype.CFrame` of the bone in the bind pose
+    of the
+
+    mesh, in the mesh''s local space.
+
+    '
+  code_samples: []
+  parameters:
+  - name: boneId
+    type: int64
+    default: null
+    summary: 'Bone ID for which to get the `Datatype.CFrame`.
+
+      '
+  returns:
+  - type: CFrame
+    summary: 'Initial `Datatype.CFrame` of the bone in the bind pose of the mesh,
+      in
+
+      the mesh''s local space.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetBoneIsVirtual
+  summary: 'Returns `true` if the bone is virtual.
+
+    '
+  description: 'Returns `true` if the bone is virtual. Virtual bones can only be bound
+    to
+
+    a `Class.FaceControls` instance.
+
+    '
+  code_samples: []
+  parameters:
+  - name: boneId
+    type: int64
+    default: null
+    summary: 'Bone ID for which to get whether the bone is virtual.
+
+      '
+  returns:
+  - type: boolean
+    summary: 'Whether the bone with the given bone ID is virtual. Virtual bones can
+
+      only be bound to a `Class.FaceControls` instance.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetBoneName
+  summary: 'Returns the bone name.
+
+    '
+  description: 'Returns the name string of the bone identified by the given bone ID.
+    Bone
+
+    names are unique within the mesh and can be up to 100 characters long.
+
+    '
+  code_samples: []
+  parameters:
+  - name: boneId
+    type: int64
+    default: null
+    summary: 'Bone ID for which to get the name.
+
+      '
+  returns:
+  - type: string
+    summary: 'Name of the bone with the given bone ID.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetBoneParent
+  summary: 'Returns the parent bone ID, if any.
+
+    '
+  description: 'Returns the bone ID of the parent bone in the bone hierarchy. If the
+    bone
+
+    has no parent, returns `0`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: boneId
+    type: int64
+    default: null
+    summary: 'Bone ID for which to get the parent.
+
+      '
+  returns:
+  - type: int64
+    summary: 'Bone ID for the parent of the bone with the given bone ID. If there
+      is
+
+      no parent, returns `0`.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetBones
+  summary: 'Returns all bones of the mesh.
+
+    '
+  description: 'Returns all bones of the mesh as a list of bone IDs.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Array
+    summary: 'List of bone IDs.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetCenter
+  summary: 'Returns the center of the mesh''s axis-aligned bounding box.
+
+    '
+  description: 'Returns the center of the mesh''s axis-aligned bounding box, in the
+    mesh''s
+
+    local object space.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Vector3
+    summary: 'Center of the bounding box of the `EditableMesh`.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetColor
+  summary: 'Returns the color for the given color ID.
+
+    '
+  description: 'Returns the `Datatype.Color3` value stored at the given color ID.
+    Use
+
+    `Class.EditableMesh:GetColorAlpha()|GetColorAlpha()` to retrieve the alpha
+
+    component separately.
+
+    '
+  code_samples: []
+  parameters:
+  - name: colorId
+    type: int64
+    default: null
+    summary: 'Color ID for which to get the color.
+
+      '
+  returns:
+  - type: Color3?
+    summary: 'Color for the requested color ID.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetColorAlpha
+  summary: 'Returns the color alpha (transparency) at the given color ID.
+
+    '
+  description: 'Returns the alpha component of the vertex color at the given color
+    ID as a
+
+    number between `0` (fully transparent) and `1` (fully opaque). Use
+
+    `Class.EditableMesh:GetColor()|GetColor()` to retrieve the RGB component.
+
+    '
+  code_samples: []
+  parameters:
+  - name: colorId
+    type: int64
+    default: null
+    summary: 'Color ID for which to get the alpha.
+
+      '
+  returns:
+  - type: float?
+    summary: 'Color alpha at the request color ID.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetColors
+  summary: 'Returns all colors of the mesh.
+
+    '
+  description: 'Returns all colors of the mesh as a list of color IDs.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Array
+    summary: 'List of color IDs.
+
+      '
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetFaceColors
+  summary: 'Returns the face''s color IDs for the vertices on the face.
+
+    '
+  description: 'Returns an array of color IDs, one per vertex corner of the specified
+
+    face, in the same order as
+
+    `Class.EditableMesh:GetFaceVertices()|GetFaceVertices()`. Use these IDs
+
+    with `Class.EditableMesh:GetColor()|GetColor()` and
+
+    `Class.EditableMesh:GetColorAlpha()|GetColorAlpha()` to read the actual
+
+    color values.
+
+    '
+  code_samples: []
+  parameters:
+  - name: faceId
+    type: int64
+    default: null
+    summary: 'Face ID for which to get the color IDs.
+
+      '
+  returns:
+  - type: Array
+    summary: 'List of color IDs used for the vertices on the given face.
+
+      '
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetFaceNormals
+  summary: 'Returns the face''s normal IDs for the vertices on the face.
+
+    '
+  description: 'Returns an array of normal IDs, one per vertex corner of the specified
+
+    face, in the same order as
+
+    `Class.EditableMesh:GetFaceVertices()|GetFaceVertices()`. Use these IDs
+
+    with `Class.EditableMesh:GetNormal()|GetNormal()` to read the actual
+
+    normal vectors.
+
+    '
+  code_samples: []
+  parameters:
+  - name: faceId
+    type: int64
+    default: null
+    summary: 'Face ID for which to get the normal IDs.
+
+      '
+  returns:
+  - type: Array
+    summary: 'List of normal IDs used for the vertices on the given face.
+
+      '
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetFaces
+  summary: 'Returns all faces of the mesh.
+
+    '
+  description: 'Returns all faces of the mesh as a list of face IDs.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Array
+    summary: 'List of face IDs.
+
+      '
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetFacesWithAttribute
+  summary: 'Returns a list of faces that use a given attribute ID.
+
+    '
+  description: 'Returns a list of faces that use a given vertex ID, normal ID, UV
+    ID, or
+
+    color ID.
+
+    '
+  code_samples: []
+  parameters:
+  - name: id
+    type: int64
+    default: null
+    summary: 'Attribute ID for which to find faces that use it.
+
+      '
+  returns:
+  - type: Array
+    summary: 'List of face IDs which use the given attribute ID.
+
+      '
+  tags:
+  - Deprecated
+  deprecation_message: 'This method is deprecated. Do not use it for new work.
+
+    '
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetFacesWithColor
+  summary: 'Returns an array of face IDs that use the given color ID.
+
+    '
+  description: 'Returns an array of face IDs that use the given color ID. Use together
+
+    with `Class.EditableMesh:GetVerticesWithColor()|GetVerticesWithColor()` to
+
+    obtain all face/vertex pairs.
+
+    '
+  code_samples: []
+  parameters:
+  - name: colorId
+    type: int64
+    default: null
+    summary: 'Color ID to find faces for.
+
+      '
+  returns:
+  - type: Array
+    summary: 'List of face IDs that use the provided color ID.
+
+      '
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetFacesWithNormal
+  summary: 'Returns an array of face IDs that use the given normal ID.
+
+    '
+  description: 'Returns an array of face IDs that use the given normal ID. Use together
+
+    with `Class.EditableMesh:GetVerticesWithNormal()|GetVerticesWithNormal()`
+
+    to obtain all face/vertex pairs.
+
+    '
+  code_samples: []
+  parameters:
+  - name: normalId
+    type: int64
+    default: null
+    summary: 'Normal ID to find faces for.
+
+      '
+  returns:
+  - type: Array
+    summary: 'List of face IDs that use the provided normal ID.
+
+      '
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetFacesWithUV
+  summary: 'Returns an array of face IDs that use the given UV ID.
+
+    '
+  description: 'Returns an array of face IDs that use the given UV ID. Use together
+    with
+
+    `Class.EditableMesh:GetVerticesWithUV()|GetVerticesWithUV()` to obtain all
+
+    face/vertex pairs.
+
+    '
+  code_samples: []
+  parameters:
+  - name: uvId
+    type: int64
+    default: null
+    summary: 'UV ID to find faces for.
+
+      '
+  returns:
+  - type: Array
+    summary: 'List of face IDs that use the provided UV ID.
+
+      '
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetFaceUVs
+  summary: 'Returns the face''s UV IDs for the vertices on the face.
+
+    '
+  description: 'Returns an array of UV IDs, one per vertex corner of the specified
+    face,
+
+    in the same order as
+
+    `Class.EditableMesh:GetFaceVertices()|GetFaceVertices()`. Use these IDs
+
+    with `Class.EditableMesh:GetUV()|GetUV()` to read the actual UV
+
+    coordinates.
+
+    '
+  code_samples: []
+  parameters:
+  - name: faceId
+    type: int64
+    default: null
+    summary: 'Face ID for which to get the UV IDs.
+
+      '
+  returns:
+  - type: Array
+    summary: 'List of UV IDs used for the vertices on the given face.
+
+      '
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetFaceVertices
+  summary: 'Returns the face''s vertex IDs.
+
+    '
+  description: 'Returns an array of vertex IDs that define the corners of the given
+    face,
+
+    in the same order used when the face was created.
+
+    '
+  code_samples: []
+  parameters:
+  - name: faceId
+    type: int64
+    default: null
+    summary: 'Face ID for which to get the vertex IDs.
+
+      '
+  returns:
+  - type: Array
+    summary: 'List of vertex IDs around the given face.
+
+      '
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetFacsCorrectivePose
+  summary: 'Returns bone IDs and bone `Datatype.CFrame|CFrames` for all bones in a
+
+    specific FACS corrective pose.
+
+    '
+  description: 'Returns bone IDs and bone `Datatype.CFrame|CFrames` for all bones
+    in a
+
+    specific FACS corrective pose. Each bone `Datatype.CFrame` transforms the
+
+    bone from the initial bone `Datatype.CFrame` in the bind pose of the mesh
+
+    to the combined bone `Datatype.CFrame` for this pose. All
+
+    `Datatype.CFrame|CFrames` are in the mesh''s local space.
+
+    '
+  code_samples: []
+  parameters:
+  - name: actions
+    type: Array
+    default: null
+    summary: 'Array or 2 or 3 `Enum.FacsActionUnit` values that specify a corrective
+
+      pose.
+
+      '
+  returns:
+  - type: Tuple
+    summary: 'Array of bone IDs and corresponding array of bone
+
+      `Datatype.CFrame|CFrames`.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetFacsCorrectivePoses
+  summary: 'Returns all FACS corrective poses that are in use.
+
+    '
+  description: 'Returns all FACS corrective poses that are in use. Each corrective
+    pose is
+
+    specified by 2 or 3 `Enum.FacsActionUnit` values.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Array
+    summary: 'Array of corrective poses. Each corrective pose is specified by a
+
+      small array of 2 or 3 `Enum.FacsActionUnit` values.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetFacsPose
+  summary: 'Returns bone IDs and bone `Datatype.CFrame|CFrames` for all bones in a
+
+    specific FACS action unit.
+
+    '
+  description: 'Returns bone IDs and bone `Datatype.CFrame|CFrames` for all bones
+    in a
+
+    specific FACS action unit. Each bone `Datatype.CFrame` transforms the bone
+
+    from the initial bone `Datatype.CFrame` in the bind pose of the mesh to
+
+    the combined bone `Datatype.CFrame` for this pose. All
+
+    `Datatype.CFrame|CFrames` are in the mesh''s local space.
+
+    '
+  code_samples: []
+  parameters:
+  - name: action
+    type: FacsActionUnit
+    default: null
+    summary: 'FACS action unit for which to get the pose.
+
+      '
+  returns:
+  - type: Tuple
+    summary: 'Array of bone IDs and corresponding array of bone `Datatype.CFrame`.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetFacsPoses
+  summary: 'Returns all FACS action units that have poses defined.
+
+    '
+  description: 'Returns an array of `Enum.FacsActionUnit` values representing all
+    base
+
+    FACS poses currently defined on this mesh. Use each returned value with
+
+    `Class.EditableMesh:GetFacsPose()|GetFacsPose()` to retrieve the bone
+
+    transforms for that pose. See also
+
+    `Class.EditableMesh:GetFacsCorrectivePoses()|GetFacsCorrectivePoses()` for
+
+    corrective poses.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Array
+    summary: 'Array of `Enum.FacsActionUnit`, one for each FACS action unit that has
+
+      a pose defined.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetNormal
+  summary: 'Returns the normal vector for the given normal ID.
+
+    '
+  description: 'Returns the `Datatype.Vector3` normal vector at the given normal ID.
+    If
+
+    the normal vector was manually specified it will return that vector. If
+
+    the normal vector was not specified or was reset, this will return an
+
+    automatically calculated normal vector based on the shape of the mesh.
+
+    '
+  code_samples: []
+  parameters:
+  - name: normalId
+    type: int64
+    default: null
+    summary: 'Normal ID for which to get the normal vector.
+
+      '
+  returns:
+  - type: Vector3?
+    summary: 'Normal vector at the requested normal ID.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetNormals
+  summary: 'Returns all normals of the mesh.
+
+    '
+  description: 'Returns all normals of the mesh as a list of normal IDs.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Array
+    summary: 'List of normal IDs.
+
+      '
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetPosition
+  summary: 'Gets the position of a vertex.
+
+    '
+  description: 'Gets the position of a vertex in the mesh''s local object space.
+
+    '
+  code_samples: []
+  parameters:
+  - name: vertexId
+    type: int64
+    default: null
+    summary: 'Vertex ID for which to get the position.
+
+      '
+  returns:
+  - type: Vector3
+    summary: 'Position of a vertex in the mesh''s local object space.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetSize
+  summary: 'Returns the size of the mesh''s axis-aligned bounding box.
+
+    '
+  description: 'Returns the size of the mesh''s axis-aligned bounding box, in the
+    mesh''s
+
+    local object space.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Vector3
+    summary: 'Size of the `EditableMesh`.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetUV
+  summary: 'Returns UV coordinates at the given UV ID.
+
+    '
+  description: 'Returns the `Datatype.Vector2` texture coordinate stored at the given
+    UV
+
+    ID. UV coordinates map the mesh surface to a 2D texture.
+
+    '
+  code_samples: []
+  parameters:
+  - name: uvId
+    type: int64
+    default: null
+    summary: 'UV ID for which to get the UV coordinate.
+
+      '
+  returns:
+  - type: Vector2?
+    summary: 'UV coordinates at the requested UV ID.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetUVs
+  summary: 'Returns all UVs of the mesh.
+
+    '
+  description: 'Returns all UVs of the mesh as a list of UV IDs.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Array
+    summary: 'List of UV IDs.
+
+      '
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetVertexBones
+  summary: 'Returns all bone IDs that are associated with the vertex for skinning.
+
+    '
+  description: 'Returns an array of bone IDs that influence the given vertex during
+
+    skinning deformation. A vertex can be influenced by up to 4 bones. The
+
+    returned array corresponds index-by-index with the weights returned by
+
+    `Class.EditableMesh:GetVertexBoneWeights()|GetVertexBoneWeights()` for the
+
+    same vertex.
+
+    '
+  code_samples: []
+  parameters:
+  - name: vertexId
+    type: int64
+    default: null
+    summary: 'Vertex ID for which to get the associated bones.
+
+      '
+  returns:
+  - type: Array
+    summary: 'Bone IDs associated with the vertex for skinning.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetVertexBoneWeights
+  summary: 'Returns skinning blend weights for each bone that is associated with the
+
+    vertex.
+
+    '
+  description: 'Returns an array of blend weights (each between `0` and `1`) for the
+    bones
+
+    influencing this vertex during skeletal deformation. The returned array
+
+    corresponds index-by-index with the bone IDs returned by
+
+    `Class.EditableMesh:GetVertexBones()|GetVertexBones()` for the same
+
+    vertex.
+
+    '
+  code_samples: []
+  parameters:
+  - name: vertexId
+    type: int64
+    default: null
+    summary: 'Vertex ID for which to get the associated bone weights.
+
+      '
+  returns:
+  - type: Array
+    summary: 'Skinning blend weights for each bone that is associated with the
+
+      vertex.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetVertexColors
+  summary: 'Returns the color IDs of the faces attached to the given vertex.
+
+    '
+  description: 'Returns an array of color IDs used on all face corners that reference
+    the
+
+    given vertex. A vertex shared by multiple faces can have different color
+
+    IDs on each face (a color seam); this method returns all of them.
+
+    '
+  code_samples: []
+  parameters:
+  - name: vertexId
+    type: int64
+    default: null
+    summary: 'Vertex ID to find color IDs.
+
+      '
+  returns:
+  - type: Array
+    summary: 'Array of color IDs of faces attached to the given vertex.
+
+      '
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetVertexFaceColor
+  summary: 'Returns the color ID of a vertex/face pair.
+
+    '
+  description: 'Returns the color ID assigned to a specific corner of a face, identified
+
+    by the vertex/face pair. This is useful when a vertex is shared by
+
+    multiple faces and you need the color for one particular face corner
+
+    rather than all of them.
+
+    '
+  code_samples: []
+  parameters:
+  - name: vertexId
+    type: int64
+    default: null
+    summary: 'Vertex ID.
+
+      '
+  - name: faceId
+    type: int64
+    default: null
+    summary: 'Face ID.
+
+      '
+  returns:
+  - type: int64
+    summary: 'Color ID of the vertex/face pair.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetVertexFaceNormal
+  summary: 'Returns the normal ID of a vertex/face pair.
+
+    '
+  description: 'Returns the normal ID assigned to a specific corner of a face, identified
+
+    by the vertex/face pair. This is useful when a vertex has split normals (a
+
+    sharp edge) and you need the normal for one particular face corner rather
+
+    than all of them.
+
+    '
+  code_samples: []
+  parameters:
+  - name: vertexId
+    type: int64
+    default: null
+    summary: 'Vertex ID.
+
+      '
+  - name: faceId
+    type: int64
+    default: null
+    summary: 'Face ID.
+
+      '
+  returns:
+  - type: int64
+    summary: 'Normal ID of the vertex/face pair.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetVertexFaces
+  summary: 'Returns the face IDs of the faces attached to the given vertex.
+
+    '
+  description: 'Returns an array of face IDs for all faces that have the given vertex
+    as
+
+    one of their corners. Use this to traverse the mesh topology around a
+
+    vertex, for example to find all faces affected by moving a vertex.
+
+    '
+  code_samples: []
+  parameters:
+  - name: vertexId
+    type: int64
+    default: null
+    summary: 'Vertex ID to find faces for.
+
+      '
+  returns:
+  - type: Array
+    summary: 'Array of face IDs attached to the given vertex.
+
+      '
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetVertexFaceUV
+  summary: 'Returns the UV ID of a vertex/face pair.
+
+    '
+  description: 'Returns the UV ID assigned to a specific corner of a face, identified
+    by
+
+    the vertex/face pair. This is useful when a vertex has a UV seam and you
+
+    need the UV for one particular face corner rather than all of them.
+
+    '
+  code_samples: []
+  parameters:
+  - name: vertexId
+    type: int64
+    default: null
+    summary: 'Vertex ID.
+
+      '
+  - name: faceId
+    type: int64
+    default: null
+    summary: 'Face ID.
+
+      '
+  returns:
+  - type: int64
+    summary: 'UV ID of the vertex/face pair.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetVertexNormals
+  summary: 'Returns the normal IDs of the faces attached to the given vertex.
+
+    '
+  description: 'Returns an array of normal IDs used on all face corners that reference
+    the
+
+    given vertex. A vertex shared by multiple faces can have different normal
+
+    IDs on each face (a hard/sharp edge); this method returns all of them.
+
+    '
+  code_samples: []
+  parameters:
+  - name: vertexId
+    type: int64
+    default: null
+    summary: 'Vertex ID to find normal IDs.
+
+      '
+  returns:
+  - type: Array
+    summary: 'Array of normal IDs of faces attached to the given vertex.
+
+      '
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetVertexUVs
+  summary: 'Returns the UV IDs of the faces attached to the given vertex.
+
+    '
+  description: 'Returns an array of UV IDs used on all face corners that reference
+    the
+
+    given vertex. A vertex shared by multiple faces can have different UV IDs
+
+    on each face (a UV seam); this method returns all of them.
+
+    '
+  code_samples: []
+  parameters:
+  - name: vertexId
+    type: int64
+    default: null
+    summary: 'Vertex ID to find UV IDs.
+
+      '
+  returns:
+  - type: Array
+    summary: 'Array of UV IDs of faces attached to the given vertex.
+
+      '
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetVertices
+  summary: 'Returns all vertices as a list of vertex IDs.
+
+    '
+  description: 'Returns all vertex IDs in the mesh as a list of IDs. The IDs may not
+    be
+
+    contiguous. Use this list to iterate over vertices safely, rather than
+
+    assuming consecutive numbering.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Array
+    summary: 'List of vertex IDs.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetVerticesWithAttribute
+  summary: 'Returns a list of vertices that use a given attribute ID.
+
+    '
+  description: 'Returns a list of vertices that use a given face ID, normal ID, UV
+    ID, or
+
+    color ID.
+
+    '
+  code_samples: []
+  parameters:
+  - name: id
+    type: int64
+    default: null
+    summary: 'Attribute ID for which to find vertices that use it.
+
+      '
+  returns:
+  - type: Array
+    summary: 'List of vertex IDs which use the given attribute ID.
+
+      '
+  tags:
+  - Deprecated
+  deprecation_message: 'This method is deprecated. Do not use it for new work.
+
+    '
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetVerticesWithColor
+  summary: 'Returns an array of vertex IDs that use the given color ID.
+
+    '
+  description: 'Returns an array of vertex IDs that use the given color ID. Use together
+
+    with `Class.EditableMesh:GetFacesWithColor()|GetFacesWithColor()` to
+
+    obtain all face/vertex pairs.
+
+    '
+  code_samples: []
+  parameters:
+  - name: colorId
+    type: int64
+    default: null
+    summary: 'Color ID to find faces for.
+
+      '
+  returns:
+  - type: Array
+    summary: 'List of face IDs that use the provided color ID.
+
+      '
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetVerticesWithNormal
+  summary: 'Returns an array of vertex IDs that use the given normal ID.
+
+    '
+  description: 'Returns an array of vertex IDs that use the given normal ID. Use together
+
+    with `Class.EditableMesh:GetFacesWithNormal()|GetFacesWithNormal()` to
+
+    obtain all face/vertex pairs.
+
+    '
+  code_samples: []
+  parameters:
+  - name: normalId
+    type: int64
+    default: null
+    summary: 'Normal ID to find vertices for.
+
+      '
+  returns:
+  - type: Array
+    summary: 'List of vertex IDs that use the provided normal ID.
+
+      '
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:GetVerticesWithUV
+  summary: 'Returns an array of vertex IDs that use the given UV ID.
+
+    '
+  description: 'Returns an array of vertex IDs that use the given UV ID. Use together
+    with
+
+    `Class.EditableMesh:GetFacesWithUV()|GetFacesWithUV()` to obtain all
+
+    face/vertex pairs.
+
+    '
+  code_samples: []
+  parameters:
+  - name: uvId
+    type: int64
+    default: null
+    summary: 'UV ID to find vertices for.
+
+      '
+  returns:
+  - type: Array
+    summary: 'List of vertex IDs that use the provided UV ID.
+
+      '
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:IdDebugString
+  summary: 'Returns a string describing an ID, useful for debugging purposes.
+
+    '
+  description: 'Returns a string describing an ID, useful for debugging purposes,
+    like
+
+    `f17` or `v12`, containing the type, ID number, and version.
+
+    '
+  code_samples: []
+  parameters:
+  - name: id
+    type: int64
+    default: null
+    summary: 'ID for which to return a debugging information string.
+
+      '
+  returns:
+  - type: string
+    summary: 'String that describes the ID in human-readable format.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:MergeVertices
+  summary: 'Merges vertices that touch together.
+
+    '
+  description: 'Merges vertices that touch together, to use a single vertex ID but
+    keep
+
+    the other original attribute IDs.
+
+    '
+  code_samples: []
+  parameters:
+  - name: mergeTolerance
+    type: float
+    default: null
+    summary: 'The distance at which the vertices are considered to touch each other.
+
+      '
+  returns:
+  - type: Map
+    summary: 'A mapping of old vertex ID to new vertex ID for vertices that have
+
+      been merged.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:RaycastLocal
+  summary: 'Casts a ray and returns the intersection point, face ID, and barycentric
+
+    coordinates.
+
+    '
+  description: 'Casts a ray and returns the face ID, point of intersection, barycentric
+
+    coordinates, and the 3 vertex IDs that the barycentric coordinates
+
+    correspond to. The inputs and outputs of this method are in the mesh''s
+
+    local object space. When the mesh is skinned, this raycast operates
+
+    against the bind-pose geometry, not the deformed mesh as it appears at
+
+    runtime.
+
+
+    A **barycentric coordinate** is a way of specifying a point within a
+
+    triangle as a weighted combination of the triangle''s 3 vertices. This is
+
+    useful as a general way of blending vertex attributes. See this method''s
+
+    code sample as an illustration.
+
+
+    Because a barycentric coordinate is defined over exactly 3 vertices, when
+
+    the hit face is a quad, the coordinate and the returned vertex IDs refer
+
+    to 3 of the quad''s 4 vertices forming the corners of the sub-triangle that
+
+    was hit. Use the returned vertex IDs, rather than the face''s full vertex
+
+    list, to identify which vertices the weights apply to.
+
+    '
+  code_samples:
+  - EditableMesh-RaycastLocal
+  parameters:
+  - name: origin
+    type: Vector3
+    default: null
+    summary: 'Origin of the ray in the mesh''s local object space.
+
+      '
+  - name: direction
+    type: Vector3
+    default: null
+    summary: 'Direction of the ray.
+
+      '
+  returns:
+  - type: Tuple
+    summary: 'Tuple of the face ID, point of intersection, barycentric coordinates,
+
+      and the 3 vertex IDs that the barycentric coordinates weight.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:RemoveBone
+  summary: 'Removes a bone using its bone ID.
+
+    '
+  description: 'Removes a bone from the mesh using its bone ID. Any vertex skinning
+
+    weights that referenced the removed bone are also cleared.
+
+    '
+  code_samples: []
+  parameters:
+  - name: boneId
+    type: int64
+    default: null
+    summary: 'Bone ID of the bone to remove.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:RemoveFace
+  summary: 'Removes a face using its face ID.
+
+    '
+  description: 'Removes a face from the mesh using its face ID. The vertices and
+
+    attributes that were used by the face are **not** automatically deleted;
+
+    call `Class.EditableMesh:RemoveUnused()|RemoveUnused()` afterward if you
+
+    want to clean up unused vertices and attributes.
+
+    '
+  code_samples: []
+  parameters:
+  - name: faceId
+    type: int64
+    default: null
+    summary: 'Face ID of the face to remove.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:RemoveUnused
+  summary: 'Removes all unused vertices, normals, UVs, and colors, and returns the
+
+    removed IDs.
+
+    '
+  description: 'Removes all vertices, normals, UVs, and colors which are not used
+    in any
+
+    face, and returns the removed IDs.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Array
+    summary: 'All of the removed IDs.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:ResetNormal
+  summary: 'Reset this normal ID to be automatically calculated.
+
+    '
+  description: 'Reset this normal ID to be automatically calculated based on the shape
+    of
+
+    the mesh, instead of manually set.
+
+    '
+  code_samples: []
+  parameters:
+  - name: normalId
+    type: int64
+    default: null
+    summary: 'Normal ID to reset.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:SetBoneCFrame
+  summary: 'Set the initial `Datatype.CFrame` for a bone in the mesh''s bind pose.
+
+    '
+  description: 'Set the initial `Datatype.CFrame` for a bone in the mesh''s bind pose,
+    in
+
+    the mesh''s local space.
+
+    '
+  code_samples: []
+  parameters:
+  - name: boneId
+    type: int64
+    default: null
+    summary: 'Bone ID for which to set the initial `Datatype.CFrame`.
+
+      '
+  - name: cframe
+    type: CFrame
+    default: null
+    summary: 'Initial `Datatype.CFrame` for the bone in the mesh''s bind pose, in
+      the
+
+      mesh''s local space.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:SetBoneIsVirtual
+  summary: 'Set whether a bone is virtual.
+
+    '
+  description: 'Set whether a bone is virtual. Virtual bones can only be bound to
+    a
+
+    `Class.FaceControls` instance.
+
+    '
+  code_samples: []
+  parameters:
+  - name: boneId
+    type: int64
+    default: null
+    summary: 'Bone ID for which to set whether the bone is virtual.
+
+      '
+  - name: virtual
+    type: boolean
+    default: null
+    summary: 'Whether the bone should be virtual.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:SetBoneName
+  summary: 'Sets the name for a bone.
+
+    '
+  description: 'Sets the name for a bone. Bone names can be 100 characters long and
+    must
+
+    be unique in the mesh.
+
+    '
+  code_samples: []
+  parameters:
+  - name: boneId
+    type: int64
+    default: null
+    summary: 'Bone ID for which to set the name.
+
+      '
+  - name: name
+    type: string
+    default: null
+    summary: 'Bone name to set.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:SetBoneParent
+  summary: 'Set a parent for a bone.
+
+    '
+  description: 'Sets the parent of a bone in the bone hierarchy. Pass a valid bone
+    ID to
+
+    parent the bone, or `0` to make it a root bone. The engine validates that
+
+    the new parent does not create a cycle in the bone hierarchy and throws an
+
+    error if the parent ID is invalid or would produce a circular dependency.
+
+    '
+  code_samples: []
+  parameters:
+  - name: boneId
+    type: int64
+    default: null
+    summary: 'Bone ID for which to set the parent.
+
+      '
+  - name: parentBoneId
+    type: int64
+    default: null
+    summary: 'Parent bone ID.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:SetColor
+  summary: 'Sets the color for a color ID.
+
+    '
+  description: 'Sets the `Datatype.Color3` value for a color ID. This changes the
+    vertex
+
+    color for every face corner that references this color ID. Use
+
+    `Class.EditableMesh:SetColorAlpha()|SetColorAlpha()` to change the alpha
+
+    component separately.
+
+    '
+  code_samples: []
+  parameters:
+  - name: colorId
+    type: int64
+    default: null
+    summary: 'Color ID for which to set the color.
+
+      '
+  - name: color
+    type: Color3
+    default: null
+    summary: 'Color to set.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:SetColorAlpha
+  summary: 'Sets the color alpha (transparency) for a color ID.
+
+    '
+  description: 'Sets the alpha (transparency) component of the vertex color at the
+    given
+
+    color ID. The value is a number between `0` (fully transparent) and `1`
+
+    (fully opaque). This changes the alpha for every face corner that
+
+    references this color ID.
+
+    '
+  code_samples: []
+  parameters:
+  - name: colorId
+    type: int64
+    default: null
+    summary: 'Color ID for which to set the color alpha.
+
+      '
+  - name: alpha
+    type: float
+    default: null
+    summary: 'Alpha to set.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:SetFaceColors
+  summary: 'Sets the face''s vertex colors to new color IDs.
+
+    '
+  description: 'Assigns new color IDs to the corners of a face, replacing whatever
+    color
+
+    IDs were previously set. The array must contain one color ID per vertex of
+
+    the face, in the same winding order as
+
+    `Class.EditableMesh:GetFaceVertices()|GetFaceVertices()`. Use this to
+
+    create a color seam at a vertex shared by multiple faces.
+
+    '
+  code_samples: []
+  parameters:
+  - name: faceId
+    type: int64
+    default: null
+    summary: 'Face ID for which to update the vertex colors.
+
+      '
+  - name: ids
+    type: Array
+    default: null
+    summary: 'List of new color IDs to use for the given face''s vertices.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:SetFaceNormals
+  summary: 'Sets the face''s vertex normals to new normal IDs.
+
+    '
+  description: 'Assigns new normal IDs to the corners of a face, replacing whatever
+    normal
+
+    IDs were previously set. The array must contain one normal ID per vertex
+
+    of the face, in the same winding order as
+
+    `Class.EditableMesh:GetFaceVertices()|GetFaceVertices()`. Use this to
+
+    create a hard/sharp edge by giving adjacent faces different normals at the
+
+    same vertex.
+
+    '
+  code_samples: []
+  parameters:
+  - name: faceId
+    type: int64
+    default: null
+    summary: 'Face ID for which to update the vertex normals.
+
+      '
+  - name: ids
+    type: Array
+    default: null
+    summary: 'List of new normal IDs to use for the given face''s vertices.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:SetFaceUVs
+  summary: 'Sets the face''s vertex UVs to new UV IDs.
+
+    '
+  description: 'Assigns new UV IDs to the corners of a face, replacing whatever UV
+    IDs
+
+    were previously set. The array must contain one UV ID per vertex of the
+
+    face, in the same winding order as
+
+    `Class.EditableMesh:GetFaceVertices()|GetFaceVertices()`. Use this to
+
+    create a UV seam at a vertex shared by multiple faces.
+
+    '
+  code_samples: []
+  parameters:
+  - name: faceId
+    type: int64
+    default: null
+    summary: 'Face ID for which to update the vertex UVs.
+
+      '
+  - name: ids
+    type: Array
+    default: null
+    summary: 'List of new UV IDs to use for the given face''s vertices.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:SetFaceVertices
+  summary: 'Sets the face''s vertices to new vertex IDs.
+
+    '
+  description: 'Replaces the vertex IDs at each corner of the given face, in winding
+
+    order. Passing 3 vertex IDs makes the face a triangle and 4 makes it a
+
+    quad, so this can convert a face between a triangle and a quad while
+
+    keeping the same face ID.
+
+
+    The normal, UV, and color attributes on each of the existing corners are
+
+    preserved. If a new corner is added, it follows the same automatic
+
+    attribute assignment described in
+
+    `Class.EditableMesh:AddFace()|AddFace()`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: faceId
+    type: int64
+    default: null
+    summary: 'Face ID for which to update the vertices.
+
+      '
+  - name: ids
+    type: Array
+    default: null
+    summary: 'List of new vertex IDs to use for the given face.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:SetFacsBonePose
+  summary: 'Set `Datatype.CFrame` for an individual bone in a specific FACS action
+
+    unit.
+
+    '
+  description: 'Sets the `Datatype.CFrame` for a single bone within a specific FACS
+    action
+
+    unit pose, without modifying the other bones in that pose. The bone must
+
+    be virtual. The `Datatype.CFrame` transforms the bone from its initial
+
+    bind-pose position to the target pose position, in the mesh''s local space.
+
+    Use this for incremental edits to a FACS pose; use
+
+    `Class.EditableMesh:SetFacsPose()|SetFacsPose()` to set all bones in a
+
+    pose at once.
+
+    '
+  code_samples: []
+  parameters:
+  - name: action
+    type: FacsActionUnit
+    default: null
+    summary: 'FACS action unit for which to set the pose.
+
+      '
+  - name: boneId
+    type: int64
+    default: null
+    summary: 'Bone to set a `Datatype.CFrame` for this pose.
+
+      '
+  - name: cframe
+    type: CFrame
+    default: null
+    summary: '`Datatype.CFrame` which transforms the bone from the initial bone
+
+      `Datatype.CFrame` in the bind pose of the mesh to the combined bone
+
+      `Datatype.CFrame` for this pose. All `Datatype.CFrame|CFrames` are in
+
+      the mesh''s local space.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:SetFacsCorrectivePose
+  summary: 'Set pose for all bones in a specific FACS corrective pose.
+
+    '
+  description: 'Sets all bone transforms for a FACS corrective pose, which overrides
+    the
+
+    blended result of 2 or 3 base poses when they are active simultaneously.
+
+    The `actions` array must contain exactly 2 or 3 `Enum.FacsActionUnit`
+
+    values that identify the combination. All referenced bones must be
+
+    virtual. The `boneIds` and `cframes` arrays must be the same length; each
+
+    `Datatype.CFrame` transforms the bone from the bind pose to the corrective
+
+    target, in the mesh''s local space. Throws if the action combination is not
+
+    a valid corrective.
+
+    '
+  code_samples: []
+  parameters:
+  - name: actions
+    type: Array
+    default: null
+    summary: 'Array or 2 or 3 `Enum.FacsActionUnit` values to apply as a corrective
+
+      pose.
+
+      '
+  - name: boneIds
+    type: Array
+    default: null
+    summary: 'Bones to set a `Datatype.CFrame` for this pose.
+
+      '
+  - name: cframes
+    type: Array
+    default: null
+    summary: '`Datatype.CFrame` transforms for the bones in this corrective pose.
+
+
+      Each bone `Datatype.CFrame` transforms the bone from the initial bone
+
+      `Datatype.CFrame` in the bind pose of the mesh to the combined bone
+
+      `Datatype.CFrame` for this pose. All `Datatype.CFrame|CFrames` are in
+
+      the mesh''s local space.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:SetFacsPose
+  summary: 'Set pose for all bones in a specific FACS action unit.
+
+    '
+  description: 'Sets all bone transforms for a FACS base pose (a single action unit).
+    The
+
+    `boneIds` and `cframes` arrays must be the same length; each
+
+    `Datatype.CFrame` transforms the bone from the bind pose to the target
+
+    pose, in the mesh''s local space. All referenced bones must be virtual
+
+    (non-virtual bones throw an error). This replaces any previously defined
+
+    pose for the given action unit.
+
+    '
+  code_samples: []
+  parameters:
+  - name: action
+    type: FacsActionUnit
+    default: null
+    summary: 'FACS action unit to set the pose for.
+
+      '
+  - name: boneIds
+    type: Array
+    default: null
+    summary: 'Bones for which to set a `Datatype.CFrame` for this pose.
+
+      '
+  - name: cframes
+    type: Array
+    default: null
+    summary: '`Datatype.CFrame` transforms for the bones in this pose.
+
+
+      Each bone `Datatype.CFrame` transforms the bone from the initial bone
+
+      `Datatype.CFrame` in the bind pose of the mesh to the combined bone
+
+      `Datatype.CFrame` for this pose. All `Datatype.CFrame|CFrames` are in
+
+      the mesh''s local space.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:SetNormal
+  summary: 'Set the normal for a normal ID.
+
+    '
+  description: 'Set the normal for a normal ID. This will change the normal value
+    for
+
+    every face vertex which is using the normal ID.
+
+    '
+  code_samples: []
+  parameters:
+  - name: normalId
+    type: int64
+    default: null
+    summary: 'Normal ID for which to set the normal vector.
+
+      '
+  - name: normal
+    type: Vector3
+    default: null
+    summary: 'Normal vector to set.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:SetPosition
+  summary: 'Sets a vertex position in the mesh''s local object space.
+
+    '
+  description: 'Sets a vertex position in the mesh''s local object space. Please note
+    that
+
+    collision and other physics data on linked `Class.MeshPart|MeshParts` is
+
+    not updated until you call `Class.AssetService:CreateMeshPartAsync()` and
+
+    `Class.MeshPart:ApplyMesh()`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: vertexId
+    type: int64
+    default: null
+    summary: 'Vertex ID of the vertex to position.
+
+      '
+  - name: p
+    type: Vector3
+    default: null
+    summary: 'Position in the mesh''s local object space.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:SetUV
+  summary: 'Sets UV coordinates for a UV ID.
+
+    '
+  description: 'Sets the `Datatype.Vector2` texture coordinate for a UV ID. This changes
+
+    the UV mapping for every face corner that references this UV ID.
+
+    '
+  code_samples: []
+  parameters:
+  - name: uvId
+    type: int64
+    default: null
+    summary: 'UV ID for which to set the UV coordinates.
+
+      '
+  - name: uv
+    type: Vector2
+    default: null
+    summary: 'UV coordinates.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:SetVertexBones
+  summary: 'Assign a list of bones with the vertex for skinning.
+
+    '
+  description: 'Assign a list of bones with the vertex for skinning.
+
+
+    Corresponds with the skinning blend weights used in
+
+    `Class.EditableMesh:SetVertexBoneWeights()|SetVertexBoneWeights()`. In
+
+    other words,
+
+    `Class.EditableMesh:GetVertexBoneWeights()|GetVertexBoneWeights(vertexId)[i]`
+
+    is the weight on this vertex for
+
+    `Class.EditableMesh:GetVertexBones()|GetVertexBones(vertexId)[i]`.
+
+
+    This method should be called before calling
+
+    `Class.EditableMesh:SetVertexBoneWeights()|SetVertexBoneWeights()`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: vertexId
+    type: int64
+    default: null
+    summary: 'Vertex ID to set vertex skinning bones.
+
+      '
+  - name: boneIDs
+    type: Array
+    default: null
+    summary: 'Bone IDs to use with this vertex for skinning.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:SetVertexBoneWeights
+  summary: 'Sets skinning blend weights for each bone associated with the vertex.
+
+    '
+  description: 'Sets skinning blend weights for each bone associated with the vertex.
+
+
+    Corresponds with the bone IDs used in
+
+    `Class.EditableMesh:SetVertexBones()|SetVertexBones()`. In other words,
+
+    `Class.EditableMesh:GetVertexBoneWeights()|GetVertexBoneWeights(vertexId)[i]`
+
+    is the weight on this vertex for
+
+    `Class.EditableMesh:GetVertexBones()|GetVertexBones(vertexId)[i]`.
+
+
+    This method should be called after calling
+
+    `Class.EditableMesh:SetVertexBones()|SetVertexBones()`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: vertexId
+    type: int64
+    default: null
+    summary: 'Vertex ID on which to set skinning blend weights.
+
+      '
+  - name: boneWeights
+    type: Array
+    default: null
+    summary: 'Skinning blend weights to set on the vertex.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:SetVertexFaceColor
+  summary: 'Sets the color ID of a vertex/face pair.
+
+    '
+  description: 'Sets the color ID for a specific corner of a face, identified by the
+
+    vertex/face pair. This is equivalent to changing just one element of the
+
+    array set by `Class.EditableMesh:SetFaceColors()|SetFaceColors()`, and is
+
+    useful for creating or removing a color seam at a single vertex without
+
+    affecting the other corners of the face.
+
+    '
+  code_samples: []
+  parameters:
+  - name: vertexId
+    type: int64
+    default: null
+    summary: 'Vertex ID.
+
+      '
+  - name: faceId
+    type: int64
+    default: null
+    summary: 'Face ID.
+
+      '
+  - name: colorId
+    type: int64
+    default: null
+    summary: 'Color ID to set for the vertex/face pair.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:SetVertexFaceNormal
+  summary: 'Sets the normal ID of a vertex/face pair.
+
+    '
+  description: 'Sets the normal ID for a specific corner of a face, identified by
+    the
+
+    vertex/face pair. This is equivalent to changing just one element of the
+
+    array set by `Class.EditableMesh:SetFaceNormals()|SetFaceNormals()`, and
+
+    is useful for creating or removing a hard edge at a single vertex without
+
+    affecting the other corners of the face.
+
+    '
+  code_samples: []
+  parameters:
+  - name: vertexId
+    type: int64
+    default: null
+    summary: 'Vertex ID.
+
+      '
+  - name: faceId
+    type: int64
+    default: null
+    summary: 'Face ID.
+
+      '
+  - name: normalId
+    type: int64
+    default: null
+    summary: 'Normal ID to set for the vertex/face pair.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:SetVertexFaceUV
+  summary: 'Sets the UV ID of a vertex/face pair.
+
+    '
+  description: 'Sets the UV ID for a specific corner of a face, identified by the
+
+    vertex/face pair. This is equivalent to changing just one element of the
+
+    array set by `Class.EditableMesh:SetFaceUVs()|SetFaceUVs()`, and is useful
+
+    for creating or removing a UV seam at a single vertex without affecting
+
+    the other corners of the face.
+
+    '
+  code_samples: []
+  parameters:
+  - name: vertexId
+    type: int64
+    default: null
+    summary: 'Vertex ID.
+
+      '
+  - name: faceId
+    type: int64
+    default: null
+    summary: 'Face ID.
+
+      '
+  - name: uvId
+    type: int64
+    default: null
+    summary: 'UV ID to set for the vertex/face pair.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: EditableMesh:Triangulate
+  summary: 'Splits all faces on the mesh to be triangles.
+
+    '
+  description: 'Splits every quad face on the mesh into two triangle faces each. A
+
+    heuristic is used to determine which diagonal each quad should be split
+
+    along to produce better-shaped triangles. If your code relies on faces
+
+    being triangles, call this method after
+
+    `Class.AssetService:CreateEditableMeshAsync()`, which may produce quad
+
+    faces.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: AddBone
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: boneProperties
+    type: Dictionary
+  returns:
+  - type: int64
+- name: AddColor
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: color
+    type: Color3
+  - name: alpha
+    type: float
+  returns:
+  - type: int64
+- name: AddFace
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: vertexIds
+    type: Tuple
+  returns:
+  - type: int64
+- name: AddNormal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: normal
+    type: Vector3?
+  returns:
+  - type: int64
+- name: AddTriangle
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: vertexId0
+    type: int64
+  - name: vertexId1
+    type: int64
+  - name: vertexId2
+    type: int64
+  returns:
+  - type: int64
+- name: AddUV
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: uv
+    type: Vector2
+  returns:
+  - type: int64
+- name: AddVertex
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: p
+    type: Vector3
+  returns:
+  - type: int64
+- name: BatchAdd
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: attr
+    type: Enum.MeshAttribute
+  - name: data
+    type: Array
+  returns:
+  - type: Array
+- name: BatchGetFaceAttributes
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: attr
+    type: Enum.MeshAttribute
+  - name: faceIds
+    type: Array
+  returns:
+  - type: Array
+- name: BatchGetValues
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: ids
+    type: Array
+  returns:
+  - type: Tuple
+- name: BatchGetVertexAttributes
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: attr
+    type: Enum.MeshAttribute
+  - name: vertexIds
+    type: Array
+  returns:
+  - type: Array
+- name: BatchGetVertexFaceAttributes
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: attr
+    type: Enum.MeshAttribute
+  - name: vertexIds
+    type: Array
+  - name: faceIds
+    type: Array
+  returns:
+  - type: Array
+- name: BatchRemove
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: ids
+    type: Array
+  returns:
+  - type: 'null'
+- name: BatchSetFaceAttributes
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: faceIds
+    type: Array
+  - name: attrIdArrays
+    type: Array
+  returns:
+  - type: 'null'
+- name: BatchSetValues
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: ids
+    type: Array
+  - name: values
+    type: Array
+  returns:
+  - type: 'null'
+- name: BatchSetVertexFaceAttributes
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: vertexIds
+    type: Array
+  - name: faceIds
+    type: Array
+  - name: attrIds
+    type: Array
+  returns:
+  - type: 'null'
+- name: Clear
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: Destroy
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: FindClosestPointOnSurface
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: point
+    type: Vector3
+  returns:
+  - type: Tuple
+- name: FindClosestVertex
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: toThisPoint
+    type: Vector3
+  returns:
+  - type: int64
+- name: FindVerticesWithinSphere
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: center
+    type: Vector3
+  - name: radius
+    type: float
+  returns:
+  - type: Array
+- name: GetAdjacentFaces
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: faceId
+    type: int64
+  returns:
+  - type: Array
+- name: GetAdjacentVertices
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: vertexId
+    type: int64
+  returns:
+  - type: Array
+- name: GetBoneByName
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: boneName
+    type: string
+  returns:
+  - type: int64
+- name: GetBoneCFrame
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: boneId
+    type: int64
+  returns:
+  - type: CFrame
+- name: GetBoneIsVirtual
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: boneId
+    type: int64
+  returns:
+  - type: bool
+- name: GetBoneName
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: boneId
+    type: int64
+  returns:
+  - type: string
+- name: GetBoneParent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: boneId
+    type: int64
+  returns:
+  - type: int64
+- name: GetBones
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters: []
+  returns:
+  - type: Array
+- name: GetCenter
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters: []
+  returns:
+  - type: Vector3
+- name: GetColor
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: colorId
+    type: int64
+  returns:
+  - type: Color3?
+- name: GetColorAlpha
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: colorId
+    type: int64
+  returns:
+  - type: float?
+- name: GetColors
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters: []
+  returns:
+  - type: Array
+- name: GetFaceColors
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: faceId
+    type: int64
+  returns:
+  - type: Array
+- name: GetFaceNormals
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: faceId
+    type: int64
+  returns:
+  - type: Array
+- name: GetFaceUVs
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: faceId
+    type: int64
+  returns:
+  - type: Array
+- name: GetFaceVertices
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: faceId
+    type: int64
+  returns:
+  - type: Array
+- name: GetFaces
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters: []
+  returns:
+  - type: Array
+- name: GetFacesWithAttribute
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: id
+    type: int64
+  returns:
+  - type: Array
+- name: GetFacesWithColor
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: colorId
+    type: int64
+  returns:
+  - type: Array
+- name: GetFacesWithNormal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: normalId
+    type: int64
+  returns:
+  - type: Array
+- name: GetFacesWithUV
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: uvId
+    type: int64
+  returns:
+  - type: Array
+- name: GetFacsCorrectivePose
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: actions
+    type: Array
+  returns:
+  - type: Tuple
+- name: GetFacsCorrectivePoses
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters: []
+  returns:
+  - type: Array
+- name: GetFacsPose
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: action
+    type: Enum.FacsActionUnit
+  returns:
+  - type: Tuple
+- name: GetFacsPoses
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters: []
+  returns:
+  - type: Array
+- name: GetNormal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: normalId
+    type: int64
+  returns:
+  - type: Vector3?
+- name: GetNormals
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters: []
+  returns:
+  - type: Array
+- name: GetPosition
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: vertexId
+    type: int64
+  returns:
+  - type: Vector3
+- name: GetSize
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters: []
+  returns:
+  - type: Vector3
+- name: GetUV
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: uvId
+    type: int64
+  returns:
+  - type: Vector2?
+- name: GetUVs
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters: []
+  returns:
+  - type: Array
+- name: GetVertexBoneWeights
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: vertexId
+    type: int64
+  returns:
+  - type: Array
+- name: GetVertexBones
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: vertexId
+    type: int64
+  returns:
+  - type: Array
+- name: GetVertexColors
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: vertexId
+    type: int64
+  returns:
+  - type: Array
+- name: GetVertexFaceColor
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: vertexId
+    type: int64
+  - name: faceId
+    type: int64
+  returns:
+  - type: int64
+- name: GetVertexFaceNormal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: vertexId
+    type: int64
+  - name: faceId
+    type: int64
+  returns:
+  - type: int64
+- name: GetVertexFaceUV
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: vertexId
+    type: int64
+  - name: faceId
+    type: int64
+  returns:
+  - type: int64
+- name: GetVertexFaces
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: vertexId
+    type: int64
+  returns:
+  - type: Array
+- name: GetVertexNormals
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: vertexId
+    type: int64
+  returns:
+  - type: Array
+- name: GetVertexUVs
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: vertexId
+    type: int64
+  returns:
+  - type: Array
+- name: GetVertices
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters: []
+  returns:
+  - type: Array
+- name: GetVerticesWithAttribute
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: id
+    type: int64
+  returns:
+  - type: Array
+- name: GetVerticesWithColor
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: colorId
+    type: int64
+  returns:
+  - type: Array
+- name: GetVerticesWithNormal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: normalId
+    type: int64
+  returns:
+  - type: Array
+- name: GetVerticesWithUV
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: uvId
+    type: int64
+  returns:
+  - type: Array
+- name: IdDebugString
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: id
+    type: int64
+  returns:
+  - type: string
+- name: MergeVertices
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: mergeTolerance
+    type: float
+  returns:
+  - type: Map
+- name: RaycastLocal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: origin
+    type: Vector3
+  - name: direction
+    type: Vector3
+  returns:
+  - type: Tuple
+- name: RemoveBone
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: boneId
+    type: int64
+  returns:
+  - type: 'null'
+- name: RemoveFace
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: faceId
+    type: int64
+  returns:
+  - type: 'null'
+- name: RemoveUnused
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+- name: ResetNormal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: normalId
+    type: int64
+  returns:
+  - type: 'null'
+- name: SetBoneCFrame
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: boneId
+    type: int64
+  - name: cframe
+    type: CFrame
+  returns:
+  - type: 'null'
+- name: SetBoneIsVirtual
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: boneId
+    type: int64
+  - name: virtual
+    type: bool
+  returns:
+  - type: 'null'
+- name: SetBoneName
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: boneId
+    type: int64
+  - name: name
+    type: string
+  returns:
+  - type: 'null'
+- name: SetBoneParent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: boneId
+    type: int64
+  - name: parentBoneId
+    type: int64
+  returns:
+  - type: 'null'
+- name: SetColor
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: colorId
+    type: int64
+  - name: color
+    type: Color3
+  returns:
+  - type: 'null'
+- name: SetColorAlpha
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: colorId
+    type: int64
+  - name: alpha
+    type: float
+  returns:
+  - type: 'null'
+- name: SetFaceColors
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: faceId
+    type: int64
+  - name: ids
+    type: Array
+  returns:
+  - type: 'null'
+- name: SetFaceNormals
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: faceId
+    type: int64
+  - name: ids
+    type: Array
+  returns:
+  - type: 'null'
+- name: SetFaceUVs
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: faceId
+    type: int64
+  - name: ids
+    type: Array
+  returns:
+  - type: 'null'
+- name: SetFaceVertices
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: faceId
+    type: int64
+  - name: ids
+    type: Array
+  returns:
+  - type: 'null'
+- name: SetFacsBonePose
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: action
+    type: Enum.FacsActionUnit
+  - name: boneId
+    type: int64
+  - name: cframe
+    type: CFrame
+  returns:
+  - type: 'null'
+- name: SetFacsCorrectivePose
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: actions
+    type: Array
+  - name: boneIds
+    type: Array
+  - name: cframes
+    type: Array
+  returns:
+  - type: 'null'
+- name: SetFacsPose
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: action
+    type: Enum.FacsActionUnit
+  - name: boneIds
+    type: Array
+  - name: cframes
+    type: Array
+  returns:
+  - type: 'null'
+- name: SetNormal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: normalId
+    type: int64
+  - name: normal
+    type: Vector3
+  returns:
+  - type: 'null'
+- name: SetPosition
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: vertexId
+    type: int64
+  - name: p
+    type: Vector3
+  returns:
+  - type: 'null'
+- name: SetUV
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: uvId
+    type: int64
+  - name: uv
+    type: Vector2
+  returns:
+  - type: 'null'
+- name: SetVertexBoneWeights
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: vertexId
+    type: int64
+  - name: boneWeights
+    type: Array
+  returns:
+  - type: 'null'
+- name: SetVertexBones
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: vertexId
+    type: int64
+  - name: boneIDs
+    type: Array
+  returns:
+  - type: 'null'
+- name: SetVertexFaceColor
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: vertexId
+    type: int64
+  - name: faceId
+    type: int64
+  - name: colorId
+    type: int64
+  returns:
+  - type: 'null'
+- name: SetVertexFaceNormal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: vertexId
+    type: int64
+  - name: faceId
+    type: int64
+  - name: normalId
+    type: int64
+  returns:
+  - type: 'null'
+- name: SetVertexFaceUV
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: vertexId
+    type: int64
+  - name: faceId
+    type: int64
+  - name: uvId
+    type: int64
+  returns:
+  - type: 'null'
+- name: Triangulate
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+events: []
+callbacks: []

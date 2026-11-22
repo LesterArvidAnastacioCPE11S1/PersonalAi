@@ -1,0 +1,117 @@
+name: NetworkClient
+type: class
+memory_category: Instances
+summary: 'A service that manages a network connection''s properties server.
+
+  '
+description: 'This service is responsible for connecting a client to a server.
+
+  '
+code_samples: []
+inherits:
+- NetworkPeer
+descendants: []
+tags:
+- NotCreatable
+- Service
+- NotReplicated
+deprecation_message: ''
+properties: []
+methods: []
+events:
+- name: NetworkClient.ConnectionAccepted
+  summary: 'Fired when the client successfully connects to a server. Returns a string
+
+    showing the server''s IP and port, and the client''s
+
+    `Class.ClientReplicator`.
+
+    '
+  description: 'Fired when the client successfully connects to a server. Returns a
+    string
+
+    showing the server''s IP and Port, and the client''s
+
+    `Class.ClientReplicator`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: peer
+    type: string
+    default: null
+    summary: 'The server''s IP and port.
+
+      '
+  - name: replicator
+    type: Instance
+    default: null
+    summary: 'The client''s `Class.ClientReplicator`.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Network
+- name: NetworkClient.ConnectionFailed
+  summary: 'Fired if the client fails to connect to the server.
+
+    '
+  description: 'Fired if the client fails to connect to the server.
+
+    '
+  code_samples: []
+  parameters:
+  - name: peer
+    type: string
+    default: null
+    summary: 'The server''s IP and port.
+
+      '
+  - name: code
+    type: int
+    default: null
+    summary: 'The error code representing why the client failed to connect.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Network
+- name: ConnectionAccepted
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: peer
+    type: string
+  - name: replicator
+    type: Instance
+- name: ConnectionFailed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: peer
+    type: string
+  - name: code
+    type: int
+callbacks: []

@@ -1,0 +1,520 @@
+name: TestCase
+type: class
+memory_category: Instances
+summary: 'A registered test, used inside its callback to check values.
+
+  '
+description: "A `TestCase` is a test registered with `Class.TestService:RegisterTest()`\
+  \ or\n`Class.TestSuite:RegisterTest()`. It's passed as the first argument to the\n\
+  test's callback, where you call `Class.TestCase:Check()|Check()` and\n`Class.TestCase:Require()|Require()`\
+  \ to compare the values your code produces\nwith the values you expect.\n\n`Class.TestService:ListTests()`\
+  \ also returns `TestCase` objects, which you can\nuse to see each test's name, ID,\
+  \ tags, and timeout. A `TestCase` isn't an\n`Class.Instance` and can't be parented.\n\
+  \n```lua\nlocal TestService = game:GetService(\"TestService\")\n\nTestService:RegisterTest(\"\
+  health starts full\", function(test)\n\tlocal humanoid = Instance.new(\"Humanoid\"\
+  )\n\ttest:Check(humanoid.Health, humanoid.MaxHealth)\n\ttest:Check({ humanoid.Health,\
+  \ humanoid.MaxHealth }, { 100, 100 }, \"default health\")\nend)\n```\n"
+code_samples: []
+inherits:
+- Object
+descendants: []
+tags:
+- NotCreatable
+- NotReplicated
+deprecation_message: ''
+properties:
+- name: TestCase.SuiteName
+  summary: 'The name of the suite the test belongs to.
+
+    '
+  description: 'The name of the `Class.TestSuite` the test belongs to. Tests registered
+
+    with `Class.TestService:RegisterTest()` belong to the `Default` suite.
+
+    '
+  code_samples: []
+  type: string
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities: []
+- name: TestCase.TestId
+  summary: 'A string that uniquely identifies the test.
+
+    '
+  description: 'A string that uniquely identifies the test among all registered tests.
+
+    Pass it as the `TestId` filter of `Class.TestService:RunTestsAsync()` to
+
+    run just this test, and use it to match the test with its
+
+    `Class.TestResult`.
+
+
+    The ID is built from the suite and test names, but its format isn''t
+
+    guaranteed, so read it from this property rather than building it
+
+    yourself.
+
+    '
+  code_samples: []
+  type: string
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities: []
+- name: TestCase.TestName
+  summary: 'The name the test was registered with.
+
+    '
+  description: 'The name passed to `Class.TestService:RegisterTest()` or
+
+    `Class.TestSuite:RegisterTest()` when the test was registered.
+
+    '
+  code_samples: []
+  type: string
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities: []
+- name: TestCase.TimeoutSec
+  summary: 'How many seconds the test can run before it times out.
+
+    '
+  description: 'How many seconds the test can run before it''s reported as
+
+    `Enum.TestCaseStatus.TimedOut`. It comes from the test''s `TimeoutSec`
+
+    option, or from its suite''s when the test doesn''t set one, and defaults to
+
+    `30`. A value of `0` means the test has no per-test timeout.
+
+    '
+  code_samples: []
+  type: double
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities: []
+- name: SuiteName
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: TestId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: TestName
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: TimeoutSec
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: double
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+methods:
+- name: TestCase:Check
+  summary: 'Records a failure if a value isn''t equal to the expected value, and lets
+
+    the test continue.
+
+    '
+  description: "Compares `actualValue` with `expectedValue`. If they aren't equal,\
+    \ the\ncheck records a `Class.TestFailure` and the test will fail, but the\ncallback\
+    \ keeps running, so one run can report several failed checks. To\nstop the test\
+    \ at the first mismatch instead, use\n`Class.TestCase:Require()|Require()`.\n\n\
+    Values are compared as follows:\n\n- Values of different types are never equal,\
+    \ so `1` and `\"1\"` don't match.\n- Numbers, strings, booleans, and `Datatype.Vector3`\
+    \ values are compared\n  by value. `NaN` is never equal to itself.\n- Tables are\
+    \ compared by their contents: both tables must have the same\n  keys, with values\
+    \ that are equal by these same rules. A table with an\n  `__eq` metamethod is\
+    \ compared with `==` instead.\n- `Class.Instance|Instances`, functions, and threads\
+    \ are equal only if\n  they're the same object.\n- Other Roblox data types are\
+    \ compared with `==`.\n\n`message` must be a string, a number, or `nil`. Checks\
+    \ only count while\nthe test is running. Checks made outside a run, such as from\
+    \ a thread the\ntest spawned that keeps going after the test finished, are ignored.\n"
+  code_samples: []
+  parameters:
+  - name: actualValue
+    type: Variant
+    default: null
+    summary: 'The value your code produced.
+
+      '
+  - name: expectedValue
+    type: Variant
+    default: null
+    summary: 'The value you expect.
+
+      '
+  - name: message
+    type: string
+    default: null
+    summary: 'Optional text that describes the check, shown when it fails.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: TestCase:GetTestTags
+  summary: 'Returns the test''s tags.
+
+    '
+  description: 'Returns the test''s tags: the `Tags` it was registered with, plus
+    the tags
+
+    of its `Class.TestSuite`. The `IncludeTags` filter of
+
+    `Class.TestService:RunTestsAsync()` selects tests by these tags.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Array
+    summary: 'An array of strings.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: TestCase:Require
+  summary: 'Records a failure and stops the test if a value isn''t equal to the
+
+    expected value.
+
+    '
+  description: "Compares `actualValue` with `expectedValue` using the same rules as\n\
+    `Class.TestCase:Check()|Check()`. If they aren't equal, it records a\n`Class.TestFailure`\
+    \ and then throws an error that stops the test's\ncallback, so the rest of the\
+    \ test doesn't run. Use it for conditions the\nrest of the test depends on, such\
+    \ as an object existing before you read\nits properties.\n\nThe test is reported\
+    \ as failed with the recorded failure, and\n`Class.TestResult.UncaughtError` stays\
+    \ empty, since the error only stops\nthe test. Calling `Class.TestCase:Require()|Require()`\
+    \ inside\n`Global.LuaGlobals.pcall()` catches the error, but the failure is still\n\
+    recorded.\n\n```lua\nlocal TestService = game:GetService(\"TestService\")\n\n\
+    TestService:RegisterTest(\"shop has items\", function(test)\n\tlocal shop = workspace:FindFirstChild(\"\
+    Shop\")\n\ttest:Require(shop ~= nil, true, \"Workspace.Shop should exist\")\n\t\
+    -- Only runs if the shop exists\n\ttest:Check(#shop:GetChildren() > 0, true, \"\
+    the shop should have items\")\nend)\n```\n"
+  code_samples: []
+  parameters:
+  - name: actualValue
+    type: Variant
+    default: null
+    summary: 'The value your code produced.
+
+      '
+  - name: expectedValue
+    type: Variant
+    default: null
+    summary: 'The value you expect.
+
+      '
+  - name: message
+    type: string
+    default: null
+    summary: 'Optional text that describes the check, shown when it fails.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: Assert
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: condition
+    type: bool
+  - name: message
+    type: string
+  - name: source
+    type: Instance
+    default: nil
+  - name: line
+    type: int
+    default: '0'
+  returns:
+  - type: 'null'
+- name: AssertLegacy
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: condition
+    type: bool
+  - name: message
+    type: string
+  - name: source
+    type: Instance
+    default: nil
+  - name: line
+    type: int
+    default: '0'
+  returns:
+  - type: 'null'
+- name: Check
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: actualValue
+    type: Variant
+  - name: expectedValue
+    type: Variant
+  - name: message
+    type: string
+  returns:
+  - type: 'null'
+- name: EndTest
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: message
+    type: string
+  - name: source
+    type: Instance
+    default: nil
+  - name: line
+    type: int
+    default: '0'
+  returns:
+  - type: 'null'
+- name: GetTestTags
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+- name: Message
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: text
+    type: string
+  - name: source
+    type: Instance
+    default: nil
+  - name: line
+    type: int
+    default: '0'
+  returns:
+  - type: 'null'
+- name: Require
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: actualValue
+    type: Variant
+  - name: expectedValue
+    type: Variant
+  - name: message
+    type: string
+  returns:
+  - type: 'null'
+- name: RequireLegacy
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: condition
+    type: bool
+  - name: message
+    type: string
+  - name: source
+    type: Instance
+    default: nil
+  - name: line
+    type: int
+    default: '0'
+  returns:
+  - type: 'null'
+events: []
+callbacks: []

@@ -1,0 +1,319 @@
+name: MemoryStoreHashMap
+type: class
+memory_category: Instances
+summary: 'Provides access to a hash map within `Class.MemoryStoreService`.
+
+  '
+description: 'Provides access to a hash map within `Class.MemoryStoreService`. A hash
+  map is
+
+  a collection of items where string keys are associated with arbitrary values
+
+  (up to the maximum allowed size -- see
+
+  [Memory Stores](../../../cloud-services/memory-stores/hash-map.md)). The keys
+
+  have no ordering guarantees.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- NotReplicated
+deprecation_message: ''
+properties: []
+methods:
+- name: MemoryStoreHashMap:GetAsync
+  summary: 'Retrieves the value of a key in the hash map.
+
+    '
+  description: 'Retrieves the value of a key in the hash map.
+
+    '
+  code_samples:
+  - getting-data-hash-map-memory-store
+  parameters:
+  - name: key
+    type: string
+    default: null
+    summary: 'The key whose value you want to retrieve.
+
+      '
+  returns:
+  - type: Variant
+    summary: 'The value, or `nil` if the key doesn''t exist.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DataStore
+- name: MemoryStoreHashMap:ListItemsAsync
+  summary: 'Returns a `Class.MemoryStoreHashMapPages` object for enumerating through
+
+    items in the hash map.
+
+    '
+  description: 'Returns a `Class.MemoryStoreHashMapPages` object for enumerating through
+
+    items in the hash map. The valid range is 1 to 200 inclusive.
+
+    '
+  code_samples:
+  - listing-data-hash-map-memory-store
+  parameters:
+  - name: count
+    type: int
+    default: null
+    summary: 'Maximum possible number of items that can be returned.
+
+      '
+  returns:
+  - type: MemoryStoreHashMapPages
+    summary: 'A `Class.MemoryStoreHashMapPages` instance that enumerates the items
+
+      as `Class.MemoryStoreHashMapPages` instances.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DataStore
+- name: MemoryStoreHashMap:RemoveAsync
+  summary: 'Removes an item from the hash map.
+
+    '
+  description: 'Removes an item from the hash map.
+
+    '
+  code_samples:
+  - removing-data-hash-map-memory-store
+  parameters:
+  - name: key
+    type: string
+    default: null
+    summary: 'The key to remove.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DataStore
+- name: MemoryStoreHashMap:SetAsync
+  summary: 'Sets the value of a key in the hash map.
+
+    '
+  description: 'Sets the value of a key in the hash map, overwriting any existing
+    value.
+
+    '
+  code_samples:
+  - adding-data-hash-map-memory-store
+  parameters:
+  - name: key
+    type: string
+    default: null
+    summary: 'The key whose value to set.
+
+      '
+  - name: value
+    type: Variant
+    default: null
+    summary: 'The value to set.
+
+      '
+  - name: expiration
+    type: int64
+    default: null
+    summary: 'Item expiration in seconds, after which the item is automatically
+
+      removed from the hash map. The maximum expiration time is 45 days
+
+      (3,888,000 seconds).
+
+      '
+  returns:
+  - type: boolean
+    summary: '`true` if the key already had a value that was overwritten, or `false`
+
+      if the key was newly created.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DataStore
+- name: MemoryStoreHashMap:UpdateAsync
+  summary: 'Retrieves the value of a key from a hash map and lets you update it to
+    a
+
+    new value.
+
+    '
+  description: "Retrieves the value of a key from a hash map and lets you update it\
+    \ to a\nnew value.\n\nThis method accepts a callback function that retrieves the\
+    \ existing key\nvalue and passes it to a transform function, which returns the\
+    \ new value\nfor the item, with these exceptions:\n\n- If the key does not exist,\
+    \ the old value passed to the function is\n  `nil`.\n- If the function returns\
+    \ `nil`, the update is canceled.\n\nThe new value is saved only if the key was\
+    \ not updated (for example, by a\ndifferent game server) since the moment it was\
+    \ read. If the value changed\nin that time, the transform function is called again\
+    \ with the most recent\nitem value. This cycle repeats until the value is saved\
+    \ successfully or\nthe transform function returns `nil` to abort the operation.\n"
+  code_samples:
+  - updating-hash-map-memory-store
+  parameters:
+  - name: key
+    type: string
+    default: null
+    summary: 'The key whose value you want to update.
+
+      '
+  - name: transformFunction
+    type: Function
+    default: null
+    summary: 'The transform function, which you provide. This function takes the old
+
+      value as an input and returns the new value.
+
+      '
+  - name: expiration
+    type: int64
+    default: null
+    summary: 'Item expiration in seconds, after which the item is automatically
+
+      removed from the hash map. The maximum expiration time is 45 days
+
+      (3,888,000 seconds).
+
+      '
+  returns:
+  - type: Variant
+    summary: 'The last value returned by the transform function.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DataStore
+- name: GetAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: key
+    type: string
+  returns:
+  - type: Variant
+- name: ListItemsAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: count
+    type: int
+  returns:
+  - type: MemoryStoreHashMapPages
+- name: RemoveAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: key
+    type: string
+  returns:
+  - type: 'null'
+- name: SetAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: key
+    type: string
+  - name: value
+    type: Variant
+  - name: expiration
+    type: int64
+  returns:
+  - type: bool
+- name: UpdateAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: key
+    type: string
+  - name: transformFunction
+    type: Function
+  - name: expiration
+    type: int64
+  returns:
+  - type: Variant
+events: []
+callbacks: []

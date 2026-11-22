@@ -1,0 +1,71 @@
+name: PVAdornment
+type: class
+memory_category: Instances
+summary: 'An abstract class of which the inheritors can be adorned to objects of the
+
+  `Class.PVInstance` class.
+
+  '
+description: 'The `Class.PVAdornment` class is an abstract class of which the inheritors
+  can
+
+  be adorned to objects of the `Class.PVInstance` class.
+
+  '
+code_samples: []
+inherits:
+- GuiBase3d
+descendants:
+- HandleAdornment
+- SelectionSphere
+tags:
+- NotCreatable
+deprecation_message: ''
+properties:
+- name: PVAdornment.Adornee
+  summary: 'The `Class.PVInstance` which this `Class.PVAdornment` is attached to.
+
+    '
+  description: 'The `Class.PVInstance` which this `Class.PVAdornment` is attached
+    to. An
+
+    adornment will stay positioned and rotated relative to its adornee, even
+
+    if the adornee moves.
+
+    '
+  code_samples: []
+  type: PVInstance
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: Adornee
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: PVInstance
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+methods: []
+events: []
+callbacks: []

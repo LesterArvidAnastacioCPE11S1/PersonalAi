@@ -1,0 +1,46 @@
+name: VoiceClientLeaveReasons
+type: enum
+summary: Reference for Enum.VoiceClientLeaveReasons, generated automatically from
+  the Roblox API dump 0.748.0.7481526.
+description: Reference for Enum.VoiceClientLeaveReasons, generated automatically from
+  the Roblox API dump 0.748.0.7481526.
+code_samples: []
+tags: []
+deprecation_message: ''
+items:
+- name: Unknown
+  summary: ''
+  value: 0
+  tags: []
+- name: ClientNetworkDisconnected
+  summary: ''
+  value: 1
+  tags: []
+- name: PlayerLeft
+  summary: ''
+  value: 2
+  tags: []
+- name: ClientShutdown
+  summary: ''
+  value: 3
+  tags: []
+- name: PublishFailed
+  summary: ''
+  value: 4
+  tags: []
+- name: RejoinReceived
+  summary: ''
+  value: 5
+  tags: []
+- name: VoiceReboot
+  summary: ''
+  value: 6
+  tags: []
+- name: ImguiDebugLeave
+  summary: ''
+  value: 7
+  tags: []
+- name: LuaInitiated
+  summary: ''
+  value: 8
+  tags: []

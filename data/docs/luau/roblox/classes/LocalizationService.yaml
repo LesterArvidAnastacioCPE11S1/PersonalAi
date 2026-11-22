@@ -1,0 +1,1062 @@
+name: LocalizationService
+type: class
+memory_category: Instances
+summary: 'Handles automated translation.
+
+  '
+description: 'LocalizationService is the service responsible for handling automated
+
+  translation.
+
+
+  It is used as a storage for `Class.LocalizationTable` objects used by
+
+  automatic text replacement.
+
+
+  LocalizationService will only use its child LocalizationTables for automatic
+
+  text replacement unless `Class.GuiBase2d.RootLocalizationTable` is specified
+
+  on a GUI object or its ancestors.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+- NotReplicated
+deprecation_message: ''
+properties:
+- name: LocalizationService.RobloxLocaleId
+  summary: 'The locale ID used for localizing core and internal features.
+
+    '
+  description: 'This property shows the locale ID used for the localization of core
+    and
+
+    internal features such as `Class.CoreGui`. Returns a string with the two
+
+    letter code (for example, `en-us`) for the locale.
+
+    '
+  code_samples: []
+  type: string
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Localization
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Basic
+- name: LocalizationService.SystemLocaleId
+  summary: 'The locale ID that the local player has set for their operating system.
+
+    '
+  description: 'This property shows the locale ID that the local player has set for
+    their
+
+    operating system.
+
+
+    This will return a string with the two letter code (for example, "en-us")
+
+    for the locale.
+
+
+    See also `Class.Player.LocaleId`, the locale ID that a user has set for
+
+    their Roblox account which is used for localizing in-experience content.
+
+    This will be a different value when that player''s account locale isn''t
+
+    supported for localizing Roblox UI content.
+
+    '
+  code_samples: []
+  type: string
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Localization
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Basic
+- name: ForcePlayModeGameLocaleId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: LocalUserSecurity
+    write: LocalUserSecurity
+  thread_safety: ReadSafe
+  type: string
+  category: Behavior
+  serialization:
+    can_load: false
+    can_save: false
+- name: ForcePlayModeRobloxLocaleId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: LocalUserSecurity
+    write: LocalUserSecurity
+  thread_safety: ReadSafe
+  type: string
+  category: Behavior
+  serialization:
+    can_load: false
+    can_save: false
+- name: GameSourceLanguageId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Localization
+  serialization:
+    can_load: false
+    can_save: false
+- name: IsImageCaptureEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Localization
+  serialization:
+    can_load: false
+    can_save: false
+  default: 'false'
+- name: IsTextScraperRunning
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Localization
+  serialization:
+    can_load: false
+    can_save: false
+  default: 'false'
+- name: LocaleManifest
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Localization
+  serialization:
+    can_load: false
+    can_save: false
+- name: RobloxForcePlayModeGameLocaleId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: string
+  category: Behavior
+  serialization:
+    can_load: false
+    can_save: false
+- name: RobloxForcePlayModeRobloxLocaleId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: string
+  category: Behavior
+  serialization:
+    can_load: false
+    can_save: false
+- name: RobloxLocaleId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Localization
+  serialization:
+    can_load: false
+    can_save: false
+- name: ShouldUseCloudTable
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Localization
+  serialization:
+    can_load: false
+    can_save: false
+  default: 'false'
+- name: ShouldUseImageLocalizationTable
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Localization
+  serialization:
+    can_load: false
+    can_save: false
+  default: 'false'
+- name: SystemLocaleId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Localization
+  serialization:
+    can_load: false
+    can_save: false
+methods:
+- name: LocalizationService:GetCorescriptLocalizations
+  summary: 'Returns a list of `Class.LocalizationTable` objects used for localizing
+
+    core scripts.
+
+    '
+  description: 'Returns a list of `Class.LocalizationTable` objects used for localizing
+
+    core scripts.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Instances
+    summary: 'A list of `Class.LocalizationTable` objects used for localizing
+
+      CoreScripts.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: LocalizationService:GetCountryRegionForPlayerAsync
+  summary: 'Returns country/region code string according to player''s client IP
+
+    geolocation.
+
+    '
+  description: "Returns a country/region code string according to player's client\
+    \ IP\ngeolocation. The supported country/region codes are as follows:\n\n<table>\n\
+    \  <thead>\n    <tr>\n      <th>Code</th>\n      <th>Country/Region</th>\n   \
+    \ </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td>XX</td><td>Unknown Country</td>\n\
+    \    </tr>\n    <tr>\n      <td>US</td><td>United States</td>\n    </tr>\n   \
+    \ <tr>\n      <td>GB</td><td>United Kingdom</td>\n    </tr>\n    <tr>\n      <td>CA</td><td>Canada</td>\n\
+    \    </tr>\n    <tr>\n      <td>AF</td><td>Afghanistan</td>\n    </tr>\n    <tr>\n\
+    \      <td>AX</td><td>Aland Islands</td>\n    </tr>\n    <tr>\n      <td>AL</td><td>Albania</td>\n\
+    \    </tr>\n    <tr>\n      <td>DZ</td><td>Algeria</td>\n    </tr>\n    <tr>\n\
+    \      <td>AS</td><td>American Samoa</td>\n    </tr>\n    <tr>\n      <td>AD</td><td>Andorra</td>\n\
+    \    </tr>\n    <tr>\n      <td>AO</td><td>Angola</td>\n    </tr>\n    <tr>\n\
+    \      <td>AI</td><td>Anguilla</td>\n    </tr>\n    <tr>\n      <td>AQ</td><td>Antarctica</td>\n\
+    \    </tr>\n    <tr>\n      <td>AG</td><td>Antigua and Barbuda</td>\n    </tr>\n\
+    \    <tr>\n      <td>AR</td><td>Argentina</td>\n    </tr>\n    <tr>\n      <td>AM</td><td>Armenia</td>\n\
+    \    </tr>\n    <tr>\n      <td>AW</td><td>Aruba</td>\n    </tr>\n    <tr>\n \
+    \     <td>AU</td><td>Australia</td>\n    </tr>\n    <tr>\n      <td>AT</td><td>Austria</td>\n\
+    \    </tr>\n    <tr>\n      <td>AZ</td><td>Azerbaijan</td>\n    </tr>\n    <tr>\n\
+    \      <td>BS</td><td>Bahamas</td>\n    </tr>\n    <tr>\n      <td>BH</td><td>Bahrain</td>\n\
+    \    </tr>\n    <tr>\n      <td>BD</td><td>Bangladesh</td>\n    </tr>\n    <tr>\n\
+    \      <td>BB</td><td>Barbados</td>\n    </tr>\n    <tr>\n      <td>BY</td><td>Belarus</td>\n\
+    \    </tr>\n    <tr>\n      <td>BE</td><td>Belgium</td>\n    </tr>\n    <tr>\n\
+    \      <td>BZ</td><td>Belize</td>\n    </tr>\n    <tr>\n      <td>BJ</td><td>Benin</td>\n\
+    \    </tr>\n    <tr>\n      <td>BM</td><td>Bermuda</td>\n    </tr>\n    <tr>\n\
+    \      <td>BT</td><td>Bhutan</td>\n    </tr>\n    <tr>\n      <td>BO</td><td>Bolivia</td>\n\
+    \    </tr>\n    <tr>\n      <td>BQ</td><td>Bonaire, Saint Eustatius and Saba</td>\n\
+    \    </tr>\n    <tr>\n      <td>BA</td><td>Bosnia and Herzegovina</td>\n    </tr>\n\
+    \    <tr>\n      <td>BW</td><td>Botswana</td>\n    </tr>\n    <tr>\n      <td>BV</td><td>Bouvet\
+    \ Island</td>\n    </tr>\n    <tr>\n      <td>BR</td><td>Brazil</td>\n    </tr>\n\
+    \    <tr>\n      <td>IO</td><td>British Indian Ocean Territory</td>\n    </tr>\n\
+    \    <tr>\n      <td>BN</td><td>Brunei Darussalam</td>\n    </tr>\n    <tr>\n\
+    \      <td>BG</td><td>Bulgaria</td>\n    </tr>\n    <tr>\n      <td>BF</td><td>Burkina\
+    \ Faso</td>\n    </tr>\n    <tr>\n      <td>BI</td><td>Burundi</td>\n    </tr>\n\
+    \    <tr>\n      <td>KH</td><td>Cambodia</td>\n    </tr>\n    <tr>\n      <td>CM</td><td>Cameroon</td>\n\
+    \    </tr>\n    <tr>\n      <td>CV</td><td>Cape Verde</td>\n    </tr>\n    <tr>\n\
+    \      <td>KY</td><td>Cayman Islands</td>\n    </tr>\n    <tr>\n      <td>CF</td><td>Central\
+    \ African Republic</td>\n    </tr>\n    <tr>\n      <td>TD</td><td>Chad</td>\n\
+    \    </tr>\n    <tr>\n      <td>CL</td><td>Chile</td>\n    </tr>\n    <tr>\n \
+    \     <td>CN</td><td>China</td>\n    </tr>\n    <tr>\n      <td>CX</td><td>Christmas\
+    \ Island</td>\n    </tr>\n    <tr>\n      <td>CC</td><td>Cocos Islands</td>\n\
+    \    </tr>\n    <tr>\n      <td>CO</td><td>Colombia</td>\n    </tr>\n    <tr>\n\
+    \      <td>KM</td><td>Comoros</td>\n    </tr>\n    <tr>\n      <td>CG</td><td>Congo</td>\n\
+    \    </tr>\n    <tr>\n      <td>CD</td><td>Congo (DRC)</td>\n    </tr>\n    <tr>\n\
+    \      <td>CK</td><td>Cook Islands</td>\n    </tr>\n    <tr>\n      <td>CR</td><td>Costa\
+    \ Rica</td>\n    </tr>\n    <tr>\n      <td>CI</td><td>Ivory Coast</td>\n    </tr>\n\
+    \    <tr>\n      <td>HR</td><td>Croatia</td>\n    </tr>\n    <tr>\n      <td>CW</td><td>Curaçao</td>\n\
+    \    </tr>\n    <tr>\n      <td>CY</td><td>Cyprus</td>\n    </tr>\n    <tr>\n\
+    \      <td>CZ</td><td>Czech Republic</td>\n    </tr>\n    <tr>\n      <td>DK</td><td>Denmark</td>\n\
+    \    </tr>\n    <tr>\n      <td>DJ</td><td>Djibouti</td>\n    </tr>\n    <tr>\n\
+    \      <td>DM</td><td>Dominica</td>\n    </tr>\n    <tr>\n      <td>DO</td><td>Dominican\
+    \ Republic</td>\n    </tr>\n    <tr>\n      <td>EC</td><td>Ecuador</td>\n    </tr>\n\
+    \    <tr>\n      <td>EG</td><td>Egypt</td>\n    </tr>\n    <tr>\n      <td>SV</td><td>El\
+    \ Salvador</td>\n    </tr>\n    <tr>\n      <td>GQ</td><td>Equatorial Guinea</td>\n\
+    \    </tr>\n    <tr>\n      <td>ER</td><td>Eritrea</td>\n    </tr>\n    <tr>\n\
+    \      <td>EE</td><td>Estonia</td>\n    </tr>\n    <tr>\n      <td>ET</td><td>Ethiopia</td>\n\
+    \    </tr>\n    <tr>\n      <td>FK</td><td>Falkland Islands (Malvinas)</td>\n\
+    \    </tr>\n    <tr>\n      <td>FO</td><td>Faroe Islands</td>\n    </tr>\n   \
+    \ <tr>\n      <td>FJ</td><td>Fiji</td>\n    </tr>\n    <tr>\n      <td>FI</td><td>Finland</td>\n\
+    \    </tr>\n    <tr>\n      <td>FR</td><td>France</td>\n    </tr>\n    <tr>\n\
+    \      <td>GF</td><td>French Guiana</td>\n    </tr>\n    <tr>\n      <td>PF</td><td>French\
+    \ Polynesia</td>\n    </tr>\n    <tr>\n      <td>TF</td><td>French Southern Territories</td>\n\
+    \    </tr>\n    <tr>\n      <td>GA</td><td>Gabon</td>\n    </tr>\n    <tr>\n \
+    \     <td>GM</td><td>Gambia</td>\n    </tr>\n    <tr>\n      <td>GE</td><td>Georgia</td>\n\
+    \    </tr>\n    <tr>\n      <td>DE</td><td>Germany</td>\n    </tr>\n  </tbody>\n\
+    </table>\n\n<table>\n  <thead>\n    <tr>\n      <th>Code</th>\n      <th>Country/Region</th>\n\
+    \  </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td>GH</td><td>Ghana</td>\n \
+    \   </tr>\n    <tr>\n      <td>GI</td><td>Gibraltar</td>\n    </tr>\n    <tr>\n\
+    \      <td>GR</td><td>Greece</td>\n    </tr>\n    <tr>\n      <td>GL</td><td>Greenland</td>\n\
+    \    </tr>\n    <tr>\n      <td>GD</td><td>Grenada</td>\n    </tr>\n    <tr>\n\
+    \      <td>GP</td><td>Guadeloupe</td>\n    </tr>\n    <tr>\n      <td>GU</td><td>Guam</td>\n\
+    \    </tr>\n    <tr>\n      <td>GT</td><td>Guatemala</td>\n    </tr>\n    <tr>\n\
+    \      <td>GG</td><td>Guernsey</td>\n    </tr>\n    <tr>\n      <td>GN</td><td>Guinea</td>\n\
+    \    </tr>\n    <tr>\n      <td>GW</td><td>Guinea-Bissau</td>\n    </tr>\n   \
+    \ <tr>\n      <td>GY</td><td>Guyana</td>\n    </tr>\n    <tr>\n      <td>HT</td><td>Haiti</td>\n\
+    \    </tr>\n    <tr>\n      <td>HM</td><td>Heard Island and the McDonald Islands</td>\n\
+    \    </tr>\n    <tr>\n      <td>VA</td><td>Holy See</td>\n    </tr>\n    <tr>\n\
+    \      <td>HN</td><td>Honduras</td>\n    </tr>\n    <tr>\n      <td>HK</td><td>Hong\
+    \ Kong</td>\n    </tr>\n    <tr>\n      <td>HU</td><td>Hungary</td>\n    </tr>\n\
+    \    <tr>\n      <td>IS</td><td>Iceland</td>\n    </tr>\n    <tr>\n      <td>IN</td><td>India</td>\n\
+    \    </tr>\n    <tr>\n      <td>ID</td><td>Indonesia</td>\n    </tr>\n    <tr>\n\
+    \      <td>IQ</td><td>Iraq</td>\n    </tr>\n    <tr>\n      <td>IE</td><td>Ireland</td>\n\
+    \    </tr>\n    <tr>\n      <td>IM</td><td>Isle of Man</td>\n    </tr>\n    <tr>\n\
+    \      <td>IL</td><td>Israel</td>\n    </tr>\n    <tr>\n      <td>IT</td><td>Italy</td>\n\
+    \    </tr>\n    <tr>\n      <td>JM</td><td>Jamaica</td>\n    </tr>\n    <tr>\n\
+    \      <td>JP</td><td>Japan</td>\n    </tr>\n    <tr>\n      <td>JE</td><td>Jersey</td>\n\
+    \    </tr>\n    <tr>\n      <td>JO</td><td>Jordan</td>\n    </tr>\n    <tr>\n\
+    \      <td>KZ</td><td>Kazakhstan</td>\n    </tr>\n    <tr>\n      <td>KE</td><td>Kenya</td>\n\
+    \    </tr>\n    <tr>\n      <td>KI</td><td>Kiribati</td>\n    </tr>\n    <tr>\n\
+    \      <td>KR</td><td>Korea</td>\n    </tr>\n    <tr>\n      <td>KW</td><td>Kuwait</td>\n\
+    \    </tr>\n    <tr>\n      <td>KG</td><td>Kyrgyzstan</td>\n    </tr>\n    <tr>\n\
+    \      <td>LA</td><td>Laos</td>\n    </tr>\n    <tr>\n      <td>LV</td><td>Latvia</td>\n\
+    \    </tr>\n    <tr>\n      <td>LB</td><td>Lebanon</td>\n    </tr>\n    <tr>\n\
+    \      <td>LS</td><td>Lesotho</td>\n    </tr>\n    <tr>\n      <td>LR</td><td>Liberia</td>\n\
+    \    </tr>\n    <tr>\n      <td>LY</td><td>Libya</td>\n    </tr>\n    <tr>\n \
+    \     <td>LI</td><td>Liechtenstein</td>\n    </tr>\n    <tr>\n      <td>LT</td><td>Lithuania</td>\n\
+    \    </tr>\n    <tr>\n      <td>LU</td><td>Luxembourg</td>\n    </tr>\n    <tr>\n\
+    \      <td>MO</td><td>Macao</td>\n    </tr>\n    <tr>\n      <td>MK</td><td>Macedonia</td>\n\
+    \    </tr>\n    <tr>\n      <td>MG</td><td>Madagascar</td>\n    </tr>\n    <tr>\n\
+    \      <td>MW</td><td>Malawi</td>\n    </tr>\n    <tr>\n      <td>MY</td><td>Malaysia</td>\n\
+    \    </tr>\n    <tr>\n      <td>MV</td><td>Maldives</td>\n    </tr>\n    <tr>\n\
+    \      <td>ML</td><td>Mali</td>\n    </tr>\n    <tr>\n      <td>MT</td><td>Malta</td>\n\
+    \    </tr>\n    <tr>\n      <td>MH</td><td>Marshall Islands</td>\n    </tr>\n\
+    \    <tr>\n      <td>MQ</td><td>Martinique</td>\n    </tr>\n    <tr>\n      <td>MR</td><td>Mauritania</td>\n\
+    \    </tr>\n    <tr>\n      <td>MU</td><td>Mauritius</td>\n    </tr>\n    <tr>\n\
+    \      <td>YT</td><td>Mayotte</td>\n    </tr>\n    <tr>\n      <td>MX</td><td>Mexico</td>\n\
+    \    </tr>\n    <tr>\n      <td>FM</td><td>Micronesia</td>\n    </tr>\n    <tr>\n\
+    \      <td>MD</td><td>Moldova</td>\n    </tr>\n    <tr>\n      <td>MC</td><td>Monaco</td>\n\
+    \    </tr>\n    <tr>\n      <td>MN</td><td>Mongolia</td>\n    </tr>\n    <tr>\n\
+    \      <td>ME</td><td>Montenegro</td>\n    </tr>\n    <tr>\n      <td>MS</td><td>Montserrat</td>\n\
+    \    </tr>\n    <tr>\n      <td>MA</td><td>Morocco</td>\n    </tr>\n    <tr>\n\
+    \      <td>MZ</td><td>Mozambique</td>\n    </tr>\n    <tr>\n      <td>MM</td><td>Myanmar</td>\n\
+    \    </tr>\n    <tr>\n      <td>NA</td><td>Namibia</td>\n    </tr>\n    <tr>\n\
+    \      <td>NR</td><td>Nauru</td>\n    </tr>\n    <tr>\n      <td>NP</td><td>Nepal</td>\n\
+    \    </tr>\n    <tr>\n      <td>NL</td><td>Netherlands</td>\n    </tr>\n    <tr>\n\
+    \      <td>AN</td><td>Netherlands Antilles</td>\n    </tr>\n    <tr>\n      <td>NC</td><td>New\
+    \ Caledonia</td>\n    </tr>\n    <tr>\n      <td>NZ</td><td>New Zealand</td>\n\
+    \    </tr>\n    <tr>\n      <td>NI</td><td>Nicaragua</td>\n    </tr>\n    <tr>\n\
+    \      <td>NE</td><td>Niger</td>\n    </tr>\n    <tr>\n      <td>NG</td><td>Nigeria</td>\n\
+    \    </tr>\n    <tr>\n      <td>NU</td><td>Niue</td>\n    </tr>\n    <tr>\n  \
+    \    <td>NF</td><td>Norfolk Island</td>\n    </tr>\n    <tr>\n      <td>MP</td><td>Northern\
+    \ Mariana Islands</td>\n    </tr>\n    <tr>\n      <td>NO</td><td>Norway</td>\n\
+    \    </tr>\n    <tr>\n      <td>OM</td><td>Oman</td>\n    </tr>\n  </tbody>\n\
+    </table>\n\n<table>\n  <thead>\n    <tr>\n      <th>Code</th>\n      <th>Country/Region</th>\n\
+    \  </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td>PK</td><td>Pakistan</td>\n\
+    \    </tr>\n    <tr>\n      <td>PW</td><td>Palau</td>\n    </tr>\n    <tr>\n \
+    \     <td>PS</td><td>Palestine</td>\n    </tr>\n    <tr>\n      <td>PA</td><td>Panama</td>\n\
+    \    </tr>\n    <tr>\n      <td>PG</td><td>Papua New Guinea</td>\n    </tr>\n\
+    \    <tr>\n      <td>PY</td><td>Paraguay</td>\n    </tr>\n    <tr>\n      <td>PE</td><td>Peru</td>\n\
+    \    </tr>\n    <tr>\n      <td>PH</td><td>Philippines</td>\n    </tr>\n    <tr>\n\
+    \      <td>PN</td><td>Pitcairn Islands</td>\n    </tr>\n    <tr>\n      <td>PL</td><td>Poland</td>\n\
+    \    </tr>\n    <tr>\n      <td>PT</td><td>Portugal</td>\n    </tr>\n    <tr>\n\
+    \      <td>PR</td><td>Puerto Rico</td>\n    </tr>\n    <tr>\n      <td>QA</td><td>Qatar</td>\n\
+    \    </tr>\n    <tr>\n      <td>RE</td><td>Reunion</td>\n    </tr>\n    <tr>\n\
+    \      <td>RO</td><td>Romania</td>\n    </tr>\n    <tr>\n      <td>RU</td><td>Russian\
+    \ Federation</td>\n    </tr>\n    <tr>\n      <td>RW</td><td>Rwanda</td>\n   \
+    \ </tr>\n    <tr>\n      <td>BL</td><td>Saint Barthelemy</td>\n    </tr>\n   \
+    \ <tr>\n      <td>SH</td><td>Saint Helena, Ascension and Tristan da Cunha</td>\n\
+    \    </tr>\n    <tr>\n      <td>KN</td><td>Saint Kitts and Nevis</td>\n    </tr>\n\
+    \    <tr>\n      <td>LC</td><td>Saint Lucia</td>\n    </tr>\n    <tr>\n      <td>MF</td><td>Saint\
+    \ Martin</td>\n    </tr>\n    <tr>\n      <td>PM</td><td>Saint Pierre and Miquelon</td>\n\
+    \    </tr>\n    <tr>\n      <td>VC</td><td>Saint Vincent and the Grenadines</td>\n\
+    \    </tr>\n    <tr>\n      <td>WS</td><td>Samoa</td>\n    </tr>\n    <tr>\n \
+    \     <td>SM</td><td>San Marino</td>\n    </tr>\n    <tr>\n      <td>ST</td><td>Sao\
+    \ Tome and Principe</td>\n    </tr>\n    <tr>\n      <td>SA</td><td>Saudi Arabia</td>\n\
+    \    </tr>\n    <tr>\n      <td>SN</td><td>Senegal</td>\n    </tr>\n    <tr>\n\
+    \      <td>RS</td><td>Serbia</td>\n    </tr>\n    <tr>\n      <td>SC</td><td>Seychelles</td>\n\
+    \    </tr>\n    <tr>\n      <td>SL</td><td>Sierra Leone</td>\n    </tr>\n    <tr>\n\
+    \      <td>SG</td><td>Singapore</td>\n    </tr>\n    <tr>\n      <td>SX</td><td>Sint\
+    \ Maarten</td>\n    </tr>\n    <tr>\n      <td>SK</td><td>Slovakia</td>\n    </tr>\n\
+    \    <tr>\n      <td>SI</td><td>Slovenia</td>\n    </tr>\n    <tr>\n      <td>SB</td><td>Solomon\
+    \ Islands</td>\n    </tr>\n    <tr>\n      <td>SO</td><td>Somalia</td>\n    </tr>\n\
+    \    <tr>\n      <td>ZA</td><td>South Africa</td>\n    </tr>\n    <tr>\n     \
+    \ <td>GS</td><td>South Georgia and the South Sandwich Islands</td>\n    </tr>\n\
+    \    <tr>\n      <td>SS</td><td>South Sudan</td>\n    </tr>\n    <tr>\n      <td>ES</td><td>Spain</td>\n\
+    \    </tr>\n    <tr>\n      <td>LK</td><td>Sri Lanka</td>\n    </tr>\n    <tr>\n\
+    \      <td>SR</td><td>Suriname</td>\n    </tr>\n    <tr>\n      <td>SJ</td><td>Svalbard\
+    \ and Jan Mayen</td>\n    </tr>\n    <tr>\n      <td>SZ</td><td>Swaziland</td>\n\
+    \    </tr>\n    <tr>\n      <td>SE</td><td>Sweden</td>\n    </tr>\n    <tr>\n\
+    \      <td>CH</td><td>Switzerland</td>\n    </tr>\n    <tr>\n      <td>TW</td><td>Taiwan</td>\n\
+    \    </tr>\n    <tr>\n      <td>TJ</td><td>Tajikistan</td>\n    </tr>\n    <tr>\n\
+    \      <td>TZ</td><td>Tanzania</td>\n    </tr>\n    <tr>\n      <td>TH</td><td>Thailand</td>\n\
+    \    </tr>\n    <tr>\n      <td>TL</td><td>Timor-Leste</td>\n    </tr>\n    <tr>\n\
+    \      <td>TG</td><td>Togo</td>\n    </tr>\n    <tr>\n      <td>TK</td><td>Tokelau</td>\n\
+    \    </tr>\n    <tr>\n      <td>TO</td><td>Tonga</td>\n    </tr>\n    <tr>\n \
+    \     <td>TT</td><td>Trinidad and Tobago</td>\n    </tr>\n    <tr>\n      <td>TN</td><td>Tunisia</td>\n\
+    \    </tr>\n    <tr>\n      <td>TR</td><td>Türkiye (Turkey)</td>\n    </tr>\n\
+    \    <tr>\n      <td>TM</td><td>Turkmenistan</td>\n    </tr>\n    <tr>\n     \
+    \ <td>TC</td><td>Turks and Caicos Islands</td>\n    </tr>\n    <tr>\n      <td>TV</td><td>Tuvalu</td>\n\
+    \    </tr>\n    <tr>\n      <td>UG</td><td>Uganda</td>\n    </tr>\n    <tr>\n\
+    \      <td>UA</td><td>Ukraine</td>\n    </tr>\n    <tr>\n      <td>AE</td><td>United\
+    \ Arab Emirates</td>\n    </tr>\n    <tr>\n      <td>UM</td><td>United States\
+    \ Minor Outlying Islands</td>\n    </tr>\n    <tr>\n      <td>UY</td><td>Uruguay</td>\n\
+    \    </tr>\n    <tr>\n      <td>UZ</td><td>Uzbekistan</td>\n    </tr>\n    <tr>\n\
+    \      <td>VU</td><td>Vanuatu</td>\n    </tr>\n    <tr>\n      <td>VE</td><td>Venezuela</td>\n\
+    \    </tr>\n    <tr>\n      <td>VN</td><td>Vietnam</td>\n    </tr>\n    <tr>\n\
+    \      <td>VG</td><td>Virgin Islands (British)</td>\n    </tr>\n    <tr>\n   \
+    \   <td>VI</td><td>Virgin Islands (US)</td>\n    </tr>\n    <tr>\n      <td>WF</td><td>Wallis\
+    \ and Futuna</td>\n    </tr>\n    <tr>\n      <td>EH</td><td>Western Sahara</td>\n\
+    \    </tr>\n    <tr>\n      <td>YE</td><td>Yemen</td>\n    </tr>\n    <tr>\n \
+    \     <td>ZM</td><td>Zambia</td>\n    </tr>\n    <tr>\n      <td>ZW</td><td>Zimbabwe</td>\n\
+    \    </tr>\n    <tr>\n      <td>CU</td><td>Cuba</td>\n    </tr>\n    <tr>\n  \
+    \    <td>IR</td><td>Iran</td>\n    </tr>\n    <tr>\n      <td>SY</td><td>Syria</td>\n\
+    \    </tr>\n    <tr>\n      <td>KP</td><td>North Korea</td>\n    </tr>\n  </tbody>\n\
+    </table>\n\nSee also:\n\n- `Class.PolicyService:GetPolicyInfoForPlayerAsync()`,\
+    \ returns policy\n  information about a player which is based on geolocation,\
+    \ age group and\n  platform\n"
+  code_samples:
+  - getting-country-region-code-for-a-player
+  parameters:
+  - name: player
+    type: Instance
+    default: null
+    summary: 'The player that you are getting country/region information for.
+
+      '
+  returns:
+  - type: string
+    summary: 'A string indicating the country/region code of a player.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: LocalizationService:GetTableEntries
+  summary: 'Gets all entries used for automated localization.
+
+    '
+  description: "Returns an `Array`, where each element of the returned `Array` is\
+    \ itself\nan `Array` of entries in the same format as described in\n`Class.LocalizationTable:GetEntries()`.\
+    \ The order of the elements in the\nreturned `Array` is the same order that the\n\
+    `Class.LocalizationTable|LocalizationTables` will be searched through to\nattempt\
+    \ automated localization for the provided `Class.Instance`. The\nentry elements\
+    \ within a particular `Class.LocalizationTable` are returned\nin an unspecified\
+    \ order.\n\nThis function returns entries regardless of whether the object is\
+    \ a\n`Class.GuiBase2d` with `Class.GuiBase2d.AutoLocalize` enabled. An object\n\
+    that is a `Class.GuiBase2d` will not actually be automatically localized\nunless\
+    \ `Class.GuiBase2d.AutoLocalize` is enabled.\n\nThe ordering of the tables is\
+    \ as follows:\n\n- First, it looks for the earliest `Class.GuiBase2d` ancestor\
+    \ of the\n  object (including the provided object) that has a\n  `Class.GuiBase2d.RootLocalizationTable`.\
+    \ Tables then append in the same\n  order as described in `Class.GuiBase2d.RootLocalizationTable`\
+    \ by going\n  up through the `Class.LocalizationTable` ancestors of that\n  `Class.GuiBase2d.RootLocalizationTable`.\
+    \ If no such\n  `Class.GuiBase2d.RootLocalizationTable` is found, no tables append\
+    \ in\n  this step. If `instance` is `nil`, no tables append in this step.\n- Next,\
+    \ tables from the `Class.LocalizationTable` hierarchy under\n  `Class.LocalizationService`\
+    \ append. For each child\n  `Class.LocalizationTable` of `Class.LocalizationService`,\
+    \ it appends\n  tables going up from the lowest descendant `Class.LocalizationTable`\
+    \ of\n  the tables parented to the service, all the way up to the children of\n\
+    \  the service. If there are no children of `Class.LocalizationService`\n  that\
+    \ are `Class.LocalizationTable|LocalizationTables`, then no tables\n  append in\
+    \ this step.\n- Finally, the cloud `Class.LocalizationTable` appends to the array.\
+    \ If\n  there is no cloud `Class.LocalizationTable`, or the cloud\n  `Class.LocalizationTable`\
+    \ has not yet loaded, then no table appends in\n  this step.\n\nThis function\
+    \ does not yield. It will not wait until the cloud\n`Class.LocalizationTable`\
+    \ has loaded.\n"
+  code_samples: []
+  parameters:
+  - name: instance
+    type: Instance
+    default: nil
+    summary: 'The `Class.Instance` for which to retrieve the ordered localization
+
+      table entries. If nil, only entries from the
+
+      `Class.LocalizationService` hierarchy and the cloud
+
+      `Class.LocalizationTable` are returned.
+
+      '
+  returns:
+  - type: Array
+    summary: 'An array of arrays, where each array is in the same format as
+
+      described in `Class.LocalizationTable:GetEntries()`.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: LocalizationService:GetTranslatorForLocaleAsync
+  summary: 'Yields until the cloud `Class.LocalizationTable` for the argument locale
+
+    has been loaded - if available. Returns a `Class.Translator` instance to
+
+    be used for translations for the provided locale.
+
+    '
+  description: "This function takes a locale code as an argument and yields until\
+    \ the\ncloud `Class.LocalizationTable` for that locale has been loaded, if\navailable.\
+    \ It then returns a `Class.Translator` object which can be used\nto perform translations\
+    \ for that locale if any are available. The entries\nused for localization are\
+    \ the entries provided by the\n`Class.LocalizationTable` hierarchy under `Class.LocalizationService`\
+    \ as\nwell as the cloud table (if available). This will be the same set of\nentries\
+    \ returned by `Class.LocalizationService:GetTableEntries(nil)`.\n\nThis function\
+    \ can error and thus should be wrapped in a `pcall()`.\n\nSee also:\n\n- `Class.LocalizationService:GetTranslatorForPlayer()`\
+    \ gets the translator\n  corresponding to the locale of the provided player. This\
+    \ function is\n  deprecated and should not be used in new work.\n- `Class.LocalizationService:GetTranslatorForPlayerAsync()`\
+    \ yields until\n  the cloud `Class.LocalizationTable` for the locale of the provided\n\
+    \  player has loaded and then gets the translator corresponding to the\n  locale\
+    \ of the provided player.\n"
+  code_samples:
+  - getting-and-using-a-translator-for-a-locale
+  parameters:
+  - name: locale
+    type: string
+    default: null
+    summary: 'A Roblox supported language or locale code.
+
+      '
+  returns:
+  - type: Instance
+    summary: 'The `Class.Translator` instance for the specified locale.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: LocalizationService:GetTranslatorForPlayer
+  summary: 'Returns a `Class.Translator` to be used for translations using the locale
+
+    data loaded.
+
+    '
+  description: "This function takes a player as an argument and returns a\n`Class.Translator`\
+    \ instance which can be used to perform translations for\nthat locale if any are\
+    \ available. The entries used for localization are\nthe entries provided by the\
+    \ `Class.LocalizationTable` hierarchy under\n`Class.LocalizationService` as well\
+    \ as the cloud\n`Class.LocalizationTable`, if it is available and already loaded.\
+    \ This\nwill be the same set of entries returned by\n`Class.LocalizationService:GetTableEntries(nil)`.\n\
+    \nThis function does not yield. It will not wait until the cloud\n`Class.LocalizationTable`\
+    \ has loaded.\n\nSee also:\n\n- `Class.LocalizationService:GetTranslatorForPlayerAsync()`\
+    \ has the same\n  functionality as this function, except that it yields until\
+    \ the cloud\n  `Class.LocalizationTable` has been loaded.\n- `Class.LocalizationService:GetTranslatorForLocaleAsync()`,\
+    \ returns a\n  Translator to be used for translations using the provided locale.\n"
+  code_samples:
+  - getting-and-using-a-translator-for-a-player
+  parameters:
+  - name: player
+    type: Instance
+    default: null
+    summary: 'The `Class.Player` that you are getting the `Class.Translator` for.
+
+      '
+  returns:
+  - type: Instance
+    summary: 'The `Class.Translator` instance for the specified locale.
+
+      '
+  tags:
+  - Deprecated
+  deprecation_message: 'This function has been deprecated by
+
+    `Class.LocalizationService:GetTranslatorForPlayerAsync()`, which functions
+
+    similarly except that it yields until the cloud table has loaded. Please
+
+    use it in new work instead.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: LocalizationService:GetTranslatorForPlayerAsync
+  summary: 'Yields until the cloud `Class.LocalizationTable` for the player''s locale
+
+    has been loaded - if available. Returns a `Class.Translator` instance to
+
+    be used for translations for the provided locale.
+
+    '
+  description: "This function takes a player as an argument and yields until the cloud\n\
+    `Class.LocalizationTable` for that player's locale has been loaded, if\navailable.\
+    \ It then returns a `Class.Translator` object which can be used\nto perform translations\
+    \ for that locale if any are available. The entries\nused for localization are\
+    \ the entries provided by the\n`Class.LocalizationTable` hierarchy under `Class.LocalizationService`\
+    \ as\nwell as the cloud table (if available). This will be the same set of\nentries\
+    \ returned by `Class.LocalizationService:GetTableEntries(nil)`.\n\nThis function\
+    \ can error and thus should be wrapped in a `pcall()`.\n\nSee also:\n\n- `Class.LocalizationService:GetTranslatorForPlayer()`,\
+    \ same functionality\n  as this function except that it does not yield and does\
+    \ not wait until\n  the cloud `Class.LocalizationTable` for the player's locale\
+    \ has been\n  loaded. This function is deprecated and should not be used in new\
+    \ work.\n- `Class.LocalizationService:GetTranslatorForLocaleAsync()`, returns\
+    \ a\n  Translator to be used for translations using the provided locale.\n"
+  code_samples:
+  - getting-and-using-a-translator-for-a-player
+  parameters:
+  - name: player
+    type: Instance
+    default: null
+    summary: 'The `Class.Player` that you are getting the `Class.Translator` for.
+
+      '
+  returns:
+  - type: Instance
+    summary: 'The `Class.Translator` instance for the specified locale.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: GetCorescriptLocalizations
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Instances
+- name: GetIsLoadingInternalTranslations
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+- name: GetTableEntries
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: instance
+    type: Instance
+    default: nil
+  returns:
+  - type: Array
+- name: GetTranslatorForPlayer
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''GetTranslatorForPlayerAsync'', ''ThreadSafety'':
+    ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  returns:
+  - type: Instance
+- name: IsLoadingInternalTranslationsSettingChanged
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: newIsLoadingInternalTranslations
+    type: bool
+  returns:
+  - type: 'null'
+- name: SetRobloxLocaleId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: locale
+    type: string
+  returns:
+  - type: 'null'
+- name: StartTextScraper
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: StopTextScraper
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: GetCountryRegionForPlayerAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  returns:
+  - type: string
+- name: GetTranslatorForLocaleAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: locale
+    type: string
+  returns:
+  - type: Instance
+- name: GetTranslatorForPlayerAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  returns:
+  - type: Instance
+- name: PromptDownloadGameTableToCSV
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: table
+    type: Instance
+  returns:
+  - type: 'null'
+- name: PromptExportToCSVs
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: PromptImportFromCSVs
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: PromptUploadCSVToGameTable
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Instance
+events:
+- name: AutoTranslateWillRun
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: DynamicTranslationServerToClientResponse
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: entries
+    type: Tuple
+- name: TextScraperClientMessageWithPlayerSignal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: version
+    type: int
+  - name: player
+    type: Instance
+  - name: message
+    type: Tuple
+callbacks: []

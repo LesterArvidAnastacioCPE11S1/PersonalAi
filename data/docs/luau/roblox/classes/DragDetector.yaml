@@ -1,0 +1,2103 @@
+name: DragDetector
+type: class
+memory_category: Instances
+summary: 'Instance which facilitates and encourages interaction with 3D objects in
+  an
+
+  experience.
+
+  '
+description: "The `Class.DragDetector` instance facilitates and encourages interaction\
+  \ with\n3D objects in an experience, such as opening doors and drawers, sliding\
+  \ a part\naround, and much more. Key features include:\n\n- Place a `Class.DragDetector`\
+  \ under any `Class.BasePart` or `Class.Model` to\n  make it draggable via all inputs\
+  \ (mouse, touch, gamepad, and VR), all\n  without a single line of code.\n\n- Choose\
+  \ from several `Class.DragDetector.DragStyle|DragStyle` options, define\n  how the\
+  \ object responds to motion via\n  `Class.DragDetector.ResponseStyle|ResponseStyle`,\
+  \ and optionally apply axis\n  or movement limits.\n\n- Scripts can respond to manipulation\
+  \ of dragged objects to drive UI or make\n  logical decisions, such as adjusting\
+  \ the light level in a room based on a\n  sliding wall switch dimmer.\n\n- Players\
+  \ can manipulate anchored parts or models and they'll stay exactly\n  where you\
+  \ put them upon release.\n\n- `Class.DragDetector|DragDetectors` work in Studio\
+  \ as long as you're **not**\n  using the **Select**, **Move**, **Scale**, or **Rotate**\
+  \ tools, making it\n  easier to test and adjust draggable objects while editing.\n\
+  \nSee the [3D Drag Detectors](../../../ui/3D-drag-detectors.md) guide for\ndetails\
+  \ and usage examples.\n"
+code_samples: []
+inherits:
+- ClickDetector
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: DragDetector.ActivatedCursorIcon
+  summary: 'Sets the cursor icon to display when the mouse is activated over the
+
+    parent of this `Class.DragDetector`.
+
+    '
+  description: 'Sets the cursor icon to display when the mouse is activated over the
+
+    parent of this `Class.DragDetector`. If this property is left blank, the
+
+    detector will use the default icon.
+
+
+    To change the activated cursor icon, set this property to the asset ID of
+
+    the image you''d like to use.
+
+    '
+  code_samples: []
+  type: ContentId
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Image
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  - Input
+- name: DragDetector.ActivatedCursorIconContent
+  summary: 'Sets the cursor icon to display when the mouse is activated over the
+
+    parent of this `Class.DragDetector`. Only supports asset URIs
+
+    '
+  description: 'Sets the cursor icon to display when the mouse is activated over the
+
+    parent of this `Class.DragDetector`. If this property is left blank, the
+
+    detector will use the default icon.
+
+
+    To change the activated cursor icon, set this property to the asset ID of
+
+    the image you''d like to use. Only asset URIs are supported for this
+
+    property.
+
+    '
+  code_samples: []
+  type: Content
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Image
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  - Input
+- name: DragDetector.ApplyAtCenterOfMass
+  summary: 'Whether constraint force is applied to the object''s center of mass.
+
+    '
+  description: 'When false (default), constraint force is applied at the point the
+    user
+
+    clicks on. When true, force is applied at the object''s center of mass.
+
+    Only relevant if `Class.DragDetector.ResponseStyle|ResponseStyle` is
+
+    `Enum.DragDetectorResponseStyle.Physical` and the parent object is
+
+    unanchored.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Physics Response
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  - Input
+- name: DragDetector.Axis
+  summary: 'The primary axis of motion, expressed relative to the reference frame.
+
+    '
+  description: 'The primary axis of motion, expressed relative to the reference frame.
+    For
+
+    a `Class.DragDetector.DragStyle|DragStyle` of
+
+    `Enum.DragDetectorDragStyle.TranslateLine`, the direction of translation;
+
+    for `Enum.DragDetectorDragStyle.TranslatePlane`, the normal to the plane
+
+    of motion; for `Enum.DragDetectorDragStyle.RotateAxis`, the axis of 1D
+
+    rotation. Changing this value automatically updates
+
+    `Class.DragDetector.Orientation|Orientation` and vice versa.
+
+    '
+  code_samples: []
+  type: Vector3
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Drag Directions
+  serialization:
+    can_load: true
+    can_save: false
+  capabilities:
+  - Physics
+  - Input
+- name: DragDetector.DragFrame
+  summary: 'The `Datatype.CFrame` of the pivot, dependent on the drag detector''s
+
+    `Class.DragDetector.ReferenceInstance|ReferenceInstance`.
+
+    '
+  description: 'If `Class.DragDetector.ReferenceInstance|ReferenceInstance` is set,
+    the
+
+    `Datatype.CFrame` of the pivot relative to the reference frame; otherwise,
+
+    the `Datatype.CFrame` of the pivot relative to its frame at the beginning
+
+    of the drag.
+
+    '
+  code_samples: []
+  type: CFrame
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Dragged Amount
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  - Input
+- name: DragDetector.DragStyle
+  summary: 'The paradigm used to generate proposed motion.
+
+    '
+  description: 'The paradigm used to generate proposed motion, given a stream of cursor
+
+    rays. See `Enum.DragDetectorDragStyle` for options.
+
+    '
+  code_samples: []
+  type: DragDetectorDragStyle
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  - Input
+- name: DragDetector.Enabled
+  summary: 'Whether the `Class.DragDetector` responds to user input.
+
+    '
+  description: 'If true, the `Class.DragDetector` responds to user input; if false,
+    it
+
+    does not.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  - Input
+- name: DragDetector.GamepadModeSwitchKeyCode
+  summary: 'During gamepad input, the modifier `Enum.KeyCode` for the secondary mode
+
+    of motion.
+
+    '
+  description: 'During gamepad input, the `Enum.KeyCode` for toggling the secondary
+    mode
+
+    of motion. Only applies if the drag detector''s
+
+    `Class.DragDetector.DragStyle|DragStyle` has both primary and secondary
+
+    modes of motion.
+
+    '
+  code_samples: []
+  type: KeyCode
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Mode Switching
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  - Input
+- name: DragDetector.KeyboardModeSwitchKeyCode
+  summary: 'During keyboard input, the modifier `Enum.KeyCode` for the secondary mode
+
+    of motion.
+
+    '
+  description: 'During keyboard input, the `Enum.KeyCode` for toggling the secondary
+    mode
+
+    of motion. Only applies if the drag detector''s
+
+    `Class.DragDetector.DragStyle|DragStyle` has both primary and secondary
+
+    modes of motion.
+
+    '
+  code_samples: []
+  type: KeyCode
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Mode Switching
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  - Input
+- name: DragDetector.MaxDragAngle
+  summary: 'Along with `Class.DragDetector.MinDragAngle|MinDragAngle`, impedes the
+
+    drag detector''s attempts to generate motion.
+
+    '
+  description: 'If this is greater than `Class.DragDetector.MinDragAngle|MinDragAngle`,
+
+    translation will be clamped within that range.
+
+
+    This is not a constraint; it merely impedes the drag detector''s attempts
+
+    to generate motion in order to remain within limits. See
+
+    `Class.DragDetector:AddConstraintFunction()|AddConstraintFunction()` to
+
+    add custom constraint to a drag.
+
+
+    Only relevant if `Class.DragDetector.DragStyle|DragStyle` is
+
+    `Enum.DragDetectorDragStyle.RotateAxis`.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Drag Limits
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  - Input
+- name: DragDetector.MaxDragTranslation
+  summary: 'Along with `Class.DragDetector.MinDragTranslation|MinDragTranslation`,
+
+    impedes the drag detector''s attempts to generate motion.
+
+    '
+  description: 'In any dimension, if this is greater than
+
+    `Class.DragDetector.MinDragTranslation|MinDragTranslation`, translation
+
+    will be clamped within that range.
+
+
+    This is not a constraint; it merely impedes the drag detector''s attempts
+
+    to generate motion in order to remain within limits. See
+
+    `Class.DragDetector:AddConstraintFunction()|AddConstraintFunction()` to
+
+    add custom constraint to a drag.
+
+    '
+  code_samples: []
+  type: Vector3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Drag Limits
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  - Input
+- name: DragDetector.MaxForce
+  summary: 'Maximum force applied for the object to reach its goal.
+
+    '
+  description: 'Maximum force applied for the object to reach its goal. Only relevant
+    if
+
+    `Class.DragDetector.ResponseStyle|ResponseStyle` is
+
+    `Enum.DragDetectorResponseStyle.Physical` and the parent object is
+
+    unanchored.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Physics Response
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  - Input
+- name: DragDetector.MaxTorque
+  summary: 'Maximum torque applied for the object to reach its goal.
+
+    '
+  description: 'Maximum torque applied for the object to reach its goal. Only relevant
+    if
+
+    `Class.DragDetector.ResponseStyle|ResponseStyle` is
+
+    `Enum.DragDetectorResponseStyle.Physical` and the parent object is
+
+    unanchored.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Physics Response
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  - Input
+- name: DragDetector.MinDragAngle
+  summary: 'Along with `Class.DragDetector.MaxDragAngle|MaxDragAngle`, impedes the
+
+    drag detector''s attempts to generate motion.
+
+    '
+  description: 'If this is less than `Class.DragDetector.MaxDragAngle|MaxDragAngle`,
+
+    translation will be clamped within that range.
+
+
+    This is not a constraint; it merely impedes the drag detector''s attempts
+
+    to generate motion in order to remain within limits. See
+
+    `Class.DragDetector:AddConstraintFunction()|AddConstraintFunction()` to
+
+    add custom constraint to a drag.
+
+
+    Only relevant if `Class.DragDetector.DragStyle|DragStyle` is
+
+    `Enum.DragDetectorDragStyle.RotateAxis`.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Drag Limits
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  - Input
+- name: DragDetector.MinDragTranslation
+  summary: 'Along with `Class.DragDetector.MaxDragTranslation|MaxDragTranslation`,
+
+    impedes the drag detector''s attempts to generate motion.
+
+    '
+  description: 'In any dimension, if this is less than
+
+    `Class.DragDetector.MaxDragTranslation|MaxDragTranslation`, translation
+
+    will be clamped within that range.
+
+
+    This is not a constraint; it merely impedes the drag detector''s attempts
+
+    to generate motion in order to remain within limits. See
+
+    `Class.DragDetector:AddConstraintFunction()|AddConstraintFunction()` to
+
+    add custom constraint to a drag.
+
+    '
+  code_samples: []
+  type: Vector3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Drag Limits
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  - Input
+- name: DragDetector.Orientation
+  summary: 'Specifies the **YXZ** rotation of axes of motion relative to the reference
+
+    frame.
+
+    '
+  description: 'Specifies the **YXZ** rotation of axes of motion relative to the reference
+
+    frame (does not change the orientation of the reference frame itself).
+
+    Linear translation and axial rotation will be on this reoriented **Y**
+
+    axis, and planar translation in the **XZ** plane. Changing this value
+
+    automatically updates `Class.DragDetector.Axis|Axis` and vice versa.
+
+    '
+  code_samples: []
+  type: Vector3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Drag Directions
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  - Input
+- name: DragDetector.PermissionPolicy
+  summary: 'Controls the permission level for which players can interact with the
+
+    `Class.DragDetector`.
+
+    '
+  description: 'Controls the permission level for which players can interact with
+    the
+
+    `Class.DragDetector`. Default is
+
+    `Enum.DragDetectorPermissionPolicy.Everybody`.
+
+    '
+  code_samples: []
+  type: DragDetectorPermissionPolicy
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  - Input
+- name: DragDetector.ReferenceInstance
+  summary: 'An instance whose `Datatype.CFrame` is the reference frame for the drag
+
+    detector.
+
+    '
+  description: 'An instance whose `Datatype.CFrame` is the reference frame for the
+    drag
+
+    detector. The `Class.DragDetector.DragFrame|DragFrame` is expressed
+
+    relative to this `Datatype.CFrame` which may be retrieved via the
+
+    `Class.DragDetector:GetReferenceFrame()|GetReferenceFrame()` method.
+
+
+    If this instance is a `Class.PVInstance`, the reference frame will be its
+
+    pivot; if an `Class.Attachment`, then its world `Datatype.CFrame`. If it
+
+    is `nil` or neither of the former, the reference frame will be based on
+
+    the pivot of the drag detector''s parent `Class.BasePart` or `Class.Model`.
+
+    '
+  code_samples: []
+  type: Instance
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  - Input
+- name: DragDetector.ResponseStyle
+  summary: 'The paradigm used to move, or not move, the objects affected by the drag
+
+    detector.
+
+    '
+  description: 'Once the proposed motion has been computed and potentially constrained,
+
+    this is the paradigm used to move, or not move, the objects affected by
+
+    the `Class.DragDetector`. See `Enum.DragDetectorResponseStyle` for
+
+    options.
+
+    '
+  code_samples: []
+  type: DragDetectorResponseStyle
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  - Input
+- name: DragDetector.Responsiveness
+  summary: 'Higher values cause the object to reach its goal more rapidly.
+
+    '
+  description: 'Higher values cause the object to reach its goal more rapidly. Only
+
+    relevant if `Class.DragDetector.ResponseStyle|ResponseStyle` is
+
+    `Enum.DragDetectorResponseStyle.Physical` and the parent object is
+
+    unanchored.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Physics Response
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  - Input
+- name: DragDetector.RunLocally
+  summary: 'Whether user input on a `Class.DragDetector` replicates to the server
+    or
+
+    remains local to the specific client.
+
+    '
+  description: 'If false (default), the client sends replicated signals
+
+    (`Class.DragDetector.DragStart|DragStart`,
+
+    `Class.DragDetector.DragContinue|DragContinue`,
+
+    `Class.DragDetector.DragEnd|DragEnd`) to the server which processes cursor
+
+    rays, makes changes to the data model, and replicates them onwards to
+
+    clients.
+
+
+    If true, the client processes those signals itself and does not replicate
+
+    them to the server. Client `Class.LocalScript|LocalScripts` may be used to
+
+    respond to these events and `Class.RemoteEvent|RemoteEvents` may be used
+
+    to send any resulting changes that should be replicated to the server.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  - Input
+- name: DragDetector.SecondaryAxis
+  summary: 'The secondary axis of the motion.
+
+    '
+  description: 'The secondary axis of the motion. Relates to orientation using the
+    same
+
+    paradigm as `Class.Attachment|Attachments`.
+
+    '
+  code_samples: []
+  type: Vector3
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Drag Directions
+  serialization:
+    can_load: true
+    can_save: false
+  capabilities:
+  - Physics
+  - Input
+- name: DragDetector.TrackballRadialPullFactor
+  summary: 'If `Class.DragDetector.DragStyle|DragStyle` is
+
+    `Enum.DragDetectorDragStyle.RotateTrackball`, multiplier for adding a
+
+    radial pull rotation as a contribution to the total.
+
+    '
+  description: 'When the cursor is outside the trackball, the `Class.DragDetector`
+    can
+
+    apply a radial pull rotation that turns the ball as if it were trying to
+
+    roll out toward the cursor. This property is a 0 to 1 multiplier for
+
+    adding that rotation as a contribution to the total. Only relevant if
+
+    `Class.DragDetector.DragStyle|DragStyle` is
+
+    `Enum.DragDetectorDragStyle.RotateTrackball`.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  - Input
+- name: DragDetector.TrackballRollFactor
+  summary: 'If `Class.DragDetector.DragStyle|DragStyle` is
+
+    `Enum.DragDetectorDragStyle.RotateTrackball`, multiplier for adding roll
+
+    rotation to the total.
+
+    '
+  description: 'When the cursor is outside the trackball, the `Class.DragDetector`
+    can
+
+    apply a roll rotation that turns the ball as if it were mounted on a vinyl
+
+    record facing the viewer. This property is a 0 to 1 multiplier for adding
+
+    that roll rotation to the total. Only relevant if
+
+    `Class.DragDetector.DragStyle|DragStyle` is
+
+    `Enum.DragDetectorDragStyle.RotateTrackball`.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  - Input
+- name: DragDetector.VRSwitchKeyCode
+  summary: 'During VR input, the modifier `Enum.KeyCode` for the secondary mode of
+
+    motion.
+
+    '
+  description: 'During VR input, the `Enum.KeyCode` for toggling the secondary mode
+    of
+
+    motion. Only applies if the drag detector''s
+
+    `Class.DragDetector.DragStyle|DragStyle` has both primary and secondary
+
+    modes of motion.
+
+    '
+  code_samples: []
+  type: KeyCode
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Mode Switching
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  - Input
+- name: DragDetector.WorldAxis
+  summary: 'The `Class.DragDetector.Axis|Axis` expressed in world space.
+
+    '
+  description: 'The `Class.DragDetector.Axis|Axis` expressed in world space. Relates
+    to
+
+    orientation using the same paradigm as `Class.Attachment|Attachments`.
+
+    '
+  code_samples: []
+  type: Vector3
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Drag Directions
+  serialization:
+    can_load: true
+    can_save: false
+  capabilities:
+  - Physics
+  - Input
+- name: DragDetector.WorldSecondaryAxis
+  summary: 'The `Class.DragDetector.SecondaryAxis|SecondaryAxis` expressed in world
+
+    space.
+
+    '
+  description: 'The `Class.DragDetector.SecondaryAxis|SecondaryAxis` expressed in
+    world
+
+    space. Relates to orientation using the same paradigm as
+
+    `Class.Attachment|Attachments`.
+
+    '
+  code_samples: []
+  type: Vector3
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Drag Directions
+  serialization:
+    can_load: true
+    can_save: false
+  capabilities:
+  - Physics
+  - Input
+- name: ActivatedCursorIcon
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: ContentId
+  category: Image
+  serialization:
+    can_load: true
+    can_save: true
+- name: ActivatedCursorIconContent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Content
+  category: Image
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: ApplyAtCenterOfMass
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Physics Response
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+- name: Axis
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Drag Directions
+  serialization:
+    can_load: true
+    can_save: false
+  default: 0, 1, 0
+- name: DragFrame
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: CFrame
+  category: Dragged Amount
+  serialization:
+    can_load: true
+    can_save: true
+  default: 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1
+- name: DragStyle
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.DragDetectorDragStyle
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: TranslatePlane
+- name: Enabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'true'
+- name: GamepadModeSwitchKeyCode
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.KeyCode
+  category: Mode Switching
+  serialization:
+    can_load: true
+    can_save: true
+  default: ButtonR1
+- name: KeyboardModeSwitchKeyCode
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.KeyCode
+  category: Mode Switching
+  serialization:
+    can_load: true
+    can_save: true
+  default: LeftControl
+- name: MaxDragAngle
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Drag Limits
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: MaxDragTranslation
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Drag Limits
+  serialization:
+    can_load: true
+    can_save: true
+  default: 0, 0, 0
+- name: MaxForce
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Physics Response
+  serialization:
+    can_load: true
+    can_save: true
+  default: '10000000'
+- name: MaxTorque
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Physics Response
+  serialization:
+    can_load: true
+    can_save: true
+  default: '10000'
+- name: MinDragAngle
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Drag Limits
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: MinDragTranslation
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Drag Limits
+  serialization:
+    can_load: true
+    can_save: true
+  default: 0, 0, 0
+- name: Orientation
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Drag Directions
+  serialization:
+    can_load: true
+    can_save: true
+  default: -0, 180, 90
+- name: PermissionPolicy
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.DragDetectorPermissionPolicy
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: Everybody
+- name: PhysicalDragClickedPart
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Instance
+  category: Internal
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_no_string_value__
+- name: PhysicalDragHitPoint
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Internal
+  serialization:
+    can_load: false
+    can_save: false
+  default: 0, 0, 0
+- name: PhysicalDragIsInVR
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Internal
+  serialization:
+    can_load: false
+    can_save: false
+  default: 'false'
+- name: PhysicalDragTargetFrame
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: CFrame
+  category: Internal
+  serialization:
+    can_load: false
+    can_save: false
+  default: 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1
+- name: ReferenceInstance
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Instance
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: ResponseStyle
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.DragDetectorResponseStyle
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: Physical
+- name: Responsiveness
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Physics Response
+  serialization:
+    can_load: true
+    can_save: true
+  default: '10'
+- name: RunLocally
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+- name: SecondaryAxis
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Drag Directions
+  serialization:
+    can_load: true
+    can_save: false
+  default: 1, 0, 0
+- name: TrackballRadialPullFactor
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: '1'
+- name: TrackballRollFactor
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: '1'
+- name: VRSwitchKeyCode
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.KeyCode
+  category: Mode Switching
+  serialization:
+    can_load: true
+    can_save: true
+  default: ButtonL2
+- name: WorldAxis
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Drag Directions
+  serialization:
+    can_load: true
+    can_save: false
+  default: 0, 1, 0
+- name: WorldSecondaryAxis
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Drag Directions
+  serialization:
+    can_load: true
+    can_save: false
+  default: 1, 0, 0
+methods:
+- name: DragDetector:AddConstraintFunction
+  summary: 'Adds a function to modify or constrain proposed motion.
+
+    '
+  description: 'Adds a function to modify or constrain proposed motion. The function
+    takes
+
+    an input `Datatype.CFrame` of **proposed** motion and returns a
+
+    `Datatype.CFrame` of **modified** or unmodified motion. Both the input and
+
+    output are expressed relative to the reference frame. You can add multiple
+
+    functions which will be called in order by `priority`, passing the results
+
+    along in a chain.
+
+
+    To remove an added constraint function, call
+
+    `Datatype.RBXScriptConnection:Disconnect()|Disconnect()` on the returned
+
+    connection object.
+
+    '
+  code_samples: []
+  parameters:
+  - name: priority
+    type: int
+    default: null
+    summary: 'The order of priority for functions added via this method. Higher
+
+      values take precedence over lower values.
+
+      '
+  - name: function
+    type: Function
+    default: null
+    summary: 'Function for modifying or constraining proposed motion. This function
+
+      takes an input `Datatype.CFrame` of **proposed** motion and returns a
+
+      `Datatype.CFrame` of **modified** or unmodified motion, both relative
+
+      to the reference frame.
+
+      '
+  returns:
+  - type: RBXScriptConnection
+    summary: 'Use this connection object to remove the constraint function.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Physics
+  - Input
+- name: DragDetector:GetReferenceFrame
+  summary: 'Returns the reference `Datatype.CFrame` in which motion is expressed.
+
+    '
+  description: 'Returns the reference `Datatype.CFrame` in which motion is expressed;
+    see
+
+    the `Class.DragDetector.ReferenceInstance|ReferenceInstance` property for
+
+    more details.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: CFrame
+    summary: 'The reference `Datatype.CFrame` in which motion is expressed.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Physics
+  - Input
+- name: DragDetector:RestartDrag
+  summary: 'May be invoked from a script to restart the drag using new parameters.
+
+    '
+  description: 'May be invoked from a script to restart the drag using new parameters,
+    if
+
+    parameters such as `Class.DragDetector.DragStyle|DragStyle`,
+
+    `Class.DragDetector.Axis|Axis`, or
+
+    `Class.DragDetector.SecondaryAxis|SecondaryAxis` change.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Physics
+  - Input
+- name: DragDetector:SetDragStyleFunction
+  summary: 'Passes a function to be used if and only if
+
+    `Class.DragDetector.DragStyle|DragStyle` is set to
+
+    `Enum.DragDetectorDragStyle.Scriptable`.
+
+    '
+  description: 'Passes a function to be used if and only if
+
+    `Class.DragDetector.DragStyle|DragStyle` is set to
+
+    `Enum.DragDetectorDragStyle.Scriptable`. The given function is called when
+
+    responding to a `Class.DragDetector.DragContinue|DragContinue` signal, it
+
+    receives the signal''s world space cursor ray with type `Datatype.Ray`, and
+
+    it returns a `Datatype.CFrame` containing the desired location and
+
+    orientation of the pivot in world space.
+
+
+    If the function returns `nil`, the object will not be moved. This is
+
+    useful if the script has not yet collected all the information it needs to
+
+    give the correct answer, or in temporary cases where you want the object
+
+    to stay where it is.
+
+    '
+  code_samples: []
+  parameters:
+  - name: function
+    type: Function
+    default: null
+    summary: 'Function for monitoring `Class.DragDetector.DragContinue|DragContinue`
+
+      signals. This function receives the signal''s world space cursor ray
+
+      and it returns a `Datatype.CFrame` containing the desired location and
+
+      orientation of the pivot in world space. If this function returns
+
+      `nil`, the object will not be moved.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Physics
+  - Input
+- name: DragDetector:SetPermissionPolicyFunction
+  summary: 'Passes a function to be used if and only if
+
+    `Class.DragDetector.PermissionPolicy|PermissionPolicy` is set to
+
+    `Enum.DragDetectorPermissionPolicy.Scriptable`.
+
+    '
+  description: 'Passes a function to be used if and only if
+
+    `Class.DragDetector.PermissionPolicy|PermissionPolicy` is set to
+
+    `Enum.DragDetectorPermissionPolicy.Scriptable`. The given function accepts
+
+    a `Class.Player` parameter for enabling/disabling the detector for a
+
+    specific player. It also receives a `part` parameter indicating which
+
+    specific `Class.BasePart` was clicked, such as one part within a draggable
+
+    `Class.Model`; this is useful for enabling/disabling the detector based on
+
+    that part''s `Class.Instance.Name|Name`, `Class.BasePart.Color|Color`,
+
+    `Class.Instance:HasTag()|HasTag()` value, or other details.
+
+    '
+  code_samples:
+  - DragDetector-SetPermissionPolicyFunction
+  parameters:
+  - name: function
+    type: Function
+    default: null
+    summary: 'Function for setting the detector''s interactivity. This function
+
+      accepts a `Class.Player` parameter for enabling/disabling the detector
+
+      for a specific player. It also receives a `part` parameter indicating
+
+      which specific `Class.BasePart` was clicked, such as one part within a
+
+      draggable `Class.Model`; this is useful for enabling/disabling the
+
+      detector based on that part''s `Class.Instance.Name|Name`,
+
+      `Class.BasePart.Color|Color`, `Class.Instance:HasTag()|HasTag()`
+
+      value, or other details.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Physics
+  - Input
+- name: AddConstraintFunction
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: priority
+    type: int
+  - name: function
+    type: Function
+  returns:
+  - type: RBXScriptConnection
+- name: GetReferenceFrame
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: CFrame
+- name: RestartDrag
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: SetDragStyleFunction
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: function
+    type: Function
+  returns:
+  - type: 'null'
+- name: SetPermissionPolicyFunction
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: function
+    type: Function
+  returns:
+  - type: 'null'
+events:
+- name: DragDetector.DragContinue
+  summary: 'Fires when a user continues dragging the object after
+
+    `Class.DragDetector.DragStart|DragStart` has been initiated.
+
+    '
+  description: 'Fires when a user continues dragging the object after
+
+    `Class.DragDetector.DragStart|DragStart` has been initiated.
+
+    '
+  code_samples: []
+  parameters:
+  - name: playerWhoDragged
+    type: Player
+    default: null
+    summary: 'The `Class.Player` who initiated the drag through
+
+      `Class.DragDetector.DragStart|DragStart` and is now continuing the
+
+      drag.
+
+      '
+  - name: cursorRay
+    type: Ray
+    default: null
+    summary: '`Datatype.Ray` emanating from the cursor, aimed into the scene.
+
+      '
+  - name: viewFrame
+    type: CFrame
+    default: null
+    summary: '`Datatype.CFrame` of the user''s `Class.Camera`.
+
+      '
+  - name: vrInputFrame
+    type: OptionalCoordinateFrame
+    default: null
+    summary: 'If using a VR input device, the `Datatype.CFrame` of the hand holding
+
+      the cursor/pointer/controller.
+
+      '
+  - name: isModeSwitchKeyDown
+    type: boolean
+    default: null
+    summary: 'If the drag detector''s `Class.DragDetector.DragStyle|DragStyle` has
+
+      both primary and secondary modes of motion, this parameter indicates
+
+      whether the user is pressing the modifier input defined through
+
+      `Class.DragDetector.KeyboardModeSwitchKeyCode|KeyboardModeSwitchKeyCode`,
+
+      `Class.DragDetector.GamepadModeSwitchKeyCode|GamepadModeSwitchKeyCode`,
+
+      or `Class.DragDetector.VRSwitchKeyCode|VRSwitchKeyCode`.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Physics
+  - Input
+- name: DragDetector.DragEnd
+  summary: 'Fires when a user stops dragging the object.
+
+    '
+  description: 'Fires when a user stops dragging the object.
+
+    '
+  code_samples: []
+  parameters:
+  - name: playerWhoDragged
+    type: Player
+    default: null
+    summary: 'The `Class.Player` who initiated the drag through
+
+      `Class.DragDetector.DragStart|DragStart` and has now ended (released)
+
+      the drag.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Physics
+  - Input
+- name: DragDetector.DragStart
+  summary: 'Fires when a user starts dragging the object.
+
+    '
+  description: 'Fires when a user starts dragging the object.
+
+    '
+  code_samples: []
+  parameters:
+  - name: playerWhoDragged
+    type: Player
+    default: null
+    summary: '`Class.Player` who initiated the drag.
+
+      '
+  - name: cursorRay
+    type: Ray
+    default: null
+    summary: '`Datatype.Ray` emanating from the cursor, aimed into the scene.
+
+      '
+  - name: viewFrame
+    type: CFrame
+    default: null
+    summary: '`Datatype.CFrame` of the user''s `Class.Camera`.
+
+      '
+  - name: hitFrame
+    type: CFrame
+    default: null
+    summary: 'The hit frame of the cursor raycast that initiated the drag.
+
+      '
+  - name: clickedPart
+    type: BasePart
+    default: null
+    summary: 'The part that was hit by the cursor raycast that initiated the drag.
+
+      '
+  - name: vrInputFrame
+    type: OptionalCoordinateFrame
+    default: null
+    summary: 'If using a VR input device, the `Datatype.CFrame` of the hand holding
+
+      the cursor/pointer/controller.
+
+      '
+  - name: isModeSwitchKeyDown
+    type: boolean
+    default: null
+    summary: 'If the drag detector''s `Class.DragDetector.DragStyle|DragStyle` has
+
+      both primary and secondary modes of motion, this parameter indicates
+
+      whether the user is pressing the modifier input defined through
+
+      `Class.DragDetector.KeyboardModeSwitchKeyCode|KeyboardModeSwitchKeyCode`,
+
+      `Class.DragDetector.GamepadModeSwitchKeyCode|GamepadModeSwitchKeyCode`,
+
+      or `Class.DragDetector.VRSwitchKeyCode|VRSwitchKeyCode`.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Physics
+  - Input
+- name: DragContinue
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: playerWhoDragged
+    type: Player
+  - name: cursorRay
+    type: Ray
+  - name: viewFrame
+    type: CFrame
+  - name: vrInputFrame
+    type: OptionalCoordinateFrame
+  - name: isModeSwitchKeyDown
+    type: bool
+- name: DragContinueReplicate
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: playerWhoDragged
+    type: Player
+  - name: cursorRay
+    type: Ray
+  - name: viewFrame
+    type: CFrame
+  - name: vrInputFrame
+    type: OptionalCoordinateFrame
+  - name: isModeSwitchKeyDown
+    type: bool
+- name: DragEnd
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: playerWhoDragged
+    type: Player
+- name: DragEndReplicate
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: playerWhoDragged
+    type: Player
+- name: DragStart
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: playerWhoDragged
+    type: Player
+  - name: cursorRay
+    type: Ray
+  - name: viewFrame
+    type: CFrame
+  - name: hitFrame
+    type: CFrame
+  - name: clickedPart
+    type: BasePart
+  - name: vrInputFrame
+    type: OptionalCoordinateFrame
+  - name: isModeSwitchKeyDown
+    type: bool
+- name: DragStartReplicate
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: playerWhoDragged
+    type: Player
+  - name: cursorRay
+    type: Ray
+  - name: viewFrame
+    type: CFrame
+  - name: hitFrame
+    type: CFrame
+  - name: clickedPart
+    type: BasePart
+  - name: vrInputFrame
+    type: OptionalCoordinateFrame
+  - name: isModeSwitchKeyDown
+    type: bool
+- name: RestartPhysicalDragReplicate
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: hitPoint
+    type: Vector3
+callbacks: []

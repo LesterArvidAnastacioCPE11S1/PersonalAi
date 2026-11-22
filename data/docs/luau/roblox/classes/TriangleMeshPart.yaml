@@ -1,0 +1,446 @@
+name: TriangleMeshPart
+type: class
+memory_category: Instances
+summary: 'Abstract intermediate class that manages physical geometry properties for
+
+  PartOperations and MeshParts.
+
+  '
+description: 'TriangleMeshPart is an abstract intermediate class from which `Class.MeshPart`
+
+  and `Class.PartOperation` inherit. It was created to consolidate the
+
+  management of physical geometry properties between the two sub-classes. It
+
+  implements the read-only
+
+  `Class.TriangleMeshPart.CollisionFidelity|CollisionFidelity` and
+
+  `Class.TriangleMeshPart.CollisionPrecision|CollisionPrecision`.
+
+  '
+code_samples: []
+inherits:
+- BasePart
+descendants:
+- MeshPart
+- PartOperation
+tags:
+- NotCreatable
+- NotBrowsable
+deprecation_message: ''
+properties:
+- name: TriangleMeshPart.CollisionFidelity
+  summary: 'Determines the level of detail the part''s physics will adhere to its
+    mesh.
+
+    '
+  description: 'This property determines how the collision model of the
+
+    `Class.TriangleMeshPart` relates to the actual geometry of the mesh. This
+
+    property cannot be read or manipulated by scripts during runtime.
+
+
+    See [here](../../../workspace/collisions.md#collision-fidelity) for a
+
+    visual representation of the various options.
+
+    '
+  code_samples: []
+  type: CollisionFidelity
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Collision
+  serialization:
+    can_load: true
+    can_save: false
+  capabilities:
+  - Basic
+- name: TriangleMeshPart.CollisionPrecision
+  summary: 'Quantifies how precise or performant a `Enum.CollisionFidelity.Tunable`
+
+    collision geometry is, from `0` to `1`.
+
+    '
+  description: 'This property describes the precision-to-performance tradeoff of the
+
+    part''s collision geometry when `Class.TriangleMeshPart.CollisionFidelity`
+
+    is set to `Enum.CollisionFidelity.Tunable`. A value of `0` favors maximum
+
+    performance with the simplest collision mesh, while a value of `1` favors
+
+    maximum precision with a collision mesh that closely matches the visual
+
+    mesh.
+
+    '
+  code_samples: []
+  type: float
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  category: Collision
+  serialization:
+    can_load: true
+    can_save: false
+  capabilities:
+  - Basic
+- name: TriangleMeshPart.FluidFidelity
+  summary: 'Determines the geometric representation used to compute aerodynamic forces
+
+    and torques.
+
+    '
+  description: "Controls which geometric representation the physics engine uses when\
+    \ it\ncomputes aerodynamic (fluid) forces and torques for the part. It defaults\n\
+    to `Enum.FluidFidelity.Automatic`, in which the engine selects a\nrepresentation\
+    \ on your behalf.\n\n- `Enum.FluidFidelity.Automatic` — the engine chooses the\
+    \ representation;\n  it currently evaluates fluid forces against the part's collision\n\
+    \  geometry.\n- `Enum.FluidFidelity.UseCollisionGeometry` — fluid forces are evaluated\n\
+    \  against the part's collision geometry, matching the shape used for\n  collision\
+    \ detection.\n- `Enum.FluidFidelity.UsePreciseGeometry` — fluid forces are evaluated\n\
+    \  against the part's precise mesh geometry, producing more accurate forces\n\
+    \  at a higher computational cost.\n\nBecause this property has plugin-level write\
+    \ security, it is configured in\nStudio rather than assigned by runtime scripts.\n\
+    \nThis setting only affects a part while fluid forces are active for the\nplace,\
+    \ which is governed by `Class.Workspace.FluidForces` (an\n`Enum.FluidForces` value\
+    \ that defaults to `Default`; setting it to\n`Experimental` enables the aerodynamic\
+    \ force model). When fluid forces are\nnot applied to the part, the chosen fidelity\
+    \ has no effect.\n"
+  code_samples: []
+  type: FluidFidelity
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: false
+  capabilities:
+  - Basic
+- name: TriangleMeshPart.MeshSize
+  summary: 'The original size of the part''s source mesh geometry, before any scaling
+
+    applied through `Class.BasePart.Size`.
+
+    '
+  description: 'This read-only property reports the size of the part''s mesh geometry
+    when
+
+    it was loaded, as width, height, and depth in studs. It is not affected by
+
+    resizing the part through `Class.BasePart.Size`, so dividing
+
+    `Class.BasePart.Size` by `MeshSize` gives the scale factor currently
+
+    applied to the mesh''s visual and physical geometry.
+
+    '
+  code_samples: []
+  type: Vector3
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Basic
+- name: AeroMeshData
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: SharedString
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: CollisionFidelity
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.CollisionFidelity
+  category: Collision
+  serialization:
+    can_load: true
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: CollisionPrecision
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  type: float
+  category: Collision
+  serialization:
+    can_load: true
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: ConvexDecompHolder
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: NetAssetRef
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: FluidFidelity
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.FluidFidelity
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: FluidFidelityInternal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: Enum.FluidFidelity
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: InertiaMigrated
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: MeshSize
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: PCDRequestId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: int
+  category: Collision
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: PhysicalConfigData
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: SharedString
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: UnscaledCofm
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: UnscaledVolInertiaDiags
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: UnscaledVolInertiaOffDiags
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: UnscaledVolume
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: float
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+methods: []
+events: []
+callbacks: []

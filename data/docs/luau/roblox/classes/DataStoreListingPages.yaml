@@ -1,0 +1,81 @@
+name: DataStoreListingPages
+type: class
+memory_category: Instances
+summary: 'A special type of `Class.Pages` object whose pages contain
+
+  `Class.DataStoreInfo` instances.
+
+  '
+description: "A special type of `Class.Pages` object whose pages contain\n`Class.DataStoreInfo`\
+  \ instances. `Class.Pages:GetCurrentPage()` can be used to\nretrieve an array of\
+  \ the `Class.DataStoreInfo` instances.\n\nSee also:\n\n- [Data Stores](../../../cloud-services/data-stores/index.md),\
+  \ an in-depth\n  guide on data structure, management, error handling, etc.\n"
+code_samples: []
+inherits:
+- Pages
+descendants: []
+tags:
+- NotCreatable
+- NotReplicated
+deprecation_message: ''
+properties:
+- name: DataStoreListingPages.Cursor
+  summary: 'Marks the position from which the next page of data stores is retrieved.
+
+    '
+  description: 'A read-only pagination cursor that marks the position from which the
+    next
+
+    page of data stores is retrieved. Defaults to an empty string.
+
+
+    When you call `Class.Pages:AdvanceToNextPageAsync()`, a non-empty cursor
+
+    is sent as the exclusive start key so the request returns the data stores
+
+    that follow the current page; while it remains empty, the request fetches
+
+    the first page. The cursor is cleared once there are no more data stores
+
+    to return, at which point `Class.Pages.IsFinished` becomes `true`.
+
+    '
+  code_samples: []
+  type: string
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - DataStore
+- name: Cursor
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+methods: []
+events: []
+callbacks: []

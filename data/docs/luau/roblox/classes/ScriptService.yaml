@@ -1,0 +1,47 @@
+name: ScriptService
+type: class
+memory_category: Instances
+summary: 'An unimplemented service that has zero functionality, in a similar manner
+  to
+
+  the `LocalWorkspace` service.
+
+  '
+description: 'An unimplemented service that has zero functionality, in a similar manner
+  to
+
+  the `LocalWorkspace` service.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+deprecation_message: ''
+properties: []
+methods:
+- name: ResolveModulePath
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: relativeTo
+    type: Instance
+  - name: path
+    type: string
+  returns:
+  - type: Instance
+events: []
+callbacks: []

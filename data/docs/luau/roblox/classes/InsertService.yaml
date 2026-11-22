@@ -1,0 +1,1109 @@
+name: InsertService
+type: class
+memory_category: Instances
+summary: 'Used to insert assets from the Roblox website.
+
+  '
+description: "InsertService is used to insert assets from the Roblox website, typically\
+  \ the\n`Class.InsertService:LoadAsset()|LoadAsset` function.\n\nTo load an asset,\
+  \ it must be accessible by the creator of the experience\nloading it, which can\
+  \ be either a user or group. Should an experience be\nuploaded by a different creator,\
+  \ the asset data would not be accessible. See\nthe `Class.InsertService:LoadAsset()|LoadAsset()`\
+  \ method for more details on\nthis security check. Note that you should **not**\
+  \ use this service for loading\nAPI keys or other secrets. Use `Class.HttpService:GetSecret()`\
+  \ instead.\n\n#### See Also\n\n- `Class.AssetService`, which can provide information\
+  \ about assets you might\n  want to load using InsertService\n"
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+deprecation_message: ''
+properties:
+- name: InsertService.AllowInsertFreeModels
+  summary: 'Indicates whether ''''Free Models'''' can be inserted into the game.
+
+    '
+  description: 'The AllowInsertFreeModels property toggles whether ''''Free Models''''
+    can be
+
+    inserted into the game, regardless of whether the place owner owns the
+
+    asset.
+
+    '
+  code_samples: []
+  type: boolean
+  tags:
+  - NotReplicated
+  - NotBrowsable
+  - Deprecated
+  deprecation_message: 'This item was never released. Do not use it in new work.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - LoadUnownedAsset
+- name: AllowInsertFreeModels
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  - NotBrowsable
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+methods:
+- name: InsertService:ApproveAssetId
+  summary: 'Deprecated. Accepts an asset ID for InsertService approval; calling it
+    has
+
+    no effect.
+
+    '
+  description: 'Deprecated. Accepts an asset ID that was once used to approve assets
+    for
+
+    `Class.InsertService`. Calling it has no effect. Retained only for
+
+    backward compatibility; do not use it in new work.
+
+    '
+  code_samples: []
+  parameters:
+  - name: assetId
+    type: int64
+    default: null
+    summary: 'The ID of the asset.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This item is deprecated. Do not use it for new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: InsertService:ApproveAssetVersionId
+  summary: 'Deprecated. Accepts an asset version ID for InsertService approval;
+
+    calling it has no effect.
+
+    '
+  description: 'Deprecated. Accepts an asset version ID that was once used to approve
+
+    assets for `Class.InsertService`. Calling it has no effect. Retained only
+
+    for backward compatibility; do not use it in new work.
+
+    '
+  code_samples: []
+  parameters:
+  - name: assetVersionId
+    type: int64
+    default: null
+    summary: 'The version ID of the asset.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This item is deprecated. Do not use it for new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: InsertService:CreateMeshPartAsync
+  summary: 'Creates a new `Class.MeshPart` with specified fidelity values.
+
+    '
+  description: 'Creates a new `Class.MeshPart` with specified
+
+    `Class.MeshPart.CollisionFidelity|CollisionFidelity` and
+
+    `Class.MeshPart.RenderFidelity|RenderFidelity`. Because
+
+    `Class.MeshPart.MeshId` is read only, this is the way to create a
+
+    `Class.MeshPart` through scripts without having to clone an existing one.
+
+    It throws errors if creation fails.
+
+    '
+  code_samples: []
+  parameters:
+  - name: meshId
+    type: ContentId
+    default: null
+    summary: 'Mesh asset ID.
+
+      '
+  - name: collisionFidelity
+    type: CollisionFidelity
+    default: null
+    summary: 'Set `Class.MeshPart.CollisionFidelity`.
+
+      '
+  - name: renderFidelity
+    type: RenderFidelity
+    default: null
+    summary: 'Set `Class.MeshPart.RenderFidelity`.
+
+      '
+  returns:
+  - type: MeshPart
+    summary: 'New `Class.MeshPart` instance.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: InsertService:GetBaseCategories
+  summary: ''
+  description: ''
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Array
+    summary: ''
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: 'This item is deprecated. Do not use it for new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: InsertService:GetBaseSets
+  summary: 'Returns an array of dictionaries, containing information about various
+
+    Roblox approved sets.
+
+    '
+  description: 'Returns an array of dictionaries, containing information about various
+
+    Roblox approved sets.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Array
+    summary: 'An array of dictionaries containing information about Roblox-approved
+
+      sets.
+
+      '
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: '[Sets have been removed](https://devforum.roblox.com/t/sunsetting-sets/189402)
+
+    from Roblox.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: InsertService:GetCollection
+  summary: 'Returns the most recently uploaded models in the specified category.
+
+    '
+  description: 'Returns the most recently uploaded models in the specified category.
+
+    '
+  code_samples:
+  - InsertService-GetCollection1
+  parameters:
+  - name: categoryId
+    type: int64
+    default: null
+    summary: 'The ID of the set (category) to retrieve models from.
+
+      '
+  returns:
+  - type: Array
+    summary: 'An array of the most recently uploaded models in the specified set.
+
+      '
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: '[Sets have been removed](https://devforum.roblox.com/t/sunsetting-sets/189402)
+
+    from Roblox.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: InsertService:GetFreeDecals
+  summary: 'Retrieves a list of free Decals from the Catalog.
+
+    '
+  description: ''
+  code_samples:
+  - InsertService-GetFreeDecals1
+  parameters:
+  - name: searchText
+    type: string
+    default: null
+    summary: 'String used to search for free decals in the Catalog.
+
+      '
+  - name: pageNum
+    type: int
+    default: null
+    summary: 'The page number in the Catalog to return.
+
+      '
+  returns:
+  - type: Array
+    summary: 'A single table (of returned free decals) wrapped in a table.
+
+      '
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: 'Use `Class.InsertService:GetFreeDecalsAsync()|GetFreeDecalsAsync()`
+
+    instead.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AssetRead
+- name: InsertService:GetFreeDecalsAsync
+  summary: 'Retrieves a list of free Decals from the Catalog.
+
+    '
+  description: "The GetFreeDecalsAsync function retrieves a list of free\n`Class.Decal|Decals`\
+    \ from the Catalog. The return type for this method is\nvery odd, as it returns\
+    \ a single table wrapped in a table.\n\nThe best way to explain it is to show\
+    \ a visual of the array returned:\n\n```lua\n[1] = {\n\tCurrentStartIndex = 1,\
+    \ -- This can vary depending on the page you input.\n\tTotalCount = 21, -- Always\
+    \ 21.\n\tResults = {\n\t\t-- All parameters here are pseudo. They can vary depending\
+    \ on the asset.\n\t\t[1] = {\n\t\t\tName = \"Asset Name\",\n\t\t\tAssetId = 0000000,\n\
+    \t\t\tAssetVersionId = 0000000,\n\t\t\tCreatorName = \"Roblox\",\n\t\t},\n\t\t\
+    -- [2], [3], and so on... up to [21]\n\t},\n}\n```\n\nAn example for iterating\
+    \ over this list has been provided at the bottom of\nthis page.\n\nAdditionally,\
+    \ if you want to insert `Class.Model|Models` instead, you can\nuse the `Class.InsertService:GetFreeModelsAsync()`\
+    \ function.\n\n_Note:_ The page argument starts at 0. So Page 1 = 0, Page 2 =\
+    \ 1, etc.\n"
+  code_samples:
+  - InsertService-GetFreeDecals1
+  parameters:
+  - name: searchText
+    type: string
+    default: null
+    summary: 'String used to search for free decals in the Catalog.
+
+      '
+  - name: pageNum
+    type: int
+    default: null
+    summary: 'The page number in the Catalog to return.
+
+      '
+  returns:
+  - type: Array
+    summary: 'A single table (of returned free decals) wrapped in a table.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AssetRead
+- name: InsertService:GetFreeModels
+  summary: 'Retrieves a list of Free Models from the Catalog.
+
+    '
+  description: ''
+  code_samples:
+  - InsertService-GetFreeModels1
+  parameters:
+  - name: searchText
+    type: string
+    default: null
+    summary: 'String used to search for free models in the Catalog.
+
+      '
+  - name: pageNum
+    type: int
+    default: null
+    summary: 'The page number in the Catalog to return.
+
+      '
+  returns:
+  - type: Array
+    summary: 'A single table (of returned free models) wrapped in a table.
+
+      '
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: 'Use `Class.InsertService:GetFreeModelsAsync()|GetFreeModelsAsync()`
+
+    instead.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AssetRead
+- name: InsertService:GetFreeModelsAsync
+  summary: 'Retrieves a list of Free Models from the Catalog.
+
+    '
+  description: "The GetFreeModelsAsync function retrieves a list of Free\n`Class.Model|Models`\
+    \ from the Catalog. The return type for this method is\nvery odd, as it returns\
+    \ a single table wrapped in a table.\n\nThe best way to explain it is to show\
+    \ a visual of the array returned:\n\n```lua\n[1] = {\n\tCurrentStartIndex = 1,\
+    \ -- This can vary depending on the page you input.\n\tTotalCount = 21, -- Always\
+    \ 21.\n\tResults = {\n\t\t-- All parameters here are pseudo. They can vary depending\
+    \ on the asset.\n\t\t[1] = {\n\t\t\tName = \"Asset Name\",\n\t\t\tAssetId = 0000000,\n\
+    \t\t\tAssetVersionId = 0000000,\n\t\t\tCreatorName = \"Roblox\",\n    \t\t}\n\
+    \    \t\t-- [2], [3], and so on... up to [21]\n    \t}\n}\n```\n\nAn example for\
+    \ iterating over this list has been provided at the bottom of\nthis page.\n\n\
+    Additionally, if you would like to insert free `Class.Decal|Decals`, you\ncan\
+    \ use the `Class.InsertService:GetFreeDecalsAsync()` function.\n"
+  code_samples:
+  - InsertService-GetFreeModels1
+  parameters:
+  - name: searchText
+    type: string
+    default: null
+    summary: 'String used to search for free decals in the Catalog.
+
+      '
+  - name: pageNum
+    type: int
+    default: null
+    summary: 'The page number in the Catalog to return.
+
+      '
+  returns:
+  - type: Array
+    summary: 'A single table (of returned free models) wrapped in a table.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AssetRead
+- name: InsertService:GetLatestAssetVersionAsync
+  summary: 'Returns the latest AssetVersionId of an asset for assets created by the
+
+    place creator. Can be used in combination with
+
+    `Class.InsertService:LoadAssetVersion()` to load the latest version of a
+
+    model, even if it gets updated while the game is running.
+
+    '
+  description: 'Returns the latest AssetVersionId of an asset for assets created by
+    the
+
+    place creator. Can be used in combination with
+
+    `Class.InsertService:LoadAssetVersion()` to load the latest version of a
+
+    model, even if it gets updated while the game is running.
+
+    '
+  code_samples: []
+  parameters:
+  - name: assetId
+    type: int64
+    default: null
+    summary: 'The ID of the asset to retrieve the latest version for.
+
+      '
+  returns:
+  - type: int64
+    summary: 'The latest asset version ID for the specified asset.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AssetRead
+- name: InsertService:GetUserCategories
+  summary: ''
+  description: ''
+  code_samples: []
+  parameters:
+  - name: userId
+    type: User
+    default: null
+    summary: ''
+  returns:
+  - type: Array
+    summary: ''
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: 'This item is deprecated. Do not use it for new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: InsertService:GetUserSets
+  summary: 'Returns an array of dictionaries, containing information about sets owned
+
+    by the user.
+
+    '
+  description: "Returns an array of dictionaries, containing information about sets\
+    \ owned\nby the user. This includes\n\n- Sets the user is subscribed to.\n- Sets\
+    \ that the user created.\n- A single set containing the models created by the\
+    \ user.\n- A single set containing the decals created by the user.\n\nNote:\n\n\
+    - All values in the dictionaries are\n  <a href=\"../../../luau/strings.md\">strings</a>,\
+    \ even if they are a\n  number.\n\n<table>\n  <thead>\n  <tr>\n    <th>Name</th>\n\
+    \    <th>Description</th>\n  </tr>\n  </thead>\n  <tbody>\n  <tr>\n    <td>Name</td>\n\
+    \    <td>The name of the set.</td>\n  </tr>\n  <tr>\n    <td>Description</td>\n\
+    \    <td>The description of the set.</td>\n  </tr>\n  <tr>\n    <td>ImageAssetId</td>\n\
+    \    <td>An assetId for the icon of the set.</td>\n  </tr>\n  <tr>\n    <td>CreatorName</td>\n\
+    \    <td>The creator of the set.</td>\n  </tr>\n  <tr>\n    <td>AssetSetId</td>\n\
+    \    <td>The set's unique ID on the website.</td>\n  </tr>\n  <tr>\n    <td>CategoryId</td>\n\
+    \    <td>Identical to AssetSetId</td>\n  </tr>\n  <tr>\n    <td>SetType</td>\n\
+    \    <td>The type of set that this set is.</td>\n  </tr>\n  </tbody>\n</table>\n"
+  code_samples: []
+  parameters:
+  - name: userId
+    type: User
+    default: null
+    summary: 'The ID of the user whose sets to retrieve.
+
+      '
+  returns:
+  - type: Array
+    summary: 'An array of dictionaries containing information about the user''s sets.
+
+      '
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: '[Sets have been removed](https://devforum.roblox.com/t/sunsetting-sets/189402)
+
+    from Roblox.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: InsertService:Insert
+  summary: 'Inserts `Class.Instance` into `Class.Workspace`.
+
+    '
+  description: 'This function is a legacy method used to insert an `Class.Instance`
+    into
+
+    `Class.Workspace`.
+
+    '
+  code_samples:
+  - InsertService-Insert1
+  parameters:
+  - name: instance
+    type: Instance
+    default: null
+    summary: 'The `Class.Instance` to insert into `Class.Workspace`.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This function has been superseded by `Class.InsertService:LoadAsset()`
+
+    which should be used in all new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: InsertService:LoadAsset
+  summary: 'Returns a `Class.Model` containing the asset.
+
+    '
+  description: "The LoadAsset function fetches an asset given its ID and returns a\n\
+    `Class.Model` containing the asset. For example, to load this public\n[Doge](https://www.roblox.com/library/257489726/Doge)\
+    \ `Class.Model`, which\nhas the asset ID **_257489726_**, you can use:\n\n```lua\n\
+    local InsertService = game:GetService(\"InsertService\")\nlocal Workspace = game:GetService(\"\
+    Workspace\")\n\nlocal assetId = 257489726\nlocal model = InsertService:LoadAsset(assetId)\n\
+    model.Parent = Workspace\n```\n\nCalls to this function may fail if a server providing\
+    \ a model is having\nproblems. As such, it's generally a good idea to wrap calls\
+    \ to this\nfunction in `pcall` to catch these kinds of errors.\n\n```lua\nlocal\
+    \ InsertService = game:GetService(\"InsertService\")\nlocal Workspace = game:GetService(\"\
+    Workspace\")\n\nlocal assetId = 257489726\n\nlocal success, model = pcall(InsertService.LoadAsset,\
+    \ InsertService, assetId)\nif success and model then\n\tprint(\"Model loaded successfully\"\
+    )\n\tmodel.Parent = Workspace\nelse\n\tprint(\"Model failed to load!\")\nend\n\
+    ```\n\n#### Security Check\n\nAn asset loaded by this function must meet one of\
+    \ the following:\n\n- The asset must be **created or owned** by the game creator.\n\
+    - The asset must be **shared** by the asset owner.\n- The asset must be owned\
+    \ by Roblox.\n\nAdditionally, benign asset types such as t-shirts, shirts, pants\
+    \ and\navatar accessories are loadable from any game as they are `OpenUse`.\n\n\
+    To load assets which do not meet the above criteria, such as free Models\npublished\
+    \ on the Store, you must use `Class.AssetService:LoadAssetAsync()`\nand enable\
+    \ `Class.AssetService.AllowInsertFreeAssets`.\n\nSee also:\n\n- `Class.AssetService:GetBundleDetailsAsync()`,\
+    \ to find out which assets\n  are associated with a bundle.\n- For plugins, see\
+    \ `Class.DataModel:GetObjects()`\n"
+  code_samples:
+  - InsertService-LoadAsset1
+  parameters:
+  - name: assetId
+    type: int64
+    default: null
+    summary: 'The asset ID of the asset being loaded.
+
+      '
+  returns:
+  - type: Instance
+    summary: 'An instance of the loaded asset.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - LoadOwnedAsset
+- name: InsertService:loadAsset
+  summary: ''
+  description: ''
+  code_samples: []
+  parameters:
+  - name: assetId
+    type: int64
+    default: null
+    summary: ''
+  returns:
+  - type: Instance
+    summary: ''
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: 'This function is a deprecated variant of `Class.InsertService:LoadAsset()`
+
+    which should be used instead.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - LoadOwnedAsset
+- name: InsertService:LoadAssetVersion
+  summary: 'Returns a model inserted into `Class.InsertService` containing the asset
+
+    with the given assetVersionId.
+
+    '
+  description: 'Returns a model inserted into `Class.InsertService` containing the
+    asset
+
+    with the given assetVersionId.
+
+    '
+  code_samples:
+  - InsertService-LoadAssetVersion1
+  parameters:
+  - name: assetVersionId
+    type: int64
+    default: null
+    summary: 'The version ID of the asset to load.
+
+      '
+  returns:
+  - type: Instance
+    summary: 'A `Class.Model` containing the asset at the specified version.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - LoadOwnedAsset
+- name: ApproveAssetId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: assetId
+    type: int64
+  returns:
+  - type: 'null'
+- name: ApproveAssetVersionId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: assetVersionId
+    type: int64
+  returns:
+  - type: 'null'
+- name: GetLocalFileContents
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: contentId
+    type: string
+  returns:
+  - type: string
+- name: Insert
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: instance
+    type: Instance
+  returns:
+  - type: 'null'
+- name: LoadLocalAsset
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: assetPath
+    type: string
+  returns:
+  - type: Instance
+- name: CreateMeshPartAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: meshId
+    type: ContentId
+  - name: collisionFidelity
+    type: Enum.CollisionFidelity
+  - name: renderFidelity
+    type: Enum.RenderFidelity
+  returns:
+  - type: MeshPart
+- name: GetBaseCategories
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''GetBaseSets'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+- name: GetBaseSets
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+- name: GetCollection
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: categoryId
+    type: int64
+  returns:
+  - type: Array
+- name: GetFreeDecals
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''GetFreeDecalsAsync'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: searchText
+    type: string
+  - name: pageNum
+    type: int
+  returns:
+  - type: Array
+- name: GetFreeDecalsAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: searchText
+    type: string
+  - name: pageNum
+    type: int
+  returns:
+  - type: Array
+- name: GetFreeModels
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''GetFreeModelsAsync'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: searchText
+    type: string
+  - name: pageNum
+    type: int
+  returns:
+  - type: Array
+- name: GetFreeModelsAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: searchText
+    type: string
+  - name: pageNum
+    type: int
+  returns:
+  - type: Array
+- name: GetLatestAssetVersionAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: assetId
+    type: int64
+  returns:
+  - type: int64
+- name: GetUserCategories
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''GetUserSets'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: User
+  returns:
+  - type: Array
+- name: GetUserSets
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: User
+  returns:
+  - type: Array
+- name: LoadAsset
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: assetId
+    type: int64
+  returns:
+  - type: Instance
+- name: LoadAssetVersion
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: assetVersionId
+    type: int64
+  returns:
+  - type: Instance
+- name: LoadAssetWithBytecodeAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: content
+    type: Content
+  returns:
+  - type: Instance
+- name: LoadAssetWithFormat
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: assetId
+    type: int64
+  - name: format
+    type: string
+  returns:
+  - type: Instances
+- name: loadAsset
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''LoadAsset'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: assetId
+    type: int64
+  returns:
+  - type: Instance
+- name: LoadPackageAssetAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: url
+    type: ContentId
+  returns:
+  - type: Instances
+events:
+- name: InternalDelete
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: instance
+    type: Instance
+callbacks: []

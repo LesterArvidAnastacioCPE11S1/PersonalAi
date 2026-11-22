@@ -34,6 +34,14 @@
         <div class="chat-list-empty">No conversations yet.</div>
       </div>
 
+      <section class="recycle-section" id="recycle-section" aria-label="Recycle Bin">
+        <div class="recycle-head">
+          <span>Recycle Bin</span>
+          <span class="recycle-count" id="recycle-count"></span>
+        </div>
+        <div class="recycle-list" id="recycle-list"></div>
+      </section>
+
       <div class="sidebar-footer">
         <div class="avatar avatar-small">P</div>
         <div class="footer-copy">
@@ -68,7 +76,7 @@
           <button class="icon-button topbar-icon" id="settings-top" title="Settings" aria-label="Settings">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg>
           </button>
-          <button class="ghost-button" id="scenario-top">Scenario</button>
+          <button class="ghost-button" id="persona-top" title="Persona">Persona</button>
           <div class="status-pill" id="status-pill" title="Checking model server">
             <span class="status-dot"></span>
             <span id="status-text">Connecting</span>
@@ -131,7 +139,7 @@
             <button type="button" class="send-button stop hidden" id="stop-button" aria-label="Stop">
               <svg viewBox="0 0 24 24" fill="currentColor"><rect x="7" y="7" width="10" height="10" rx="1.5"/></svg>
             </button>
-            <input type="file" id="file-input" class="hidden" multiple accept=".txt,.md,.markdown,.csv,.json,.log,.yaml,.yml,.html,.htm,.xml,.py,.js,.ts,.css,.ini,.toml,.cfg,.pdf,.docx,.png,.jpg,.jpeg,.webp,.gif">
+            <input type="file" id="file-input" class="hidden" multiple accept=".txt,.md,.markdown,.csv,.json,.log,.yaml,.yml,.html,.htm,.xml,.py,.js,.ts,.css,.ini,.toml,.cfg,.pdf,.docx,.png,.jpg,.jpeg,.webp,.gif,.lua,.luau,.rbxm,.rbxl,.rbxmx,.rbxlx">
           </div>
           <div class="plus-menu hidden" id="plus-menu" role="menu">
             <button type="button" class="plus-item" id="plus-files" role="menuitem">
@@ -148,6 +156,23 @@
         </form>
         <div class="composer-hint">Runs on your machine. Enter to send · Shift+Enter for a new line.</div>
       </footer>
+
+      <aside class="artifact-panel" id="artifact-panel" aria-hidden="true">
+        <header class="artifact-head">
+          <div class="artifact-meta">
+            <div class="artifact-title" id="artifact-title">Code</div>
+            <div class="artifact-sub" id="artifact-sub">Code - LUA</div>
+          </div>
+          <div class="artifact-actions">
+            <button type="button" class="ghost-button small" id="artifact-copy">Copy</button>
+            <button type="button" class="ghost-button small" id="artifact-download">Download</button>
+            <button type="button" class="icon-button" id="artifact-close" aria-label="Close code panel">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+          </div>
+        </header>
+        <div class="artifact-body"><pre class="artifact-code" id="artifact-code"></pre></div>
+      </aside>
     </main>
   </div>
 
@@ -176,6 +201,14 @@
             <button class="ghost-button small" id="memory-extract">Update memory</button>
           </div>
           <p class="memory-summary" id="memory-summary">No recap yet. PersonalAI writes one as the story grows.</p>
+        </section>
+
+        <section class="memory-section">
+          <div class="memory-section-head">
+            <h3>Approvals</h3>
+            <span class="memory-count" id="approval-count">0 actions</span>
+          </div>
+          <div class="approval-history" id="approval-history"></div>
         </section>
 
         <section class="memory-section">
@@ -302,6 +335,17 @@
       </section>
 
       <section class="settings-group">
+        <h3>File access</h3>
+        <p class="settings-note">Tools can only touch the folders listed here. Writes, moves, deletes, and commands still wait for your approval.</p>
+        <div class="tool-roots" id="settings-tool-roots"></div>
+        <div class="tool-add">
+          <input id="settings-tool-path" type="text" spellcheck="false" placeholder="F:\Games">
+          <button type="button" class="ghost-button" id="settings-tool-add">Add folder</button>
+        </div>
+        <div class="drive-row" id="settings-drives"></div>
+      </section>
+
+      <section class="settings-group">
         <h3>Story memory</h3>
 
         <label class="toggle-row">
@@ -388,6 +432,44 @@
       <footer class="dialog-footer">
         <button type="button" class="ghost-button" id="scenario-clear">Clear</button>
         <button type="submit" class="primary-button">Save scenario</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <dialog class="dialog" id="persona-dialog">
+    <form class="dialog-body" id="persona-form">
+      <header class="dialog-header">
+        <div>
+          <h2>Persona</h2>
+          <p>Choose how this chat writes. Edit the selected persona or add your own.</p>
+        </div>
+        <button type="button" class="icon-button" id="persona-close" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </header>
+
+      <label class="field">
+        <span>Persona</span>
+        <div class="persona-row">
+          <select id="persona-select"></select>
+          <button type="button" class="ghost-button" id="persona-new">New</button>
+        </div>
+      </label>
+
+      <label class="field">
+        <span>Name</span>
+        <input id="persona-name" type="text" maxlength="80" placeholder="My persona">
+      </label>
+
+      <label class="field">
+        <span>Instructions</span>
+        <textarea id="persona-instructions" rows="14" placeholder="Describe how the AI writes: point of view, tone, pacing, what it may and may not do."></textarea>
+      </label>
+
+      <footer class="dialog-footer">
+        <button type="button" class="ghost-button" id="persona-delete">Delete</button>
+        <button type="button" class="ghost-button" id="persona-cancel">Cancel</button>
+        <button type="submit" class="primary-button">Save persona</button>
       </footer>
     </form>
   </dialog>

@@ -1,0 +1,414 @@
+name: AirController
+type: class
+memory_category: Instances
+summary: 'A physics character controller that governs movement while a character is
+
+  airborne.
+
+  '
+description: 'An `Class.AirController` is a `Class.ControllerBase` that a
+
+  `Class.ControllerManager` uses to drive a character''s physics-based movement
+
+  while it is airborne, such as while jumping or falling. While it is the
+
+  manager''s `Class.ControllerManager.ActiveController|ActiveController`, it
+
+  keeps the character balanced upright, turns it toward the
+
+  `Class.ControllerManager.FacingDirection`, and moves it horizontally toward
+
+  the `Class.ControllerManager.MovingDirection`. Uprighting is tuned with
+
+  `Class.AirController.BalanceMaxTorque|BalanceMaxTorque` and
+
+  `Class.AirController.BalanceSpeed|BalanceSpeed`, turning with
+
+  `Class.AirController.TurnMaxTorque|TurnMaxTorque` and
+
+  `Class.AirController.TurnSpeedFactor|TurnSpeedFactor`, and horizontal movement
+
+  with `Class.AirController.MoveMaxForce|MoveMaxForce`. An `Class.AirController`
+
+  only functions when parented to a `Class.ControllerManager`.
+
+  '
+code_samples: []
+inherits:
+- ControllerBase
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: AirController.BalanceMaxTorque
+  summary: 'The maximum torque the character can use to remain balanced upright.
+
+    '
+  description: 'The maximum torque the character can use to remain balanced upright.
+    When
+
+    misaligned, this amount of torque is applied to reach the
+
+    `Class.AirController.BalanceSpeed|BalanceSpeed` and realign the character.
+
+    A higher torque means more force is required to cause the character to
+
+    tilt. A lower torque means it''s easer for the character to flip in the
+
+    air. This property is hidden and has no effect when
+
+    `Class.ControllerBase.BalanceRigidityEnabled` is true.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Balance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  simulationAccess: true
+- name: AirController.BalanceSpeed
+  summary: 'The maximum angular speed used to align the character upright.
+
+    '
+  description: 'The maximum angular speed used to align the character upright. A lower
+
+    value means it takes longer for the character to recover to the upright
+
+    position when misaligned. A higher value results in a quicker recovery.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Balance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  simulationAccess: true
+- name: AirController.MaintainAngularMomentum
+  summary: 'Determines whether angular momentum is preserved when input has stopped.
+
+    '
+  description: 'Determines whether angular momentum is preserved when input has stopped.
+
+    If false, the character will apply
+
+    `Class.AirController.TurningMaxTorque|TurningMaxTorque` to bring the
+
+    angular velocity toward 0 when there is no input.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Turn
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  simulationAccess: true
+- name: AirController.MaintainLinearMomentum
+  summary: 'Determines whether linear momentum is preserved when input has stopped.
+
+    '
+  description: 'Determines whether linear momentum is preserved when input has stopped.
+    If
+
+    false, the character will apply
+
+    `Class.AirController.MoveMaxForce|MoveMaxForce` to bring the linear
+
+    velocity towards 0 when there is no input.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Movement
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  simulationAccess: true
+- name: AirController.MoveMaxForce
+  summary: 'The maximum force that can be applied on the
+
+    `Class.ControllerManager.RootPart` for moving in the
+
+    `Class.ControllerManager.MovingDirection`.
+
+    '
+  description: 'The maximum force that can be applied on the
+
+    `Class.ControllerManager.RootPart` for moving in the
+
+    `Class.ControllerManager.MovingDirection`. This affects how quickly
+
+    different target linear velocities are reached and how quick the linear
+
+    acceleration is if
+
+    `Class.AirController.MaintainLinearMomentum|MaintainLinearMomentum` is
+
+    off.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Movement
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  simulationAccess: true
+- name: AirController.TurnMaxTorque
+  summary: 'The maximum torque that can be applied on the
+
+    `Class.ControllerManager.RootPart` for turning towards the
+
+    `Class.ControllerManager.FacingDirection`.
+
+    '
+  description: 'The maximum torque that can be applied on the
+
+    `Class.ControllerManager.RootPart` for turning towards the
+
+    `Class.ControllerManager.FacingDirection`. This effects how quickly
+
+    different target angular velocities are reached and how quick angular
+
+    deceleration is if
+
+    `Class.AirController.MaintainAngularMomentum|MaintainAngularMomentum` is
+
+    off.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Turn
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  simulationAccess: true
+- name: AirController.TurnSpeedFactor
+  summary: 'The value multiplied by the `Class.ControllerManager.BaseTurnSpeed`.
+
+    '
+  description: 'The value multiplied by the `Class.ControllerManager.BaseTurnSpeed`
+    to
+
+    determine the final target angular velocity while this controller is
+
+    active. The angular velocity is applied when turning towards the
+
+    `Class.ControllerManager.FacingDirection`.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Turn
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  simulationAccess: true
+- name: BalanceMaxTorque
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Balance
+  serialization:
+    can_load: true
+    can_save: true
+  default: '10000'
+- name: BalanceSpeed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Balance
+  serialization:
+    can_load: true
+    can_save: true
+  default: '100'
+- name: LinearImpulse
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Movement
+  serialization:
+    can_load: false
+    can_save: false
+  default: 0, 0, 0
+- name: MaintainAngularMomentum
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Turn
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'true'
+- name: MaintainLinearMomentum
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Movement
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'true'
+- name: MoveMaxForce
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Movement
+  serialization:
+    can_load: true
+    can_save: true
+  default: '1000'
+- name: TurnMaxTorque
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Turn
+  serialization:
+    can_load: true
+    can_save: true
+  default: '10000'
+- name: TurnSpeedFactor
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Turn
+  serialization:
+    can_load: true
+    can_save: true
+  default: '1'
+methods: []
+events: []
+callbacks: []

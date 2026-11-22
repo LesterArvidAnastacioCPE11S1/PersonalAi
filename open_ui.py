@@ -9,7 +9,22 @@ def main():
 
         return 1
 
-    open_ui(sys.argv[1])
+    result = open_ui(sys.argv[1])
+
+    if result == "window":
+
+        print("[ui] PersonalAI window opened.")
+
+    elif result == "browser":
+
+        print("[ui] Opened PersonalAI in your default browser.")
+
+    else:
+
+        print(
+            f"[ui] Could not open the window. Open {sys.argv[1]} in your browser."
+        )
+        return 1
 
     return 0
 

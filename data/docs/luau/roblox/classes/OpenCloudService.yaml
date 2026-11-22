@@ -1,0 +1,210 @@
+name: OpenCloudService
+type: class
+memory_category: Instances
+summary: 'Deprecated. Do not use for new work; prefer `Class.HttpService` for
+
+  in-experience HTTP requests.
+
+  '
+description: 'Deprecated. Do not use for new work; prefer `Class.HttpService` for
+
+  in-experience HTTP requests. See the
+
+  [In-experience HTTP requests guide](../../../cloud-services/http-service.md).
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+- NotReplicated
+- Deprecated
+deprecation_message: 'This class is deprecated and should not be used for new work.
+  Use
+
+  `Class.HttpService` instead and see the
+
+  [In-experience HTTP requests guide](../../../cloud-services/http-service.md).
+
+  '
+properties: []
+methods:
+- name: OpenCloudService:GetApiV1
+  summary: 'Returns an `Class.OpenCloudApiV1` object. Always raises an error.
+
+    '
+  description: 'Deprecated. Always raises an error with the message
+
+    `"API is not enabled"`.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: OpenCloudApiV1
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This method is deprecated. Do not use it for new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Network
+- name: OpenCloudService:InvokeAsync
+  summary: 'Deprecated. Dispatches a named Open Cloud call and returns its result.
+
+    '
+  description: 'Deprecated. Do not use for new work.
+
+
+    Dispatches a server-side Open Cloud call identified by `version` and
+
+    `methodName` with the given `arguments` and optional `headers`, and
+
+    returns the response dictionary.
+
+    '
+  code_samples: []
+  parameters:
+  - name: version
+    type: string
+    default: null
+    summary: 'API version string identifying the call surface.
+
+      '
+  - name: methodName
+    type: string
+    default: null
+    summary: 'Name of the Open Cloud method to invoke.
+
+      '
+  - name: arguments
+    type: Dictionary
+    default: null
+    summary: 'A dictionary of arguments forwarded with the call.
+
+      '
+  - name: headers
+    type: Dictionary
+    default: nil
+    summary: 'Optional request headers dictionary.
+
+      '
+  returns:
+  - type: Dictionary
+    summary: 'A dictionary containing the response.
+
+      '
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: 'This method is deprecated. Do not use it for new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Network
+- name: GetApiV1
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: OpenCloudApiV1
+- name: RegisterOpenCloud
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: version
+    type: string
+  - name: methodName
+    type: string
+  - name: method
+    type: Function
+  returns:
+  - type: 'null'
+- name: RegistrationComplete
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: HttpRequestAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: options
+    type: Dictionary
+  returns:
+  - type: Dictionary
+- name: InvokeAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: version
+    type: string
+  - name: methodName
+    type: string
+  - name: arguments
+    type: Dictionary
+  - name: headers
+    type: Dictionary
+    default: nil
+  returns:
+  - type: Dictionary
+events: []
+callbacks: []

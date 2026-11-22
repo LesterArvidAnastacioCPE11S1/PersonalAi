@@ -1,0 +1,131 @@
+name: VideoService
+type: class
+memory_category: Instances
+summary: 'An internal service that offers no functionality to developers.
+
+  '
+description: '`Class.VideoService` creates `Class.VideoSampler` objects used to extract
+
+  still frames from video content.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+deprecation_message: ''
+properties: []
+methods:
+- name: VideoService:CreateVideoSamplerAsync
+  summary: 'Creates a `Class.VideoSampler` that samples frames from the provided video
+
+    content.
+
+    '
+  description: 'Creates a `Class.VideoSampler` that samples frames from the provided
+    video
+
+    content.
+
+    '
+  code_samples: []
+  parameters:
+  - name: content
+    type: Content
+    default: null
+    summary: 'The video content to sample from.
+
+      '
+  - name: options
+    type: Dictionary?
+    default: null
+    summary: "Options table for creating the `Class.VideoSampler`:\n\n- `Size` – A\
+      \ `Enum.VideoSampleSize` value that determines the\n  resolution of textures\
+      \ produced by the `Class.VideoSampler`.\n  Defaults to `Enum.VideoSampleSize.Small`.\
+      \ Use the smallest\n  resolution that meets your needs to minimize memory usage\
+      \ and\n  improve sampling performance.\n"
+  returns:
+  - type: VideoSampler
+    summary: 'The created `Class.VideoSampler`.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: GameStreamingEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+- name: CreateVideoSamplerAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: content
+    type: Content
+  - name: options
+    type: Dictionary?
+  returns:
+  - type: VideoSampler
+events:
+- name: GameStreamingResolutionReady
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: PlaybackReport
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: timePlayedMs
+    type: Dictionary
+  - name: timeDownloadedMs
+    type: Dictionary
+  - name: timeVisibleMs
+    type: Dictionary
+callbacks: []

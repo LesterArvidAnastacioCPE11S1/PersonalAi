@@ -1,0 +1,391 @@
+name: ArcHandles
+type: class
+memory_category: Instances
+summary: 'The `Class.ArcHandles` object places 3D arc handles around any 3D object
+  that
+
+  its `Class.PartAdornment.Adornee|Adornee` is set to.
+
+  '
+description: 'The **ArcHandles** object places 3D arc handles around any 3D object
+  that its
+
+  `Class.PartAdornment.Adornee|Adornee` is set to. For handles to be
+
+  interactive, it must be parented to a player''s `Class.PlayerGui` or the
+
+  `Class.CoreGui`.
+
+
+  <img src="../../../assets/engine-api/classes/ArcHandles/ArcHandles-Example.jpg"  alt="ArcHandles
+  example" />
+
+  '
+code_samples: []
+inherits:
+- HandlesBase
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: ArcHandles.Axes
+  summary: 'Sets the current Axes ArcHandles will show.
+
+    '
+  description: 'Sets the current Axes ArcHandles will show.
+
+    '
+  code_samples: []
+  type: Axes
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  - UI
+  - Input
+- name: Axes
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Axes
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: X, Y, Z
+- name: MouseButton1DownConnectionCount
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: EventReplicator
+  serialization:
+    can_load: false
+    can_save: false
+  default: '0'
+- name: MouseButton1UpConnectionCount
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: EventReplicator
+  serialization:
+    can_load: false
+    can_save: false
+  default: '0'
+- name: MouseDragConnectionCount
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: EventReplicator
+  serialization:
+    can_load: false
+    can_save: false
+  default: '0'
+- name: MouseEnterConnectionCount
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: EventReplicator
+  serialization:
+    can_load: false
+    can_save: false
+  default: '0'
+- name: MouseLeaveConnectionCount
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: EventReplicator
+  serialization:
+    can_load: false
+    can_save: false
+  default: '0'
+methods: []
+events:
+- name: ArcHandles.MouseButton1Down
+  summary: 'Fired when the left mouse button goes down on one of the GUI handles.
+
+    '
+  description: 'Fired when the left mouse button goes down on one of the GUI handles.
+
+    '
+  code_samples: []
+  parameters:
+  - name: axis
+    type: Axis
+    default: null
+    summary: 'The `Enum.Axis` (`X`, `Y`, or `Z`) of the arc handle on which the left
+
+      mouse button was pressed.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Basic
+  - UI
+  - Input
+- name: ArcHandles.MouseButton1Up
+  summary: 'Fired when the left mouse button is released on one of the GUI handles.
+
+    '
+  description: 'Fired when the left mouse button is released on one of the GUI handles.
+
+    '
+  code_samples: []
+  parameters:
+  - name: axis
+    type: Axis
+    default: null
+    summary: 'The `Enum.Axis` (`X`, `Y`, or `Z`) of the arc handle on which the left
+
+      mouse button was released.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Basic
+  - UI
+  - Input
+- name: ArcHandles.MouseDrag
+  summary: 'Fired when the mouse moves while the MouseButton1Down event has fired,
+    but
+
+    the left mouse button has not been released yet.
+
+    '
+  description: 'Fired when the mouse moves while the MouseButton1Down event has fired,
+    but
+
+    the left mouse button has not been released yet.
+
+    '
+  code_samples: []
+  parameters:
+  - name: axis
+    type: Axis
+    default: null
+    summary: 'The `Enum.Axis` (`X`, `Y`, or `Z`) of the arc handle being dragged.
+
+      '
+  - name: relativeAngle
+    type: float
+    default: null
+    summary: 'The angle, in radians, that the handle has rotated around its axis
+
+      relative to the start of the drag.
+
+      '
+  - name: deltaRadius
+    type: float
+    default: null
+    summary: 'The change in radius (the cursor''s distance from the handle''s center)
+
+      relative to the start of the drag.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Basic
+  - UI
+  - Input
+- name: ArcHandles.MouseEnter
+  summary: 'Fired when a mouse "enters" the GUI handle.
+
+    '
+  description: 'Fired when a mouse "enters" the GUI handle.
+
+    '
+  code_samples: []
+  parameters:
+  - name: axis
+    type: Axis
+    default: null
+    summary: 'The `Enum.Axis` (`X`, `Y`, or `Z`) of the arc handle the mouse
+
+      entered.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Basic
+  - UI
+  - Input
+- name: ArcHandles.MouseLeave
+  summary: 'Fired when the mouse leaves the GUI handle.
+
+    '
+  description: 'Fired when the mouse leaves the GUI handle.
+
+    '
+  code_samples: []
+  parameters:
+  - name: axis
+    type: Axis
+    default: null
+    summary: 'The `Enum.Axis` (`X`, `Y`, or `Z`) of the arc handle the mouse left.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Basic
+  - UI
+  - Input
+- name: MouseButton1Down
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: axis
+    type: Enum.Axis
+- name: MouseButton1Up
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: axis
+    type: Enum.Axis
+- name: MouseDrag
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: axis
+    type: Enum.Axis
+  - name: relativeAngle
+    type: float
+  - name: deltaRadius
+    type: float
+- name: MouseEnter
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: axis
+    type: Enum.Axis
+- name: MouseLeave
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: axis
+    type: Enum.Axis
+callbacks: []

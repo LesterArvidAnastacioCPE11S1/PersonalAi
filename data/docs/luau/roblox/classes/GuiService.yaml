@@ -1,0 +1,3200 @@
+name: GuiService
+type: class
+memory_category: Instances
+summary: 'Offers numerous properties and methods for working with
+
+  `Class.GuiObject|GuiObjects`, player preferences, and other UI‑related tasks.
+
+  '
+description: '`GuiService` offers numerous properties and methods for working with
+
+  `Class.GuiObject|GuiObjects`, player preferences, and other UI‑related tasks.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+- NotReplicated
+deprecation_message: ''
+properties:
+- name: GuiService.AutoSelectGuiEnabled
+  summary: 'If activated, the <kbd>Select</kbd> button on a gamepad or
+
+    <kbd>Backslash</kbd> will automatically set a GUI as the selected object.
+
+    '
+  description: 'If activated, the <kbd>Select</kbd> button on a gamepad or
+
+    <kbd>Backslash</kbd> will automatically set a GUI as the selected object.
+
+    Disabling this means that GUI navigation will still work if
+
+    `Class.GuiService.GuiNavigationEnabled|GuiNavigationEnabled` is enabled,
+
+    but you will have to set `Class.GuiService.SelectedObject|SelectedObject`
+
+    manually to start navigation.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+  - Input
+- name: GuiService.CoreGuiNavigationEnabled
+  summary: 'Toggles whether or not objects in the `Class.CoreGui` can be navigated
+
+    using a gamepad.
+
+    '
+  description: 'Toggles whether or not objects in the `Class.CoreGui` can be navigated
+
+    using a gamepad.
+
+    '
+  code_samples: []
+  type: boolean
+  tags:
+  - Hidden
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - UI
+  - Input
+- name: GuiService.GuiNavigationEnabled
+  summary: 'Used to enable and disable the default controller GUI navigation.
+
+    '
+  description: 'Used to enable and disable the default controller GUI navigation.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+  - Input
+- name: GuiService.IsModalDialog
+  summary: 'Indicates whether a modal dialog is visible.
+
+    '
+  description: 'This property tells whether or not a modal dialog is visible, such
+    as the
+
+    game menu or a purchase prompt.
+
+    '
+  code_samples: []
+  type: boolean
+  tags:
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  deprecation_message: 'This item is deprecated. Do not use it for new work.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - UI
+- name: GuiService.IsWindows
+  summary: 'Indicates whether the user is playing on a computer running Windows.
+
+    '
+  description: 'The IsWindows property defines if the user is playing on a computer
+
+    running Windows.
+
+    '
+  code_samples: []
+  type: boolean
+  tags:
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  deprecation_message: 'This item is deprecated. Do not use it for new work.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - UI
+- name: GuiService.MenuIsOpen
+  summary: 'Returns `true` if any menu of `Class.CoreGui` is open.
+
+    '
+  description: 'Returns `true` if any menu of `Class.CoreGui` is open.
+
+    '
+  code_samples: []
+  type: boolean
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - UI
+- name: GuiService.PreferredTextSize
+  summary: 'Gets the player''s preferred text size as an `Enum.PreferredTextSize`
+
+    value.
+
+    '
+  description: "Gets the player's preferred text size as an `Enum.PreferredTextSize`\
+    \ value\nof `Enum.PreferredTextSize.Medium|Medium` (default),\n`Enum.PreferredTextSize.Large|Large`,\n\
+    `Enum.PreferredTextSize.Larger|Larger`, or\n`Enum.PreferredTextSize.Largest|Largest`.\
+    \ This property maps to the\n**Text&nbsp;Size** setting available to players from\
+    \ the Roblox and\nin‑game **Settings** menus, and it can be combined with\n`Class.Object.GetPropertyChangedSignal()`\
+    \ to detect text size setting\nchanges for purposes of adjusting UI.\n\nWhen working\
+    \ with UI elements, note the following behaviors:\n\n- Text that is constrained\
+    \ to a minimum and/or maximum size through a\n  `Class.UITextSizeConstraint` will\
+    \ **not** shrink below or expand above\n  the set\n  `Class.UITextSizeConstraint.MinTextSize|MinTextSize`/`Class.UITextSizeConstraint.MaxTextSize|MaxTextSize`,\n\
+    \  regardless of the player's text size setting.\n\n- When `Class.TextLabel.TextScaled|TextScaled`\
+    \ is enabled for a\n  `Class.TextLabel.TextScaled|TextLabel` or\n  `Class.TextButton.TextScaled|TextButton`,\
+    \ the element's text will\n  **not** be scaled by the\n  `Class.GuiService.PreferredTextSize|PreferredTextSize`\
+    \ value.\n\n- UI elements with `Class.GuiObject.AutomaticSize|AutomaticSize` enabled\n\
+    \  will shrink/grow as\n  `Class.GuiService.PreferredTextSize|PreferredTextSize`\n\
+    \  decreases/increases (element bounds will resize to fit the resized\n  text).\n\
+    \n- When `Class.TextLabel.TextWrapped|TextWrapped` is enabled for a\n  `Class.TextLabel.TextWrapped|TextLabel`\
+    \ or\n  `Class.TextButton.TextWrapped|TextButton`, the element's text will wrap\n\
+    \  to additional lines as\n  `Class.GuiService.PreferredTextSize|PreferredTextSize`\
+    \ increases, within\n  limits of the element's absolute size.\n\n- The results\
+    \ returned by `Class.TextService:GetTextSize()` and\n  `Class.TextService:GetTextBoundsAsync()`\
+    \ honor changes related to\n  `Class.GuiService.PreferredTextSize|PreferredTextSize`.\n"
+  code_samples:
+  - GuiService-PreferredTextSize
+  type: PreferredTextSize
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - UI
+- name: GuiService.PreferredTransparency
+  summary: 'Gets the player''s preferred transparency as a number between `0` and
+    `1`.
+
+    '
+  description: 'Gets the player''s preferred transparency as a number between `0`
+    and `1`.
+
+    This property maps to the **Background&nbsp;Transparency** setting
+
+    available to players from the Roblox and in‑experience **Settings** menus,
+
+    and it can be combined with `Class.Object.GetPropertyChangedSignal()` to
+
+    detect transparency setting changes for purposes of adjusting UI.
+
+
+    A value of `1` (default) indicates the player prefers the default
+
+    background transparency, while a value of `0` indicates the player prefers
+
+    fully opaque (non‑transparent) background transparency for improved
+
+    readability and contrast. Multiplying a UI element''s
+
+    `Class.GuiObject.BackgroundTransparency|BackgroundTransparency` with
+
+    `Class.GuiService.PreferredTransparency|PreferredTransparency` is the
+
+    recommended approach, such that backgrounds become more opaque as
+
+    `Class.GuiService.PreferredTransparency|PreferredTransparency` approaches
+
+    `0`.
+
+    '
+  code_samples:
+  - GuiService-PreferredTransparency
+  type: float
+  tags:
+  - Hidden
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - UI
+- name: GuiService.ReducedMotionEnabled
+  summary: 'Returns `true` if the player has enabled reduced motion.
+
+    '
+  description: 'Returns `true` if the player has enabled reduced motion, indicating
+    that
+
+    they want motion effects and animations to be reduced or completely
+
+    removed. This property maps to the **Reduce&nbsp;Motion** toggle available
+
+    from the Roblox and in‑experience **Settings** menus. See
+
+    [accessibility guidelines](../../../production/publishing/accessibility.md#reduced-motion)
+
+    for usage recommendations.
+
+    '
+  code_samples: []
+  type: boolean
+  tags:
+  - Hidden
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - UI
+- name: GuiService.SelectedObject
+  summary: 'Sets the `Class.GuiObject` currently being focused on by the GUI
+
+    navigator.
+
+    '
+  description: 'Sets the `Class.GuiObject` currently being focused on by the GUI
+
+    navigator. This may reset to `nil` if the object is off screen.
+
+
+    This property is changed by the
+
+    `Class.GuiObject.SelectionGained|SelectionGained` and
+
+    `Class.GuiObject.SelectionLost|SelectionLost` events. If you would like to
+
+    determine when this property changes without tracking these events for all
+
+    GUI elements, you can use the `Class.Object.Changed|Changed` event.
+
+    '
+  code_samples:
+  - printing-when-gamepad-selection-changes
+  type: GuiObject
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+  - Input
+- name: GuiService.TopbarInset
+  summary: 'Used to determine the absolute size and position of unobstructed area
+
+    within top bar space.
+
+    '
+  description: 'Returns a `Datatype.Rect` object representing the unoccupied area
+    between
+
+    the Roblox left-most controls and the edge of the device safe area.
+
+
+    The value is dynamic and can be expected to change based on the visibility
+
+    of UI controls such as changing the local player''s
+
+    `Class.Humanoid.Health|Health` property, usage of
+
+    `Class.StarterGui:SetCoreGuiEnabled()`, changing the size and position of
+
+    Roblox UI Controls, and/or others. For this reason, it''s recommend that
+
+    you detect and react to changes of this property with
+
+    `Class.Object:GetPropertyChangedSignal()`.
+
+    '
+  code_samples:
+  - GuiService-TopbarInset
+  type: Rect
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - UI
+- name: GuiService.TouchControlsEnabled
+  summary: 'Used to enable and disable touch controls and touch control display UI.
+
+    Defaults to `true`.
+
+    '
+  description: 'Used to enable and disable touch controls and touch control display
+    UI.
+
+    Defaults to `true`.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - UI
+  - Input
+- name: GuiService.ViewportDisplaySize
+  summary: 'Read-only property which represents the physical rendering size of the
+
+    viewport.
+
+    '
+  description: 'Read-only property which represents the physical rendering size of
+    the
+
+    viewport:
+
+
+    - `Enum.DisplaySize.Small` — Most tablet/mobile/handheld devices
+
+    - `Enum.DisplaySize.Medium` — Most laptops and monitors
+
+    - `Enum.DisplaySize.Large` — Most TVs or larger
+
+
+    You can listen for changes to this property through the
+
+    `Class.Object:GetPropertyChangedSignal()|GetPropertyChangedSignal()`
+
+    method to adapt UI to various display sizes.
+
+    '
+  code_samples:
+  - GuiService-ViewportDisplaySize
+  type: DisplaySize
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - UI
+- name: AutoSelectGuiEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: CoreEffectFolder
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: Folder
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: CoreGuiFolder
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: Folder
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: CoreGuiNavigationEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: CoreUISafeAreaInsetBottomRight
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - ReadOnly
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: Vector2
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: CoreUISafeAreaInsetTopLeft
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - ReadOnly
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: Vector2
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: DisplayScalingMode
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: Enum.DisplayScalingMode
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: FullscreenViewport
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - ReadOnly
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: Rect
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: GuiNavigationEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: HardwareSafeAreaInsetBottomRight
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - ReadOnly
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: Vector2
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: HardwareSafeAreaInsetTopLeft
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - ReadOnly
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: Vector2
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: IsModalDialog
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: IsWindows
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: MenuIsOpen
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: PreferredTextSize
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.PreferredTextSize
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: PreferredTransparency
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: ReducedMotionEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: ScreenContextRawScreenScale
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - ReadOnly
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: float
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: ScreenContextTopbarInset
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - ReadOnly
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: Rect
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: SelectedCoreObject
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: GuiObject
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: SelectedObject
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: GuiObject
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: TopbarInset
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Rect
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: TouchControlsEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: ViewportDisplaySize
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.DisplaySize
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: ViewportSizeInMM
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: Vector2
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+methods:
+- name: GuiService:AddSelectionParent
+  summary: 'Creates a selection group where gamepad GUI navigation will only consider
+
+    selectable objects that are within the group.
+
+    '
+  description: 'Creates a selection group where gamepad GUI navigation will only consider
+
+    selectable objects that are within the group (children of
+
+    `selectionParent`). An example is when you have a menu pop open and there
+
+    are other selectable objects on the screen, possibly from previous menus,
+
+    but you want the user to only be able to select GUI objects in the new
+
+    menu.
+
+    '
+  code_samples: []
+  parameters:
+  - name: selectionName
+    type: string
+    default: null
+    summary: 'A unique name identifying this selection group.
+
+      '
+  - name: selectionParent
+    type: Instance
+    default: null
+    summary: 'The `Class.GuiObject` whose selectable descendants form the navigation
+
+      group.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: GuiService:AddSelectionTuple
+  summary: '**AddSelectionTuple** works similarly to
+
+    `Class.GuiService:AddSelectionParent()`, but you can give it a tuple of
+
+    `Class.GuiObject` that you want to be contained in the group.
+
+
+    Beware that the second argument is _not_ a table, but rather the first of
+
+    several `Class.GuiObject` in the tuple. To pass the contents of a table,
+
+    use `unpack`/`table.unpack`:
+
+
+    ```lua
+
+    local frame = script.Parent
+
+    -- Passing various GuiObject individually
+
+    GuiService:AddSelectionTuple("InventoryButtons", frame.Sort, frame.Trash, frame.Drop)
+
+    -- Unpacking a table of GuiObject (unpack/table.unpack are equivalent)
+
+    local inventoryButtons = { frame.Sort, frame.Trash, frame.Drop }
+
+    GuiService:AddSelectionTuple("InventoryButtons", unpack(inventoryButtons))
+
+    ```
+
+    '
+  description: 'Functions similarly to `Class.GuiService:AddSelectionParent()`, but
+    you
+
+    can give it a tuple of `Class.GuiObject` that you want to be contained in
+
+    the group.
+
+    '
+  code_samples: []
+  parameters:
+  - name: selectionName
+    type: string
+    default: null
+    summary: 'The name of the added selection.
+
+      '
+  - name: selections
+    type: Tuple
+    default: null
+    summary: 'The selection(s) added.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: GuiService:CloseInspectMenu
+  summary: 'Closes the avatar inspection menu, if open.
+
+    '
+  description: "This method closes the\n[Avatar Inspect Menu](../../../players/avatar-inspect-menu.md),\
+    \ if open,\nwhen run from a `Class.LocalScript`.\n\n#### See Also\n\n- `Class.GuiService:InspectPlayerFromHumanoidDescription()|InspectPlayerFromHumanoidDescription()`\n\
+    \  which allows the avatar inspection menu to appear showing the assets\n  listed\
+    \ in a `Class.HumanoidDescription` object.\n\n- `Class.GuiService:InspectPlayerFromUserId()|InspectPlayerFromUserId()`\n\
+    \  which allows the avatar inspection menu to appear showing the user that\n \
+    \ has the given `Class.Player.UserId|UserId`.\n"
+  code_samples: []
+  parameters: []
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: GuiService:DismissNotification
+  summary: 'Dismisses a notification previously shown by
+
+    `Class.GuiService:SendNotification()|SendNotification()`.
+
+    '
+  description: 'Dismisses the notification identified by `notificationId`, which is
+    the
+
+    string returned when the notification was created with
+
+    `Class.GuiService:SendNotification()|SendNotification()`. If the
+
+    notification was created with an `OnDismiss` callback, that callback is
+
+    invoked. Returns `true` when a matching notification is found and
+
+    dismissed, or `false` when no active notification has the given
+
+    `notificationId`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: notificationId
+    type: string
+    default: null
+    summary: 'The identifier returned by
+
+      `Class.GuiService:SendNotification()|SendNotification()` for the
+
+      notification to dismiss.
+
+      '
+  returns:
+  - type: boolean
+    summary: '`true` if a matching notification was found and dismissed; `false` if
+
+      no active notification has the given `notificationId`.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: GuiService:GetEmotesMenuOpen
+  summary: 'Checks if the player emotes menu is open.
+
+    '
+  description: 'Returns a boolean indicating whether or not the player emotes menu
+    is
+
+    open. You can open or close the emotes menu by calling the
+
+    `Class.GuiService:SetEmotesMenuOpen()|SetEmotesMenuOpen()` method.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: boolean
+    summary: 'Whether the emotes menu is open.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: GuiService:GetGameplayPausedNotificationEnabled
+  summary: 'Returns whether or not the `Class.Player.GameplayPaused` notification
+    has
+
+    been disabled.
+
+    '
+  description: 'This method returns whether or not the `Class.Player.GameplayPaused`
+
+    notification has been disabled through
+
+    `Class.GuiService:SetGameplayPausedNotificationEnabled()|SetGameplayPausedNotificationEnabled()`.
+
+
+    See also `Class.Workspace.StreamingIntegrityMode` and
+
+    `Enum.StreamingIntegrityMode` for more details on when gameplay is paused.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: boolean
+    summary: 'Whether or not the `Class.Player.GameplayPaused` notification has been
+
+      disabled.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: GuiService:GetGuiInset
+  summary: 'Returns two `Datatype.Vector2` values representing the inset of user GUIs
+
+    in pixels, from the top‑left corner of the screen and the bottom‑right
+
+    corner of the screen respectively.
+
+    '
+  description: 'Returns two `Datatype.Vector2` values representing the inset of user
+    GUIs
+
+    in pixels, from the top‑left corner of the screen and the bottom‑right
+
+    corner of the screen respectively.
+
+
+    Note that the inset values supplied by this method only take effect on
+
+    `Class.ScreenGui|ScreenGuis` that have their
+
+    `Class.ScreenGui.IgnoreGuiInset|IgnoreGuiInset` property set to `false`.
+
+    '
+  code_samples:
+  - GuiService-GetGuiInset
+  parameters: []
+  returns:
+  - type: Tuple
+    summary: 'A tuple of two `Datatype.Vector2` values describing the current
+
+      specified GUI inset.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: GuiService:GetInsetArea
+  summary: 'Takes an `Enum.ScreenInsets` value and returns a `Datatype.Rect`
+
+    describing the inset region, relative to the
+
+    `Enum.ScreenInsets.CoreUISafeInsets|CoreUISafeInsets` area.
+
+    '
+  description: 'Takes an `Enum.ScreenInsets` value and returns a `Datatype.Rect`
+
+    describing the inset region relative to the
+
+    `Enum.ScreenInsets.CoreUISafeInsets|CoreUISafeInsets` area, effectively
+
+    the usable rectangle for a particular `Enum.ScreenInsets` area.
+
+
+    On a mobile device screen, for example, querying
+
+    `GetInsetArea(Enum.ScreenInsets.None)` may return a result such as
+
+    `-59, -58, 792, 334`, meaning the usable rectangle for
+
+    `Enum.ScreenInsets.None` has a top‑left corner `59` pixels left and `58`
+
+    pixels up from the top‑left corner of the core UI area, and a bottom‑right
+
+    corner `792` pixels right and `334` pixels down from the top‑left corner
+
+    of the core UI area.
+
+
+    <img src="../../../assets/engine-api/classes/GuiService/GetInsetArea.png" width="840"
+    />
+
+    '
+  code_samples:
+  - GuiService-GetInsetArea
+  parameters:
+  - name: screenInsets
+    type: ScreenInsets
+    default: null
+    summary: 'The `Enum.ScreenInsets` value indicating which inset area to query.
+
+      '
+  returns:
+  - type: Rect
+    summary: 'A `Datatype.Rect` of the usable region for the specified
+
+      `Enum.ScreenInsets` area.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: GuiService:GetInspectMenuEnabled
+  summary: 'Returns whether the avatar inspection menu is enabled.
+
+    '
+  description: 'This method returns whether the
+
+    [Avatar Inspect Menu](../../../players/avatar-inspect-menu.md) is
+
+    currently enabled. The feature is enabled by default and can be disabled
+
+    using the
+
+    `Class.GuiService:SetInspectMenuEnabled()|SetInspectMenuEnabled()` method.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: boolean
+    summary: 'Whether the avatar inspection menu is enabled.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: GuiService:InspectPlayerFromHumanoidDescription
+  summary: 'Allows the avatar inspection menu to appear showing the assets listed
+    in a
+
+    `Class.HumanoidDescription` object.
+
+    '
+  description: 'This method allows the
+
+    [Avatar Inspect Menu](../../../players/avatar-inspect-menu.md) to appear
+
+    showing the assets listed in a `Class.HumanoidDescription` object. This
+
+    allows further customization with what is shown in the inspection menu
+
+    when players inspect other players in your experience.
+
+
+    See also
+
+    `Class.GuiService:InspectPlayerFromUserId()|InspectPlayerFromUserId()`
+
+    which allows the avatar inspection menu to appear showing the user that
+
+    has the given `Class.Player.UserId|UserId`.
+
+    '
+  code_samples:
+  - opening-an-inspect-menu-with-a-humanoiddescription
+  parameters:
+  - name: humanoidDescription
+    type: Instance
+    default: null
+    summary: 'A `Class.HumanoidDescription` object that contains the assets to show
+
+      in the inspection menu.
+
+      '
+  - name: name
+    type: string
+    default: null
+    summary: 'The name of the player being inspected to show in the menu.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+  - AvatarAppearance
+- name: GuiService:InspectPlayerFromUserId
+  summary: 'Allows the avatar inspection menu to appear showing the user that has
+    the
+
+    given `Class.Player.UserId|UserId`.
+
+    '
+  description: 'This method allows the
+
+    [Avatar Inspect Menu](../../../players/avatar-inspect-menu.md) to appear
+
+    showing the user that has the given `Class.Player.UserId|UserId`. This is
+
+    especially useful when you want to inspect players who aren''t in the
+
+    current experience.
+
+
+    See also
+
+    `Class.GuiService:InspectPlayerFromHumanoidDescription()|InspectPlayerFromHumanoidDescription()`
+
+    which allows you to bring up the avatar inspection menu showing the assets
+
+    listed in a `Class.HumanoidDescription` object.
+
+    '
+  code_samples:
+  - opening-the-inspect-menu-for-a-userid
+  parameters:
+  - name: userId
+    type: User
+    default: null
+    summary: 'The `Class.Player.UserId|UserId` of the player to inspect.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+  - AvatarAppearance
+- name: GuiService:IsTenFootInterface
+  summary: 'Returns `true` if the client is using the ten foot interface, a special
+
+    version of Roblox''s UI exclusive to consoles.
+
+    '
+  description: 'Returns `true` if the client is using the ten foot interface, a special
+
+    version of Roblox''s UI exclusive to consoles.
+
+
+    Note that you should **not** use this property in an attempt to verify if
+
+    the player is on a console or not. Instead, consider reading
+
+    `Class.GuiService.ViewportDisplaySize|ViewportDisplaySize`. This method is
+
+    hardcoded to return `true` whenever the client runs on a console,
+
+    regardless of how the player is actually interacting with the device,
+
+    making it an unreliable proxy for rendering context.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: boolean
+    summary: '`true` if the client is using the ten foot interface (console UI
+
+      mode); `false` otherwise.
+
+      '
+  tags: []
+  deprecation_message: 'This method has been superseded by the
+
+    `Class.GuiService.ViewportDisplaySize|ViewportDisplaySize` property which
+
+    represents the internally‑categorized rendering size of the viewport.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: GuiService:RemoveSelectionGroup
+  summary: 'Removes a group that was created with
+
+    `Class.GuiService:AddSelectionParent()|AddSelectionParent()` or
+
+    `Class.GuiService:AddSelectionTuple()|AddSelectionTuple()`.
+
+    '
+  description: 'Removes a group that was created with
+
+    `Class.GuiService:AddSelectionParent()|AddSelectionParent()` or
+
+    `Class.GuiService:AddSelectionTuple()|AddSelectionTuple()`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: selectionName
+    type: string
+    default: null
+    summary: 'The name of the selection group to remove.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: GuiService:Select
+  summary: 'Sets `Class.GuiService.SelectedObject` to a child of a provided instance
+
+    that is the `Class.PlayerGui` or its descendants.
+
+    '
+  description: 'When called on an instance `selectionParent` that is the `Class.PlayerGui`
+
+    or a descendant of it, the engine searches all available selectable,
+
+    visible and on-screen `Class.GuiObject|GuiObjects` that are descendants of
+
+    `selectionParent` and sets the
+
+    `Class.GuiService.SelectedObject|SelectedObject` to the `Class.GuiObject`
+
+    with the smallest `Class.GuiObject.SelectionOrder|SelectionOrder`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: selectionParent
+    type: Instance
+    default: null
+    summary: 'The parent of selection whose descendants are searched.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: GuiService:SendNotification
+  summary: 'Displays a notification described by `notificationInfo` and returns a
+
+    unique identifier for it.
+
+    '
+  description: "Displays a notification built from the `notificationInfo` dictionary\
+    \ using\nRoblox's native notification UI, and returns a unique identifier string\n\
+    for the notification. The following fields of `notificationInfo` are\nrecognized:\n\
+    \n<table>\n<thead>\n  <tr>\n  \t<th>Field</th>\n  \t<th>Type</th>\n  \t<th>Description</th>\n\
+    \  </tr>\n</thead>\n<tbody>\n  <tr>\n  \t<td><code>Title</code></td>\n  \t<td><code>string</code></td>\n\
+    \  \t<td>The notification's title text.</td>\n  </tr>\n  <tr>\n  \t<td><code>Text</code></td>\n\
+    \  \t<td><code>string</code></td>\n  \t<td>The notification's body text.</td>\n\
+    \  </tr>\n  <tr>\n  \t<td><code>Icon</code></td>\n  \t<td><code>string</code></td>\n\
+    \  \t<td>An image asset to display with the notification.</td>\n  </tr>\n  <tr>\n\
+    \  \t<td><code>Buttons</code></td>\n  \t<td><code>{[ButtonInfo]}</code></td>\n\
+    \  \t<td>An array of button definitions. Each entry is a table with a <code>Text</code>\
+    \ (<code>string</code>), a <code>ButtonType</code> (<code>Enum.NotificationButtonType</code>),\
+    \ and an <code>OnActivated</code> (<code>function</code>) callback invoked when\
+    \ the button is pressed.</td>\n  </tr>\n  <tr>\n  \t<td><code>OnDisplay</code></td>\n\
+    \  \t<td><code>function</code></td>\n  \t<td>Invoked when the notification is\
+    \ shown.</td>\n  </tr>\n  <tr>\n  \t<td><code>OnDismiss</code></td>\n  \t<td><code>function</code></td>\n\
+    \  \t<td>Invoked when the notification is dismissed.</td>\n  </tr>\n</tbody>\n\
+    </table>\n\nThe returned identifier can be passed to\n`Class.GuiService:DismissNotification()|DismissNotification()`\
+    \ to dismiss\nthe notification programmatically; an empty string is returned if\
+    \ the\nnotification could not be queued.\n"
+  code_samples: []
+  parameters:
+  - name: notificationInfo
+    type: Dictionary
+    default: null
+    summary: 'A dictionary describing the notification. Recognized fields are
+
+      `Title` (string), `Text` (string), `Icon` (string), `Buttons` (an
+
+      array of button tables, each with a `Text` string, a `ButtonType`
+
+      `Enum.NotificationButtonType` value, and an `OnActivated` callback),
+
+      and `OnDisplay`/`OnDismiss` callback functions.
+
+      '
+  returns:
+  - type: string
+    summary: 'A unique identifier string for the notification, which can be passed
+
+      to `Class.GuiService:DismissNotification()|DismissNotification()`.
+
+      Returns an empty string if the notification could not be queued.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: GuiService:SetEmotesMenuOpen
+  summary: 'Opens or closes the player emotes menu.
+
+    '
+  description: 'Opens or closes the player emotes menu.
+
+    '
+  code_samples: []
+  parameters:
+  - name: isOpen
+    type: boolean
+    default: null
+    summary: 'Whether to open (`true`) or close (`false`) the emotes menu.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: GuiService:SetGameplayPausedNotificationEnabled
+  summary: 'Lets you disable the built-in notification when a player''s gameplay is
+
+    paused.
+
+    '
+  description: 'This method lets you disable the built-in notification when a player''s
+
+    gameplay is paused. You can then add in your own UI and customize it.
+
+
+    You can query whether the notification is enabled by calling the
+
+    `Class.GuiService:GetGameplayPausedNotificationEnabled()|GetGameplayPausedNotificationEnabled()`
+
+    method.
+
+
+    See also `Class.Workspace.StreamingIntegrityMode` and
+
+    `Enum.StreamingIntegrityMode` for more details on when gameplay is paused.
+
+    '
+  code_samples: []
+  parameters:
+  - name: enabled
+    type: boolean
+    default: null
+    summary: 'Whether or not the built-in notification GUI is disabled.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: GuiService:SetInspectMenuEnabled
+  summary: 'Allows you to enable or disable the avatar inspection menu.
+
+    '
+  description: 'This method allows you to enable or disable the
+
+    [Avatar Inspect Menu](../../../players/avatar-inspect-menu.md). The
+
+    feature is enabled by default.
+
+    '
+  code_samples: []
+  parameters:
+  - name: enabled
+    type: boolean
+    default: null
+    summary: 'A boolean indicating whether to enable or disable the menu.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: AddCenterDialog
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: dialog
+    type: Instance
+  - name: centerDialogType
+    type: Enum.CenterDialogType
+  - name: showFunction
+    type: Function
+  - name: hideFunction
+    type: Function
+  returns:
+  - type: 'null'
+- name: AddKey
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: key
+    type: string
+  returns:
+  - type: 'null'
+- name: AddSelectionParent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''SelectionGroup'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: selectionName
+    type: string
+  - name: selectionParent
+    type: Instance
+  returns:
+  - type: 'null'
+- name: AddSelectionTuple
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''SelectionGroup'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: selectionName
+    type: string
+  - name: selections
+    type: Tuple
+  returns:
+  - type: 'null'
+- name: AddSpecialKey
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: key
+    type: Enum.SpecialKey
+  returns:
+  - type: 'null'
+- name: BroadcastNotification
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: data
+    type: string
+  - name: notificationType
+    type: int
+  returns:
+  - type: 'null'
+- name: ClearError
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: CloseInspectMenu
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: CloseStatsBasedOnInputString
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: input
+    type: string
+  returns:
+  - type: bool
+- name: DismissNotification
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: notificationId
+    type: string
+  returns:
+  - type: bool
+- name: ForceTenFootInterface
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: isForced
+    type: bool
+  returns:
+  - type: 'null'
+- name: GetAutoUIScaleHundredths
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: int
+- name: GetBrickCount
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: int
+- name: GetClosestDialogToPosition
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: position
+    type: Vector3
+  returns:
+  - type: Instance
+- name: GetClosestVisibleDialogToPosition
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: position
+    type: Vector3
+  returns:
+  - type: Dialog
+- name: GetEffectiveUIScaleHundredths
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: int
+- name: GetEmotesMenuOpen
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+- name: GetErrorCode
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Enum.ConnectionError
+- name: GetErrorDetails
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Dictionary
+- name: GetErrorMessage
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''GetUiMessage'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: string
+- name: GetErrorType
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Enum.ConnectionError
+- name: GetGameplayPausedNotificationEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+- name: GetGuiInset
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Tuple
+- name: GetGuiIsVisible
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: guiType
+    type: Enum.GuiType
+  returns:
+  - type: bool
+- name: GetHardwareSafeViewport
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Vector2
+- name: GetInsetArea
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: screenInsets
+    type: Enum.ScreenInsets
+  returns:
+  - type: Rect
+- name: GetInspectMenuEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+- name: GetNotificationTypeList
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Dictionary
+- name: GetRawScreenScale
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: float
+- name: GetResolutionScale
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: int
+- name: GetSafeZoneOffsets
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Dictionary
+- name: GetUIScaleOptions
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Dictionary
+- name: GetUiMessage
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: string
+- name: InspectPlayerFromHumanoidDescription
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: humanoidDescription
+    type: Instance
+  - name: name
+    type: string
+  returns:
+  - type: 'null'
+- name: InspectPlayerFromUserId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: User
+  returns:
+  - type: 'null'
+- name: InspectPlayerFromUserIdWithCtx
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: User
+  - name: ctx
+    type: string
+  returns:
+  - type: 'null'
+- name: IsMemoryTrackerEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+- name: IsTenFootInterface
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+- name: OnNotificationDisplayed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: notificationId
+    type: string
+  returns:
+  - type: 'null'
+- name: OnNotificationInteraction
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: notificationId
+    type: string
+  - name: buttonIndex
+    type: int
+  returns:
+  - type: 'null'
+- name: OpenBrowserWindow
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: url
+    type: string
+  returns:
+  - type: 'null'
+- name: OpenNativeOverlay
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: title
+    type: string
+  - name: url
+    type: string
+  returns:
+  - type: 'null'
+- name: RemoveCenterDialog
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: dialog
+    type: Instance
+  returns:
+  - type: 'null'
+- name: RemoveKey
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: key
+    type: string
+  returns:
+  - type: 'null'
+- name: RemoveSelectionGroup
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''SelectionGroup'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: selectionName
+    type: string
+  returns:
+  - type: 'null'
+- name: RemoveSpecialKey
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: key
+    type: Enum.SpecialKey
+  returns:
+  - type: 'null'
+- name: Select
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: selectionParent
+    type: Instance
+  returns:
+  - type: 'null'
+- name: SendNotification
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: notificationInfo
+    type: Dictionary
+  returns:
+  - type: string
+- name: SendUIOcclusionMetricsForQueryRegion
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: position
+    type: UDim2
+  - name: size
+    type: UDim2
+  - name: regionName
+    type: string
+  returns:
+  - type: 'null'
+- name: SetEmotesMenuOpen
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: isOpen
+    type: bool
+  returns:
+  - type: 'null'
+- name: SetGameplayPausedNotificationEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: enabled
+    type: bool
+  returns:
+  - type: 'null'
+- name: SetGlobalGuiInset
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: x1
+    type: int
+  - name: y1
+    type: int
+  - name: x2
+    type: int
+  - name: y2
+    type: int
+  returns:
+  - type: 'null'
+- name: SetHardwareSafeAreaInsets
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: left
+    type: float
+  - name: top
+    type: float
+  - name: right
+    type: float
+  - name: bottom
+    type: float
+  returns:
+  - type: 'null'
+- name: SetInspectMenuEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: enabled
+    type: bool
+  returns:
+  - type: 'null'
+- name: SetMenuIsOpen
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: open
+    type: bool
+  - name: menuName
+    type: string
+    default: default
+  returns:
+  - type: 'null'
+- name: SetPurchasePromptIsShown
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: isShown
+    type: bool
+  returns:
+  - type: 'null'
+- name: SetSafeZoneOffsets
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: top
+    type: float
+  - name: bottom
+    type: float
+  - name: left
+    type: float
+  - name: right
+    type: float
+  returns:
+  - type: 'null'
+- name: SetTopbarInset
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: topbarInset
+    type: Rect
+  returns:
+  - type: 'null'
+- name: SetUIScaleMultiplier
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: multiplierHundredths
+    type: int
+  returns:
+  - type: 'null'
+- name: SetUiMessage
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: LocalUserSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: msgType
+    type: Enum.UiMessageType
+  - name: uiMessage
+    type: string
+    default: errorCode
+  returns:
+  - type: 'null'
+- name: ShowStatsBasedOnInputString
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: input
+    type: string
+  returns:
+  - type: bool
+- name: ToggleFullscreen
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: ToggleGuiIsVisibleForCaptures
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: guiType
+    type: Enum.GuiType
+  returns:
+  - type: 'null'
+- name: ToggleGuiIsVisibleIfAllowed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: guiType
+    type: Enum.GuiType
+  returns:
+  - type: 'null'
+- name: GetScreenResolution
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Vector2
+events:
+- name: GuiService.MenuClosed
+  summary: 'Fires when the user **closes** the Roblox `Class.CoreGui` escape menu.
+
+    '
+  description: 'Fires when the user **closes** the Roblox `Class.CoreGui` escape menu.
+
+    '
+  code_samples: []
+  parameters: []
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - UI
+- name: GuiService.MenuOpened
+  summary: 'Fires when the user **opens** the Roblox `Class.CoreGui` escape menu.
+
+    '
+  description: 'Fires when the user **opens** the Roblox `Class.CoreGui` escape menu.
+
+    '
+  code_samples: []
+  parameters: []
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - UI
+- name: BrowserWindowClosed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: CloseInspectMenuRequest
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: CoreGuiRenderOverflowed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: EmotesMenuOpenChanged
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: isOpen
+    type: bool
+- name: ErrorMessageChanged
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''UiMessageChanged'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: newErrorMessage
+    type: string
+- name: GuiVisibilityChangedSignal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: guiType
+    type: Enum.GuiType
+  - name: visible
+    type: bool
+- name: InspectMenuEnabledChangedSignal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: enabled
+    type: bool
+- name: InspectPlayerFromHumanoidDescriptionRequest
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: humanoidDescription
+    type: Instance
+  - name: name
+    type: string
+- name: InspectPlayerFromUserIdWithCtxRequest
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: int64
+  - name: ctx
+    type: string
+- name: KeyPressed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: key
+    type: string
+  - name: modifiers
+    type: string
+- name: MenuClosed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: MenuOpened
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: NativeClose
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: NetworkPausedEnabledChanged
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: enabled
+    type: bool
+- name: Open9SliceEditor
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: selectedImageObject
+    type: Instance
+- name: OpenStyleEditor
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: styleBase
+    type: Instance
+- name: PurchasePromptShown
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: SafeZoneOffsetsChanged
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: ScrollStateChanged
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: scrollingFrame
+    type: Instance
+  - name: newState
+    type: Enum.ScrollState
+- name: ShowLeaveConfirmation
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: SpecialKeyPressed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: key
+    type: Enum.SpecialKey
+  - name: modifiers
+    type: string
+- name: UiMessageChanged
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: msgType
+    type: Enum.UiMessageType
+  - name: newUiMessage
+    type: string
+callbacks:
+- name: SendCoreUiNotification
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: title
+    type: string
+  - name: text
+    type: string
+  returns:
+  - type: 'null'

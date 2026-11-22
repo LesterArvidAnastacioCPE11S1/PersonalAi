@@ -1,0 +1,353 @@
+name: ProceduralModel
+type: class
+memory_category: BaseParts
+summary: 'Procedural models support edit-time procedural generation. Instead of manually
+
+  constructing model content, a procedural model generates its contents
+
+  automatically in response to parameter changes.
+
+  '
+description: "`ProceduralModel` inherits from `Class.Model` and supports edit-time\n\
+  procedural generation of its contents. Instead of manually constructing model\n\
+  content, a procedural model generates its contents automatically in response\nto\
+  \ parameter changes.\n\nGeneration is defined by a **generator module**, a `Class.ModuleScript`\n\
+  referenced by the `Class.ProceduralModel.Generator|Generator` property. The\nengine\
+  \ invokes the module's `OnGenerate` function to produce the model's\ncontents.\n\
+  \nA procedural model regenerates when any of the following inputs change:\n\n- The\
+  \ `Class.ProceduralModel.Size|Size` property of the procedural model,\n  which defines\
+  \ a bounding box for the model to generate within.\n- Any attributes on the procedural\
+  \ mode, as defined by the generator module.\n- The generator's module sandboxing\
+  \ configuration (`Sandboxed` and\n  `Capabilities`).\n- The source code of the generator\
+  \ module.\n\nWhen any of these inputs change, the engine schedules regeneration.\
+  \ This\nscheduled regeneration is performed by calling `OnGenerate` and applying\
+  \ its\nresults once it returns. In most cases, generation happens within the same\n\
+  frame, but can be deferred to maintain performance.\n"
+code_samples: []
+inherits:
+- Model
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: ProceduralModel.GenerationError
+  summary: 'Stores errors that the generator module might encounter during generation.
+
+    '
+  description: 'If the generator module encounters an error during generation, the
+
+    contents of the `ProceduralModel` are replaced with an error state
+
+    placeholder. The error is stored in the `GenerationError` property to give
+
+    you visibility into why the generation failed.
+
+    '
+  code_samples: []
+  type: string
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - Basic
+- name: ProceduralModel.Generator
+  summary: 'A reference to a `Class.ModuleScript` that contains code which defines
+    how
+
+    the `ProceduralModel` generates its contents in response to parameter
+
+    changes.
+
+    '
+  description: "A reference to a `Class.ModuleScript` containing code that defines\
+    \ how the\n`ProceduralModel` generates its contents in response to parameter changes.\n\
+    \nSetting `Generator` triggers generation using the new generator module.\nThe\
+    \ `Attributes` table exported by the module is automatically applied as\ndefault\
+    \ attribute values on the `ProceduralModel`.\n\nClearing `Generator` preserves\
+    \ the current contents of the\n`ProceduralModel`, and prevents further generation\
+    \ until a new generator\nis assigned.\n\nGuidelines for writing the generator\
+    \ module's `OnGenerate` function:\n\n- Only write results into the provided `targetContainer`.\
+    \ `OnGenerate`\n  should not modify the `Class.DataModel` directly; writes elsewhere\
+    \ may\n  not interact correctly with engine systems.\n- `OnGenerate` is allowed\
+    \ to yield and call yielding methods (for example,\n  `Class.GeometryService`\
+    \ CSG APIs). Generation is considered complete\n  whenever `OnGenerate` returns.\n\
+    - Calling `parameters:Pause()` inside long-running loops lets the engine\n  break\
+    \ up work. It only yields when needed to avoid dropping frames, so\n  calls are\
+    \ low-cost when the frame budget is not exceeded.\n"
+  code_samples:
+  - ProceduralModel-Generator-Default
+  - ProceduralModel-Generator-Ladder
+  type: ModuleScript
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: ProceduralModel.Size
+  summary: 'Defines the bounding volume used for generation.
+
+    '
+  description: 'The `Size` of a `ProceduralModel` defines the bounding volume used
+    for
+
+    generation.
+
+
+    In a standard model, size is a derived output value based on its contents
+
+    and can be queried using `Class.Model:GetBoundingBox()|GetBoundingBox()`.
+
+    A procedural model inverts this relationship: `Size` is an **input** that
+
+    determines how generation occurs, and is explicitly set as a property.
+
+
+    The `Size` property represents the **physical** dimensions of the
+
+    `ProceduralModel` and is affected by `Class.Model.ScaleTo|ScaleTo`. The
+
+    `OnGenerate` function in a generator module doesn''t need to account for
+
+    position or scaling: it produces a result of the specified `Size` around
+
+    the origin at a scale of 1, and the procedural model system automatically
+
+    uses `Class.PVInstance:PivotTo()|PivotTo()` and
+
+    `Class.Model:ScaleTo()|ScaleTo()` to place and scale the output in the
+
+    `ProceduralModel`.
+
+    '
+  code_samples: []
+  type: Vector3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Transform
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: Dirty
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+- name: GenerationError
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Behavior
+  serialization:
+    can_load: false
+    can_save: true
+- name: Generator
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: ModuleScript
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: Size
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Transform
+  serialization:
+    can_load: true
+    can_save: true
+  default: 12, 12, 12
+methods:
+- name: ProceduralModel:ForceGeneration
+  summary: 'Immediately runs any pending generation instead of waiting for the
+
+    scheduled regeneration.
+
+    '
+  description: 'Generation is normally scheduled soon after a parameter changes so
+    work
+
+    can be deferred for performance. `ForceGeneration()` instead runs any
+
+    pending generation synchronously and returns whether the
+
+    `Class.ProceduralModel` is up to date.
+
+
+    If nothing is pending, returns `true` without regenerating. Otherwise runs
+
+    the generator to completion under a hard timeout, then returns `true` only
+
+    if the model is no longer waiting to regenerate and produced no
+
+    `Class.ProceduralModel.GenerationError|GenerationError`. On failure or
+
+    timeout, returns `false` and re-queues normal scheduled generation. Unlike
+
+    scheduled generation, a forced generation doesn''t yield to preserve the
+
+    frame budget, so `parameters:Pause()` inside the generator returns without
+
+    pausing.
+
+
+    Throws if called from within a generator''s `OnGenerate` function.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: boolean
+    summary: 'Whether the `ProceduralModel` is up to date after the call: `true` if
+
+      generation completed successfully or nothing needed to be regenerated,
+
+      `false` otherwise.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: ProceduralModel:WaitForGenerationAsync
+  summary: 'Waits for generation to complete after making parameter changes.
+
+    '
+  description: 'Generation is scheduled to run as soon as possible after a parameter
+
+    changes, but not immediately. Use `WaitForGenerationAsync()` to wait for
+
+    generation to complete before parameters are changed.
+
+
+    This method errors if called on a `Class.ProceduralModel` that is not in
+
+    the `Class.DataModel` because generation isn''t performed for instances
+
+    without a parent.
+
+
+    This method returns `false` if the `Class.ProceduralModel` is removed from
+
+    the `Class.DataModel` while generation is in progress, since this cancels
+
+    the operation.
+
+    '
+  code_samples:
+  - ProceduralModel-WaitForGenerationAsync
+  parameters: []
+  returns:
+  - type: boolean
+    summary: 'Was the generation successful?
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: ForceGeneration
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+- name: WaitForGenerationAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+events: []
+callbacks: []

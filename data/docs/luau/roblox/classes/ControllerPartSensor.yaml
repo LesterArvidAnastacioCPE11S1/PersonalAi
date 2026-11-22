@@ -1,0 +1,464 @@
+name: ControllerPartSensor
+type: class
+memory_category: Instances
+summary: 'A `Class.SensorBase` that outputs data about another `Class.BasePart` based
+  on
+
+  `Class.Humanoid` floor and ladder detection logic.
+
+  '
+description: 'A `Class.SensorBase` that outputs data about another `Class.BasePart`
+  based on
+
+  `Class.Humanoid` floor and ladder detection logic. It is primarily used for
+
+  sending data to a character controller. Using a `Class.ControllerPartSensor`
+
+  allows you to detect `Class.BasePart|BaseParts` in the same manner as the
+
+  `Class.Humanoid` uses for detecting floors and ladders.
+
+  '
+code_samples: []
+inherits:
+- ControllerSensor
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: ControllerPartSensor.HitFrame
+  summary: 'The position in world space where the sensor hit the
+
+    `Class.ControllerPartSensor.SensedPart`.
+
+    '
+  description: 'The position in world space where the sensor hit the
+
+    `Class.ControllerPartSensor.SensedPart`.
+
+    '
+  code_samples: []
+  type: CFrame
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Output
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  simulationAccess: true
+- name: ControllerPartSensor.HitNormal
+  summary: 'The surface normal at the position where the sensor hit the
+
+    `Class.ControllerPartSensor.SensedPart`.
+
+    '
+  description: 'The surface normal at the position where the sensor hit the SensedPart.
+
+    '
+  code_samples: []
+  type: Vector3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Output
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  simulationAccess: true
+- name: ControllerPartSensor.LadderSearchHeight
+  summary: 'The upper bound, in studs, of the vertical region the sensor searches
+    for
+
+    a ladder when `Class.ControllerPartSensor.SensorMode` is set to a ladder
+
+    mode.
+
+    '
+  description: 'Top of the vertical extent the sensor scans for a climbable ladder,
+    in
+
+    studs relative to the sensor''s parent `Class.BasePart`. Together with
+
+    `Class.ControllerPartSensor.LadderSearchOffset`, it defines the height
+
+    range: the region extends upward to `LadderSearchHeight` minus
+
+    `LadderSearchOffset`.
+
+
+    Defaults to `6`; clamped to non-negative values.
+
+
+    Only affects sensing when `Class.ControllerPartSensor.SensorMode` is a
+
+    ladder mode such as `Enum.SensorMode.Ladder`. Because `SensorMode`
+
+    defaults to `Enum.SensorMode.Floor`, this has no effect until `SensorMode`
+
+    is changed.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Input
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  simulationAccess: true
+- name: ControllerPartSensor.LadderSearchOffset
+  summary: 'The downward offset, in studs, that positions the vertical region the
+
+    sensor searches for a ladder when `Class.ControllerPartSensor.SensorMode`
+
+    is set to a ladder mode.
+
+    '
+  description: 'Downward offset, in studs relative to the parent `Class.BasePart`,
+    that
+
+    positions the vertical extent scanned for a climbable ladder. Behaves like
+
+    a hip-height offset: increasing it lowers both the bottom and top of the
+
+    searched region, and scales the rung-spacing tolerance used to decide
+
+    whether a surface is climbable.
+
+
+    Defaults to `5`; clamped to non-negative values.
+
+
+    Only affects sensing when `Class.ControllerPartSensor.SensorMode` is a
+
+    ladder mode such as `Enum.SensorMode.Ladder`. Because `SensorMode`
+
+    defaults to `Enum.SensorMode.Floor`, this has no effect until `SensorMode`
+
+    is changed.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Input
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  simulationAccess: true
+- name: ControllerPartSensor.SearchDistance
+  summary: 'The distance from the sensor''s parent `Class.BasePart` to use when sensing
+
+    other parts.
+
+    '
+  description: 'The distance from the sensor''s parent `Class.BasePart` to use when
+    sensing
+
+    other parts.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Input
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  simulationAccess: true
+- name: ControllerPartSensor.SensedMaterial
+  summary: 'The surface `Enum.Material` of the `Class.ControllerPartSensor.SensedPart`
+
+    that the sensor is currently detecting.
+
+    '
+  description: 'Surface `Enum.Material` of the part the sensor currently detects,
+    matching
+
+    the material `Class.Humanoid` floor and ladder detection report for the
+
+    same contact. Updated as an output alongside
+
+    `Class.ControllerPartSensor.SensedPart`,
+
+    `Class.ControllerPartSensor.HitFrame`, and
+
+    `Class.ControllerPartSensor.HitNormal` each time the sensor senses.
+
+
+    Defaults to `Enum.Material.Air`.
+
+    '
+  code_samples: []
+  type: Material
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Output
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  simulationAccess: true
+- name: ControllerPartSensor.SensedPart
+  summary: 'A reference to the `Class.BasePart` hit by the sensor.
+
+    '
+  description: 'A reference to the `Class.BasePart` hit by the sensor.
+
+    '
+  code_samples: []
+  type: BasePart
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Output
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  simulationAccess: true
+- name: ControllerPartSensor.SensorMode
+  summary: 'Determines what behavior this `Class.SensorBase` uses when sensing other
+
+    parts.
+
+    '
+  description: 'Determines what behavior this `Class.SensorBase` uses when sensing
+    other
+
+    parts.
+
+
+    A setting of `Enum.SensorMode.Ladder` performs the same ladder detection
+
+    logic used by a `Class.Humanoid` to populate sensor output. It currently
+
+    always senses along the forward vector of its parent `Class.BasePart`.
+
+
+    A setting of `Enum.SensorMode.Floor` performs the same floor detection
+
+    logic used by a `Class.Humanoid` to populate sensor output. It currently
+
+    always senses along the negative up vector of the world.
+
+    '
+  code_samples: []
+  type: SensorMode
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Input
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  simulationAccess: true
+- name: HitFrame
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: CFrame
+  category: Output
+  serialization:
+    can_load: true
+    can_save: true
+  default: 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1
+- name: HitNormal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Output
+  serialization:
+    can_load: true
+    can_save: true
+  default: 0, 1, 0
+- name: LadderSearchHeight
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Input
+  serialization:
+    can_load: true
+    can_save: true
+  default: '6'
+- name: LadderSearchOffset
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Input
+  serialization:
+    can_load: true
+    can_save: true
+  default: '5'
+- name: SearchDistance
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Input
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: SensedMaterial
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.Material
+  category: Output
+  serialization:
+    can_load: true
+    can_save: true
+  default: Air
+- name: SensedPart
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: BasePart
+  category: Output
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: SensorMode
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.SensorMode
+  category: Input
+  serialization:
+    can_load: true
+    can_save: true
+  default: Floor
+methods:
+- name: GetExtents
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotBrowsable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: unknown
+events: []
+callbacks: []

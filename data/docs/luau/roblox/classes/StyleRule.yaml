@@ -1,0 +1,866 @@
+name: StyleRule
+type: class
+memory_category: Gui
+summary: 'Defines style properties which override properties on the instances affected
+
+  by the `Class.StyleRule.Selector|Selector` property.
+
+  '
+description: 'Defines style properties which override properties on the instances
+  affected
+
+  by the `Class.StyleRule.Selector|Selector` property.
+
+  '
+code_samples: []
+inherits:
+- StyleBase
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: StyleRule.Priority
+  summary: 'A number that determines how properties of the `StyleRule` apply relative
+
+    to the same properties in other `StyleRules`. Higher priority values take
+
+    precedence over lower.
+
+    '
+  description: 'A number that determines how properties of the `StyleRule` apply relative
+
+    to the same properties in other `Class.StyleRule|StyleRules`. Higher
+
+    priority values take precedence over lower. For example, if a `StyleRule`
+
+    with a priority of `10` has an `AnchorPoint` property of <Typography
+
+    noWrap>`1, 0`</Typography>, it will take precedence over lower-priority
+
+    `Class.StyleRule|StyleRules` with `AnchorPoint` properties.
+
+    '
+  code_samples: []
+  type: int
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: StyleRule.Selector
+  summary: 'A string specifying which instances the `StyleRule` should affect.
+
+    '
+  description: "A string specifying which instances the `StyleRule` should affect.\
+    \ This\ncan be a mix of selectors and combinators to match characteristics such\
+    \ as\nthe class name, instance name, and hierarchy relationships.\n\nFor example,\
+    \ `\".Container > ImageLabel.BlueOnHover:Hover\"` effectively\nmeans the style\
+    \ rule overrides every `Class.ImageLabel` that's a child of\nan instance tagged\
+    \ with `Container` (`.Container > ImageLabel`) **and** is\ntagged with `BlueOnHover`\
+    \ (`.BlueOnHover`) **and** is in the\n`Enum.GuiState.Hover` state (`:Hover`).\n\
+    \n#### Selectors\n\n<table>\n<thead>\n  <tr>\n    <th>Selector</th>\n    <th>Description</th>\n\
+    \    <th>Examples</th>\n  </tr>\n</thead>\n<tbody>\n  <tr>\n    <td><code>[class]</code></td>\n\
+    \    <td>Matches instances of a <code>Class.GuiObject</code> or <code>Class.UIComponent</code>\
+    \ class.</td>\n    <td><code>\"Frame\"</code><br /><code>\"ImageButton\"</code><br\
+    \ /><code>\"UICorner\"</code></td>\n  </tr>\n  <tr>\n    <td><code>.[tag]</code></td>\n\
+    \    <td>Matches instances <a href=\"../../../studio/properties.md#instance-tags\"\
+    >tagged</a> with a <code>Class.CollectionService</code> tag.</td>\n    <td><code>\"\
+    .Container\"</code><br /><code>\".BlueOnHover\"</code></td>\n  </tr>\n  <tr>\n\
+    \    <td><code>#[name]</code></td>\n    <td>Matches instances of a specific <code>Class.Instance.Name</code>.</td>\n\
+    \    <td><code>\"#ModalFrame\"</code><br /><code>\"#CloseButton\"</code></td>\n\
+    \  </tr>\n  <tr>\n    <td><code>:[state]</code></td>\n    <td>Matches instances\
+    \ currently in a <code>Enum.GuiState</code>.</td>\n    <td><code>\":Hover\"</code></td>\n\
+    \  </tr>\n  <tr>\n    <td><code>@[StyleQuery name]</code></td>\n    <td>Matches\
+    \ instances with child <code>Class.StyleQuery</code> that has <code>Class.StyleQuery.IsActive|IsActive</code>\
+    \ set to <code>true</code>.<br /><br />\n    There are also built-in selectors\
+    \ for <code>\"@ReducedMotionEnabledFalse\"</code>, <code>\"@ReducedMotionEnabledTrue\"\
+    </code>, <code>\"@PreferredInputGamepad\"</code>, <code>\"@PreferredInputKeyboardAndMouse\"\
+    </code>, <code>\"@PreferredInputTouch\"</code>, <code>\"@PreferredTextSizeMedium\"\
+    </code>, <code>\"@PreferredTextSizeLarge\"</code>, <code>\"@PreferredTextSizeLarger\"\
+    </code>, <code>\"@PreferredTextSizeLargest\"</code>, <code>\"@ViewportDisplaySizeSmall\"\
+    </code>, <code>\"@ViewportDisplaySizeMedium\"</code>, and <code>\"@ViewportDisplaySizeLarge\"\
+    </code> that can match an instance without a <code>Class.StyleQuery</code> instance.</td>\n\
+    \    <td><code>\"@StyleQuerySmall\"</code></td>\n  </tr>\n</tbody>\n</table>\n\
+    \n#### Combinators\n\n<table>\n<thead>\n  <tr>\n    <th>Combinator</th>\n    <th>Description</th>\n\
+    \    <th>Examples</th>\n  </tr>\n</thead>\n<tbody>\n  <tr>\n    <td><code>&gt;</code></td>\n\
+    \    <td>Matches instances that are <b>direct children</b> of the previous filter\
+    \ matches.</td>\n    <td width=\"40%\"><code>\"Frame &gt; .Inventory\"</code></td>\n\
+    \  </tr>\n  <tr>\n    <td><code>&gt;&gt;</code></td>\n    <td>Matches instances\
+    \ that are <b>descendants</b> of the previous filter matches.</td>\n    <td><code>\"\
+    ImageButton &gt;&gt; .BlueOnHover\"</code></td>\n  </tr>\n  <tr>\n    <td><code>,</code></td>\n\
+    \    <td>Specifies a list of multiple independent selectors for the style rule.</td>\n\
+    \    <td><code>\"Frame.TagA, TextLabel.TagA\"</code></td>\n  </tr>\n  <tr>\n \
+    \   <td><code>::</code></td>\n    <td>Creates a phantom <code>Class.UIComponent</code>\
+    \ instance under the previous filter matches and applies the style rule's properties\
+    \ to it.<br /><br />\n    Multiple instances can be created for <code>Class.StyleQuery</code>\
+    \ and <code>Class.UIStroke</code> by aliasing the instance with a name selector.\n\
+    \    Some nested instances are supported, including <code>Class.UIGradient</code>\
+    \ under <code>Class.UIStroke</code> or <code>Class.UIConstraint</code> under a\
+    \ <code>Class.UIGridLayout</code>.</td>\n    <td><code>\"Frame::UICorner\" \"\
+    ::UIStroke #Outer\"</code></td>\n  </tr>\n</tbody>\n</table>\n"
+  code_samples:
+  - UI-Styling-Class
+  - UI-Styling-Tag
+  - UI-Styling-Modifier
+  - UI-Styling-StyleQuery
+  type: string
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: StyleRule.SelectorError
+  summary: 'A read-only string that displays errors from the
+
+    `Class.StyleRule.Selector|Selector` property.
+
+    '
+  description: 'A read-only string that displays errors from the
+
+    `Class.StyleRule.Selector|Selector` property such as syntax errors,
+
+    unsupported class types, etc.
+
+    '
+  code_samples: []
+  type: string
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - UI
+- name: Index
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: Data
+  serialization:
+    can_load: true
+    can_save: false
+  default: '-1'
+- name: Priority
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: PropertiesSerialize
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: BinaryString
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+- name: PropertyTransitionsSerialize
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: BinaryString
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: "\x02"
+- name: Selector
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+- name: SelectorError
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+methods:
+- name: StyleRule:GetDefaultPropertyTransition
+  summary: 'Returns the default transition applied to all properties of the
+
+    `StyleRule` that don''t have an explicit transition set.
+
+    '
+  description: 'Returns the default transition applied to all properties of the
+
+    `StyleRule` that don''t have an explicit transition set. This is equivalent
+
+    to calling
+
+    `Class.StyleRule:GetPropertyTransitions()|GetPropertyTransitions()` and
+
+    reading the value at key `"*"`.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Variant
+    summary: 'The default transition as a `Datatype.TweenInfo` or string token, or
+
+      `nil` if no default transition is set.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: StyleRule:GetProperties
+  summary: 'Returns a dictionary of key-value pairs describing the properties of the
+
+    `StyleRule`.
+
+    '
+  description: 'Returns a dictionary of key-value pairs describing the properties
+    of the
+
+    `StyleRule`, for example:
+
+    '
+  code_samples:
+  - StyleRule-GetProperties
+  parameters: []
+  returns:
+  - type: Dictionary
+    summary: 'Dictionary of key-value pairs describing the properties of the
+
+      `StyleRule`.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: StyleRule:GetProperty
+  summary: 'Returns the value of a specific property in the `StyleRule`.
+
+    '
+  description: 'Returns the value of a specific property in the `StyleRule`.
+
+    '
+  code_samples:
+  - StyleRule-GetProperty
+  parameters:
+  - name: name
+    type: string
+    default: null
+    summary: 'String name of the property, for example `"AnchorPoint"` or
+
+      `"BackgroundColor3"`.
+
+      '
+  returns:
+  - type: Variant
+    summary: 'Value of the property.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: StyleRule:GetPropertyTransitions
+  summary: 'Returns a dictionary of all property transitions set on the `StyleRule`.
+
+    '
+  description: 'Returns a dictionary of all property transitions set on the `StyleRule`.
+
+    Each key is a property name (string) and each value is a
+
+    `Datatype.TweenInfo` or a string token that defines the transition''s
+
+    timing for that property.
+
+    '
+  code_samples:
+  - StyleRule-GetPropertyTransitions
+  parameters: []
+  returns:
+  - type: Dictionary
+    summary: 'Dictionary of key-value pairs mapping property names to their
+
+      transition parameters.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: StyleRule:SetDefaultPropertyTransition
+  summary: 'Sets or clears a default transition that applies to all properties of
+    the
+
+    `StyleRule` that don''t have an explicit transition set.
+
+    '
+  description: "Sets or clears a default transition that applies to all properties\
+    \ of the\n`StyleRule` that don't have an explicit transition set. This is equivalent\n\
+    to calling\n`Class.StyleRule:SetPropertyTransition()|SetPropertyTransition()`\
+    \ with\n`\"*\"` as the property name.\n\nThe `transitionParams` parameter accepts\
+    \ a `Datatype.TweenInfo` that\nconfigures the transition's timing. The following\
+    \ `Datatype.TweenInfo`\nproperties are used:\n\n- `Datatype.TweenInfo.Time|Time`\
+    \ &mdash; Duration of the transition in\n  seconds.\n- `Datatype.TweenInfo.EasingStyle|EasingStyle`\
+    \ &mdash; The easing function\n  used for interpolation.\n- `Datatype.TweenInfo.EasingDirection|EasingDirection`\
+    \ &mdash; The\n  direction of the easing function.\n- `Datatype.TweenInfo.DelayTime|DelayTime`\
+    \ &mdash; Delay in seconds before\n  the transition starts.\n\nNote that the `Datatype.TweenInfo.RepeatCount|RepeatCount`\
+    \ and\n`Datatype.TweenInfo.Reverses|Reverses` fields of `Datatype.TweenInfo` are\n\
+    ignored, as style transitions cannot repeat or reverse automatically.\n\nA per-property\
+    \ transition set via\n`Class.StyleRule:SetPropertyTransition()|SetPropertyTransition()`\
+    \ takes\nprecedence over the default transition for that property.\n"
+  code_samples: []
+  parameters:
+  - name: transitionParams
+    type: Variant
+    default: null
+    summary: 'Either a `Datatype.TweenInfo`, a token string defining the default
+
+      transition timing, or `nil` to remove the default transition.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: StyleRule:SetProperties
+  summary: 'Lets you declare and set multiple properties of the `StyleRule` at once.
+
+    '
+  description: "Similar to `Class.StyleRule:SetProperty()|SetProperty()` but lets\
+    \ you\ndeclare and set multiple properties of the `StyleRule` at once. Each\n\
+    assignment should be a valid property of the affected `Class.GuiObject` or\n`Class.UIComponent`\
+    \ (`Class.UICorner`, `Class.UIGradient`, etc.), and each\nassigned value should\
+    \ match its property's value type, for example\n`Datatype.Vector2` for `Class.GuiObject.AnchorPoint|AnchorPoint`\
+    \ or\n`Datatype.Color3` for `Class.GuiObject.BackgroundColor3|BackgroundColor3`.\n\
+    \nAttempts to assign invalid property names such as `\"AnchorPt\"` or\n`\"BkColor\"\
+    ` will silently fail. Type mismatches such as `Datatype.CFrame`\nfor `Class.GuiObject.AnchorPoint|AnchorPoint`\
+    \ or `Datatype.UDim2` for\n`Class.GuiObject.BackgroundColor3|BackgroundColor3`\
+    \ will also fail and an\nerror will appear in the [Output](../../../studio/output.md)\
+    \ window.\n\nTo set/update just one property of a `StyleRule`, see\n`Class.StyleRule:SetProperty()|SetProperty()`.\n\
+    \n```lua\nlocal ReplicatedStorage = game:GetService(\"ReplicatedStorage\")\n\n\
+    local coreSheet = ReplicatedStorage:FindFirstChild(\"CoreSheet\")\n\n-- Get reference\
+    \ to style rule\nlocal frameRule = coreSheet.Frame\n\n-- Set rule properties\n\
+    frameRule:SetProperties({\n\t[\"AnchorPoint\"] = Vector2.new(0.5, 0),\n\t[\"BackgroundColor3\"\
+    ] = Color3.new(1, 0, 0.25)\n})\n```\n\nNote that you can assign **tokens** as\
+    \ property values through the `$`\nprefix:\n\n```lua\nlocal ReplicatedStorage\
+    \ = game:GetService(\"ReplicatedStorage\")\n\nlocal coreSheet = ReplicatedStorage:FindFirstChild(\"\
+    CoreSheet\")\nlocal tokensSheet = ReplicatedStorage:FindFirstChild(\"Tokens\"\
+    )\n\n-- Set tokens (attributes) on tokens sheet\ntokensSheet:SetAttribute(\"TopCenterAnchor\"\
+    , Vector2.new(0.5, 0))\ntokensSheet:SetAttribute(\"MainBackgroundColor\", Color3.new(0.2,\
+    \ 0.2, 0.3))\n\n-- Get reference to style rule\nlocal frameRule = coreSheet.Frame\n\
+    \n-- Set rule properties\nframeRule:SetProperties({\n\t[\"AnchorPoint\"] = \"\
+    $TopCenterAnchor\",\n\t[\"BackgroundColor3\"] = \"$MainBackgroundColor\"\n})\n\
+    ```\n"
+  code_samples: []
+  parameters:
+  - name: styleProperties
+    type: Dictionary
+    default: null
+    summary: 'Dictionary of key-value pairs defining the properties to set.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: StyleRule:SetProperty
+  summary: 'Sets or updates a single property of the `StyleRule`.
+
+    '
+  description: 'Sets a new property (or modifies an existing property) for the
+
+    `StyleRule`. The `name` parameter should be a valid property of the
+
+    affected `Class.GuiObject` or `Class.UIComponent` (`Class.UICorner`,
+
+    `Class.UIGradient`, etc.), and the assigned value should match the
+
+    property''s value type, for example `Datatype.Vector2` for
+
+    `Class.GuiObject.AnchorPoint|AnchorPoint` or `Datatype.Color3` for
+
+    `Class.GuiObject.BackgroundColor3|BackgroundColor3`.
+
+
+    Attempts to assign invalid property names such as `"AnchorPt"` or
+
+    `"BkColor"` will silently fail. Type mismatches such as `Datatype.CFrame`
+
+    for `Class.GuiObject.AnchorPoint|AnchorPoint` or `Datatype.UDim2` for
+
+    `Class.GuiObject.BackgroundColor3|BackgroundColor3` will also fail and an
+
+    error will appear in the [Output](../../../studio/output.md) window.
+
+
+    To set multiple properties for a `StyleRule` at once, see
+
+    `Class.StyleRule:SetProperties()|SetProperties()`.
+
+
+    ```lua
+
+    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+
+    local coreSheet = ReplicatedStorage:FindFirstChild("CoreSheet")
+
+
+    -- Get reference to style rule
+
+    local frameRule = coreSheet.Frame
+
+
+    -- Set rule property
+
+    frameRule:SetProperty("BackgroundColor3", Color3.new(1, 0, 0.25))
+
+    ```
+
+
+    Note that you can assign **tokens** as property values through the `$`
+
+    prefix:
+
+
+    ```lua
+
+    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+
+    local coreSheet = ReplicatedStorage:FindFirstChild("CoreSheet")
+
+    local tokensSheet = ReplicatedStorage:FindFirstChild("Tokens")
+
+
+    -- Set new token (attribute) on tokens sheet
+
+    tokensSheet:SetAttribute("MainBackgroundColor", Color3.new(0.2, 0.2, 0.3))
+
+
+    -- Get reference to style rule
+
+    local frameRule = coreSheet.Frame
+
+    -- Set rule property to use the token as its value
+
+    frameRule:SetProperty("BackgroundColor3, "$MainBackgroundColor")
+
+    ```
+
+    '
+  code_samples: []
+  parameters:
+  - name: name
+    type: string
+    default: null
+    summary: 'Property name to set, for example `"BackgroundColor3"`.
+
+      '
+  - name: value
+    type: Variant
+    default: null
+    summary: 'Property value to set, for example `Datatype.Color3.new(1, 0, 0.25)`.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: StyleRule:SetPropertyTransition
+  summary: 'Sets or clears the transition for a single property on the `StyleRule`.
+
+    '
+  description: "Sets or clears the transition for a single property on the `StyleRule`.\n\
+    When a transition is set for a property, any change to that property's\nstyled\
+    \ value will be animated over time instead of applied immediately.\n\nThe `transitionParams`\
+    \ parameter accepts a `Datatype.TweenInfo` that\nconfigures the transition's timing.\
+    \ The following `Datatype.TweenInfo`\nproperties are used:\n\n- `Datatype.TweenInfo.Time|Time`\
+    \ &mdash; Duration of the transition in\n  seconds.\n- `Datatype.TweenInfo.EasingStyle|EasingStyle`\
+    \ &mdash; The easing function\n  used for interpolation.\n- `Datatype.TweenInfo.EasingDirection|EasingDirection`\
+    \ &mdash; The\n  direction of the easing function.\n- `Datatype.TweenInfo.DelayTime|DelayTime`\
+    \ &mdash; Delay in seconds before\n  the transition starts.\n\nNote that the `Datatype.TweenInfo.RepeatCount|RepeatCount`\
+    \ and\n`Datatype.TweenInfo.Reverses|Reverses` fields of `Datatype.TweenInfo` are\n\
+    ignored, as style transitions cannot repeat or reverse automatically.\n\nTo set\
+    \ transitions for multiple properties at once, see\n`Class.StyleRule:SetPropertyTransitions()|SetPropertyTransitions()`.\n"
+  code_samples:
+  - StyleRule-SetPropertyTransition
+  - StyleRule-SetPropertyTransition-Tokens
+  parameters:
+  - name: property
+    type: string
+    default: null
+    summary: 'String name of the property to set a transition for, for example
+
+      `"BackgroundColor3"` or `"Size"`.
+
+      '
+  - name: transitionParams
+    type: Variant
+    default: null
+    summary: 'A `Datatype.TweenInfo` or token string defining the transition timing,
+
+      or `nil` to remove the transition for this property.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: StyleRule:SetPropertyTransitions
+  summary: 'Lets you declare and set transitions for multiple properties of the
+
+    `StyleRule` at once.
+
+    '
+  description: "Similar to\n`Class.StyleRule:SetPropertyTransition()|SetPropertyTransition()`\
+    \ but lets\nyou declare and set transitions for multiple properties of the `StyleRule`\n\
+    at once.\n\nCalling this method **replaces** all existing transitions on the\n\
+    `StyleRule` with the provided set. Each key should be a property name\n(string)\
+    \ and each value should be a `Datatype.TweenInfo` or string token\ndefining the\
+    \ transition timing for that property. Passing `nil` as a value\nfor a key excludes\
+    \ that property from the resulting transitions.\n\nThe following `Datatype.TweenInfo`\
+    \ properties are used:\n\n- `Datatype.TweenInfo.Time|Time` &mdash; Duration of\
+    \ the transition in\n  seconds.\n- `Datatype.TweenInfo.EasingStyle|EasingStyle`\
+    \ &mdash; The easing function\n  used for interpolation.\n- `Datatype.TweenInfo.EasingDirection|EasingDirection`\
+    \ &mdash; The\n  direction of the easing function.\n- `Datatype.TweenInfo.DelayTime|DelayTime`\
+    \ &mdash; Delay in seconds before\n  the transition starts.\n\nNote that the `Datatype.TweenInfo.RepeatCount|RepeatCount`\
+    \ and\n`Datatype.TweenInfo.Reverses|Reverses` fields of `Datatype.TweenInfo` are\n\
+    ignored, as style transitions cannot repeat or reverse automatically.\n\nTo set/update\
+    \ just one property transition on a `StyleRule`, see\n`Class.StyleRule:SetPropertyTransition()|SetPropertyTransition()`.\n"
+  code_samples:
+  - StyleRule-SetPropertyTransitions
+  - StyleRule-SetPropertyTransitions-Tokens
+  parameters:
+  - name: properties
+    type: Dictionary
+    default: null
+    summary: 'Dictionary of property names to transition parameters.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: GetDefaultPropertyTransition
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Variant
+- name: GetProperties
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Dictionary
+- name: GetPropertiesResolved
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Dictionary
+- name: GetProperty
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: string
+  returns:
+  - type: Variant
+- name: GetPropertyResolved
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: string
+  returns:
+  - type: Variant
+- name: GetPropertyTransitions
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Dictionary
+- name: SetDefaultPropertyTransition
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: transitionParams
+    type: Variant
+  returns:
+  - type: 'null'
+- name: SetProperties
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: styleProperties
+    type: Dictionary
+  returns:
+  - type: 'null'
+- name: SetProperty
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: string
+  - name: value
+    type: Variant
+  returns:
+  - type: 'null'
+- name: SetPropertyTransition
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: property
+    type: string
+  - name: transitionParams
+    type: Variant
+  returns:
+  - type: 'null'
+- name: SetPropertyTransitions
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: properties
+    type: Dictionary
+  returns:
+  - type: 'null'
+events:
+- name: StyleRulePropertyChanged
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: styleProperty
+    type: string
+callbacks: []

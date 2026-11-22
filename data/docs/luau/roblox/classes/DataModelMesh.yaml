@@ -1,0 +1,211 @@
+name: DataModelMesh
+type: class
+memory_category: Instances
+summary: 'The DataModelMesh is an abstract class from which mesh classes descend.
+
+  '
+description: 'The DataModelMesh is an abstract class from which mesh classes descend.
+
+
+  Mesh classes are objects that, when parented to `Class.BasePart|BaseParts`
+
+  alter the appearance of the part to that of a predefined mesh. Note, they only
+
+  alter the appearance of the part and not the physics/collision boundaries of
+
+  the part. Developers looking to apply a mesh to a part that alters the part''s
+
+  collision should use `Class.MeshPart|MeshParts`.
+
+
+  Note the `Class.MeshPart` and `Class.CharacterMesh` classes do not descend
+
+  from DataModelMesh.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants:
+- BevelMesh
+- FileMesh
+tags:
+- NotCreatable
+- NotBrowsable
+deprecation_message: ''
+properties:
+- name: DataModelMesh.Offset
+  summary: 'The Offset of a mesh determines the relative position from the
+
+    `Class.BasePart.Position` of a `Class.BasePart` that the mesh will be
+
+    displayed at.
+
+    '
+  description: "The Offset of a mesh determines the distance from the\n`Class.BasePart.Position`\
+    \ of a `Class.BasePart` that the mesh will be\ndisplayed.\n\n#### How to use mesh\
+    \ offset\n\nThe Offset property changes the relative position the mesh will be\n\
+    rendered at. For example, an offset of 0, 5, 0 will cause the mesh to be\ndisplayed\
+    \ 5 studs above the position of the `Class.BasePart`.\n\nThe position of the `Class.BasePart`\
+    \ remains unchanged, meaning the\nphysics collision box of the part will remain\
+    \ in the same location. This\nis demonstrated in the image below where the green\
+    \ outline (a\n`Class.SelectionBox`) shows the extents of the `Class.BasePart`.\n\
+    \n#### Other uses for mesh offset\n\nThere are a number of interesting uses for\
+    \ the mesh offset property.\n\n- Offset and `Class.DataModelMesh.Scale` can be\
+    \ animated using\n  `Class.TweenService` relatively inexpensively as the engine\
+    \ does not\n  need to make any physics/collision calculations as the `Class.BasePart`\n\
+    \  is not moved.\n- Changing the relationship between the mesh and its collision\
+    \ extents\n  (determined by the `Class.BasePart`)\n"
+  code_samples:
+  - Mesh-Offset-and-Scale
+  type: Vector3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: DataModelMesh.Scale
+  summary: 'The Scale of a mesh determines the size of the mesh relative to its
+
+    original dimensions.
+
+    '
+  description: "The Scale of a mesh determines the size of the mesh relative to its\n\
+    original dimensions.\n\n#### How to use mesh scale\n\nThe scale property works\
+    \ slightly differently depending on the type of\nmesh being used. Note the size\
+    \ of the `Class.BasePart` remains unchanged,\nmeaning the physics collision box\
+    \ of the part will remain the same.\n\n- `Class.SpecialMesh` objects with `Class.SpecialMesh.FileType`\
+    \ set to\n  'FileMesh' scale relative to the original dimensions of the mesh when\
+    \ it\n  was uploaded to Roblox\n- `Class.BlockMesh` objects or `Class.SpecialMesh`\
+    \ objects with\n  `Class.SpecialMesh.FileType` set to 'Brick', 'Wedge' or 'Sphere'\
+    \ scale\n  uniformly relative to the `Class.BasePart.Size` of their parent\n-\
+    \ `Class.CylinderMesh` objects or `Class.SpecialMesh` objects with\n  `Class.SpecialMesh.FileType`\
+    \ set to 'Cylinder' scale relative to the\n  `Class.BasePart.Size` of their parent.\
+    \ Uniformly for the cylinders\n  height axis and maintaining a 1:1 ratio for the\
+    \ length and width of the\n  cylinder, using the lowest value.\n- `Class.SpecialMesh`\
+    \ objects with `Class.SpecialMesh.FileType` set to\n  'Head' currently scale in\
+    \ a non standard manner. Developers should not\n  rely on this as there are plans\
+    \ to change this behavior.\n- `Class.SpecialMesh` objects with `Class.SpecialMesh.FileType`\
+    \ set to\n  'Torso' scale in a non standard manner. Developers should not rely\
+    \ on\n  this as there are plans to deprecate this mesh type.\n\n#### Mesh scale\
+    \ demonstration\n\nThe above behavior can be seen in the following demonstration\
+    \ images.\n\nLinear scaling relative to part size for 'Brick', 'Wedge' and 'Sphere'\n\
+    meshes.\n\nLinear scaling relative to original uploaded mesh for 'FileMesh' meshes\n\
+    \nNon-uniform constrained scaling for 'Cylinder' meshes\n\n#### Other uses for\
+    \ mesh scale\n\nThere are a number of interesting uses for the mesh offset property.\n\
+    \n- `Class.DataModelMesh.Offset` and Scale can be animated using\n  `Class.TweenService`\
+    \ relatively inexpensively as the engine does not\n  need to make any physics/collision\
+    \ calculations as the `Class.BasePart`\n  is not changed.\n- Changing the relationship\
+    \ between the mesh and its collision extents\n  (determined by the `Class.BasePart`)\n"
+  code_samples:
+  - Mesh-Offset-and-Scale
+  type: Vector3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: DataModelMesh.VertexColor
+  summary: 'Changes the hue of a mesh''s texture, used with `Class.FileMesh.TextureId`.
+
+    '
+  description: '**VertexColor** determines the hue change of the
+
+    `Class.FileMesh.TextureId|Texture` of a `Class.FileMesh`. Note that this
+
+    property is a `Datatype.Vector3` rather than a `Datatype.Color3`; to
+
+    convert, use the `Datatype.Color3.R`, `Datatype.Color3.G`, and
+
+    `Datatype.Color3.B` properties.
+
+
+    Although this property allows basic modification of a texture, changing a
+
+    texture entirely provides more control. See `Class.MeshPart` for more
+
+    details.
+
+    '
+  code_samples: []
+  type: Vector3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: Offset
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: Scale
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: VertexColor
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+methods: []
+events: []
+callbacks: []

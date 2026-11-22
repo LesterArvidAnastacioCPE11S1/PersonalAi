@@ -1,0 +1,3853 @@
+name: Workspace
+type: class
+memory_category: BaseParts
+summary: '`Workspace` houses 3D objects which are rendered to the 3D world. Objects
+  not
+
+  descending from it will not be rendered or physically interact with the world.
+
+  '
+description: "The core job of `Class.Workspace` is to hold objects that exist in the\
+  \ 3D\nworld, effectively `Class.BasePart|BaseParts` and\n`Class.Attachment|Attachments`.\
+  \ While such objects are descendant of\n`Class.Workspace`, they will be active.\
+  \ For `Class.BasePart|BaseParts`, this\nmeans they will be rendered, and physically\
+  \ interact with other parts and the\nworld. For `Class.Attachment|Attachments`,\
+  \ this means that objects adorned to\nthem, such as `Class.ParticleEmitter|ParticleEmitters`,\
+  \ `Class.Beam|Beams`,\nand `Class.BillboardGui|BillboardGuis`, will render.\n\n\
+  Understanding this behavior is important, as it means objects can be removed\nfrom\
+  \ `Class.Workspace` when they are not needed. For example, map\n`Class.Model|Models`\
+  \ can be removed when a different map is being played on.\nObjects that are not\
+  \ immediately needed in the 3D world are generally stored\nin `Class.ReplicatedStorage`\
+  \ or `Class.ServerStorage`.\n\nIn its role as the holder of active 3D objects, `Class.Workspace`\
+  \ includes a\nnumber of useful functions related to parts, their positions, and\
+  \ joints\nbetween them.\n\n#### Accessing the Workspace\n\n`Class.Workspace` can\
+  \ be accessed several ways, all of which are valid.\n\n- `workspace`\n- `game:GetService(\"\
+  Workspace\")`\n- `game.Workspace`\n\n#### Notes\n\n- Objects that require adornment,\
+  \ such as\n  `Class.ParticleEmitter|ParticleEmitters` and\n  `Class.BillboardGui|BillboardGuis`,\
+  \ will be at the\n  <Typography noWrap>`(0, 0, 0)`</Typography> position when parented\
+  \ to\n  `Class.Workspace` without an adornee otherwise being set.\n- The `Class.Model:MakeJoints()`\
+  \ and `Class.Model:BreakJoints()` methods\n  inherited from the `Class.Model` class\
+  \ are overridden by\n  `Class.Workspace:MakeJoints()` and `Class.Workspace:BreakJoints()`\
+  \ which can\n  only be used in plugins.\n- It is impossible to delete `Class.Workspace`.\n\
+  - `Class.Workspace` automatically cleans up `Class.BasePart|BaseParts` that\n  fall\
+  \ beneath\n  `Class.Workspace.FallenPartsDestroyHeight|FallenPartsDestroyHeight`.\n\
+  - A client's current `Class.Camera` object can be accessed using the\n  `Class.Workspace.CurrentCamera`\
+  \ property.\n- The `Class.Terrain` object can be accessed using the\n  `Class.Workspace.Terrain`\
+  \ property.\n"
+code_samples: []
+inherits:
+- WorldRoot
+descendants: []
+tags:
+- NotCreatable
+- Service
+deprecation_message: ''
+properties:
+- name: Workspace.AirDensity
+  summary: 'The air density at ground level, used in the aerodynamic force model.
+
+    '
+  description: 'The ground level (**Y** of 0) air density in RMU/stud&sup3; units
+    (see
+
+    [Roblox Units](../../../physics/units.md)), used to calculate the
+
+    aerodynamic force if `Class.Workspace.FluidForces` is
+
+    `Enum.FluidForces|Experimental`. The default corresponds to realistic sea
+
+    level air density at standard temperature and pressure. Air density decays
+
+    as the **Y** altitude increases, reaching 5% of its ground level value at
+
+    100,000 studs. Below **Y** of 0, the air density is fixed at the input
+
+    value.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: AirProperties
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  - Environment
+  simulationAccess: true
+- name: Workspace.AirTurbulenceIntensity
+  summary: 'Controls the strength of turbulence present in the wind velocity field,
+
+    affecting the aerodynamic force model.
+
+    '
+  description: 'Controls the intensity of turbulence by determining the magnitude
+    of
+
+    fluctuations in wind velocities. Ranges from `0` to `1`, with a value of
+
+    `0` disabling turbulence and a value of `1` providing the most intense
+
+    turbulence. The values of `AirTurbulenceIntensity` roughly correspond to
+
+    the following levels:
+
+
+    - `(0, 0.4]`: Low intensity turbulence
+
+    - `(0.4, 0.7]`: Moderate intensity turbulence
+
+    - `(0.7, 1]`: High intensity turbulence
+
+
+    The magnitude of the fluctuations at a fixed intensity scale linearly with
+
+    the magnitude of the global wind, except in the case that the global wind
+
+    is zero. When the global wind is zero, the magnitude of the fluctuations
+
+    scale exponentially with `AirTurbulenceIntensity`, allowing low and high
+
+    intensity turbulence to exist with wind velocities that still average out
+
+    to zero.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: AirProperties
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  - Environment
+  simulationAccess: true
+- name: Workspace.AllowThirdPartySales
+  summary: 'Determines whether assets created by other users can be sold in the game.
+
+    '
+  description: 'This `Class.Workspace` property determines whether assets created
+    by other
+
+    uses can be sold in the game.
+
+    '
+  code_samples: []
+  type: boolean
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Monetization
+- name: Workspace.AuthorityMode
+  summary: 'Sets the server authority mode.
+
+    '
+  description: 'Sets the server authority mode. See `Enum.AuthorityMode` for options.
+
+    '
+  code_samples: []
+  type: AuthorityMode
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Server Authority
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: Workspace.AvatarUnificationMode
+  summary: 'Enables the R6 to R15 adapter, allowing R15 avatars to join R6
+
+    experiences.
+
+    '
+  description: 'When `Enum.AvatarUnificationMode.Enabled`, R15 avatars can join R6
+
+    experiences via the R6 to R15 adapter. R15 characters receive invisible
+
+    adapter parts with R6-compatible names welded to their corresponding R15
+
+    parts, preserving R6-like scale and movement while enabling R15 features
+
+    such as layered clothing and animatable heads. Only relevant when the
+
+    experience''s avatar type is set to R6.
+
+    '
+  code_samples: []
+  type: AvatarUnificationMode
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: Workspace.ClientAnimatorThrottling
+  summary: 'Specifies the animation throttling mode for the local client.
+
+    '
+  description: 'Specifies the `Enum.ClientAnimatorThrottlingMode` to use for the local
+
+    client.
+
+
+    When enabled, animations on remotely-simulated `Class.Model` instances
+
+    will begin to throttle. The throttler calculates throttling intensity
+
+    using:
+
+
+    - Visibility of a `Class.Model` in relation to the `Class.Camera`
+
+    - In-game FPS
+
+    - Number of active animations
+
+    '
+  code_samples: []
+  type: ClientAnimatorThrottlingMode
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Animation
+- name: Workspace.CurrentCamera
+  summary: 'The `Class.Camera` object being used by the local player.
+
+    '
+  description: 'The `Class.Camera` object being used by the local player.
+
+
+    #### How to use CurrentCamera
+
+
+    When looking for a client''s `Class.Camera` object, use this property
+
+    rather than looking for a child of `Class.Workspace` named "Camera".
+
+
+    When you set this property, all other `Camera` objects in the `Workspace`
+
+    are destroyed, including the previous `CurrentCamera`. If you set this
+
+    property to `nil` or to a camera that is not a descendant of the Workspace
+
+    (or the `CurrentCamera` is otherwise destroyed), a new `Camera` will be
+
+    created and assigned. Avoid these scenarios, as destroying the camera can
+
+    have unintended consequences.
+
+
+    For more information, see
+
+    [Script the camera](../../../workspace/camera/index.md#script-the-camera).
+
+    '
+  code_samples: []
+  type: Camera
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: Workspace.DistributedGameTime
+  summary: 'The amount of time, in seconds, that the game has been running.
+
+    '
+  description: 'The amount of time, in seconds, that the game has been running.
+
+
+    Despite the title, this value is currently not ''Distributed'' across the
+
+    client and the server. Instead, on the server it represents how long the
+
+    server has been running. On the client, it represents how long the client
+
+    has been connected to the server.
+
+
+    Developers should not rely on the above behavior, and it is possible this
+
+    property will be synchronized across clients and the server in the future.
+
+
+    Those looking for the time since the program started running should use
+
+    the ''time'' function instead. See below for a comparison between
+
+    DistributedGameTime and its alternatives.
+
+    '
+  code_samples:
+  - Workspace-DistributedGameTime
+  type: double
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: Workspace.EnableSLIMAvatars
+  summary: 'Controls whether SLIM rendering is used for avatars in the experience.
+
+    '
+  description: 'This `Enum.RolloutState` property controls whether a
+
+    `Enum.ModelLevelOfDetail|SLIM` model is generated for avatar characters in
+
+    the experience. When enabled and instance streaming is active, avatars
+
+    render using SLIM in the same way that setting `Class.Model.LevelOfDetail`
+
+    to `Enum.ModelLevelOfDetail|SLIM` works for other models.
+
+
+    When set to `Enum.RolloutState|Enabled`, avatars use SLIM rendering. When
+
+    set to `Enum.RolloutState|Disabled`, avatars use the traditional rendering
+
+    approach. `Enum.RolloutState|Default` follows the current engine-wide
+
+    rollout state.
+
+
+    This property cannot be set through developer-facing Luau and must be set
+
+    in Studio through the Properties window, Command Bar, or a plugin.
+
+    '
+  code_samples: []
+  type: RolloutState
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Streaming
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Players
+- name: Workspace.FallenPartsDestroyHeight
+  summary: 'Determines the height at which falling `Class.BasePart|BaseParts` and
+
+    their ancestor `Class.Model|Models` are removed from `Class.Workspace`.
+
+    '
+  description: 'This property determines the height at which the engine automatically
+
+    removes falling `Class.BasePart|BaseParts` and their ancestor
+
+    `Class.Model|Models` from `Class.Workspace` by parenting them to `nil`.
+
+    This is to prevent parts that have fallen off the map from continuing to
+
+    fall forever.
+
+
+    If a part removed due to this behavior is the last part in a
+
+    `Class.Model`, that model will also be removed. This applies to all model
+
+    ancestors of the part.
+
+
+    This property is clamped between -50,000 and 50,000 because
+
+    `Class.BasePart|BaseParts` do not simulate or render properly at a great
+
+    distance from the origin due to floating point inaccuracies.
+
+
+    This property can be read by scripts, but can only be set by plugins, the
+
+    command bar, or the properties window in Studio.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: Workspace.FallHeightEnabled
+  summary: 'Controls whether parts that fall below
+
+    `Class.Workspace.FallenPartsDestroyHeight` are automatically destroyed.
+
+    '
+  description: 'When `false`, the kill plane defined by
+
+    `Class.Workspace.FallenPartsDestroyHeight` is disabled and falling parts
+
+    are not automatically removed. Defaults to `true`.
+
+
+    This property can be read by scripts but can only be set by plugins, the
+
+    command bar, or the properties window in Studio.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: Workspace.FilteringEnabled
+  summary: 'Determines whether changes made from the client will replicate to the
+
+    server or not.
+
+    '
+  description: 'This property is discontinued and no longer takes effect.
+
+    '
+  code_samples: []
+  type: boolean
+  tags:
+  - Hidden
+  - NotReplicated
+  - Deprecated
+  deprecation_message: 'This property is discontinued.
+
+    '
+  security:
+    read: None
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Basic
+- name: Workspace.FluidForces
+  summary: 'Determines whether the physics engine computes aerodynamic forces on
+
+    `Class.BasePart|BaseParts` whose
+
+    `Class.BasePart.EnableFluidForces|EnableFluidForces` property is true.
+
+    '
+  description: 'With this property enabled, the physics engine computes aerodynamic
+    forces
+
+    on `Class.BasePart|BaseParts` whose
+
+    `Class.BasePart.EnableFluidForces|EnableFluidForces` property is true. The
+
+    default, `Enum.FluidForces|Default`, disables aerodynamic forces. Note
+
+    that this property cannot be set through developer-facing Luau and instead
+
+    must be toggled in Studio.
+
+    '
+  code_samples: []
+  type: FluidForces
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: Workspace.GlobalWind
+  summary: 'Specifies the global wind vector for animated terrain grass, dynamic
+
+    clouds, and particles.
+
+    '
+  description: 'This property specifies the direction and strength that wind blows
+    through
+
+    the experience, affecting terrain grass, dynamic clouds, and particles.
+
+    See the [Global Wind](../../../environment/global-wind.md) article for
+
+    details.
+
+    '
+  code_samples: []
+  type: Vector3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: AirProperties
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  simulationAccess: true
+- name: Workspace.Gravity
+  summary: 'Determines the acceleration due to gravity applied to falling
+
+    `Class.BasePart|BaseParts`.
+
+    '
+  description: 'Determines the acceleration due to gravity applied to falling
+
+    `Class.BasePart|BaseParts`. This value is measured in studs per second
+
+    squared and by default is set to 196.2 studs/second<sup>2</sup>. By
+
+    changing this value, developers can simulate the effects of lower or
+
+    higher gravity in game.
+
+    '
+  code_samples:
+  - Low-Gravity-Button
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  simulationAccess: true
+- name: Workspace.IKControlConstraintSupport
+  summary: 'Enables support for constraints for IKControls. If disabled, IKControls
+
+    ignore physics constraints.
+
+    '
+  description: 'Enables support for constraints for IKControls. The `Default` value
+    is the
+
+    same as `Enabled`. If disabled, IKControls ignore physics constraints. See
+
+    `Class.IKControl` for additional details.
+
+    '
+  code_samples: []
+  type: IKControlConstraintSupport
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: Workspace.ImprovedPhysicsReplication
+  summary: 'Controls whether the experience uses the improved physics replication
+    path
+
+    between the server and clients.
+
+    '
+  description: 'When enabled, the experience uses the improved physics replication
+    path.
+
+    `Enum.RolloutState|Default` follows the default for this feature.
+
+    '
+  code_samples: []
+  type: RolloutState
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: Workspace.InsertPoint
+  summary: 'The world position at which new objects are placed when inserted from
+    the
+
+    toolbox.
+
+    '
+  description: 'Stores the world-space position used when inserting new objects into
+    the
+
+    workspace via the Studio IDE.
+
+    '
+  code_samples: []
+  type: Vector3
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: Workspace.InterpolationThrottling
+  summary: 'Deprecated setting that configured the interpolation throttling mode;
+    it
+
+    no longer takes effect.
+
+    '
+  description: 'This property has `Physics` read security and `Plugin` write security.
+    It
+
+    is hidden in the Studio Properties window. Do not use it for new work.
+
+    '
+  code_samples: []
+  type: InterpolationThrottlingMode
+  tags:
+  - Hidden
+  - NotReplicated
+  - Deprecated
+  deprecation_message: 'This property should not be used for new work.
+
+    '
+  security:
+    read: None
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Physics
+- name: Workspace.LayeredClothingCacheOptimizations
+  summary: 'Controls whether layered clothing cache optimizations are enabled.
+
+    '
+  description: 'Controls whether the engine caches layered clothing rendering data
+    to
+
+    improve performance for experiences with many characters wearing layered
+
+    clothing. `Enum.RolloutState|Default` follows the current engine-wide
+
+    rollout state.
+
+    '
+  code_samples: []
+  type: RolloutState
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - AvatarAppearance
+- name: Workspace.LuauTypeCheckMode
+  summary: 'Sets the Luau type checking mode for scripts in the experience.
+
+    '
+  description: 'Controls the Luau type checking mode applied to scripts in the experience.
+
+    See `Enum.LuauTypeCheckMode` for the available modes.
+
+    '
+  code_samples: []
+  type: LuauTypeCheckMode
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Scripting
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - PluginOrOpenCloud
+- name: Workspace.MeshPartHeadsAndAccessories
+  summary: 'Sets whether character Heads and Accessories should be downloaded as
+
+    MeshParts.
+
+    '
+  description: 'Sets whether character Heads and Accessories should be downloaded
+    as
+
+    `Class.MeshPart|MeshParts`. The `Default` value is the same as `Enabled`.
+
+    If this feature is enabled, built-in avatars will use
+
+    `Class.MeshPart|MeshParts` for the character''s head and accessories.
+
+    '
+  code_samples: []
+  type: MeshPartHeadsAndAccessories
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: Workspace.MeshStreamingAndImprovedLods
+  summary: 'Controls whether the experience uses the new mesh streaming and improved
+
+    LOD system.
+
+    '
+  description: 'This `Enum.RolloutState` property determines whether the experience
+    uses
+
+    the new mesh streaming and Wild Mesh Simplifier LOD system. When set to
+
+    `Enum.RolloutState|Enabled`, mesh requests fetch the lowest quality LOD
+
+    first and stream in higher detail over time. When set to
+
+    `Enum.RolloutState|Disabled`, the legacy mesh loading behavior is used.
+
+    `Enum.RolloutState|Default` follows the current engine-wide rollout state.
+
+    '
+  code_samples: []
+  type: RolloutState
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: Workspace.ModelStreamingBehavior
+  summary: 'Controls how `Class.Model|Models` are replicated in experiences when
+
+    instance streaming is enabled.
+
+    '
+  description: 'This `Enum.ModelStreamingBehavior` property controls how
+
+    `Class.Model|Models` are replicated in experiences when instance streaming
+
+    is enabled.
+
+    '
+  code_samples: []
+  type: ModelStreamingBehavior
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Streaming
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: Workspace.NextGenerationReplication
+  summary: 'When `true`, enables an alternate replication system that alters and
+
+    improves how properties are replicated under the hood.
+
+    '
+  description: 'When `true`, enables an alternate replication system that alters and
+
+    improves how properties are replicated under the hood; note that when
+
+    `true`, you should not rely on the ordering of property replication and
+
+    remote events.
+
+    '
+  code_samples: []
+  type: RolloutState
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: Workspace.NextGenerationReplicationAlias
+  summary: ''
+  description: ''
+  code_samples: []
+  type: RolloutState
+  tags:
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxEngineSecurity
+    write: RobloxEngineSecurity
+  thread_safety: ReadSafe
+  category: Server Authority
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: Workspace.PathfindingUseImprovedSearch
+  summary: 'Controls whether an improved search algorithm is used by
+
+    `Class.PathfindingService`.
+
+    '
+  description: 'When `Enum.PathfindingUseImprovedSearch|Enabled`,
+
+    `Class.PathfindingService` uses an improved pathfinding algorithm.
+
+    `Enum.PathfindingUseImprovedSearch|Default` follows the current
+
+    engine-wide rollout state.
+
+    '
+  code_samples: []
+  type: PathfindingUseImprovedSearch
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: Workspace.PhysicsSteppingMethod
+  summary: 'Sets how the solver will advance the physics simulation forward in time.
+
+    '
+  description: 'Sets how the solver will advance the physics simulation forward in
+    time.
+
+    This option cannot be set through developer-facing Luau and must be set
+
+    from the **PhysicsSteppingMethod** property of **Workspace** within
+
+    Studio. See
+
+    [Adaptive Timestepping](../../../physics/adaptive-timestepping.md) for
+
+    details.
+
+
+    Note that when assemblies of different simulation rates become connected
+
+    via `Class.Constraint|Constraints` or collisions, the combined mechanism
+
+    will default to the highest simulation rate for stability.
+
+    '
+  code_samples: []
+  type: PhysicsSteppingMethod
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: Workspace.PlayerCharacterDestroyBehavior
+  summary: 'Controls whether the engine automatically calls `Destroy()` on a player''s
+
+    character when it is replaced and on the `Player` object when the player
+
+    leaves.
+
+    '
+  description: 'When enabled, the engine automatically calls `Destroy()` on a player''s
+    old
+
+    character when it is replaced (for example, on respawn) and on the
+
+    `Class.Player` object itself when the player leaves the server.
+
+    '
+  code_samples: []
+  type: PlayerCharacterDestroyBehavior
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: Workspace.PlayerScriptsUseInputActionSystem
+  summary: 'Controls whether the built-in player scripts are updated to use the Input
+
+    Action System.
+
+    '
+  description: 'Controls whether the built-in player scripts are updated to use the
+
+    [Input Action System](../../../input/input-action-system.md). When
+
+    enabled, the player scripts live under `Class.StarterPlayer` (controlled
+
+    by `Class.StarterPlayer.CreateDefaultPlayerModule`) and the server is able
+
+    to process player inputs.
+
+    '
+  code_samples: []
+  type: RolloutState
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: Workspace.PlayerScriptsUseInputActionSystemAlias
+  summary: ''
+  description: ''
+  code_samples: []
+  type: RolloutState
+  tags:
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxEngineSecurity
+    write: RobloxEngineSecurity
+  thread_safety: ReadSafe
+  category: Server Authority
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: Workspace.PredictiveStreamingMode
+  summary: 'Controls whether the engine can make predictive streaming decisions.
+
+    '
+  description: 'When enabled, the engine can prepare content for anticipated changes
+    to a
+
+    player''s replication focus. This includes movement along likely paths,
+
+    predicted spawn locations, and large changes in focus position.
+
+    `Enum.PredictiveStreamingMode|Default` currently behaves like
+
+    `Enum.PredictiveStreamingMode|Disabled`.
+
+    '
+  code_samples: []
+  type: PredictiveStreamingMode
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Streaming
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - PluginOrOpenCloud
+- name: Workspace.NextGenerationPhysicsSolver
+  summary: 'Controls whether the experimental next generation physics solver is
+
+    enabled.
+
+    '
+  description: 'The next generation physics solver can provide improved accuracy and
+
+    robustness in complex setups. Set this property to
+
+    `Enum.RolloutState|Enabled` to enable it, `Enum.RolloutState|Disabled` to
+
+    disable it, or `Enum.RolloutState|Default` to follow the rollout default.
+
+    '
+  code_samples: []
+  type: RolloutState
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - PluginOrOpenCloud
+- name: Workspace.RejectCharacterDeletions
+  summary: 'Controls whether the server rejects attempts by clients to delete player
+
+    characters from the workspace.
+
+    '
+  description: 'When enabled, the server ignores client requests to delete player
+
+    `Class.Model|character` objects from the workspace, preventing exploits
+
+    that attempt to abuse this replication path.
+
+    `Enum.RejectCharacterDeletions|Default` is currently equivalent to
+
+    `Enabled`.
+
+    '
+  code_samples: []
+  type: RejectCharacterDeletions
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Networking
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: Workspace.RenderingCacheOptimizations
+  summary: 'Controls whether rendering cache optimizations are enabled.
+
+    '
+  description: 'Controls whether the engine caches rendering state data to reduce
+
+    redundant per-frame work. When enabled, the renderer can skip recomputing
+
+    state for static objects, improving frame rates in scenes with many parts.
+
+    '
+  code_samples: []
+  type: RenderingCacheOptimizationMode
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+- name: Workspace.Retargeting
+  summary: 'Controls whether animation retargeting is enabled for character
+
+    animations.
+
+    '
+  description: 'Sets the animation retargeting mode. Retargeting adapts animations
+    to
+
+    character rigs of different proportions, allowing a single animation to
+
+    play correctly on characters of varying sizes and shapes.
+
+    '
+  code_samples: []
+  type: AnimatorRetargetingMode
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Animation
+- name: Workspace.SandboxedInstanceMode
+  summary: 'Controls whether sandboxed instance mode (script capabilities) is enabled.
+
+    '
+  description: 'When set to `Enum.SandboxedInstanceMode|Experimental`, the engine
+    enables
+
+    sandboxed instance mode, which lets you use script capabilities.
+
+    '
+  code_samples: []
+  type: SandboxedInstanceMode
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Permissions
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: Workspace.SignalBehavior
+  summary: 'Configures when the engine resumes event handlers.
+
+    '
+  description: "This property determines whether event handlers will be resumed\n\
+    immediately when the event fires, or deferred and then resumed at a later\nresumption\
+    \ point. Resumption points currently include:\n\n- Input processing (resumes once\
+    \ per input to be processed, see\n  `Class.UserInputService`)\n- `Class.RunService.PreRender`\n\
+    - Legacy waiting script resumption such as `wait()`, `spawn()`, and\n  `delay()`\n\
+    - `Class.RunService.PreAnimation`\n- `Class.RunService.PreSimulation`\n- `Class.RunService.PostSimulation`\n\
+    - Waiting script resumption such as `Library.task.wait()`,\n  `Library.task.spawn()`,\
+    \ and `Library.task.delay()`\n- `Class.RunService.Heartbeat`\n- `Class.DataModel.BindToClose`\n\
+    \nFor more information, see\n[Deferred Events](../../../scripting/events/deferred.md).\n"
+  code_samples: []
+  type: SignalBehavior
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: Workspace.SignalBehaviorAlias
+  summary: ''
+  description: ''
+  code_samples: []
+  type: SignalBehavior
+  tags:
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxEngineSecurity
+    write: RobloxEngineSecurity
+  thread_safety: ReadSafe
+  category: Server Authority
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: Workspace.StreamingEnabled
+  summary: 'Whether content streaming is enabled for the place.
+
+    '
+  description: 'This property determines whether in-experience content streaming is
+
+    enabled for the place. This property is not scriptable and therefore must
+
+    be set on the `Workspace` object in Studio.
+
+
+    #### See also
+
+
+    - `Class.Workspace.StreamingMinRadius`
+
+    - `Class.Workspace.StreamingTargetRadius`
+
+    - `Class.Workspace.StreamingIntegrityMode`
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Streaming
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: Workspace.StreamingEnabledAlias
+  summary: ''
+  description: ''
+  code_samples: []
+  type: boolean
+  tags:
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxEngineSecurity
+    write: RobloxEngineSecurity
+  thread_safety: ReadSafe
+  category: Server Authority
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: Workspace.StreamingIntegrityMode
+  summary: 'Determines whether streaming integrity mode is active.
+
+    '
+  description: 'If instance [streaming](../../../workspace/streaming/index.md) is
+    enabled,
+
+    an experience may behave in unintended ways if a player''s character moves
+
+    into a region of the world that has not been streamed to their client. The
+
+    streaming integrity feature offers a way to avoid those potentially
+
+    problematic situations.
+
+    '
+  code_samples: []
+  type: StreamingIntegrityMode
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Streaming
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - PluginOrOpenCloud
+- name: Workspace.StreamingMinRadius
+  summary: 'Minimum distance that content will be streamed to players with high
+
+    priority.
+
+    '
+  description: "This property indicates the radius around the player's character or\
+    \ the\ncurrent `Class.Player.ReplicationFocus|ReplicationFocus` in which content\n\
+    will be streamed in at the highest priority. Defaults to 64 studs.\n\nCare should\
+    \ be taken when increasing the default minimum radius since\ndoing so will require\
+    \ more memory and more server bandwidth at the expense\nof other components.\n\
+    \n#### See also\n\n- `Class.Workspace.StreamingEnabled` which controls whether\
+    \ content\n  streaming is enabled\n- `Class.Workspace.StreamingTargetRadius`\n\
+    - `Class.Workspace.StreamingIntegrityMode`\n"
+  code_samples: []
+  type: int
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Streaming
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - PluginOrOpenCloud
+- name: Workspace.StreamingTargetRadius
+  summary: 'Maximum distance that content will be streamed to players.
+
+    '
+  description: "This property controls the maximum distance away from the player's\n\
+    character or the current `Class.Player.ReplicationFocus|ReplicationFocus`\nin\
+    \ which content will be streamed in. Defaults to 1024 studs.\n\nNote that the\
+    \ engine is allowed to retain previously loaded content beyond\nthe target radius,\
+    \ memory permitting.\n\n#### See also\n\n- `Class.Workspace.StreamingEnabled`\
+    \ which controls whether content\n  streaming is enabled\n- `Class.Workspace.StreamingMinRadius`\n\
+    - `Class.Workspace.StreamingIntegrityMode`\n"
+  code_samples: []
+  type: int
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Streaming
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - PluginOrOpenCloud
+- name: Workspace.StreamOutBehavior
+  summary: 'Configures how the engine decides when to stream content away from
+
+    players.
+
+    '
+  description: "This property controls where content will be unloaded from the\n`Class.Player.ReplicationFocus|ReplicationFocus`\
+    \ based on device memory\nconditions, or based on the streaming radius.\n\n####\
+    \ See also\n\n- `Class.Workspace.StreamingEnabled` which controls whether content\n\
+    \  streaming is enabled\n- `Class.Workspace.StreamingMinRadius`\n- `Class.Workspace.StreamingTargetRadius`\n\
+    - `Class.Workspace.StreamingIntegrityMode`\n"
+  code_samples: []
+  type: StreamOutBehavior
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Streaming
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - PluginOrOpenCloud
+- name: Workspace.Terrain
+  summary: 'A reference to the `Class.Terrain` object parented to the
+
+    `Class.Workspace`.
+
+    '
+  description: 'This property is a reference to the `Class.Terrain` object parented
+    to the
+
+    `Class.Workspace`.
+
+
+    <img src="/assets/studio/explorer/Workspace-Terrain.png" width="320"
+
+    alt="Terrain object within the Workspace hierarchy" />
+
+
+    See [Environmental Terrain](../../../parts/terrain.md) for more
+
+    information.
+
+    '
+  code_samples: []
+  type: Terrain
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: Workspace.TouchesUseCollisionGroups
+  summary: 'Determines whether `Class.BasePart|parts` in different groups set to not
+
+    collide will ignore collisions and touch events.
+
+    '
+  description: 'This property determines whether `Class.BasePart|parts` in different
+
+    groups set to not collide will ignore collisions and touch events. By
+
+    default, the value of this property is set to `false`.
+
+
+    When this property is enabled, parts in different groups set to not
+
+    collide will also ignore the `Class.BasePart.CanTouch|CanTouch` property,
+
+    similar to how `Class.BasePart.CanCollide` is ignored. For more
+
+    information on the behavior of CanTouch, please visit its property page.
+
+    '
+  code_samples: []
+  type: boolean
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: Workspace.UseFixedSimulation
+  summary: 'When `true`, enables `Class.RunService:BindToSimulation()` which calls
+    a
+
+    function at a fixed frequency, updates physics stepping logic, and makes
+
+    the `Global.RobloxGlobals.time()` function return the fixed stepped frame
+
+    time.
+
+    '
+  description: 'When `true`, enables `Class.RunService:BindToSimulation()` which calls
+    a
+
+    function at a fixed frequency. Also updates physics stepping logic such
+
+    that character controller updates and joint transforms are performed at a
+
+    fixed frequency rather than once per frame, as well as makes the
+
+    `Global.RobloxGlobals.time()` function return the fixed stepped frame
+
+    time.
+
+    '
+  code_samples: []
+  type: RolloutState
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: Workspace.UseFixedSimulationAlias
+  summary: ''
+  description: ''
+  code_samples: []
+  type: RolloutState
+  tags:
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxEngineSecurity
+    write: RobloxEngineSecurity
+  thread_safety: ReadSafe
+  category: Server Authority
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: Workspace.UseNewLuauTypeSolver
+  summary: 'Controls whether the new Luau type solver is used for type inference.
+
+    '
+  description: 'This `Enum.RolloutState` property controls whether the new Luau type
+
+    solver is used for type inference and type checking in scripts. The new
+
+    type solver provides improved accuracy and performance for type analysis.
+
+    Note that `Class.Workspace.LuauTypeCheckMode` controls the mode (strict,
+
+    nonstrict, etc.) while this property controls which solver implementation
+
+    is active. `Enum.RolloutState|Default` follows the current engine-wide
+
+    rollout state.
+
+    '
+  code_samples: []
+  type: RolloutState
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Scripting
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: AirDensity
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: AirProperties
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: AirTurbulenceIntensity
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: AirProperties
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: AllowThirdPartySales
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: AuthorityMode
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.AuthorityMode
+  category: Server Authority
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: AvatarUnificationMode
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.AvatarUnificationMode
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: ClientAnimatorThrottling
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.ClientAnimatorThrottlingMode
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: CollisionGroups
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - WriteOnly
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: CurrentCamera
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Camera
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: DataModelPlaceVersion
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: Behavior
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: DistributedGameTime
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: double
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: EnableSLIMAvatars
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.RolloutState
+  category: Streaming
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: ExpandedTerrain
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.RolloutState
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: ExplicitAutoJoints
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: FallHeightEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: FallenPartsDestroyHeight
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: FilteringEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Behavior
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: FluidForces
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.FluidForces
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: GlobalWind
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: AirProperties
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: Gravity
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: IKControlConstraintSupport
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.IKControlConstraintSupport
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: ImprovedPhysicsReplication
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.RolloutState
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: InputSinkEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: Enum.RolloutState
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: InsertPoint
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: InterpolationThrottling
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  type: Enum.InterpolationThrottlingMode
+  category: Behavior
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: LayeredClothingCacheOptimizations
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.RolloutState
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: LuauTypeCheckMode
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.LuauTypeCheckMode
+  category: Scripting
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: MapTVRemoteToGamepadKeycodes
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.RolloutState
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: MeshPartHeadsAndAccessories
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.MeshPartHeadsAndAccessories
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: MeshStreamingAndImprovedLods
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.RolloutState
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: ModelStreamingBehavior
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.ModelStreamingBehavior
+  category: Streaming
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: NextGenerationPhysicsSolver
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.RolloutState
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: NextGenerationReplication
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.RolloutState
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: NextGenerationReplicationAlias
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: Enum.RolloutState
+  category: Server Authority
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: NextGenerationReplicationStorage
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: Enum.RolloutState
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: ParticlesUseDynamicWind
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.RolloutState
+  category: AirProperties
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: PathfindingUseImprovedSearch
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.PathfindingUseImprovedSearch
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: PhysicsSteppingMethod
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.PhysicsSteppingMethod
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: PlayerCharacterDestroyBehavior
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.PlayerCharacterDestroyBehavior
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: PlayerScriptsUseInputActionSystem
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: Enum.RolloutState
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: PlayerScriptsUseInputActionSystemAlias
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: Enum.RolloutState
+  category: Server Authority
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: PlayerScriptsUseInputActionSystemStorage
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: Enum.RolloutState
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: PredictiveStreamingMode
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.PredictiveStreamingMode
+  category: Streaming
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: RejectCharacterDeletions
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.RejectCharacterDeletions
+  category: Networking
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: RenderingCacheOptimizations
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.RenderingCacheOptimizationMode
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: ReplicateInstanceDestroySetting
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.ReplicateInstanceDestroySetting
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: ReplicationFrequency
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.ReplicationMode
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: ReplicationThroughput
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.ReplicationMode
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: Retargeting
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.AnimatorRetargetingMode
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: SandboxedInstanceMode
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.SandboxedInstanceMode
+  category: Permissions
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: SignalBehavior
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.SignalBehavior
+  category: Behavior
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: SignalBehavior2
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.SignalBehavior
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: SignalBehaviorAlias
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: Enum.SignalBehavior
+  category: Server Authority
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: SignalBehaviorStorage
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: Enum.SignalBehavior
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: StreamOutBehavior
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.StreamOutBehavior
+  category: Streaming
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: StreamingAdaptiveRadius
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Streaming
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: StreamingEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Streaming
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: StreamingEnabledAlias
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Server Authority
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: StreamingEnabledStorage
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: StreamingIntegrityMode
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.StreamingIntegrityMode
+  category: Streaming
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: StreamingMinRadius
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: Streaming
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: StreamingPauseMode
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.StreamingPauseMode
+  category: Streaming
+  serialization:
+    can_load: true
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: StreamingTargetRadius
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: Streaming
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: Terrain
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Terrain
+  category: Behavior
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: TerrainWeldsFixed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: ThrottleLevel
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: int
+  category: Behavior
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: TouchEventsUseCollisionGroups
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.RolloutState
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: TouchesUseCollisionGroups
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: UseFixedSimulation
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.RolloutState
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: UseFixedSimulationAlias
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: Enum.RolloutState
+  category: Server Authority
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: UseFixedSimulationStorage
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: Enum.RolloutState
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: UseNewLuauTypeSolver
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.RolloutState
+  category: Scripting
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: ValidateEnabledProximityPrompt
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.RolloutState
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: WatermarkHash
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: string
+  category: Behavior
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+methods:
+- name: Workspace:ApplyRecommendedStreamingSettings
+  summary: 'Applies Roblox''s recommended instance streaming settings to the
+
+    `Class.Workspace`.
+
+    '
+  description: 'Applies the current recommended instance streaming settings to the
+
+    `Class.Workspace`. Only settings that differ from their recommended values
+
+    are changed.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: boolean
+    summary: '`true` if one or more streaming properties were changed; `false` if
+
+      every value already matched its recommended setting.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: Workspace:BreakJoints
+  summary: 'Goes through all `Class.BasePart|BaseParts` given, breaking any joints
+
+    connected to these parts.
+
+    '
+  description: 'Goes through all `Class.BasePart|BaseParts` given, breaking any joints
+
+    connected to these parts. This function will break any of the following
+
+    types of joints:
+
+
+    - `Class.JointInstance|JointInstances` such as `Class.Weld|Welds`
+
+    - `Class.WeldConstraint|WeldConstraints`
+
+
+    Unlike `Class.Model:MakeJoints()`, this function requires an array of
+
+    `Class.BasePart|BaseParts` as a parameter. This array is given as follows:
+
+
+    ```lua
+
+    local Workspace = game:GetService("Workspace")
+
+
+    Workspace:BreakJoints({part1, part2, part3})
+
+    ```
+
+
+    Note, this function cannot be used in developer-facing Luau and will only
+
+    function in plugins.
+
+    '
+  code_samples: []
+  parameters:
+  - name: objects
+    type: Instances
+    default: null
+    summary: 'An array of `Class.BasePart|BaseParts` for whom joints are to be
+
+      broken.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This method is deprecated. Do not use it for new work.
+
+    '
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: Workspace:ExperimentalSolverIsEnabled
+  summary: 'Returns `true` if the experimental physics solver is enabled.
+
+    '
+  description: 'Returns whether the experimental physics solver is currently enabled.
+    This
+
+    method is primarily for internal testing purposes.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: boolean
+    summary: '`true` if the experimental physics solver is enabled, `false`
+
+      otherwise.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: LocalUserSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: Workspace:GetNumAwakeParts
+  summary: 'Returns the number of `Class.BasePart|BaseParts` that are deemed
+
+    physically active, due to being recently under the influence of physics.
+
+    '
+  description: 'Returns the number of `Class.BasePart|BaseParts` that are deemed
+
+    physically active, due to being recently under the influence of physics.
+
+
+    This function provides a measure of how many `Class.BasePart|BaseParts`
+
+    are being influenced by, or recently under the influence of, physical
+
+    forces.
+
+
+    ```
+
+    local Workspace = game:GetService("Workspace")
+
+
+    print(Workspace:GetNumAwakeParts())
+
+    ```
+
+
+    In order to ensure good performance, the engine sets
+
+    `Class.BasePart|BaseParts` in which physics are not being applied to a
+
+    "sleeping" state. `Class.BasePart|BaseParts` with
+
+    `Class.BasePart.Anchored` set to `true`, for example, will always be
+
+    sleeping as physics doesn''t apply to them. When a force is applied to a
+
+    non‑anchored `Class.BasePart`, an "awake" state will be applied. Whilst a
+
+    `Class.BasePart` is awake, the physics engine will perform continuous
+
+    calculations to ensure physical forces interact correctly with the part.
+
+    Once the `Class.BasePart` is no longer subject to physical forces, it will
+
+    revert to a "sleeping" state.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: int
+    summary: 'The number of awake parts.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - Basic
+- name: Workspace:GetPhysicsThrottling
+  summary: 'Returns an integer, between 0 and 100, representing the percentage of
+    real
+
+    time that physics simulation is currently being throttled to.
+
+    '
+  description: 'Returns an integer, between `0` and `100`, representing the percentage
+    of
+
+    real time that physics simulation is currently being throttled to. Physics
+
+    throttling occurs when the physics engine detects it cannot keep up with
+
+    the game in real time. When physics is being throttled, it will update
+
+    less frequently causing `Class.BasePart|BaseParts` to appear to move
+
+    slower.
+
+
+    Objects associated with `Class.Humanoid|Humanoids` are exempt from physics
+
+    throttling.
+
+
+    #### See also
+
+
+    - `Class.Workspace:SetPhysicsThrottleEnabled()`.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: int
+    summary: 'The percentage of real time that physics simulation is currently being
+
+      throttled to.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - Basic
+- name: Workspace:GetRealPhysicsFPS
+  summary: 'Returns the number of frames per second that physics is currently being
+
+    simulated at.
+
+    '
+  description: 'Returns the number of frames per second that physics is currently
+    being
+
+    simulated at.
+
+
+    #### Using GetRealPhysicsFPS to combat exploiters
+
+
+    A common use of this function is to detect if exploiters are increasing
+
+    their local physics frame rate to move faster. This is generally done by
+
+    comparing the result returned by a client''s GetRealPhysicsFPS to a maximum
+
+    that will not be breached in normal circumstances (usually 65 or 70). If
+
+    this limit is breached, developers can use the `Class.Player:Kick()`
+
+    function to remove that `Class.Player` from the game. It is important to
+
+    remember that, although this practice may be effective sometimes,
+
+    client-side anti-exploiter measures are never 100% reliable.
+
+    '
+  code_samples:
+  - Workspace-GetRealPhysicsFPS1
+  parameters: []
+  returns:
+  - type: double
+    summary: 'Returns the number of frames per second that physics is currently
+
+      being simulated at.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - Basic
+- name: Workspace:GetServerTimeNow
+  summary: 'Returns the server''s Unix time in seconds.
+
+    '
+  description: "This method returns the client's best approximation of the current\
+    \ time on\nthe server. It is useful for creating synchronized experiences, as\
+    \ every\nclient will get roughly the same results regardless of their timezone\
+    \ or\nlocal clock.\n\nThis method returns a Unix timestamp, similar to `Library.os|os.time()`,\n\
+    that you can use with `Library.os|os.date()` or\n`Datatype.DateTime.fromUnixTimestamp()`.\
+    \ The timestamp is smoothed so\nthat:\n\n- It is monotonic; its value will never\
+    \ decrease.\n- It moves at the same rate as the local clock to within 0.6%.\n\n\
+    This method is useful for making sure an event starts at the right\nreal-world\
+    \ time and for periodic adjustments to keep a series of events in\nsync. For benchmarking\
+    \ or other use cases that require higher precision,\nconsider `Library.os|os.clock()`.\n\
+    \nThis method relies on the server, so calling it from a client that isn't\nconnected\
+    \ will throw an error. Also note that this method is not suitable\nfor things\
+    \ like timed rewards, as it is not secure compared to tracking\nsuch timers on\
+    \ the server.\n\n#### See also\n\n- `Class.Workspace.DistributedGameTime|DistributedGameTime`,\
+    \ a game-time\n  clock\n- `Library.os|os.time()`\n- `Datatype.DateTime`\n"
+  code_samples: []
+  parameters: []
+  returns:
+  - type: double
+    summary: 'The estimated Unix timestamp on the server.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - Basic
+- name: Workspace:JoinToOutsiders
+  summary: 'Creates joints between the specified `Class.BasePart|Parts` and any
+
+    touching parts depending on the parts'' surfaces and the specified joint
+
+    creation mode.
+
+    '
+  description: "This function creates joints between the specified `Class.BasePart|Parts`\n\
+    and any touching parts depending on the parts' surfaces and the specified\njoint\
+    \ creation mode.\n\nThis function creates joints between the specified Parts and\
+    \ any planar\ntouching surfaces, depending on the parts' surfaces and the specified\n\
+    joint creation mode.\n\n- Glue, Studs, Inlets, Universal, Weld, and Smooth surfaces\
+    \ will all\n  create Weld instances.\n- Spheres will not surface-weld to anything.\
+    \ The rounded sides of\n  cylinders will not surface-weld, but the flat end sides\
+    \ will.\n- Hinge and Motor surfaces will still create `Class.Rotate` and\n  `Class.RotateP`\
+    \ joint instances, regardless of part shape.\n\nThe first parameter is an array\
+    \ of `Class.BasePart|BaseParts`. Joints will\nonly be created between the parts\
+    \ in the array and not in the array.\nJoints will not be created between the parts\
+    \ in the array.\n\nThe second parameter is a `Enum.JointCreationMode` that determines\
+    \ how\njoints will be created. Passing in either enum value,\n`Enum.JointCreationMode|Enum.JointCreationMode.All`\
+    \ or\n`Enum.JointCreationMode|Enum.JointCreationMode.Surface`, has the same\n\
+    behavior which equates to Join Always\n\nThis function is used by the Roblox Studio\
+    \ **Move** tool when the user\nfinishes moving a selection. In conjunction with\n\
+    `Class.Plugin:GetJoinMode()` and `Class.Workspace:UnjoinFromOutsiders()`\nit can\
+    \ be used to retain join functionality when developing custom studio\nbuild tools.\
+    \ See the snippets below for an example.\n\n```lua\nlocal Workspace = game:GetService(\"\
+    Workspace\")\n\n-- Finished moving a selection; make joints\nlocal function finishedMovingParts(parts)\n\
+    \tlocal joinMode = Plugin:GetJoinMode()\n\tWorkspace:JoinToOutsiders(parts, joinMode)\n\
+    end\n```\n\n```lua\nlocal Workspace = game:GetService(\"Workspace\")\n\n-- Started\
+    \ moving a selection; break joints\nlocal function startMovingParts(parts)\n\t\
+    Workspace:UnjoinFromOutsiders(parts)\nend\n```\n"
+  code_samples: []
+  parameters:
+  - name: objects
+    type: Instances
+    default: null
+    summary: 'An array of `Class.BasePart|BaseParts` for whom joints are to be made.
+
+      '
+  - name: jointType
+    type: JointCreationMode
+    default: null
+    summary: 'The `Enum.JointCreationMode` to be used. Passing in
+
+      `Enum.JointCreationMode|Enum.JointCreationMode.All` or
+
+      `Enum.JointCreationMode|Enum.JointCreationMode.Surface` has the same
+
+      behavior which equates to Join Always.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Physics
+- name: Workspace:MakeJoints
+  summary: 'Goes through all `Class.BasePart|BaseParts` given. If any part''s side
+    has
+
+    a `Enum.SurfaceType` that can make a joint it will create a joint with any
+
+    adjacent parts.
+
+    '
+  description: "**Deprecated**\n\nSurfaceType based joining is deprecated, do not\
+    \ use MakeJoints for new\nprojects. `Class.WeldConstraint|WeldConstraints` and\n\
+    `Class.HingeConstraint|HingeConstraints` should be used instead.\n\nGoes through\
+    \ all `Class.BasePart|Parts` given. If any part's side has a\n`Enum.SurfaceType`\
+    \ that can make a joint it will create a joint with any\nadjacent parts.\n\nJoints\
+    \ will be created between the specified Parts and any planar touching\nsurfaces,\
+    \ depending on the parts' surfaces.\n\n- Smooth surfaces will not create joints\n\
+    - Glue surfaces will create a `Class.Glue` joint\n- Weld will create a `Class.Weld`\
+    \ joint with any surface except for\n  Unjoinable\n- Studs, Inlet, or Universal\
+    \ will each create a `Class.Snap` joint with\n  either of other the other two\
+    \ surfaces (e.g. Studs with Inlet and\n  Universal)\n- Hinge and Motor surfaces\
+    \ create `Class.Rotate` and `Class.RotateV` joint\n  instances\n\nUnlike `Class.Model:MakeJoints()`,\
+    \ this function requires an array of\nparts as a parameter. This array is given\
+    \ as follows:\n\n```\nlocal Workspace = game:GetService(\"Workspace\")\n\nWorkspace:MakeJoints({part1,\
+    \ part2, part3})\n```\n\nJoints are broken if enough force is applied to them\
+    \ due to an\n`Class.Explosion`, unless a `Class.ForceField` object is parented\
+    \ to the\n`Class.BasePart` or ancestor `Class.Model`. For this reason, they are\n\
+    often used to make simple destructible buildings and other models.\n"
+  code_samples: []
+  parameters:
+  - name: objects
+    type: Instances
+    default: null
+    summary: 'An array of `Class.BasePart|parts` for whom joints are to be made.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This method is deprecated. Do not use it for new work.
+
+    '
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: Workspace:PGSIsEnabled
+  summary: 'Returns `true` if the game has the PGS Physics solver enabled.
+
+    '
+  description: 'Returns `true` if the game has the PGS Physics solver enabled.
+
+
+    As `Class.Workspace.PGSPhysicsSolverEnabled` cannot be accessed by
+
+    scripts, the PGSIsEnabled function allows developers to tell which physics
+
+    solver the game is using.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: boolean
+    summary: 'True if the PGS solver is enabled.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: Workspace:UnjoinFromOutsiders
+  summary: 'Breaks all joints between the specified `Class.BasePart|BaseParts` and
+
+    other `Class.BasePart|BaseParts`.
+
+    '
+  description: "Breaks all joints between the specified `Class.BasePart|BaseParts`\
+    \ and\nother `Class.BasePart|BaseParts`.\n\nThis function requires an array of\
+    \ `Class.BasePart|BaseParts`. Note,\njoints will not be broken between these `Class.BasePart|BaseParts`\
+    \ (each\nother), only between these `Class.BasePart|BaseParts` and other\n`Class.BasePart|BaseParts`\
+    \ not in the array.\n\nThis function is used by the Roblox Studio **Move** tool\
+    \ when the user\nstarts moving a selection. In conjunction with\n`Class.Plugin:GetJoinMode()`\
+    \ and `Class.Workspace:JoinToOutsiders()` it\ncan be used to retain join functionality\
+    \ when developing custom Studio\nbuild tools. See the snippets below for an example.\n\
+    \n```\nlocal Workspace = game:GetService(\"Workspace\")\n\n-- Finished moving\
+    \ a selection; make joints\nlocal function finishedMovingParts(parts)\n\tlocal\
+    \ joinMode = Plugin:GetJoinMode()\n\tWorkspace:JoinToOutsiders(parts, joinMode)\n\
+    end\n```\n\n```\nlocal Workspace = game:GetService(\"Workspace\")\n\n-- Started\
+    \ moving a selection; break joints\nlocal function startMovingParts(parts)\n\t\
+    Workspace:UnjoinFromOutsiders(parts)\nend\n```\n"
+  code_samples: []
+  parameters:
+  - name: objects
+    type: Instances
+    default: null
+    summary: 'An array of `Class.BasePart|BaseParts` for whom joints are to be
+
+      broken.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Physics
+- name: Workspace:ZoomToExtents
+  summary: 'Positions and zooms the `Class.Workspace.CurrentCamera` to show the extent
+
+    of `Class.BasePart|BaseParts` currently in the `Class.Workspace`.
+
+    '
+  description: 'Positions and zooms the `Class.Workspace.CurrentCamera` to show the
+    extent
+
+    of `Class.BasePart|BaseParts` currently in the `Class.Workspace`. It
+
+    exhibits similar behavior to the "focus" command but it shows the extents
+
+    of the `Class.Workspace` rather than the currently selected object.
+
+
+    This function cannot be used in developer-facing Luau but will function in
+
+    the Command Bar or plugins.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: ApplyRecommendedStreamingSettings
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+- name: BreakJoints
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: objects
+    type: Instances
+  returns:
+  - type: 'null'
+- name: CalculateJumpDistance
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: gravity
+    type: float
+  - name: jumpPower
+    type: float
+  - name: walkSpeed
+    type: float
+  returns:
+  - type: float
+- name: CalculateJumpHeight
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: gravity
+    type: float
+  - name: jumpPower
+    type: float
+  returns:
+  - type: float
+- name: CalculateJumpPower
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: gravity
+    type: float
+  - name: jumpHeight
+    type: float
+  returns:
+  - type: float
+- name: ExperimentalSolverIsEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: LocalUserSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+- name: GetNumAwakeParts
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters: []
+  returns:
+  - type: int
+- name: GetPhysicsThrottling
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters: []
+  returns:
+  - type: int
+- name: GetRealPhysicsFPS
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters: []
+  returns:
+  - type: double
+- name: GetServerTimeNow
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters: []
+  returns:
+  - type: double
+- name: JoinToOutsiders
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: objects
+    type: Instances
+  - name: jointType
+    type: Enum.JointCreationMode
+  returns:
+  - type: 'null'
+- name: MakeJoints
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: objects
+    type: Instances
+  returns:
+  - type: 'null'
+- name: PGSIsEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+- name: SetAvatarUnificationMode
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: value
+    type: Enum.AvatarUnificationMode
+  returns:
+  - type: 'null'
+- name: SetMeshPartHeadsAndAccessories
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: value
+    type: Enum.MeshPartHeadsAndAccessories
+  returns:
+  - type: 'null'
+- name: SetPhysicsThrottleEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: LocalUserSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: value
+    type: bool
+  returns:
+  - type: 'null'
+- name: UnjoinFromOutsiders
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: objects
+    type: Instances
+  returns:
+  - type: 'null'
+- name: ZoomToExtents
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+events:
+- name: Workspace.PersistentLoaded
+  summary: 'Fires when persistent models have been sent to the specified player.
+
+    '
+  description: 'This event fires every time a player has been sent all current persistent
+
+    models and part-less atomic models. The `player` parameter indicates which
+
+    player has received all applicable instances.
+
+
+    Note that experience loading happens before persistent loading, and firing
+
+    of the `Class.DataModel.Loaded` event does not indicate that all
+
+    persistent models are present.
+
+    '
+  code_samples: []
+  parameters:
+  - name: player
+    type: Player
+    default: null
+    summary: 'The player who has received all current persistent models and
+
+      part-less atomic models.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities: []
+- name: PersistentLoaded
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+- name: SendServerTime
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: serverTimeMs
+    type: int64
+callbacks: []

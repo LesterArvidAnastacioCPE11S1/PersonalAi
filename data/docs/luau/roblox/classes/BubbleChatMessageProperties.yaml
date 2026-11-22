@@ -1,0 +1,266 @@
+name: BubbleChatMessageProperties
+type: class
+memory_category: Instances
+summary: 'Overrides `Class.BubbleChatConfiguration` properties for an individual bubble
+
+  chat message.
+
+  '
+description: 'Overrides `Class.BubbleChatConfiguration` properties for an individual
+  bubble
+
+  chat message. Return an instance of this class from the
+
+  `Class.TextChatService.OnBubbleAdded` callback to customize the appearance of
+
+  a single message''s bubble; any property set here takes precedence over the
+
+  game-wide `Class.BubbleChatConfiguration`.
+
+  '
+code_samples: []
+inherits:
+- TextChatMessageProperties
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: BubbleChatMessageProperties.BackgroundColor3
+  summary: 'Background color of bubbles.
+
+    '
+  description: 'Background color of bubbles in `Datatype.Color3`.
+
+    '
+  code_samples: []
+  type: Color3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Chat
+- name: BubbleChatMessageProperties.BackgroundTransparency
+  summary: 'Background transparency of bubbles.
+
+    '
+  description: 'Background transparency of bubbles.
+
+    '
+  code_samples: []
+  type: double
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Chat
+- name: BubbleChatMessageProperties.FontFace
+  summary: 'Font of the bubble text.
+
+    '
+  description: 'Font of the bubble text in `Datatype.Font`.
+
+    '
+  code_samples: []
+  type: Datatype.Font
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Chat
+- name: BubbleChatMessageProperties.TailVisible
+  summary: 'Determines whether the tail at the bottom of the chat bubble is visible.
+
+    '
+  description: 'Determines whether the tail at the bottom of the chat bubble is visible.
+
+    Defaults to `true`.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Chat
+- name: BubbleChatMessageProperties.TextColor3
+  summary: 'Color of bubble text.
+
+    '
+  description: 'Color of bubble text in `Datatype.Color3`.
+
+    '
+  code_samples: []
+  type: Color3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Chat
+- name: BubbleChatMessageProperties.TextSize
+  summary: 'Size of bubble text.
+
+    '
+  description: 'Size of bubble text.
+
+    '
+  code_samples: []
+  type: int64
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Chat
+- name: BackgroundColor3
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Color3
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+  default: 0.980392, 0.980392, 0.980392
+- name: BackgroundTransparency
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: double
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+  default: '0.10000000000000000555'
+- name: FontFace
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Font
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_no_string_value__
+- name: TailVisible
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+  default: 'true'
+- name: TextColor3
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Color3
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+  default: 0.223529, 0.231373, 0.239216
+- name: TextSize
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int64
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+  default: '16'
+methods: []
+events: []
+callbacks: []

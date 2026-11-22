@@ -1,0 +1,87 @@
+name: ForceField
+type: class
+memory_category: Instances
+summary: 'Protects a `Class.Humanoid` from taking damage dealt through the
+
+  `Class.Humanoid:TakeDamage()` method and protects `Class.BasePart|BaseParts`
+
+  from having their joints broken due to an `Class.Explosion`.
+
+  '
+description: "A **ForceField** protects a `Class.Humanoid` from taking damage dealt\
+  \ through\nthe `Class.Humanoid:TakeDamage()` method and protects\n`Class.BasePart|BaseParts`\
+  \ from having their joints broken due to an\n`Class.Explosion`. A new **ForceField**\
+  \ is created when a character spawns on\na `Class.SpawnLocation` and the `Class.SpawnLocation.Duration`\
+  \ property is\ngreater than zero.\n\n#### Damage and Joints\n\nA **ForceField**\
+  \ influences the instance it's parented to. When parented to a\n`Class.Model`, it\
+  \ protects all of the `Class.BasePart|BaseParts` descending\nfrom that model. If\
+  \ parented to a `Class.BasePart`, the part's joints will\nonly be protected if both\
+  \ the part and the part it's connected to also contain\na **ForceField**.\n\n**ForceField**\
+  \ only protects `Class.Humanoid|Humanoids` from damage dealt by\nthe `Class.Humanoid:TakeDamage()`\
+  \ method. Humanoids can still be damaged by\nsetting `Class.Humanoid.Health` directly.\
+  \ For this reason, it's advised that\nyou use `Class.Humanoid:TakeDamage()` to assign\
+  \ damage while accounting for\nforce field protection.\n\n#### Visualization\n\n\
+  When `Class.ForceField.Visible` is set to true, a particle effect is created.\n\
+  A number of rules determine where this effect will be emitted from:\n\n- When parented\
+  \ to a `Class.Model`, if the model includes a `Class.Humanoid`\n  named **Humanoid**\
+  \ with `Class.Humanoid.RigType` set to R15, the effect will\n  be emitted from the\
+  \ part named **UpperTorso**. Otherwise, the effect will be\n  emitted from the part\
+  \ named **Torso**.\n- When parented to a `Class.BasePart` the effect will be emitted\
+  \ from the\n  part's `Class.BasePart.Position`.\n"
+code_samples:
+- ForceField-Instantiation
+inherits:
+- Instance
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: ForceField.Visible
+  summary: 'Determines whether or not the `Class.ForceField` particle effect is
+
+    visible.
+
+    '
+  description: 'Determines whether or not the `Class.ForceField` particle effect is
+
+    visible. Setting this to `false` lets you replace the default particle
+
+    effect with a custom effect as demonstrated in the following code sample.
+
+    '
+  code_samples:
+  - Custom-ForceField
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - AvatarBehavior
+- name: Visible
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'true'
+methods: []
+events: []
+callbacks: []

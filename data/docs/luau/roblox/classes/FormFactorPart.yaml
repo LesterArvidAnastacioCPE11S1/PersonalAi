@@ -1,0 +1,146 @@
+name: FormFactorPart
+type: class
+memory_category: Instances
+summary: 'The FormFactorPart class is an abstract class. It inherits from the BasePart
+
+  class and adds the FormFactor property to classes that inherit from it.
+
+  '
+description: 'The FormFactorPart class is an abstract class. It inherits from the
+
+  `Class.BasePart` class and adds the `Class.FormFactorPart.FormFactor` property
+
+  to classes that inherit from it.
+
+  '
+code_samples: []
+inherits:
+- BasePart
+descendants:
+- Part
+- WedgePart
+tags:
+- NotCreatable
+deprecation_message: 'This class has been deprecated along with the
+
+  `Class.FormFactorPart.FormFactor` property.
+
+  '
+properties:
+- name: FormFactorPart.FormFactor
+  summary: ''
+  description: 'This used to specify a grid constraint of the part''s size. No longer
+    does
+
+    anything.
+
+    '
+  code_samples: []
+  type: FormFactor
+  tags:
+  - NotReplicated
+  - Deprecated
+  deprecation_message: 'This property has been deprecated and should not be used in
+    new work.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Part
+  serialization:
+    can_load: true
+    can_save: false
+  capabilities: []
+- name: FormFactorPart.formFactor
+  summary: ''
+  description: 'Determines how a part acts when resized and the values that which
+    its size
+
+    can take.
+
+    '
+  code_samples: []
+  type: FormFactor
+  tags:
+  - Hidden
+  - NotReplicated
+  - Deprecated
+  deprecation_message: 'This property has been deprecated and should not be used in
+    new work.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Part
+  serialization:
+    can_load: true
+    can_save: false
+  capabilities: []
+- name: FormFactor
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.FormFactor
+  category: Part
+  serialization:
+    can_load: true
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: formFactor
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.FormFactor
+  category: Part
+  serialization:
+    can_load: true
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: formFactorRaw
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.FormFactor
+  category: Part
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+methods: []
+events: []
+callbacks: []

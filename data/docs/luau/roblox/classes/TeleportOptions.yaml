@@ -1,0 +1,542 @@
+name: TeleportOptions
+type: class
+memory_category: Instances
+summary: 'Optional input arguments to the `Class.TeleportService:TeleportAsync()`
+
+  function.
+
+  '
+description: 'This class is an optional parameter to the
+
+  `Class.TeleportService:TeleportAsync()` function that allows developers to
+
+  provide arguments for the teleport call.
+
+
+  Only one of the following private server routing fields may be set at a time.
+
+  Setting more than one causes an error:
+
+
+  - `Class.TeleportOptions.ReservedServerId`
+
+  - `Class.TeleportOptions.VipServerId`
+
+  - `Class.TeleportOptions.ReservedServerAccessCode`
+
+  - `Class.TeleportOptions.ShouldReserveServer`
+
+  - `Class.TeleportOptions.ServerInstanceId`
+
+
+  For more information on how to teleport players between servers, see
+
+  [Teleporting Between Places](../../../projects/teleport.md).
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: TeleportOptions.ForcePublicServer
+  summary: 'Guarantees the teleport destination will be a public server, preventing
+    a
+
+    player from automatically being placed in their private (VIP) server.
+
+    '
+  description: 'For a single-player teleport with no server routing option, the engine
+    may
+
+    infer that the player should return to a VIP server they originally
+
+    joined. Set this property to `true` to skip that inference and send the
+
+    player to a public server. It defaults to `false` and applies only to this
+
+    teleport; it does not clear the player''s VIP context for later teleports.
+
+
+    Like the routing fields below, this property is mutually exclusive:
+
+    setting it next to `Class.TeleportOptions.ReservedServerId`,
+
+    `Class.TeleportOptions.VipServerId`,
+
+    `Class.TeleportOptions.ReservedServerAccessCode`,
+
+    `Class.TeleportOptions.ShouldReserveServer`, or
+
+    `Class.TeleportOptions.ServerInstanceId` causes an error.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Teleport
+- name: TeleportOptions.ReservedServerId
+  summary: 'The reserved server ID that indicates the reserved server to teleport
+    to.
+
+    '
+  description: 'This property specifies a developer-supplied identifier for a reserved
+
+    server. Set it to any random GUID to target a new, random reserved server.
+
+    A random GUID can be generated with
+
+    `Class.HttpService:GenerateGUID()|HttpService:GenerateGUID(false)`. Pass
+
+    the `Class.TeleportOptions` instance to
+
+    `Class.TeleportService:TeleportAsync()`.
+
+
+    The first teleport using some new ID creates the reserved server. Reusing
+
+    the same ID routes subsequent teleports to that same reserved server.
+
+
+    For more information on how to teleport players between servers, see
+
+    [Teleporting Between Places](../../../projects/teleport.md).
+
+    '
+  code_samples: []
+  type: string
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Teleport
+- name: TeleportOptions.VipServerId
+  summary: 'The VIP server ID that indicates the VIP server to teleport to.
+
+    '
+  description: 'This property specifies the identifier for a VIP server (known as
+    private
+
+    servers to players). Set it to the `Class.DataModel.PrivateServerId` of
+
+    the target VIP server and pass the `Class.TeleportOptions` instance to
+
+    `Class.TeleportService:TeleportAsync()`.
+
+
+    This property is distinct from `Class.TeleportOptions.ReservedServerId`,
+
+    which targets reserved servers.
+
+
+    A VIP server ID is scoped to the experience that owns the VIP server. You
+
+    may use it with the place ID of any place in that experience, not just the
+
+    root place, but using it with a place ID from a different experience is
+
+    rejected.
+
+
+    When no private-server routing field is set, the engine chooses the
+
+    destination server: the join can be public, or a VIP server the player has
+
+    recent context for.
+
+
+    For more information on how to teleport players between servers, see
+
+    [Teleporting Between Places](../../../projects/teleport.md).
+
+    '
+  code_samples: []
+  type: string
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Teleport
+- name: TeleportOptions.ReservedServerAccessCode
+  summary: 'The reserved server access code that indicates the reserved server that
+
+    the teleport should be to.
+
+    '
+  description: 'This property is deprecated and no longer supported. It remains available
+
+    for backward compatibility but should not be used for new work.
+
+
+    It indicates the reserved server access code for the reserved server that
+
+    the user(s) should be teleported to. The access code is obtained either
+
+    from `Class.TeleportService:ReserveServerAsync()` or from
+
+    `Class.TeleportAsyncResult.ReservedServerAccessCode`.
+
+
+    For new work, use `Class.TeleportOptions.ReservedServerId` with a
+
+    developer-generated GUID instead. See
+
+    [Teleporting Between Places](../../../projects/teleport.md).
+
+    '
+  code_samples: []
+  type: string
+  tags:
+  - Deprecated
+  deprecation_message: 'Use `Class.TeleportOptions.ReservedServerId` with a developer-generated
+
+    GUID and `Class.TeleportService:TeleportAsync()` instead. For VIP servers,
+
+    use `Class.TeleportOptions.VipServerId`.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Teleport
+- name: TeleportOptions.ServerInstanceId
+  summary: 'The `Class.DataModel.JobId` of the server instance to teleport to.
+
+    '
+  description: 'This property indicates the `Class.DataModel.JobId` of the server
+    instance
+
+    the user(s) should be teleported to.
+
+
+    For more information on how to teleport players between servers, see
+
+    [Teleporting Between Places](../../../projects/teleport.md).
+
+    '
+  code_samples: []
+  type: string
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Teleport
+- name: TeleportOptions.ShouldReserveServer
+  summary: 'A flag to indicate if a reserved server should be allocated and the
+
+    players should then be teleported to this allocation.
+
+    '
+  description: 'When set to `true`, a reserved server is created and the player(s)
+    are
+
+    teleported to the new server.
+
+
+    This property is deprecated and no longer supported. For new work,
+
+    generate a GUID with `Class.HttpService:GenerateGUID(false)`, set
+
+    `Class.TeleportOptions.ReservedServerId`, and call
+
+    `Class.TeleportService:TeleportAsync()`.
+
+
+    For more information on how to teleport players between servers, see
+
+    [Teleporting Between Places](../../../projects/teleport.md).
+
+    '
+  code_samples: []
+  type: boolean
+  tags:
+  - Deprecated
+  deprecation_message: 'Use `Class.TeleportOptions.ReservedServerId` with a developer-generated
+
+    GUID and `Class.TeleportService:TeleportAsync()` instead.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Teleport
+- name: ForcePublicServer
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+- name: ReservedServerAccessCode
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''ReservedServerId'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+- name: ReservedServerId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+- name: ServerInstanceId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+- name: ShouldReserveServer
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''ReservedServerId'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+- name: VipServerId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+methods:
+- name: TeleportOptions:GetTeleportData
+  summary: 'Returns the teleport data stored in the `Class.TeleportOptions` instance
+
+    by `Class.TeleportOptions:SetTeleportData()`.
+
+    '
+  description: 'This function returns the teleport data stored in the
+
+    `Class.TeleportOptions` instance by
+
+    `Class.TeleportOptions:SetTeleportData()`.
+
+
+    Once a player has teleported, teleport data can be retrieved using the
+
+    `Class.Player:GetJoinData()` and
+
+    `Class.TeleportService:GetLocalPlayerTeleportData()` functions.
+
+
+    For more information on how to teleport players between servers, see
+
+    [Teleporting Between Places](../../../projects/teleport.md).
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Variant
+    summary: 'The teleport data previously stored by
+
+      `Class.TeleportOptions:SetTeleportData()`, or nil if no data was set.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Teleport
+- name: TeleportOptions:SetTeleportData
+  summary: 'Setter function for data to be passed to the destination place.
+
+    '
+  description: "This is a setter function for data to be passed to the destination\
+    \ place.\nOn the destination place, this data can be retrieved using\n`Class.Player:GetJoinData()`\
+    \ or\n`Class.TeleportService:GetLocalPlayerTeleportData()`.\n\nFor example, the\
+    \ following snippet would send the\n`Class.DataModel.PlaceId` and `Class.DataModel.JobId`\
+    \ in a dictionary\npassing the teleport data in a `Class.TeleportOptions` instance\
+    \ using\n`Class.TeleportOptions:SetTeleportData()`:\n\n```lua\n-- Server\nlocal\
+    \ teleportOptions = Instance.new(\"TeleportOptions\")\nlocal teleportData = {\n\
+    \    placeId = game.PlaceId,\n    jobId = game.JobId\n}\nteleportOptions:SetTeleportData(teleportData)\n\
+    TeleportService:TeleportAsync(game.PlaceId, {player}, teleportOptions)\n```\n\n\
+    This data could then be retrieved upon arrival using the\nGetLocalPlayerTeleportData()\
+    \ function as follows:\n\n```lua\n-- Client\nlocal TeleportService = game:GetService(\"\
+    TeleportService\")\n\nlocal teleportData = TeleportService:GetLocalPlayerTeleportData()\n\
+    if teleportData then\n    local placeId = teleportData.placeId\n    local jobId\
+    \ = teleportData.JobId\nend\n```\n\nIf no `teleportData` was set in the teleportation\
+    \ function this\nGetLocalPlayerTeleportData() will return `nil`.\n\n#### Allowed\
+    \ data types\n\nTeleport data may only contain value types. It cannot contain\n\
+    `Class.Instance|Instances` or other types that reference engine state, as\nthese\
+    \ cannot safely cross the boundary between servers.\n\nAllowed:\n\n- Primitives:\
+    \ `bool`, `number`, and `string`\n- Value types such as `Datatype.Vector3`, `Datatype.CFrame`,\n\
+    \  `Datatype.Color3`, `Datatype.UDim2`, `Datatype.NumberSequence`,\n  `Datatype.ColorSequence`,\
+    \ `Enum` items, and similar\n- Tables and arrays (without mixed keys) containing\
+    \ only the allowed types\n  above, nested up to a reasonable depth and size\n\n\
+    Not allowed (these will be removed from the data before the teleport\ncompletes):\n\
+    \n- `Class.Instance` and instance references\n- `Datatype.RBXScriptConnection|Connections`,\
+    \ `Datatype.RBXScriptSignal`,\n  and functions\n- `SharedTable`\n- Types that\
+    \ reference engine or `Class.DataModel` state, such as\n  `Class.InputObject`,\
+    \ `Datatype.RaycastParams`, and\n  `Datatype.RaycastResult`\n\nIf teleport data\
+    \ contains a disallowed type, that value is removed and an\nerror is written to\
+    \ the developer console. Convert instance references to\nplain values (for example,\
+    \ a numeric ID or a string path).\n\nFor more information on how to send and receive\
+    \ user data along with\nteleports, see, see\n[Teleporting Between Places](../../../projects/teleport.md#sending-user-data-along-with-teleports).\n"
+  code_samples: []
+  parameters:
+  - name: teleportData
+    type: Variant
+    default: null
+    summary: 'Data to be passed to the destination place.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Teleport
+- name: GetTeleportData
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Variant
+- name: SetTeleportData
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: teleportData
+    type: Variant
+  returns:
+  - type: 'null'
+events: []
+callbacks: []

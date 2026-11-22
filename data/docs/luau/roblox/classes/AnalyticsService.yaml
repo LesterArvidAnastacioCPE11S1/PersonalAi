@@ -1,0 +1,1581 @@
+name: AnalyticsService
+type: class
+memory_category: Instances
+summary: 'Collection of methods that allows you to track how users interact with your
+
+  experiences.
+
+  '
+description: '`AnalyticsService` is a collection of methods that allows you to track
+  how
+
+  users interact with your experiences, specifically player progression,
+
+  in-experience economy, funnels, and custom events. For more information on
+
+  using this service, see
+
+  [Event types](../../../production/analytics/event-types.md).
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+- NotReplicated
+deprecation_message: ''
+properties:
+- name: AnalyticsService.ApiKey
+  summary: 'PlayFab API key. Must be set in order to use
+
+    `Class.AnalyticsService:FireEvent()|FireEvent`.
+
+    '
+  description: 'This property contains the game''s PlayFab API key. It must be set
+    and
+
+    valid in order to use `Class.AnalyticsService:FireEvent()|FireEvent`.
+
+    '
+  code_samples: []
+  type: string
+  tags:
+  - Deprecated
+  deprecation_message: 'This property is deprecated. Do not use it for new work.
+
+    '
+  security:
+    read: LocalUserSecurity
+    write: LocalUserSecurity
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: ApiKey
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: LocalUserSecurity
+    write: LocalUserSecurity
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+methods:
+- name: AnalyticsService:FireCustomEvent
+  summary: 'Fires a custom event with a custom event name and data.
+
+    '
+  description: 'This function triggers a custom event with a custom event name data.
+
+    '
+  code_samples:
+  - analytics-event---custom
+  parameters:
+  - name: player
+    type: Instance
+    default: null
+    summary: 'The player who triggered the custom event. `nil` if not player
+
+      related.
+
+      '
+  - name: eventCategory
+    type: string
+    default: null
+    summary: 'User defined category. This should be the name of the event.
+
+      '
+  - name: customData
+    type: Variant
+    default: null
+    summary: 'Optional. User defined data, could be a string, a number or a table.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This deprecated function is a variant of
+
+    `Class.AnalyticsService:LogCustomEvent()` which should be used instead.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: AnalyticsService:FireEvent
+  summary: 'Report a custom event to PlayFab.
+
+    '
+  description: 'This function reports a custom event to PlayFab. The event is reported
+
+    using a **category** and **value**, where the category is a string and the
+
+    value can be a string or table. In order to use PlayFab, you must have a
+
+    valid `Class.AnalyticsService.ApiKey|ApiKey` set.
+
+    '
+  code_samples: []
+  parameters:
+  - name: category
+    type: string
+    default: null
+    summary: '''The category of event to report. Cannot contain the following
+
+      characters: comma `,`, double quote `"` or newline characters `\r\n`''.
+
+      '
+  - name: value
+    type: Variant
+    default: null
+    summary: 'A value to be serialized and reported. Serialized length must not
+
+      exceed 1 KiB, or 1024 bytes.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This function has been deprecated in favor of more descriptive
+    methods,
+
+    including `Class.AnalyticsService:LogCustomEvent()`,
+
+    `Class.AnalyticsService:LogEconomyEvent()`, and
+
+    `Class.AnalyticsService:LogProgressionEvent()`.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: AnalyticsService:FireInGameEconomyEvent
+  summary: 'Fire an event used to track player actions pertaining to the in-game
+
+    '
+  description: 'This function triggers an event used to track player actions pertaining
+    to
+
+    the in-game economy. For example, it should be called to track when
+
+    players acquire or spend virtual items within the economy like currency.
+
+    '
+  code_samples:
+  - analytics-event---economy
+  parameters:
+  - name: player
+    type: Instance
+    default: null
+    summary: 'The player who triggered the economy event.
+
+      '
+  - name: itemName
+    type: string
+    default: null
+    summary: 'The name of the item.
+
+      '
+  - name: economyAction
+    type: AnalyticsEconomyAction
+    default: null
+    summary: 'Indicates the acquisition or spending of an in game resource.
+
+      '
+  - name: itemCategory
+    type: string
+    default: null
+    summary: 'A user defined category for items such as "Vehicle," "Weapon.".
+
+      '
+  - name: amount
+    type: int
+    default: null
+    summary: 'The amount of the currency.
+
+      '
+  - name: currency
+    type: string
+    default: null
+    summary: 'The currency used. Examples: ''gold'', ''gems'', ''life.''.
+
+      '
+  - name: location
+    type: Variant
+    default: null
+    summary: "The event location. A dictionary that each key-value represents an\n\
+      entry of location data. The key-value is a string-string pair. With\nthis you\
+      \ can query which are the most popular \"stores\" then maybe you\nwant to increase/lower\
+      \ the price for the stores.\n\nSee the example below:\n\n```lua\nlocal location\
+      \ = {\n    [\"placeDesc\"] = \"Dungeon1\",\n    [\"levelDesc\"] = \"level2\"\
+      ,\n    [\"mapDesc\"] = \"LeftChamberMap\",\n    [\"storeName\"] = \"DarkSmith\"\
+      ,\n    [\"userDefinedKey\"] = \"0005\"\n}\n```\n"
+  - name: customData
+    type: Variant
+    default: null
+    summary: 'Optional. User defined data, could be a string, a number or a table.
+
+      '
+  returns:
+  - type: ()
+    summary: 'No return.
+
+      '
+  tags:
+  - Deprecated
+  deprecation_message: 'This deprecated function is a variant of
+
+    `Class.AnalyticsService:LogEconomyEvent()` which should be used instead.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: AnalyticsService:FireLogEvent
+  summary: 'Fire a log event used to track errors and warnings experienced by players.
+
+    '
+  description: 'This function triggers an event used to track errors and warnings
+
+    experienced by players. For example, it could be called to indicate when a
+
+    function call fails, such as a datastore save or
+
+    `Class.TeleportService:Teleport()`. See the example below.
+
+    '
+  code_samples:
+  - analytics-event---log
+  parameters:
+  - name: player
+    type: Instance
+    default: null
+    summary: 'The player who triggered the error event, `nil` if not player related.
+
+      '
+  - name: logLevel
+    type: AnalyticsLogLevel
+    default: null
+    summary: 'The specified log level (e.g. Debug, Error).
+
+      '
+  - name: message
+    type: string
+    default: null
+    summary: 'User defined message.
+
+      '
+  - name: debugInfo
+    type: Variant
+    default: null
+    summary: 'Optional. A dictionary which contains predefined keys including
+
+      "errorCode" and "stackTrace". Both keys values are strings. stackTrace
+
+      is a traceback of the current function call stack.
+
+      '
+  - name: customData
+    type: Variant
+    default: null
+    summary: 'Optional. User defined data, could be a string, a number or a table.
+
+      '
+  returns:
+  - type: ()
+    summary: 'No return.
+
+      '
+  tags:
+  - Deprecated
+  deprecation_message: 'This method is deprecated. Do not use it for new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: AnalyticsService:FirePlayerProgressionEvent
+  summary: 'Fire an event used to track player progression through the game.
+
+    '
+  description: 'This function triggers an event used to track player progression through
+
+    the game. For example, it should be called when a player starts an in-game
+
+    tutorial and again that player finishes the tutorial.
+
+    '
+  code_samples:
+  - analytics-event---progression
+  parameters:
+  - name: player
+    type: Instance
+    default: null
+    summary: 'The player who triggered the event.
+
+      '
+  - name: category
+    type: string
+    default: null
+    summary: 'A user defined category for progression.
+
+      '
+  - name: progressionStatus
+    type: AnalyticsProgressionStatus
+    default: null
+    summary: 'Indicates the status of the progression.
+
+      '
+  - name: location
+    type: Variant
+    default: null
+    summary: 'The event location. A dictionary that each key-value represents an
+
+      entry of location data. The key-value is a string-string pair. With
+
+      this developers can query where is the most frequent location for a
+
+      specific progression event category. For example, the category could
+
+      be "LevelUp".
+
+      '
+  - name: statistics
+    type: Variant
+    default: null
+    summary: 'Optional. A dictionary that each key-value represents an entry of
+
+      statistics data that allows developers to track any specific data that
+
+      they want to collect as players progress through their game. Key-Value
+
+      is a string-number pair.
+
+      '
+  - name: customData
+    type: Variant
+    default: null
+    summary: 'Optional. User defined data, could be a string, a number or a table.
+
+      '
+  returns:
+  - type: ()
+    summary: 'No return.
+
+      '
+  tags:
+  - Deprecated
+  deprecation_message: 'This deprecated function is a variant of
+
+    `Class.AnalyticsService:LogProgressionEvent()` which should be used
+
+    instead.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: AnalyticsService:GetPlayerSegmentsAsync
+  summary: 'Returns coarse player segment buckets for the current experience.
+
+    '
+  description: "This server-only method returns coarse segment buckets for a player\
+    \ in the\ncurrent experience. Use these buckets at runtime to personalize content\
+    \ or\ngate features for specific player groups. If a cached result is not\nalready\
+    \ available, the method may yield while the engine fetches the\nsegment data.\
+    \ Successfully fetched results are cached per player for the\nlifetime of the\
+    \ server session.\n\nIf segment data is unavailable, this method does not throw.\
+    \ Instead, it\nreturns `HasData = false` and all enum fields are set to `Unknown`.\n\
+    \nThis method throws only when called from the client or when the `player`\nargument\
+    \ is invalid.\n\nThe returned dictionary has the following structure:\n\n<table>\n\
+    \t<thead>\n\t\t<tr>\n\t\t\t<th>Name</th>\n\t\t\t<th>Type</th>\n\t\t\t<th>Description</th>\n\
+    \t\t</tr>\n\t</thead>\n\t<tr>\n\t\t<td><code>HasData</code></td>\n\t\t<td>bool</td>\n\
+    \t\t<td>Whether segment data was successfully retrieved for the player.</td>\n\
+    \t</tr>\n\t<tr>\n\t\t<td><code>ActivePayerStatus</code></td>\n\t\t<td><code>Enum.ActivePayerStatus</code></td>\n\
+    \t\t<td>The player's current payer status bucket for this experience.</td>\n\t\
+    </tr>\n\t<tr>\n\t\t<td><code>WhenUserFirstPlayed</code></td>\n\t\t<td><code>Enum.WhenUserFirstPlayed</code></td>\n\
+    \t\t<td>When the player first played this experience, represented as a bucket.</td>\n\
+    \t</tr>\n\t<tr>\n\t\t<td><code>PlatformSpenderStatus</code></td>\n\t\t<td><code>Enum.PlayerPlatformSpenderStatus</code></td>\n\
+    \t\t<td>The player's platform-wide spender status bucket, including whether the\
+    \ player falls outside the active spender bucket.</td>\n\t</tr>\n\t<tr>\n\t\t\
+    <td><code>ExperienceActivationStatus</code></td>\n\t\t<td><code>Enum.ExperienceActivationStatus</code></td>\n\
+    \t\t<td>Whether the player is new, active, lapsed, or reactivated in this experience,\
+    \ based on the last 30 days.</td>\n\t</tr>\n\t<tr>\n\t\t<td><code>EngagementLevel</code></td>\n\
+    \t\t<td><code>Enum.EngagementLevel</code></td>\n\t\t<td>How many days the player\
+    \ played this experience in the last 7 days, represented as a bucket.</td>\n\t\
+    </tr>\n\t<tr>\n\t\t<td><code>PlatformActivationStatus</code></td>\n\t\t<td><code>Enum.PlayerPlatformActivationStatus</code></td>\n\
+    \t\t<td>Whether the player is new, active, lapsed, or reactivated on Roblox, based\
+    \ on the last 60 days.</td>\n\t</tr>\n\t<tr>\n\t\t<td><code>UserNewReturningStatus</code></td>\n\
+    \t\t<td><code>Enum.UserNewReturningStatus</code></td>\n\t\t<td>Whether the player\
+    \ is new to this experience or has played it before.</td>\n\t</tr>\n\t<tr>\n\t\
+    \t<td><code>UserAcquisitionSource</code></td>\n\t\t<td><code>Enum.UserAcquisitionSource</code></td>\n\
+    \t\t<td>How the player first found this experience.</td>\n\t</tr>\n</table>\n"
+  code_samples:
+  - AnalyticsService-GetPlayerSegmentsAsync
+  parameters:
+  - name: player
+    type: Player
+    default: null
+    summary: 'The player whose segment buckets should be returned.
+
+      '
+  returns:
+  - type: Dictionary
+    summary: 'A dictionary containing coarse player segment buckets for the current
+
+      experience.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: AnalyticsService:LogCustomEvent
+  summary: 'Logs an event used to track custom metrics of a user in experience.
+
+    '
+  description: 'Logs an event used to track custom metrics of a user in experience.
+    For
+
+    more information, see
+
+    [Custom events](../../../production/analytics/custom-events.md).
+
+    '
+  code_samples:
+  - Log-Custom-Event
+  parameters:
+  - name: player
+    type: Player
+    default: null
+    summary: 'The user who triggered the event.
+
+      '
+  - name: eventName
+    type: string
+    default: null
+    summary: 'The name of the custom event.
+
+      '
+  - name: value
+    type: double
+    default: 1
+    summary: 'The value of the event that will be used in aggregation.
+
+      '
+  - name: customFields
+    type: Dictionary
+    default: nil
+    summary: 'Optional dictionary of custom fields that will provide breakdowns in
+
+      Roblox-provided charts. Only specific keys, provided by
+
+      `Enum.AnalyticsCustomFieldKeys`, will be used for these breakdowns.
+
+      Limited to 8,000 unique combinations of values across the three custom
+
+      fields per experience.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: AnalyticsService:LogEconomyEvent
+  summary: 'Logs an event used to track player actions related in experience.
+
+    '
+  description: 'Logs an event used to track player actions related in experience.
+    For more
+
+    information, see
+
+    [Economy events](../../../production/analytics/economy-events.md).
+
+    '
+  code_samples:
+  - AnalyticsService-LogEconomyEvent-IAP
+  parameters:
+  - name: player
+    type: Player
+    default: null
+    summary: 'The user who triggered the event.
+
+      '
+  - name: flowType
+    type: AnalyticsEconomyFlowType
+    default: null
+    summary: 'Should specify the direction that currency is flowing using
+
+      `Enum.AnalyticsEconomyFlowType`.
+
+      '
+  - name: currencyType
+    type: string
+    default: null
+    summary: 'The name of the currency being added or removed, for example `"gold"`,
+
+      `"gems"`, or `"energy"`. Limited to 5 unique currency types per
+
+      experience.
+
+      '
+  - name: amount
+    type: float
+    default: null
+    summary: 'The amount of currency being added or removed. This value should
+
+      always be positive.
+
+      '
+  - name: endingBalance
+    type: float
+    default: null
+    summary: 'The user''s balance after the currency has been added or removed. This
+
+      value should always be greater than or equal to `0`.
+
+      '
+  - name: transactionType
+    type: string
+    default: null
+    summary: 'The type of transaction that occurred. While you''re free to use any
+
+      transaction type, it''s recommended to use the provided types from
+
+      `Enum.AnalyticsEconomyTransactionType` such as `"IAP"` or
+
+      `"ContextualPurchase"` to enable future insights from Roblox tools and
+
+      charts.
+
+
+      Because this field type is a string, you''ll need to pass the `Name`
+
+      value of the enum. For example
+
+      `Enum.AnalyticsEconomyTransactionType|Enum.AnalyticsEconomyTransactionType.IAP.Name`.
+
+
+      Limited to 20 unique types per experience.
+
+      '
+  - name: itemSku
+    type: string
+    default: null
+    summary: 'Optional SKU of the item or bundle being purchased. This is a unique
+
+      identifier for the item being purchased. Limited to 100 unique SKUs
+
+      per experience.
+
+      '
+  - name: customFields
+    type: Dictionary
+    default: nil
+    summary: 'Optional dictionary of custom fields that will provide breakdowns in
+
+      Roblox-provided charts. Only specific keys, provided by
+
+      `Enum.AnalyticsCustomFieldKeys`, will be used for these breakdowns.
+
+      Limited to 8,000 unique combinations of values across the three custom
+
+      fields per experience.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: AnalyticsService:LogFunnelStepEvent
+  summary: 'Logs an event used to track user actions stepping through a pre-planned
+
+    funnel.
+
+    '
+  description: 'Logs an event used to track user actions stepping through a pre-planned
+
+    funnel. Funnel breakdowns only consider the user and event values from the
+
+    first step in a funnel session. See
+
+    [Funnel events](../../../production/analytics/funnel-events.md).
+
+    '
+  code_samples:
+  - AnalyticsService-LogFunnelStepEvent-Shop
+  parameters:
+  - name: player
+    type: Player
+    default: null
+    summary: 'The user who triggered the event.
+
+      '
+  - name: funnelName
+    type: string
+    default: null
+    summary: 'The name of the funnel. This should be the same for all steps in the
+
+      funnel. Limited to 10 unique funnels per experience.
+
+      '
+  - name: funnelSessionId
+    type: string
+    default: null
+    summary: 'Optional unique identifier for the funnel session. This should be the
+
+      same for all steps in the funnel.
+
+
+      Note that this field is only necessary for **recurring** funnels, for
+
+      example a purchase flow funnel or an item upgrade funnel. If you don''t
+
+      have a natural funnel session identifier, it''s recommended to use
+
+      `Class.HttpService:GenerateGUID()`.
+
+      '
+  - name: step
+    type: int
+    default: 1
+    summary: 'The step number in the funnel. This should be unique for each step in
+
+      the funnel. All funnels start at step 1. Limited to steps 1-100.
+
+
+      Repeated steps by the same user in the same funnel session, or when
+
+      `funnelSessionId` is `nil` will be ignored.
+
+
+      Note that if any steps are skipped, the intermediate steps will be
+
+      considered completed.
+
+      '
+  - name: stepName
+    type: string
+    default: null
+    summary: 'Optional name of the step in the funnel. This field is only used for
+
+      display purposes in Roblox-provided charts.
+
+      '
+  - name: customFields
+    type: Dictionary
+    default: nil
+    summary: 'Optional dictionary of custom fields that will provide breakdowns in
+
+      Roblox-provided charts. Only specific keys, provided by
+
+      `Enum.AnalyticsCustomFieldKeys`, will be used for these breakdowns.
+
+      Limited to 8,000 unique combinations of values across the three custom
+
+      fields per experience.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: AnalyticsService:LogJourneyEvent
+  summary: 'Logs a journey event used to track non-linear player paths through an
+
+    experience.
+
+    '
+  description: 'Logs a journey event used to track non-linear player paths through
+    an
+
+    experience. Unlike funnels, which track ordered sequential steps, journeys
+
+    track graph-like player paths where players can move between named nodes
+
+    in any order. Each call records that a player reached a specific node
+
+    within a named journey. The resulting data is visualized as a Sankey
+
+    diagram in Creator Hub, showing how players distribute across paths in the
+
+    experience.
+
+    '
+  code_samples: []
+  parameters:
+  - name: player
+    type: Player
+    default: null
+    summary: 'The player who triggered the journey event.
+
+      '
+  - name: journeyName
+    type: string
+    default: null
+    summary: 'The name of the journey. This should be the same for all nodes in the
+
+      journey. Cannot be empty and cannot contain a comma `,`, double quote
+
+      `"`, single quote `''`, or newline character.
+
+      '
+  - name: nodeName
+    type: string
+    default: null
+    summary: 'The name of the node the player reached in the journey. Cannot be
+
+      empty, cannot contain a comma `,`, double quote `"`, single quote `''`,
+
+      or newline character, and cannot start with `__` (double underscore),
+
+      which is reserved.
+
+      '
+  - name: journeySessionId
+    type: string
+    default: null
+    summary: 'Optional unique identifier for the journey session. This should be the
+
+      same for all nodes in a single session of the journey. If provided,
+
+      cannot contain a comma `,`, double quote `"`, single quote `''`, or
+
+      newline character.
+
+      '
+  - name: customFields
+    type: Dictionary
+    default: nil
+    summary: 'Optional dictionary of custom fields that will provide breakdowns in
+
+      Roblox-provided charts. Only specific keys, provided by
+
+      `Enum.AnalyticsCustomFieldKeys`, will be used for these breakdowns.
+
+      Limited to 8,000 unique combinations of values across the three custom
+
+      fields per experience.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: AnalyticsService:LogOnboardingFunnelStepEvent
+  summary: 'Logs an event used to track user actions stepping through an onboarding
+
+    funnel.
+
+    '
+  description: 'Logs an event used to track user actions stepping through an onboarding
+
+    funnel. Funnel breakdowns only consider the user and event values from the
+
+    first step in a funnel session. See
+
+    [Funnel events](../../../production/analytics/funnel-events.md).
+
+    '
+  code_samples:
+  - AnalyticsService-LogOnboardingFunnelStepEvent-TwoSteps
+  parameters:
+  - name: player
+    type: Player
+    default: null
+    summary: 'The user who triggered the event.
+
+      '
+  - name: step
+    type: int
+    default: null
+    summary: 'The step number in the funnel. This should be unique for each step in
+
+      the funnel. All funnels start at step 1. Limited to steps 1-100.
+
+
+      Note that if any steps are skipped, the intermediate steps will be
+
+      considered completed.
+
+      '
+  - name: stepName
+    type: string
+    default: null
+    summary: 'Optional name of the step in the funnel. This field is only used for
+
+      display purposes in Roblox-provided charts.
+
+      '
+  - name: customFields
+    type: Dictionary
+    default: nil
+    summary: 'Optional dictionary of custom fields that will provide breakdowns in
+
+      Roblox-provided charts. Only specific keys, provided by
+
+      `Enum.AnalyticsCustomFieldKeys`, will be used for these breakdowns.
+
+      Limited to 8,000 unique combinations of values across the three custom
+
+      fields per experience.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: AnalyticsService:LogProgressionCompleteEvent
+  summary: 'Logs an event for when a user has completed a level attempt.
+
+    '
+  description: 'Logs an event for when a user has completed a level attempt. This
+    event
+
+    does not currently display in any Roblox-provided charts.
+
+    '
+  code_samples: []
+  parameters:
+  - name: player
+    type: Player
+    default: null
+    summary: 'The player who triggered the event.
+
+      '
+  - name: progressionPathName
+    type: string
+    default: null
+    summary: 'The name of the progression path this event belongs to, such as a
+
+      world, chapter, or level group. This groups related progression events
+
+      together. Cannot be empty and cannot contain a comma `,`, double quote
+
+      `"`, single quote `''`, or newline character.
+
+      '
+  - name: level
+    type: int
+    default: null
+    summary: 'The numeric level the player is progressing through within the
+
+      progression path.
+
+      '
+  - name: levelName
+    type: string
+    default: null
+    summary: 'The name of the level associated with this event. This field is used
+
+      for display purposes in Roblox-provided charts.
+
+      '
+  - name: customFields
+    type: Dictionary
+    default: nil
+    summary: 'Optional dictionary of custom fields that will provide breakdowns in
+
+      Roblox-provided charts. Only specific keys, provided by
+
+      `Enum.AnalyticsCustomFieldKeys`, will be used for these breakdowns.
+
+      Limited to 8,000 unique combinations of values across the three custom
+
+      fields per experience.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: AnalyticsService:LogProgressionEvent
+  summary: 'Logs an event for when a user has started, completed, or failed a level
+
+    attempt.
+
+    '
+  description: 'Logs an event for when a user has started, completed, or failed a
+    level
+
+    attempt. This event does not currently display in any Roblox-provided
+
+    charts.
+
+    '
+  code_samples: []
+  parameters:
+  - name: player
+    type: Player
+    default: null
+    summary: 'The player who triggered the event.
+
+      '
+  - name: progressionPathName
+    type: string
+    default: null
+    summary: 'The name of the progression path this event belongs to, such as a
+
+      world, chapter, or level group. This groups related progression events
+
+      together. Cannot be empty and cannot contain a comma `,`, double quote
+
+      `"`, single quote `''`, or newline character.
+
+      '
+  - name: status
+    type: AnalyticsProgressionType
+    default: null
+    summary: 'The progression status to record, provided as an
+
+      `Enum.AnalyticsProgressionType` value such as `Start`, `Complete`, or
+
+      `Fail`. The `Class.AnalyticsService:LogProgressionStartEvent()`,
+
+      `Class.AnalyticsService:LogProgressionCompleteEvent()`, and
+
+      `Class.AnalyticsService:LogProgressionFailEvent()` methods are
+
+      shortcuts that set this status for you.
+
+      '
+  - name: level
+    type: int
+    default: null
+    summary: 'The numeric level the player is progressing through within the
+
+      progression path.
+
+      '
+  - name: levelName
+    type: string
+    default: null
+    summary: 'The name of the level associated with this event. This field is used
+
+      for display purposes in Roblox-provided charts.
+
+      '
+  - name: customFields
+    type: Dictionary
+    default: nil
+    summary: 'Optional dictionary of custom fields that will provide breakdowns in
+
+      Roblox-provided charts. Only specific keys, provided by
+
+      `Enum.AnalyticsCustomFieldKeys`, will be used for these breakdowns.
+
+      Limited to 8,000 unique combinations of values across the three custom
+
+      fields per experience.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: AnalyticsService:LogProgressionFailEvent
+  summary: 'Logs an event for when a user has failed a level attempt.
+
+    '
+  description: 'Logs an event for when a user has failed a level attempt. This event
+    does
+
+    not currently display in any Roblox-provided charts.
+
+    '
+  code_samples: []
+  parameters:
+  - name: player
+    type: Player
+    default: null
+    summary: 'The user who triggered the event.
+
+      '
+  - name: progressionPathName
+    type: string
+    default: null
+    summary: 'The name of the progression path this event belongs to, such as a
+
+      world, chapter, or level group. This groups related progression events
+
+      together. Cannot be empty and cannot contain a comma `,`, double quote
+
+      `"`, single quote `''`, or newline character.
+
+      '
+  - name: level
+    type: int
+    default: null
+    summary: 'The numeric level the player is progressing through within the
+
+      progression path.
+
+      '
+  - name: levelName
+    type: string
+    default: null
+    summary: 'The name of the level associated with this event. This field is used
+
+      for display purposes in Roblox-provided charts.
+
+      '
+  - name: customFields
+    type: Dictionary
+    default: nil
+    summary: 'Optional dictionary of custom fields that will provide breakdowns in
+
+      Roblox-provided charts. Only specific keys, provided by
+
+      `Enum.AnalyticsCustomFieldKeys`, will be used for these breakdowns.
+
+      Limited to 8,000 unique combinations of values across the three custom
+
+      fields per experience.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: AnalyticsService:LogProgressionStartEvent
+  summary: 'Logs an event for when a user has started a level attempt.
+
+    '
+  description: 'Logs an event for when a user has started a level attempt. This event
+    does
+
+    not currently display in any Roblox-provided charts.
+
+    '
+  code_samples: []
+  parameters:
+  - name: player
+    type: Player
+    default: null
+    summary: 'The player who triggered the event.
+
+      '
+  - name: progressionPathName
+    type: string
+    default: null
+    summary: 'The name of the progression path this event belongs to, such as a
+
+      world, chapter, or level group. This groups related progression events
+
+      together. Cannot be empty and cannot contain a comma `,`, double quote
+
+      `"`, single quote `''`, or newline character.
+
+      '
+  - name: level
+    type: int
+    default: null
+    summary: 'The numeric level the player is progressing through within the
+
+      progression path.
+
+      '
+  - name: levelName
+    type: string
+    default: null
+    summary: 'The name of the level associated with this event. This field is used
+
+      for display purposes in Roblox-provided charts.
+
+      '
+  - name: customFields
+    type: Dictionary
+    default: nil
+    summary: 'Optional dictionary of custom fields that will provide breakdowns in
+
+      Roblox-provided charts. Only specific keys, provided by
+
+      `Enum.AnalyticsCustomFieldKeys`, will be used for these breakdowns.
+
+      Limited to 8,000 unique combinations of values across the three custom
+
+      fields per experience.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: FireCustomEvent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: eventCategory
+    type: string
+  - name: customData
+    type: Variant
+  returns:
+  - type: 'null'
+- name: FireEvent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: category
+    type: string
+  - name: value
+    type: Variant
+  returns:
+  - type: 'null'
+- name: FireInGameEconomyEvent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: itemName
+    type: string
+  - name: economyAction
+    type: Enum.AnalyticsEconomyAction
+  - name: itemCategory
+    type: string
+  - name: amount
+    type: int
+  - name: currency
+    type: string
+  - name: location
+    type: Variant
+  - name: customData
+    type: Variant
+  returns:
+  - type: 'null'
+- name: FireLogEvent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: logLevel
+    type: Enum.AnalyticsLogLevel
+  - name: message
+    type: string
+  - name: debugInfo
+    type: Variant
+  - name: customData
+    type: Variant
+  returns:
+  - type: 'null'
+- name: FirePlayerProgressionEvent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  - name: category
+    type: string
+  - name: progressionStatus
+    type: Enum.AnalyticsProgressionStatus
+  - name: location
+    type: Variant
+  - name: statistics
+    type: Variant
+  - name: customData
+    type: Variant
+  returns:
+  - type: 'null'
+- name: GetDurationLoggerTimestamp
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: int
+- name: LogCustomEvent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+  - name: eventName
+    type: string
+  - name: value
+    type: double
+    default: '1'
+  - name: customFields
+    type: Dictionary
+    default: nil
+  returns:
+  - type: 'null'
+- name: LogEconomyEvent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+  - name: flowType
+    type: Enum.AnalyticsEconomyFlowType
+  - name: currencyType
+    type: string
+  - name: amount
+    type: float
+  - name: endingBalance
+    type: float
+  - name: transactionType
+    type: string
+  - name: itemSku
+    type: string
+  - name: customFields
+    type: Dictionary
+    default: nil
+  returns:
+  - type: 'null'
+- name: LogFunnelStepEvent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+  - name: funnelName
+    type: string
+  - name: funnelSessionId
+    type: string
+  - name: step
+    type: int
+    default: '1'
+  - name: stepName
+    type: string
+  - name: customFields
+    type: Dictionary
+    default: nil
+  returns:
+  - type: 'null'
+- name: LogJourneyEvent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+  - name: journeyName
+    type: string
+  - name: nodeName
+    type: string
+  - name: journeySessionId
+    type: string
+  - name: customFields
+    type: Dictionary
+    default: nil
+  returns:
+  - type: 'null'
+- name: LogOnboardingFunnelStepEvent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+  - name: step
+    type: int
+  - name: stepName
+    type: string
+  - name: customFields
+    type: Dictionary
+    default: nil
+  returns:
+  - type: 'null'
+- name: LogProgressionCompleteEvent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+  - name: progressionPathName
+    type: string
+  - name: level
+    type: int
+  - name: levelName
+    type: string
+  - name: customFields
+    type: Dictionary
+    default: nil
+  returns:
+  - type: 'null'
+- name: LogProgressionEvent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+  - name: progressionPathName
+    type: string
+  - name: status
+    type: Enum.AnalyticsProgressionType
+  - name: level
+    type: int
+  - name: levelName
+    type: string
+  - name: customFields
+    type: Dictionary
+    default: nil
+  returns:
+  - type: 'null'
+- name: LogProgressionFailEvent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+  - name: progressionPathName
+    type: string
+  - name: level
+    type: int
+  - name: levelName
+    type: string
+  - name: customFields
+    type: Dictionary
+    default: nil
+  returns:
+  - type: 'null'
+- name: LogProgressionStartEvent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+  - name: progressionPathName
+    type: string
+  - name: level
+    type: int
+  - name: levelName
+    type: string
+  - name: customFields
+    type: Dictionary
+    default: nil
+  returns:
+  - type: 'null'
+- name: GetPlayerSegmentsAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+  returns:
+  - type: Dictionary
+events: []
+callbacks: []

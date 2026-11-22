@@ -1,0 +1,633 @@
+name: VehicleSeat
+type: class
+memory_category: Instances
+summary: 'A seat object that can be used to control a vehicle.
+
+  '
+description: 'The `VehicleSeat` objects welds a player to the seat when the player
+  touches
+
+  the seat. It then forwards the movement inputs to any connected motor joints,
+
+  allowing control of a vehicle.
+
+
+  While `VehicleSeat` is great for making simple vehicles they do have some
+
+  limitations. Movement control will only detect motors connected directly to
+
+  the vehicle seat, or through another rigid connection. This means that if you
+
+  have a wheel connected to a beam which is then welded to the seat it will work
+
+  fine, however if you have the wheel connected to a part, which is connected by
+
+  a hinge to the rest of the car, it will not work.
+
+  '
+code_samples: []
+inherits:
+- BasePart
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: VehicleSeat.AreHingesDetected
+  summary: 'Displays how many hinges are detected by the `VehicleSeat`. Useful for
+
+    debugging vehicle designs.
+
+    '
+  description: 'Displays how many hinges are detected by the `VehicleSeat`. Useful
+    for
+
+    debugging vehicle designs.
+
+    '
+  code_samples: []
+  type: int
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Control
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Basic
+  - AvatarBehavior
+- name: VehicleSeat.Disabled
+  summary: 'Toggles whether the `VehicleSeat` is active or not.
+
+    '
+  description: 'Toggles whether the `VehicleSeat` is active or not. If the seat is
+
+    disabled, it will not automatically weld a character to it on collision
+
+    and will not allow a character to control the connected vehicle.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Control
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  - AvatarBehavior
+  simulationAccess: true
+- name: VehicleSeat.HeadsUpDisplay
+  summary: 'If `true`, a UI speed bar will be displayed on screen that tells you what
+
+    speed the vehicle is moving at.
+
+    '
+  description: 'If `true`, a UI speed bar will be displayed on screen that tells you
+    what
+
+    speed the vehicle is moving at.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Control
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  - AvatarBehavior
+- name: VehicleSeat.MaxSpeed
+  summary: 'The maximum speed that can be attained.
+
+    '
+  description: 'The maximum speed that can be attained.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Control
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  - AvatarBehavior
+  simulationAccess: true
+- name: VehicleSeat.Occupant
+  summary: 'The `Class.Humanoid` that is sitting in the seat.
+
+    '
+  description: 'The `Class.Humanoid` that is sitting in the seat.
+
+    '
+  code_samples: []
+  type: Humanoid
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Control
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Basic
+  - AvatarBehavior
+  simulationAccess: true
+- name: VehicleSeat.Steer
+  summary: 'The direction of movement, tied to left and right movement inputs.
+
+    '
+  description: 'The direction of movement, tied to left and right movement inputs.
+    Can be
+
+    either `1` (right), `0` (straight), or `-1` (left). Will refresh back to
+
+    `0` unless constantly set.
+
+    '
+  code_samples: []
+  type: int
+  tags:
+  - NotReplicated
+  deprecation_message: 'This property is no longer replicated and has been deprecated
+    in favor of
+
+    `Class.VehicleSeat.SteerFloat|SteerFloat` which is a float variant and
+
+    should be used instead.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Control
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  - AvatarBehavior
+  simulationAccess: true
+- name: VehicleSeat.SteerFloat
+  summary: 'The left-to-right movement float, tied to left and right movement inputs.
+
+    '
+  description: 'The left-to-right movement float, tied to left and right movement
+    inputs.
+
+    Can range between `1` (right) and `-1` (left). Will refresh back to `0`
+
+    (straight) unless constantly set.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Control
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  - AvatarBehavior
+  simulationAccess: true
+- name: VehicleSeat.Throttle
+  summary: 'The direction of throttle, tied to forward and backward movement inputs.
+
+    '
+  description: 'The direction of throttle, tied to forward and backward movement inputs.
+
+    Can be either `1` (forward), `0` (null), or `-1` (reverse). Will refresh
+
+    back to `0` unless constantly set.
+
+    '
+  code_samples: []
+  type: int
+  tags:
+  - NotReplicated
+  deprecation_message: 'This property is not longer replicated and has been deprecated
+    in favor of
+
+    `Class.VehicleSeat.ThrottleFloat|ThrottleFloat` which is a float variant
+
+    and should be used instead.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Control
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  - AvatarBehavior
+  simulationAccess: true
+- name: VehicleSeat.ThrottleFloat
+  summary: 'The forward-to-reverse throttle float, tied to forward and backward
+
+    movement inputs.
+
+    '
+  description: 'The forward-to-reverse throttle float, tied to forward and backward
+
+    movement inputs. Can range between `1` (forward) and `-1` (reverse). Will
+
+    refresh back to `0` (null) unless constantly set.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Control
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  - AvatarBehavior
+  simulationAccess: true
+- name: VehicleSeat.Torque
+  summary: 'How fast the vehicle will be able to attain
+
+    `Class.VehicleSeat.MaxSpeed|MaxSpeed`.
+
+    '
+  description: 'How fast the vehicle will be able to attain
+
+    `Class.VehicleSeat.MaxSpeed|MaxSpeed`. The greater the number, the faster
+
+    it will reach the maximum speed.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Control
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  - AvatarBehavior
+  simulationAccess: true
+- name: VehicleSeat.TurnSpeed
+  summary: 'The speed at which the vehicle will turn. Higher numbers can cause
+
+    problems and are not necessarily better.
+
+    '
+  description: 'The speed at which the vehicle will turn. Higher numbers can cause
+
+    problems and are not necessarily better.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Control
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  - AvatarBehavior
+  simulationAccess: true
+- name: AreHingesDetected
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: Control
+  serialization:
+    can_load: false
+    can_save: false
+  default: '0'
+- name: Disabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Control
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+- name: HeadsUpDisplay
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Control
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'true'
+- name: MaxSpeed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Control
+  serialization:
+    can_load: true
+    can_save: true
+  default: '25'
+- name: Occupant
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Humanoid
+  category: Control
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_no_string_value__
+- name: Steer
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: Control
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: SteerFloat
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Control
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: Throttle
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: Control
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: ThrottleFloat
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Control
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: Torque
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Control
+  serialization:
+    can_load: true
+    can_save: true
+  default: '10'
+- name: TurnSpeed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Control
+  serialization:
+    can_load: true
+    can_save: true
+  default: '1'
+methods:
+- name: VehicleSeat:Sit
+  summary: 'Forces the character with the specified `Class.Humanoid` to sit in the
+
+    `VehicleSeat`.
+
+    '
+  description: 'Forces the character with the specified `Class.Humanoid` to sit in
+    the
+
+    `VehicleSeat`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: humanoid
+    type: Instance
+    default: null
+    summary: 'The `Class.Humanoid` being forced to sit in the `VehicleSeat`.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+  - AvatarBehavior
+- name: Sit
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: humanoid
+    type: Instance
+  returns:
+  - type: 'null'
+events:
+- name: RemoteCreateSeatWeld
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: humanoid
+    type: Instance
+- name: RemoteDestroySeatWeld
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+callbacks: []

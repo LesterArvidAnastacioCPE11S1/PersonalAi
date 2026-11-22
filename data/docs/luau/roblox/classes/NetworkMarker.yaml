@@ -1,0 +1,52 @@
+name: NetworkMarker
+type: class
+memory_category: Instances
+summary: 'The NetworkMarker is used to tell the client when the server has finished
+
+  loading the world for the client.
+
+  '
+description: 'The NetworkMarker is used to tell the client when the server has finished
+
+  loading the world for the client.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- NotBrowsable
+deprecation_message: ''
+properties: []
+methods: []
+events:
+- name: NetworkMarker.Received
+  summary: 'Fired when the server has finished replicating the world to the client.
+
+    '
+  description: 'Fired when the server has finished replicating the world to the client.
+
+    '
+  code_samples: []
+  parameters: []
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Network
+- name: Received
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+callbacks: []

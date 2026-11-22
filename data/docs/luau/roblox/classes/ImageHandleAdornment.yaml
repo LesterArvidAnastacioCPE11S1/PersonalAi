@@ -1,0 +1,197 @@
+name: ImageHandleAdornment
+type: class
+memory_category: Instances
+summary: 'An image handle that can be adorned to a `Class.BasePart`.
+
+  '
+description: '`ImageHandleAdornment` is an image handle that can be adorned to a
+
+  `Class.BasePart`. If parented to a player''s `Class.PlayerGui` or the
+
+  `Class.CoreGui`, handles can listen to input events for purposes such as
+
+  making dragger tools.
+
+  '
+code_samples: []
+inherits:
+- HandleAdornment
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: ImageHandleAdornment.DoubleSided
+  summary: 'Determines whether to render both faces of polygons in the adornment.
+
+    '
+  description: 'This property determines whether to render both faces of polygons
+    in the
+
+    adornment.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  - UI
+- name: ImageHandleAdornment.Image
+  summary: 'Image to draw for the adornment.
+
+    '
+  description: 'The image to draw for the adornment.
+
+    '
+  code_samples: []
+  type: ContentId
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  - UI
+- name: ImageHandleAdornment.ImageContent
+  summary: 'The image content displayed by this adornment.
+
+    '
+  description: 'Sets the image displayed by this adornment as a `Datatype.Content`
+    value.
+
+    It is the backing content for `Class.ImageHandleAdornment.Image` and
+
+    defaults to `rbxasset://textures/SurfacesDefault.png`. The rendered image
+
+    is tinted by the inherited `Class.HandleAdornment.Color3` property and
+
+    affected by `Class.HandleAdornment.Transparency`.
+
+    '
+  code_samples: []
+  type: Content
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  - UI
+- name: ImageHandleAdornment.Size
+  summary: 'Size of the image in studs.
+
+    '
+  description: 'The size of the image in studs.
+
+    '
+  code_samples: []
+  type: Vector2
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  - UI
+- name: DoubleSided
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+- name: Image
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: ContentId
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: rbxasset://textures/SurfacesDefault.png
+- name: ImageContent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Content
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: Size
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector2
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 1, 1
+methods: []
+events: []
+callbacks: []

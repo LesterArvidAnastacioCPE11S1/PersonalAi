@@ -21,12 +21,15 @@ class ModelConfig:
     stream: bool = True
     vision: bool = False
     vision_model: str = ""
+    big_context_model: str = ""
+    auto_big_context: bool = True
 
 
 @dataclass
 class ContextConfig:
     max_messages: int = 24
     max_chars: int = 16000
+    attachment_chars: int = 12000
 
 
 @dataclass
@@ -78,6 +81,28 @@ class ImageConfig:
 
 
 @dataclass
+class ToolsConfig:
+    enabled: bool = True
+    roots: list = field(
+        default_factory=lambda: [
+            str(ROOT),
+            str(Path.home() / "Documents")
+        ]
+    )
+    block_sensitive: bool = True
+    selector_threshold: float = 0.45
+    max_steps: int = 4
+    max_file_bytes: int = 200_000
+    max_entries: int = 200
+    max_search_files: int = 2000
+    max_search_hits: int = 50
+    max_output_chars: int = 6000
+    max_total_chars: int = 12000
+    max_write_bytes: int = 200_000
+    command_timeout: int = 120
+
+
+@dataclass
 class Config:
     model: ModelConfig = field(default_factory=ModelConfig)
     context: ContextConfig = field(default_factory=ContextConfig)
@@ -85,6 +110,7 @@ class Config:
     behavior: BehaviorConfig = field(default_factory=BehaviorConfig)
     memory: MemoryConfig = field(default_factory=MemoryConfig)
     image: ImageConfig = field(default_factory=ImageConfig)
+    tools: ToolsConfig = field(default_factory=ToolsConfig)
 
 
 def _build(section_type, values):
@@ -128,7 +154,8 @@ def load_config(path=None):
         app=_build(AppConfig, data.get("app", {})),
         behavior=_build(BehaviorConfig, data.get("behavior", {})),
         memory=_build(MemoryConfig, data.get("memory", {})),
-        image=_build(ImageConfig, data.get("image", {}))
+        image=_build(ImageConfig, data.get("image", {})),
+        tools=_build(ToolsConfig, data.get("tools", {}))
     )
 
     config.model.base_url = os.environ.get(
@@ -201,7 +228,8 @@ def save_config(config, path=None):
         "image": {
             **asdict(config.image),
             "comfy_dir": _display_path(config.image.comfy_dir)
-        }
+        },
+        "tools": asdict(config.tools)
     }
 
     handle_path = target.with_suffix(".tmp")

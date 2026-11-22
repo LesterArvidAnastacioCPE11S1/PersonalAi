@@ -1,0 +1,3432 @@
+name: Terrain
+type: class
+memory_category: Instances
+summary: '`Terrain` lets you to create dynamically morphable environments.
+
+  '
+description: 'The `Terrain` class lets you create dynamically morphable environments.
+  It is
+
+  based on a 4&times;4&times;4 grid of cells, where each cell has a number
+
+  between `0` and `1` representing how much the geometry should occupy the cell,
+
+  and the material of the cell. The occupancy determines how the cell will morph
+
+  together with surrounding cells, and the result is the illusion of having no
+
+  grid constraint.
+
+
+  For more information, see [Terrain](../../../parts/terrain.md).
+
+  '
+code_samples: []
+inherits:
+- BasePart
+descendants: []
+tags:
+- NotCreatable
+deprecation_message: ''
+properties:
+- name: Terrain.Decoration
+  summary: 'Enables or disables terrain decoration.
+
+    '
+  description: 'Currently enables or disables animated grass on the
+
+    `Enum.Material.Grass|Grass` terrain material, although future
+
+    modifications of this property may control additional decorative features.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Environment
+- name: Terrain.GrassLength
+  summary: 'Specifies the length of animated grass.
+
+    '
+  description: 'Specifies the length of animated grass on the `Enum.Material.Grass|Grass`
+
+    terrain material, assuming `Class.Terrain.Decoration|Decoration` is
+
+    enabled. Valid values are between `0.1` and `1`.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Environment
+- name: Terrain.IsSmooth
+  summary: 'Returns `true` if the game is using the smooth terrain system.
+
+    '
+  description: 'Returns `true` if the game is using the smooth terrain system.
+
+    '
+  code_samples: []
+  type: boolean
+  tags:
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  deprecation_message: 'The legacy terrain engine has been removed, so this property
+    will always
+
+    be `true`.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Environment
+- name: Terrain.MaterialColors
+  summary: 'Represents the editor for the **Material Color** feature and cannot be
+
+    edited by scripts.
+
+    '
+  description: '`MaterialColors` represents the editor for the **Material Color**
+    feature
+
+    and cannot be edited by scripts.
+
+
+    To get the color of a material, use `Class.Terrain:GetMaterialColor()`. To
+
+    set the color of a material, use `Class.Terrain:SetMaterialColor()`.
+
+    '
+  code_samples: []
+  type: BinaryString
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Environment
+- name: Terrain.MaxExtents
+  summary: 'Displays the boundaries of the largest possible editable region.
+
+    '
+  description: 'Displays the boundaries of the largest possible editable region as
+    a
+
+    `Datatype.Region3int16`. The returned value spans from
+
+    `(-32000, -32000, -32000)` to `(32000, 32000, 32000)` in cell coordinates,
+
+    where each cell is 4 studs wide. This corresponds to a world-space volume
+
+    of -128,000 to 128,000 studs on each axis. The property is read-only.
+
+    '
+  code_samples: []
+  type: Region3int16
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Environment
+- name: Terrain.WaterColor
+  summary: 'The tint of `Terrain` water.
+
+    '
+  description: 'The tint color applied to `Terrain` water. This `Datatype.Color3`
+    value is
+
+    blended with the water''s base appearance to shift its overall hue. The
+
+    default value is `[0.05, 0.33, 0.36]` (a dark teal).
+
+    '
+  code_samples: []
+  type: Color3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Environment
+- name: Terrain.WaterReflectance
+  summary: 'Controls how opaque `Terrain` water reflections are.
+
+    '
+  description: 'Controls how opaque the reflections on `Terrain` water are, on a scale
+    of
+
+    `0` (no reflections) to `1` (fully opaque reflections). The default value
+
+    is `1`.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Environment
+- name: Terrain.WaterTransparency
+  summary: 'The transparency of `Terrain` water.
+
+    '
+  description: 'The transparency of `Terrain` water, on a scale of `0` (fully opaque)
+    to
+
+    `1` (fully transparent). The default value is `0.3`.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Environment
+- name: Terrain.WaterWaveSize
+  summary: 'Sets the maximum height of `Terrain` water waves in studs.
+
+    '
+  description: 'Sets the maximum height of `Terrain` water waves in studs. This is
+
+    currently constrained to between `0` and `1`.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Environment
+- name: Terrain.WaterWaveSpeed
+  summary: 'Sets how many times `Terrain` water waves will move up and down per
+
+    minute.
+
+    '
+  description: 'Sets how many times `Terrain` water waves will move up and down per
+
+    minute. This is currently constrained to between `0` and `100`.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Environment
+- name: AcquisitionMethod
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: Enum.TerrainAcquisitionMethod
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: None
+- name: ClusterGrid
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - WriteOnly
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: true
+    can_save: false
+  default: __api_dump_write_only_property__
+- name: ClusterGridV2
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - WriteOnly
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: true
+    can_save: false
+  default: __api_dump_write_only_property__
+- name: ClusterGridV3
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - WriteOnly
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: BinaryString
+  category: Data
+  serialization:
+    can_load: true
+    can_save: false
+  default: __api_dump_write_only_property__
+- name: Decoration
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+- name: ExpandedTerrainResolved
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Behavior
+  serialization:
+    can_load: false
+    can_save: false
+  default: 'false'
+- name: GrassLength
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0.699999988'
+- name: IsSmooth
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: 'true'
+- name: LastUsedModificationMethod
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: Enum.TerrainAcquisitionMethod
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: None
+- name: MaterialColors
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: BinaryString
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+- name: Materials
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: SharedString
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: MaxExtents
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Region3int16
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_no_string_value__
+- name: PhysicsGrid
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: BinaryString
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: "\x02\x03"
+- name: SmoothGrid
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: BinaryString
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+- name: SmoothVoxelsUpgraded
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+- name: VoxelGridAssetContentMap
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: AssetContentMap
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: WaterColor
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Color3
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: 0.05, 0.33, 0.36
+- name: WaterReflectance
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: '1'
+- name: WaterTransparency
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0.300000012'
+- name: WaterWaveSize
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0.150000006'
+- name: WaterWaveSpeed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: '10'
+methods:
+- name: Terrain:AutowedgeCell
+  summary: 'Obsolete function which no longer does anything.
+
+    '
+  description: 'Obsolete function which no longer does anything.
+
+    '
+  code_samples: []
+  parameters:
+  - name: x
+    type: int
+    default: null
+    summary: 'The X coordinate of the terrain cell.
+
+      '
+  - name: y
+    type: int
+    default: null
+    summary: 'The Y coordinate of the terrain cell.
+
+      '
+  - name: z
+    type: int
+    default: null
+    summary: 'The Z coordinate of the terrain cell.
+
+      '
+  returns:
+  - type: boolean
+    summary: 'Always returns `true`; the function no longer performs any operation.
+
+      '
+  tags:
+  - Deprecated
+  deprecation_message: 'This item is a deprecated function of a legacy `Class.Terrain`
+    engine that
+
+    has been removed. Do not use it for new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Environment
+- name: Terrain:AutowedgeCells
+  summary: 'Obsolete function which no longer does anything.
+
+    '
+  description: 'Obsolete function which no longer does anything. It was part of the
+    legacy
+
+    terrain engine that has since been removed, so calling it on a region has
+
+    no effect.
+
+    '
+  code_samples: []
+  parameters:
+  - name: region
+    type: Region3int16
+    default: null
+    summary: 'The `Datatype.Region3int16` specifying the region of terrain cells to
+
+      process.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This item is a deprecated function of a legacy `Class.Terrain`
+    engine that
+
+    has been removed. Do not use it for new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Environment
+- name: Terrain:CellCenterToWorld
+  summary: 'Returns the world position of the center of the terrain cell.
+
+    '
+  description: 'Returns the world position of the center of the terrain cell at grid
+
+    coordinates `(x, y, z)`. Each terrain cell is 4&times;4&times;4 studs, so
+
+    this method returns the position of the lower-left-forward corner of the
+
+    cell plus an offset of `(2, 2, 2)` studs.
+
+    '
+  code_samples: []
+  parameters:
+  - name: x
+    type: int
+    default: null
+    summary: 'The X coordinate of the terrain cell in grid space.
+
+      '
+  - name: y
+    type: int
+    default: null
+    summary: 'The Y coordinate of the terrain cell in grid space.
+
+      '
+  - name: z
+    type: int
+    default: null
+    summary: 'The Z coordinate of the terrain cell in grid space.
+
+      '
+  returns:
+  - type: Vector3
+    summary: 'The world-space `Datatype.Vector3` position at the center of the
+
+      specified cell.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Environment
+- name: Terrain:CellCornerToWorld
+  summary: 'Returns the position of the lower-left-forward corner of the grid cell.
+
+    '
+  description: 'Returns the world position of the lower-left-forward corner of the
+    terrain
+
+    cell at grid coordinates `(x, y, z)`. Each terrain cell is
+
+    4&times;4&times;4 studs, so the corner position is
+
+    `(x * 4, y * 4, z * 4)`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: x
+    type: int
+    default: null
+    summary: 'The X coordinate of the terrain cell in grid space.
+
+      '
+  - name: y
+    type: int
+    default: null
+    summary: 'The Y coordinate of the terrain cell in grid space.
+
+      '
+  - name: z
+    type: int
+    default: null
+    summary: 'The Z coordinate of the terrain cell in grid space.
+
+      '
+  returns:
+  - type: Vector3
+    summary: 'The world-space `Datatype.Vector3` position of the lower-left-forward
+
+      corner of the specified cell.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Environment
+- name: Terrain:Clear
+  summary: 'Clears all terrain.
+
+    '
+  description: 'Clears the entire terrain, removing all material and occupancy data
+    from
+
+    every voxel. After calling this method, the `Terrain` object contains no
+
+    geometry until new terrain is written via methods such as
+
+    `Class.Terrain:FillBlock()|FillBlock()` or
+
+    `Class.Terrain:WriteVoxels()|WriteVoxels()`.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Environment
+- name: Terrain:ConvertToSmooth
+  summary: 'Transforms the legacy terrain engine into the new terrain engine.
+
+    '
+  description: 'Transforms the legacy terrain engine into the new terrain engine.
+    All
+
+    places now automatically use the new terrain engine, so this method is
+
+    obsolete.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'Since all places now automatically use the new terrain engine,
+    this method
+
+    is obsolete.
+
+    '
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities:
+  - Environment
+- name: Terrain:CopyRegion
+  summary: 'Stores a chunk of terrain into a `Class.TerrainRegion` object so it can
+    be
+
+    loaded back later.
+
+    '
+  description: 'Stores a chunk of terrain into a `Class.TerrainRegion` object so it
+    can be
+
+    loaded back later. Note that `Class.TerrainRegion` data does not replicate
+
+    between server and client.
+
+    '
+  code_samples:
+  - Terrain-CopyRegion1
+  parameters:
+  - name: region
+    type: Region3int16
+    default: null
+    summary: 'The `Datatype.Region3int16` defining the area of terrain to copy, in
+
+      cell coordinates.
+
+      '
+  returns:
+  - type: TerrainRegion
+    summary: 'A `Class.TerrainRegion` containing the copied voxel data from the
+
+      specified region.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Environment
+- name: Terrain:CountCells
+  summary: 'Returns the number of non-empty cells in the terrain.
+
+    '
+  description: 'Returns the approximate number of non-empty cells in the terrain.
+    A cell
+
+    is considered non-empty when it has a material other than Air and an
+
+    occupancy greater than zero. This count is an approximation and can be
+
+    used to quickly gauge how much terrain geometry exists in the place.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: int
+    summary: 'The approximate number of non-empty terrain cells.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Environment
+- name: Terrain:FillBall
+  summary: 'Fills a ball of smooth terrain in a given space.
+
+    '
+  description: 'Fills a spherical volume of smooth terrain centered at `center` with
+    the
+
+    given `radius` (in studs) and `Enum.Material`. Voxels within the sphere
+
+    are set to full occupancy with the specified material. Existing terrain
+
+    inside the sphere is overwritten.
+
+    '
+  code_samples: []
+  parameters:
+  - name: center
+    type: Vector3
+    default: null
+    summary: 'The position of the center of the terrain ball.
+
+      '
+  - name: radius
+    type: float
+    default: null
+    summary: 'The radius in studs of the terrain ball.
+
+      '
+  - name: material
+    type: Material
+    default: null
+    summary: 'The `Enum.Material` of the terrain ball.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Environment
+- name: Terrain:FillBlock
+  summary: 'Fills a block of smooth terrain with a given location, rotation, size,
+    and
+
+    material.
+
+    '
+  description: 'Fills an oriented rectangular volume of smooth terrain at the position
+    and
+
+    rotation specified by `cframe`, with the dimensions given by `size` (in
+
+    studs), using the specified `Enum.Material`. Because the block is oriented
+
+    by a `Datatype.CFrame`, it can be rotated to any angle. Existing terrain
+
+    inside the volume is overwritten.
+
+    '
+  code_samples: []
+  parameters:
+  - name: cframe
+    type: CFrame
+    default: null
+    summary: 'The position and orientation of the terrain block.
+
+      '
+  - name: size
+    type: Vector3
+    default: null
+    summary: 'The size in studs of the square block (both the height and width).
+
+      '
+  - name: material
+    type: Material
+    default: null
+    summary: 'The `Enum.Material` of the terrain block.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Environment
+- name: Terrain:FillCylinder
+  summary: 'Fills a cylinder of smooth terrain in a given space.
+
+    '
+  description: 'Fills a cylinder of smooth terrain in a given space. The space is
+    defined
+
+    using a `Datatype.CFrame`, height, and radius.
+
+    '
+  code_samples: []
+  parameters:
+  - name: cframe
+    type: CFrame
+    default: null
+    summary: 'The position and orientation of the terrain cylinder.
+
+      '
+  - name: height
+    type: float
+    default: null
+    summary: 'The height in studs of the terrain cylinder.
+
+      '
+  - name: radius
+    type: float
+    default: null
+    summary: 'The radius in studs of the terrain cylinder.
+
+      '
+  - name: material
+    type: Material
+    default: null
+    summary: 'The `Enum.Material` of the terrain cylinder.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Environment
+- name: Terrain:FillRegion
+  summary: 'Fills a `Datatype.Region3` space with smooth terrain.
+
+    '
+  description: 'Fills an axis-aligned `Datatype.Region3` volume of smooth terrain
+    with the
+
+    specified `Enum.Material` at full occupancy. The `resolution` parameter
+
+    must be exactly `4`. The region must be aligned to the voxel grid; use
+
+    `Datatype.Region3:ExpandToGrid()` to align a region before calling.
+
+    '
+  code_samples: []
+  parameters:
+  - name: region
+    type: Region3
+    default: null
+    summary: 'The `Datatype.Region3` to fill, which must be aligned to the voxel
+
+      grid.
+
+      '
+  - name: resolution
+    type: float
+    default: null
+    summary: 'The voxel resolution; must be exactly `4`.
+
+      '
+  - name: material
+    type: Material
+    default: null
+    summary: 'The `Enum.Material` to fill the region with.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Environment
+- name: Terrain:FillWedge
+  summary: 'Fills a wedge-shaped volume of terrain with the given `Enum.Material`.
+
+    '
+  description: 'This method fills a wedge-shaped volume of `Class.Terrain` with the
+    given
+
+    `Enum.Material` and the area''s `Datatype.CFrame` and size. The orientation
+
+    of the wedge is the same as an equivalent `Class.WedgePart`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: cframe
+    type: CFrame
+    default: null
+    summary: 'The position and orientation of the wedge to fill.
+
+      '
+  - name: size
+    type: Vector3
+    default: null
+    summary: 'The size of the wedge to fill.
+
+      '
+  - name: material
+    type: Material
+    default: null
+    summary: 'The material with which the wedge will be filled.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Environment
+- name: Terrain:GetCell
+  summary: 'Returns the closest cell material from the legacy terrain engine that
+
+    matches the smooth terrain voxel specified.
+
+    '
+  description: 'Returns the closest cell material from the legacy terrain engine that
+
+    matches the smooth terrain voxel specified.
+
+    '
+  code_samples: []
+  parameters:
+  - name: x
+    type: int
+    default: null
+    summary: 'The X coordinate of the terrain cell.
+
+      '
+  - name: y
+    type: int
+    default: null
+    summary: 'The Y coordinate of the terrain cell.
+
+      '
+  - name: z
+    type: int
+    default: null
+    summary: 'The Z coordinate of the terrain cell.
+
+      '
+  returns:
+  - type: Tuple
+    summary: 'A tuple containing the legacy cell material, block type, and
+
+      orientation of the specified cell.
+
+      '
+  tags:
+  - Deprecated
+  deprecation_message: 'This item is a deprecated function of a legacy `Class.Terrain`
+    engine that
+
+    has been removed. Do not use it for new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Environment
+- name: Terrain:GetMaterialColor
+  summary: 'Returns current terrain material color for specified terrain material.
+
+    '
+  description: 'Returns the current `Datatype.Color3` color for the specified terrain
+
+    `Enum.Material`. This color represents the tint applied to the material''s
+
+    base texture. Passing `Enum.Material|Air` or `Enum.Material|Water` throws
+
+    an error because those materials do not support custom colors.
+
+    '
+  code_samples: []
+  parameters:
+  - name: material
+    type: Material
+    default: null
+    summary: 'The `Enum.Material` whose terrain color to retrieve.
+
+      '
+  returns:
+  - type: Color3
+    summary: 'The `Datatype.Color3` representing the current color tint of the
+
+      specified material.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - Environment
+- name: Terrain:GetMaterialSlot
+  summary: 'Returns the base material, `Class.MaterialVariant`, and color configured
+
+    for a material slot.
+
+    '
+  description: 'Returns the configuration of material slot `slotIndex`, as set by
+
+    `Class.Terrain:SetMaterialSlot()|SetMaterialSlot()`: the slot''s base
+
+    `Enum.Material`, the name of the `Class.MaterialVariant|MaterialVariant`
+
+    applied to it (an empty string if the slot only applies a color tint to
+
+    the base material), and the slot''s `Datatype.Color3` tint.
+
+
+    Returns `nil` if the slot has never been set or was most recently cleared
+
+    with `Class.Terrain:ResetMaterialSlot()|ResetMaterialSlot()`. Throws an
+
+    error if `slotIndex` is outside the valid range of `0` to `63`. Slot
+
+    indices `2` through `63` are the writable slots. Voxels can reference a
+
+    slot''s index through the `SolidMaterialIndex` channel of
+
+    `Class.Terrain:ReadVoxelChannels()|ReadVoxelChannels()` and
+
+    `Class.Terrain:WriteVoxelChannels()|WriteVoxelChannels()`.
+
+    '
+  code_samples:
+  - terrain-material-slots-example
+  parameters:
+  - name: slotIndex
+    type: int
+    default: null
+    summary: 'The index of the material slot to query. Valid range is `0` through
+
+      `63`.
+
+      '
+  returns:
+  - type: Tuple
+    summary: 'A tuple of an `Enum.Material`, a string, and a `Datatype.Color3`
+
+      representing the slot''s base material,
+
+      `Class.MaterialVariant|MaterialVariant` name (an empty string if none
+
+      is set), and color. Returns `nil` if the slot has not been configured,
+
+      or has been cleared with
+
+      `Class.Terrain:ResetMaterialSlot()|ResetMaterialSlot()`.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Environment
+- name: Terrain:GetWaterCell
+  summary: 'Returns `true` if the cell is a water cell.
+
+    '
+  description: 'Returns `true` if the cell is a water cell.
+
+    '
+  code_samples: []
+  parameters:
+  - name: x
+    type: int
+    default: null
+    summary: 'The X coordinate of the terrain cell.
+
+      '
+  - name: y
+    type: int
+    default: null
+    summary: 'The Y coordinate of the terrain cell.
+
+      '
+  - name: z
+    type: int
+    default: null
+    summary: 'The Z coordinate of the terrain cell.
+
+      '
+  returns:
+  - type: Tuple
+    summary: 'A tuple containing whether the cell has water, the water force, and
+
+      the water direction.
+
+      '
+  tags:
+  - Deprecated
+  deprecation_message: 'This item is a deprecated function of a legacy `Class.Terrain`
+    engine that
+
+    has been removed. Do not use it for new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Environment
+- name: Terrain:PasteRegion
+  summary: 'Applies a chunk of terrain to the `Terrain` object.
+
+    '
+  description: 'Applies a chunk of terrain to the `Terrain` object. Note that
+
+    `Class.TerrainRegion` data does not replicate between server and client.
+
+    '
+  code_samples:
+  - Terrain-PasteRegion1
+  parameters:
+  - name: region
+    type: TerrainRegion
+    default: null
+    summary: 'The `Class.TerrainRegion` to paste, previously obtained from
+
+      `Class.Terrain:CopyRegion()`.
+
+      '
+  - name: corner
+    type: Vector3int16
+    default: null
+    summary: 'The `Datatype.Vector3int16` cell coordinate at which to place the
+
+      lower-left-forward corner of the region.
+
+      '
+  - name: pasteEmptyCells
+    type: boolean
+    default: null
+    summary: 'Whether to overwrite existing terrain with empty (air) cells from the
+
+      region.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Environment
+- name: Terrain:ReadVoxelChannels
+  summary: 'Returns a region of terrain voxel data in table format based on the
+
+    channel names.
+
+    '
+  description: 'Returns voxel data from a region of terrain, separated by channel.
+    Unlike
+
+    `Class.Terrain:ReadVoxels()|ReadVoxels()`, this method lets you specify
+
+    exactly which channels to read (`SolidMaterial` or `SolidMaterialIndex`,
+
+    `SolidOccupancy`, and/or `LiquidOccupancy`), and returns a dictionary
+
+    keyed by channel ID. The `region` must be aligned to the voxel grid,
+
+    `resolution` must be `4`, and the region cannot exceed 4,194,304 voxels.
+
+
+    Use `SolidMaterialIndex` instead of `SolidMaterial` to read voxels by
+
+    material slot index rather than by `Enum.Material`. See
+
+    `Class.Terrain:SetMaterialSlot()|SetMaterialSlot()`.
+
+    '
+  code_samples:
+  - terrain-readvoxelchannels-code-example
+  parameters:
+  - name: region
+    type: Region3
+    default: null
+    summary: 'Target region to read from. Must be aligned to the voxel grid. Will
+
+      throw an error if region is too large; limit is currently 4194304
+
+      voxels&sup3;.
+
+      '
+  - name: resolution
+    type: float
+    default: null
+    summary: 'Voxel resolution. Must be 4.
+
+      '
+  - name: channelIds
+    type: Array
+    default: null
+    summary: 'Array of channel IDs (strings) that need to be accessed from the voxel
+
+      data. Each channel ID represents a type of data that''s stored in
+
+      voxel. Current supported IDs are
+
+      `{"SolidMaterial", "SolidMaterialIndex", "SolidOccupancy", "LiquidOccupancy"}`.
+
+      '
+  returns:
+  - type: Dictionary
+    summary: "Returns voxel data as a dictionary based on the `channelIds` input.\n\
+      Keys represent each channel ID with their respective value as an array\nof 3D\
+      \ data.\n\n- `SolidMaterial` — The `Enum.Material` material of the voxel. Note\n\
+      \  that `Enum.Material|Water` is not supported anymore; instead, a\n  voxel\
+      \ that contains water will have a value of `LiquidOccupancy`.\n- `SolidMaterialIndex`\
+      \ — The material slot index (`0`-`63`) of the\n  voxel, as configured with\n\
+      \  `Class.Terrain:SetMaterialSlot()|SetMaterialSlot()`.\n- `SolidOccupancy`\
+      \ — The occupancy of the voxel's material as\n  specified in the `SolidMaterial`\
+      \ or `SolidMaterialIndex` channel.\n  This is a value between `0` (empty) and\
+      \ `1` (full).\n- `LiquidOccupancy` — Specifies the occupancy of the\n  `Enum.Material|Water`\
+      \ material in a voxel as a value between 0 (no\n  water) and 1 (full of water).\
+      \ If the `SolidOccupancy` is 1 and the\n  `SolidMaterial` is not `Enum.Material|Air`,\
+      \ this will be 0.\n\nThe dictionary also contains a `Size` key with a value\
+      \ representing\nthe 3D array size of each channel data.\n"
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - Environment
+- name: Terrain:ReadVoxels
+  summary: 'Returns a certain region of smooth terrain in table format.
+
+    '
+  description: 'Returns the voxel data for a region of smooth terrain as two 3D arrays:
+
+    `materials` (an array of `Enum.Material` values) and `occupancies` (an
+
+    array of numbers between `0` and `1`). The `region` must be aligned to the
+
+    voxel grid, `resolution` must be `4`, and the region cannot exceed
+
+    4,194,304 voxels. For more granular channel control, see
+
+    `Class.Terrain:ReadVoxelChannels()|ReadVoxelChannels()`.
+
+    '
+  code_samples:
+  - terrain-readvoxels-code-example
+  parameters:
+  - name: region
+    type: Region3
+    default: null
+    summary: 'Target region to read from. Must be aligned to the voxel grid. Will
+
+      throw an error if region is too large. The limit is currently 4194304
+
+      voxels&sup3;.
+
+      '
+  - name: resolution
+    type: float
+    default: null
+    summary: 'Voxel resolution. Must be `4`.
+
+      '
+  returns:
+  - type: Tuple
+    summary: "Returns raw voxel data as two 3D arrays.\n\n- `materials` - 3D array\
+      \ of `Enum.Material` from the target area. Also\n  contains a Size field, equal\
+      \ to the dimensions of the nested arrays.\n- `occupancies` - 3D array of occupancy\
+      \ values from the target area.\n  Also contains a Size field, equal to the dimensions\
+      \ of the nested\n  arrays.\n"
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - Environment
+- name: Terrain:ReplaceMaterial
+  summary: 'Replaces the terrain of a material within a region with another material.
+
+    '
+  description: 'ReplaceMaterial replaces terrain of a certain `Enum.Material` within
+    a
+
+    `Datatype.Region3` with another material. Essentially, it is a
+
+    find-and-replace operation on `Class.Terrain` materials.
+
+
+    When calling this method, the `resolution` parameter must be exactly `4`.
+
+    Additionally, `region` must be aligned to the terrain materials grid, such
+
+    that the components of the region''s minimum and maximum points must be
+
+    divisible by `4`. Use `Datatype.Region3:ExpandToGrid()` to make a region
+
+    compatible with this function.
+
+    '
+  code_samples:
+  - terrain-replacematerial
+  parameters:
+  - name: region
+    type: Region3
+    default: null
+    summary: 'The region in which the replacement operation will occur.
+
+      '
+  - name: resolution
+    type: float
+    default: null
+    summary: 'The resolution at which the replacement operation will take place; at
+
+      the moment this must be exactly `4`.
+
+      '
+  - name: sourceMaterial
+    type: Material
+    default: null
+    summary: 'The old material that shall be replaced.
+
+      '
+  - name: targetMaterial
+    type: Material
+    default: null
+    summary: 'The new material.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Environment
+- name: Terrain:ResetMaterialSlot
+  summary: 'Clears a material slot.
+
+    '
+  description: 'Clears the base material, `Class.MaterialVariant|MaterialVariant`,
+    and
+
+    color previously assigned to material slot `slotIndex` with
+
+    `Class.Terrain:SetMaterialSlot()|SetMaterialSlot()`. After this call,
+
+    `Class.Terrain:GetMaterialSlot()|GetMaterialSlot()` returns `nil` for the
+
+    slot.
+
+
+    Any voxel whose `SolidMaterialIndex` channel still references the cleared
+
+    slot renders using an invalid-material indicator until it is repainted
+
+    with a valid slot index. Throws an error if `slotIndex` is `0` or `1` (the
+
+    reserved `Enum.Material.Air|Air` and `Enum.Material.Water|Water` slots) or
+
+    is outside the valid range of `2` to `63`.
+
+    '
+  code_samples:
+  - terrain-material-slots-example
+  parameters:
+  - name: slotIndex
+    type: int
+    default: null
+    summary: 'The index of the material slot to clear. Valid range is `2` through
+
+      `63`.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Environment
+- name: Terrain:SetCell
+  summary: 'Sets the occupancy and material of a specific terrain voxel.
+
+    '
+  description: 'Sets the occupancy of the specified terrain voxel to `1` and sets
+    its
+
+    material to the closest smooth terrain material that matches the cell
+
+    material.
+
+    '
+  code_samples: []
+  parameters:
+  - name: x
+    type: int
+    default: null
+    summary: 'The X coordinate of the terrain cell.
+
+      '
+  - name: y
+    type: int
+    default: null
+    summary: 'The Y coordinate of the terrain cell.
+
+      '
+  - name: z
+    type: int
+    default: null
+    summary: 'The Z coordinate of the terrain cell.
+
+      '
+  - name: material
+    type: CellMaterial
+    default: null
+    summary: 'The `Enum.CellMaterial` to set for the cell.
+
+      '
+  - name: block
+    type: CellBlock
+    default: null
+    summary: 'The `Enum.CellBlock` shape type for the cell.
+
+      '
+  - name: orientation
+    type: CellOrientation
+    default: null
+    summary: 'The `Enum.CellOrientation` rotation for the cell.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This item is a deprecated function of a legacy `Class.Terrain`
+    engine that
+
+    has been removed. Do not use it for new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Environment
+- name: Terrain:SetCells
+  summary: 'Sets the occupancy and material of all terrain voxels in a specific
+
+    region.
+
+    '
+  description: 'Sets the occupancy of all terrain voxels in the specified region to
+    `1`
+
+    and sets their materials to the closest smooth terrain material that
+
+    matches the cell material.
+
+    '
+  code_samples: []
+  parameters:
+  - name: region
+    type: Region3int16
+    default: null
+    summary: 'The `Datatype.Region3int16` specifying the area of terrain cells to
+
+      set.
+
+      '
+  - name: material
+    type: CellMaterial
+    default: null
+    summary: 'The `Enum.CellMaterial` to apply to all cells in the region.
+
+      '
+  - name: block
+    type: CellBlock
+    default: null
+    summary: 'The `Enum.CellBlock` shape type to apply to all cells in the region.
+
+      '
+  - name: orientation
+    type: CellOrientation
+    default: null
+    summary: 'The `Enum.CellOrientation` rotation to apply to all cells in the
+
+      region.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This item is a deprecated function of a legacy `Class.Terrain`
+    engine that
+
+    has been removed. Do not use it for new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Environment
+- name: Terrain:SetMaterialColor
+  summary: 'Sets current terrain material color for specified terrain material.
+
+    '
+  description: 'Sets current terrain material color for specified terrain material.
+
+    Terrain material will shift its base color toward specified color.
+
+    '
+  code_samples: []
+  parameters:
+  - name: material
+    type: Material
+    default: null
+    summary: 'The `Enum.Material` whose terrain color to change.
+
+      '
+  - name: value
+    type: Color3
+    default: null
+    summary: 'The `Datatype.Color3` to apply as the new color tint for the material.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Environment
+- name: Terrain:SetMaterialSlot
+  summary: 'Configures a material slot with a base material, an optional
+
+    `Class.MaterialVariant`, and a color.
+
+    '
+  description: "Configures material slot `slotIndex` to use `baseMaterial` for physical\n\
+    terrain behavior, an optional `Class.MaterialVariant|MaterialVariant`\nnamed by\
+    \ `materialVariant` for its appearance, and `color` as a tint. Pass\nan empty\
+    \ string for `materialVariant` to use the `baseMaterial` default\nappearance tinted\
+    \ by `color`, without a `MaterialVariant`.\n\nVoxels reference a configured slot\
+    \ through the `SolidMaterialIndex`\nchannel of `Class.Terrain:ReadVoxelChannels()|ReadVoxelChannels()`\
+    \ and\n`Class.Terrain:WriteVoxelChannels()|WriteVoxelChannels()`. Call\n`Class.Terrain:GetMaterialSlot()|GetMaterialSlot()`\
+    \ to read a slot's\ncurrent configuration, and\n`Class.Terrain:ResetMaterialSlot()|ResetMaterialSlot()`\
+    \ to clear it.\n\nThis method throws an error if:\n\n- `slotIndex` is `0` or `1`\
+    \ (the reserved `Enum.Material.Air|Air` and\n  `Enum.Material.Water|Water` slots)\
+    \ or is outside the valid range of `2`\n  to `63`.\n- `baseMaterial` is not a\
+    \ terrain material, or is `Enum.Material.Air|Air`\n  or `Enum.Material.Water|Water`.\n\
+    - `materialVariant` is not empty and no\n  `Class.MaterialVariant|MaterialVariant`\
+    \ with that name exists for\n  `baseMaterial` in `Class.MaterialService`.\n"
+  code_samples:
+  - terrain-material-slots-example
+  parameters:
+  - name: slotIndex
+    type: int
+    default: null
+    summary: 'The index of the material slot to configure. Valid range is `2`
+
+      through `63`.
+
+      '
+  - name: baseMaterial
+    type: Material
+    default: null
+    summary: 'The `Enum.Material` that determines the slot''s physical terrain
+
+      behavior.
+
+      '
+  - name: materialVariant
+    type: string
+    default: null
+    summary: 'The name of an existing `Class.MaterialVariant` for `baseMaterial`,
+      or
+
+      an empty string to use `baseMaterial` directly.
+
+      '
+  - name: color
+    type: Color3
+    default: null
+    summary: 'The `Datatype.Color3` tint applied to the slot.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Environment
+- name: Terrain:SetWaterCell
+  summary: 'Sets the specified terrain voxel''s material to water and sets its
+
+    occupancy to `1`.
+
+    '
+  description: 'Sets the specified terrain voxel''s material to water and sets its
+
+    occupancy to `1`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: x
+    type: int
+    default: null
+    summary: 'The X coordinate of the terrain cell.
+
+      '
+  - name: y
+    type: int
+    default: null
+    summary: 'The Y coordinate of the terrain cell.
+
+      '
+  - name: z
+    type: int
+    default: null
+    summary: 'The Z coordinate of the terrain cell.
+
+      '
+  - name: force
+    type: WaterForce
+    default: null
+    summary: 'The `Enum.WaterForce` value representing the water force in the cell.
+
+      '
+  - name: direction
+    type: WaterDirection
+    default: null
+    summary: 'The `Enum.WaterDirection` value representing the water flow direction.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This item is a deprecated function of a legacy `Class.Terrain`
+    engine that
+
+    has been removed. Do not use it for new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Environment
+- name: Terrain:WorldToCell
+  summary: 'Returns the grid cell location that contains the position point.
+
+    '
+  description: 'Returns the grid cell location that contains the point `position`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: position
+    type: Vector3
+    default: null
+    summary: 'The world-space `Datatype.Vector3` to convert to a cell coordinate.
+
+      '
+  returns:
+  - type: Vector3
+    summary: 'A `Datatype.Vector3` representing the grid cell coordinates containing
+
+      the given position.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Environment
+- name: Terrain:WorldToCellPreferEmpty
+  summary: 'Returns the grid cell location that contains the position point,
+
+    preferring empty grid cells when position is on a grid edge.
+
+    '
+  description: 'Returns the grid cell location that contains the point `position`,
+
+    preferring empty grid cells when position is on a grid edge.
+
+    '
+  code_samples: []
+  parameters:
+  - name: position
+    type: Vector3
+    default: null
+    summary: 'The world-space `Datatype.Vector3` to convert to a cell coordinate.
+
+      '
+  returns:
+  - type: Vector3
+    summary: 'A `Datatype.Vector3` representing the grid cell coordinates, biased
+
+      toward an empty (air) neighbor when the position lies on a cell
+
+      boundary.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Environment
+- name: Terrain:WorldToCellPreferSolid
+  summary: 'Returns the grid cell location that contains the point position,
+
+    preferring non-empty grid cells when position is on a grid edge.
+
+    '
+  description: 'Returns the grid cell location that contains the point position,
+
+    preferring non-empty grid cells when position is on a grid edge.
+
+    '
+  code_samples: []
+  parameters:
+  - name: position
+    type: Vector3
+    default: null
+    summary: 'The world-space `Datatype.Vector3` to convert to a cell coordinate.
+
+      '
+  returns:
+  - type: Vector3
+    summary: 'A `Datatype.Vector3` representing the grid cell coordinates, biased
+
+      toward a non-empty (solid) neighbor when the position lies on a cell
+
+      boundary.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Environment
+- name: Terrain:WriteVoxelChannels
+  summary: 'Sets a region of terrain using a dictionary of voxel channel data.
+
+    '
+  description: 'Sets a region of terrain using a dictionary of per-channel voxel data,
+    the
+
+    inverse of `Class.Terrain:ReadVoxelChannels()|ReadVoxelChannels()`. The
+
+    `channels` dictionary maps channel ID strings (`SolidMaterial` or
+
+    `SolidMaterialIndex`, `SolidOccupancy`, and/or `LiquidOccupancy`) to their
+
+    respective 3D data arrays. You may write one or more channels in a single
+
+    call. The `region` must be aligned to the voxel grid, `resolution` must be
+
+    `4`, and the region cannot exceed 4,194,304 voxels.
+
+
+    Use `SolidMaterialIndex` instead of `SolidMaterial` to write voxels by
+
+    material slot index rather than by `Enum.Material`. See
+
+    `Class.Terrain:SetMaterialSlot()|SetMaterialSlot()`. Specifying both
+
+    `SolidMaterial` and `SolidMaterialIndex` in the same call throws an error.
+
+    '
+  code_samples:
+  - terrain-writevoxelchannels-example
+  parameters:
+  - name: region
+    type: Region3
+    default: null
+    summary: 'Target region to write to. Must be aligned to the voxel grid. Will
+
+      throw an error if region is too large; limit is currently 4194304
+
+      voxels&sup3;.
+
+      '
+  - name: resolution
+    type: float
+    default: null
+    summary: 'Voxel resolution. Must be `4`.
+
+      '
+  - name: channels
+    type: Dictionary
+    default: null
+    summary: "Dictionary of voxel data similar to the return value of\n`Class.Terrain:ReadVoxelChannels()|ReadVoxelChannels()`.\
+      \ Keys\nrepresent each channel ID with their respective value as an array of\n\
+      3D data. The dictionary can support single or multiple channel inputs.\n\n-\
+      \ `SolidMaterial` — The `Enum.Material` material of the voxel. Note\n  that\
+      \ `Enum.Material|Water` is not supported anymore; instead, a\n  voxel that contains\
+      \ only water should be entered as\n  `SolidMaterial = Enum.Material.Air, LiquidOccupancy\
+      \ = x`, where `x`\n  is a number between `0` (exclusive) and `1` (inclusive).\n\
+      - `SolidMaterialIndex` — The material slot index (`0`-`63`) to assign\n  the\
+      \ voxel, matching a slot previously configured with\n  `Class.Terrain:SetMaterialSlot()|SetMaterialSlot()`.\
+      \ Each value must\n  be an integer and reference a slot that is currently set.\
+      \ Writing an\n  out-of-range or unset slot index throws an error. Cannot be\n\
+      \  specified together with `SolidMaterial` in the same call.\n- `SolidOccupancy`\
+      \ — The occupancy of the voxel's material as\n  specified in the `SolidMaterial`\
+      \ or `SolidMaterialIndex` channel.\n  This should be a value between `0` (empty)\
+      \ and `1` (full).\n- `LiquidOccupancy` — Specifies the occupancy of the\n  `Enum.Material|Water`\
+      \ material in a voxel as a value between `0` (no\n  water) and `1` (full of\
+      \ water). If the `SolidOccupancy` is 1 and the\n  `SolidMaterial` is not `Enum.Material|Air`,\
+      \ this will be `0`.\n"
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Environment
+- name: Terrain:WriteVoxels
+  summary: 'Sets a certain region of smooth terrain using table format.
+
+    '
+  description: 'Sets a region of smooth terrain from two 3D arrays: `materials` (an
+    array
+
+    of `Enum.Material` values) and `occupancy` (an array of numbers between
+
+    `0` and `1`). Both arrays must have dimensions that exactly match the
+
+    target region in voxels. The `region` must be aligned to the voxel grid,
+
+    `resolution` must be `4`, and the region cannot exceed 4,194,304 voxels.
+
+    For more granular channel control, see
+
+    `Class.Terrain:WriteVoxelChannels()|WriteVoxelChannels()`.
+
+    '
+  code_samples:
+  - terrain-writevoxels-example
+  parameters:
+  - name: region
+    type: Region3
+    default: null
+    summary: 'Target region to write to. Must be aligned to the voxel grid. Will
+
+      throw an error if region is too large.
+
+      '
+  - name: resolution
+    type: float
+    default: null
+    summary: 'Voxel resolution. Must be `4`.
+
+      '
+  - name: materials
+    type: Array
+    default: null
+    summary: '3D array of `Enum.Material`. Dimensions must exactly match the size
+      of
+
+      the target region in voxels.
+
+      '
+  - name: occupancy
+    type: Array
+    default: null
+    summary: '3D array of voxel occupancies (number between `0` and `1`). Dimensions
+
+      must exactly match the size of the target region in voxels.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Environment
+- name: AutowedgeCell
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: x
+    type: int
+  - name: y
+    type: int
+  - name: z
+    type: int
+  returns:
+  - type: bool
+- name: AutowedgeCells
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: region
+    type: Region3int16
+  returns:
+  - type: 'null'
+- name: CanSmoothVoxelsBeUpgraded
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+- name: CellCenterToWorld
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: x
+    type: int
+  - name: y
+    type: int
+  - name: z
+    type: int
+  returns:
+  - type: Vector3
+- name: CellCornerToWorld
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: x
+    type: int
+  - name: y
+    type: int
+  - name: z
+    type: int
+  returns:
+  - type: Vector3
+- name: Clear
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: ClearVoxelsAsync_beta
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: region
+    type: Region3
+  - name: channelIds
+    type: Array
+  returns:
+  - type: 'null'
+- name: ConvertToSmooth
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: CopyRegion
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: region
+    type: Region3int16
+  returns:
+  - type: TerrainRegion
+- name: CountCells
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: int
+- name: CreateVoxelBuffer_beta
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: VoxelBuffer
+- name: FillBall
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: center
+    type: Vector3
+  - name: radius
+    type: float
+  - name: material
+    type: Enum.Material
+  returns:
+  - type: 'null'
+- name: FillBallSlot
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: center
+    type: Vector3
+  - name: radius
+    type: float
+  - name: solidMaterialIndex
+    type: int
+  returns:
+  - type: 'null'
+- name: FillBlock
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: cframe
+    type: CFrame
+  - name: size
+    type: Vector3
+  - name: material
+    type: Enum.Material
+  returns:
+  - type: 'null'
+- name: FillBlockSlot
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: cframe
+    type: CFrame
+  - name: size
+    type: Vector3
+  - name: solidMaterialIndex
+    type: int
+  returns:
+  - type: 'null'
+- name: FillCylinder
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: cframe
+    type: CFrame
+  - name: height
+    type: float
+  - name: radius
+    type: float
+  - name: material
+    type: Enum.Material
+  returns:
+  - type: 'null'
+- name: FillCylinderSlot
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: cframe
+    type: CFrame
+  - name: height
+    type: float
+  - name: radius
+    type: float
+  - name: solidMaterialIndex
+    type: int
+  returns:
+  - type: 'null'
+- name: FillRegion
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: region
+    type: Region3
+  - name: resolution
+    type: float
+  - name: material
+    type: Enum.Material
+  returns:
+  - type: 'null'
+- name: FillRegionSlot
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: region
+    type: Region3
+  - name: resolution
+    type: float
+  - name: solidMaterialIndex
+    type: int
+  returns:
+  - type: 'null'
+- name: FillWedge
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: cframe
+    type: CFrame
+  - name: size
+    type: Vector3
+  - name: material
+    type: Enum.Material
+  returns:
+  - type: 'null'
+- name: FillWedgeSlot
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: cframe
+    type: CFrame
+  - name: size
+    type: Vector3
+  - name: solidMaterialIndex
+    type: int
+  returns:
+  - type: 'null'
+- name: GenerateWaterFlowMap
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: generateFoam
+    type: bool
+  returns:
+  - type: 'null'
+- name: GetCell
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: x
+    type: int
+  - name: y
+    type: int
+  - name: z
+    type: int
+  returns:
+  - type: Tuple
+- name: GetMaterialColor
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: material
+    type: Enum.Material
+  returns:
+  - type: Color3
+- name: GetMaterialSlot
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: slotIndex
+    type: int
+  returns:
+  - type: Tuple
+- name: GetTerrainWireframe
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: cframe
+    type: CFrame
+  - name: size
+    type: Vector3
+  returns:
+  - type: Array
+- name: GetWaterCell
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: x
+    type: int
+  - name: y
+    type: int
+  - name: z
+    type: int
+  returns:
+  - type: Tuple
+- name: IsMaterialSlotInvalid
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: slotIndex
+    type: int
+  returns:
+  - type: bool
+- name: IterateVoxelsAsync_beta
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: region
+    type: Region3
+  - name: resolution
+    type: int
+  - name: channelIds
+    type: Array
+  returns:
+  - type: TerrainIterateOperation
+- name: ModifyVoxelsAsync_beta
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: region
+    type: Region3
+  - name: resolution
+    type: int
+  - name: channelIds
+    type: Array
+  returns:
+  - type: TerrainModifyOperation
+- name: PasteRegion
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: region
+    type: TerrainRegion
+  - name: corner
+    type: Vector3int16
+  - name: pasteEmptyCells
+    type: bool
+  returns:
+  - type: 'null'
+- name: ReadVoxelChannels
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: region
+    type: Region3
+  - name: resolution
+    type: float
+  - name: channelIds
+    type: Array
+  returns:
+  - type: Dictionary
+- name: ReadVoxels
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: region
+    type: Region3
+  - name: resolution
+    type: float
+  returns:
+  - type: Tuple
+- name: ReadVoxelsAsync_beta
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: region
+    type: Region3
+  - name: resolution
+    type: int
+  - name: channelIds
+    type: Array
+  returns:
+  - type: TerrainReadOperation
+- name: ReplaceMaterial
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: region
+    type: Region3
+  - name: resolution
+    type: float
+  - name: sourceMaterial
+    type: Enum.Material
+  - name: targetMaterial
+    type: Enum.Material
+  returns:
+  - type: 'null'
+- name: ReplaceMaterialInTransform
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: cframe
+    type: CFrame
+  - name: size
+    type: Vector3
+  - name: sourceMaterial
+    type: Enum.Material
+  - name: targetMaterial
+    type: Enum.Material
+  returns:
+  - type: 'null'
+- name: ReplaceMaterialInTransformSubregion
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: cframe
+    type: CFrame
+  - name: size
+    type: Vector3
+  - name: sourceMaterial
+    type: Enum.Material
+  - name: targetMaterial
+    type: Enum.Material
+  - name: targetRegion
+    type: Region3int16
+  returns:
+  - type: 'null'
+- name: ReplaceMaterialInTransformSubregionSlot
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: cframe
+    type: CFrame
+  - name: size
+    type: Vector3
+  - name: sourceMaterialIndex
+    type: int
+  - name: targetMaterialIndex
+    type: int
+  - name: targetRegion
+    type: Region3int16
+  returns:
+  - type: 'null'
+- name: ResetMaterialSlot
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: slotIndex
+    type: int
+  returns:
+  - type: 'null'
+- name: ResetWaterFlowMap
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: SetCell
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: x
+    type: int
+  - name: y
+    type: int
+  - name: z
+    type: int
+  - name: material
+    type: Enum.CellMaterial
+  - name: block
+    type: Enum.CellBlock
+  - name: orientation
+    type: Enum.CellOrientation
+  returns:
+  - type: 'null'
+- name: SetCells
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: region
+    type: Region3int16
+  - name: material
+    type: Enum.CellMaterial
+  - name: block
+    type: Enum.CellBlock
+  - name: orientation
+    type: Enum.CellOrientation
+  returns:
+  - type: 'null'
+- name: SetMaterialColor
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: material
+    type: Enum.Material
+  - name: value
+    type: Color3
+  returns:
+  - type: 'null'
+- name: SetMaterialInTransform
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: cframe
+    type: CFrame
+  - name: size
+    type: Vector3
+  - name: targetMaterial
+    type: Enum.Material
+  returns:
+  - type: 'null'
+- name: SetMaterialInTransformSubregion
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: cframe
+    type: CFrame
+  - name: size
+    type: Vector3
+  - name: targetMaterial
+    type: Enum.Material
+  - name: targetRegion
+    type: Region3int16
+  returns:
+  - type: 'null'
+- name: SetMaterialInTransformSubregionSlot
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: cframe
+    type: CFrame
+  - name: size
+    type: Vector3
+  - name: targetMaterialIndex
+    type: int
+  - name: targetRegion
+    type: Region3int16
+  returns:
+  - type: 'null'
+- name: SetMaterialSlot
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: slotIndex
+    type: int
+  - name: baseMaterial
+    type: Enum.Material
+  - name: materialVariant
+    type: string
+  - name: color
+    type: Color3
+  returns:
+  - type: 'null'
+- name: SetWaterCell
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: x
+    type: int
+  - name: y
+    type: int
+  - name: z
+    type: int
+  - name: force
+    type: Enum.WaterForce
+  - name: direction
+    type: Enum.WaterDirection
+  returns:
+  - type: 'null'
+- name: SmoothRegion
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: region
+    type: Region3
+  - name: resolution
+    type: float
+  - name: strength
+    type: float
+  returns:
+  - type: Tuple
+- name: SmoothRegionMaterialSlots
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: region
+    type: Region3
+  - name: resolution
+    type: float
+  - name: strength
+    type: float
+  returns:
+  - type: Tuple
+- name: WorldToCell
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: position
+    type: Vector3
+  returns:
+  - type: Vector3
+- name: WorldToCellPreferEmpty
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: position
+    type: Vector3
+  returns:
+  - type: Vector3
+- name: WorldToCellPreferSolid
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: position
+    type: Vector3
+  returns:
+  - type: Vector3
+- name: WriteVoxelChannels
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: region
+    type: Region3
+  - name: resolution
+    type: float
+  - name: channels
+    type: Dictionary
+  returns:
+  - type: 'null'
+- name: WriteVoxels
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: region
+    type: Region3
+  - name: resolution
+    type: float
+  - name: materials
+    type: Array
+  - name: occupancy
+    type: Array
+  returns:
+  - type: 'null'
+- name: WriteVoxelsAsync_beta
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: region
+    type: Region3
+  - name: resolution
+    type: int
+  - name: channelIds
+    type: Array
+  returns:
+  - type: TerrainWriteOperation
+- name: DrawBufferAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: cframe
+    type: CFrame
+  - name: scale
+    type: float
+  - name: resolution
+    type: int
+  - name: source
+    type: VoxelBuffer
+  - name: mergeConfig
+    type: Dictionary
+  returns:
+  - type: 'null'
+- name: ReadBufferAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: region
+    type: Region3
+  - name: resolution
+    type: int
+  returns:
+  - type: VoxelBuffer
+events:
+- name: GridBackendReloadRequired
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: wouldUseNewGrid
+    type: bool
+callbacks: []

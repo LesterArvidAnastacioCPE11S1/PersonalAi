@@ -1,0 +1,1005 @@
+name: LogService
+type: class
+memory_category: Instances
+summary: 'A service that allows you to read outputted text.
+
+  '
+description: "`LogService` allows you to log structured log entries and read outputted\
+  \ text.\nFor logging scoped to a named, hierarchical path, use\n`Class.LogService:GetLogger()`\
+  \ to obtain a `Class.Logger`.\n\n#### Template Syntax\n\nMethods that accept a `context`\
+  \ table support `{key}` template placeholders in\nthe message string. To include\
+  \ a literal brace character in the output, use\ndouble braces: `{{` produces a literal\
+  \ `{` and `}}` produces a literal `}`.\n\n```lua\nlocal LogService = game:GetService(\"\
+  LogService\")\n\nLogService:Info(\"Value = {{result}}: {val}\", {val = 42})\n--\
+  \ Output: \"Value = {result}: 42\"\n```\n\n#### Context Values\n\nThe `context`\
+  \ table accepts any value type. Non-serializable values are\nautomatically converted\
+  \ to strings in the stored context:\n\n- **Instances** are stored as their full\
+  \ path (e.g.,\n  `\"Workspace.MyModel.Part\"`)\n- **Functions** are stored as `\"\
+  <function>\"`\n- **Other non-primitive types** are stored using their `tostring()`\n\
+  \  representation\n\nMixed tables (tables with both string and numeric keys) and\
+  \ pure arrays are\naccepted. Numeric keys are converted to string keys (e.g., index\
+  \ `1` becomes\nkey `\"1\"`). If a numeric key collides with an existing string key,\
+  \ the\nexplicit string key takes precedence.\n\n```lua\nlocal LogService = game:GetService(\"\
+  LogService\")\n\n-- Instance values are converted to their full path\nLogService:Info(\"\
+  Touched {part}\", {part = workspace.MyPart})\n-- Context stores: {part = \"Workspace.MyPart\"\
+  }\n\n-- Mixed tables are accepted; numeric keys become string keys\nLogService:Info(\"\
+  Player {name}\", {name = \"Alice\", 1, 2, 3})\n-- Context stores: {name = \"Alice\"\
+  , [\"1\"] = 1, [\"2\"] = 2, [\"3\"] = 3}\n```\n\n#### Warning\n\nThis service might\
+  \ have unexpected or unreliable behavior and content might be\ntruncated. Don't\
+  \ rely on contents of events and messages emitted by this\nservice for any important\
+  \ game logic.\n"
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+deprecation_message: ''
+properties: []
+methods:
+- name: LogService:ClearOutput
+  summary: 'Clears Roblox Studio''s **Output** window.
+
+    '
+  description: 'Clears Roblox Studio''s **Output** window. The log history is also
+    cleared,
+
+    such that `Class.LogService:GetLogHistory()` will not return any entries
+
+    from before the `ClearOutput()` call.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Logging
+- name: LogService:Error
+  summary: 'Logs a message at the `Enum.MessageType.MessageError` level and throws
+    a
+
+    structured error with optional context.
+
+    '
+  description: "Logs a message at the `Enum.MessageType.MessageError` level and throws\
+    \ a\nstructured error with optional context. As this method always throws, use\n\
+    `Global.LuaGlobals.pcall()` to catch the error. The thrown error is a\ntable with\
+    \ `message`, `template`, `context`, and `stack` fields, and a\n`__tostring` metamethod\
+    \ that returns the rendered message.\n\nWhen a `context` table is provided, template\
+    \ placeholders like `{key}` in\nthe message are replaced with the corresponding\
+    \ context values.\n\n```lua\nlocal LogService = game:GetService(\"LogService\"\
+    )\n\nlocal ok, err = pcall(function()\n\tLogService:Error(\"Failed: {reason}\"\
+    , {reason = \"timeout\"})\nend)\n-- ok is false\n-- err.message == \"Failed: timeout\"\
+    \n-- err.context == {reason = \"timeout\"}\n-- tostring(err) == \"Failed: timeout\"\
+    \n```\n"
+  code_samples: []
+  parameters:
+  - name: message
+    type: string
+    default: null
+    summary: 'The message string. Supports `{key}` template placeholders when a
+
+      context table is provided.
+
+      '
+  - name: context
+    type: Dictionary
+    default: nil
+    summary: 'An optional dictionary of key-value pairs. When provided, `{key}`
+
+      placeholders in the message are replaced with the corresponding
+
+      values.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Logging
+- name: LogService:GetLogHistory
+  summary: 'Returns a table of tables, each with the message string, message type,
+    and
+
+    timestamp of a message that the client displays in the **Output** window.
+
+    '
+  description: "Returns a table of tables, each with the message string, message type,\
+    \ and\ntimestamp of a message that the client displays in the **Output** window.\n\
+    Each inner table contains the following keys:\n\n- `message` (string) -- the rendered\
+    \ message text.\n- `messageType` (`Enum.MessageType`) -- the log level (MessageOutput,\n\
+    \  MessageInfo, MessageWarning, or MessageError).\n- `timestamp` (number) -- the\
+    \ time the message was emitted, in seconds.\n- `context` (dictionary) -- the structured\
+    \ key-value pairs if the message\n  was emitted via a structured logging method;\
+    \ absent otherwise.\n\nThe history is capped at a maximum of 512 entries by default.\
+    \ Calling\n`Class.LogService:ClearOutput()` empties the history, so subsequent\
+    \ calls\nreturn only entries logged after the clear.\n"
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Array
+    summary: 'An array of tables, each containing `message` (string), `messageType`
+
+      (`Enum.MessageType`), `timestamp` (number, in seconds), and optionally
+
+      `context` (dictionary) for entries logged with structured context.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Logging
+- name: LogService:GetLogHistoryAsync
+  summary: 'Returns the log history of another participant''s client, or of the server,
+
+    during a Team Test session.
+
+    '
+  description: "Returns the log history of a Team Test participant's client, or of\
+    \ the\nTeam Test server. Each inner table contains the following keys:\n\n- `message`:\
+    \ The rendered message text.\n- `messageType` (`Enum.MessageType`): The log level\n\
+    \  (`Enum.MessageType|MessageOutput`, `Enum.MessageType|MessageInfo`,\n  `Enum.MessageType|MessageWarning`,\
+    \ or `Enum.MessageType|MessageError`).\n- `timestamp`: The time the message was\
+    \ emitted on the participant's\n  client or the server, in seconds.\n\nThe history\
+    \ contains a maximum of the 512 most recent entries.\n\nThis method is only available\
+    \ from a participant's client during a Team\nTest.\n\n```lua\nlocal LogService\
+    \ = game:GetService(\"LogService\")\nlocal Players = game:GetService(\"Players\"\
+    )\n\nfor _, player in Players:GetPlayers() do\n\tlocal ok, history = pcall(LogService.GetLogHistoryAsync,\
+    \ LogService, player.User)\n\tif not ok then\n\t\twarn(`Couldn't read {player.Name}'s\
+    \ logs: {history}`)\n\t\tcontinue\n\tend\n\tfor _, entry in history do\n\t\tif\
+    \ entry.messageType == Enum.MessageType.MessageError then\n\t\t\tprint(`[{player.Name}]\
+    \ {entry.message}`)\n\t\tend\n\tend\nend\n```\n"
+  code_samples: []
+  parameters:
+  - name: user
+    type: User
+    default: null
+    summary: 'The `Class.Player.User` of the Team Test participant whose log history
+
+      to read. Pass `Datatype.User.fromId(0)` to read the Team Test server''s
+
+      log history.
+
+      '
+  returns:
+  - type: Array
+    summary: 'An array of tables, each containing `message` (string), `messageType`
+
+      (`Enum.MessageType`), and `timestamp` (number, in seconds), in the
+
+      same format as `Class.LogService:GetLogHistory()`.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Logging
+- name: LogService:GetLogger
+  summary: 'Returns a top-level `Class.Logger` with the given name, creating it if
+    it
+
+    does not already exist.
+
+    '
+  description: 'Returns the top-level logger with the given `name`, creating it if
+    it does
+
+    not already exist. Calling this with the same name repeatedly returns the
+
+    same logger instance for as long as a reference to it is held. Use the
+
+    returned `Class.Logger` to emit structured log entries scoped to a
+
+    hierarchical path, and `Class.Logger:GetLogger()` to create nested child
+
+    loggers.
+
+
+    This method raises an error if the name is empty, contains a `.`, or
+
+    contains control characters, or if the maximum number of live loggers has
+
+    been exceeded.
+
+
+    ```lua
+
+    local LogService = game:GetService("LogService")
+
+
+    local combat = LogService:GetLogger("Combat")
+
+    combat:Info("Match started with {count} players", {count = 8})
+
+    ```
+
+    '
+  code_samples: []
+  parameters:
+  - name: name
+    type: string
+    default: null
+    summary: 'The name of the logger. Must be non-empty, must not contain a `.`
+
+      character, and must not contain control characters.
+
+      '
+  returns:
+  - type: Logger
+    summary: 'A `Class.Logger` whose `Class.Logger.Name` and `Class.Logger.FullPath`
+
+      both equal `name`.
+
+      '
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Logging
+- name: LogService:Info
+  summary: 'Logs a message at the `Enum.MessageType.MessageInfo` level with optional
+
+    structured context.
+
+    '
+  description: 'Logs a message at the `Enum.MessageType.MessageInfo` level. When a
+
+    `context` table is provided, template placeholders like `{key}` in the
+
+    message are replaced with the corresponding context values. The context is
+
+    preserved as structured data for display in the Developer Console and
+
+    Studio''s **Output** window.
+
+
+    ```lua
+
+    local LogService = game:GetService("LogService")
+
+
+    LogService:Info("User {name} has {count} items", {name = "Alice", count = 42})
+
+    -- Output: "User Alice has 42 items"
+
+    ```
+
+    '
+  code_samples: []
+  parameters:
+  - name: message
+    type: string
+    default: null
+    summary: 'The message string. Supports `{key}` template placeholders when a
+
+      context table is provided.
+
+      '
+  - name: context
+    type: Dictionary
+    default: nil
+    summary: 'An optional dictionary of key-value pairs. When provided, `{key}`
+
+      placeholders in the message are replaced with the corresponding
+
+      values.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Logging
+- name: LogService:Log
+  summary: 'Logs a message at the specified level with optional structured context.
+
+    '
+  description: 'Logs a message at the specified `Enum.MessageType` level. This is
+    a
+
+    general-purpose method that combines the functionality of
+
+    `Class.LogService:Output()|Output()`, `Class.LogService:Info()|Info()`,
+
+    `Class.LogService:Warn()|Warn()`, and `Class.LogService:Error()|Error()`
+
+    into a single call with an explicit message type parameter.
+
+
+    When `messageType` is `Enum.MessageType.MessageError`, this method throws
+
+    a structured error object (same behavior as
+
+    `Class.LogService:Error()|Error()`).
+
+
+    ```lua
+
+    local LogService = game:GetService("LogService")
+
+
+    LogService:Log(Enum.MessageType.MessageInfo, "Event {action}", {action = "click"})
+
+    ```
+
+    '
+  code_samples: []
+  parameters:
+  - name: messageType
+    type: MessageType
+    default: null
+    summary: 'The `Enum.MessageType` specifying the log level.
+
+      '
+  - name: message
+    type: string
+    default: null
+    summary: 'The message string. Supports `{key}` template placeholders when a
+
+      context table is provided.
+
+      '
+  - name: context
+    type: Dictionary
+    default: nil
+    summary: 'An optional dictionary of key-value pairs. When provided, `{key}`
+
+      placeholders in the message are replaced with the corresponding
+
+      values.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Logging
+- name: LogService:Output
+  summary: 'Logs a message at the `Enum.MessageType.MessageOutput` level with optional
+
+    structured context.
+
+    '
+  description: 'Logs a message at the `Enum.MessageType.MessageOutput` level. When
+    a
+
+    `context` table is provided, template placeholders like `{key}` in the
+
+    message are replaced with the corresponding context values. The context is
+
+    preserved as structured data for display in the Developer Console and
+
+    Studio''s **Output** window.
+
+
+    ```lua
+
+    local LogService = game:GetService("LogService")
+
+
+    LogService:Output("Player {name} joined", {name = "Alice"})
+
+    -- Output: "Player Alice joined"
+
+    ```
+
+    '
+  code_samples: []
+  parameters:
+  - name: message
+    type: string
+    default: null
+    summary: 'The message string. Supports `{key}` template placeholders when a
+
+      context table is provided.
+
+      '
+  - name: context
+    type: Dictionary
+    default: nil
+    summary: 'An optional dictionary of key-value pairs. When provided, `{key}`
+
+      placeholders in the message are replaced with the corresponding
+
+      values.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Logging
+- name: LogService:Warn
+  summary: 'Logs a message at the `Enum.MessageType.MessageWarning` level with
+
+    optional structured context.
+
+    '
+  description: 'Logs a message at the `Enum.MessageType.MessageWarning` level with
+
+    optional structured context. When a `context` table is provided, template
+
+    placeholders like `{key}` in the message are replaced with the
+
+    corresponding context values. The context is preserved as structured data
+
+    for display in the Developer Console and Studio''s **Output** window.
+
+
+    ```lua
+
+    local LogService = game:GetService("LogService")
+
+
+    LogService:Warn("Memory usage at {pct}%", {pct = 95})
+
+    -- Output: "Memory usage at 95%"
+
+    ```
+
+    '
+  code_samples: []
+  parameters:
+  - name: message
+    type: string
+    default: null
+    summary: 'The message string. Supports `{key}` template placeholders when a
+
+      context table is provided.
+
+      '
+  - name: context
+    type: Dictionary
+    default: nil
+    summary: 'An optional dictionary of key-value pairs. When provided, `{key}`
+
+      placeholders in the message are replaced with the corresponding
+
+      values.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Logging
+- name: ClearOutput
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: Error
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: message
+    type: string
+  - name: context
+    type: Dictionary
+    default: nil
+  returns:
+  - type: 'null'
+- name: ExecuteScript
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: source
+    type: string
+  returns:
+  - type: 'null'
+- name: GetHttpResultHistory
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+- name: GetLogHistory
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+- name: GetLogger
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: name
+    type: string
+  returns:
+  - type: Logger
+- name: Info
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: message
+    type: string
+  - name: context
+    type: Dictionary
+    default: nil
+  returns:
+  - type: 'null'
+- name: Log
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: messageType
+    type: Enum.MessageType
+  - name: message
+    type: string
+  - name: context
+    type: Dictionary
+    default: nil
+  returns:
+  - type: 'null'
+- name: Output
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: message
+    type: string
+  - name: context
+    type: Dictionary
+    default: nil
+  returns:
+  - type: 'null'
+- name: RequestHttpResultApproved
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: RequestServerHttpResult
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: RequestServerOutput
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: Warn
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: message
+    type: string
+  - name: context
+    type: Dictionary
+    default: nil
+  returns:
+  - type: 'null'
+- name: GetLogHistoryAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: user
+    type: User
+  returns:
+  - type: Array
+events:
+- name: LogService.MessageOut
+  summary: 'Fires when the client outputs text.
+
+    '
+  description: "Fires whenever a message is logged through the engine's output system,\n\
+    including calls to `Global.LuaGlobals.print()`,\n`Global.RobloxGlobals.warn()`,\
+    \ and the structured logging methods on\n`Class.LogService`. The `message` parameter\
+    \ contains the fully rendered\ntext (template placeholders already replaced).\
+    \ The `context` parameter\ncarries the structured key-value pairs when the message\
+    \ was emitted via a\nmethod that accepts a context table; otherwise it is nil.\n\
+    \n```lua\nlocal LogService = game:GetService(\"LogService\")\n\nLogService.MessageOut:Connect(function(message,\
+    \ messageType, context)\n\tif messageType == Enum.MessageType.MessageError then\n\
+    \t\tprint(\"Error:\", message)\n\tend\n\tif context then\n\t\t-- Access structured\
+    \ data from structured logging calls\n\t\tfor key, value in context do\n\t\t\t\
+    print(key, \"=\", value)\n\t\tend\n\tend\nend)\n```\n"
+  code_samples:
+  - LogService-MessageOut1
+  parameters:
+  - name: message
+    type: string
+    default: null
+    summary: 'The fully rendered message string after any template placeholder
+
+      substitution.
+
+      '
+  - name: messageType
+    type: MessageType
+    default: null
+    summary: 'A `Enum.MessageType` value indicating the severity level of the
+
+      message.
+
+      '
+  - name: context
+    type: Dictionary
+    default: null
+    summary: 'A dictionary of key-value pairs provided when the message was logged
+
+      via a structured logging method (`Class.LogService:Output()`,
+
+      `Class.LogService:Info()`, `Class.LogService:Warn()`, or
+
+      `Class.LogService:Error()`), or nil if no context was supplied.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Logging
+- name: HttpResultOut
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: httpResult
+    type: Dictionary
+- name: MessageOut
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: message
+    type: string
+  - name: messageType
+    type: Enum.MessageType
+  - name: context
+    type: Dictionary
+- name: OnHttpResultApproved
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: isApproved
+    type: bool
+- name: RequestHttpResultApprovedSignal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: requestingPlayer
+    type: Instance
+- name: RequestScriptExecutionSignal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: requestingPlayer
+    type: Instance
+  - name: source
+    type: string
+- name: RequestServerHttpResultSignal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: requestingPlayer
+    type: Instance
+- name: RequestServerOutputSignal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: requestingPlayer
+    type: Instance
+- name: RequestSettingsChange
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: requestingPlayer
+    type: Instance
+  - name: expressivePrinting
+    type: bool
+- name: ServerContextOut
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: contextData
+    type: Dictionary
+- name: ServerHttpResultOut
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: httpResult
+    type: Dictionary
+- name: ServerMessageOut
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: message
+    type: string
+  - name: messageType
+    type: Enum.MessageType
+  - name: timestamp
+    type: double
+- name: ServerVariantMessageOut
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: data
+    type: Dictionary
+callbacks: []

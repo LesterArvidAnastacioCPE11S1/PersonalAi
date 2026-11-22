@@ -19,12 +19,41 @@ def open_when_ready(url):
                 url + "/api/ping",
                 timeout=2
             ).close()
-            open_ui(url)
-            return
+            break
 
         except Exception:
 
             time.sleep(0.5)
+
+    else:
+
+        print(f"[ui] Server did not answer. Open {url} manually.")
+        return
+
+    for _ in range(3):
+
+        try:
+
+            result = open_ui(url)
+
+        except Exception as error:
+
+            print(f"[ui] Could not open the window: {error}")
+            result = None
+
+        if result == "window":
+
+            print("[ui] PersonalAI window opened.")
+            return
+
+        if result == "browser":
+
+            print("[ui] Opened PersonalAI in your default browser.")
+            return
+
+        time.sleep(2)
+
+    print(f"[ui] Could not open the PersonalAI window. Open {url} in your browser.")
 
 
 def main():
@@ -47,6 +76,18 @@ def main():
     print("==============================")
     print(f"UI         : {url}")
     print(f"Model      : {config.model.model or 'auto (first model the server reports)'}")
+
+    if config.model.big_context_model:
+
+        print(
+            "Big context: "
+            + config.model.big_context_model
+            + (
+                " (switches automatically for coding)"
+                if config.model.auto_big_context
+                else " (available)"
+            )
+        )
     print(f"Endpoint   : {config.model.base_url}")
     print(f"Database   : {config.app.db_path}")
     print(f"Temperature: {config.model.temperature}")
@@ -64,7 +105,7 @@ def main():
             )
         )
     )
-    print("Attachments: 6 files max, text/PDF/DOCX/images")
+    print("Attachments: 6 files max, text/PDF/DOCX/images/Roblox files")
     print(
         "Freedom    : "
         + (

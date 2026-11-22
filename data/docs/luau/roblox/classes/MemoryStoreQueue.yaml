@@ -1,0 +1,327 @@
+name: MemoryStoreQueue
+type: class
+memory_category: Instances
+summary: 'Provides access to a queue within MemoryStore.
+
+  '
+description: 'Provides access to a queue within MemoryStore. A queue is a data structure
+
+  that provides temporary storage for arbitrary items (up to the maximum item
+
+  size -- see
+
+  [MemoryStore Limits](../../../cloud-services/memory-stores/index.md#limits-and-quotas)).
+
+  Each queue item has a numeric priority: MemoryStore retrieves items with
+
+  higher priority from the queue first, and it retrieves Items with the same
+
+  priority in order of addition.
+
+
+  Items in the queue can optionally be set to expire after a certain amount of
+
+  time. Expired items simply disappear from the queue as if they were never
+
+  added.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- NotReplicated
+deprecation_message: ''
+properties: []
+methods:
+- name: MemoryStoreQueue:AddAsync
+  summary: 'Adds an item to the queue.
+
+    '
+  description: 'Adds an item to the queue with the given priority and expiration.
+    Items
+
+    with a higher `priority` are retrieved from the queue before items with a
+
+    lower priority, and items with the same priority are retrieved in the
+
+    order they were added; `priority` defaults to 0. The `expiration` value,
+
+    in seconds, sets how long the item remains in the queue before it is
+
+    automatically removed. This method yields until the item has been added.
+
+    '
+  code_samples: []
+  parameters:
+  - name: value
+    type: Variant
+    default: null
+    summary: 'The value of the item to add to the queue.
+
+      '
+  - name: expiration
+    type: int64
+    default: null
+    summary: 'Item expiration time, in seconds, after which the item will be
+
+      automatically removed from the queue.
+
+      '
+  - name: priority
+    type: double
+    default: 0
+    summary: 'Item priority. Items with higher priority are retrieved from the queue
+
+      before items with lower priority.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DataStore
+- name: MemoryStoreQueue:GetSizeAsync
+  summary: 'Gets the size of the queue.
+
+    '
+  description: 'Returns the number of items currently in the queue. By default the
+
+    returned count includes invisible items -- items that have been read with
+
+    `Class.MemoryStoreQueue:ReadAsync()` but not yet removed and whose
+
+    invisibility timeout has not expired. Set the `excludeInvisible` parameter
+
+    to `true` to omit these items from the count; it defaults to `false`. This
+
+    method yields until the size is retrieved.
+
+    '
+  code_samples: []
+  parameters:
+  - name: excludeInvisible
+    type: boolean
+    default: false
+    summary: 'Determines whether to exclude invisible items from the size count.
+
+      '
+  returns:
+  - type: int
+    summary: 'The number of items currently in the queue. Items that have been read
+
+      but not yet removed (invisible items) are included in the count unless
+
+      `excludeInvisible` is `true`.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DataStore
+- name: MemoryStoreQueue:ReadAsync
+  summary: 'Reads one or more items from the queue.
+
+    '
+  description: 'Reads one or more items from the queue as a single atomic operation.
+
+
+    This method does not automatically delete the returned items from the
+
+    queue but makes them invisible to other ReadAsync calls for the period of
+
+    the invisibility timeout. The items must be explicitly removed from the
+
+    queue with `Class.MemoryStoreQueue:RemoveAsync()` before the invisibility
+
+    timeout expires. The invisibility timeout defaults to 30 seconds unless a
+
+    different value was provided in `Class.MemoryStoreService:GetQueue()`.
+
+    '
+  code_samples:
+  - using-a-memorystorequeue
+  parameters:
+  - name: count
+    type: int
+    default: null
+    summary: 'Number of items to read. The maximum allowed value of this parameter
+
+      is 100.
+
+      '
+  - name: allOrNothing
+    type: boolean
+    default: false
+    summary: 'Controls the behavior of the method in the case the queue has fewer
+
+      than `count` items: if set to false the method returns all available
+
+      items; if set to true, it returns no items. The default value is
+
+      false.
+
+      '
+  - name: waitTimeout
+    type: double
+    default: -1
+    summary: 'The duration, in seconds, for which the method will wait if the
+
+      required number of items is not immediately available in the queue.
+
+      Reads are attempted every two seconds during this period. This
+
+      parameter can be set to zero to indicate no wait. If this parameter is
+
+      not provided or set to -1, the method will wait indefinitely.
+
+      '
+  returns:
+  - type: Tuple
+    summary: 'A tuple of two elements. The first element is an array of item values
+
+      read from the queue. The second element is a string identifier that
+
+      should be passed to `Class.MemoryStoreQueue:RemoveAsync()` to
+
+      permanently remove these items from the queue.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DataStore
+- name: MemoryStoreQueue:RemoveAsync
+  summary: 'Removes an item or items previously read from the queue.
+
+    '
+  description: 'Removes an item or items previously read from the queue. This method
+    uses
+
+    the identifier returned by `Class.MemoryStoreQueue:ReadAsync()` to
+
+    identify the items to remove. If called after the invisibility timeout has
+
+    expired, the call has no effect.
+
+    '
+  code_samples:
+  - using-a-memorystorequeue
+  parameters:
+  - name: id
+    type: string
+    default: null
+    summary: 'Identifies the items to delete. Use the value returned by
+
+      `Class.MemoryStoreQueue:ReadAsync()`.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DataStore
+- name: AddAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: value
+    type: Variant
+  - name: expiration
+    type: int64
+  - name: priority
+    type: double
+    default: '0'
+  returns:
+  - type: 'null'
+- name: GetSizeAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: excludeInvisible
+    type: bool
+    default: 'false'
+  returns:
+  - type: int
+- name: ReadAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: count
+    type: int
+  - name: allOrNothing
+    type: bool
+    default: 'false'
+  - name: waitTimeout
+    type: double
+    default: '-1'
+  returns:
+  - type: Tuple
+- name: RemoveAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: id
+    type: string
+  returns:
+  - type: 'null'
+events: []
+callbacks: []

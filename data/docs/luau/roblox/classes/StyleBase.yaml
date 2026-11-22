@@ -1,0 +1,198 @@
+name: StyleBase
+type: class
+memory_category: Gui
+summary: 'The base class for `Class.StyleSheet` and `Class.StyleRule`.
+
+  '
+description: 'The base class for `Class.StyleSheet` and `Class.StyleRule`. Holds a
+  list of
+
+  child `Class.StyleRule|StyleRules`, as well as token definitions which are
+
+  stored as [attributes](../../../studio/properties.md#instance-attributes).
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants:
+- StyleRule
+- StyleSheet
+tags:
+- NotCreatable
+deprecation_message: ''
+properties: []
+methods:
+- name: StyleBase:GetStyleRules
+  summary: 'Returns an array of associated `Class.StyleRule|StyleRules`.
+
+    '
+  description: 'Returns an array of associated `Class.StyleRule|StyleRules`.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: List<StyleRule>
+    summary: 'Array of `Class.StyleRule|StyleRules`.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: StyleBase:InsertStyleRule
+  summary: 'Inserts a new `Class.StyleRule` into the array of rules.
+
+    '
+  description: 'Inserts a new `Class.StyleRule` into the array of rules so that its
+
+    `Class.StyleRule.Priority|Priority` is greater than all previous
+
+    `Class.StyleRule|StyleRules`. If `priority` is specified, sets the new
+
+    rule''s `Class.StyleRule.Priority|Priority` to the specified value.
+
+    '
+  code_samples: []
+  parameters:
+  - name: rule
+    type: StyleRule
+    default: null
+    summary: 'The `Class.StyleRule` to insert.
+
+      '
+  - name: priority
+    type: int?
+    default: null
+    summary: 'The number to set the rule''s `Class.StyleRule.Priority|Priority` to.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: StyleBase:SetStyleRules
+  summary: 'Similar to `Class.StyleBase:InsertStyleRule()|InsertStyleRule()` but lets
+
+    you declare and set multiple `Class.StyleRule|StyleRules` at once.
+
+    '
+  description: 'Similar to `Class.StyleBase:InsertStyleRule()|InsertStyleRule()` but
+    lets
+
+    you declare and set multiple `Class.StyleRule|StyleRules` at once.
+
+    '
+  code_samples:
+  - StyleBase-SetStyleRules
+  parameters:
+  - name: rules
+    type: Instances
+    default: null
+    summary: 'Array of `Class.StyleRule|StyleRules` to set.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: GetStyleRules
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Instances
+- name: InsertStyleRule
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: rule
+    type: StyleRule
+  - name: priority
+    type: int?
+  returns:
+  - type: 'null'
+- name: SetStyleRules
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: rules
+    type: Instances
+  returns:
+  - type: 'null'
+events:
+- name: StyleBase.StyleRulesChanged
+  summary: 'Fires when one or more `Class.StyleRule|StyleRules` is explicitly changed
+
+    on the connected `Class.StyleSheet` or `Class.StyleRule`.
+
+    '
+  description: 'Fires when one or more `Class.StyleRule|StyleRules` is explicitly
+    changed
+
+    on the connected `Class.StyleSheet` or `Class.StyleRule`, for example when
+
+    `Class.StyleBase:InsertStyleRule()|InsertStyleRule()` is called.
+
+    '
+  code_samples: []
+  parameters: []
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - UI
+- name: StyleRulesChanged
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+callbacks: []

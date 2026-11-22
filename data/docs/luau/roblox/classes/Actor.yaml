@@ -1,0 +1,251 @@
+name: Actor
+type: class
+memory_category: BaseParts
+summary: 'An `Class.Actor` is a container for code that can be safely split into its
+  own
+
+  thread.
+
+  '
+description: "An `Class.Actor` is a container for code that can be safely split into\
+  \ its own\nthread using `Library.task.desynchronize()`. It should also contain the\n\
+  instances used by its scripts.\n\nTo learn more about using multiple Actors to optimize\
+  \ script performance, see\n[Parallel Luau](../../../scripting/multithreading.md).\n\
+  \n#### Notes\n\n- Each `Actor` runs in its own Luau VM. `Class.ModuleScript|ModuleScripts`\n\
+  \  required by an `Actor` are **not** shared or cached across `Actors` or with\n\
+  \  the main thread. Each VM executes its own copy of the module, so\n  module-level\
+  \ state is isolated per `Actor`. Design accordingly if your\n  modules hold state\
+  \ you intend to share.\n- `script:GetActor()` returns `nil` when called from a `Class.ModuleScript`\n\
+  \  unless the `ModuleScript` is a descendant of the `Actor`. `ModuleScripts`\n \
+  \ stored elsewhere (for example, `Class.ReplicatedStorage`) and required by an\n\
+  \  `Actor` are not considered descendants of the `Actor`.\n"
+code_samples: []
+inherits:
+- Model
+descendants: []
+tags: []
+deprecation_message: ''
+properties: []
+methods:
+- name: Actor:BindToMessage
+  summary: 'Binds a Luau callback to a message with the specified topic.
+
+    '
+  description: 'This method is used to bind a Luau callback to a message with the
+
+    specified topic. When a message is sent (using
+
+    `Class.Actor:SendMessage()|SendMessage()`) to the topic specified the
+
+    provided callback will be called in a _serial_ execution context.
+
+
+    Multiple Luau callbacks may be bound to a single actor and even to a
+
+    single message topic.
+
+
+    Note: Only the scripts which are descendants of an Actor may bind to its
+
+    messages.
+
+    '
+  code_samples:
+  - Actor-BindToMessage
+  parameters:
+  - name: topic
+    type: string
+    default: null
+    summary: 'The topic used to identify the type of message.
+
+      '
+  - name: function
+    type: Function
+    default: null
+    summary: 'The Luau callback to invoke when a message with the specified topic
+      is
+
+      received. The callback receives the message contents as its arguments.
+
+      '
+  returns:
+  - type: RBXScriptConnection
+    summary: 'This connection object may be used to disconnect the Luau callback
+
+      from receiving messages.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - Basic
+- name: Actor:BindToMessageParallel
+  summary: 'Binds a Luau callback to a message with the specified topic.
+
+    '
+  description: 'This method is used to bind a Luau callback to a message with the
+
+    specified topic. When a message is sent (using
+
+    `Class.Actor:SendMessage()|SendMessage()`) to the topic specified the
+
+    provided callback will be called in a _parallel_ execution context.
+
+
+    Multiple Luau callbacks may be bound to a single actor and even to a
+
+    single message topic.
+
+
+    Note: Only the scripts which are descendants of an Actor may bind to its
+
+    messages.
+
+    '
+  code_samples:
+  - Actor-BindToMessageParallel
+  parameters:
+  - name: topic
+    type: string
+    default: null
+    summary: 'The topic used to identify the type of message.
+
+      '
+  - name: function
+    type: Function
+    default: null
+    summary: 'The Luau callback to invoke when a message with the specified topic
+      is
+
+      received. The callback receives the message contents as its arguments.
+
+      '
+  returns:
+  - type: RBXScriptConnection
+    summary: 'This connection object may be used to disconnect the Luau callback
+
+      from receiving messages.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - Basic
+- name: Actor:SendMessage
+  summary: 'Sends a message to an Actor.
+
+    '
+  description: 'Sends a message to an Actor. Messages are sent asynchronously, so
+    the
+
+    sender will not block or yield when calling the
+
+    `Class.Actor:SendMessage()|SendMessage()` method.
+
+
+    Since a single Actor may receive different kinds of messages, a `topic`
+
+    parameter is used to distinguish between various kinds of messages.
+
+
+    See `Class.Actor:BindToMessage()|BindToMessage()` for details on receiving
+
+    a message sent using `Class.Actor:SendMessage()|SendMessage()`.
+
+
+    Note that message arguments are **passed by copy** across Luau VM
+
+    boundaries, not by reference. Sending large tables incurs a full copy on
+
+    each call. Functions are bound to a specific VM and cannot be passed in
+
+    messages.
+
+    '
+  code_samples:
+  - Actor-SendMessage
+  parameters:
+  - name: topic
+    type: string
+    default: null
+    summary: 'The topic used to identify the message being sent.
+
+      '
+  - name: message
+    type: Tuple
+    default: null
+    summary: 'The contents of the message to send to the Actor.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities:
+  - Basic
+- name: BindToMessage
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: topic
+    type: string
+  - name: function
+    type: Function
+  returns:
+  - type: RBXScriptConnection
+- name: BindToMessageParallel
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: topic
+    type: string
+  - name: function
+    type: Function
+  returns:
+  - type: RBXScriptConnection
+- name: SendMessage
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: topic
+    type: string
+  - name: message
+    type: Tuple
+  returns:
+  - type: 'null'
+events: []
+callbacks: []

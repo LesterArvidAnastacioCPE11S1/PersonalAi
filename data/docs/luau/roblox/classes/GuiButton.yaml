@@ -1,0 +1,939 @@
+name: GuiButton
+type: class
+memory_category: Gui
+summary: 'An abstract class for interactive 2D user interface elements.
+
+  '
+description: '`Class.GuiButton` is an abstract class that inherits from `Class.GuiObject`.
+
+  It is the base class for the interactive, clickable `Class.ImageButton` and
+
+  `Class.TextButton` objects. This class also defines several properties for
+
+  interactive behavior, namely `Class.GuiButton.AutoButtonColor|AutoButtonColor`
+
+  and `Class.GuiButton.Modal|Modal`.
+
+
+  The most important event of a `Class.GuiButton` is
+
+  `Class.GuiButton.Activated|Activated`, a **multi-platform event** that fires
+
+  when the button is activated. When using a mouse, this means clicking the
+
+  button and releasing with the cursor still over the UI object. For touch, the
+
+  same applies but with a touch instead of button press. Finally, for gamepads,
+
+  `Class.GuiButton.Activated|Activated` fires if a `Class.GuiButton` is selected
+
+  when the **A** button is pressed and released. In short, this event is very
+
+  useful for multi-platform user interface programming as it provides a nice
+
+  general interface for a single user input.
+
+  '
+code_samples: []
+inherits:
+- GuiObject
+descendants:
+- ImageButton
+- TextButton
+tags:
+- NotCreatable
+- NotBrowsable
+deprecation_message: ''
+properties:
+- name: GuiButton.AutoButtonColor
+  summary: 'Determines whether the button automatically changes color when the mouse
+
+    hovers over or clicks on it.
+
+    '
+  description: 'This property determines whether the button automatically changes
+    color
+
+    when the user''s `Class.Mouse` hovers over or clicks on it. If `true`, the
+
+    button will automatically change color when the mouse hovers over or
+
+    clicks on it. If `false`, the button will not change.
+
+
+    If you would like to customize how a button changes when the user''s mouse
+
+    hovers over or clicks on it, consider using an `Class.ImageButton` and
+
+    changing the element''s `Class.ImageButton.HoverImage|HoverImage` and
+
+    `Class.ImageButton.PressedImage|PressedImage`.
+
+
+    Please note that this property will not have an effect on an
+
+    `Class.ImageButton` if its `Class.ImageButton.Image|Image` property is set
+
+    to an image. Additionally, this property will not affect an
+
+    `Class.ImageButton` on mouse hover when its
+
+    `Class.ImageButton.HoverImage|HoverImage` is not `nil`, nor on mouse click
+
+    if its `Class.ImageButton.PressedImage|PressedImage` is not `nil`.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: GuiButton.HoverHapticEffect
+  summary: 'A `Class.HapticEffect` instance that will play when the `Class.GuiButton`
+
+    is being hovered.
+
+    '
+  description: 'A `Class.HapticEffect` that the engine plays the first time the pointer
+
+    moves over the button, when the button transitions from its idle state to
+
+    its hover state. Assign a `Class.HapticEffect` to give hover feedback (for
+
+    example, a light effect on gamepad or mobile); leave it unset for no hover
+
+    haptics.
+
+
+    The effect plays through the standard `Class.HapticService` mixer, so
+
+    whether the player actually feels vibration depends on their device and
+
+    haptic settings. This property defaults to `nil` (no effect).
+
+    '
+  code_samples: []
+  type: HapticEffect
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Haptic
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: GuiButton.Modal
+  summary: 'If `true` while the GUI element is visible, the mouse will not be locked
+
+    unless the right mouse button is down.
+
+    '
+  description: 'If `true` while the GUI element is visible, the mouse will not be
+    locked
+
+    unless the right mouse button is down.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: GuiButton.PressHapticEffect
+  summary: 'A `Class.HapticEffect` instance that will play when the `Class.GuiButton`
+
+    is being pressed.
+
+    '
+  description: 'A `Class.HapticEffect` that the engine plays when the button enters
+    its
+
+    pressed state. Assign a `Class.HapticEffect` to give press or click
+
+    feedback; leave it unset for no press haptics.
+
+
+    The effect plays through the standard `Class.HapticService` mixer, so
+
+    whether the player actually feels vibration depends on their device and
+
+    haptic settings. This property defaults to `nil` (no effect).
+
+    '
+  code_samples: []
+  type: HapticEffect
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Haptic
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: GuiButton.Selected
+  summary: 'A boolean property which indicates whether the object has been selected.
+
+    '
+  description: 'When set to `true`, the button renders in a highlighted "selected"
+    state
+
+    instead of its normal idle appearance. This property defaults to `false`,
+
+    and the engine never changes it automatically; set it yourself to mark a
+
+    button as selected.
+
+
+    `Selected` only has a visual effect on the legacy `Enum.ButtonStyle`
+
+    presets (the `Roblox*` styles) with
+
+    `Class.GuiButton.AutoButtonColor|AutoButtonColor` enabled, where it swaps
+
+    in the button''s highlighted image. It has no effect under the default
+
+    `Class.GuiButton.Style|Style` of `Custom`. It is unrelated to gamepad and
+
+    controller UI navigation; the currently focused element is tracked
+
+    separately by `Class.GuiService.SelectedObject|SelectedObject`.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Selection
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: GuiButton.Style
+  summary: 'Sets the style of the `Class.GuiButton` based on a list of pre-determined
+
+    styles.
+
+    '
+  description: 'Sets the button''s overall appearance from a fixed set of
+
+    `Enum.ButtonStyle` presets. The default value is `Custom`, which applies
+
+    no built-in styling and lets you control the button''s appearance entirely
+
+    through properties such as
+
+    `Class.GuiObject.BackgroundColor3|BackgroundColor3` and, for an
+
+    `Class.ImageButton`, its images.
+
+
+    A legacy method of applying a fixed set of Roblox-themed button styles.
+
+    The remaining presets (`RobloxButton`, `RobloxButtonDefault`,
+
+    `RobloxRoundButton`, `RobloxRoundDefaultButton`, and
+
+    `RobloxRoundDropdownButton`) render Roblox-themed button art. New
+
+    interfaces should keep `Custom` and style the button directly. This
+
+    property defaults to `Enum.ButtonStyle.Custom`.
+
+    '
+  code_samples: []
+  type: ButtonStyle
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: AutoButtonColor
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: HoverHapticEffect
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: HapticEffect
+  category: Haptic
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: Modal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: MouseButton1ClickConnectionCount
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: EventReplicator
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: MouseButton1DownConnectionCount
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: EventReplicator
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: MouseButton1UpConnectionCount
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: EventReplicator
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: MouseButton2ClickConnectionCount
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: EventReplicator
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: MouseButton2DownConnectionCount
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: EventReplicator
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: MouseButton2UpConnectionCount
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: EventReplicator
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: PressHapticEffect
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: HapticEffect
+  category: Haptic
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: Selected
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Selection
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: Style
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.ButtonStyle
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+methods: []
+events:
+- name: GuiButton.Activated
+  summary: 'Fires when the button is activated.
+
+    '
+  description: 'Fires when a left click press-and-release is detected on desktop,
+    touch
+
+    release is detected on mobile, or **A**/cross is activated in UI
+
+    navigation mode on console. The first time this method is called,
+
+    `clickCount` will start at `0`.
+
+
+    As this event doesn''t fire on the server, it should only be used in a
+
+    `Class.LocalScript`, or in a `Class.Script` with
+
+    `Class.Script.RunContext|RunContext` of `Enum.RunContext.Client`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: inputObject
+    type: InputObject
+    default: null
+    summary: 'An `Class.InputObject` representing the user input that activated the
+
+      button.
+
+      '
+  - name: clickCount
+    type: int
+    default: null
+    summary: 'The number of consecutive rapid activations, starting at 0 for the
+
+      first activation and incrementing with each subsequent activation
+
+      within quick succession of the previous one.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - UI
+- name: GuiButton.MouseButton1Click
+  summary: 'Fires when the user''s mouse fully left clicks the `Class.GuiButton`.
+
+    '
+  description: 'This event fires when the user''s mouse fully left clicks the
+
+    `Class.GuiButton`.
+
+
+    In regards to clicking, the mouse must be in bounds of the
+
+    `Class.GuiButton` and the mouse button must be pressed down and up again
+
+    before this event fires. If the mouse leaves the bounds of the
+
+    `Class.GuiButton` and is released, the event will not fire. If you would
+
+    like to avoid this limitation, you can use
+
+    `Class.GuiButton.MouseButton1Down|MouseButton1Down` and
+
+    `Class.GuiButton.MouseButton1Up|MouseButton1Up`; these events are similar
+
+    but will fire whenever the user presses their left mouse button down or
+
+    up, respectively.
+
+    '
+  code_samples: []
+  parameters: []
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - UI
+- name: GuiButton.MouseButton1Down
+  summary: 'Fires when the user presses their left mouse button down on the
+
+    `Class.GuiButton`.
+
+    '
+  description: 'This event fires when the user presses their left mouse button down
+    on the
+
+    `Class.GuiButton`.
+
+
+    For an event requiring the user to press **and** release their left mouse
+
+    on a `Class.GuiButton` in order for the event to fire, consider using
+
+    `Class.GuiButton.MouseButton1Click|MouseButton1Click`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: x
+    type: int
+    default: null
+    summary: 'The mouse''s **X** screen coordinate in pixels.
+
+      '
+  - name: y
+    type: int
+    default: null
+    summary: 'The mouse''s **Y** screen coordinate in pixels.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - UI
+- name: GuiButton.MouseButton1Up
+  summary: 'Fires when the user releases their left mouse button off of the
+
+    `Class.GuiButton`.
+
+    '
+  description: 'This event fires when the user releases their left mouse button off
+    of the
+
+    `Class.GuiButton`.
+
+
+    For an event requiring the user to press **and** release their left mouse
+
+    on a `Class.GuiButton` in order for the event to fire, consider using
+
+    `Class.GuiButton.MouseButton1Click|MouseButton1Click`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: x
+    type: int
+    default: null
+    summary: 'The mouse''s **X** screen coordinate in pixels.
+
+      '
+  - name: y
+    type: int
+    default: null
+    summary: 'The mouse''s **Y** screen coordinate in pixels.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - UI
+- name: GuiButton.MouseButton2Click
+  summary: 'Fires when the user''s mouse fully right clicks the `Class.GuiButton`.
+
+    '
+  description: 'This event fires when the user''s mouse fully right clicks the
+
+    `Class.GuiButton`.
+
+
+    In regards to clicking, the mouse must be in bounds of the
+
+    `Class.GuiButton` and the mouse button must be pressed down and up again
+
+    before this event fires. If the mouse leaves the bounds of the
+
+    `Class.GuiButton` and is released, the event will not fire. If you would
+
+    like to avoid this limitation, you can use
+
+    `Class.GuiButton.MouseButton2Down|MouseButton2Down` and
+
+    `Class.GuiButton.MouseButton2Up|MouseButton2Up`; these events are similar
+
+    but will fire whenever the user presses their right mouse button down or
+
+    up, respectively.
+
+    '
+  code_samples: []
+  parameters: []
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - UI
+- name: GuiButton.MouseButton2Down
+  summary: 'Fires when the user presses their right mouse button down on the
+
+    `Class.GuiButton`.
+
+    '
+  description: 'This event fires when the user presses their right mouse button down
+    on
+
+    the `Class.GuiButton`.
+
+
+    For an event requiring the user to press **and** release their right mouse
+
+    on a `Class.GuiButton` in order for the event to fire, consider using
+
+    `Class.GuiButton.MouseButton2Click|MouseButton2Click`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: x
+    type: int
+    default: null
+    summary: 'The mouse''s **X** screen coordinate in pixels.
+
+      '
+  - name: y
+    type: int
+    default: null
+    summary: 'The mouse''s **Y** screen coordinate in pixels.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - UI
+- name: GuiButton.MouseButton2Up
+  summary: 'Fires when the user releases their right mouse button off of the
+
+    `Class.GuiButton`.
+
+    '
+  description: 'This event fires when the user releases their right mouse button off
+    of
+
+    the `Class.GuiButton`.
+
+
+    For an event requiring the user to press **and** release their right mouse
+
+    on a `Class.GuiButton` in order for the event to fire, consider using
+
+    `Class.GuiButton.MouseButton2Click|MouseButton2Click`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: x
+    type: int
+    default: null
+    summary: 'The mouse''s **X** screen coordinate in pixels.
+
+      '
+  - name: y
+    type: int
+    default: null
+    summary: 'The mouse''s **Y** screen coordinate in pixels.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - UI
+- name: GuiButton.SecondaryActivated
+  summary: 'Fires when the button''s "secondary" input is activated.
+
+    '
+  description: 'Fires when a right-click press-and-release is detected from a mouse,
+    long
+
+    press is detected on a touch input, `R3` is detected from a gamepad, or
+
+    <kbd>Alt</kbd><kbd>Enter</kbd> is detected in UI navigation mode using
+
+    keyboard.
+
+    '
+  code_samples: []
+  parameters:
+  - name: inputObject
+    type: InputObject
+    default: null
+    summary: 'The input object representing the alternate activation action.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - UI
+- name: Activated
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: inputObject
+    type: InputObject
+  - name: clickCount
+    type: int
+- name: MouseButton1Click
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: MouseButton1Down
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: x
+    type: int
+  - name: y
+    type: int
+- name: MouseButton1Up
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: x
+    type: int
+  - name: y
+    type: int
+- name: MouseButton2Click
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: MouseButton2Down
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: x
+    type: int
+  - name: y
+    type: int
+- name: MouseButton2Up
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: x
+    type: int
+  - name: y
+    type: int
+- name: SecondaryActivated
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: inputObject
+    type: InputObject
+callbacks: []

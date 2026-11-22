@@ -1,0 +1,76 @@
+name: GameSettings
+type: class
+memory_category: Instances
+summary: 'A container for miscellaneous in-game options.
+
+  '
+description: 'Various miscellaneous in-game options.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+- NotReplicated
+- NotBrowsable
+deprecation_message: ''
+properties:
+- name: GameSettings.VideoCaptureEnabled
+  summary: ''
+  description: ''
+  code_samples: []
+  type: boolean
+  tags:
+  - Deprecated
+  deprecation_message: 'This property is deprecated. Do not use it for new work.
+
+    '
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  category: Video
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: VideoCaptureEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: PluginSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Video
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+methods: []
+events:
+- name: VideoRecordingChangeRequest
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: recording
+    type: bool
+callbacks: []

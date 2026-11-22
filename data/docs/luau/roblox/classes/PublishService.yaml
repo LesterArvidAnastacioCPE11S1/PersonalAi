@@ -1,0 +1,219 @@
+name: PublishService
+type: class
+memory_category: Instances
+summary: 'A service that centralizes uploading assets to Roblox, including publishing
+
+  cage mesh edits and creating assets or asset versions.
+
+  '
+description: 'Requires `RobloxScript` security; used by Studio publishing and avatar-import
+
+  workflows rather than ordinary experience code. Centralizes uploading assets
+
+  to Roblox: publishing edited cage meshes from `Class.WrapTarget` and
+
+  `Class.WrapLayer` instances, publishing an instance''s descendant assets in
+
+  parallel, and creating assets or asset versions while polling for the
+
+  resulting asset ID.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+- NotReplicated
+deprecation_message: ''
+properties: []
+methods:
+- name: PublishDescendantAssets
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: instance
+    type: Instance
+  returns:
+  - type: bool
+- name: TagEmoteAnimation
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: instance
+    type: Instance
+  returns:
+  - type: 'null'
+- name: CreateAssetAndWaitForAssetId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: instances
+    type: Instances
+  - name: operationId
+    type: string
+  - name: creatorType
+    type: Enum.AssetCreatorType
+  - name: creatorId
+    type: int64
+  - name: assetType
+    type: string
+  - name: name
+    type: string
+  - name: description
+    type: string
+  - name: expectedPrice
+    type: int
+    default: '0'
+  - name: additionalParameters
+    type: Dictionary
+    default: nil
+  returns:
+  - type: int64
+- name: CreateAssetOrAssetVersionAndPollAssetWithTelemetryAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: serializedInstance
+    type: string
+  - name: creatorType
+    type: Enum.AssetCreatorType
+  - name: creatorId
+    type: int64
+  - name: assetType
+    type: string
+  - name: assetId
+    type: int64
+  - name: name
+    type: string
+  - name: description
+    type: string
+  - name: token
+    type: string
+  - name: contentType
+    type: string
+  - name: expectedPrice
+    type: int
+    default: '0'
+  returns:
+  - type: Dictionary
+- name: CreateAssetOrAssetVersionAndPollAssetWithTelemetryAsyncWithAddParam
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: serializedInstance
+    type: string
+  - name: publishInfo
+    type: Dictionary
+  returns:
+  - type: Dictionary
+- name: CreateAssetOrAssetVersionAndPollAssetWithTelemetryAsyncWithAddParamErrorJson
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: serializedInstance
+    type: string
+  - name: publishInfo
+    type: Dictionary
+  returns:
+  - type: Dictionary
+- name: PublishCageMeshAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: wrap
+    type: Instance
+  - name: cageType
+    type: Enum.CageType
+  returns:
+  - type: ContentId
+- name: PublishDescendantAssetsAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: instance
+    type: Instance
+  returns:
+  - type: bool
+events: []
+callbacks: []

@@ -1,0 +1,1838 @@
+name: AvatarCreationService
+type: class
+memory_category: Instances
+summary: 'A service to support developer avatar creators.
+
+  '
+description: '`AvatarCreationService` is a service that supports developer avatar
+  creators,
+
+  providing methods that support the prompting of avatar creation from within
+
+  experiences.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+deprecation_message: ''
+properties: []
+methods:
+- name: AvatarCreationService:AutoSetupAvatarAsync
+  summary: 'Automatically sets up a custom `Class.Model` and/or avatar accessories.
+
+    '
+  description: 'Automatically sets up a custom `Class.Model` as an avatar asset. This
+
+    method returns a `string` generation ID which can be passed to
+
+    `Class.AvatarCreationService:LoadGeneratedAvatarAsync()|LoadGeneratedAvatarAsync()`
+
+    to load the generated avatar and return a `Class.HumanoidDescription` with
+
+    all the generated instances and properties. The load method can be called
+
+    on both the server and client, allowing the generated avatar to be loaded
+
+    in both places (on the client for previewing, and on the server for saving
+
+    the generated avatar to the player''s inventory using
+
+    `Class.AvatarCreationService:PromptCreateAvatarAsync()|PromptCreateAvatarAsync()`).
+
+
+    Auto-setup has specific model requirements and accepts certain
+
+    configurations of models. For more information, see
+
+    [Auto-setup requirements](../../../avatar-setup/auto-setup-requirements.md).
+
+
+    **Note**: this API requires the `Enable Mesh / Image APIs` setting to be
+
+    turned on under Content Settings for your experience.
+
+    '
+  code_samples:
+  - AvatarCreationService-AutoSetupAvatarAsync
+  parameters:
+  - name: player
+    type: Player
+    default: null
+    summary: 'The `Class.Player` that the avatar is being set up for.
+
+      '
+  - name: autoSetupParams
+    type: Dictionary
+    default: null
+    summary: 'A table containing the arguments. Type:
+
+      `type AutoSetupAccessory = { AccessoryType: Enum.AccessoryType, IsLayered: bool,
+      Instance: Model, } type AutoSetupParams = { Body: Model?, Accessories: {AutoSetupAccessory},
+      }`
+
+      '
+  - name: progressCallback
+    type: Function?
+    default: null
+    summary: 'Optional callback function that will be invoked periodically with a
+
+      progressInfo table with the overall progress (from 0 to 1). Type:
+
+      `(progressInfo: { Progress: number }) -> ()`
+
+      '
+  returns:
+  - type: string
+    summary: 'A unique identifier for the generated avatar.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: AvatarCreationService:GenerateAvatar2DPreviewAsync
+  summary: 'Creates a 2D avatar preview and returns a `previewId`.
+
+    '
+  description: 'Creates a 2D avatar image preview, taking as input the FileId from
+
+    `Class.AvatarCreationService:PromptSelectAvatarGenerationImageAsync()|PromptSelectAvatarGenerationImageAsync()`
+
+    and an optional text prompt. It returns a `previewId` which can be passed
+
+    to
+
+    `Class.AvatarCreationService:LoadAvatar2DPreviewAsync()|LoadAvatar2DPreviewAsync()`
+
+    to retrieve the preview image on the client. This API can only be used on
+
+    the game server.
+
+
+    **Note**: this API requires the `Enable Mesh / Image APIs` setting to be
+
+    turned on under Content Settings for your experience.
+
+    '
+  code_samples:
+  - AvatarCreationService-GenerateAvatar2DPreviewAsync
+  parameters:
+  - name: avatarGeneration2dPreviewParams
+    type: Dictionary
+    default: null
+    summary: 'A table of arguments for 2D preview generation. Type:
+
+      `avatarGeneration2dPreviewParams: {SessionId: string, FileId: string, TextPrompt:
+      string?}`
+
+      '
+  - name: progressCallback
+    type: Function?
+    default: null
+    summary: 'Optional callback function that will be invoked periodically with a
+
+      progressInfo table with the overall progress (from 0 to 1). Type:
+
+      `(progressInfo: { Progress: number }) -> ()`
+
+      '
+  returns:
+  - type: string
+    summary: 'A string previewId
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: AvatarCreationService:GenerateAvatarAsync
+  summary: 'Generates an avatar and returns a generationId.
+
+    '
+  description: 'Generate an avatar from a preview and return the generationId. The
+
+    `Class.AvatarCreationService:LoadGeneratedAvatarAsync()|LoadGeneratedAvatarAsync()`
+
+    method is then called to retrieve the generated
+
+    `Class.HumanoidDescription` avatar. This API can only be used on the game
+
+    server.
+
+
+    **Note**: this API requires the `Enable Mesh / Image APIs` setting to be
+
+    turned on under Content Settings for your experience.
+
+    '
+  code_samples:
+  - AvatarCreationService-GenerateAvatarAsync
+  parameters:
+  - name: avatarGenerationParams
+    type: Dictionary
+    default: null
+    summary: 'A table of arguments for generating an avatar. Type:
+
+      `avatarGenerationParams: {SessionId: string, PreviewId: string}`
+
+      '
+  - name: progressCallback
+    type: Function?
+    default: null
+    summary: 'Optional callback function that will be invoked periodically with a
+
+      progressInfo table with the overall progress (from 0 to 1). Type:
+
+      `(progressInfo: { Progress: number }) -> ()`
+
+      '
+  returns:
+  - type: string
+    summary: 'A string generationId.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: AvatarCreationService:GetBatchTokenDetailsAsync
+  summary: 'Gets the avatar creation token details for a list of avatar creation
+
+    tokens at once.
+
+    '
+  description: "Gets the avatar creation token details for a list of avatar creation\n\
+    tokens at once (tokens are generated through the\n[token creation](../../../production/monetization/avatar-creation-token.md)\n\
+    process). Returns an array of avatar creation token details; each token\ndetail\
+    \ is a dictionary with the fields indicated in the example result\nbelow:\n\n\
+    ```lua\n{\n\t[\"Name\"] = \"string\",\n\t[\"Description\"] = \"string\",\n\t[\"\
+    UniverseId\"] = 0,\n\t[\"CreatorId\"] = 0,\n\t[\"CreatorType\"] = Enum.CreatorType.User,\n\
+    \t[\"OnSale\"] = true,\n\t[\"Price\"] = 0,\n\t[\"OffSaleReasons\"] = {\n\t\t\"\
+    string\",\n\t}\n}\n```\n"
+  code_samples: []
+  parameters:
+  - name: tokenIds
+    type: Array
+    default: null
+    summary: 'The list of avatar creation token IDs to get details of.
+
+      '
+  returns:
+  - type: Array
+    summary: 'Array of avatar creation token details as outlined above.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Monetization
+- name: AvatarCreationService:GetValidationRules
+  summary: 'Gets data regarding rules that assets must abide by to pass UGC
+
+    validation.
+
+    '
+  description: "Gets data regarding rules that assets must abide by to pass UGC\n\
+    validation. Validation is an essential step before creating avatars and\nthere\
+    \ are various checks that occur, including mesh triangle limits,\ntexture sizes,\
+    \ body part size limits, attachment positions, and more.\n\nThe returned dictionary\
+    \ of validation rules takes the following form:\n\n```\n{\n\t[\"MeshRules\"] =\
+    \ {\n\t\t[\"BodyPartMaxTriangles\"] = {\n\t\t\tEnum.AssetType.DynamicHead: number,\n\
+    \t\t\tEnum.AssetType.LeftArm: number,\n\t\t\tEnum.AssetType.RightArm: number,\n\
+    \t\t\tEnum.AssetType.Torso: number,\n\t\t\tEnum.AssetType.LeftLeg: number,\n\t\
+    \t\tEnum.AssetType.RightLeg: number,\n\t\t},\n\t\t\t[\"AccessoryMaxTriangles\"\
+    ]: number,\n\t\t\t[\"MeshVertColor\"]: Color3,\n\t\t\t[\"CageMeshMaxDistanceFromRenderMesh\"\
+    ]: number,\n\t},\n\t[\"TextureRules\"] = {\n\t\t[\"MaxTextureSize\"]: number,\n\
+    \t},\n\t[\"BodyPartRules\"] = {\n\t\t[Enum.AssetType.DynamicHead] = {\n\t\t\t\
+    [\"Bounds\"] = {\n\t\t\t\t[\"Classic\"] = {\n\t\t\t\t\t[\"MinSize\"]: Vector3,\n\
+    \t\t\t\t\t[\"MaxSize\"]: Vector3,\n\t\t\t},\n\t\t\t\t[\"ProportionsSlender\"]\
+    \ = {\n\t\t\t\t\t[\"MinSize\"]: Vector3,\n\t\t\t\t\t[\"MaxSize\"]: Vector3,\n\t\
+    \t\t\t},\n\t\t\t\t[\"ProportionsNormal\"] = {\n\t\t\t\t\t[\"MinSize\"]: Vector3,\n\
+    \t\t\t\t\t[\"MaxSize\"]: Vector3,\n\t\t\t\t},\n\t\t\t},\n\t\t\t[\"SubParts\"]\
+    \ = {\n\t\t\t\t[\"Head\"] = {\n\t\t\t\t\t[\"NeckRigAttachment\"] = {\n\t\t\t\t\
+    \t\t[\"LowerBound\"]: Vector3,\n\t\t\t\t\t\t[\"UpperBound\"]: Vector3,\n\t\t\t\
+    \t\t},\n\t\t\t\t\t[\"FaceFrontAttachment\"] = {\n\t\t\t\t\t\t[\"LowerBound\"]:\
+    \ Vector3,\n\t\t\t\t\t\t[\"UpperBound\"]: Vector3,\n\t\t\t\t\t},\n\t\t\t\t\t[\"\
+    HatAttachment\"] = {\n\t\t\t\t\t\t[\"LowerBound\"]: Vector3,\n\t\t\t\t\t\t[\"\
+    UpperBound\"]: Vector3,\n\t\t\t\t\t},\n\t\t\t\t\t[\"HairAttachment\"] = {\n\t\t\
+    \t\t\t\t[\"LowerBound\"]: Vector3,\n\t\t\t\t\t\t[\"UpperBound\"]: Vector3,\n\t\
+    \t\t\t\t},\n\t\t\t\t\t[\"FaceCenterAttachment\"] = {\n\t\t\t\t\t\t[\"LowerBound\"\
+    ]: Vector3,\n\t\t\t\t\t\t[\"UpperBound\"]: Vector3,\n\t\t\t\t\t},\n\t\t\t\t},\n\
+    \t\t\t},\n\t\t},\n\t\t[Enum.AssetType.LeftArm] = {\n\t\t\t[\"Bounds\"] = {\n\t\
+    \t\t\t[\"Classic\"] = {\n\t\t\t\t\t[\"MinSize\"]: Vector3,\n\t\t\t\t\t[\"MaxSize\"\
+    ]: Vector3,\n\t\t\t\t},\n\t\t\t\t[\"ProportionsSlender\"] = {\n\t\t\t\t\t[\"MinSize\"\
+    ]: Vector3,\n\t\t\t\t\t[\"MaxSize\"]: Vector3,\n\t\t\t\t},\n\t\t\t\t[\"ProportionsNormal\"\
+    ] = {\n\t\t\t\t\t[\"MinSize\"]: Vector3,\n\t\t\t\t\t[\"MaxSize\"]: Vector3,\n\t\
+    \t\t\t},\n\t\t\t},\n\t\t\t[\"SubParts\"] = {\n\t\t\t\t[\"LeftHand\"] = {\n\t\t\
+    \t\t\t[\"LeftWristRigAttachment\"] = {\n\t\t\t\t\t\t[\"LowerBound\"]: Vector3,\n\
+    \t\t\t\t\t\t[\"UpperBound\"]: Vector3,\n\t\t\t\t\t},\n\t\t\t\t\t[\"LeftGripAttachment\"\
+    ] = {\n\t\t\t\t\t\t[\"LowerBound\"]: Vector3,\n\t\t\t\t\t\t[\"UpperBound\"]: Vector3,\n\
+    \t\t\t\t\t},\n\t\t\t\t},\n\t\t\t\t[\"LeftUpperArm\"] = {\n\t\t\t\t\t[\"LeftShoulderRigAttachment\"\
+    ] = {\n\t\t\t\t\t\t[\"LowerBound\"]: Vector3,\n\t\t\t\t\t\t[\"UpperBound\"]: Vector3,\n\
+    \t\t\t\t\t},\n\t\t\t\t\t[\"LeftShoulderAttachment\"] = {\n\t\t\t\t\t\t[\"LowerBound\"\
+    ]: Vector3,\n\t\t\t\t\t\t[\"UpperBound\"]: Vector3,\n\t\t\t\t\t},\n\t\t\t\t\t\t\
+    [\"LeftElbowRigAttachment\"] = {\n\t\t\t\t\t\t[\"LowerBound\"]: Vector3,\n\t\t\
+    \t\t\t\t[\"UpperBound\"]: Vector3,\n\t\t\t\t\t},\n\t\t\t\t},\n\t\t\t\t[\"LeftLowerArm\"\
+    ] = {\n\t\t\t\t\t[\"LeftElbowRigAttachment\"] = {\n\t\t\t\t\t\t[\"LowerBound\"\
+    ]: Vector3,\n\t\t\t\t\t\t[\"UpperBound\"]: Vector3,\n\t\t\t\t\t},\n\t\t\t\t\t\
+    [\"LeftWristRigAttachment\"] = {\n\t\t\t\t\t\t[\"LowerBound\"]: Vector3,\n\t\t\
+    \t\t\t\t[\"UpperBound\"]: Vector3,\n\t\t\t\t\t},\n\t\t\t\t},\n\t\t\t},\n\t\t},\n\
+    \t\t...\n\t},\n\t[\"AccessoryRules\"] = {\n\t\t[Enum.AssetType.HairAccessory]\
+    \ = {\n\t\t\t[\"Attachments\"] = {\n\t\t\t\t{\n\t\t\t\t\t[\"Size\"]: Vector3,\n\
+    \t\t\t\t\t[\"Offset\"]: Vector3,\n\t\t\t\t\t[\"Name\"]: string,\n\t\t\t\t},\n\t\
+    \t\t},\n\t\t\t[\"RigidAllowed\"]: boolean,\n\t\t},\n\t\t...\n      \t},\n    \
+    \    [\"MakeupRules\"] = {\n\t\t[\"ReferenceCageMeshId\"]: number,\n\t\t[\"WrapTextureTransferUVBounds\"\
+    ] = {\n\t\t\t[\"MinBound\"]: Vector2,\n            \t\t[\"MaxBound\"]: Vector2,\n\
+    \          \t},\n          \t[\"ExcludeUVBounds\"] = {\n            \t\t[Enum.AssetType.FaceMakeup]\
+    \ = {\n              \t\t\t[\"LeftEye\"] = {\n                \t\t\t[\"MinBound\"\
+    ]: Vector2,\n                \t\t\t[\"MaxBound\"]: Vector2,\n              \t\t\
+    \t},\n              \t\t\t[\"RightEye\"] = {\n                \t\t\t[\"MinBound\"\
+    ]: Vector2,\n                \t\t\t[\"MaxBound\"]: Vector2,\n              \t\t\
+    \t},\n              \t\t\t[\"Lips\"] = {\n                \t\t\t[\"MinBound\"\
+    ]: Vector2,\n                \t\t\t[\"MaxBound\"]: Vector2,\n              \t\t\
+    \t},\n            \t\t},\n          \t},\n          \t[\"IncludeUVBounds\"] =\
+    \ {\n\t\t\t[Enum.AssetType.LipMakeup] = {\n\t\t\t\t[\"MinBound\"]: Vector2,\n\t\
+    \t\t\t[\"MaxBound\"]: Vector2,\n\t\t    \t},\n\t\t    \t[Enum.AssetType.EyeMakeup]\
+    \ = {\n\t\t      \t\t[\"MinBound\"]: Vector2,\n\t\t      \t\t[\"MaxBound\"]: Vector2,\n\
+    \t\t    \t},\n          \t}\n\t}\n}\n```\n"
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Dictionary
+    summary: 'Dictionary of validation rules as detailed above.
+
+      '
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: AvatarCreationService:LoadAvatar2DPreviewAsync
+  summary: 'Load an AvatarGeneration 2D preview on the client from a previewId.
+
+    '
+  description: 'Load an AvatarGeneration 2D preview as an `Class.EditableImage` on
+    the
+
+    client for the given previewId. This API can only be used on the client.
+
+
+    **Note**: this API requires the `Enable Mesh / Image APIs` setting to be
+
+    turned on under Content Settings for your experience.
+
+    '
+  code_samples:
+  - AvatarCreationService-LoadAvatar2DPreviewAsync
+  parameters:
+  - name: previewId
+    type: string
+    default: null
+    summary: 'Load the preview generated from
+
+      `Class.AvatarCreationService:GenerateAvatar2DPreviewAsync()|GenerateAvatar2DPreviewAsync()`.
+
+      '
+  returns:
+  - type: EditableImage
+    summary: 'An `Class.EditableImage` containing the preview image.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: AvatarCreationService:LoadGeneratedAvatarAsync
+  summary: 'Loads a generated avatar using an avatar generation ID.
+
+    '
+  description: 'Loads a generated avatar using an avatar generation ID, as returned
+    by
+
+    `Class.AvatarCreationService:AutoSetupAvatarAsync()|AutoSetupAvatarAsync()`
+
+    or
+
+    `Class.AvatarCreationService:GenerateAvatarAsync()|GenerateAvatarAsync()`.
+
+    The generated avatar will be returned as a `Class.HumanoidDescription`
+
+    with all the generated instances and properties. Mesh and texture assets
+
+    will be provided as `Class.EditableMesh` and `Class.EditableImage`
+
+    objects, respectively, to allow continued editing of the generated avatar.
+
+
+    This method can be called on both the server and client, allowing the
+
+    generated avatar to be loaded in both places (on the client for
+
+    previewing, and on the server for saving the generated avatar to the
+
+    player''s inventory using
+
+    `Class.AvatarCreationService:PromptCreateAvatarAsync()|PromptCreateAvatarAsync()`).
+
+    Once the method has been invoked on both the client and server, the data
+
+    associated with the generation ID will be erased and subsequent calls to
+
+    his method with the same generation ID will fail.
+
+
+    **Note**: this API requires the `Enable Mesh / Image APIs` setting to be
+
+    turned on under Content Settings for your experience.
+
+    '
+  code_samples:
+  - AvatarCreationService-LoadGeneratedAvatarAsync
+  parameters:
+  - name: generationId
+    type: string
+    default: null
+    summary: 'A unique string that identifies the generated avatar, as returned by
+
+      `Class.AvatarCreationService:AutoSetupAvatarAsync()|       AutoSetupAvatarAsync()`.
+
+      '
+  returns:
+  - type: HumanoidDescription
+    summary: 'The `Class.HumanoidDescription` of the generated avatar, which
+
+      includes all the generated instances and properties.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: AvatarCreationService:PrepareAvatarForPreviewAsync
+  summary: 'Prepares in-experience avatar for preview.
+
+    '
+  description: 'Triggers HSR generation and attachment point updating for in-experience
+
+    avatar previews. This allows for previewing of avatars created in
+
+    experience with layered clothing and accessories in the same way they will
+
+    appear when published through
+
+    `Class.AvatarCreationService:PromptCreateAvatarAsync()|PromptCreateAvatarAsync()`.
+
+
+    When developers use `Class.EditableMesh` and `Class.WrapDeformer` to
+
+    modify avatars before publishing, the original HSR data may not accurately
+
+    account for the new deformations. This method generates updated HSR data
+
+    and corrects attachment points based on the `Class.WrapDeformer`
+
+    modifications, ensuring consistent preview and published avatar
+
+    appearance.
+
+    '
+  code_samples: []
+  parameters:
+  - name: humanoidModel
+    type: Model
+    default: null
+    summary: 'The `Class.Model` containing `Class.MeshPart` children with
+
+      `Class.WrapDeformer` instances that require HSR data updating for
+
+      preview.
+
+      '
+  returns:
+  - type: ()
+    summary: 'void
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AvatarAppearance
+- name: AvatarCreationService:PromptCreateAvatarAssetAsync
+  summary: 'Prompts a `Class.Player` to purchase and create an avatar asset from an
+
+    `Class.Instance`.
+
+    '
+  description: 'Prompts a `Class.Player` to purchase and create an avatar asset from
+    an
+
+    `Class.Instance`. The price of the creation is dictated by the price
+
+    attributed to the avatar creation token. This creation token is required
+
+    for the purchasing and creation of the asset and can be generated by
+
+    following the
+
+    [token creation](../../../production/monetization/avatar-creation-token.md)
+
+    process.
+
+
+    For accessory creation, the `Class.Instance` is expected to include a new
+
+    accessory to be created. This includes the following types:
+
+    `Enum.AvatarAssetType.Hat|Hat`, `Enum.AvatarAssetType.HairAccessory|Hair`,
+
+    `Enum.AvatarAssetType.FaceAccessory|FaceAccessory`,
+
+    `Enum.AvatarAssetType.NeckAccessory|NeckAccessory`,
+
+    `Enum.AvatarAssetType.ShoulderAccessory|ShoulderAccessory`,
+
+    `Enum.AvatarAssetType.FrontAccessory|FrontAccessory`,
+
+    `Enum.AvatarAssetType.BackAccessory|BackAccessory`,
+
+    `Enum.AvatarAssetType.WaistAccessory|WaistAccessory`,
+
+    `Enum.AvatarAssetType.TShirtAccessory|TShirtAccessory`,
+
+    `Enum.AvatarAssetType.ShirtAccessory|ShirtAccessory`,
+
+    `Enum.AvatarAssetType.PantsAccessory|PantsAccessory`,
+
+    `Enum.AvatarAssetType.JacketAccessory|JacketAccessory`,
+
+    `Enum.AvatarAssetType.SweaterAccessory|SweaterAccessory`,
+
+    `Enum.AvatarAssetType.ShortsAccessory|ShortsAccessory`,
+
+    `Enum.AvatarAssetType.DressSkirtAccessory|DressSkirtAccessory`,
+
+    `Enum.AvatarAssetType.EyebrowAccessory|EyebrowAccessory`, and
+
+    `Enum.AvatarAssetType.EyelashAccessory|EyelashAccessory`.
+
+
+    To support this, the `Class.Instance` should be an `Class.Accessory`
+
+    instance or contain an `Class.Accessory` child instance. This should
+
+    include a `Class.MeshPart` child instance which makes up the accessory.
+
+
+    The avatar asset `Class.MeshPart` will also need to include:
+
+
+    - An `Class.EditableImage`.
+
+    - An `Class.EditableMesh`.
+
+
+    If creating a layered clothing accessory such as a shirt, the
+
+    `Class.MeshPart` should include a `Class.WrapDeformer` with an
+
+    `Class.EditableMesh`.
+
+
+    This method also supports `Enum.AvatarAssetType.FaceMakeup|FaceMakeup`,
+
+    `Enum.AvatarAssetType.LipMakeup|LipMakeup`, and
+
+    `Enum.AvatarAssetType.EyeMakeup|EyeMakeup`. For these types,
+
+    `assetInstance` must be a `Class.Decal` whose `Class.Decal.TextureContent`
+
+    references an `Class.EditableImage`, with exactly one
+
+    `Class.WrapTextureTransfer` child. The accessory and MeshPart requirements
+
+    above do not apply to these types.
+
+
+    Finally, the provided `Enum.AvatarAssetType` should match the creation
+
+    type of the token and the type of asset for upload.
+
+    '
+  code_samples:
+  - AvatarCreationService-PromptCreateAvatarAssetAsync
+  parameters:
+  - name: tokenId
+    type: string
+    default: null
+    summary: 'The ID of a creation token. The token must be valid in that the
+
+      universe the method is called from is the same universe the token was
+
+      created for. Furthermore, the token creator must maintain ID
+
+      verification and
+
+      [Roblox Premium](https://www.roblox.com/premium/membership). To create
+
+      a token for utilization in this API, follow the
+
+      [token creation](../../../production/monetization/avatar-creation-token.md)
+
+      process. The token''s creation type must match the
+
+      `Enum.AvatarAssetType` passed in to the method.
+
+      '
+  - name: player
+    type: Player
+    default: null
+    summary: 'The `Class.Player` intended to be presented with the creation prompt.
+
+      '
+  - name: assetInstance
+    type: Instance
+    default: null
+    summary: 'The `Class.Instance` of the avatar asset intended for creation.
+
+      '
+  - name: assetType
+    type: AvatarAssetType
+    default: null
+    summary: 'The `Enum.AvatarAssetType` of the expected creation. This must match
+
+      the creation type of the provided token.
+
+      '
+  returns:
+  - type: Tuple
+    summary: "A tuple containing, in order:\n\n- An `Enum.PromptCreateAssetResult`\
+      \ indicating the result of the\n  creation prompt.\n\n- A string result. In\
+      \ the case of\n  `Enum.PromptCreateAssetResult.Success`, this will indicate\
+      \ the asset\n  ID. In the case of any failure enum, this will indicate the\n\
+      \  resultant error message.\n"
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: AvatarCreationService:PromptCreateAvatarAsync
+  summary: 'Prompts a `Class.Player` to purchase and create an avatar from a
+
+    `Class.HumanoidDescription`.
+
+    '
+  description: "Prompts a `Class.Player` to purchase and create an avatar from a\n\
+    `Class.HumanoidDescription`. The price of the creation is dictated by the\nprice\
+    \ attributed to the avatar creation token. This avatar creation token\nis required\
+    \ for the purchasing and creation of the body and can be\ngenerated by following\
+    \ the\n[token creation](../../../production/monetization/avatar-creation-token.md)\n\
+    process.\n\nFor avatar creation, the `Class.HumanoidDescription` is expected to\n\
+    include new assets to be created for each of the 6 body parts\n(`Enum.BodyPart.Head|Head`,\
+    \ `Enum.BodyPart.Torso|Torso`,\n`Enum.BodyPart.RightLeg|RightLeg`, `Enum.BodyPart.LeftLeg|LeftLeg`,\n\
+    `Enum.BodyPart.RightArm|RightArm`, `Enum.BodyPart.LeftArm|LeftArm`).\nOptionally,\
+    \ it can also include a new `Enum.AccessoryType.Hair|Hair`\naccessory.\n\nTo support\
+    \ this, the `Class.HumanoidDescription` should include 6\n`Class.BodyPartDescription`\
+    \ children (one for each body part). For each,\nthe `Class.BodyPartDescription.Instance`\
+    \ property references a\n`Class.Folder` which includes all of the `Class.MeshPart`\
+    \ instances which\nmake up the body part, for example a `LeftArm` folder which\
+    \ has\n`LeftHand`, `LeftUpperArm`, and `LeftLowerArm` `Class.MeshPart|MeshParts`.\n\
+    The `Class.BodyPartDescription.BodyPart` property should also be set to\nthe relevant\
+    \ `Enum.BodyPart`.\n\nEach body part `Class.MeshPart` will also need to include:\n\
+    \n- An `Class.EditableImage`.\n- A `Class.WrapDeformer` with an `Class.EditableMesh`.\n\
+    \nIf including an accessory such as hair, the `Class.HumanoidDescription`\nshould\
+    \ include a child `Class.AccessoryDescription` where:\n\n- The `Class.AccessoryDescription.Instance`\
+    \ property references the\n  `Class.Accessory` instance.\n- The `Class.AccessoryDescription.AccessoryType`\
+    \ property is set to the\n  relevant `Enum.AccessoryType`.\n\nFinally, the `Class.HumanoidDescription`\
+    \ should include the humanoid\nscales of `Class.HumanoidDescription.BodyTypeScale|BodyTypeScale`,\n\
+    `Class.HumanoidDescription.HeadScale|HeadScale`,\n`Class.HumanoidDescription.HeightScale|HeightScale`,\n\
+    `Class.HumanoidDescription.WidthScale|WidthScale`, and\n`Class.HumanoidDescription.ProportionScale|ProportionScale`.\
+    \ Be mindful of\nthe scales that a base body is imported with so that they match\
+    \ the scales\nprovided to the `Class.HumanoidDescription`.\n"
+  code_samples:
+  - AvatarCreationService-PromptCreateAvatarAsync
+  parameters:
+  - name: tokenId
+    type: string
+    default: null
+    summary: 'The ID of an avatar creation token. The token must be valid in that
+
+      the universe the method is called from is the same universe the token
+
+      was created for. Furthermore, the token creator must maintain ID
+
+      verification and
+
+      [Roblox Premium](https://www.roblox.com/premium/membership). To create
+
+      a token for utilization in this API, follow the
+
+      [token creation](../../../production/monetization/avatar-creation-token.md)
+
+      process.
+
+      '
+  - name: player
+    type: Player
+    default: null
+    summary: 'The `Class.Player` intended to be presented with the creation prompt.
+
+      '
+  - name: humanoidDescription
+    type: HumanoidDescription
+    default: null
+    summary: 'The `Class.HumanoidDescription` of the avatar intended for creation.
+
+      '
+  returns:
+  - type: Tuple
+    summary: "A tuple containing, in order:\n\n- An `Enum.PromptCreateAvatarResult`\
+      \ indicating the result of the\n  creation prompt.\n\n- A string result. In\
+      \ the case of\n  `Enum.PromptCreateAvatarResult.Success`, this will indicate\
+      \ the\n  bundle ID. In the case of any failure enum, this will indicate the\n\
+      \  resultant error message.\n\n- A secondary optional string result. In the\
+      \ case of\n  `Enum.PromptCreateAvatarResult.Success`, this will indicate the\n\
+      \  outfit ID. In the case of any failure enum, this will be `nil`.\n"
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AssetCreateUpdate
+  - Monetization
+- name: AvatarCreationService:PromptCreateMakeupAsync
+  summary: 'Prompts a `Class.Player` to create and publish a makeup look from multiple
+
+    makeup assets.
+
+    '
+  description: "Prompts a `Class.Player` to create and publish a makeup look from\
+    \ two to\nsix makeup assets. For example, an in-experience creation tool can use\n\
+    this method to let a player publish lip and face makeup together as a\nsingle\
+    \ look. This method can only be called from the server and yields\nuntil the operation\
+    \ completes.\n\nEach asset requires a creation token for its asset type and the\
+    \ current\nexperience. See the\n[token creation](../../../production/monetization/avatar-creation-token.md)\n\
+    process. The input entries are checked before the prompt opens. Creation\ntoken\
+    \ and user-generated content validation run while the prompt is\nloading; the\
+    \ player can proceed with creation after validation succeeds.\n\nFor `FaceMakeup`,\
+    \ `LipMakeup`, and `EyeMakeup`, the asset instance must be\na `Class.Decal` whose\
+    \ `Class.Decal.TextureContent` references an\n`Class.EditableImage`, with exactly\
+    \ one `Class.WrapTextureTransfer` child.\n\nThe overall `Enum.PromptCreateOutfitResult`\
+    \ describes creation of the\nlook:\n\n- `Enum.PromptCreateOutfitResult.Success|Success`\
+    \ means all submitted\n  assets and the makeup look were created.\n- `Enum.PromptCreateOutfitResult.PartialSuccess|PartialSuccess`\
+    \ means at\n  least one asset was created, but another asset or the makeup look\n\
+    \  composition failed. If the look was created, the second return value is\n \
+    \ its outfit ID; if composition failed, it is an error message instead.\n- `Enum.PromptCreateOutfitResult.CreationFailure|CreationFailure`\
+    \ means no\n  assets were created, so no makeup look was created.\n\nInspect the\
+    \ per-asset results to determine which assets were created. Each\nentry contains\
+    \ `Enum.PromptCreateAssetResult.Success|Success` and an asset\nID, or `Enum.PromptCreateAssetResult.UploadFailed|UploadFailed`\
+    \ without an\nasset ID. If a failure occurs before asset uploads, the results\
+    \ array may\nbe empty.\n\nFor `Enum.PromptCreateOutfitResult.PermissionDenied|PermissionDenied`,\n\
+    `Enum.PromptCreateOutfitResult.Timeout|Timeout`, and\n`Enum.PromptCreateOutfitResult.NoUserInput|NoUserInput`,\
+    \ only the result\nenum is returned; variables assigned to the other return values\
+    \ receive\n`nil`.\n\nThis method can raise an error for invalid input, request\
+    \ throttling, or\nunexpected failures. Validation failures may raise an error\
+    \ or return\n`Enum.PromptCreateOutfitResult.UGCValidationFailed|UGCValidationFailed`\n\
+    with an error message and an empty per-asset results array. Use `pcall()`\nto\
+    \ handle errors as well as checking the returned result enum.\n"
+  code_samples: []
+  parameters:
+  - name: player
+    type: Player
+    default: null
+    summary: 'The `Class.Player` who receives the creation prompt and owns the
+
+      uploaded makeup look.
+
+      '
+  - name: makeupAssetEntries
+    type: Array
+    default: null
+    summary: "An array containing between two and six asset-entry dictionaries. Each\n\
+      dictionary contains:\n\n- `TokenId` (string) – The ID of a creation token valid\
+      \ for the\n  current experience and the entry's `AvatarAssetType`.\n- `Instance`\
+      \ (`Class.Instance`) – The makeup asset instance to upload.\n- `AvatarAssetType`\
+      \ (`Enum.AvatarAssetType`) – The asset type.\n  Supported types are `Enum.AvatarAssetType.FaceMakeup|FaceMakeup`,\n\
+      \  `Enum.AvatarAssetType.LipMakeup|LipMakeup`,\n  `Enum.AvatarAssetType.EyeMakeup|EyeMakeup`,\n\
+      \  `Enum.AvatarAssetType.EyebrowAccessory|EyebrowAccessory`, and\n  `Enum.AvatarAssetType.EyelashAccessory|EyelashAccessory`.\n\
+      - `SortOrder` (number) – The asset's ordering within the makeup look.\n"
+  - name: thumbnailHeadColor
+    type: Color3?
+    default: nil
+    summary: 'Optional `Datatype.Color3` for the head in the makeup look thumbnail.
+
+      If omitted, the default gray head color is used.
+
+      '
+  returns:
+  - type: Tuple
+    summary: "A tuple containing, in order:\n\n- An `Enum.PromptCreateOutfitResult`\
+      \ indicating the overall creation\n  outcome.\n\n- A string containing the outfit\
+      \ ID when the makeup look is created,\n  or an error message otherwise. This\
+      \ value is not returned for\n  `PermissionDenied`, `Timeout`, or `NoUserInput`.\n\
+      \n- An array of per-asset result dictionaries in the same order as the\n  input\
+      \ entries. Each dictionary contains `Result`\n  (`Enum.PromptCreateAssetResult`)\
+      \ and, for successfully created\n  assets, `AssetId` (string). This value is\
+      \ not returned for\n  `PermissionDenied`, `Timeout`, or `NoUserInput`.\n"
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - AssetCreateUpdate
+  - Monetization
+- name: AvatarCreationService:PromptSelectAvatarGenerationImageAsync
+  summary: 'Prompt the `Class.Player` to take a selfie and return the FileId.
+
+    '
+  description: "Prompt the `Class.Player` to take a selfie and return the FileId of\
+    \ the\nselfie. This FileId is then passed as an argument to\n`Class.AvatarCreationService:GenerateAvatar2DPreviewAsync()|GenerateAvatar2DPreviewAsync()`.\n\
+    This API can only be used on the game server.\n\n```lua\nlocal AvatarCreationService\
+    \ = game:GetService(\"AvatarCreationService\")\n\nfunction promptSelectAvatarGenerationImage(player)\n\
+    \    local pcallSuccess, result = pcall(function()\n        return AvatarCreationService:PromptSelectAvatarGenerationImageAsync(player)\n\
+    \    end)\n\n    if not pcallSuccess then\n        errName, errDesc = unpack(string.split(result,\
+    \ \": \"))\n        if errName == \"SelfieConsentDenied\" then\n            warn(\"\
+    Player must accept consent to use feature.\")\n        else\n            warn(\"\
+    Failed to prompt for image: \", errDesc)\n        end\n    end\n\n    return result\n\
+    end\n```\n\nOn failure, the result string has the format\n`ErrorName: Error description`,\
+    \ allowing the error type to be identified\nprogrammatically.\n\n<table>\n<thead>\n\
+    \  <tr>\n    <th>Error name</th>\n    <th>Error description</th>\n  </tr>\n</thead>\n\
+    <tbody>\n  <tr>\n    <td>`SelfieConsentDenied`</td>\n    <td>Selfie consent not\
+    \ accepted</td>\n  </tr>\n  <tr>\n    <td>`QRTooManyRequests`</td>\n    <td>Failure\
+    \ to generate QR url due to too many requests; please wait and try again later</td>\n\
+    \  </tr>\n  <tr>\n    <td>`MediaPermissionsDenied`</td>\n    <td>Permissions not\
+    \ granted for taking photo</td>\n  </tr>\n  <tr>\n    <td>`FeatureUnavailable`</td>\n\
+    \    <td>Feature not available for player</td>\n  </tr>\n  <tr>\n    <td>`GenerationInProgress`</td>\n\
+    \    <td>Generation already in progress for player</td>\n  </tr>\n</tbody>\n</table>\n"
+  code_samples: []
+  parameters:
+  - name: player
+    type: Player
+    default: null
+    summary: 'The `Class.Player` to prompt for taking a selfie.
+
+      '
+  returns:
+  - type: string
+    summary: 'A string FileId of the selfie on success, or an error string
+
+      describing the reason for failure.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - SensitiveInput
+- name: AvatarCreationService:RequestAvatarGenerationSessionAsync
+  summary: 'Request an AvatarGeneration session for a `Class.Player`.
+
+    '
+  description: 'Request an AvatarGeneration session for a `Class.Player`. Information
+
+    about the session is returned via the callback, including the SessionId
+
+    which is passed to the
+
+    `Class.AvatarCreationService:GenerateAvatar2DPreviewAsync()|GenerateAvatar2DPreviewAsync()`
+
+    and
+
+    `Class.AvatarCreationService:GenerateAvatarAsync()|GenerateAvatarAsync()`
+
+    methods. Additional session information includes allowed 2d preview
+
+    generations, allowed 3d avatar generations, and the session time. The
+
+    method returns a `Tuple` with an `Datatype.RBXScriptConnection` and
+
+    estimated `waitTime`. The `Datatype.RBXScriptConnection` allows canceling
+
+    a session request. The estimated `waitTime` is used to provide the player
+
+    an estimated time in seconds until the session will be ready. This API can
+
+    only be used on the game server.
+
+    '
+  code_samples:
+  - AvatarCreationService-RequestAvatarGenerationSessionAsync
+  parameters:
+  - name: player
+    type: Player
+    default: null
+    summary: 'The `Class.Player` to request an AvatarGeneration session for.
+
+      '
+  - name: callback
+    type: Function
+    default: null
+    summary: 'Callback function that is invoked with a SessionInfo table, with
+
+      information about the session. Type:
+
+      `(SessionInfo: { SessionId: string, Allowed2DGenerations: number, Allowed3DGenerations:
+      number, SessionTime: number }) -> ()`
+
+      '
+  returns:
+  - type: Tuple
+    summary: 'A tuple containing a `Datatype.RBXScriptConnection` that can be used
+
+      to cancel the session request and the estimated wait time in seconds.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DynamicGeneration
+- name: AvatarCreationService:ValidateUGCAccessoryAsync
+  summary: 'Studio only. Runs UGC validation for an `Enum.AccessoryType`.
+
+    '
+  description: 'Studio only. Given a `Class.Player` and `Class.Instance` for an
+
+    `Enum.AccessoryType`, determines if UGC validation passes.
+
+    '
+  code_samples: []
+  parameters:
+  - name: player
+    type: Player
+    default: null
+    summary: 'The `Class.Player` validation is completed for.
+
+      '
+  - name: accessory
+    type: Instance
+    default: null
+    summary: 'The instance validation is run on.
+
+      '
+  - name: accessoryType
+    type: AccessoryType
+    default: null
+    summary: 'The `Enum.AccessoryType` the instance is expected to be.
+
+      '
+  returns:
+  - type: Tuple
+    summary: "A tuple containing, in order:\n\n- A boolean indicating if validation\
+      \ was successful for the accessory.\n- An optional table of strings. This includes\
+      \ failure reasons if\n  validation was unsuccessful; otherwise `nil` if validation\
+      \ was\n  successful.\n"
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: AvatarCreationService:ValidateUGCBodyPartAsync
+  summary: 'Studio only. Runs UGC validation for an `Enum.BodyPart`.
+
+    '
+  description: "Studio only. Given a `Class.Player` and `Class.Instance` for an\n\
+    `Enum.BodyPart`, determines if UGC validation passes. The `instance`\nparameter\
+    \ is expected as a `Class.Folder` in the following example format\nwith relevant\
+    \ `Class.MeshPart|MeshParts`:\n\n- `LeftArm` (`Class.Folder`)\n  - `R15ArtistIntent`\
+    \ (`Class.Folder`)\n    - `LeftLowerArm` (`Class.MeshPart`)\n    - `LeftUpperArm`\
+    \ (`Class.MeshPart`)\n    - `LeftHand` (`Class.MeshPart`)\n\nHowever, if the expected\
+    \ `bodyPart` is `Enum.BodyPart.Head`, the function\ntakes a singular `Head` `Class.MeshPart`\
+    \ directly.\n"
+  code_samples: []
+  parameters:
+  - name: player
+    type: Player
+    default: null
+    summary: 'The `Class.Player` validation is completed for.
+
+      '
+  - name: instance
+    type: Instance
+    default: null
+    summary: 'The instance validation is run on.
+
+      '
+  - name: bodyPart
+    type: BodyPart
+    default: null
+    summary: '`Enum.BodyPart` the instance is expected to be.
+
+      '
+  returns:
+  - type: Tuple
+    summary: "A tuple containing, in order:\n\n- A boolean indicating if validation\
+      \ was successful for the body part.\n- An optional table of strings. This includes\
+      \ failure reasons if\n  validation was unsuccessful; otherwise `nil` if validation\
+      \ was\n  successful.\n"
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: AvatarCreationService:ValidateUGCFullBodyAsync
+  summary: 'Studio only. Runs UGC validation for a whole body.
+
+    '
+  description: 'Studio only. Given a `Class.Player` and `Class.HumanoidDescription`,
+    all
+
+    instances in the `Class.HumanoidDescription` will be validated.
+
+
+    The `Class.HumanoidDescription` is expected to include instances set on
+
+    `Class.BodyPartDescription` children for each of the six required
+
+    `Enum.BodyPart` values. Optionally, it can include instances set on
+
+    `Class.AccessoryDescription` children for any supported
+
+    `Enum.AccessoryType`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: player
+    type: Player
+    default: null
+    summary: 'The `Class.Player` validation is completed for.
+
+      '
+  - name: humanoidDescription
+    type: HumanoidDescription
+    default: null
+    summary: '`Class.HumanoidDescription` representing the body that validation is
+
+      run on.
+
+      '
+  returns:
+  - type: Tuple
+    summary: "A tuple containing, in order:\n\n- A boolean indicating if validation\
+      \ was successful for the body.\n- An optional table of strings. This includes\
+      \ failure reasons if\n  validation was unsuccessful; otherwise `nil` if validation\
+      \ was\n  successful.\n"
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: DeserializeAvatarModel
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: serializedModel
+    type: string
+  returns:
+  - type: Instance
+- name: GetValidationRules
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Dictionary
+- name: HandleSelfieConsentResult
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: consentAccepted
+    type: bool
+  returns:
+  - type: 'null'
+- name: HandleSelfieQRResult
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: success
+    type: bool
+  - name: resultString
+    type: string
+  returns:
+  - type: 'null'
+- name: AutoSetupAvatarAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+  - name: autoSetupParams
+    type: Dictionary
+  - name: progressCallback
+    type: Function?
+  returns:
+  - type: string
+- name: CreateCageMeshPartsWithScaleForExportAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: model
+    type: Model
+  returns:
+  - type: Folder
+- name: GenerateAvatar2DPreviewAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: avatarGeneration2dPreviewParams
+    type: Dictionary
+  - name: progressCallback
+    type: Function?
+  returns:
+  - type: string
+- name: GenerateAvatarAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: avatarGenerationParams
+    type: Dictionary
+  - name: progressCallback
+    type: Function?
+  returns:
+  - type: string
+- name: GetBatchTokenDetailsAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: tokenIds
+    type: Array
+  returns:
+  - type: Array
+- name: LoadAvatar2DPreviewAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: previewId
+    type: string
+  returns:
+  - type: EditableImage
+- name: LoadGeneratedAvatarAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: generationId
+    type: string
+  returns:
+  - type: HumanoidDescription
+- name: PrepareAvatarForPreviewAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: humanoidModel
+    type: Model
+  returns:
+  - type: 'null'
+- name: PromptCreateAvatarAssetAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: tokenId
+    type: string
+  - name: player
+    type: Player
+  - name: assetInstance
+    type: Instance
+  - name: assetType
+    type: Enum.AvatarAssetType
+  returns:
+  - type: Tuple
+- name: PromptCreateAvatarAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: tokenId
+    type: string
+  - name: player
+    type: Player
+  - name: humanoidDescription
+    type: HumanoidDescription
+  returns:
+  - type: Tuple
+- name: PromptCreateMakeupAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+  - name: makeupAssetEntries
+    type: Array
+  - name: thumbnailHeadColor
+    type: Color3?
+    default: nil
+  returns:
+  - type: Tuple
+- name: PromptSelectAvatarGenerationImageAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+  returns:
+  - type: string
+- name: RequestAvatarGenerationSessionAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+  - name: callback
+    type: Function
+  returns:
+  - type: Tuple
+- name: ValidateUGCAccessoryAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+  - name: accessory
+    type: Instance
+  - name: accessoryType
+    type: Enum.AccessoryType
+  returns:
+  - type: Tuple
+- name: ValidateUGCBodyPartAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+  - name: instance
+    type: Instance
+  - name: bodyPart
+    type: Enum.BodyPart
+  returns:
+  - type: Tuple
+- name: ValidateUGCFullBodyAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+  - name: humanoidDescription
+    type: HumanoidDescription
+  returns:
+  - type: Tuple
+events:
+- name: AvatarCreationService.AvatarAssetModerationCompleted
+  summary: 'Fires when an in-experience-created avatar asset''s moderation status
+    has
+
+    been updated from pending.
+
+    '
+  description: 'Fires when an in-experience-created avatar asset''s moderation status
+    has
+
+    been updated from pending. This event provides a streamlined way to know
+
+    when an avatar asset created through
+
+    `Class.AvatarCreationService:PromptCreateAvatarAssetAsync()|PromptCreateAvatarAssetAsync()`
+
+    has completed the moderation process and is ready for use in-experience.
+
+
+    Note that this event only fires for avatar assets created within the
+
+    current experience and will trigger when the `Enum.ModerationStatus`
+
+    changes from `Enum.ModerationStatus.NotReviewed|NotReviewed` to any other
+
+    status. The event fires on the client only.
+
+    '
+  code_samples:
+  - AvatarCreationService-AvatarAssetModerationCompleted
+  parameters:
+  - name: assetId
+    type: int64
+    default: null
+    summary: 'The asset ID of the asset that has completed moderation.
+
+      '
+  - name: moderationStatus
+    type: ModerationStatus
+    default: null
+    summary: 'The final `Enum.ModerationStatus` result after moderation completed.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - DynamicGeneration
+- name: AvatarCreationService.AvatarModerationCompleted
+  summary: 'Fires when an in-experience-created avatar''s moderation status has been
+
+    updated from pending.
+
+    '
+  description: 'Fires when an in-experience-created avatar''s moderation status has
+    been
+
+    updated from pending. This event provides a streamlined way to know when
+
+    an avatar created through
+
+    `Class.AvatarCreationService:PromptCreateAvatarAsync()|PromptCreateAvatarAsync()`
+
+    has completed the moderation process and is ready for use in-experience.
+
+
+    Note that this event only fires for avatars created within the current
+
+    experience and will trigger when the `Enum.ModerationStatus` changes from
+
+    `Enum.ModerationStatus.NotReviewed|NotReviewed` to any other status. The
+
+    event fires on the client only.
+
+    `Class.AvatarEditorService:GetOutfitDetailsAsync|GetOutfitDetailsAsync`
+
+    can be used on the server to verify the current moderation status if
+
+    needed.
+
+    '
+  code_samples: []
+  parameters:
+  - name: outfitId
+    type: int64
+    default: null
+    summary: 'The outfit ID of the avatar that has completed moderation.
+
+      '
+  - name: moderationStatus
+    type: ModerationStatus
+    default: null
+    summary: 'The final `Enum.ModerationStatus` result after moderation completion.
+
+      '
+  tags: []
+  deprecation_message: 'This event is deprecated. Use
+
+    `Class.AvatarCreationService.AvatarOutfitModerationCompleted` instead; the
+
+    replacement event supports avatar outfits and other in-experience-created
+
+    outfit types.
+
+    '
+  security: None
+  capabilities:
+  - DynamicGeneration
+- name: AvatarCreationService.AvatarOutfitModerationCompleted
+  summary: 'Fires on the client when moderation completes for an in-experience-created
+
+    outfit.
+
+    '
+  description: 'Fires on the client when an in-experience-created outfit''s moderation
+
+    status changes from `Enum.ModerationStatus.NotReviewed|NotReviewed` to
+
+    another status. Use this event for any in-experience-created outfit type.
+
+    Current outfit creation flows include
+
+    `Class.AvatarCreationService:PromptCreateAvatarAsync()|PromptCreateAvatarAsync()`.
+
+    Future in-experience outfit types will use this event as well
+
+    (`Class.AvatarCreationService.AvatarModerationCompleted|AvatarModerationCompleted`
+
+    is deprecated).
+
+
+    Use `outfitType` to determine the kind of outfit that completed
+
+    moderation. This event is informational: an outfit cannot be used until
+
+    its moderation status permits it.
+
+    '
+  code_samples: []
+  parameters:
+  - name: outfitId
+    type: int64
+    default: null
+    summary: 'The outfit ID of the outfit that has completed moderation.
+
+      '
+  - name: moderationStatus
+    type: ModerationStatus
+    default: null
+    summary: 'The final `Enum.ModerationStatus` result after moderation completion.
+
+      '
+  - name: outfitType
+    type: OutfitType
+    default: null
+    summary: 'The `Enum.OutfitType` of the moderated outfit.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - DynamicGeneration
+- name: AvatarAssetModerationCompleted
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: assetId
+    type: int64
+  - name: moderationStatus
+    type: Enum.ModerationStatus
+- name: AvatarModerationCompleted
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: outfitId
+    type: int64
+  - name: moderationStatus
+    type: Enum.ModerationStatus
+- name: AvatarOutfitModerationCompleted
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: outfitId
+    type: int64
+  - name: moderationStatus
+    type: Enum.ModerationStatus
+  - name: outfitType
+    type: Enum.OutfitType
+- name: OpenSelfieConsent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: OpenSelfieQRCode
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: url
+    type: string
+  - name: jobId
+    type: string
+- name: ReplicateAvatarGenerationImageIdWithErrorType
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: fileId
+    type: string
+  - name: errorType
+    type: int
+  - name: errorMsg
+    type: string
+- name: ReplicateAvatarModel
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: id
+    type: string
+  - name: success
+    type: bool
+  - name: serializedModel
+    type: string
+  - name: bufferTable
+    type: Dictionary
+- name: ReplicateAvatarPreviewUrl
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: id
+    type: string
+  - name: downloadUrl
+    type: string
+- name: RequestAvatarGenerationImage
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: RequestAvatarModel
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: id
+    type: string
+- name: RequestAvatarPreviewUrl
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: id
+    type: string
+- name: UgcValidationFailure
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: guid
+    type: string
+  - name: errorMessage
+    type: string
+- name: UgcValidationSuccess
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: guid
+    type: string
+  - name: serializedModel
+    type: string
+  - name: price
+    type: int64
+callbacks: []

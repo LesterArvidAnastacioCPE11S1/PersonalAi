@@ -1,0 +1,2178 @@
+[
+  {
+    "text": "what time is it",
+    "tool": "system_time"
+  },
+  {
+    "text": "what's the time",
+    "tool": "system_time"
+  },
+  {
+    "text": "what time is it right now",
+    "tool": "system_time"
+  },
+  {
+    "text": "current time please",
+    "tool": "system_time"
+  },
+  {
+    "text": "do you know what time it is",
+    "tool": "system_time"
+  },
+  {
+    "text": "tell me the time",
+    "tool": "system_time"
+  },
+  {
+    "text": "what is today's date",
+    "tool": "system_time"
+  },
+  {
+    "text": "what's the date today",
+    "tool": "system_time"
+  },
+  {
+    "text": "what day is it today",
+    "tool": "system_time"
+  },
+  {
+    "text": "give me the current date and time",
+    "tool": "system_time"
+  },
+  {
+    "text": "today's date and time",
+    "tool": "system_time"
+  },
+  {
+    "text": "what month are we in",
+    "tool": "system_time"
+  },
+  {
+    "text": "what year is it",
+    "tool": "system_time"
+  },
+  {
+    "text": "check the system clock",
+    "tool": "system_time"
+  },
+  {
+    "text": "read the clock on my pc",
+    "tool": "system_time"
+  },
+  {
+    "text": "what time does this pc show",
+    "tool": "system_time"
+  },
+  {
+    "text": "show me the local time",
+    "tool": "system_time"
+  },
+  {
+    "text": "local date and time",
+    "tool": "system_time"
+  },
+  {
+    "text": "time and date on this computer",
+    "tool": "system_time"
+  },
+  {
+    "text": "is it morning or night right now",
+    "tool": "system_time"
+  },
+  {
+    "text": "what's the timezone here",
+    "tool": "system_time"
+  },
+  {
+    "text": "what is my timezone",
+    "tool": "system_time"
+  },
+  {
+    "text": "what time is it on this machine",
+    "tool": "system_time"
+  },
+  {
+    "text": "tell me the exact time",
+    "tool": "system_time"
+  },
+  {
+    "text": "what date is it",
+    "tool": "system_time"
+  },
+  {
+    "text": "day of the week today",
+    "tool": "system_time"
+  },
+  {
+    "text": "time check",
+    "tool": "system_time"
+  },
+  {
+    "text": "what time is it in new york",
+    "tool": "system_time"
+  },
+  {
+    "text": "what time is it in london",
+    "tool": "system_time"
+  },
+  {
+    "text": "current time in tokyo",
+    "tool": "system_time"
+  },
+  {
+    "text": "time in the uk right now",
+    "tool": "system_time"
+  },
+  {
+    "text": "what time is it in manila",
+    "tool": "system_time"
+  },
+  {
+    "text": "date in australia today",
+    "tool": "system_time"
+  },
+  {
+    "text": "how late is it in germany",
+    "tool": "system_time"
+  },
+  {
+    "text": "time over in california",
+    "tool": "system_time"
+  },
+  {
+    "text": "how much ram does this pc have",
+    "tool": "system_info"
+  },
+  {
+    "text": "how much memory is free",
+    "tool": "system_info"
+  },
+  {
+    "text": "what cpu is this",
+    "tool": "system_info"
+  },
+  {
+    "text": "what gpu do i have",
+    "tool": "system_info"
+  },
+  {
+    "text": "tell me my system specs",
+    "tool": "system_info"
+  },
+  {
+    "text": "system info",
+    "tool": "system_info"
+  },
+  {
+    "text": "pc specs",
+    "tool": "system_info"
+  },
+  {
+    "text": "what operating system is this",
+    "tool": "system_info"
+  },
+  {
+    "text": "what windows version am i on",
+    "tool": "system_info"
+  },
+  {
+    "text": "how much disk space is left",
+    "tool": "system_info"
+  },
+  {
+    "text": "how much free space is on my drive",
+    "tool": "system_info"
+  },
+  {
+    "text": "how much storage is remaining",
+    "tool": "system_info"
+  },
+  {
+    "text": "how many cores does my cpu have",
+    "tool": "system_info"
+  },
+  {
+    "text": "what's my processor",
+    "tool": "system_info"
+  },
+  {
+    "text": "describe my computer",
+    "tool": "system_info"
+  },
+  {
+    "text": "what are the specs of this machine",
+    "tool": "system_info"
+  },
+  {
+    "text": "check my hardware",
+    "tool": "system_info"
+  },
+  {
+    "text": "disk usage of my drives",
+    "tool": "system_info"
+  },
+  {
+    "text": "how big is my hard drive",
+    "tool": "system_info"
+  },
+  {
+    "text": "what is my machine info",
+    "tool": "system_info"
+  },
+  {
+    "text": "hardware details",
+    "tool": "system_info"
+  },
+  {
+    "text": "system details",
+    "tool": "system_info"
+  },
+  {
+    "text": "what os am i running",
+    "tool": "system_info"
+  },
+  {
+    "text": "how much ram is installed",
+    "tool": "system_info"
+  },
+  {
+    "text": "is my disk full",
+    "tool": "system_info"
+  },
+  {
+    "text": "free disk space",
+    "tool": "system_info"
+  },
+  {
+    "text": "pc hardware summary",
+    "tool": "system_info"
+  },
+  {
+    "text": "what graphics card do i have",
+    "tool": "system_info"
+  },
+  {
+    "text": "tell me about this machine",
+    "tool": "system_info"
+  },
+  {
+    "text": "what are my computer specs",
+    "tool": "system_info"
+  },
+  {
+    "text": "list the files in my documents",
+    "tool": "files_list"
+  },
+  {
+    "text": "show me the files in the project folder",
+    "tool": "files_list"
+  },
+  {
+    "text": "list files in the personal ai project",
+    "tool": "files_list"
+  },
+  {
+    "text": "show folder contents of my documents",
+    "tool": "files_list"
+  },
+  {
+    "text": "what's inside my documents folder",
+    "tool": "files_list"
+  },
+  {
+    "text": "list the contents of the project directory",
+    "tool": "files_list"
+  },
+  {
+    "text": "show me what's in that folder",
+    "tool": "files_list"
+  },
+  {
+    "text": "enumerate files in the project",
+    "tool": "files_list"
+  },
+  {
+    "text": "what files exist in the root of my project",
+    "tool": "files_list"
+  },
+  {
+    "text": "list folders in documents",
+    "tool": "files_list"
+  },
+  {
+    "text": "show the directory listing",
+    "tool": "files_list"
+  },
+  {
+    "text": "give me the files in this folder",
+    "tool": "files_list"
+  },
+  {
+    "text": "what's in the main project folder",
+    "tool": "files_list"
+  },
+  {
+    "text": "show items in my documents directory",
+    "tool": "files_list"
+  },
+  {
+    "text": "list everything in the project root",
+    "tool": "files_list"
+  },
+  {
+    "text": "what subfolders are in my project",
+    "tool": "files_list"
+  },
+  {
+    "text": "files in documents folder",
+    "tool": "files_list"
+  },
+  {
+    "text": "contents of documents",
+    "tool": "files_list"
+  },
+  {
+    "text": "list the project files",
+    "tool": "files_list"
+  },
+  {
+    "text": "show me the file names in that directory",
+    "tool": "files_list"
+  },
+  {
+    "text": "what is in my personal ai folder",
+    "tool": "files_list"
+  },
+  {
+    "text": "list the entries of the current folder",
+    "tool": "files_list"
+  },
+  {
+    "text": "what folders are in my documents",
+    "tool": "files_list"
+  },
+  {
+    "text": "show me the contents of the web folder",
+    "tool": "files_list"
+  },
+  {
+    "text": "what files are in the features directory",
+    "tool": "files_list"
+  },
+  {
+    "text": "list the data folder",
+    "tool": "files_list"
+  },
+  {
+    "text": "what is inside the core folder",
+    "tool": "files_list"
+  },
+  {
+    "text": "show the files under models",
+    "tool": "files_list"
+  },
+  {
+    "text": "what is in my documents",
+    "tool": "files_list"
+  },
+  {
+    "text": "can you list my project directory",
+    "tool": "files_list"
+  },
+  {
+    "text": "find files named config",
+    "tool": "files_search"
+  },
+  {
+    "text": "search for readme files",
+    "tool": "files_search"
+  },
+  {
+    "text": "find a file called train.py",
+    "tool": "files_search"
+  },
+  {
+    "text": "look for any pdf in my documents",
+    "tool": "files_search"
+  },
+  {
+    "text": "search my documents for invoices",
+    "tool": "files_search"
+  },
+  {
+    "text": "find files containing the word fastapi",
+    "tool": "files_search"
+  },
+  {
+    "text": "search the project for todo",
+    "tool": "files_search"
+  },
+  {
+    "text": "find where load_config is defined",
+    "tool": "files_search"
+  },
+  {
+    "text": "locate config.json",
+    "tool": "files_search"
+  },
+  {
+    "text": "find files with the name requirements",
+    "tool": "files_search"
+  },
+  {
+    "text": "search for python files in the project",
+    "tool": "files_search"
+  },
+  {
+    "text": "grep the project for store",
+    "tool": "files_search"
+  },
+  {
+    "text": "find all files matching *.json",
+    "tool": "files_search"
+  },
+  {
+    "text": "look for photos in documents",
+    "tool": "files_search"
+  },
+  {
+    "text": "find files about taxes in my documents",
+    "tool": "files_search"
+  },
+  {
+    "text": "search contents for personal_ai.db",
+    "tool": "files_search"
+  },
+  {
+    "text": "which file mentions begin story",
+    "tool": "files_search"
+  },
+  {
+    "text": "find the file that contains model.generate",
+    "tool": "files_search"
+  },
+  {
+    "text": "look up files called notes",
+    "tool": "files_search"
+  },
+  {
+    "text": "search filenames for backup",
+    "tool": "files_search"
+  },
+  {
+    "text": "find any markdown files in the project",
+    "tool": "files_search"
+  },
+  {
+    "text": "look for a file named todo.txt",
+    "tool": "files_search"
+  },
+  {
+    "text": "scan documents for the word invoice",
+    "tool": "files_search"
+  },
+  {
+    "text": "find code that references attachments",
+    "tool": "files_search"
+  },
+  {
+    "text": "search the repo for intent_model",
+    "tool": "files_search"
+  },
+  {
+    "text": "where is the file server.py",
+    "tool": "files_search"
+  },
+  {
+    "text": "do i have any files with backup in the name",
+    "tool": "files_search"
+  },
+  {
+    "text": "find every requirements.txt",
+    "tool": "files_search"
+  },
+  {
+    "text": "search for text matching doll",
+    "tool": "files_search"
+  },
+  {
+    "text": "find the folder that contains the tools data",
+    "tool": "files_search"
+  },
+  {
+    "text": "read the config file",
+    "tool": "files_read"
+  },
+  {
+    "text": "show me the contents of readme",
+    "tool": "files_read"
+  },
+  {
+    "text": "open config.json and show it",
+    "tool": "files_read"
+  },
+  {
+    "text": "read the file at F:\\MainProjects\\PersonalAi\\config.py",
+    "tool": "files_read"
+  },
+  {
+    "text": "what's inside requirements.txt",
+    "tool": "files_read"
+  },
+  {
+    "text": "print the contents of server.py",
+    "tool": "files_read"
+  },
+  {
+    "text": "show me the first lines of main.py",
+    "tool": "files_read"
+  },
+  {
+    "text": "read my notes file",
+    "tool": "files_read"
+  },
+  {
+    "text": "show the text in that document",
+    "tool": "files_read"
+  },
+  {
+    "text": "open the file and tell me what it says",
+    "tool": "files_read"
+  },
+  {
+    "text": "read the story i saved",
+    "tool": "files_read"
+  },
+  {
+    "text": "display the contents of that file",
+    "tool": "files_read"
+  },
+  {
+    "text": "show me what's written in notes.txt",
+    "tool": "files_read"
+  },
+  {
+    "text": "give me the contents of the readme",
+    "tool": "files_read"
+  },
+  {
+    "text": "read lines 1 to 20 of app.js",
+    "tool": "files_read"
+  },
+  {
+    "text": "show me the top of the file",
+    "tool": "files_read"
+  },
+  {
+    "text": "what does settings.json contain",
+    "tool": "files_read"
+  },
+  {
+    "text": "read that file for me",
+    "tool": "files_read"
+  },
+  {
+    "text": "load the file content",
+    "tool": "files_read"
+  },
+  {
+    "text": "cat the readme",
+    "tool": "files_read"
+  },
+  {
+    "text": "show the beginning of config.py",
+    "tool": "files_read"
+  },
+  {
+    "text": "tell me what is in the file",
+    "tool": "files_read"
+  },
+  {
+    "text": "read the document in my documents folder",
+    "tool": "files_read"
+  },
+  {
+    "text": "open the markdown file about the project",
+    "tool": "files_read"
+  },
+  {
+    "text": "read the license file",
+    "tool": "files_read"
+  },
+  {
+    "text": "show me the text of todo.txt",
+    "tool": "files_read"
+  },
+  {
+    "text": "what is written in the readme file",
+    "tool": "files_read"
+  },
+  {
+    "text": "read server.py from the top",
+    "tool": "files_read"
+  },
+  {
+    "text": "print lines 40 to 80 of persona.py",
+    "tool": "files_read"
+  },
+  {
+    "text": "open the file called notes",
+    "tool": "files_read"
+  },
+  {
+    "text": "hello",
+    "tool": "none"
+  },
+  {
+    "text": "hey there",
+    "tool": "none"
+  },
+  {
+    "text": "how are you",
+    "tool": "none"
+  },
+  {
+    "text": "tell me a joke",
+    "tool": "none"
+  },
+  {
+    "text": "what is the capital of france",
+    "tool": "none"
+  },
+  {
+    "text": "explain recursion",
+    "tool": "none"
+  },
+  {
+    "text": "write a poem about rain",
+    "tool": "none"
+  },
+  {
+    "text": "continue the story",
+    "tool": "none"
+  },
+  {
+    "text": "tell me a story about dragons",
+    "tool": "none"
+  },
+  {
+    "text": "what do you think about ai",
+    "tool": "none"
+  },
+  {
+    "text": "help me plan a workout",
+    "tool": "none"
+  },
+  {
+    "text": "translate this to spanish",
+    "tool": "none"
+  },
+  {
+    "text": "how do i cook rice",
+    "tool": "none"
+  },
+  {
+    "text": "what's the meaning of life",
+    "tool": "none"
+  },
+  {
+    "text": "can you help me debug this code",
+    "tool": "none"
+  },
+  {
+    "text": "why is the sky blue",
+    "tool": "none"
+  },
+  {
+    "text": "who painted the mona lisa",
+    "tool": "none"
+  },
+  {
+    "text": "recommend a movie",
+    "tool": "none"
+  },
+  {
+    "text": "summarize this paragraph",
+    "tool": "none"
+  },
+  {
+    "text": "good morning",
+    "tool": "none"
+  },
+  {
+    "text": "thanks",
+    "tool": "none"
+  },
+  {
+    "text": "that's interesting",
+    "tool": "none"
+  },
+  {
+    "text": "let's roleplay a scene",
+    "tool": "none"
+  },
+  {
+    "text": "describe a sunset",
+    "tool": "none"
+  },
+  {
+    "text": "what is fastapi",
+    "tool": "none"
+  },
+  {
+    "text": "how does a transformer work",
+    "tool": "none"
+  },
+  {
+    "text": "write python code for a calculator",
+    "tool": "none"
+  },
+  {
+    "text": "make the story darker",
+    "tool": "none"
+  },
+  {
+    "text": "continue where we left off",
+    "tool": "none"
+  },
+  {
+    "text": "say something sexy",
+    "tool": "none"
+  },
+  {
+    "text": "what are you",
+    "tool": "none"
+  },
+  {
+    "text": "are you online",
+    "tool": "none"
+  },
+  {
+    "text": "can you see my screen",
+    "tool": "none"
+  },
+  {
+    "text": "tell me about yourself",
+    "tool": "none"
+  },
+  {
+    "text": "what's your name",
+    "tool": "none"
+  },
+  {
+    "text": "do you have feelings",
+    "tool": "none"
+  },
+  {
+    "text": "i'm bored",
+    "tool": "none"
+  },
+  {
+    "text": "give me ideas for a novel",
+    "tool": "none"
+  },
+  {
+    "text": "make a list of names",
+    "tool": "none"
+  },
+  {
+    "text": "what should i eat today",
+    "tool": "none"
+  },
+  {
+    "text": "remember that i like coffee",
+    "tool": "none"
+  },
+  {
+    "text": "save this to memory",
+    "tool": "none"
+  },
+  {
+    "text": "open the settings",
+    "tool": "none"
+  },
+  {
+    "text": "new chat",
+    "tool": "none"
+  },
+  {
+    "text": "generate an image of a castle",
+    "tool": "none"
+  },
+  {
+    "text": "switch to story mode",
+    "tool": "none"
+  },
+  {
+    "text": "let's chat",
+    "tool": "none"
+  },
+  {
+    "text": "good night",
+    "tool": "none"
+  },
+  {
+    "text": "thank you",
+    "tool": "none"
+  },
+  {
+    "text": "that was funny",
+    "tool": "none"
+  },
+  {
+    "text": "i don't like that",
+    "tool": "none"
+  },
+  {
+    "text": "never mind",
+    "tool": "none"
+  },
+  {
+    "text": "okay",
+    "tool": "none"
+  },
+  {
+    "text": "continue",
+    "tool": "none"
+  },
+  {
+    "text": "go on",
+    "tool": "none"
+  },
+  {
+    "text": "what happened next",
+    "tool": "none"
+  },
+  {
+    "text": "make it shorter",
+    "tool": "none"
+  },
+  {
+    "text": "make it longer",
+    "tool": "none"
+  },
+  {
+    "text": "rewrite that",
+    "tool": "none"
+  },
+  {
+    "text": "describe her dress in detail",
+    "tool": "none"
+  },
+  {
+    "text": "how old are you",
+    "tool": "none"
+  },
+  {
+    "text": "what model are you",
+    "tool": "none"
+  },
+  {
+    "text": "do you know the time in tokyo",
+    "tool": "system_time"
+  },
+  {
+    "text": "can you get the current time for me",
+    "tool": "system_time"
+  },
+  {
+    "text": "what is the time on this computer",
+    "tool": "system_time"
+  },
+  {
+    "text": "look at my pc specs",
+    "tool": "system_info"
+  },
+  {
+    "text": "open the folder listing for documents",
+    "tool": "files_list"
+  },
+  {
+    "text": "give me a listing of the project folder",
+    "tool": "files_list"
+  },
+  {
+    "text": "search inside my documents for receipts",
+    "tool": "files_search"
+  },
+  {
+    "text": "find the readme and show it",
+    "tool": "files_read"
+  },
+  {
+    "text": "read out loud the file",
+    "tool": "files_read"
+  },
+  {
+    "text": "what files are on my desktop",
+    "tool": "none"
+  },
+  {
+    "text": "open my browser",
+    "tool": "none"
+  },
+  {
+    "text": "run a virus scan",
+    "tool": "none"
+  },
+  {
+    "text": "shut down my pc",
+    "tool": "none"
+  },
+  {
+    "text": "take a screenshot",
+    "tool": "none"
+  },
+  {
+    "text": "write a file for me",
+    "tool": "none"
+  },
+  {
+    "text": "delete that file",
+    "tool": "none"
+  },
+  {
+    "text": "install a program",
+    "tool": "none"
+  },
+  {
+    "text": "what's the weather today",
+    "tool": "none"
+  },
+  {
+    "text": "search the web for news",
+    "tool": "none"
+  },
+  {
+    "text": "tell me the score of the game",
+    "tool": "none"
+  },
+  {
+    "text": "how many messages have we sent",
+    "tool": "none"
+  },
+  {
+    "text": "what did we talk about earlier",
+    "tool": "none"
+  },
+  {
+    "text": "recap the story so far",
+    "tool": "none"
+  },
+  {
+    "text": "start the story",
+    "tool": "none"
+  },
+  {
+    "text": "go to story mode",
+    "tool": "none"
+  },
+  {
+    "text": "let's just chat",
+    "tool": "none"
+  },
+  {
+    "text": "stop roleplaying",
+    "tool": "none"
+  },
+  {
+    "text": "make the scene more intense",
+    "tool": "none"
+  },
+  {
+    "text": "write the next paragraph",
+    "tool": "none"
+  },
+  {
+    "text": "describe the room",
+    "tool": "none"
+  },
+  {
+    "text": "what are the limits of this chat",
+    "tool": "none"
+  },
+  {
+    "text": "can you help me with my homework",
+    "tool": "none"
+  },
+  {
+    "text": "give me a recipe",
+    "tool": "none"
+  },
+  {
+    "text": "explain quantum computing simply",
+    "tool": "none"
+  },
+  {
+    "text": "help me name my character",
+    "tool": "none"
+  },
+  {
+    "text": "brainstorm villain ideas",
+    "tool": "none"
+  },
+  {
+    "text": "what's a good opening line",
+    "tool": "none"
+  },
+  {
+    "text": "is this sentence grammatically correct",
+    "tool": "none"
+  },
+  {
+    "text": "what does this word mean",
+    "tool": "none"
+  },
+  {
+    "text": "tell me something interesting",
+    "tool": "none"
+  },
+  {
+    "text": "create a file called notes.txt",
+    "tool": "files_write"
+  },
+  {
+    "text": "write a new file named todo.md",
+    "tool": "files_write"
+  },
+  {
+    "text": "make a text file with my grocery list",
+    "tool": "files_write"
+  },
+  {
+    "text": "save this to notes.txt",
+    "tool": "files_write"
+  },
+  {
+    "text": "put this in a file called ideas.md",
+    "tool": "files_write"
+  },
+  {
+    "text": "create notes.txt in Documents with the following text",
+    "tool": "files_write"
+  },
+  {
+    "text": "write hello world to test.txt",
+    "tool": "files_write"
+  },
+  {
+    "text": "make a file in the project called summary.md",
+    "tool": "files_write"
+  },
+  {
+    "text": "overwrite notes.txt with this text",
+    "tool": "files_write"
+  },
+  {
+    "text": "replace the contents of todo.md",
+    "tool": "files_write"
+  },
+  {
+    "text": "make a python file that prints hello",
+    "tool": "files_write"
+  },
+  {
+    "text": "create a readme file for the project",
+    "tool": "files_write"
+  },
+  {
+    "text": "write my schedule to a file",
+    "tool": "files_write"
+  },
+  {
+    "text": "save the list as contacts.txt",
+    "tool": "files_write"
+  },
+  {
+    "text": "create a json file with these settings",
+    "tool": "files_write"
+  },
+  {
+    "text": "make a new markdown file",
+    "tool": "files_write"
+  },
+  {
+    "text": "store this text in a new file",
+    "tool": "files_write"
+  },
+  {
+    "text": "write a script file for me",
+    "tool": "files_write"
+  },
+  {
+    "text": "write this paragraph into chapter1.txt",
+    "tool": "files_write"
+  },
+  {
+    "text": "make a file called config_backup.json and put this json in it",
+    "tool": "files_write"
+  },
+  {
+    "text": "save the response to output.txt",
+    "tool": "files_write"
+  },
+  {
+    "text": "create a file with the notes below",
+    "tool": "files_write"
+  },
+  {
+    "text": "write the summary into summary.md",
+    "tool": "files_write"
+  },
+  {
+    "text": "generate a text file with the ideas",
+    "tool": "files_write"
+  },
+  {
+    "text": "put this code in main.py",
+    "tool": "files_write"
+  },
+  {
+    "text": "create a file named readme.md",
+    "tool": "files_write"
+  },
+  {
+    "text": "write this into a file on my pc",
+    "tool": "files_write"
+  },
+  {
+    "text": "make a file with the final list",
+    "tool": "files_write"
+  },
+  {
+    "text": "run git status",
+    "tool": "run_command"
+  },
+  {
+    "text": "execute the command git log",
+    "tool": "run_command"
+  },
+  {
+    "text": "run npm install",
+    "tool": "run_command"
+  },
+  {
+    "text": "run the test suite",
+    "tool": "run_command"
+  },
+  {
+    "text": "execute pytest",
+    "tool": "run_command"
+  },
+  {
+    "text": "run pip install requests",
+    "tool": "run_command"
+  },
+  {
+    "text": "start the server",
+    "tool": "run_command"
+  },
+  {
+    "text": "run the app",
+    "tool": "run_command"
+  },
+  {
+    "text": "execute a shell command",
+    "tool": "run_command"
+  },
+  {
+    "text": "run python main.py",
+    "tool": "run_command"
+  },
+  {
+    "text": "check the git branch with git branch",
+    "tool": "run_command"
+  },
+  {
+    "text": "run git pull",
+    "tool": "run_command"
+  },
+  {
+    "text": "run git diff",
+    "tool": "run_command"
+  },
+  {
+    "text": "execute git commit",
+    "tool": "run_command"
+  },
+  {
+    "text": "run the build",
+    "tool": "run_command"
+  },
+  {
+    "text": "run this command in the terminal",
+    "tool": "run_command"
+  },
+  {
+    "text": "open a terminal and run dir",
+    "tool": "run_command"
+  },
+  {
+    "text": "run node --version",
+    "tool": "run_command"
+  },
+  {
+    "text": "execute where python",
+    "tool": "run_command"
+  },
+  {
+    "text": "run ipconfig",
+    "tool": "run_command"
+  },
+  {
+    "text": "run the linter",
+    "tool": "run_command"
+  },
+  {
+    "text": "run pip list",
+    "tool": "run_command"
+  },
+  {
+    "text": "run npm run build",
+    "tool": "run_command"
+  },
+  {
+    "text": "run python --version",
+    "tool": "run_command"
+  },
+  {
+    "text": "execute git status in the project",
+    "tool": "run_command"
+  },
+  {
+    "text": "run the script",
+    "tool": "run_command"
+  },
+  {
+    "text": "run this command for me",
+    "tool": "run_command"
+  },
+  {
+    "text": "execute the command below",
+    "tool": "run_command"
+  },
+  {
+    "text": "write a story about a dragon",
+    "tool": "none"
+  },
+  {
+    "text": "write a poem about the sea",
+    "tool": "none"
+  },
+  {
+    "text": "write an essay on climate change",
+    "tool": "none"
+  },
+  {
+    "text": "write me a short story",
+    "tool": "none"
+  },
+  {
+    "text": "write some code for a calculator",
+    "tool": "none"
+  },
+  {
+    "text": "write a letter to my friend",
+    "tool": "none"
+  },
+  {
+    "text": "write a song",
+    "tool": "none"
+  },
+  {
+    "text": "write a joke",
+    "tool": "none"
+  },
+  {
+    "text": "write a summary of this chat",
+    "tool": "none"
+  },
+  {
+    "text": "write dialogue for two characters",
+    "tool": "none"
+  },
+  {
+    "text": "make a plan for my week",
+    "tool": "none"
+  },
+  {
+    "text": "create a character for my story",
+    "tool": "none"
+  },
+  {
+    "text": "move notes.txt to the Documents folder",
+    "tool": "files_move"
+  },
+  {
+    "text": "move notes.txt to Documents",
+    "tool": "files_move"
+  },
+  {
+    "text": "rename config.py to config_old.py",
+    "tool": "files_move"
+  },
+  {
+    "text": "rename this file to readme_old.md",
+    "tool": "files_move"
+  },
+  {
+    "text": "put todo.md into the archive folder",
+    "tool": "files_move"
+  },
+  {
+    "text": "move the file test.txt into Documents",
+    "tool": "files_move"
+  },
+  {
+    "text": "move summary.md to the project folder",
+    "tool": "files_move"
+  },
+  {
+    "text": "move main.py to the scripts folder",
+    "tool": "files_move"
+  },
+  {
+    "text": "organize this file into Documents",
+    "tool": "files_move"
+  },
+  {
+    "text": "move it to the project root",
+    "tool": "files_move"
+  },
+  {
+    "text": "rename the file notes.txt",
+    "tool": "files_move"
+  },
+  {
+    "text": "change the name of notes.txt to todo.txt",
+    "tool": "files_move"
+  },
+  {
+    "text": "relocate the file report.txt",
+    "tool": "files_move"
+  },
+  {
+    "text": "move this text file into my Documents folder",
+    "tool": "files_move"
+  },
+  {
+    "text": "move readme.md into docs",
+    "tool": "files_move"
+  },
+  {
+    "text": "rename myfile.py to old_myfile.py",
+    "tool": "files_move"
+  },
+  {
+    "text": "move the log file to the archive",
+    "tool": "files_move"
+  },
+  {
+    "text": "transfer notes.txt to Documents",
+    "tool": "files_move"
+  },
+  {
+    "text": "put this file in the documents directory",
+    "tool": "files_move"
+  },
+  {
+    "text": "rename this markdown file to chapter1.md",
+    "tool": "files_move"
+  },
+  {
+    "text": "move screenshot.png to Documents",
+    "tool": "files_move"
+  },
+  {
+    "text": "move data.json into the data folder",
+    "tool": "files_move"
+  },
+  {
+    "text": "rename file.txt to file_backup.txt",
+    "tool": "files_move"
+  },
+  {
+    "text": "move the draft into the drafts folder",
+    "tool": "files_move"
+  },
+  {
+    "text": "move output.txt out of the project folder",
+    "tool": "files_move"
+  },
+  {
+    "text": "rename todo.md to done.md",
+    "tool": "files_move"
+  },
+  {
+    "text": "move chapter1.txt to the chapters folder",
+    "tool": "files_move"
+  },
+  {
+    "text": "move the downloaded file into Documents",
+    "tool": "files_move"
+  },
+  {
+    "text": "move the story forward",
+    "tool": "none"
+  },
+  {
+    "text": "move the character to the left",
+    "tool": "none"
+  },
+  {
+    "text": "rename the main character",
+    "tool": "none"
+  },
+  {
+    "text": "move on to the next scene",
+    "tool": "none"
+  },
+  {
+    "text": "move the camera closer",
+    "tool": "none"
+  },
+  {
+    "text": "rename the villain",
+    "tool": "none"
+  },
+  {
+    "text": "move the plot along faster",
+    "tool": "none"
+  },
+  {
+    "text": "move the action to the castle",
+    "tool": "none"
+  },
+  {
+    "text": "delete notes.txt",
+    "tool": "files_delete"
+  },
+  {
+    "text": "remove the file test.txt",
+    "tool": "files_delete"
+  },
+  {
+    "text": "delete this file",
+    "tool": "files_delete"
+  },
+  {
+    "text": "get rid of todo.md",
+    "tool": "files_delete"
+  },
+  {
+    "text": "trash config_old.py",
+    "tool": "files_delete"
+  },
+  {
+    "text": "delete myfile.py from the project",
+    "tool": "files_delete"
+  },
+  {
+    "text": "remove notes.txt from Documents",
+    "tool": "files_delete"
+  },
+  {
+    "text": "delete the downloaded file",
+    "tool": "files_delete"
+  },
+  {
+    "text": "clean up test.txt",
+    "tool": "files_delete"
+  },
+  {
+    "text": "delete the log file",
+    "tool": "files_delete"
+  },
+  {
+    "text": "remove this text file",
+    "tool": "files_delete"
+  },
+  {
+    "text": "erase notes.txt",
+    "tool": "files_delete"
+  },
+  {
+    "text": "delete chapter1.txt",
+    "tool": "files_delete"
+  },
+  {
+    "text": "remove the old backup file",
+    "tool": "files_delete"
+  },
+  {
+    "text": "throw away draft.md",
+    "tool": "files_delete"
+  },
+  {
+    "text": "delete output.txt",
+    "tool": "files_delete"
+  },
+  {
+    "text": "remove that file I created",
+    "tool": "files_delete"
+  },
+  {
+    "text": "delete the file called temp.txt",
+    "tool": "files_delete"
+  },
+  {
+    "text": "delete the screenshot",
+    "tool": "files_delete"
+  },
+  {
+    "text": "delete temp.json",
+    "tool": "files_delete"
+  },
+  {
+    "text": "get rid of the draft file",
+    "tool": "files_delete"
+  },
+  {
+    "text": "delete this markdown file",
+    "tool": "files_delete"
+  },
+  {
+    "text": "trash the old report",
+    "tool": "files_delete"
+  },
+  {
+    "text": "remove summary.md",
+    "tool": "files_delete"
+  },
+  {
+    "text": "delete the extra txt file",
+    "tool": "files_delete"
+  },
+  {
+    "text": "remove unused python file",
+    "tool": "files_delete"
+  },
+  {
+    "text": "delete readme_old.md",
+    "tool": "files_delete"
+  },
+  {
+    "text": "move test.txt to the trash",
+    "tool": "files_delete"
+  },
+  {
+    "text": "delete the character",
+    "tool": "none"
+  },
+  {
+    "text": "remove the villain from the story",
+    "tool": "none"
+  },
+  {
+    "text": "delete that scene",
+    "tool": "none"
+  },
+  {
+    "text": "erase the memory of the character",
+    "tool": "none"
+  },
+  {
+    "text": "remove the last paragraph",
+    "tool": "none"
+  },
+  {
+    "text": "delete the message",
+    "tool": "none"
+  },
+  {
+    "text": "erase the whole chapter",
+    "tool": "none"
+  },
+  {
+    "text": "delete this chat",
+    "tool": "none"
+  },
+  {
+    "text": "remove the plot hole",
+    "tool": "none"
+  },
+  {
+    "text": "alright i wanna test some of your capabilities so can you check: f:\\haarcascade",
+    "tool": "files_list"
+  },
+  {
+    "text": "i want to test your capabilities, can you check d:\\projects",
+    "tool": "files_list"
+  },
+  {
+    "text": "can you check: c:\\users\\me\\documents",
+    "tool": "files_list"
+  },
+  {
+    "text": "can you check f:\\games for me",
+    "tool": "files_list"
+  },
+  {
+    "text": "check the folder f:\\haarcascade",
+    "tool": "files_list"
+  },
+  {
+    "text": "can you look at c:\\users\\me\\desktop",
+    "tool": "files_list"
+  },
+  {
+    "text": "take a look at d:\\photos",
+    "tool": "files_list"
+  },
+  {
+    "text": "check what's in f:\\ai",
+    "tool": "files_list"
+  },
+  {
+    "text": "can you see what's inside c:\\windows\\temp",
+    "tool": "files_list"
+  },
+  {
+    "text": "test your file access, list c:\\users",
+    "tool": "files_list"
+  },
+  {
+    "text": "show me if this folder exists f:\\haarcascade",
+    "tool": "files_list"
+  },
+  {
+    "text": "does f:\\haarcascade exist",
+    "tool": "files_list"
+  },
+  {
+    "text": "check this path for me: d:\\downloads",
+    "tool": "files_list"
+  },
+  {
+    "text": "can you check my documents folder",
+    "tool": "files_list"
+  },
+  {
+    "text": "check the project directory",
+    "tool": "files_list"
+  },
+  {
+    "text": "can you check the time",
+    "tool": "system_time"
+  },
+  {
+    "text": "check the clock for me",
+    "tool": "system_time"
+  },
+  {
+    "text": "alright i wanna test some of your capabilities",
+    "tool": "none"
+  },
+  {
+    "text": "i want to test what you can do",
+    "tool": "none"
+  },
+  {
+    "text": "test your capabilities",
+    "tool": "none"
+  },
+  {
+    "text": "can you check if you are working",
+    "tool": "none"
+  },
+  {
+    "text": "what can you do",
+    "tool": "none"
+  },
+  {
+    "text": "can you check your memory",
+    "tool": "none"
+  },
+  {
+    "text": "let's see what you can do",
+    "tool": "none"
+  },
+  {
+    "text": "now delete that folder",
+    "tool": "files_delete"
+  },
+  {
+    "text": "delete that folder",
+    "tool": "files_delete"
+  },
+  {
+    "text": "delete this folder",
+    "tool": "files_delete"
+  },
+  {
+    "text": "delete the folder you just checked",
+    "tool": "files_delete"
+  },
+  {
+    "text": "delete the folder f:\\haarcascade",
+    "tool": "files_delete"
+  },
+  {
+    "text": "remove that folder",
+    "tool": "files_delete"
+  },
+  {
+    "text": "trash that folder",
+    "tool": "files_delete"
+  },
+  {
+    "text": "get rid of that folder",
+    "tool": "files_delete"
+  },
+  {
+    "text": "erase that directory",
+    "tool": "files_delete"
+  },
+  {
+    "text": "delete that whole folder",
+    "tool": "files_delete"
+  },
+  {
+    "text": "move that folder into the trash",
+    "tool": "files_delete"
+  },
+  {
+    "text": "clean up that folder",
+    "tool": "files_delete"
+  },
+  {
+    "text": "now remove it",
+    "tool": "files_delete"
+  },
+  {
+    "text": "now get rid of it",
+    "tool": "files_delete"
+  },
+  {
+    "text": "delete that character",
+    "tool": "none"
+  },
+  {
+    "text": "delete this message",
+    "tool": "none"
+  },
+  {
+    "text": "delete the last paragraph",
+    "tool": "none"
+  },
+  {
+    "text": "remove that line from the story",
+    "tool": "none"
+  },
+  {
+    "text": "can you delete it",
+    "tool": "files_delete"
+  },
+  {
+    "text": "can you delete that",
+    "tool": "files_delete"
+  },
+  {
+    "text": "could you delete it",
+    "tool": "files_delete"
+  },
+  {
+    "text": "can you delete it for me",
+    "tool": "files_delete"
+  },
+  {
+    "text": "can you remove it",
+    "tool": "files_delete"
+  },
+  {
+    "text": "can you trash it",
+    "tool": "files_delete"
+  },
+  {
+    "text": "can you move it",
+    "tool": "files_move"
+  },
+  {
+    "text": "can you move that",
+    "tool": "files_move"
+  },
+  {
+    "text": "could you move it to documents",
+    "tool": "files_move"
+  },
+  {
+    "text": "can you read it",
+    "tool": "files_read"
+  },
+  {
+    "text": "can you open that file",
+    "tool": "files_read"
+  },
+  {
+    "text": "can you look at it",
+    "tool": "files_read"
+  },
+  {
+    "text": "can you check it",
+    "tool": "files_list"
+  },
+  {
+    "text": "can you list that folder",
+    "tool": "files_list"
+  },
+  {
+    "text": "can you find it",
+    "tool": "files_search"
+  },
+  {
+    "text": "can you search for it",
+    "tool": "files_search"
+  },
+  {
+    "text": "can you write that to a file",
+    "tool": "files_write"
+  },
+  {
+    "text": "can you save it as notes.txt",
+    "tool": "files_write"
+  },
+  {
+    "text": "can you explain it",
+    "tool": "none"
+  },
+  {
+    "text": "can you summarize it",
+    "tool": "none"
+  },
+  {
+    "text": "can you fix it",
+    "tool": "none"
+  },
+  {
+    "text": "can you translate it",
+    "tool": "none"
+  },
+  {
+    "text": "check F and tell me what docx files are there",
+    "tool": "files_search"
+  },
+  {
+    "text": "check: F:/ and tell me what are the current docx files only",
+    "tool": "files_search"
+  },
+  {
+    "text": "what are the current docx files on the F drive",
+    "tool": "files_search"
+  },
+  {
+    "text": "find all docx files on the F drive",
+    "tool": "files_search"
+  },
+  {
+    "text": "search the F drive for docx files",
+    "tool": "files_search"
+  },
+  {
+    "text": "list only the docx files on F",
+    "tool": "files_search"
+  },
+  {
+    "text": "which files on F are docx",
+    "tool": "files_search"
+  },
+  {
+    "text": "find every pdf file on my drive",
+    "tool": "files_search"
+  },
+  {
+    "text": "look for all xlsx files under that folder",
+    "tool": "files_search"
+  },
+  {
+    "text": "search for any files ending in docx",
+    "tool": "files_search"
+  },
+  {
+    "text": "use a command to find all docx files on the F drive",
+    "tool": "run_command"
+  },
+  {
+    "text": "run a command that searches the whole drive for docx files",
+    "tool": "run_command"
+  },
+  {
+    "text": "search the F drive using a command",
+    "tool": "run_command"
+  },
+  {
+    "text": "run a recursive search command",
+    "tool": "run_command"
+  },
+  {
+    "text": "search with findstr for that word",
+    "tool": "run_command"
+  },
+  {
+    "text": "use where to locate python",
+    "tool": "run_command"
+  },
+  {
+    "text": "run dir /s to find the file",
+    "tool": "run_command"
+  },
+  {
+    "text": "use the command line to search for it",
+    "tool": "run_command"
+  },
+  {
+    "text": "run a powershell search for docx files",
+    "tool": "run_command"
+  },
+  {
+    "text": "use cmd to search for the folder",
+    "tool": "run_command"
+  },
+  {
+    "text": "can you run that command",
+    "tool": "run_command"
+  },
+  {
+    "text": "run a search command on the F drive",
+    "tool": "run_command"
+  },
+  {
+    "text": "what arguments does tween service create take",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "how do i tween a part",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "what is tweeninfo",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "how do i raycast in roblox",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "what are the raycastparams properties",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "how do i use workspace raycast",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "what is cframe lookat",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "how do i teleport a player",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "what does pivotto do",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "how do i use task wait",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "difference between task spawn and task defer",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "how do i make a part float",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "how do i play a sound in roblox",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "what is the datastore setasync signature",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "how do i save player data",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "what is remote event fireclient",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "how do i use collection service",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "what does getpartboundsinbox do",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "how do i use align position",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "what properties does humanoid have",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "how do i use string interpolation in luau",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "what is the buffer library",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "how do i type annotate a function in luau",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "what does http service jsonencode do",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "how do i use animation track",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "what is a model pivot",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "how do i detect when a player touches a part",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "which wait function is deprecated in roblox",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "what replaced spawn and delay",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "how do i get a service in roblox",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "what are the luau type annotations",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "how do i use actoremote in roblox",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "what is sharedtable",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "how do i use editable image",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "how do i use remote function",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "what is the new luau type solver",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "how do i make a gui button",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "what does humanoid moveto do",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "how do i weld two parts",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "how do i use apply impulse",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "what is the updated roblox api for tweening",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "how do i create a part in code",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "what is the signature of instance new",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "how do i use getattribute",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "how do i use setattribute",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "how do i use proximity prompt",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "how do i make a leaderboard",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "how do i use badges",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "how do i use players playeradded",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "what is characteradded",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "how do i use runservice heartbeat",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "how do i use tween service to move a part",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "write a roblox script that makes a coin spin",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "can you write a luau script for a dash",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "give me the code for a double jump",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "make a script that opens a door",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "show me the luau code for a kill brick",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "write code for a shop system",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "write a roblox script for a round system",
+    "tool": "luau_docs"
+  },
+  {
+    "text": "code a luau module for saving data",
+    "tool": "luau_docs"
+  }
+]

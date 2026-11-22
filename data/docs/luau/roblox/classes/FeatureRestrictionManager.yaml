@@ -1,0 +1,146 @@
+name: FeatureRestrictionManager
+type: class
+memory_category: Instances
+summary: API reference for FeatureRestrictionManager, generated automatically from
+  the Roblox API dump 0.748.0.7481526. Prose documentation is not available for this
+  class yet.
+description: API reference for FeatureRestrictionManager, generated automatically
+  from the Roblox API dump 0.748.0.7481526. Prose documentation is not available for
+  this class yet.
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+deprecation_message: ''
+properties: []
+methods: []
+events:
+- name: FeatureTimeoutAttempt
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: permanent
+    type: bool
+  - name: startTime
+    type: int64
+  - name: duration
+    type: int64
+  - name: featureRestrictionAbuseVector
+    type: Enum.FeatureRestrictionAbuseVector
+- name: FeatureTimeoutRestored
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: featureRestrictionAbuseVector
+    type: Enum.FeatureRestrictionAbuseVector
+- name: RefreshFeatureRestrictions
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: featureRestrictionAbuseVector
+    type: Enum.FeatureRestrictionAbuseVector
+- name: ShowFeatureInterventionDetails
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: featureRestrictionAbuseVector
+    type: Enum.FeatureRestrictionAbuseVector
+- name: ShowFeatureInterventionDetailsV2
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: featureRestrictionAbuseVector
+    type: Enum.FeatureRestrictionAbuseVector
+  - name: isGameJoin
+    type: bool
+- name: TimeoutChatAttempt
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: isPermanentTimeout
+    type: bool
+  - name: endTime
+    type: int64
+- name: UpdateClientFeatureTimeout
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: acknowledgeable
+    type: bool
+  - name: permanent
+    type: bool
+  - name: startTime
+    type: int64
+  - name: duration
+    type: int64
+  - name: featureRestrictionAbuseVector
+    type: Enum.FeatureRestrictionAbuseVector
+callbacks: []

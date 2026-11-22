@@ -1,0 +1,138 @@
+name: TeleportAsyncResult
+type: class
+memory_category: Instances
+summary: 'The return structure of the `TeleportAsync` function call.
+
+  '
+description: 'This class is an instance that is returned by the `TeleportAsync` function
+
+  with information about the teleport.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+deprecation_message: ''
+properties:
+- name: TeleportAsyncResult.PrivateServerId
+  summary: 'The private server ID of the destination server that the players are being
+
+    teleported to.
+
+    '
+  description: "The private server ID of the destination server that the players are\
+    \ being\nteleported to. This field is populated when the teleport targets a private\n\
+    server, including:\n\n- `Class.TeleportOptions.ReservedServerId` — The supplied\
+    \ reserved server\n  ID.\n- `Class.TeleportOptions.VipServerId` — The supplied\
+    \ VIP server ID.\n- `Class.TeleportOptions.ReservedServerAccessCode` (deprecated)\
+    \ — The\n  destination's private server ID.\n- `Class.TeleportOptions.ShouldReserveServer`\
+    \ (deprecated) — The newly\n  allocated private server ID.\n\nThis value matches\
+    \ `Class.DataModel.PrivateServerId` on the destination\nserver.\n\nFor more information\
+    \ on how to teleport players between servers, see\n[Teleporting Between Places](../../../projects/teleport.md).\n"
+  code_samples: []
+  type: string
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - Teleport
+- name: TeleportAsyncResult.ReservedServerAccessCode
+  summary: 'The access code of the reserved server that the players are being
+
+    teleported to. Populated only for legacy access-code teleports.
+
+    '
+  description: 'The access code of the reserved server that the players are being
+
+    teleported to. This field is populated only when the teleport was
+
+    initiated using a legacy `Class.TeleportOptions.ReservedServerAccessCode`
+
+    or `Class.TeleportOptions.ShouldReserveServer`. It is not populated for
+
+    teleports that use `Class.TeleportOptions.ReservedServerId` or
+
+    `Class.TeleportOptions.VipServerId`.
+
+
+    This allows developers using legacy access codes to perform subsequent
+
+    teleports to the same reserved server.
+
+
+    For more information on how to teleport players between servers, see
+
+    [Teleporting Between Places](../../../projects/teleport.md).
+
+    '
+  code_samples: []
+  type: string
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - Teleport
+- name: PrivateServerId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: ReservedServerAccessCode
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+methods: []
+events: []
+callbacks: []

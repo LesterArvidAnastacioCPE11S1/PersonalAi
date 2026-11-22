@@ -1,0 +1,196 @@
+name: CompositeValueCurve
+type: class
+memory_category: Instances
+summary: 'An animation curve that groups child `Class.FloatCurve|FloatCurves` which
+  each
+
+  animate a different component of a non-unary value.
+
+  '
+description: "An animation curve that groups child `Class.FloatCurve|FloatCurves`\
+  \ which each\nanimate a different component of a non-unary value. The\n`Class.CompositeValueCurve.CurveType|CurveType`\
+  \ property specifies the type of\nvalue to be animated and, depending on this value,\
+  \ differently named children\nare used to drive the animation of the components\
+  \ of the value.\n\nAs follows are the names of the child curves that drive the animation\
+  \ for each\npossible `Enum.CompositeValueCurveType` value for\n`Class.CompositeValueCurve.CurveType|CurveType`:\n\
+  \n- `Enum.CompositeValueCurveType.ColorRGB|ColorRGB`: { `\"R\"`, `\"G\"`, `\"B\"\
+  ` }\n- `Enum.CompositeValueCurveType.ColorHSV|ColorHSV`: { `\"H\"`, `\"S\"`, `\"\
+  V\"` }\n- `Enum.CompositeValueCurveType.NumberRange|NumberRange`: { `\"Min\"`, `\"\
+  Max\"` }\n- `Enum.CompositeValueCurveType.Rect|Rect`: { `\"MinX\"`, `\"MaxX\"`,\
+  \ `\"MinY\"`,\n  `\"MaxY\"` }\n- `Enum.CompositeValueCurveType.UDim|UDim`: { `\"\
+  Scale\"`, `\"Offset\"` }\n- `Enum.CompositeValueCurveType.UDim2|UDim2`: { `\"ScaleX\"\
+  `, `\"OffsetX\"`,\n  `\"ScaleY\"`, `\"OffsetY\"` }\n- `Enum.CompositeValueCurveType.Vector2|Vector2`:\
+  \ { `\"X\"`, `\"Y\"`}\n- `Enum.CompositeValueCurveType.Vector3|Vector3`: { `\"X\"\
+  `, `\"Y\"`, `\"Z\"` }\n\nThe children that drive the animation can be accessed via\
+  \ the\n`Class.CompositeValueCurve:GetComponentCurves()|GetComponentCurves()` method\n\
+  which returns an array of curves in the order specified above. The value of\nthe\
+  \ curve at a given time in the animation may be sampled by the\n`Class.CompositeValueCurve:GetValueAtTime()|GetValueAtTime()`\
+  \ method.\n"
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: CompositeValueCurve.CurveType
+  summary: 'The type of value animated by this `Class.CompositeValueCurve`.
+
+    '
+  description: 'The type of value animated by this `Class.CompositeValueCurve`. See
+
+    `Enum.CompositeValueCurveType` for options.
+
+    '
+  code_samples: []
+  type: CompositeValueCurveType
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: CurveType
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.CompositeValueCurveType
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: NumberRange
+methods:
+- name: CompositeValueCurve:GetComponentCurves
+  summary: 'Returns the child curves with the given names for the
+
+    `Class.CompositeValueCurve.CurveType|CurveType` of this
+
+    `Class.CompositeValueCurve`.
+
+    '
+  description: 'This method returns the child curves with the given names for the
+
+    `Class.CompositeValueCurve.CurveType|CurveType` of this
+
+    `Class.CompositeValueCurve`, in the order given by the list of child
+
+    curves outlined at the top of this page. Any curve that does not exist
+
+    prior to calling this method will be created and added as a child with the
+
+    appropriate name. That new curve will be an empty `Class.FloatCurve`.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: List<FloatCurve>
+    summary: 'An array of the child `Class.FloatCurve` instances that drive the
+
+      components of the animated value, in the order listed at the top of
+
+      this page. Any expected child curve that does not yet exist is created
+
+      as an empty `Class.FloatCurve` and included in the result.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: CompositeValueCurve:GetValueAtTime
+  summary: 'Returns the sampled animated value at the passed `time` argument.
+
+    '
+  description: 'This method returns the sampled animated value at the passed `time`
+
+    argument. The type of the returned value will match that specified by the
+
+    `Class.CompositeValueCurve.CurveType|CurveType` property.
+
+
+    If any child curve is missing from the children of the curve, the
+
+    corresponding value in the returned property will be `0`. For example, if
+
+    a curve has a `Class.CompositeValueCurve.CurveType|CurveType` of
+
+    `Enum.CompositeValueCurveType.ColorRGB` but only one `Class.FloatCurve`
+
+    child named `"G"`, then the returned `Class.FloatCurve` will have values
+
+    of `0` for `"R"` and `"B"`, but the `"G"` value will be sampled from the
+
+    child curve.
+
+    '
+  code_samples: []
+  parameters:
+  - name: time
+    type: float
+    default: null
+    summary: 'Time at which to get the value.
+
+      '
+  returns:
+  - type: Variant
+    summary: 'The value of the curve at the passed time.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: GetComponentCurves
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Instances
+- name: GetValueAtTime
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: time
+    type: float
+  returns:
+  - type: Variant
+events: []
+callbacks: []

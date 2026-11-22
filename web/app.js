@@ -7,7 +7,7 @@ const els = {
   logout: document.getElementById("logout-button"),
   loggedOff: document.getElementById("logged-off"),
   scenarioButton: document.getElementById("scenario-button"),
-  scenarioTop: document.getElementById("scenario-top"),
+  personaTop: document.getElementById("persona-top"),
   composerPlus: document.getElementById("composer-plus"),
   plusMenu: document.getElementById("plus-menu"),
   plusFiles: document.getElementById("plus-files"),
@@ -16,6 +16,8 @@ const els = {
   fileInput: document.getElementById("file-input"),
   composerAttachments: document.getElementById("composer-attachments"),
   chatList: document.getElementById("chat-list"),
+  recycleCount: document.getElementById("recycle-count"),
+  recycleList: document.getElementById("recycle-list"),
   topbarTitle: document.getElementById("topbar-title"),
   statusPill: document.getElementById("status-pill"),
   statusText: document.getElementById("status-text"),
@@ -41,6 +43,15 @@ const els = {
   scenarioSetting: document.getElementById("scenario-setting"),
   scenarioCharacters: document.getElementById("scenario-characters"),
   scenarioStyle: document.getElementById("scenario-style"),
+  personaDialog: document.getElementById("persona-dialog"),
+  personaForm: document.getElementById("persona-form"),
+  personaClose: document.getElementById("persona-close"),
+  personaCancel: document.getElementById("persona-cancel"),
+  personaDelete: document.getElementById("persona-delete"),
+  personaNew: document.getElementById("persona-new"),
+  personaSelect: document.getElementById("persona-select"),
+  personaName: document.getElementById("persona-name"),
+  personaInstructions: document.getElementById("persona-instructions"),
   styleDialog: document.getElementById("style-dialog"),
   styleForm: document.getElementById("style-form"),
   styleClose: document.getElementById("style-close"),
@@ -57,6 +68,8 @@ const els = {
   memoryContent: document.getElementById("memory-content"),
   memorySummary: document.getElementById("memory-summary"),
   memoryCount: document.getElementById("memory-count"),
+  approvalCount: document.getElementById("approval-count"),
+  approvalHistory: document.getElementById("approval-history"),
   memoryExtract: document.getElementById("memory-extract"),
   loreList: document.getElementById("lore-list"),
   loreForm: document.getElementById("lore-form"),
@@ -85,6 +98,17 @@ const els = {
   settingsAccessCode: document.getElementById("settings-access-code"),
   settingsGenerateCode: document.getElementById("settings-generate-code"),
   settingsPhoneUrls: document.getElementById("settings-phone-urls"),
+  settingsToolRoots: document.getElementById("settings-tool-roots"),
+  settingsToolPath: document.getElementById("settings-tool-path"),
+  settingsToolAdd: document.getElementById("settings-tool-add"),
+  settingsDrives: document.getElementById("settings-drives"),
+  artifactPanel: document.getElementById("artifact-panel"),
+  artifactTitle: document.getElementById("artifact-title"),
+  artifactSub: document.getElementById("artifact-sub"),
+  artifactCode: document.getElementById("artifact-code"),
+  artifactCopy: document.getElementById("artifact-copy"),
+  artifactDownload: document.getElementById("artifact-download"),
+  artifactClose: document.getElementById("artifact-close"),
   toast: document.getElementById("toast")
 };
 
@@ -95,6 +119,10 @@ const state = {
   messages: [],
   pendingScenario: emptyScenario(),
   pendingStyle: "",
+  personas: [],
+  personaDefaultId: "",
+  editingPersonaId: "",
+  pendingPersonaId: "",
   styles: null,
   selectedStyle: "",
   editingId: null,
@@ -105,6 +133,8 @@ const state = {
   memoryOpen: false,
   editingLoreId: null,
   settings: null,
+  toolRoots: [],
+  toolDrives: [],
   attachments: [],
   uploads: 0,
   plusOpen: false,
@@ -228,6 +258,41 @@ function toast(message) {
   );
 }
 
+async function copyText(text) {
+  const value = String(text || "");
+
+  if (!value) {
+    toast("Nothing to copy.");
+    return;
+  }
+
+  try {
+    await navigator.clipboard.writeText(value);
+    toast("Copied.");
+    return;
+  } catch (clipboardError) {
+  }
+
+  const field = document.createElement("textarea");
+  field.value = value;
+  field.setAttribute("readonly", "");
+  field.style.position = "fixed";
+  field.style.top = "0";
+  field.style.left = "0";
+  field.style.opacity = "0";
+  document.body.append(field);
+  field.select();
+
+  try {
+    document.execCommand("copy");
+    toast("Copied.");
+  } catch (error) {
+    toast("Could not copy.");
+  } finally {
+    field.remove();
+  }
+}
+
 function escapeHtml(value) {
   return String(value).replace(
     /[&<>"']/g,
@@ -268,6 +333,7 @@ function attachmentKindLabel(kind) {
   return {
     pdf: "PDF",
     docx: "DOCX",
+    roblox: "ROBLOX",
     image: "Image",
     text: "Text"
   }[kind] || "File";
@@ -289,6 +355,217 @@ function pendingAttachments() {
   );
 }
 
+const artifactStore = new Map();
+const ARTIFACT_STORE_LIMIT = 300;
+let activeArtifactKey = null;
+
+function hashString(value) {
+  let hash = 5381;
+
+  for (let index = 0; index < value.length; index += 1) {
+    hash = (
+      ((hash << 5) + hash + value.charCodeAt(index)) >>> 0
+    );
+  }
+
+  return `${hash.toString(36)}_${value.length.toString(36)}`;
+}
+
+function artifactLanguageLabel(language) {
+  const map = {
+    lua: "LUA",
+    luau: "LUA",
+    python: "PY",
+    py: "PY",
+    javascript: "JS",
+    js: "JS",
+    typescript: "TS",
+    ts: "TS",
+    html: "HTML",
+    css: "CSS",
+    json: "JSON",
+    yaml: "YAML",
+    bash: "SH",
+    sh: "SH",
+    shell: "SH",
+    csharp: "C#",
+    cs: "C#",
+    java: "JAVA",
+    cpp: "C++",
+    sql: "SQL"
+  };
+
+  const key = String(language || "").toLowerCase();
+
+  return map[key] || (key ? key.toUpperCase() : "CODE");
+}
+
+function artifactTitleFrom(code) {
+  const firstLine = (code.split("\n", 1)[0] || "").trim();
+  const comment = firstLine.match(/^(?:--|\/\/|#)\s*(.+)$/);
+
+  if (comment) {
+    const title = comment[1].trim();
+
+    if (title && title.length <= 90) {
+      return title;
+    }
+  }
+
+  return "";
+}
+
+function registerArtifact(language, code) {
+  const key = hashString(`${language || ""}\u0000${code}`);
+
+  if (!artifactStore.has(key)) {
+    if (artifactStore.size >= ARTIFACT_STORE_LIMIT) {
+      artifactStore.delete(artifactStore.keys().next().value);
+    }
+
+    artifactStore.set(key, {
+      code,
+      language: artifactLanguageLabel(language),
+      rawLanguage: String(language || "").toLowerCase(),
+      title: artifactTitleFrom(code)
+    });
+  }
+
+  return key;
+}
+
+function artifactCardHtml(key, meta) {
+  const title = meta.title || "Code";
+  const sub = `Code - ${meta.language}`;
+
+  return `
+    <div class="artifact-card" data-artifact="${key}" role="button" tabindex="0" title="Open in side panel">
+      <span class="artifact-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></svg>
+      </span>
+      <span class="artifact-card-info">
+        <span class="artifact-card-title">${escapeHtml(title)}</span>
+        <span class="artifact-card-sub">${escapeHtml(sub)}</span>
+      </span>
+      <button type="button" class="artifact-card-copy" data-artifact-copy="${key}">Copy</button>
+    </div>`;
+}
+
+function renderArtifactLines(code) {
+  const maxLines = 6000;
+  const lines = code.split("\n");
+  const shown = lines.slice(0, maxLines);
+
+  const rows = shown.map(
+    (line, index) =>
+      `<span class="line"><span class="line-num">${index + 1}</span><span class="line-text">${escapeHtml(line)}</span></span>`
+  );
+
+  if (lines.length > maxLines) {
+    rows.push(
+      `<span class="line artifact-line-note"><span class="line-text">[showing first ${maxLines} of ${lines.length} lines]</span></span>`
+    );
+  }
+
+  return rows.join("");
+}
+
+function artifactFileName(meta) {
+  const map = {
+    lua: "lua",
+    luau: "lua",
+    python: "py",
+    py: "py",
+    javascript: "js",
+    js: "js",
+    typescript: "ts",
+    ts: "ts",
+    html: "html",
+    css: "css",
+    json: "json",
+    yaml: "yaml",
+    bash: "sh",
+    sh: "sh",
+    shell: "sh",
+    csharp: "cs",
+    cs: "cs",
+    java: "java",
+    cpp: "cpp",
+    sql: "sql"
+  };
+
+  const base = (meta.title || "code")
+    .replace(/\s*\([^)]*\)\s*/g, " ")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "")
+    .slice(0, 60) || "code";
+
+  return `${base}.${map[meta.rawLanguage] || "txt"}`;
+}
+
+function openArtifact(key) {
+  const meta = artifactStore.get(key);
+
+  if (!meta) {
+    toast("That code block is no longer available.");
+    return;
+  }
+
+  activeArtifactKey = key;
+
+  els.artifactTitle.textContent = meta.title || "Code";
+  els.artifactSub.textContent = `Code - ${meta.language}`;
+  els.artifactCode.innerHTML = renderArtifactLines(meta.code);
+
+  els.artifactPanel.classList.add("open");
+  els.artifactPanel.setAttribute("aria-hidden", "false");
+}
+
+function closeArtifact() {
+  activeArtifactKey = null;
+
+  els.artifactPanel.classList.remove("open");
+  els.artifactPanel.setAttribute("aria-hidden", "true");
+}
+
+function copyActiveArtifact() {
+  if (!activeArtifactKey) {
+    return;
+  }
+
+  const meta = artifactStore.get(activeArtifactKey);
+
+  if (meta) {
+    copyText(meta.code);
+  }
+}
+
+function downloadActiveArtifact() {
+  if (!activeArtifactKey) {
+    return;
+  }
+
+  const meta = artifactStore.get(activeArtifactKey);
+
+  if (!meta) {
+    return;
+  }
+
+  const blob = new Blob([meta.code], {
+    type: "text/plain;charset=utf-8"
+  });
+
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = artifactFileName(meta);
+  link.click();
+
+  URL.revokeObjectURL(url);
+}
+
 function messageAttachmentsFor(message) {
   if (Array.isArray(message.attachments)) {
     return message.attachments;
@@ -305,7 +582,6 @@ function messageAttachmentsFor(message) {
 
 function renderInline(value) {
   let output = escapeHtml(value);
-
   output = output.replace(
     /`([^`]+)`/g,
     "<code>$1</code>"
@@ -330,8 +606,11 @@ function renderMarkdown(text) {
   const source = String(text).replace(
     /```([\w-]*)\n?([\s\S]*?)```/g,
     (match, language, code) => {
+      const clean = code.replace(/\n$/, "");
+      const key = registerArtifact(language, clean);
+
       blocks.push(
-        `<pre><code>${escapeHtml(code.replace(/\n$/, ""))}</code></pre>`
+        artifactCardHtml(key, artifactStore.get(key))
       );
 
       return `\n%%CODE${blocks.length - 1}%%\n`;
@@ -499,6 +778,36 @@ function setMessagesVisible(visible) {
   els.emptyState.classList.toggle("hidden", visible);
 }
 
+function resetCurrentConversation() {
+
+  // The open conversation no longer exists (deleted or purged
+  // from the recycle bin elsewhere). Reset to a fresh new chat
+  // so uploads and messages stop failing with 404.
+
+  state.currentId = null;
+  state.conversation = null;
+  state.messages = [];
+  state.attachments = [];
+  state.editingId = null;
+  state.memory = null;
+
+  history.replaceState(null, "", location.pathname);
+
+  els.messageList.innerHTML = "";
+  setMessagesVisible(false);
+  updateHeader();
+  renderSidebar();
+  renderAttachments();
+  updateSendState();
+  setMemoryVisibility();
+}
+
+function conversationMissing(error) {
+  return /not found/i.test(
+    String((error && error.message) || "")
+  );
+}
+
 function isSetup() {
   return Boolean(
     state.currentId
@@ -521,9 +830,7 @@ function updateHeader() {
   els.topbarTitle.textContent = title || "New chat";
   els.topbarTitle.title = title || "New chat";
 
-  els.scenarioTop.textContent = hasScenario(state.conversation)
-    ? "Scenario set"
-    : "Scenario";
+  updatePersonaLabel();
 
   renderSetupBar();
 }
@@ -623,6 +930,330 @@ function renderMessageAttachments(entries) {
   }
 
   return wrap;
+}
+
+function renderToolCalls(calls) {
+  const wrap = document.createElement("div");
+  wrap.className = "tool-calls";
+
+  for (const call of calls) {
+    const details = document.createElement("details");
+    details.className = "tool-call"
+      + (call.ok ? "" : " failed");
+
+    const summary = document.createElement("summary");
+
+    const label = document.createElement("span");
+    label.className = "tool-call-name";
+    label.textContent = String(call.tool || "tool").replace(/_/g, " ");
+
+    const status = document.createElement("span");
+    status.className = "tool-call-status";
+    const seconds = Number(call.seconds || 0);
+    status.textContent = (call.ok ? "done" : "failed")
+      + (seconds ? ` · ${seconds.toFixed(2)}s` : "");
+
+    const copy = document.createElement("button");
+    copy.type = "button";
+    copy.className = "tool-copy";
+    copy.textContent = "Copy";
+    copy.title = "Copy tool details";
+
+    const side = document.createElement("span");
+    side.className = "tool-call-side";
+    side.append(status, copy);
+
+    summary.append(label, side);
+
+    const body = document.createElement("pre");
+    body.className = "tool-call-body";
+
+    const args = call.args && Object.keys(call.args).length
+      ? JSON.stringify(call.args)
+      : "";
+
+    body.textContent = (args ? `${args}\n\n` : "")
+      + (call.output || "(no output)");
+
+    copy.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      copyText(body.textContent);
+    });
+
+    details.append(summary, body);
+    wrap.append(details);
+  }
+
+  return wrap;
+}
+
+function approvalStatusText(status) {
+  switch (status) {
+    case "approved":
+      return "done";
+    case "failed":
+      return "failed";
+    case "denied":
+      return "denied";
+    default:
+      return "waiting for you";
+  }
+}
+
+function approvalClipboardText(approval) {
+  const args = approval.args || {};
+  const lines = [approval.summary || approval.tool || "Approval"];
+
+  if (approval.risk === "exec" && args.command) {
+    lines.push(`$ ${args.command}`);
+  } else if (args.source) {
+    lines.push(args.source);
+    lines.push(`-> ${args.destination || ""}`);
+  } else if (args.path) {
+    lines.push(args.path);
+
+    if (args.content) {
+      lines.push("", args.content);
+    }
+  }
+
+  if (approval.result) {
+    lines.push("", approval.result);
+  }
+
+  return lines.join("\n");
+}
+
+function renderApprovals(approvals) {
+  const wrap = document.createElement("div");
+  wrap.className = "tool-calls approval-calls";
+
+  for (const approval of approvals) {
+    const card = document.createElement("div");
+    card.className = `approval ${approval.status || "pending"}`;
+    card.dataset.approval = String(approval.id);
+
+    const head = document.createElement("div");
+    head.className = "approval-head";
+
+    const title = document.createElement("span");
+    title.className = "approval-title";
+    title.textContent = approval.risk === "exec"
+      ? "Command approval"
+      : approval.tool === "files_move"
+        ? "File move approval"
+        : approval.tool === "files_delete"
+          ? "Delete approval"
+          : "File write approval";
+
+    const status = document.createElement("span");
+    status.className = "approval-status";
+    status.textContent = approvalStatusText(approval.status);
+
+    const copy = document.createElement("button");
+    copy.type = "button";
+    copy.className = "approval-copy";
+    copy.textContent = "Copy";
+    copy.title = "Copy approval details";
+    copy.addEventListener("click", () => {
+      copyText(approvalClipboardText(approval));
+    });
+
+    const side = document.createElement("span");
+    side.className = "approval-side";
+    side.append(status, copy);
+
+    head.append(title, side);
+
+    const summary = document.createElement("div");
+    summary.className = "approval-summary";
+    summary.textContent = approval.summary || approval.tool;
+
+    card.append(head, summary);
+
+    if (approval.risk === "exec") {
+      const command = document.createElement("pre");
+      command.className = "approval-preview";
+      command.textContent = `$ ${(approval.args || {}).command || ""}`;
+      card.append(command);
+    } else if (approval.args && approval.args.source) {
+      const source = document.createElement("div");
+      source.className = "approval-path";
+      source.textContent = approval.args.source;
+      card.append(source);
+
+      const destination = document.createElement("div");
+      destination.className = "approval-path";
+      destination.textContent = `-> ${approval.args.destination || ""}`;
+      card.append(destination);
+    } else if (approval.args && approval.args.path) {
+      const path = document.createElement("div");
+      path.className = "approval-path";
+      path.textContent = approval.args.path;
+      card.append(path);
+
+      const content = String(approval.args.content || "");
+
+      if (content) {
+        const preview = document.createElement("pre");
+        preview.className = "approval-preview";
+        preview.textContent = content.length > 800
+          ? `${content.slice(0, 800)}\n...`
+          : content;
+        card.append(preview);
+      } else if (approval.tool === "files_delete") {
+        const note = document.createElement("div");
+        note.className = "approval-note";
+        note.textContent =
+          "Sends the file or folder to the Windows Recycle Bin, where it "
+          + "can be restored.";
+        card.append(note);
+      }
+    }
+
+    if ((approval.status || "pending") === "pending") {
+      const actions = document.createElement("div");
+      actions.className = "approval-actions";
+
+      const approve = document.createElement("button");
+      approve.type = "button";
+      approve.className = "approval-button approve";
+      approve.dataset.approve = String(approval.id);
+      approve.textContent = "Approve";
+
+      const deny = document.createElement("button");
+      deny.type = "button";
+      deny.className = "approval-button deny";
+      deny.dataset.deny = String(approval.id);
+      deny.textContent = "Deny";
+
+      actions.append(approve, deny);
+      card.append(actions);
+    } else if (approval.status === "failed" && approval.result) {
+      const result = document.createElement("pre");
+      result.className = "approval-preview";
+      result.textContent = approval.result;
+      card.append(result);
+    }
+
+    wrap.append(card);
+  }
+
+  return wrap;
+}
+
+function applyApproval(card, approval) {
+  if (!card || !approval) {
+    return;
+  }
+
+  card.className = `approval ${approval.status || "pending"}`;
+
+  const status = card.querySelector(".approval-status");
+
+  if (status) {
+    status.textContent = approvalStatusText(approval.status);
+  }
+
+  const actions = card.querySelector(".approval-actions");
+
+  if (actions) {
+    actions.remove();
+  }
+}
+
+function attachApprovals(messages, approvals) {
+  for (const approval of approvals) {
+    let owner = messages.find(
+      (message) => message.role === "assistant"
+        && message.id != null
+        && message.id > (approval.message_id || 0)
+    );
+
+    if (!owner) {
+      owner = [...messages].reverse().find(
+        (message) => message.role === "assistant"
+      );
+    }
+
+    if (owner) {
+      owner.approvals = owner.approvals || [];
+      owner.approvals.push(approval);
+    }
+  }
+}
+
+async function decideApproval(card, button, decision) {
+  if (state.streaming) {
+    return;
+  }
+
+  const id = Number(button.dataset.approve || button.dataset.deny);
+  const actions = card.querySelectorAll(".approval-button");
+  actions.forEach((item) => {
+    item.disabled = true;
+  });
+
+  if (decision === "deny") {
+    try {
+      const data = await api(`/api/tool-approvals/${id}/deny`, {
+        method: "POST"
+      });
+      applyApproval(card, data.approval);
+      loadRecycle();
+    } catch (error) {
+      actions.forEach((item) => {
+        item.disabled = false;
+      });
+      toast(error.message);
+    }
+
+    return;
+  }
+
+  card.classList.add("running");
+
+  const status = card.querySelector(".approval-status");
+
+  if (status) {
+    status.textContent = "running...";
+  }
+
+  const assistant = { role: "assistant", content: "" };
+  const elements = appendMessage(assistant);
+
+  await runStream(
+    {},
+    assistant,
+    elements,
+    `/api/tool-approvals/${id}/approve`
+  );
+
+  loadRecycle();
+}
+
+function copyAction(text) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "message-action";
+  button.dataset.copyText = "";
+  button.title = "Copy message";
+  button.setAttribute("aria-label", "Copy message");
+  button.innerHTML = `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="9" width="12" height="12" rx="2"/>
+      <path d="M5 15V5a2 2 0 0 1 2-2h8"/>
+    </svg>
+    <span>Copy</span>
+  `;
+
+  button.addEventListener("click", () => {
+    copyText(typeof text === "function" ? text() : text);
+  });
+
+  return button;
 }
 
 function editAction(messageId) {
@@ -802,6 +1433,10 @@ function appendMessage(message, attachments = null) {
     const actions = document.createElement("div");
     actions.className = "message-actions";
 
+    if (message.content) {
+      actions.append(copyAction(() => message.content));
+    }
+
     if (message.id != null) {
       actions.append(editAction(message.id));
     }
@@ -832,7 +1467,17 @@ function appendMessage(message, attachments = null) {
   const error = document.createElement("div");
   error.className = "message-error hidden";
 
-  body.append(name, text, error);
+  body.append(name);
+
+  if (message.tool_calls && message.tool_calls.length) {
+    body.append(renderToolCalls(message.tool_calls));
+  }
+
+  if (message.approvals && message.approvals.length) {
+    body.append(renderApprovals(message.approvals));
+  }
+
+  body.append(text, error);
 
   const entries = attachments || messageAttachmentsFor(message);
 
@@ -843,6 +1488,11 @@ function appendMessage(message, attachments = null) {
   if (message.id != null) {
     const actions = document.createElement("div");
     actions.className = "message-actions";
+
+    if (message.content) {
+      actions.append(copyAction(() => message.content));
+    }
+
     actions.append(paintAction(message.id));
     body.append(actions);
   }
@@ -1059,7 +1709,194 @@ async function loadConversations() {
   }
 }
 
+function recycleTime(value) {
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return "";
+  }
+
+  return date.toLocaleString(undefined, {
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+}
+
+function recycleAction(kind, entry, label) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = `icon-button recycle-${kind}`;
+  button.dataset.action = kind;
+  button.dataset.key = entry.key;
+  button.dataset.name = entry.name;
+  button.title = label;
+  button.setAttribute("aria-label", label);
+  button.innerHTML = kind === "restore"
+    ? `
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 12a9 9 0 1 0 3-6.7"/>
+        <path d="M3 4v5h5"/>
+      </svg>
+    `
+    : `
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 6 6 18"/>
+        <path d="m6 6 12 12"/>
+      </svg>
+    `;
+  return button;
+}
+
+function renderRecycle(entries) {
+  els.recycleList.innerHTML = "";
+  els.recycleCount.textContent = entries.length
+    ? String(entries.length)
+    : "";
+
+  if (!entries.length) {
+    const empty = document.createElement("div");
+    empty.className = "recycle-empty";
+    empty.textContent = "The Recycle Bin is empty.";
+    els.recycleList.append(empty);
+    return;
+  }
+
+  for (const entry of entries) {
+    const item = document.createElement("div");
+    item.className = "recycle-item";
+    item.title = entry.original || "Original location unknown";
+
+    const copy = document.createElement("div");
+    copy.className = "recycle-copy";
+
+    const name = document.createElement("div");
+    name.className = "recycle-name";
+    name.textContent = entry.folder ? `${entry.name}/` : entry.name;
+
+    const meta = document.createElement("div");
+    meta.className = "recycle-meta";
+    meta.textContent = [
+      entry.folder ? "Folder" : "File",
+      formatBytes(entry.size),
+      recycleTime(entry.deleted_at)
+    ].filter(Boolean).join(" · ");
+
+    copy.append(name, meta);
+
+    const actions = document.createElement("div");
+    actions.className = "recycle-actions";
+    actions.append(
+      recycleAction("restore", entry, "Restore this item"),
+      recycleAction("purge", entry, "Delete forever")
+    );
+
+    item.append(copy, actions);
+    els.recycleList.append(item);
+  }
+}
+
+async function loadRecycle() {
+  try {
+    const data = await api("/api/recycle");
+    renderRecycle(Array.isArray(data.entries) ? data.entries : []);
+  } catch (error) {
+    els.recycleList.innerHTML = "";
+
+    const failed = document.createElement("div");
+    failed.className = "recycle-empty";
+    failed.textContent = error.message;
+    els.recycleList.append(failed);
+  }
+}
+
+async function restoreRecycle(key, name) {
+  try {
+    await api("/api/recycle/restore", {
+      method: "POST",
+      body: { key }
+    });
+    toast(`Restored ${name}.`);
+  } catch (error) {
+    toast(error.message);
+  }
+
+  await loadConversations();
+  loadRecycle();
+}
+
+async function purgeRecycle(key, name) {
+  const message = `Permanently delete "${name}"? This cannot be undone.`;
+
+  if (!window.confirm(message)) {
+    return;
+  }
+
+  try {
+    await api("/api/recycle/purge", {
+      method: "POST",
+      body: { key }
+    });
+    toast(`Deleted ${name} permanently.`);
+  } catch (error) {
+    toast(error.message);
+  }
+
+  await loadConversations();
+
+  if (
+    state.currentId
+    && !state.conversations.some(
+      (conversation) => conversation.id === state.currentId
+    )
+  ) {
+
+    // The purged item was the open chat; recover to a new chat
+    // so uploads and messages stop hitting a missing id.
+
+    resetCurrentConversation();
+    toast("The open chat was deleted. Starting a new chat.");
+  }
+
+  loadRecycle();
+}
+
 async function checkStatus() {
+
+  // Watch for app updates: if the UI files on the server changed
+  // since this window loaded, reload so old code never lingers.
+
+  if (!state.streaming) {
+    try {
+      const versionData = await api("/api/ui-version");
+
+      if (versionData && versionData.version) {
+        const stored = sessionStorage.getItem("pai-ui-version");
+
+        if (stored && stored !== versionData.version) {
+          sessionStorage.setItem("pai-ui-version", versionData.version);
+          toast("PersonalAI updated — reloading.");
+
+          setTimeout(() => {
+            location.reload();
+          }, 800);
+
+          return;
+        }
+
+        if (!stored) {
+          sessionStorage.setItem("pai-ui-version", versionData.version);
+        }
+      }
+    } catch (error) {
+
+      // Older server without the endpoint — nothing to do.
+    }
+  }
+
   try {
     const data = await api("/api/status");
     state.status = data;
@@ -1143,7 +1980,9 @@ async function openConversation(conversationId) {
 
     state.currentId = conversationId;
     state.conversation = data.conversation;
+    state.pendingPersonaId = data.conversation.persona_id || "";
     state.messages = data.messages;
+    attachApprovals(state.messages, data.approvals || []);
     state.attachments = data.attachments || [];
     state.pendingScenario = scenarioOf(data.conversation);
     state.pendingStyle = styleOf(data.conversation);
@@ -1165,6 +2004,17 @@ async function openConversation(conversationId) {
       await refreshMemory();
     }
   } catch (error) {
+
+    if (conversationMissing(error)) {
+
+      resetCurrentConversation();
+      toast(
+        "That chat no longer exists. Starting a new chat."
+      );
+
+      return;
+    }
+
     toast(error.message);
   }
 }
@@ -1315,6 +2165,52 @@ function loreItem(entry) {
   return item;
 }
 
+function renderApprovalHistory(approvals) {
+  const items = Array.isArray(approvals)
+    ? [...approvals].reverse()
+    : [];
+
+  els.approvalCount.textContent = `${items.length} ${
+    items.length === 1 ? "action" : "actions"
+  }`;
+  els.approvalHistory.innerHTML = "";
+
+  if (!items.length) {
+    const empty = document.createElement("div");
+    empty.className = "lore-empty";
+    empty.textContent = "No tool actions in this chat yet.";
+    els.approvalHistory.append(empty);
+    return;
+  }
+
+  for (const approval of items) {
+    const item = document.createElement("div");
+    item.className = `history-item ${approval.status || "pending"}`;
+
+    const copy = document.createElement("div");
+    copy.className = "history-copy";
+
+    const summary = document.createElement("div");
+    summary.className = "history-summary";
+    summary.textContent = approval.summary || approval.tool;
+    copy.append(summary);
+
+    if (approval.status === "failed" && approval.result) {
+      const result = document.createElement("div");
+      result.className = "history-result";
+      result.textContent = approval.result;
+      copy.append(result);
+    }
+
+    const status = document.createElement("span");
+    status.className = "history-status";
+    status.textContent = approvalStatusText(approval.status);
+
+    item.append(copy, status);
+    els.approvalHistory.append(item);
+  }
+}
+
 function renderMemory() {
   const entries = memoryEntries();
   const summary = state.memory
@@ -1327,6 +2223,10 @@ function renderMemory() {
   els.memoryCount.textContent = `${entries.length} ${
     entries.length === 1 ? "entry" : "entries"
   }`;
+
+  renderApprovalHistory(
+    state.memory ? state.memory.approvals : []
+  );
 
   const running = Boolean(
     state.memory && state.memory.running
@@ -1516,6 +2416,110 @@ async function updateMemory() {
   }
 }
 
+function sameToolPath(left, right) {
+  const clean = (value) => String(value || "")
+    .trim()
+    .replace(/\//g, "\\")
+    .replace(/\\+$/, "")
+    .toLowerCase();
+
+  return clean(left) === clean(right);
+}
+
+function renderToolRoots() {
+  els.settingsToolRoots.innerHTML = "";
+
+  if (!state.toolRoots.length) {
+    const empty = document.createElement("div");
+    empty.className = "tool-root-empty";
+    empty.textContent = "No allowed folders. Add at least one.";
+    els.settingsToolRoots.append(empty);
+    return;
+  }
+
+  for (const root of state.toolRoots) {
+    const row = document.createElement("div");
+    row.className = "tool-root";
+
+    const path = document.createElement("span");
+    path.className = "tool-root-path";
+    path.textContent = root;
+    path.title = root;
+
+    const remove = document.createElement("button");
+    remove.type = "button";
+    remove.className = "icon-button tool-root-remove";
+    remove.dataset.root = root;
+    remove.title = "Remove folder";
+    remove.setAttribute("aria-label", "Remove folder");
+    remove.innerHTML = `
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 6 6 18"/>
+        <path d="m6 6 12 12"/>
+      </svg>
+    `;
+
+    row.append(path, remove);
+    els.settingsToolRoots.append(row);
+  }
+}
+
+function renderDrives() {
+  els.settingsDrives.innerHTML = "";
+
+  if (!state.toolDrives.length) {
+    return;
+  }
+
+  const label = document.createElement("span");
+  label.className = "drive-label";
+  label.textContent = "Disks:";
+  els.settingsDrives.append(label);
+
+  for (const drive of state.toolDrives) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "drive-chip";
+    button.dataset.drive = drive;
+
+    const added = state.toolRoots.some(
+      (root) => sameToolPath(root, drive)
+    );
+
+    button.disabled = added;
+    button.textContent = drive;
+    button.title = added ? "Already allowed" : `Allow ${drive}`;
+    els.settingsDrives.append(button);
+  }
+}
+
+function addToolRoot(value) {
+  const text = String(value || "").trim();
+
+  if (!text) {
+    return;
+  }
+
+  if (state.toolRoots.some((root) => sameToolPath(root, text))) {
+    toast("That folder is already allowed.");
+    return;
+  }
+
+  state.toolRoots.push(text);
+  els.settingsToolPath.value = "";
+  renderToolRoots();
+  renderDrives();
+}
+
+function removeToolRoot(root) {
+  state.toolRoots = state.toolRoots.filter(
+    (item) => item !== root
+  );
+  renderToolRoots();
+  renderDrives();
+}
+
 function fillSettings(data) {
   const available = new Set(data.available || []);
 
@@ -1584,6 +2588,15 @@ function fillSettings(data) {
     ? `Open this on your phone: ${urls.join("  |  ")}`
     : "No LAN address found. Connect the PC to Wi-Fi or Ethernet.";
 
+  state.toolRoots = Array.isArray(data.tool_roots)
+    ? [...data.tool_roots]
+    : [];
+  state.toolDrives = Array.isArray(data.tool_drives)
+    ? [...data.tool_drives]
+    : [];
+
+  renderToolRoots();
+  renderDrives();
   syncMemoryControls();
 }
 
@@ -1623,6 +2636,17 @@ async function saveSettings(event) {
   const maxTokens = Number(els.settingsMaxTokens.value);
   const every = Number(els.settingsExtractEvery.value);
 
+  const pendingRoot = els.settingsToolPath.value.trim();
+
+  if (pendingRoot) {
+    addToolRoot(pendingRoot);
+  }
+
+  if (!state.toolRoots.length) {
+    toast("Add at least one allowed folder.");
+    return;
+  }
+
   const body = {
     model: els.settingsModel.value,
     base_url: els.settingsBaseUrl.value.trim(),
@@ -1645,7 +2669,8 @@ async function saveSettings(event) {
     vision: els.settingsVision.checked,
     vision_model: els.settingsVisionModel.value,
     mobile_access: els.settingsMobile.checked,
-    access_token: els.settingsAccessCode.value
+    access_token: els.settingsAccessCode.value,
+    tool_roots: state.toolRoots
   };
 
   try {
@@ -1668,6 +2693,217 @@ function autoGrow() {
   els.input.style.height = "auto";
   els.input.style.height =
     `${Math.min(els.input.scrollHeight, 200)}px`;
+}
+
+function personaById(personaId) {
+  return state.personas.find(
+    (persona) => persona.id === personaId
+  ) || null;
+}
+
+function activePersonaId() {
+  if (state.currentId && state.conversation) {
+    const selected = state.conversation.persona_id;
+
+    return selected && personaById(selected)
+      ? selected
+      : state.personaDefaultId;
+  }
+
+  return state.pendingPersonaId
+    && personaById(state.pendingPersonaId)
+    ? state.pendingPersonaId
+    : state.personaDefaultId;
+}
+
+function updatePersonaLabel() {
+  const persona = personaById(activePersonaId());
+
+  els.personaTop.textContent = persona
+    ? persona.name
+    : "Persona";
+  els.personaTop.title = persona
+    ? `Persona: ${persona.name}`
+    : "Persona";
+}
+
+async function loadPersonas() {
+  const data = await api("/api/personas");
+
+  state.personas = data.personas || [];
+  state.personaDefaultId = data.default_id
+    || (state.personas[0] ? state.personas[0].id : "");
+
+  updatePersonaLabel();
+
+  return state.personas;
+}
+
+function renderPersonaOptions(selectedId) {
+  els.personaSelect.innerHTML = "";
+
+  if (!state.personas.length) {
+    const option = document.createElement("option");
+    option.value = "";
+    option.textContent = "No personas";
+    els.personaSelect.append(option);
+    els.personaSelect.value = "";
+    return;
+  }
+
+  for (const persona of state.personas) {
+    const option = document.createElement("option");
+    option.value = persona.id;
+    option.textContent = persona.name;
+    els.personaSelect.append(option);
+  }
+
+  els.personaSelect.value = selectedId
+    || state.personas[0].id;
+}
+
+function fillPersonaEditor(persona) {
+  els.personaName.value = persona ? persona.name : "";
+  els.personaInstructions.value = persona
+    ? persona.instructions
+    : "";
+  els.personaDelete.disabled = !persona;
+}
+
+async function applyPersona(personaId) {
+  if (state.currentId) {
+    const data = await api(
+      `/api/conversations/${state.currentId}`,
+      {
+        method: "PATCH",
+        body: { persona_id: personaId || "" }
+      }
+    );
+
+    state.conversation = data.conversation;
+    state.pendingPersonaId = data.conversation.persona_id || "";
+
+    await loadConversations();
+  } else {
+    state.pendingPersonaId = personaId || "";
+  }
+
+  updatePersonaLabel();
+}
+
+async function openPersona() {
+  try {
+    if (!state.personas.length) {
+      await loadPersonas();
+    }
+
+    const selectedId = activePersonaId()
+      || (state.personas[0] ? state.personas[0].id : "");
+
+    state.editingPersonaId = selectedId;
+    renderPersonaOptions(selectedId);
+    fillPersonaEditor(personaById(selectedId));
+    els.personaDialog.showModal();
+  } catch (error) {
+    toast(error.message);
+  }
+}
+
+function closePersona() {
+  els.personaDialog.close();
+}
+
+function newPersona() {
+  state.editingPersonaId = "";
+  els.personaSelect.value = "";
+  els.personaName.value = "";
+  els.personaInstructions.value = "";
+  els.personaDelete.disabled = true;
+  els.personaName.focus();
+}
+
+async function savePersona(event) {
+  event.preventDefault();
+
+  const name = els.personaName.value.trim();
+  const instructions = els.personaInstructions.value;
+  const save = els.personaForm.querySelector(
+    'button[type="submit"]'
+  );
+
+  save.disabled = true;
+
+  try {
+    let persona;
+
+    if (state.editingPersonaId) {
+      const data = await api(
+        `/api/personas/${state.editingPersonaId}`,
+        {
+          method: "PATCH",
+          body: { name, instructions }
+        }
+      );
+
+      persona = data.persona;
+    } else {
+      const data = await api("/api/personas", {
+        method: "POST",
+        body: { name, instructions }
+      });
+
+      persona = data.persona;
+    }
+
+    state.editingPersonaId = persona.id;
+
+    await loadPersonas();
+    renderPersonaOptions(persona.id);
+    fillPersonaEditor(personaById(persona.id));
+    await applyPersona(persona.id);
+
+    toast("Persona saved.");
+  } catch (error) {
+    toast(error.message);
+  } finally {
+    save.disabled = false;
+  }
+}
+
+async function removePersona() {
+  const persona = personaById(state.editingPersonaId);
+
+  if (!persona) {
+    return;
+  }
+
+  if (!confirm(`Delete persona "${persona.name}"?`)) {
+    return;
+  }
+
+  try {
+    await api(`/api/personas/${persona.id}`, {
+      method: "DELETE"
+    });
+
+    await loadPersonas();
+
+    const next = activePersonaId()
+      || state.personaDefaultId
+      || (state.personas[0] ? state.personas[0].id : "");
+
+    state.editingPersonaId = next;
+    renderPersonaOptions(next);
+    fillPersonaEditor(personaById(next));
+
+    if (next) {
+      await applyPersona(next);
+    }
+
+    toast("Persona deleted.");
+  } catch (error) {
+    toast(error.message);
+  }
 }
 
 function openScenario() {
@@ -1908,6 +3144,10 @@ function adoptMessageId(saved) {
         root.querySelector(".user-stack").append(actions);
       }
 
+      if (!actions.querySelector("[data-copy-text]")) {
+        actions.prepend(copyAction(() => message.content));
+      }
+
       if (!actions.querySelector("[data-edit]")) {
         actions.append(editAction(saved.id));
       }
@@ -1938,6 +3178,10 @@ function adoptAssistant(saved, assistant, elements) {
     actions = document.createElement("div");
     actions.className = "message-actions";
     body.append(actions);
+  }
+
+  if (!actions.querySelector("[data-copy-text]")) {
+    actions.prepend(copyAction(() => assistant.content));
   }
 
   if (!actions.querySelector("[data-paint]")) {
@@ -1977,6 +3221,55 @@ function handleEvent(payload, assistant, elements) {
 
     if (payload.data.action) {
       performAction(payload.data.action);
+    }
+
+    if (payload.data.approval) {
+      const card = document.querySelector(
+        `.approval[data-approval="${payload.data.approval.id}"]`
+      );
+      applyApproval(card, payload.data.approval);
+    }
+
+    if (
+      Array.isArray(payload.data.tool_approvals)
+      && payload.data.tool_approvals.length
+      && elements.textEl
+    ) {
+      assistant.approvals = payload.data.tool_approvals;
+
+      const body = elements.textEl.parentElement;
+
+      if (body) {
+        body.insertBefore(
+          renderApprovals(payload.data.tool_approvals),
+          elements.textEl
+        );
+
+        if (isNearBottom()) {
+          scrollToBottom();
+        }
+      }
+    }
+
+    if (
+      Array.isArray(payload.data.tool_calls)
+      && payload.data.tool_calls.length
+      && elements.textEl
+    ) {
+      assistant.tool_calls = payload.data.tool_calls;
+
+      const body = elements.textEl.parentElement;
+
+      if (body) {
+        body.insertBefore(
+          renderToolCalls(payload.data.tool_calls),
+          elements.textEl
+        );
+
+        if (isNearBottom()) {
+          scrollToBottom();
+        }
+      }
     }
 
     updateStyleLabel();
@@ -2056,20 +3349,54 @@ async function ensureConversation() {
     return state.conversation;
   }
 
-  const data = await api("/api/conversations", {
-    method: "POST",
-    body: {
-      ...state.pendingScenario,
-      narrative_style: state.pendingStyle
+  const payloads = [
+    {
+      narrative_style: state.pendingStyle,
+      persona_id: activePersonaId() || ""
+    },
+    {
+      narrative_style: state.pendingStyle,
+      persona_id: ""
+    },
+    {
+      narrative_style: "",
+      persona_id: ""
     }
-  });
+  ];
+
+  let data = null;
+  let lastError = null;
+
+  for (const payload of payloads) {
+
+    try {
+      data = await api("/api/conversations", {
+        method: "POST",
+        body: {
+          ...state.pendingScenario,
+          ...payload
+        }
+      });
+
+      break;
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  if (!data) {
+    throw lastError;
+  }
 
   state.currentId = data.conversation.id;
   state.conversation = data.conversation;
   state.pendingScenario = scenarioOf(data.conversation);
+  state.pendingStyle = styleOf(data.conversation);
+  state.pendingPersonaId = data.conversation.persona_id || "";
 
   history.replaceState(null, "", `#${state.currentId}`);
   updateHeader();
+  updateStyleLabel();
   await loadConversations();
 
   return state.conversation;
@@ -2235,7 +3562,7 @@ async function uploadFile(file) {
     const body = new FormData();
     body.append("file", file);
 
-    const response = await fetch(
+    let response = await fetch(
       `/api/conversations/${conversationId}/attachments`,
       {
         method: "POST",
@@ -2243,6 +3570,25 @@ async function uploadFile(file) {
         signal: placeholder.controller.signal
       }
     );
+
+    if (
+      response.status === 404
+      && state.currentId
+      && conversationId !== state.currentId
+    ) {
+
+      // The open chat is stale (deleted elsewhere); retry
+      // against the fresh conversation.
+
+      response = await fetch(
+        `/api/conversations/${state.currentId}/attachments`,
+        {
+          method: "POST",
+          body,
+          signal: placeholder.controller.signal
+        }
+      );
+    }
 
     if (!response.ok) {
       let detail = response.statusText;
@@ -2252,6 +3598,46 @@ async function uploadFile(file) {
         detail = payload.detail || detail;
       } catch (error) {
         detail = response.statusText || "Upload failed.";
+      }
+
+      if (
+        response.status === 404
+        && /not found/i.test(String(detail))
+      ) {
+        resetCurrentConversation();
+
+        // Re-register the placeholder for the fresh chat and
+        // upload the same file again.
+
+        state.attachments.push(placeholder);
+        renderAttachments();
+        updateSendState();
+
+        await ensureConversation();
+
+        const retry = await fetch(
+          `/api/conversations/${state.currentId}/attachments`,
+          {
+            method: "POST",
+            body,
+            signal: placeholder.controller.signal
+          }
+        );
+
+        if (retry.ok) {
+          const retryData = await retry.json();
+          const index = state.attachments.indexOf(placeholder);
+
+          if (index !== -1) {
+            state.attachments[index] = retryData.attachment;
+          }
+
+          if (retryData.warning) {
+            toast(retryData.warning);
+          }
+
+          return;
+        }
       }
 
       throw new Error(detail);
@@ -2435,16 +3821,22 @@ async function sendMessage(override = null, options = {}) {
     message,
     attachments: entries.map((entry) => entry.id)
   }, assistant, elements);
+
+  if (entries.length) {
+    toast(
+      `${entries.length} file(s) sent to the model.`
+    );
+  }
 }
 
-async function runStream(body, assistant, elements) {
+async function runStream(body, assistant, elements, url = "/api/chat/stream") {
   setStreaming(true);
   state.controller = new AbortController();
 
   let aborted = false;
 
   try {
-    const response = await fetch("/api/chat/stream", {
+    const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -2461,6 +3853,20 @@ async function runStream(body, assistant, elements) {
         detail = payload.detail || detail;
       } catch (error) {
         detail = response.statusText || "Request failed.";
+      }
+
+      if (
+        response.status === 404
+        && conversationMissing({ message: detail })
+      ) {
+
+        // The open chat was deleted elsewhere. Recover instead
+        // of leaving every later send failing with 404.
+
+        resetCurrentConversation();
+        detail =
+          "This chat was deleted. A new chat has been started — "
+          "please send your message again.";
       }
 
       throw new Error(detail);
@@ -2566,7 +3972,64 @@ async function logOff() {
 els.newChat.addEventListener("click", startNewChat);
 els.logout.addEventListener("click", logOff);
 
+els.artifactClose.addEventListener("click", closeArtifact);
+els.artifactCopy.addEventListener("click", copyActiveArtifact);
+els.artifactDownload.addEventListener("click", downloadActiveArtifact);
+
+document.addEventListener("keydown", (event) => {
+  if (
+    event.key === "Escape"
+    && els.artifactPanel.classList.contains("open")
+  ) {
+    closeArtifact();
+  }
+});
+
 els.messageList.addEventListener("click", (event) => {
+  const artifactCopy = event.target.closest("[data-artifact-copy]");
+
+  if (artifactCopy) {
+    const meta = artifactStore.get(
+      artifactCopy.dataset.artifactCopy
+    );
+
+    if (meta) {
+      copyText(meta.code);
+    }
+
+    return;
+  }
+
+  const artifactCard = event.target.closest("[data-artifact]");
+
+  if (artifactCard) {
+    openArtifact(artifactCard.dataset.artifact);
+    return;
+  }
+
+  const code = event.target.closest("[data-copy-code]");
+
+  if (code) {
+    const block = code.closest(".code-block");
+    const source = block ? block.querySelector("code") : null;
+    copyText(source ? source.textContent : "");
+    return;
+  }
+
+  const approve = event.target.closest("[data-approve]");
+
+  if (approve) {
+    decideApproval(approve.closest(".approval"), approve, "approve");
+    return;
+  }
+
+  const deny = event.target.closest("[data-deny]");
+
+  if (deny) {
+    decideApproval(deny.closest(".approval"), deny, "deny");
+    return;
+  }
+
   const button = event.target.closest("[data-edit]");
 
   if (button) {
@@ -2582,7 +4045,29 @@ els.messageList.addEventListener("click", (event) => {
 });
 
 els.scenarioButton.addEventListener("click", openScenario);
-els.scenarioTop.addEventListener("click", openScenario);
+els.personaTop.addEventListener("click", openPersona);
+els.personaClose.addEventListener("click", closePersona);
+els.personaCancel.addEventListener("click", closePersona);
+els.personaForm.addEventListener("submit", savePersona);
+els.personaNew.addEventListener("click", newPersona);
+els.personaDelete.addEventListener("click", removePersona);
+els.personaSelect.addEventListener("change", () => {
+  const persona = personaById(els.personaSelect.value);
+
+  state.editingPersonaId = persona ? persona.id : "";
+  fillPersonaEditor(persona);
+
+  if (persona) {
+    applyPersona(persona.id).catch((error) => {
+      toast(error.message);
+    });
+  }
+});
+els.personaDialog.addEventListener("click", (event) => {
+  if (event.target === els.personaDialog) {
+    closePersona();
+  }
+});
 els.plusStyle.addEventListener("click", openStyleDialog);
 els.styleClose.addEventListener("click", closeStyleDialog);
 els.styleCancel.addEventListener("click", closeStyleDialog);
@@ -2676,6 +4161,33 @@ els.settingsReload.addEventListener("click", async () => {
   }
 });
 
+els.settingsToolAdd.addEventListener("click", () => {
+  addToolRoot(els.settingsToolPath.value);
+});
+
+els.settingsToolPath.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    addToolRoot(els.settingsToolPath.value);
+  }
+});
+
+els.settingsToolRoots.addEventListener("click", (event) => {
+  const button = event.target.closest(".tool-root-remove");
+
+  if (button) {
+    removeToolRoot(button.dataset.root);
+  }
+});
+
+els.settingsDrives.addEventListener("click", (event) => {
+  const button = event.target.closest(".drive-chip");
+
+  if (button && !button.disabled) {
+    addToolRoot(button.dataset.drive);
+  }
+});
+
 els.settingsDialog.addEventListener("click", (event) => {
   if (event.target === els.settingsDialog) {
     els.settingsDialog.close();
@@ -2698,6 +4210,20 @@ els.chatList.addEventListener("click", (event) => {
   }
 });
 
+els.recycleList.addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-action]");
+
+  if (!button || button.disabled) {
+    return;
+  }
+
+  if (button.dataset.action === "restore") {
+    restoreRecycle(button.dataset.key, button.dataset.name);
+  } else if (button.dataset.action === "purge") {
+    purgeRecycle(button.dataset.key, button.dataset.name);
+  }
+});
+
 els.chatList.addEventListener("keydown", (event) => {
   if (event.key !== "Enter" && event.key !== " ") {
     return;
@@ -2708,8 +4234,7 @@ els.chatList.addEventListener("keydown", (event) => {
   if (item) {
     event.preventDefault();
     openConversation(item.dataset.id);
-  }
-});
+  }});
 
 els.emptyState.addEventListener("click", (event) => {
   const suggestion = event.target.closest(".suggestion");
@@ -2819,6 +4344,8 @@ renderMemory();
 
 checkStatus();
 loadConversations();
+loadRecycle();
+loadPersonas().catch(() => {});
 loadStyles().catch(() => {});
 
 const initialConversation = location.hash.slice(1);

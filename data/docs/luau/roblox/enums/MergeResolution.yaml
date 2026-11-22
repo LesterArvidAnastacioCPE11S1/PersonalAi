@@ -1,0 +1,26 @@
+name: MergeResolution
+type: enum
+summary: Reference for Enum.MergeResolution, generated automatically from the Roblox
+  API dump 0.748.0.7481526.
+description: Reference for Enum.MergeResolution, generated automatically from the
+  Roblox API dump 0.748.0.7481526.
+code_samples: []
+tags: []
+deprecation_message: ''
+items:
+- name: None
+  summary: ''
+  value: 0
+  tags: []
+- name: UseSource
+  summary: ''
+  value: 1
+  tags: []
+- name: UseTarget
+  summary: ''
+  value: 2
+  tags: []
+- name: Manual
+  summary: ''
+  value: 3
+  tags: []

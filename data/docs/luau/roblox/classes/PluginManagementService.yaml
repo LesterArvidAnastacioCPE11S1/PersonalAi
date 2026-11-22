@@ -1,0 +1,83 @@
+name: PluginManagementService
+type: class
+memory_category: Instances
+summary: 'Studio service that manages installed plugins; not intended for creator
+
+  scripts or plugins.
+
+  '
+description: 'Not intended for creator scripts or plugins. A Studio-only, non-creatable,
+
+  non-replicated service that backs Studio''s plugin-management UI: it can enable
+
+  or disable a plugin''s automatic updates and look up the latest over-the-air
+
+  (OTA) version published for a given plugin.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+- NotReplicated
+deprecation_message: ''
+properties: []
+methods:
+- name: SetAutoUpdate
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: pluginId
+    type: int64
+  - name: state
+    type: bool
+  returns:
+  - type: 'null'
+- name: GetOTAPluginVersion
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: pluginName
+    type: string
+  returns:
+  - type: int64
+- name: ListPluginGuisAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Dictionary
+events: []
+callbacks: []

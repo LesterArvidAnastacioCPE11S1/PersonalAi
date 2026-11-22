@@ -1,0 +1,75 @@
+name: MouseService
+type: class
+memory_category: Instances
+summary: 'Engine service that manages mouse cursor rendering, mouse lock behavior,
+  the
+
+  cursor-icon stack, delta sensitivity, and mouse position, delta, and button
+
+  tracking.
+
+  '
+description: 'Not accessible from scripts (`Input` security). `Class.MouseService`
+  manages
+
+  the mouse cursor and mouse input state — cursor rendering (software cursors
+
+  drawn by the engine and hardware cursors drawn by the operating system), mouse
+
+  lock behavior, the contextual cursor-icon stack, mouse delta sensitivity, and
+
+  tracking of the current mouse position, delta, and button state.
+
+
+  `Class.UserInputService` delegates its mouse-related members — such as
+
+  `Class.UserInputService.MouseBehavior|MouseBehavior`,
+
+  `Class.UserInputService.MouseIcon|MouseIcon`,
+
+  `Class.UserInputService.MouseIconEnabled|MouseIconEnabled`, and
+
+  `Class.UserInputService.MouseDeltaSensitivity|MouseDeltaSensitivity` — to this
+
+  service.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+- NotReplicated
+deprecation_message: ''
+properties: []
+methods: []
+events:
+- name: MouseEnterStudioViewport
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: MouseLeaveStudioViewport
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+callbacks: []

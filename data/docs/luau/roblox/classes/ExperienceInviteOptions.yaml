@@ -1,0 +1,206 @@
+name: ExperienceInviteOptions
+type: class
+memory_category: Instances
+summary: 'Used to customize a player invite prompt.
+
+  '
+description: 'Used to customize a
+
+  [player invite prompt](../../../production/promotion/invite-prompts.md), such
+
+  as to customize the prompt message, target a specific friend, or include
+
+  launch data in the invite.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotReplicated
+deprecation_message: ''
+properties:
+- name: ExperienceInviteOptions.InviteMessageId
+  summary: 'Asset ID that maps to a **Notification** asset type.
+
+    '
+  description: 'Asset ID that maps to a **Notification** asset type. This asset is
+    used to
+
+    store/localize a custom string for the invite notification that friends
+
+    receive. See
+
+    [Setting Notification Options](../../../production/promotion/invite-prompts.md#setting-notification-options)
+
+    for details.
+
+    '
+  code_samples: []
+  type: string
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Social
+- name: ExperienceInviteOptions.InviteUser
+  summary: 'Roblox `Class.Player.UserId|UserId` of the specific friend to invite.
+
+    '
+  description: 'Roblox `Class.Player.UserId|UserId` of the specific friend to invite;
+    if
+
+    not provided, the player will be prompted to pick from a list of friends.
+
+    '
+  code_samples: []
+  type: int64
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Social
+- name: ExperienceInviteOptions.LaunchData
+  summary: 'Used to set a parameter in `Class.Player:GetJoinData()` when a friend
+
+    joins from the invite notification.
+
+    '
+  description: 'Used to set a parameter in `Class.Player:GetJoinData()` when a friend
+
+    joins from the invite notification; maximum of 200 characters. See
+
+    [Include launch data](../../../production/promotion/invite-prompts.md#include-launch-data)
+
+    for a usage example.
+
+    '
+  code_samples: []
+  type: string
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Social
+- name: ExperienceInviteOptions.PromptMessage
+  summary: 'Custom text shown on the invite prompt for the sending player.
+
+    '
+  description: 'Custom text shown on the invite prompt for the sending player, for
+    example
+
+    "Ask your friends to join the adventure!" for a multi-friend invite
+
+    prompt, or "Invite this friend to join the adventure!" for a specific
+
+    friend invite prompt.
+
+    '
+  code_samples: []
+  type: string
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Social
+- name: InviteMessageId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+- name: InviteUser
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int64
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: LaunchData
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+- name: PromptMessage
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+methods: []
+events: []
+callbacks: []

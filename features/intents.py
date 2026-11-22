@@ -102,8 +102,10 @@ INTENT_GUIDANCE = {
             "parts and show the revised brief or changed lines."
         ),
         "story": (
-            "The user is correcting canon. Apply the correction and keep the "
-            "story consistent with it."
+            "The user is correcting canon. This is out of character. "
+            "Acknowledge the correction in one short line, apply it from now "
+            "on, and do not narrate the correction as a scene event or put it "
+            "in a character's mouth."
         )
     },
     "start_over": {

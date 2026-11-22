@@ -1,0 +1,635 @@
+name: BaseWrap
+type: class
+memory_category: Instances
+summary: 'Abstract base class for `Class.WrapTarget` and `Class.WrapLayer` that stores
+
+  cage mesh data for layered clothing deformation.
+
+  '
+description: 'The base class for `Class.WrapTarget` and `Class.WrapLayer` objects.
+  Note that
+
+  `Class.MeshPart` is the only valid parent type for `Class.BaseWrap` and that
+
+  it behaves more like a component of `Class.MeshPart` than an independent
+
+  object.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants:
+- WrapDeformer
+- WrapLayer
+- WrapTarget
+tags:
+- NotCreatable
+deprecation_message: ''
+properties:
+- name: BaseWrap.CageMeshContent
+  summary: 'The cage mesh this wrap uses to deform geometry, stored as a
+
+    `Datatype.Content` value.
+
+    '
+  description: 'The cage mesh this wrap uses to deform geometry, stored as a
+
+    `Datatype.Content` value that can reference an uploaded mesh asset or an
+
+    in-memory `Class.EditableMesh`. Set automatically by the Importer. It is
+
+    the backing store for `Class.BaseWrap.CageMeshId`: that property reads the
+
+    mesh ID from this content, and setting either keeps both in sync and
+
+    raises a change on both.
+
+
+    Defaults to an empty `Datatype.Content`. Without a valid cage, the wrap
+
+    cannot contribute to layered clothing deformation for `Class.WrapLayer` or
+
+    `Class.WrapTarget`.
+
+    '
+  code_samples: []
+  type: Content
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - AvatarAppearance
+- name: BaseWrap.CageMeshId
+  summary: 'Asset ID for cage mesh.
+
+    '
+  description: 'This property is set up automatically by the 3D Importer.
+
+
+    Asset ID for cage mesh.
+
+    '
+  code_samples: []
+  type: ContentId
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - AvatarAppearance
+- name: BaseWrap.CageOrigin
+  summary: 'Cage mesh offset relative to parent `Class.MeshPart`.
+
+    '
+  description: 'This property is set up automatically by the 3D Importer.
+
+
+    Cage mesh offset relative to parent `Class.MeshPart`.
+
+    '
+  code_samples: []
+  type: CFrame
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - AvatarAppearance
+- name: BaseWrap.CageOriginWorld
+  summary: 'Cage mesh offset in world space.
+
+    '
+  description: 'Cage mesh offset in world space.
+
+    '
+  code_samples: []
+  type: CFrame
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - AvatarAppearance
+- name: BaseWrap.HSRAssetId
+  summary: 'Asset ID for the hidden surface removal (HSR) data used by layered
+
+    clothing.
+
+    '
+  description: 'This property is not accessible through scripts but is viewable in
+    the
+
+    Properties window for any `Class.BaseWrap` object. It references
+
+    precomputed data that determines which mesh triangles are hidden when
+
+    clothing layers overlap.
+
+    '
+  code_samples: []
+  type: ContentId
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxEngineSecurity
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - AvatarAppearance
+- name: BaseWrap.HSRContent
+  summary: 'The hidden surface removal data for this wrap, stored as a
+
+    `Datatype.Content` value.
+
+    '
+  description: 'Hidden surface removal (HSR) data for this wrap, stored as a
+
+    `Datatype.Content` value that references a precomputed mesh asset. It is
+
+    the backing store for `Class.BaseWrap.HSRAssetId`: that property reads the
+
+    asset ID from this content, and setting either keeps both in sync.
+
+
+    The content determines which mesh triangles are hidden when clothing
+
+    layers overlap so occluded geometry can be culled during layered clothing
+
+    deformation. Generated automatically when a `Class.BaseWrap` is published;
+
+    you do not need to set it manually.
+
+    '
+  code_samples: []
+  type: Content
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxEngineSecurity
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - AvatarAppearance
+- name: BaseWrap.ImportOrigin
+  summary: 'Describes where a global zero was while authoring the cage mesh in an
+
+    asset creation tool.
+
+    '
+  description: 'This property is set up automatically by the 3D Importer.
+
+
+    Describes where a global zero was while authoring the cage mesh in an
+
+    asset creation tool such as Blender or Maya. This property is not used by
+
+    the deformer but it is useful for tools/aligning scripts, for example
+
+    aligning two parts by matching their pivots as follows:
+
+    '
+  code_samples:
+  - BaseWrap-ImportOrigin
+  type: CFrame
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - AvatarAppearance
+- name: BaseWrap.ImportOriginWorld
+  summary: 'Describes where the origin (in world space) was while authoring the cage
+
+    mesh in an asset creation tool.
+
+    '
+  description: 'Describes where the origin (in world space) was while authoring the
+    cage
+
+    mesh in an asset creation tool such as Blender or Maya.
+
+    '
+  code_samples: []
+  type: CFrame
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - AvatarAppearance
+- name: CageMeshContent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Content
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: CageMeshId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: ContentId
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: CageOrigin
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: CFrame
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: CageOriginWorld
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: CFrame
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: HSRAssetId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: ContentId
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: HSRContent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: Content
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: HSRData
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: SharedString
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: HSRMeshIdData
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: SharedString
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: ImportInProcess
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: ImportOrigin
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: CFrame
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: ImportOriginWorld
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: CFrame
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: TemporaryCageMeshContent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: Content
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: TemporaryCageMeshId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: ContentId
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+methods:
+- name: GetCageOffset
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Vector3
+- name: GetFaces
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: cageType
+    type: Enum.CageType
+  returns:
+  - type: Array
+- name: GetUVs
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: cageType
+    type: Enum.CageType
+  returns:
+  - type: Array
+- name: GetVertices
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: cageType
+    type: Enum.CageType
+  returns:
+  - type: Array
+- name: IsHSRReady
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+- name: ModifyVertices
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: cageType
+    type: Enum.CageType
+  - name: vertices
+    type: Array
+  returns:
+  - type: 'null'
+events:
+- name: VerticesModified
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: vertices
+    type: Array
+callbacks: []

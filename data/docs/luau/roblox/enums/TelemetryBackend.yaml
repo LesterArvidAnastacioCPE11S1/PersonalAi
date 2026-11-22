@@ -1,0 +1,42 @@
+name: TelemetryBackend
+type: enum
+summary: Reference for Enum.TelemetryBackend, generated automatically from the Roblox
+  API dump 0.748.0.7481526.
+description: Reference for Enum.TelemetryBackend, generated automatically from the
+  Roblox API dump 0.748.0.7481526.
+code_samples: []
+tags: []
+deprecation_message: ''
+items:
+- name: UNSPECIFIED
+  summary: ''
+  value: 0
+  tags: []
+- name: EventIngest
+  summary: ''
+  value: 1
+  tags: []
+- name: Points
+  summary: ''
+  value: 2
+  tags: []
+- name: Teletune
+  summary: ''
+  value: 3
+  tags: []
+- name: EphemeralCounter
+  summary: ''
+  value: 4
+  tags: []
+- name: EphemeralStat
+  summary: ''
+  value: 5
+  tags: []
+- name: Counter
+  summary: ''
+  value: 6
+  tags: []
+- name: Stat
+  summary: ''
+  value: 7
+  tags: []

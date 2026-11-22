@@ -1,0 +1,80 @@
+name: InstanceAdornment
+type: class
+memory_category: Instances
+summary: 'A base class for all objects that adorn `Class.Instance` classes.
+
+  '
+description: 'A base class for 3D GUI elements (`Class.GuiBase3d`) that adorn objects
+  of the
+
+  `Class.Instance` class. Unlike `Class.PartAdornment` and `Class.PVAdornment`,
+
+  whose adornee is restricted to a `Class.BasePart` or `Class.PVInstance`
+
+  respectively, an `Class.InstanceAdornment` can adorn any `Class.Instance` set
+
+  through its `Class.InstanceAdornment.Adornee` property. Like other
+
+  `Class.GuiBase3d` objects, it renders in 3D relative to its adornee when it is
+
+  a descendant of the `Class.Workspace` or another location where GUI objects
+
+  are rendered.
+
+  '
+code_samples: []
+inherits:
+- GuiBase3d
+descendants:
+- SelectionBox
+tags:
+- NotCreatable
+deprecation_message: ''
+properties:
+- name: InstanceAdornment.Adornee
+  summary: 'Which `Class.Instance` to adorn.
+
+    '
+  description: 'Since adornments are usually parented to some GUI, this property
+
+    determines which `Class.Instance` they are adorning. They render in 3D
+
+    positioned relative to the "adornee", not to their parent.
+
+    '
+  code_samples: []
+  type: Instance
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+  - UI
+- name: Adornee
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Instance
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+methods: []
+events: []
+callbacks: []

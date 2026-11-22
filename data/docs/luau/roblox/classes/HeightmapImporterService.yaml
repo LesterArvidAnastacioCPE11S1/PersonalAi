@@ -1,0 +1,199 @@
+name: HeightmapImporterService
+type: class
+memory_category: Instances
+summary: 'A Studio-only service that backs the Terrain Editor''s heightmap import
+  tool,
+
+  converting heightmap and colormap images into voxel `Class.Terrain`.
+
+  '
+description: 'Studio-only Terrain Editor service; members require elevated security
+  and are
+
+  not callable from experience scripts. Powers **Import Heightmap**: given a
+
+  `Datatype.Region3` and the asset IDs of a grayscale heightmap plus an optional
+
+  colormap, samples the images and generates smooth-voxel `Class.Terrain` in
+
+  that region — heightmap luminance drives height; colormap colors map to the
+
+  nearest terrain `Enum.Material`, falling back to a supplied default and
+
+  warning when too many pixels are unmatched.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- Service
+- NotReplicated
+deprecation_message: ''
+properties: []
+methods:
+- name: CancelImportHeightmap
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: IsValidColormap
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: colormapAssetId
+    type: ContentId
+  returns:
+  - type: Tuple
+- name: IsValidHeightmap
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: heightmapAssetId
+    type: ContentId
+  returns:
+  - type: Tuple
+- name: SetImportHeightmapPaused
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: paused
+    type: bool
+  returns:
+  - type: 'null'
+- name: GetHeightmapPreviewAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: heightmapAssetId
+    type: ContentId
+  returns:
+  - type: Tuple
+- name: ImportHeightmap
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: region
+    type: Region3
+  - name: heightmapAssetId
+    type: ContentId
+  - name: colormapAssetId
+    type: ContentId
+  - name: defaultMaterial
+    type: Enum.Material
+  returns:
+  - type: 'null'
+- name: ImportHeightmapWithMaterialSlotsAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: region
+    type: Region3
+  - name: heightmapAssetId
+    type: ContentId
+  - name: colormapAssetId
+    type: ContentId
+  - name: defaultMaterialIndex
+    type: int
+  returns:
+  - type: 'null'
+events:
+- name: ColormapHasUnknownPixels
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: ProgressUpdate
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: progressRatio
+    type: float
+  - name: operation
+    type: string
+callbacks: []

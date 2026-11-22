@@ -1,0 +1,121 @@
+name: UniqueIdLookupService
+type: class
+memory_category: Instances
+summary: 'Team Create service that maps `Class.Instance.UniqueId|UniqueId` to and
+  from
+
+  RFC-4122 strings; not for experience scripts.
+
+  '
+description: 'Not intended for experience scripts. Used by Team Create and Studio
+
+  collaboration to map between an `Class.Instance`''s
+
+  `Class.Instance.UniqueId|UniqueId` (a 128-bit identifier) and its canonical
+
+  RFC-4122 string form, and to resolve the live instance from that string.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+deprecation_message: ''
+properties: []
+methods:
+- name: UniqueIdLookupService:GetOrCreateUniqueIdRemoteCommand
+  summary: 'Returns the RFC-4122 string form of the instance''s
+
+    `Class.Instance.UniqueId|UniqueId`, creating one if the instance does not
+
+    already have it.
+
+    '
+  description: 'Returns the RFC-4122 string representation of the given `Class.Instance`''s
+
+    `Class.Instance.UniqueId|UniqueId`. If the instance does not yet have one,
+
+    a `Class.Instance.UniqueId|UniqueId` is generated for it (and for any
+
+    descendants that lack one) before the string is returned.
+
+    '
+  code_samples: []
+  parameters:
+  - name: instance
+    type: Instance
+    default: null
+    summary: 'The instance whose `Class.Instance.UniqueId|UniqueId` to read or
+
+      create.
+
+      '
+  returns:
+  - type: string
+    summary: 'The instance''s `Class.Instance.UniqueId|UniqueId` as an RFC-4122
+
+      string.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Unknown
+- name: GetInstanceByRfc4122String
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: id
+    type: string
+  returns:
+  - type: Instance
+- name: GetOrCreateUniqueId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: instance
+    type: Instance
+  returns:
+  - type: string
+- name: GetOrCreateUniqueIdRemoteCommand
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: instance
+    type: Instance
+  returns:
+  - type: string
+events: []
+callbacks: []

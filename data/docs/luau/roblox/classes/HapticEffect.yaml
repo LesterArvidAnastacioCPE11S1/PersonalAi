@@ -1,0 +1,475 @@
+name: HapticEffect
+type: class
+memory_category: Instances
+summary: 'An object that provides waveform-based haptic feedback (vibrations and
+
+  rumbles) on supported controllers and mobile devices.
+
+  '
+description: "Modern controllers and devices have motors built‑in to provide haptic\n\
+  feedback. Adding rumbles and vibrations can provide subtle feedback that is\nhard\
+  \ to convey through visuals or audio.\n\nRoblox supports haptics for the following\
+  \ devices:\n\n- Android and iOS phones supporting haptics including most iPhone,\
+  \ Pixel, and\n  Samsung Galaxy devices\n- PlayStation gamepads\n- Xbox gamepads\n\
+  - Quest Touch controller\n"
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: HapticEffect.Looped
+  summary: 'Whether the haptic effect loops continuously.
+
+    '
+  description: 'Whether the haptic effect loops continuously.
+
+    '
+  code_samples:
+  - HapticEffect-Looped
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Input
+- name: HapticEffect.Position
+  summary: 'Along with `Class.HapticEffect.Radius|Radius`, specifies the impact
+
+    position relative to the input device and, effectively, how broadly that
+
+    impact effects nearby motors.
+
+    '
+  description: 'Along with `Class.HapticEffect.Radius|Radius`, specifies the impact
+
+    position relative to the input device and, effectively, how broadly that
+
+    impact effects nearby motors. Note that some gamepads do not have both
+
+    "small" and "large" motors, and that "gamepad large left/right" is not
+
+    supported on PC.
+
+
+    <img src="/assets/engine-api/classes/HapticEffect/Position-Radius.png" width="780"
+    />
+
+    '
+  code_samples:
+  - HapticEffect-Position
+  type: Vector3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Input
+- name: HapticEffect.Radius
+  summary: 'Along with `Class.HapticEffect.Position|Position`, specifies the impact
+
+    radius relative to the input device and, effectively, how broadly that
+
+    impact effects nearby motors.
+
+    '
+  description: 'Along with `Class.HapticEffect.Position|Position`, specifies the impact
+
+    radius relative to the input device and, effectively, how broadly that
+
+    impact effects nearby motors. Note that some gamepads do not have both
+
+    "small" and "large" motors, and that "gamepad large left/right" is not
+
+    supported on PC.
+
+
+    <img src="/assets/engine-api/classes/HapticEffect/Position-Radius.png" width="780"
+    />
+
+    '
+  code_samples:
+  - HapticEffect-Radius
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Input
+- name: HapticEffect.Type
+  summary: '`Enum.HapticEffectType` describing the haptic type.
+
+    '
+  description: 'The haptic type, such as `Enum.HapticEffectType.GameplayCollision`
+    for a
+
+    large immediate rumble that dies down quickly. The
+
+    `Enum.HapticEffectType.Custom` value lets you specify a haptic with custom
+
+    waveform keys defined through
+
+    `Class.HapticEffect:SetWaveformKeys()|SetWaveformKeys()` and read back
+
+    with `Class.HapticEffect:GetWaveformKeys()|GetWaveformKeys()`.
+
+    '
+  code_samples: []
+  type: HapticEffectType
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Input
+- name: Looped
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+- name: Position
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Vector3
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 0, 0, 0
+- name: Radius
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '3'
+- name: Type
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.HapticEffectType
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: UIClick
+- name: WaveformData
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: BinaryString
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+methods:
+- name: HapticEffect:Play
+  summary: 'Plays the haptic effect.
+
+    '
+  description: 'Plays the haptic effect.
+
+    '
+  code_samples:
+  - HapticEffect-Play
+  parameters: []
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Input
+- name: HapticEffect:GetWaveformKeys
+  summary: 'Returns the custom waveform as an array of `Datatype.FloatCurveKey`
+
+    objects.
+
+    '
+  description: 'Returns the waveform
+
+    `Class.HapticEffect:SetWaveformKeys()|SetWaveformKeys()` stored on this
+
+    effect. Keys are `Datatype.FloatCurveKey` objects sorted by time. Each
+
+    key''s time is in milliseconds and its value ranges from `0` (no haptic) to
+
+    `1` (full intensity).
+
+
+    This method only works when `Class.HapticEffect.Type|Type` is
+
+    `Enum.HapticEffectType.Custom`. Any other type throws
+
+    `HapticEffect.Type is not Custom`. A custom effect with no keys set
+
+    returns an empty array.
+
+
+    Each call returns a new array. Editing that array does not change the
+
+    effect; pass it back to `SetWaveformKeys()` to apply a change.
+
+    '
+  code_samples:
+  - HapticEffect-GetWaveformKeys
+  parameters: []
+  returns:
+  - type: Array
+    summary: 'Array of `Datatype.FloatCurveKey` objects sorted by time, or an empty
+
+      array if none have been set. Each key''s time is in milliseconds and
+
+      its value is from `0` to `1`.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Input
+- name: HapticEffect:SetWaveformKeys
+  summary: "Defines a custom waveform as a table and applies it to the haptic.\n\n\
+    \    This method takes in an array of `Datatype.FloatCurveKey` objects.\n"
+  description: 'This method lets you define a custom waveform as a table and apply
+    it to
+
+    the haptic. It takes an array of `Datatype.FloatCurveKey` objects, each
+
+    constructed with three arguments: **time** in milliseconds, **value**
+
+    ranging from `0` (no haptic) to `1` (full intensity), and an
+
+    `Enum.KeyInterpolationMode` that controls how the curve interpolates.
+
+    between keys.
+
+    '
+  code_samples:
+  - HapticEffect-SetWaveformKeys
+  parameters:
+  - name: keys
+    type: Array
+    default: null
+    summary: 'An array of `Datatype.FloatCurveKey` objects defining the custom
+
+      haptic waveform, where each key specifies a time in milliseconds, an
+
+      intensity value from 0 (no haptic) to 1 (full intensity), and an
+
+      `Enum.KeyInterpolationMode` for interpolation between keys.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Input
+- name: HapticEffect:Stop
+  summary: 'Stops the haptic effect.
+
+    '
+  description: 'Stops the haptic effect.
+
+    '
+  code_samples:
+  - HapticEffect-Stop
+  parameters: []
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Input
+- name: GetWaveformKeys
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+- name: Play
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: SetWaveformKeys
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: keys
+    type: Array
+  returns:
+  - type: 'null'
+- name: Stop
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+events:
+- name: HapticEffect.Ended
+  summary: 'Fires when the `Class.HapticEffect` has completed playback and stopped.
+
+    '
+  description: 'Fires when the `Class.HapticEffect` has completed playback and stopped.
+
+    Note this event will **not** fire for haptics with
+
+    `Class.HapticEffect.Looped|Looped` set to `true` since they continue
+
+    playing upon reaching the end. This event will also **not** fire when the
+
+    haptic is stopped before playback has completed.
+
+
+    This event is often used to destroy an `Class.HapticEffect` when it has
+
+    completed playback.
+
+    '
+  code_samples: []
+  parameters: []
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Input
+- name: Ended
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+callbacks: []

@@ -1,0 +1,99 @@
+name: BevelMesh
+type: class
+memory_category: Instances
+summary: 'An abstract class that `Class.BlockMesh` and `Class.CylinderMesh` inherit
+
+  from.
+
+  '
+description: 'BevelMesh is an abstract class that `Class.BlockMesh` and `Class.CylinderMesh`
+
+  inherit from.
+
+  '
+code_samples: []
+inherits:
+- DataModelMesh
+descendants:
+- BlockMesh
+- CylinderMesh
+tags:
+- NotCreatable
+- NotBrowsable
+- Deprecated
+deprecation_message: 'This object serves no purpose other than being an abstract class
+  that
+
+  `Class.BlockMesh` and `Class.CylinderMesh` inherit from. Note non-character
+
+  beveled parts were removed in 2013. Developers looking for beveled edges are
+
+  required to use either `Class.UnionOperation|UnionOperations` or
+
+  `Class.MeshPart|MeshParts`.
+
+  '
+properties:
+- name: Bevel
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: Bevel Roundness
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: Bulge
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+methods: []
+events: []
+callbacks: []

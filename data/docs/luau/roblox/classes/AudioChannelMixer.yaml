@@ -1,0 +1,313 @@
+name: AudioChannelMixer
+type: class
+memory_category: Internal
+summary: 'Combines multiple audio streams into a single, multichannel audio stream.
+
+  '
+description: '`Class.AudioChannelMixer` mixes multiple audio streams into a single,
+
+  multichannel stream. It provides one combined **Input** pin, one **Output**
+
+  pin, as well as the following secondary input pins, all of which can be
+
+  connected to/from by `Class.Wire|Wires`: **Left**, **Right**, **Center**,
+
+  **SurroundLeft**, **SurroundRight**, **Sub**, **BackLeft**, **BackRight**,
+
+  **TopLeft**, **TopRight**, **TopBackLeft**, and **TopBackRight**.
+
+
+  <img src="/assets/engine-api/enums/AudioChannelLayout/Surround_7_1_4.jpg" width="810"
+  alt="Diagram showing position of all potential channels." />
+
+  '
+code_samples:
+- audio-wiring---splitting-mixing
+inherits:
+- Instance
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: AudioChannelMixer.Layout
+  summary: 'Controls the output channel layout to be mixed to.
+
+    '
+  description: "Controls the output channel layout to be mixed to. The **Input** pin\
+    \ of\n`Class.AudioChannelMixer` is always forwarded \"as-is\" to **Output**, but\n\
+    depending on the value of `Layout`:\n\n- For `Enum.AudioChannelLayout.Mono|Mono`,\
+    \ the **Center** pin consumes\n  audio streams.\n- For `Enum.AudioChannelLayout.Stereo|Stereo`,\
+    \ the **Left** and **Right**\n  pins consume audio streams.\n- For `Enum.AudioChannelLayout.Quad|Quad`,\
+    \ the **Left**, **Right**,\n  **BackLeft**, and **BackRight** pins consume audio\
+    \ streams.\n- `Enum.AudioChannelLayout.Surround_5|Surround_5` is the same as `Quad`,\n\
+    \  plus **Center** consumes an audio stream.\n- `Enum.AudioChannelLayout.Surround_5_1|Surround_5_1`\
+    \ is the same as\n  `Surround_5`, plus **Sub** consumes an audio stream.\n- `Enum.AudioChannelLayout.Surround_7_1|Surround_7_1`\
+    \ is the same as\n  `Surround_5_1`, plus **SurroundLeft** and **SurroundRight**\
+    \ consume\n  audio streams.\n- For `Enum.AudioChannelLayout.Surround_7_1_4|Surround_7_1_4`,\
+    \ all\n  secondary input pins consume audio streams.\n"
+  code_samples: []
+  type: AudioChannelLayout
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: State
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Audio
+- name: Layout
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.AudioChannelLayout
+  category: State
+  serialization:
+    can_load: true
+    can_save: true
+  default: Stereo
+methods:
+- name: AudioChannelMixer:GetConnectedWires
+  summary: 'Returns an array of `Class.Wire|Wires` that are connected to the specified
+
+    pin.
+
+    '
+  description: 'Returns an array of `Class.Wire|Wires` that are connected to the specified
+
+    pin. For `Class.AudioChannelMixer`, this can be one "Output" pin or a
+
+    number of input pins - see `Class.AudioChannelMixer.GetInputPins` for a
+
+    full list.
+
+    '
+  code_samples: []
+  parameters:
+  - name: pin
+    type: string
+    default: null
+    summary: 'An input or output pin on this instance
+
+      '
+  returns:
+  - type: List<Wire>
+    summary: 'An array of `Class.Wire|Wires`
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Audio
+- name: AudioChannelMixer:GetInputPins
+  summary: 'Gets the list of pins that `Class.Wire` can use in `Class.Wire.TargetName`
+
+    to connect to this instance via its `Class.Wire.TargetInstance` property.
+
+    '
+  description: 'Gets the list of pins that `Class.Wire` can use in `Class.Wire.TargetName`
+
+    to connect to this instance via its `Class.Wire.TargetInstance` property.
+
+
+    For `Class.AudioChannelMixer`, these are:
+
+
+    - `"Input"`
+
+    - `"Left"`
+
+    - `"Right"`
+
+    - `"Center"`
+
+    - `"SurroundLeft"`
+
+    - `"SurroundRight"`
+
+    - `"BackLeft"`
+
+    - `"BackRight"`
+
+    - `"Sub"`
+
+    - `"TopLeft"`
+
+    - `"TopRight"`
+
+    - `"TopBackLeft"`
+
+    - `"TopBackRight"`
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Array
+    summary: 'An array of strings representing valid pin names.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Audio
+- name: AudioChannelMixer:GetOutputPins
+  summary: 'Gets the list of pins that `Class.Wire` can use in `Class.Wire.SourceName`
+
+    to connect to this instance via its `Class.Wire.SourceInstance` property.
+
+    '
+  description: 'Gets the list of pins that `Class.Wire` can use in `Class.Wire.SourceName`
+
+    to connect to this instance via its `Class.Wire.SourceInstance` property.
+
+
+    For `Class.AudioChannelMixer`, this is `Output` only.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Array
+    summary: 'An array of strings representing valid pin names.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Audio
+- name: GetConnectedWires
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: pin
+    type: string
+  returns:
+  - type: Instances
+- name: GetInputPins
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+- name: GetOutputPins
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+events:
+- name: AudioChannelMixer.WiringChanged
+  summary: 'Fires when another instance is connected to or disconnected from the
+
+    `Class.AudioChannelMixer` via a `Class.Wire`.
+
+    '
+  description: 'Event that fires after a `Class.Wire` becomes connected or disconnected,
+
+    and that `Class.Wire` is now or was previously connected to a pin on the
+
+    `Class.AudioChannelMixer` and to some other wirable instance.
+
+    '
+  code_samples: []
+  parameters:
+  - name: connected
+    type: boolean
+    default: null
+    summary: 'Whether the instance got connected or disconnected.
+
+      '
+  - name: pin
+    type: string
+    default: null
+    summary: 'The pin on the `Class.AudioChannelMixer` that the `Class.Wire`
+
+      targets.
+
+      '
+  - name: wire
+    type: Wire
+    default: null
+    summary: 'The `Class.Wire` between the `Class.AudioChannelMixer` and the other
+
+      instance.
+
+      '
+  - name: instance
+    type: Instance
+    default: null
+    summary: 'The other instance that is or was connected through the `Class.Wire`.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Audio
+- name: WiringChanged
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: connected
+    type: bool
+  - name: pin
+    type: string
+  - name: wire
+    type: Wire
+  - name: instance
+    type: Instance
+callbacks: []

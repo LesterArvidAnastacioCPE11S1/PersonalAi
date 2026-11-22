@@ -1,0 +1,1641 @@
+name: VoiceChatService
+type: class
+memory_category: Instances
+summary: '**VoiceChatService** is responsible for voice chat''s high-level functionality.
+
+  '
+description: '**VoiceChatService** is responsible for voice chat''s high-level functionality.
+
+  This mostly consists of configuration options, and functions that are not
+
+  specifically-controlled by more-specific instances.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+deprecation_message: ''
+properties:
+- name: VoiceChatService.DefaultDistanceAttenuation
+  summary: 'Determines which distance attenuation curve the default voice chat setup
+
+    uses when `Class.AudioDeviceInput` and `Class.AudioEmitter` objects are
+
+    generated.
+
+    '
+  description: 'This property controls the default distance attenuation curve assigned
+    to
+
+    any generated `Class.AudioEmitter` instances in the default voice chat
+
+    setup.
+
+
+    This property only has an effect if
+
+    `Class.VoiceChatService.EnableDefaultVoice|EnableDefaultVoice` and
+
+    `Class.VoiceChatService.UseAudioApi|UseAudioApi` are both enabled, since
+
+    no `Class.AudioEmitter|AudioEmitters` are otherwise generated.
+
+    '
+  code_samples: []
+  type: VoiceChatDistanceAttenuationType
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Audio
+  - Chat
+  - PluginOrOpenCloud
+- name: VoiceChatService.EnableDefaultVoice
+  summary: 'Controls whether each voice-eligible player can be heard as though they
+
+    were speaking through their character.
+
+    '
+  description: 'When enabled, each voice-eligible player can be heard as though they
+    were
+
+    speaking through their character. The implementation details of the voice
+
+    setup depend on `Class.VoiceChatService.UseAudioApi|UseAudioApi`.
+
+
+    When `Class.VoiceChatService.UseAudioApi|UseAudioApi` is
+
+    `Enum.AudioApiRollout|Enabled`, disabling this property disables the
+
+    default setup, but `Class.AudioDeviceInput` will still work. Conversely,
+
+    when `Class.VoiceChatService.UseAudioApi|UseAudioApi` is
+
+    `Enum.AudioApiRollout|Disabled`, disabling the default voice setup
+
+    effectively disables voice chat altogether.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Audio
+  - Chat
+  - PluginOrOpenCloud
+- name: VoiceChatService.EnableVoiceVolumeControls
+  summary: 'Controls whether Roblox''s built-in voice chat volume controls are
+
+    available to players.
+
+    '
+  description: 'This `Enum.RolloutState` property controls whether Roblox''s built-in
+    voice
+
+    chat volume controls are available to players, including a global voice
+
+    chat volume slider and per-user volume adjustments.
+
+
+    When set to `Enum.RolloutState|Enabled`, these controls are available to
+
+    players. When set to `Enum.RolloutState|Disabled`, the built-in controls
+
+    are hidden, though creators can still implement their own custom voice
+
+    volume controls. `Enum.RolloutState|Default` follows the default for this
+
+    feature.
+
+
+    If `Class.VoiceChatService.UseAudioApi|UseAudioApi` is disabled, this
+
+    property has no effect and built-in controls will be hidden.
+
+    '
+  code_samples: []
+  type: RolloutState
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Audio
+  - Chat
+- name: VoiceChatService.UseAudioApi
+  summary: 'Controls whether voice chat is represented and controlled by
+
+    `Class.AudioDeviceInput` objects.
+
+    '
+  description: "If `Enum.AudioApiRollout|Enabled`, the voice chat setup is represented\
+    \ and\ncontrolled by `Class.AudioDeviceInput` objects. More specifically:\n\n\
+    - An `Class.AudioDeviceInput` will be created and parented to each\n  voice-eligible\
+    \ `Class.Player`.\n- An `Class.AudioEmitter` will be created and parented to each\n\
+    \  voice-eligible player's `Class.Player.Character`.\n- An `Class.AudioListener`\
+    \ will be created and parented to\n  `Class.Workspace.CurrentCamera`.\n\nYou can\
+    \ disable the default setup by setting\n`Class.VoiceChatService.EnableDefaultVoice`\
+    \ to `false`.\n\nIf `Enum.AudioApiRollout|Disabled`, the voice chat setup is done\
+    \ through\nan internal-only system.\n\nCurrently, setting this to `Enum.AudioApiRollout|Automatic`\
+    \ has the same\nmeaning as `Enum.AudioApiRollout|Disabled`. However, in the future,\n\
+    `Enum.AudioApiRollout|Automatic` will become\n`Enum.AudioApiRollout|Enabled`,\
+    \ so that new experiences can achieve\ngreater customization over voice.\n"
+  code_samples: []
+  type: AudioApiRollout
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Audio
+  - Chat
+  - PluginOrOpenCloud
+- name: DefaultDistanceAttenuation
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.VoiceChatDistanceAttenuationType
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: Inverse
+- name: EnableDefaultVoice
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'true'
+- name: EnableVoiceVolumeControls
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: Enum.RolloutState
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: Default
+- name: UseAudioApi
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.AudioApiRollout
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: Automatic
+- name: UseNewAudioApi
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: 'false'
+- name: UseNewControlPaths
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: 'false'
+- name: UseNewJoinFlow
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: 'false'
+- name: UseStreamSwitching
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: 'false'
+- name: VoiceChatEnabledForPlaceOnRcc
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: State
+  serialization:
+    can_load: false
+    can_save: false
+  default: 'false'
+- name: VoiceChatEnabledForUniverseOnRcc
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: State
+  serialization:
+    can_load: false
+    can_save: false
+  default: 'false'
+methods:
+- name: VoiceChatService:GetChatGroupsAsync
+  summary: 'Returns chat group IDs that indicate which players can voice chat
+
+    together.
+
+    '
+  description: 'Returns a sorted array of arrays of chat group IDs for the given players.
+
+    Each chat group ID is a string that represents a communication-compatible
+
+    group within the current universe.
+
+
+    If two or more players share the same chat group ID, those players are
+
+    eligible to voice chat with each other based on their age-check status,
+
+    voice chat eligibility, and communication settings.
+
+
+    This method is server-side only and intended for real-time use cases such
+
+    as matchmaking and teleporting. Chat group IDs are unique to the current
+
+    universe, may change over time, and should not be stored once the user has
+
+    left the experience. While you can hold onto the data returned for the
+
+    purposes of gameplay while the user is in the experience, this data should
+
+    not be stored after they''ve left.
+
+
+    To use this method, you must enable **Chat & Voice Groups APIs** in
+
+    **Experience Settings** ⟩ **Communication** in Roblox Studio and agree to
+
+    the Roblox Terms of Use.
+
+
+    In Roblox Studio this API is only available when the experience is running
+
+    in **Team Test**.
+
+    '
+  code_samples:
+  - VoiceChatService-Chat-Groups-Teleport
+  - VoiceChatService-GetChatGroupsAsync
+  parameters:
+  - name: players
+    type: Instances
+    default: null
+    summary: 'A list of `Class.Player|Players` currently in the experience to
+
+      evaluate for voice chat compatibility.
+
+      '
+  returns:
+  - type: Array
+    summary: 'A sorted array of arrays of chat group ID strings. Players who share
+      a
+
+      matching chat group ID are eligible to voice chat with each other.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Audio
+  - Chat
+- name: VoiceChatService:IsVoiceEnabledForUserIdAsync
+  summary: 'Returns whether or not the given user has voice enabled.
+
+    '
+  description: 'Returns whether or not the given user has voice enabled. On the
+
+    client-side, this can only be used to check the voice status of the local
+
+    player. On the server-side, this can only check the voice status for
+
+    players in that server.
+
+
+    This function can throw an error if the HTTP call fails.
+
+    '
+  code_samples:
+  - VoiceChatService-IsVoiceEnabledForUserIdAsync
+  parameters:
+  - name: userId
+    type: User
+    default: null
+    summary: 'The `Class.Player.UserId` to check.
+
+      '
+  returns:
+  - type: boolean
+    summary: 'If that user has voice enabled.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Audio
+  - Chat
+- name: getInternalChannelId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: string
+- name: getInternalGroupId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: string
+- name: getInternalPublishPause
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+- name: getInternalSessionId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: string
+- name: getInternalSubscribePause
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: int64
+  returns:
+  - type: bool
+- name: getInternalSubscribePauseAll
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+- name: getInternalVoiceChatApiVersion
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: int
+- name: isInternalPublishPaused
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+- name: joinVoice
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: lastVoiceChatConnectivity
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Dictionary
+- name: lastVoiceChatRemoteOperations
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Dictionary
+- name: lastVoiceChatStats
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Dictionary
+- name: lastVoiceChatSubscriptions
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Dictionary
+- name: leaveVoice
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: leaveReason
+    type: Enum.VoiceClientLeaveReasons
+    default: LuaInitiated
+  returns:
+  - type: 'null'
+- name: notifyServerACSCleanup
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: rejoinVoice
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: GetChatGroupsAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: players
+    type: Instances
+  returns:
+  - type: Array
+- name: IsVoiceEnabledForUserIdAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: User
+  returns:
+  - type: bool
+events:
+- name: ACSCleanup
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: ClientRetryJoin
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: ClientRetryJoinWithConfig
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: sessionConfigFlags
+    type: int64
+- name: ClientStreamSwitchAck
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: eventTag
+    type: int64
+  - name: sessionId
+    type: string
+- name: FetchUserTurnAuthOperationFailed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: sessionId
+    type: string
+- name: JoinedVoice
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: channelName
+    type: string
+  - name: participantId
+    type: int64
+  - name: sessionId
+    type: string
+  - name: channelId
+    type: string
+- name: JoinedVoiceV2
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: channelName
+    type: string
+  - name: participantId
+    type: int64
+  - name: sessionId
+    type: string
+  - name: channelId
+    type: string
+  - name: sfuImage
+    type: string
+  - name: sfuTag
+    type: string
+  - name: sfuDataCenterId
+    type: int
+- name: PublishStateChange
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: muteState
+    type: Enum.MuteState
+  - name: sessionId
+    type: string
+- name: PublishingHandshakeAcked
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: handshakeAnswer
+    type: string
+  - name: sessionId
+    type: string
+- name: PublishingHandshakeAckedWithBothSdp
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: fullHandshakeAnswer
+    type: string
+  - name: compressedHandshakeAnswer
+    type: string
+  - name: sessionId
+    type: string
+  - name: compressMode
+    type: int
+- name: PublishingHandshakeAckedWithCompressedSdp
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: compressedHandshakeAnswer
+    type: string
+  - name: sessionId
+    type: string
+  - name: compressMode
+    type: int
+- name: PublishingHandshakeCompleted
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: sessionId
+    type: string
+- name: PublishingHandshakeInitiated
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: handshakeOffer
+    type: string
+  - name: muteState
+    type: Enum.MuteState
+  - name: sessionId
+    type: string
+- name: PublishingHandshakeInitiatedWithBothSdp
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: fullHandshakeOffer
+    type: string
+  - name: compressedHandshakeOffer
+    type: string
+  - name: muteState
+    type: Enum.MuteState
+  - name: sessionId
+    type: string
+  - name: compressMode
+    type: int
+- name: PublishingHandshakeInitiatedWithCompressedSdp
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: compressedHandshakeOffer
+    type: string
+  - name: muteState
+    type: Enum.MuteState
+  - name: sessionId
+    type: string
+  - name: compressMode
+    type: int
+- name: ReJoinedVoice
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: channelName
+    type: string
+  - name: participantId
+    type: int64
+  - name: sessionId
+    type: string
+  - name: channelId
+    type: string
+- name: ReJoinedVoiceV2
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: channelName
+    type: string
+  - name: participantId
+    type: int64
+  - name: sessionId
+    type: string
+  - name: channelId
+    type: string
+  - name: sfuImage
+    type: string
+  - name: sfuTag
+    type: string
+  - name: sfuDataCenterId
+    type: int
+- name: RelayCandidatesGathered
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: voiceControlPath
+    type: Enum.VoiceControlPath
+  - name: serializedIceCandidates
+    type: string
+  - name: isLast
+    type: bool
+  - name: sessionId
+    type: string
+  - name: clientIp
+    type: string
+  - name: clientPort
+    type: int
+- name: SsrcUserIdMappingUpdate
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: ssrcs
+    type: Array
+  - name: userIds
+    type: Array
+  - name: feedIds
+    type: Array
+  - name: sessionId
+    type: string
+  - name: eventTag
+    type: int64
+- name: SubscribeStateChange
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: muteState
+    type: Enum.MuteState
+  - name: userIds
+    type: string
+  - name: sessionId
+    type: string
+- name: SubscriberAudioQualitySample
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: sampleJson
+    type: string
+- name: SubscriptionFeedStarted
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: eventTag
+    type: int64
+  - name: sessionId
+    type: string
+- name: SubscriptionHandshakeAcked
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: eventTag
+    type: int64
+  - name: handshakeAnswer
+    type: string
+  - name: usersToMute
+    type: string
+  - name: sessionId
+    type: string
+- name: SubscriptionHandshakeAckedWithBothSdp
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: eventTag
+    type: int64
+  - name: fullHandshakeAnswer
+    type: string
+  - name: compressedSdpAnswer
+    type: string
+  - name: usersToMute
+    type: string
+  - name: sessionId
+    type: string
+  - name: compressMode
+    type: int
+- name: SubscriptionHandshakeAckedWithCompressedSdp
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: eventTag
+    type: int64
+  - name: compressedSdpAnswer
+    type: string
+  - name: usersToMute
+    type: string
+  - name: sessionId
+    type: string
+  - name: compressMode
+    type: int
+- name: SubscriptionHandshakeCompleted
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: sessionId
+    type: string
+  - name: eventTag
+    type: int64
+- name: SubscriptionHandshakeInitiated
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: handshakeOffer
+    type: string
+  - name: newSubscriptionStates
+    type: string
+  - name: isNewConnection
+    type: bool
+  - name: sessionId
+    type: string
+  - name: eventTag
+    type: int64
+- name: SubscriptionHandshakeInitiatedWithBothSdp
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: fullHandshakeOffer
+    type: string
+  - name: compressedHandshakeOffer
+    type: string
+  - name: newSubscriptionStates
+    type: string
+  - name: isNewConnection
+    type: bool
+  - name: sessionId
+    type: string
+  - name: eventTag
+    type: int64
+  - name: compressMode
+    type: int
+- name: SubscriptionHandshakeInitiatedWithCompressedSdp
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: compressedHandshakeOffer
+    type: string
+  - name: newSubscriptionStates
+    type: string
+  - name: isNewConnection
+    type: bool
+  - name: sessionId
+    type: string
+  - name: eventTag
+    type: int64
+  - name: compressMode
+    type: int
+- name: SubscriptionReset
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: sessionId
+    type: string
+- name: UpdateTurnAuthInfoRequest
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: UserTurnAuth
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: sessionId
+    type: string
+  - name: userName
+    type: string
+  - name: password
+    type: string
+  - name: ttl
+    type: int
+  - name: uris
+    type: Array
+- name: UserTurnAuthV2
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: sessionId
+    type: string
+  - name: userName
+    type: string
+  - name: password
+    type: string
+  - name: ttl
+    type: int
+  - name: uris
+    type: Array
+  - name: dataCenterId
+    type: int
+  - name: dataCenterPop
+    type: string
+- name: VoiceChatClientVoiceCapability
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: VoiceChatClientVoiceCapabilityWithConfig
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: sessionConfigFlags
+    type: int64
+- name: VoiceChatPlayerMuteStateChangedClientToServer
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: muteState
+    type: Enum.MuteState
+- name: VoiceChatPlayerMuteStateChangedServerToClient
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: muteState
+    type: Enum.MuteState
+- name: VoiceChatSampleTaggedEventClientToServer
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: tag
+    type: int64
+  - name: value
+    type: string
+- name: VoiceChatSampleTaggedEventServerToClient
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: tag
+    type: int64
+  - name: value
+    type: string
+- name: VoiceChatStatsCollected
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: VoiceChatSubscriptionInitialBatchEmpty
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: sessionId
+    type: string
+- name: VoiceChatplayerMuteStatusChangedEvent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: int64
+  - name: muted
+    type: bool
+  - name: sessionId
+    type: string
+- name: VoiceMigration
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: reason
+    type: Enum.VoiceRccReconnectReason
+- name: VoiceSetupFailed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: voiceControlPath
+    type: Enum.VoiceControlPath
+  - name: serializedFailure
+    type: string
+  - name: sessionId
+    type: string
+callbacks: []

@@ -1,0 +1,1389 @@
+name: StudioService
+type: class
+memory_category: Instances
+summary: 'Provides access to configuration of Roblox Studio and allows importing files
+
+  from the user''s file system.
+
+  '
+description: "**StudioService** provides access to configuration of Roblox Studio,\
+  \ allows\nimporting files from the user's file system, and other miscellaneous\n\
+  information. It is intended to be used by `Class.Plugin|Plugins` in order to\nprovide\
+  \ a consistent user experience.\n\n- Plugins that allow the user to move objects\
+  \ may find\n  `Class.StudioService.GridSize|GridSize`,\n  `Class.StudioService.RotateIncrement|RotateIncrement`\
+  \ and\n  `Class.StudioService.UseLocalSpace|UseLocalSpace` useful.\n- Plugins that\
+  \ require the user to import files should use\n  `Class.StudioService:PromptImportFileAsync()|PromptImportFileAsync`\
+  \ or\n  `Class.StudioService:PromptImportFilesAsync()|PromptImportFilesAsync` in\n\
+  \  order to receive `Class.File` objects.\n- Plugins that display icons of Instance\
+  \ classes can use\n  `Class.StudioService:GetClassIcon()|GetClassIcon`.\n- Plugins\
+  \ that care about which script is currently being edited (if any) can\n  read this\
+  \ from `Class.StudioService.ActiveScript|ActiveScript`.\n"
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+- NotReplicated
+deprecation_message: ''
+properties:
+- name: StudioService.ActiveScript
+  summary: 'Reflects the `Class.LuaSourceContainer` currently being edited (if any).
+
+    '
+  description: '**ActiveScript** refers to the `Class.LuaSourceContainer` currently
+    being
+
+    edited by the user. If the user is not editing a script, this will be
+
+    `nil`. Below is an example that shows how you can use this property to
+
+    measure for how long a script was active.
+
+    '
+  code_samples:
+  - StudioService-ActiveScript
+  type: Instance
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: State
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: StudioService.DraggerSolveConstraints
+  summary: 'Reflects whether Studio''s draggers solve constraints while moving objects.
+
+    '
+  description: 'Reflects whether Studio''s move, scale, and rotate draggers solve
+
+    constraints while dragging, so that manipulating one part of a constrained
+
+    mechanism moves the connected parts according to their constraints. This
+
+    property is read-only and defaults to `false`. Plugins that implement
+
+    their own dragging tools can read it to match the user''s current dragger
+
+    behavior.
+
+    '
+  code_samples: []
+  type: boolean
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: StudioService.DrawConstraintsOnTop
+  summary: 'Deprecated property that previously controlled whether constraints were
+
+    drawn on top of other objects in the viewport.
+
+    '
+  description: 'This property is deprecated and no longer has any effect: constraints
+    can
+
+    no longer be drawn "on top" of other objects in the 3D viewport.
+
+    '
+  code_samples: []
+  type: boolean
+  tags:
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  deprecation_message: 'This property is deprecated; constraints can no longer be
+    drawn "on top"
+
+    of other objects.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: StudioService.GridSize
+  summary: 'Determines the distance in studs by which Studio''s drag and move tools
+
+    move objects each tick.
+
+    '
+  description: '**GridSize** determines the distance in studs by which Studio''s drag
+    and
+
+    move tools move objects each tick. This is set in the user''s toolbar''s
+
+    **Model** tab.
+
+    '
+  code_samples: []
+  type: float
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: StudioService.RotateIncrement
+  summary: 'Determines the degrees by which Studio''s rotation tool will rotate
+
+    selected objects each tick.
+
+    '
+  description: '**RotateIncrement** determines the angle in degrees by which Studio''s
+
+    rotation tool will rotate selected objects each tick. This is set in the
+
+    user''s toolbar''s **Model** tab.
+
+    '
+  code_samples: []
+  type: float
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: StudioService.Secrets
+  summary: 'A JSON string storing the local secrets for the current experience, used
+
+    by Studio to support HttpService:GetSecret().
+
+    '
+  description: '**Secrets** stores the [local secrets](../../../cloud-services/secrets.md)
+
+    configured for the current experience. This property is not accessible to
+
+    creators; secrets are consumed at runtime through
+
+    `HttpService:GetSecret()`.
+
+    '
+  code_samples: []
+  type: string
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: StudioService.ShowConstraintDetails
+  summary: 'Reflects whether constraint details are drawn in the 3D viewport.
+
+    '
+  description: 'Reflects whether Studio draws constraint details in the 3D viewport,
+
+    mirroring the **Constraint Details** toggle in the toolbar''s **Model**
+
+    tab. When enabled, constraints such as
+
+    `Class.WeldConstraint|WeldConstraints` and
+
+    `Class.NoCollisionConstraint|NoCollisionConstraints` are drawn and become
+
+    selectable in the viewport. This property is read-only and defaults to
+
+    `false`.
+
+    '
+  code_samples: []
+  type: boolean
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: StudioService.ShowWeldDetails
+  summary: 'Reflects whether weld details are drawn in the 3D viewport.
+
+    '
+  description: 'Reflects whether Studio draws weld details in the 3D viewport. When
+
+    enabled, `Class.WeldConstraint|WeldConstraints` between parts are
+
+    visualized. This property is read-only and defaults to `false`.
+
+    '
+  code_samples: []
+  type: boolean
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: StudioService.StudioLocaleId
+  summary: 'The locale currently in-use by Studio, e.g. `en_US`.
+
+    '
+  description: 'The **StudioLocaleId** property contains the locale currently in-use
+    by
+
+    Studio, e.g. `en_US`. It is useful when localizing plugins.
+
+
+    Below is a trivial example of localization based on the value returned by
+
+    this function.
+
+    '
+  code_samples:
+  - StudioService-StudioLocaleId
+  type: string
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: State
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: StudioService.UseLocalSpace
+  summary: 'Determines whether Studio tools will use local space of an object or
+
+    global space.
+
+    '
+  description: '**UseLocalSpace** determines whether the Studio movement/rotation
+    tools
+
+    will manipulate a part''s `Class.BasePart.CFrame|CFrame` using the local
+
+    space of an object or global space. By default, this setting is toggled
+
+    with <kbd>Ctrl</kbd><kbd>L</kbd> or <kbd>⌘</kbd><kbd>L</kbd>. Plugins can
+
+    read from this property if they implement their own object movement tools.
+
+    '
+  code_samples: []
+  type: boolean
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: false
+  capabilities: []
+- name: ActiveScript
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Instance
+  category: State
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_skipped_class__
+- name: AlignDraggedObjects
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_skipped_class__
+- name: DraggerSolveConstraints
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_skipped_class__
+- name: DrawConstraintsOnTop
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_skipped_class__
+- name: GridSize
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_skipped_class__
+- name: HoverInstance
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: Instance
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_skipped_class__
+- name: InstalledPluginData
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_skipped_class__
+- name: PivotSnapToGeometry
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_skipped_class__
+- name: RotateIncrement
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_skipped_class__
+- name: Secrets
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+- name: ShowConstraintDetails
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_skipped_class__
+- name: ShowWeldDetails
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_skipped_class__
+- name: StudioLocaleId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: State
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_skipped_class__
+- name: UseLocalSpace
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: false
+  default: __api_dump_skipped_class__
+methods:
+- name: StudioService:GetClassIcon
+  summary: 'Provides a dictionary that allows the display of a class'' Explorer window
+
+    icon.
+
+    '
+  description: "**GetClassIcon** provides a dictionary that allows the display of\
+    \ a class'\nExplorer window icon, e.g. calling this function with \"Part\" returns\n\
+    property values that display the part icon from the Explorer window.\n\nBelow\
+    \ is a literal table representation of the value returned when this\nfunction\
+    \ is called with `\"Part\"`.\n\n```\n{\n\tImage = \"rbxasset://textures/ClassImages.png\"\
+    ,\n\tImageRectOffset = Vector2.new(16, 0),\n\tImageRectSize = Vector2.new(16,\
+    \ 16)\n}\n```\n\nThe utility function below may prove useful when displaying class\
+    \ icons:\n\n```lua\nlocal StudioService = game:GetService(\"StudioService\")\n\
+    local imageLabel = script.Parent\nlocal function displayClassIcon(image, className)\n\
+    \tfor k, v in StudioService:GetClassIcon(className) do\n\t\timage[k] = v -- Set\
+    \ property\n\tend\nend\ndisplayClassIcon(imageLabel, \"Part\")\n```\n"
+  code_samples: []
+  parameters:
+  - name: className
+    type: string
+    default: null
+    summary: 'The name of the Roblox class to retrieve the Explorer window icon for.
+
+      '
+  returns:
+  - type: Dictionary
+    summary: 'A dictionary containing `Image`, `ImageRectOffset`, and
+
+      `ImageRectSize` fields that can be applied to an `Class.ImageLabel` to
+
+      display the class icon.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: StudioService:GetUserId
+  summary: 'Returns the Studio user''s userId if they''re logged in, otherwise
+
+    returns 0.
+
+    '
+  description: 'Returns the Studio user''s userId if they''re logged in, otherwise
+
+    returns 0.
+
+    '
+  code_samples:
+  - studioservice-getuserid
+  parameters: []
+  returns:
+  - type: int64
+    summary: 'The UserId of the logged-in Studio user, or 0 if the user is not
+
+      logged in.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: StudioService:PromptImportFile
+  summary: 'Prompts the current Studio user to select one file to add as a
+
+    `Class.File`.
+
+    '
+  description: "This function prompts the current Studio user to select one file,\
+    \ which\nwill then be loaded as a `Class.File`.\n\nSee also:\n\n- `Class.StudioService:PromptImportFiles()`,\
+    \ the same function but for\n  loading a list of files instead of a single file\n"
+  code_samples: []
+  parameters:
+  - name: fileTypeFilter
+    type: Array
+    default: '{}'
+    summary: 'A list of file types that the user is allowed to select. File types
+
+      are formatted without a period. For example, {"jpg", "png"} would
+
+      allow only a JPG or PNG file to be selected. If no filter is provided,
+
+      the filter is `nil` and allows the user to select any file type.
+
+      '
+  returns:
+  - type: Instance
+    summary: 'The imported `Class.File`. Returns `nil` if no files were selected,
+      or
+
+      if the selected file was too large (FileSize greater than 100
+
+      megabytes).
+
+      '
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: StudioService:PromptImportFileAsync
+  summary: 'Prompts the current Studio user to select one file to add as a
+
+    `Class.File`.
+
+    '
+  description: "This function prompts the current Studio user to select one file,\
+    \ which\nwill then be loaded as a `Class.File`.\n\nSee also:\n\n- `Class.StudioService:PromptImportFilesAsync()`,\
+    \ the same function but\n  for loading a list of files instead of a single file\n"
+  code_samples: []
+  parameters:
+  - name: fileTypeFilter
+    type: Array
+    default: '{}'
+    summary: 'A list of file types that the user is allowed to select. File types
+
+      are formatted without a period. For example, {"jpg", "png"} would
+
+      allow only a JPG or PNG file to be selected. If no filter is provided,
+
+      the filter is `nil` and allows the user to select any file type.
+
+      '
+  returns:
+  - type: Instance
+    summary: 'The imported `Class.File`. Returns `nil` if no files were selected,
+      or
+
+      if the selected file was too large (FileSize greater than 100
+
+      megabytes).
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: StudioService:PromptImportFiles
+  summary: 'Prompts the current Studio user to select files to add as
+
+    `Class.File|Files`.
+
+    '
+  description: "This function prompts the current Studio user to select one or more\
+    \ files,\nwhich will then be loaded as `Class.File|Files`.\n\nThrows an error\
+    \ if the fileTypeFilter was an empty list.\n\nSee also:\n\n- `Class.StudioService:PromptImportFilesAsync()`,\
+    \ the same function but\n  for loading a list of files instead of a single file\n"
+  code_samples: []
+  parameters:
+  - name: fileTypeFilter
+    type: Array
+    default: '{}'
+    summary: 'A list of file types that the user is allowed to select. File types
+
+      are formatted without a period. For example, {"jpg", "png"} would
+
+      allow only JPG and PNG files to be selected. If no filter is provided,
+
+      the filter is `nil` and allows the user to select any file type.
+
+      '
+  returns:
+  - type: Instances
+    summary: 'The imported `Class.File|Files`. Returns an empty list if no files
+
+      were selected. Returns `nil` if the user selected one or more files
+
+      that were too large (FileSize greater than 100 megabytes).
+
+      '
+  tags:
+  - Yields
+  - Deprecated
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: StudioService:PromptImportFilesAsync
+  summary: 'Prompts the current Studio user to select files to add as
+
+    `Class.File|Files`.
+
+    '
+  description: "This function prompts the current Studio user to select one or more\
+    \ files,\nwhich will then be loaded as `Class.File|Files`.\n\nThrows an error\
+    \ if the fileTypeFilter was an empty list.\n\nSee also:\n\n- `Class.StudioService:PromptImportFileAsync()`,\
+    \ the same function but for\n  loading a single file instead of a list of files\n"
+  code_samples: []
+  parameters:
+  - name: fileTypeFilter
+    type: Array
+    default: '{}'
+    summary: 'A list of file types that the user is allowed to select. File types
+
+      are formatted without a period. For example, {"jpg", "png"} would
+
+      allow only JPG and PNG files to be selected. If no filter is provided,
+
+      the filter is `nil` and allows the user to select any file type.
+
+      '
+  returns:
+  - type: Instances
+    summary: 'The imported `Class.File|Files`. Returns an empty list if no files
+
+      were selected. Returns `nil` if the user selected one or more files
+
+      that were too large (FileSize greater than 100 megabytes).
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: AnimationIdSelected
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: id
+    type: int64
+  returns:
+  - type: 'null'
+- name: CopyToClipboard
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: stringToCopy
+    type: string
+  returns:
+  - type: 'null'
+- name: GetBadgeConfigureUrl
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: badgeId
+    type: int64
+  returns:
+  - type: string
+- name: GetBadgeUploadUrl
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: string
+- name: GetClassIcon
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: className
+    type: string
+  returns:
+  - type: Dictionary
+- name: GetResourceByCategory
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: category
+    type: string
+  returns:
+  - type: Dictionary
+- name: GetStartupAssetId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: string
+- name: GetStartupPluginId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: string
+- name: GetTermsOfUseUrl
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: string
+- name: GetUserId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: int64
+- name: GizmoRaycast
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: origin
+    type: Vector3
+  - name: direction
+    type: Vector3
+  - name: raycastParams
+    type: RaycastParams
+    default: RaycastParams{IgnoreWater=false, Margin=0, SizeGradient=0, BruteForceAllSlow=false,
+      RespectCanCollide=false, CollisionGroup=Default, FilterDescendantsInstances={}}
+  returns:
+  - type: RaycastResult?
+- name: HasInternalPermission
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+- name: IsPluginInstalled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: assetId
+    type: int64
+  returns:
+  - type: bool
+- name: IsPluginUpToDate
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: assetId
+    type: int64
+  - name: currentAssetVersion
+    type: int64
+  returns:
+  - type: bool
+- name: OpenInBrowser_DONOTUSE
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: url
+    type: string
+  returns:
+  - type: 'null'
+- name: SetPluginEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: assetId
+    type: int64
+  - name: state
+    type: bool
+  returns:
+  - type: 'null'
+- name: ShowPublishToRoblox
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: UninstallPlugin
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: assetId
+    type: int64
+  returns:
+  - type: 'null'
+- name: UpdatePluginManagement
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: PromptImportFile
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''PromptImportFileAsync'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: fileTypeFilter
+    type: Array
+    default: '{}'
+  returns:
+  - type: Instance
+- name: PromptImportFileAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: fileTypeFilter
+    type: Array
+    default: '{}'
+  returns:
+  - type: Instance
+- name: PromptImportFiles
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''PromptImportFilesAsync'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: fileTypeFilter
+    type: Array
+    default: '{}'
+  returns:
+  - type: Instances
+- name: PromptImportFilesAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: fileTypeFilter
+    type: Array
+    default: '{}'
+  returns:
+  - type: Instances
+- name: TryInstallPlugin
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: assetId
+    type: int64
+  - name: assetVersionId
+    type: int64
+  returns:
+  - type: 'null'
+events:
+- name: OnImportFromRoblox
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: assetType
+    type: string
+- name: OnOpenGameSettings
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: pageIdentifier
+    type: string
+- name: OnOpenManagePackagePlugin
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: int64
+  - name: assetId
+    type: int64
+- name: OnPluginInstalledFromToolbox
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: OnPluginInstalledFromWeb
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: pluginId
+    type: string
+- name: OnPublishAsPlugin
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: instances
+    type: Instances
+- name: OnSaveToRoblox
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: instances
+    type: Instances
+- name: PromptTransformPluginCheckEnable
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: SaveLocallyAsComplete
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: success
+    type: bool
+callbacks: []

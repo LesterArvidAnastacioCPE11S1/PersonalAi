@@ -1,0 +1,1138 @@
+name: AudioTextToSpeech
+type: class
+memory_category: Internal
+summary: 'Plays text as speech audio.
+
+  '
+description: '`Class.AudioTextToSpeech` is used to play text as speech audio. It provides
+  a
+
+  single **Output** pin which can be connected to other pins via
+
+  `Class.Wire|Wires`.
+
+
+  Roblox uses the following formula to throttle requests for this API based on
+
+  the number of players in your experience:
+
+  `max requests per minute per experience = 1 + (6 * number_of_concurrent_users)`.
+
+  You can purchase additional usage using
+
+  [Extended Services](../../../cloud-services/extended-services.md).
+
+
+  There is also a client-side throttle of 4 requests per second per user.
+
+
+  For a more in-depth look, see
+
+  [Text-to-speech](../../../audio/objects.md#text-to-speech).
+
+  '
+code_samples:
+- audio-wiring---text-to-speech
+inherits:
+- Instance
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: AudioTextToSpeech.AutoLocalize
+  summary: 'Controls whether `Class.AudioTextToSpeech.Text` is automatically
+
+    translated into the player''s language and routed to an appropriate voice.
+
+    '
+  description: 'When set to `true`, `Class.AudioTextToSpeech.Text` is automatically
+
+    translated into the player''s language and routed to the most appropriate
+
+    `Class.AudioTextToSpeech.VoiceId`. For example, if a female voice ID is
+
+    used in English, Roblox routes to a female voice for other languages.
+
+
+    Text-to-speech currently supports automatic translation between the
+
+    following languages:
+
+
+    - Arabic
+
+    - Chinese (Mandarin)
+
+    - English
+
+    - French
+
+    - German
+
+    - Hindi
+
+    - Italian
+
+    - Japanese
+
+    - Korean
+
+    - Portuguese
+
+    - Spanish
+
+
+    Defaults to `true`.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Asset
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Audio
+- name: AudioTextToSpeech.IsLoaded
+  summary: 'Denotes whether the `Class.AudioTextToSpeech` object is loaded, buffered,
+
+    and ready to play.
+
+    '
+  description: 'Denotes whether the `Class.AudioTextToSpeech` object is loaded, buffered,
+
+    and ready to play. Although uncommon, `Class.AudioTextToSpeech` objects
+
+    may have their assets unloaded at runtime if there is extreme memory
+
+    pressure, in which case `Class.AudioTextToSpeech.IsLoaded|IsLoaded` will
+
+    become false.
+
+    '
+  code_samples: []
+  type: boolean
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Asset
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - Audio
+- name: AudioTextToSpeech.IsPlaying
+  summary: 'Denotes whether the `Class.AudioTextToSpeech` object is currently playing.
+
+    '
+  description: 'Denotes whether the `Class.AudioTextToSpeech` object is currently
+    playing.
+
+    This property is read-only, but replicates. To play and stop an
+
+    `Class.AudioTextToSpeech` object at runtime, use the
+
+    `Class.AudioTextToSpeech:Play()|Play()` and
+
+    `Class.AudioTextToSpeech:Pause()|Pause()` methods.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: RobloxEngineSecurity
+  thread_safety: ReadSafe
+  category: Playback
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Audio
+- name: AudioTextToSpeech.Looping
+  summary: 'Controls whether the `Class.AudioTextToSpeech` object loops.
+
+    '
+  description: 'Controls whether the `Class.AudioTextToSpeech` object loops when exceeding
+
+    the end of its `Class.AudioTextToSpeech.TimeLength|TimeLength`.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Playback
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Audio
+- name: AudioTextToSpeech.Pitch
+  summary: 'Controls the pitch of the generated speech audio, which will be
+
+    independent of its speed.
+
+    '
+  description: 'A value in musical semitones. The pitch of the generated speech audio
+    is
+
+    shifted from its default value by `AudioTextToSpeech.Pitch` semitones.
+
+    Ranges from -12.0 to 12.0.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Asset
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Audio
+- name: AudioTextToSpeech.PlaybackSpeed
+  summary: 'Controls how quickly the speech audio will be played, which controls its
+
+    pitch.
+
+    '
+  description: 'Multiplier controlling how quickly the speech audio will be played,
+
+    directly controlling its perceived pitch. Ranges from 0 to 20.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Playback
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Audio
+- name: AudioTextToSpeech.Speed
+  summary: 'Controls the speed of the generated speech audio, which will be
+
+    independent of its pitch.
+
+    '
+  description: 'Multiplier controlling the speed of the generated speech audio. Ranges
+
+    from 0.5 to 2.0.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Asset
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Audio
+- name: AudioTextToSpeech.Text
+  summary: 'The text to be converted into speech audio by `Class.AudioTextToSpeech`.
+
+    '
+  description: 'The text to be converted into speech audio by `Class.AudioTextToSpeech`.
+
+    The text has a maximum length of 300 characters.
+
+    '
+  code_samples: []
+  type: string
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Asset
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Audio
+- name: AudioTextToSpeech.TimeLength
+  summary: 'Denotes the length of the generated speech audio.
+
+    '
+  description: 'Denotes the generated speech audio in seconds.
+
+    '
+  code_samples: []
+  type: double
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Asset
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - Audio
+- name: AudioTextToSpeech.TimePosition
+  summary: 'Tracks the current position of the playhead within the generated speech
+
+    audio.
+
+    '
+  description: 'Tracks and controls the current position of the playhead within the
+
+    generated speech audio, in seconds.
+
+    '
+  code_samples: []
+  type: double
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Playback
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Audio
+- name: AudioTextToSpeech.VoiceId
+  summary: 'The voice style to be used by `Class.AudioTextToSpeech`.
+
+    '
+  description: 'The voice style to be used by `Class.AudioTextToSpeech`. A list of
+
+    available voices and their corresponding VoiceIds can be found in the
+
+    [list of artificial voices](../../../audio/objects.md#list-of-artificial-voices).
+
+
+    Roblox automatically translates `Class.AudioTextToSpeech.Text` into the
+
+    player''s language and routes it to an appropriate voice when
+
+    `Class.AudioTextToSpeech.AutoLocalize` is `true`.
+
+    '
+  code_samples: []
+  type: string
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Asset
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Audio
+- name: AudioTextToSpeech.Volume
+  summary: 'Controls how loudly the generated speech audio will be played.
+
+    '
+  description: 'Volume level which is multiplied onto the output audio stream, controlling
+
+    how loudly the generated speech audio will be played. Ranges from 0 to 3.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: State
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Audio
+- name: AutoLocalize
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Asset
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'true'
+- name: IsLoaded
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Asset
+  serialization:
+    can_load: false
+    can_save: true
+  default: 'false'
+- name: IsPlaying
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: RobloxSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Playback
+  serialization:
+    can_load: false
+    can_save: false
+  default: 'false'
+- name: Looping
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Playback
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+- name: Pitch
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Asset
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: PlaybackSpeed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Playback
+  serialization:
+    can_load: true
+    can_save: true
+  default: '1'
+- name: Speed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Asset
+  serialization:
+    can_load: true
+    can_save: true
+  default: '1'
+- name: Text
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Asset
+  serialization:
+    can_load: true
+    can_save: true
+- name: TimeLength
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: double
+  category: Asset
+  serialization:
+    can_load: false
+    can_save: true
+  default: '0'
+- name: TimePosition
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: double
+  category: Playback
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: VoiceId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Asset
+  serialization:
+    can_load: true
+    can_save: true
+- name: Volume
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: State
+  serialization:
+    can_load: true
+    can_save: true
+  default: '1'
+methods:
+- name: AudioTextToSpeech:GetConnectedWires
+  summary: 'Returns an array of `Class.Wire|Wires` that are connected to the specified
+
+    pin.
+
+    '
+  description: 'Returns an array of `Class.Wire|Wires` that are connected to the specified
+
+    pin. `Class.AudioTextToSpeech` has one "Output" pin.
+
+    '
+  code_samples: []
+  parameters:
+  - name: pin
+    type: string
+    default: null
+    summary: 'An input or output pin on this instance
+
+      '
+  returns:
+  - type: List<Wire>
+    summary: 'An array of `Class.Wire|Wires`
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Audio
+- name: AudioTextToSpeech:GetInputPins
+  summary: 'Gets the list of pins that a `Class.Wire` can use in
+
+    `Class.Wire.TargetName` to connect to this instance via its
+
+    `Class.Wire.TargetInstance` property.
+
+    '
+  description: 'Gets the list of pins that a `Class.Wire` can use in
+
+    `Class.Wire.TargetName` to connect to this instance via its
+
+    `Class.Wire.TargetInstance` property.
+
+
+    For `Class.AudioTextToSpeech`, there are none.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Array
+    summary: 'An array of strings representing valid pin names.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Audio
+- name: AudioTextToSpeech:GetOutputPins
+  summary: 'Gets the list of pins that a `Class.Wire` can use in
+
+    `Class.Wire.SourceName` to connect to this instance via its
+
+    `Class.Wire.SourceInstance` property.
+
+    '
+  description: 'Gets the list of pins that a `Class.Wire` can use in
+
+    `Class.Wire.SourceName` to connect to this instance via its
+
+    `Class.Wire.SourceInstance` property.
+
+
+    For `Class.AudioTextToSpeech`, this is `Output` only.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Array
+    summary: 'An array of strings representing valid pin names.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Audio
+- name: AudioTextToSpeech:GetWaveformAsync
+  summary: 'Returns a sampling of the waveform data for the generated audio.
+
+    '
+  description: 'Returns a sampling of the waveform data for the generated text-to-speech
+
+    audio. This can be used to check the volume of the audio over the course
+
+    of its duration without playing it.
+
+    '
+  code_samples: []
+  parameters:
+  - name: timeRange
+    type: NumberRange
+    default: null
+    summary: 'The start and end time (in seconds) of the segment to read.
+
+      '
+  - name: samples
+    type: int
+    default: null
+    summary: 'The number of samples to return for the specified range.
+
+      '
+  returns:
+  - type: Array
+    summary: 'A table of `samples` numbers ranging between -1 and 1 representing the
+
+      sampled waveform,
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Audio
+- name: AudioTextToSpeech:LoadAsync
+  summary: 'Generates speech audio.
+
+    '
+  description: 'A blocking call that begins the generation of speech audio based on
+    the
+
+    current parameters. It will yield until the speech generation either
+
+    completes or fails. Status is returned by an AssetFetchStatus value.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: AssetFetchStatus
+    summary: 'An `Enum.AssetFetchStatus` — `Enum.AssetFetchStatus.Success|Success`
+
+      once the speech audio has been generated, or
+
+      `Enum.AssetFetchStatus.Failure|Failure` if generation could not be
+
+      completed.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Audio
+- name: AudioTextToSpeech:Pause
+  summary: 'Pauses the `Class.AudioTextToSpeech` object wherever its
+
+    `Class.AudioTextToSpeech.TimePosition|TimePosition` is.
+
+    '
+  description: 'Pauses the `Class.AudioTextToSpeech` object wherever its
+
+    `Class.AudioTextToSpeech.TimePosition|TimePosition` is. Replicates from
+
+    server to client.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Audio
+- name: AudioTextToSpeech:Play
+  summary: 'Plays the `Class.AudioTextToSpeech` from wherever its
+
+    `Class.AudioTextToSpeech.TimePosition|TimePosition` is.
+
+    '
+  description: 'Plays the `Class.AudioTextToSpeech` from wherever its
+
+    `Class.AudioTextToSpeech.TimePosition|TimePosition` is. Replicates from
+
+    server to client.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Audio
+- name: AudioTextToSpeech:Unload
+  summary: 'Unload the generated speech audio.
+
+    '
+  description: 'Frees resources by unloading the generated speech audio.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Audio
+- name: GetConnectedWires
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: pin
+    type: string
+  returns:
+  - type: Instances
+- name: GetInputPins
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+- name: GetOutputPins
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+- name: Pause
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: Play
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: Unload
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: GetWaveformAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: timeRange
+    type: NumberRange
+  - name: samples
+    type: int
+  returns:
+  - type: Array
+- name: LoadAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Enum.AssetFetchStatus
+- name: LoadPlatformAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Enum.AssetFetchStatus
+events:
+- name: AudioTextToSpeech.Ended
+  summary: 'Fires when the `Class.AudioTextToSpeech` object has completed playback
+    and
+
+    paused.
+
+    '
+  description: 'Fires after the `Class.AudioTextToSpeech` object has completed playback
+
+    and paused. Note this event will **not** fire for audio with
+
+    `Class.AudioTextToSpeech.Looped|Looped` set to `true` since it continues
+
+    playing upon reaching its end. This event will also **not** fire when the
+
+    audio is paused before playback has completed; for this, use
+
+    `Class.AudioTextToSpeech:GetPropertyChangedSignal()` on the
+
+    `Class.AudioTextToSpeech.IsPlaying|IsPlaying` property.
+
+
+    This event may be used to destroy an `Class.AudioTextToSpeech` object when
+
+    it has completed playback.
+
+    '
+  code_samples: []
+  parameters: []
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Audio
+- name: AudioTextToSpeech.Looped
+  summary: 'Fires when the `Class.AudioTextToSpeech` object loops.
+
+    '
+  description: 'Event that fires after the `Class.AudioTextToSpeech` object loops.
+    This
+
+    happens when the audio reaches the end of its content and
+
+    `Class.AudioTextToSpeech.Looping|Looping` is `true`.
+
+
+    This event does **not** fire if the audio is looped manually by changing
+
+    its `Class.AudioTextToSpeech.TimePosition|TimePosition`.
+
+    '
+  code_samples: []
+  parameters: []
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Audio
+- name: AudioTextToSpeech.WiringChanged
+  summary: 'Fires when another instance is connected to or disconnected from the
+
+    `Class.AudioTextToSpeech` via a `Class.Wire`.
+
+    '
+  description: 'Event that fires after a `Class.Wire` becomes connected or disconnected,
+
+    and that `Class.Wire` is now or was previously connected to a pin on the
+
+    `Class.AudioTextToSpeech` and to some other wirable instance.
+
+    '
+  code_samples: []
+  parameters:
+  - name: connected
+    type: boolean
+    default: null
+    summary: 'Whether the instance got connected or disconnected.
+
+      '
+  - name: pin
+    type: string
+    default: null
+    summary: 'The pin on the `Class.AudioTextToSpeech` that the `Class.Wire`
+
+      targets.
+
+      '
+  - name: wire
+    type: Wire
+    default: null
+    summary: 'The `Class.Wire` between the `Class.AudioTextToSpeech` and the other
+
+      instance.
+
+      '
+  - name: instance
+    type: Instance
+    default: null
+    summary: 'The other instance that is or was connected through the `Class.Wire`.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Audio
+- name: Ended
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: Looped
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: WiringChanged
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: connected
+    type: bool
+  - name: pin
+    type: string
+  - name: wire
+    type: Wire
+  - name: instance
+    type: Instance
+callbacks: []

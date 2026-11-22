@@ -1,0 +1,167 @@
+name: Clothing
+type: class
+memory_category: Instances
+summary: 'Clothing is the base class for the `Class.Shirt` and `Class.Pants` clothing
+
+  objects.
+
+  '
+description: 'The base class for clothing objects.
+
+  '
+code_samples: []
+inherits:
+- CharacterAppearance
+descendants:
+- Pants
+- Shirt
+tags:
+- NotCreatable
+deprecation_message: ''
+properties:
+- name: Clothing.Color3
+  summary: 'Determines the colorization to be applied to the `Class.Clothing` texture.
+
+    '
+  description: 'This property determines the colorization to be applied to the
+
+    `Class.Clothing` texture. The default colorization value is
+
+    `Datatype.Color3|Color3.new(1, 1, 1)` (white), at which no colorization
+
+    occurs.
+
+
+    This property is useful for creating outfits that have many different
+
+    color variations but share the same basic look, possibly for a character
+
+    creator in a roleplaying game or generating a lot of different varied
+
+    NPCs.
+
+
+    See also `Class.ShirtGraphic.Color3` which determines the colorization to
+
+    be applied to the `Class.ShirtGraphic` texture.
+
+    '
+  code_samples: []
+  type: Color3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - AvatarAppearance
+- name: Color3
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Color3
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: Outfit1
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: ContentId
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: Outfit1Content
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Content
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: Outfit2
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: ContentId
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: Outfit2Content
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  - NotScriptable
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Content
+  category: Appearance
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+methods: []
+events: []
+callbacks: []

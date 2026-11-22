@@ -1,0 +1,199 @@
+name: Feature
+type: class
+memory_category: Instances
+summary: 'The base class for the legacy motor system.
+
+  '
+description: 'The base class for the legacy motor system.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants:
+- Hole
+- MotorFeature
+tags:
+- NotCreatable
+deprecation_message: ''
+properties:
+- name: Feature.FaceId
+  summary: 'Sets what side of the Parent the object is on.
+
+    '
+  description: 'Sets what side of the Parent the object is on.
+
+    '
+  code_samples: []
+  type: NormalId
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+- name: Feature.InOut
+  summary: 'Controls how the Feature is positioned on it''s parent''s surface, in
+
+    correspondence to the Feature''s `Class.Feature.LeftRight` and
+
+    `Class.Feature.TopBottom` properties.
+
+    '
+  description: 'Controls how the Feature is positioned on it''s parent''s surface,
+    in
+
+    correspondence to the Feature''s `Class.Feature.LeftRight` and
+
+    `Class.Feature.TopBottom` properties.
+
+    '
+  code_samples: []
+  type: InOut
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+- name: Feature.LeftRight
+  summary: 'Controls whether the feature is shifted to the left, center, or right
+    on
+
+    the surface.
+
+    '
+  description: 'Controls whether the feature is shifted to the left, center, or right
+    on
+
+    the surface.
+
+    '
+  code_samples: []
+  type: LeftRight
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+- name: Feature.TopBottom
+  summary: 'Controls whether the feature is shifted to the top, center, or bottom
+    on
+
+    the surface.
+
+    '
+  description: 'Controls whether the feature is shifted to the top, center, or bottom
+    on
+
+    the surface.
+
+    '
+  code_samples: []
+  type: TopBottom
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+- name: FaceId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.NormalId
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: InOut
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.InOut
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: LeftRight
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.LeftRight
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: TopBottom
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.TopBottom
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+methods: []
+events: []
+callbacks: []

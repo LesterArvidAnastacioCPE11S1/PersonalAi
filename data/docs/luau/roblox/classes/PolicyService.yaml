@@ -1,0 +1,272 @@
+name: PolicyService
+type: class
+memory_category: Instances
+summary: 'Helps you query information regarding policy compliance for players around
+  the
+
+  world based on age range, location, and platform type.
+
+  '
+description: '`PolicyService` helps you query information regarding policy compliance
+  for
+
+  players around the world based on age range, location, and platform type.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+- NotReplicated
+deprecation_message: ''
+properties:
+- name: IsLuobuServer
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: Enum.TriStateBoolean
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: Unknown
+- name: LuobuWhitelisted
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: Enum.TriStateBoolean
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: Unknown
+methods:
+- name: PolicyService:CanViewBrandProjectAsync
+  summary: 'Determines if a user can see brand project assets inside your experience.
+
+    '
+  description: 'Determines if a user can see brand project assets inside your experience.
+
+    This method lets you work with brands to only show commercial assets to
+
+    brand-compliant audiences.
+
+
+    To use `CanViewBrandProjectAsync`, you must use a brand project ID
+
+    provided by Roblox. To request a brand project ID,
+
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfGTRQwATB2wUg0P4HUSTtyXrhptFahJifo1ew84SyqtfSBfg/viewform">contact
+
+    us</a>.
+
+
+    You must call this method on a server-side Script and wrap it in a
+
+    `Global.LuaGlobals.pcall()`.
+
+    '
+  code_samples:
+  - PolicyService-BrandProjectIntegrationServer
+  - PolicyService-BrandProjectIntegrationClient
+  parameters:
+  - name: player
+    type: Player
+    default: null
+    summary: 'The `Player` object you''re trying to show the brand project to.
+
+      '
+  - name: brandProjectId
+    type: string
+    default: null
+    summary: 'The brand project ID provided by Roblox. Represents all assets
+
+      associated with a brand project.
+
+      '
+  returns:
+  - type: boolean
+    summary: 'Whether or not the brand project can be shown to the specific user.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: PolicyService:GetPolicyInfoForPlayerAsync
+  summary: 'Returns policy information about a player based on geolocation, age group,
+
+    and platform.
+
+    '
+  description: "Returns policy information about a player based on geolocation, age\
+    \ group,\nand platform. The structure of the returned dictionary is as follows:\n\
+    \n<table>\n<thead>\n<tr>\n<th>Name</th>\n<th>Type</th>\n<th>Required for</th>\n\
+    <th>Description</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><code>AreAdsAllowed</code></td>\n\
+    <td>Boolean</td>\n<td>Any experience that includes <a href=\"../../../production/monetization/immersive-ads.md\"\
+    >immersive ads</a>.</td>\n<td>When <code>true</code>, the player might see immersive\
+    \ ads within an experience.</td>\n</tr>\n<tr>\n<td><code>ArePaidRandomItemsRestricted</code></td>\n\
+    <td>Boolean</td>\n<td>Any experience that has paid random items.</td>\n<td>When\
+    \ <code>true</code>, the player can <b>not</b> interact with paid random item\
+    \ generators, either via in‑experience currency bought with Robux or Robux directly.</td>\n\
+    </tr>\n<tr>\n<td><code>IsContentSharingAllowed</code></td>\n<td>Boolean</td>\n\
+    <td>Any feature in the experience that enables users to create content (e.g. text,\
+    \ images, video, audio) that other users can see in the experience or allows user\
+    \ to share content within experiences.</td>\n<td>When <code>true</code>, the player\
+    \ can use features related to sharing UGC within an experience, such as uploading\
+    \ a screen capture, sharing a video, or posting an image to a content feed that\
+    \ other users can see.</td>\n</tr>\n<tr>\n<td><code>IsEligibleToPurchaseCommerceProduct</code></td>\n\
+    <td>Boolean</td>\n<td>Any experience that wants to sell <a href=\"../../../production/monetization/commerce-products.md\"\
+    >commerce products</a>.</td>\n<td>When <code>true</code>, the player is eligible\
+    \ to purchase commerce products within an experience.</td>\n</tr>\n<tr>\n<td><code>IsEligibleToPurchaseSubscription</code></td>\n\
+    <td>Boolean</td>\n<td>Any experience that wants to sell subscriptions.</td>\n\
+    <td>When <code>true</code>, the player is eligible to purchase subscriptions within\
+    \ an experience.</td>\n</tr>\n<tr>\n<td><code>IsPaidItemTradingAllowed</code></td>\n\
+    <td>Boolean</td>\n<td>Any experience that allows users to purchase virtual items\
+    \ that they can trade with other players.</td>\n<td>When <code>true</code>, the\
+    \ player can trade virtual items that they purchased with in-experience currency\
+    \ or Robux.</td>\n</tr>\n<tr>\n<td><code>IsPhotoToAvatarAllowed</code></td>\n\
+    <td>Boolean</td>\n<td>Any experience that uses the Photo-to-Avatar APIs.</td>\n\
+    <td>When <code>true</code>, the player is permitted by policy to use the Photo-to-Avatar\
+    \ API `Class.AvatarCreationService:PromptSelectAvatarGenerationImageAsync()`.\
+    \ This flag reflects age (for example, users under 13) and regional restrictions,\
+    \ which are evaluated server-side. Check it before calling Photo-to-Avatar APIs\
+    \ to avoid policy-related errors. Note that a <code>true</code> value does not\
+    \ by itself guarantee the prompt will succeed: camera and photo-library availability\
+    \ is checked separately on the player's device, so calls can still fail on platforms\
+    \ where camera access is unavailable.</td>\n</tr>\n<tr>\n<td><code>IsSubjectToChinaPolicies</code></td>\n\
+    <td>Boolean</td>\n<td>Any experience that is available in China.</td>\n<td>When\
+    \ <code>true</code>, an experience should enforce compliance changes. See <a href=\"\
+    https://devforum.roblox.com/t/new-programs-available-roblox-china-licensed-to-operate/1023361\"\
+    >this forum post</a> for more information.</td>\n</tr>\n<tr>\n<td><code>AllowedExternalLinkReferences</code></td>\n\
+    <td>Array</td>\n<td>Not required.</td>\n<td>This is a legacy field. It always\
+    \ returns an empty array.</td>\n</tr>\n<tr>\n<td><code>IsEndlessContentLoadAllowed</code></td>\n\
+    <td>Boolean</td>\n<td>Any experience that includes a feature where content loads\
+    \ automatically and endlessly as the user scrolls, such as a feed, providing an\
+    \ endless flow of media content without requiring the user to engage in any specific\
+    \ interaction such as manual \"load more\" actions or separate pagination.</td>\n\
+    <td>When <code>true</code>, the player can use features with endless content loading\
+    \ within an experience.</td>\n</tr>\n<tr>\n<td><code>IsEndlessContentAutoplayAllowed</code></td>\n\
+    <td>Boolean</td>\n<td>Any experience that contains media content (video or audio)\
+    \ that automatically and endlessly plays without requiring user interaction or\
+    \ initiation, for example clicking a play button.</td>\n<td>When <code>true</code>,\
+    \ the player can use features within an experience that automatically and endlessly\
+    \ play media content.</td>\n</tr>\n</tbody>\n</table>\n\n##### Exceptions\n\n\
+    Like any async call, this method needs to be wrapped in\n`Global.LuaGlobals.pcall()`\
+    \ and error-handled properly. A full list of\npossible error messages and their\
+    \ reasons is:\n\n<table>\n<thead>\n<tr>\n<th>Message</th>\n<th>Reason</th>\n</tr>\n\
+    </thead>\n<tbody>\n<tr>\n<td>Instance was not a player</td>\n<td>The <code>player</code>\
+    \ parameter is not a <code>Class.Player</code> instance.</td>\n</tr>\n<tr>\n<td>Players\
+    \ not found</td>\n<td>Internal error that the <code>Class.Players</code> object\
+    \ is missing.</td>\n</tr>\n <tr>\n<td>This method cannot be called on the client\
+    \ for a non-local player</td>\n<td>This method cannot be called on the client\
+    \ for a non-local <code>Class.Player</code>.</td>\n</tr>\n<tr>\n<td>GetPolicyInfoForPlayerAsync\
+    \ is called too many times</td>\n<td>Internal error that <code>GetPolicyInfoForPlayerAsync()</code>\
+    \ is called more than 100 (current setting) times before an HTTP response comes\
+    \ back.</td>\n</tr>\n</tbody>\n</table>\n\nSee also `Class.LocalizationService:GetCountryRegionForPlayerAsync()`\n\
+    which returns a country/region code string according to the player's\nclient IP\
+    \ geolocation.\n"
+  code_samples:
+  - getting-policy-information-for-a-player
+  - getting-policy-for-a-player-for-commerce-products
+  parameters:
+  - name: player
+    type: Instance
+    default: null
+    summary: 'The `Class.Player` to get policy information for.
+
+      '
+  returns:
+  - type: Dictionary
+    summary: 'A dictionary containing information about the policy information of
+
+      the requested player; see above for the dictionary structure.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: CanViewBrandProjectAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Player
+  - name: brandProjectId
+    type: string
+  returns:
+  - type: bool
+- name: GetPolicyInfoForPlayerAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: player
+    type: Instance
+  returns:
+  - type: Dictionary
+- name: GetPolicyInfoForServerRobloxOnlyAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Dictionary
+events: []
+callbacks: []

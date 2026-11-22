@@ -1,0 +1,130 @@
+name: CanvasGroup
+type: class
+memory_category: Gui
+summary: 'Blends descendants as a flattened group with an optional color/transparency
+
+  modification.
+
+  '
+description: "`CanvasGroup` renders its descendants as a flattened group with\n`Class.CanvasGroup.GroupColor3|GroupColor3`\
+  \ and\n`Class.CanvasGroup.GroupTransparency|GroupTransparency` optionally applied\
+  \ to\nthe rendered result. `Class.UIComponent` visual modifiers such as\n`Class.UICorner`\
+  \ and `Class.UIGradient` under a `CanvasGroup` will also apply\nto the whole group.\
+  \ Note that `CanvasGroup` always has\n`Class.GuiObject.ClipsDescendants|ClipsDescendants`\
+  \ set to `true` and all\ndescendants will be clipped outside the group's bounds.\n\
+  \n#### Important Notes\n\n- Descendants of `CanvasGroup` will be rendered as a flattened\
+  \ texture only\n  when the ancestor `Class.LayerCollector` has its\n  `Class.LayerCollector.ZIndexBehavior|ZIndexBehavior`\
+  \ set to\n  `Enum.ZIndexBehavior.Sibling`.\n- `CanvasGroup` consumes extra texture\
+  \ memory. The quality of the texture and\n  total memory usage is limited by the\
+  \ `Enum.QualityLevel` of the client. When\n  exceeding the memory cap, `CanvasGroup`\
+  \ will render as a blank texture.\n- It's recommended to use `CanvasGroup` with\
+  \ static sizes, otherwise a new\n  texture would need to be created to accommodate\
+  \ new sizes.\n"
+code_samples: []
+inherits:
+- GuiObject
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: CanvasGroup.GroupColor3
+  summary: 'Color tint that applies to the rendered group.
+
+    '
+  description: 'Color tint that applies to the rendered group.
+
+    '
+  code_samples: []
+  type: Color3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: CanvasGroup.GroupTransparency
+  summary: 'Transparency that applies to the rendered group.
+
+    '
+  description: 'Transparency that applies to the rendered group.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: GroupColor3
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Color3
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: 1, 1, 1
+- name: GroupTransparency
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: ResolutionScale
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: float
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: '1'
+methods: []
+events: []
+callbacks: []

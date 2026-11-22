@@ -1,0 +1,26 @@
+name: CompileTarget
+type: enum
+summary: Reference for Enum.CompileTarget, generated automatically from the Roblox
+  API dump 0.748.0.7481526.
+description: Reference for Enum.CompileTarget, generated automatically from the Roblox
+  API dump 0.748.0.7481526.
+code_samples: []
+tags: []
+deprecation_message: ''
+items:
+- name: Client
+  summary: ''
+  value: 0
+  tags: []
+- name: CoreScript
+  summary: ''
+  value: 1
+  tags: []
+- name: Studio
+  summary: ''
+  value: 2
+  tags: []
+- name: CoreScriptRaw
+  summary: ''
+  value: 3
+  tags: []

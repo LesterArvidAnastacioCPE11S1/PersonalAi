@@ -1,0 +1,2090 @@
+name: TextChatService
+type: class
+memory_category: Instances
+summary: 'A service handling in-experience text chat.
+
+  '
+description: 'A service handling in-experience text chat, including managing
+
+  `Class.TextChannel|TextChannels`, decorating messages, filtering text,
+
+  creating `Class.TextChatCommand|TextChatCommands`, and
+
+  [developing custom chats interfaces](../../../chat/examples/simple-custom-frontend-ui.md).
+
+  To learn more, see
+
+  [text chat overview](../../../chat/in-experience-text-chat.md).
+
+
+  For further customization, `TextChatService` has the following singleton
+
+  children:
+
+
+  - `Class.ChatWindowConfiguration`
+
+  - `Class.ChatInputBarConfiguration`
+
+  - `Class.BubbleChatConfiguration`
+
+  - `Class.ChannelTabsConfiguration`
+
+
+  To display content from a `Class.TextChannel` in a custom location, place a
+
+  `Class.TextChannelWindow` under a `Class.ScreenGui` or `Class.SurfaceGui`.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+deprecation_message: ''
+properties:
+- name: TextChatService.ChatTranslationEnabled
+  summary: 'Determines whether a user has chat translation enabled.
+
+    '
+  description: 'Determines whether a user has chat translation enabled. If `true`,
+
+    messages the user receives will be translated into their preferred
+
+    language. Use `Class.TextChatMessage.Translation` to get the message
+
+    translation. This property is client-side only and reflects the user''s own
+
+    preference; read it from a `Class.LocalScript` to adapt custom chat UIs
+
+    when the user toggles translation.
+
+    '
+  code_samples: []
+  type: boolean
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - Chat
+- name: TextChatService.ChatVersion
+  summary: 'Determines whether to fully enable `Class.TextChatService` or revert to
+
+    the legacy chat system.
+
+    '
+  description: 'Determines whether to fully enable `Class.TextChatService` or revert
+    to
+
+    the legacy chat system. Setting this property to
+
+    `Enum.ChatVersion.LegacyChatService` effectively disables
+
+    `Class.TextChatService`.
+
+    '
+  code_samples: []
+  type: ChatVersion
+  tags: []
+  deprecation_message: 'This property has been deprecated in newly created Studio
+    experiences.
+
+    `TextChatService` is the only allowed chat system and is automatically
+
+    enabled.
+
+    '
+  security:
+    read: None
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Chat
+- name: TextChatService.CreateDefaultCommands
+  summary: 'Determines whether `Class.TextChatService` should create default
+
+    `Class.TextChatCommand|TextChatCommands`.
+
+    '
+  description: "Determines whether `Class.TextChatService` should create default\n\
+    `Class.TextChatCommand|TextChatCommands`. If `true`, the following\n`Class.TextChatCommand|TextChatCommands`\
+    \ are created and put in a\n`Class.Folder` named **TextChatCommands** inside `Class.TextChatService`:\n\
+    \n<table>\n  <thead>\n    <tr>\n      <th>Name</th>\n      <th>Primary Alias</th>\n\
+    \      <th>Secondary Alias</th>\n      <th>Description</th>\n      <th>Usage Example</th>\n\
+    \    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td><b>RBXClearCommand</b></td>\n\
+    \      <td>clear</td>\n      <td>cls</td>\n      <td>Clears the chat log for the\
+    \ local user.</td>\n      <td><code>/cls</code></td>\n    </tr>\n    <tr>\n  \
+    \    <td><b>RBXConsoleCommand</b></td>\n      <td>console</td>\n      <td></td>\n\
+    \      <td>Opens the Developer Console.</td>\n      <td><code>/console</code></td>\n\
+    \    </tr>\n    <tr>\n      <td><b>RBXEmoteCommand</b></td>\n      <td>emote</td>\n\
+    \      <td>e</td>\n      <td>Plays an avatar emote.</td>\n      <td><code>/e dance</code></td>\n\
+    \    </tr>\n    <tr>\n      <td><b>RBXHelpCommand</b></td>\n      <td>help</td>\n\
+    \      <td>?</td>\n      <td>Shows a list of chat commands.</td>\n      <td><code>/help</code></td>\n\
+    \    </tr>\n    <tr>\n      <td><b>RBXMuteCommand</b></td>\n      <td>mute</td>\n\
+    \      <td>m</td>\n      <td>Mutes a user by their <code>Class.Player.Name|Name</code>\
+    \ or <code>Class.Player.DisplayName|DisplayName</code> in all <code>Class.TextChannel|TextChannels</code>.</td>\n\
+    \      <td><code>/m Username</code></td>\n    </tr>\n    <tr>\n      <td><b>RBXTeamCommand</b></td>\n\
+    \      <td>team</td>\n      <td>t</td>\n      <td>Enters team chat mode where\
+    \ messages are only visible to teammates.</td>\n      <td><code>/t</code></td>\n\
+    \    </tr>\n    <tr>\n      <td><b>RBXUnmuteCommand</b></td>\n      <td>unmute</td>\n\
+    \      <td>um</td>\n      <td>Unmutes a user by their <code>Class.Player.Name|Name</code>\
+    \ or <code>Class.Player.DisplayName|DisplayName</code> in all <code>Class.TextChannel|TextChannels</code>.</td>\n\
+    \      <td><code>/um Username</code></td>\n    </tr>\n    <tr>\n      <td><b>RBXVersionCommand</b></td>\n\
+    \      <td>version</td>\n      <td>v</td>\n      <td>Shows the chat version.</td>\n\
+    \      <td><code>/version</code></td>\n    </tr>\n    <tr>\n      <td><b>RBXWhisperCommand</b></td>\n\
+    \      <td>whisper</td>\n      <td>w</td>\n      <td>Enters whisper mode with\
+    \ another <code>Class.Player</code>.</td>\n      <td><code>/w DisplayName</code>\
+    \ or <code>/w @Username</code></td>\n    </tr>\n  </tbody>\n</table>\n\nNote that\
+    \ you can edit, create, and remove\n`Class.TextChatCommand|TextChatCommands` even\
+    \ if\n`Class.TextChatService.CreateDefaultCommands|CreateDefaultCommands` is\n\
+    `true`. Also note that mute and unmute commands apply to all\n`Class.TextChannel|TextChannels`.\n"
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Chat
+- name: TextChatService.CreateDefaultTextChannels
+  summary: 'Determines whether `Class.TextChatService` should create default
+
+    `Class.TextChannel|TextChannels`.
+
+    '
+  description: "Determines whether `Class.TextChatService` should create default\n\
+    `Class.TextChannel|TextChannels`. If `true`, a `Class.Folder` named\n**TextChannels**\
+    \ is created inside `Class.TextChatService` at runtime to\ncontain the `Class.TextChannel|TextChannels`\
+    \ outlined in the table below.\nEach of the default channels has the described\
+    \ special behavior applied to\nmessages using its internally bound `Class.TextChannel.OnIncomingMessage`\n\
+    callback function, changing how messages appear when sent through the\nchannel.\
+    \ The callback is assigned automatically either at runtime (if the\n`Class.TextChannel`\
+    \ exists) or when the `Class.TextChannel` is created.\n\n<table>\n  <thead>\n\
+    \    <tr>\n      <th>Channel</th>\n      <th>Description</th>\n    </tr>\n  </thead>\n\
+    \  <tbody>\n    <tr>\n      <td><b>RBXGeneral</b></td>\n      <td><code>Class.TextChannel</code>\
+    \ for player messages. In the chat window, messages are modified such that <code>Class.TextChatMessage.PrefixText|PrefixText</code>\
+    \ receives a <a href=\"../../../ui/rich-text.md\">rich text</a> font color tag\
+    \ to give chatting players their distinctive name color. If <code>Class.Player.Team</code>\
+    \ exists, that <code>Class.Team.TeamColor</code> is used instead of the default\
+    \ name color.</td>\n    </tr>\n    <tr>\n      <td><b>RBXSystem</b></td>\n   \
+    \   <td><code>Class.TextChannel</code> for system messages. In the chat window,\
+    \ messages are modified such that <code>Class.TextChatMessage.Text</code> is given\
+    \ a light grey color tag by default, or a red color tag if <code>Class.TextChatMessage.Metadata</code>\
+    \ contains the word <code>\"Error\"</code>.</td>\n    </tr>\n    <tr>\n      <td><b>RBXTeam[BrickColor]</b></td>\n\
+    \      <td><code>Class.TextChannel</code> for team-specific player messages, created\
+    \ when a <code>Class.Team.TeamColor|TeamColor</code> is in use by any <code>Class.Team</code>\
+    \ within the <code>Class.Teams</code> service. Name of the created channel is\
+    \ <b>RBXTeam</b> followed by the <code>Class.Team.TeamColor|TeamColor</code> name.\
+    \ For example, <b>RBXTeamCrimson</b> is a <code>Class.TextChannel</code> created\
+    \ when there is an active team whose <code>Class.Team.TeamColor|TeamColor</code>\
+    \ property is the \"Crimson\" <code>Datatype.BrickColor</code>.<br /><br />In\
+    \ the chat window, messages are modified such that <code>Class.TextChatMessage.PrefixText|PrefixText</code>\
+    \ is colored according to the <code>Class.Player.TeamColor|TeamColor</code> and\
+    \ is prepended with <b>[Team]</b>.<br /><br />Team channels create <code>Class.TextSource|TextSources</code>\
+    \ for all non‑<code>Class.Player.Neutral|Neutral</code> players with the matching\
+    \ <code>Class.Team.TeamColor|TeamColor</code>, allowing them to use team‑only\
+    \ chat. Channels are removed if there are no remaining teams with an associated\
+    \ <code>Class.Team.TeamColor|TeamColor</code>.</td>\n    </tr>\n    <tr>\n   \
+    \   <td><b>RBXWhisper:[UserId1]_[UserId2]</b></td>\n      <td><code>Class.TextChannel</code>\
+    \ for whisper messages between two players, created when a player uses the <code>/whisper</code>\
+    \ command on another player. For example <b>RBXWhisper:2276836_505306092</b> is\
+    \ a <code>Class.TextChannel</code> for players with <code>Class.Player.UserId|UserIds</code>\
+    \ <b>2276836</b> and <b>505306092</b>. Inside whisper channels are two <code>Class.TextSource|TextSources</code>\
+    \ associated with the respective <code>Class.Player.UserId|UserIds</code>.<br\
+    \ /><br />In the chat window, messages are colored the same as those in <b>RBXGeneral</b>\
+    \ and <code>Class.TextChatMessage.PrefixText</code> is modified to show whether\
+    \ a message was sent from or received by the local user.<br /><br />Whisper channels\
+    \ are removed when either player leaves the experience.</td>\n    </tr>\n  </tbody>\n\
+    </table>\n\nNote that the default `Class.TextChannel.OnIncomingMessage` callbacks\
+    \ can\nbe overwritten. Also note that you can edit, create, and remove\n`Class.TextChannel|TextChannels`\
+    \ even if\n`Class.TextChatService.CreateDefaultTextChannels|CreateDefaultTextChannels`\n\
+    is `true`.\n\nMessages from different TextChannels can be separated into different\
+    \ tabs\nin the chat window using `Class.ChannelTabsConfiguration`.\n"
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Chat
+- name: TextChatService.PlatformIntegratedChat
+  summary: 'Determines whether platform-integrated chat is enabled for the experience.
+
+    Requires `RobloxScript` security.
+
+    '
+  description: 'Requires `RobloxScript` security; not accessible from experience scripts.
+
+    Controls whether platform-integrated chat is enabled for the experience.
+
+    When set to `Enum.RolloutState.Enabled`,
+
+    `Class.TextChatService.OnIncomingMessage` and
+
+    `Class.TextChannel.OnIncomingMessage` callbacks from developer scripts are
+
+    not invoked, and only CoreScripts can set those callbacks. When set to
+
+    `Enum.RolloutState.Disabled`, behavior is explicitly disabled. Defaults to
+
+    `Enum.RolloutState.Default`.
+
+    '
+  code_samples: []
+  type: RolloutState
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Chat
+- name: ChatTranslationEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: 'true'
+- name: ChatTranslationFTUXShown
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+- name: ChatTranslationToggleEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+- name: ChatVersion
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: Enum.ChatVersion
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: LegacyChatService
+- name: CreateDefaultCommands
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'true'
+- name: CreateDefaultTextChannels
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'true'
+- name: HasSeenDeprecationDialog
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+- name: IsLegacyChatDisabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+- name: PlatformIntegratedChat
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: Enum.RolloutState
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: Default
+methods:
+- name: TextChatService:CanUserChatAsync
+  summary: 'Determines whether a user has permission to chat in experiences.
+
+    '
+  description: 'Determines whether a user has permission to chat in experiences. Factors
+
+    such as parental control settings may prevent the user from sending
+
+    messages. Errors if the `userId` is not in the current server. Note that
+
+    this method can be used with all current player
+
+    `Class.Player.UserId|UserIds` in a `Class.Script` with
+
+    `Class.Script.RunContext|RunContext` of `Enum.RunContext.Server` or
+
+    `Enum.RunContext.Legacy`. This method can also be used in a
+
+    `Class.LocalScript` but only with the `Class.Player.UserId|UserId` of the
+
+    local player.
+
+    '
+  code_samples: []
+  parameters:
+  - name: userId
+    type: User
+    default: null
+    summary: 'The `Class.Player.UserId` of the user whose chat permission is being
+
+      checked.
+
+      '
+  returns:
+  - type: boolean
+    summary: 'A boolean indicating whether the user has permission to chat.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Chat
+- name: TextChatService:CanUsersChatAsync
+  summary: 'Determines whether or not two users can receive messages from each other.
+
+    '
+  description: 'Determines whether or not two users can receive messages from each
+    other.
+
+    Both users must be in the current server, otherwise an error will occur.
+
+
+    Factors such as incompatible parental control settings or blocked status
+
+    may prevent the delivery of messages between users
+
+    (`Class.TextChannel|TextChannels` internally use this result to determine
+
+    whether to deliver messages between users). Note that this method is only
+
+    available for use in a `Class.Script` with
+
+    `Class.Script.RunContext|RunContext` of `Enum.RunContext.Server` or
+
+    `Enum.RunContext.Legacy`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: userIdFrom
+    type: User
+    default: null
+    summary: 'The `Class.Player.UserId` of the potential message sender.
+
+      '
+  - name: userIdTo
+    type: User
+    default: null
+    summary: 'The `Class.Player.UserId` of the potential message receiver.
+
+      '
+  returns:
+  - type: boolean
+    summary: 'A boolean indicating whether the two users can exchange messages.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Chat
+- name: TextChatService:CanUsersDirectChatAsync
+  summary: 'Determines whether a user has permission to chat directly with other users
+
+    in experiences based on factors such as their parental control settings.
+
+    '
+  description: "Determines whether a user has permission to chat directly with other\
+    \ users\nin experiences based on their parental control settings, such as a whisper\n\
+    channel between two users. To be used when:\n\n- The line of communication is\
+    \ user-initiated (not developer- or\n  gameplay-initiated).\n- Access to the communication\
+    \ is closed and limited.\n\nYou may use this method to gate certain features in\
+    \ your experience\ndepending on the result.\n\nWhen creating a `Class.TextChannel`\
+    \ for a direct chat, use\n`Class.TextChannel:SetDirectChatRequester` to set the\
+    \ `requesterUserId` so\nthat the channel can determine whether to deliver messages\
+    \ between users.\nWhen `Class.TextChannel.DirectChatRequester` is non-`nil`,\n\
+    `Class.TextChannel|TextChannels` internally use this result to determine\nwhether\
+    \ to deliver messages between users.\n\nNote that this method is only available\
+    \ for use in a `Class.Script` with\n`Class.Script.RunContext|RunContext` of `Enum.RunContext.Server`\
+    \ or\n`Enum.RunContext.Legacy`.\n"
+  code_samples:
+  - TextChatService-User-Chat
+  parameters:
+  - name: requesterUserId
+    type: User
+    default: null
+    summary: 'The user who would have initiated the direct chat request. If the user
+
+      is not in the current server, this method will error.
+
+      '
+  - name: userIds
+    type: Array
+    default: null
+    summary: 'A list of users who the `requesterUserId` would like to chat with
+
+      directly. Users not in the current server are ignored.
+
+      '
+  returns:
+  - type: Array
+    summary: 'A list of users who could participate in the direct chat request. If
+
+      none of the users can direct chat with the `requesterUserId`, the
+
+      result is an empty array.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Chat
+- name: TextChatService:DisplayBubble
+  summary: 'Displays a chat bubble above the provided part or player character.
+
+    '
+  description: 'Displays a chat bubble above the provided part or player character,
+    and
+
+    fires the `Class.TextChatService.BubbleDisplayed|BubbleDisplayed` event
+
+    with the parameters specified in this method. Can display bubbles for
+
+    non-player characters (NPCs) if you specify a part within the character,
+
+    such as its head.
+
+
+    Note that this method is only available for use in `Class.LocalScript`, or
+
+    in a `Class.Script` with `Class.Script.RunContext|RunContext` of
+
+    `Enum.RunContext.Client`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: partOrCharacter
+    type: Instance
+    default: null
+    summary: 'The part or character that the bubble to be displayed above.
+
+      '
+  - name: message
+    type: string
+    default: null
+    summary: 'The text to be displayed in the chat bubble.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Chat
+- name: TextChatService:GetChatGroupsAsync
+  summary: 'Returns chat group IDs that indicate which players can synchronously text
+
+    chat together.
+
+    '
+  description: 'Returns a sorted array of arrays of chat group IDs for the given players.
+
+    Each chat group ID is a string that represents a communication-compatible
+
+    group within the current universe.
+
+
+    If two or more players share the same chat group ID, those players are
+
+    able to synchronously text chat with each other based on their age-check
+
+    status and chat settings.
+
+
+    This method is server-side only and intended for real-time use cases such
+
+    as matchmaking and teleporting. It is more efficient than calling
+
+    `Class.TextChatService:CanUsersChatAsync()` pairwise when evaluating many
+
+    players at once, since pairwise checks scale as N^2 and cannot be merged
+
+    across player lists. Chat group IDs are unique to the current universe,
+
+    may change over time, and should not be stored once the user has left the
+
+    experience. While you can hold onto the data returned for the purposes of
+
+    gameplay while the user is in the experience, this data should not be
+
+    stored after they''ve left.
+
+
+    To use this method, you must enable **Chat & Voice Groups APIs** in
+
+    **Experience Settings** ⟩ **Communication** in Roblox Studio and agree to
+
+    the Roblox Terms of Use.
+
+
+    In Roblox Studio this API is only available when the experience is running
+
+    in **Team Test**.
+
+    '
+  code_samples:
+  - TextChatService-Chat-Groups-Teleport
+  - TextChatService-GetChatGroupsAsync
+  parameters:
+  - name: players
+    type: Instances
+    default: null
+    summary: 'A list of `Class.Player|Players` currently in the experience to
+
+      evaluate for text chat compatibility.
+
+      '
+  returns:
+  - type: Array
+    summary: 'A sorted array of arrays of chat group ID strings. Players who share
+      a
+
+      matching chat group ID are eligible to synchronously text chat with
+
+      each other.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Chat
+- name: ChatIsLoaded
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: DisplayBubble
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: partOrCharacter
+    type: Instance
+  - name: message
+    type: string
+  returns:
+  - type: 'null'
+- name: GetTextChannelWindows
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+- name: HasAllocatedUniverseChatContext
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: context
+    type: string
+  returns:
+  - type: bool
+- name: IsProtectedChatEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+- name: SendEnableChatButtonClicked
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: SendEnableChatButtonShown
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: SendExpChatLoadSuccess
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: loadingLatency
+    type: int
+  - name: extras
+    type: Dictionary?
+  - name: chatWindowType
+    type: string
+  - name: textChannelWindowName
+    type: string
+  returns:
+  - type: 'null'
+- name: SendExpChatMessageClientRendered
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: textChatMessage
+    type: TextChatMessage
+  - name: messageRenderedSurface
+    type: string
+    default: unknown
+  - name: selectedChannelTab
+    type: int64
+    default: '-1'
+  - name: textChannelWindowName
+    type: string
+  - name: specialEffects
+    type: Array
+    default: '{}'
+  returns:
+  - type: 'null'
+- name: SendExpChatWindowScroll
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: chatWindowType
+    type: string
+  - name: textChannelWindowName
+    type: string
+  returns:
+  - type: 'null'
+- name: SendExpChatWindowStatusChange
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: timeClosed
+    type: int
+  - name: timeOpen
+    type: int
+  - name: timeBackgroundIdle
+    type: int
+  - name: timeTextIdle
+    type: int
+  - name: chatWindowType
+    type: string
+  - name: textChannelWindowName
+    type: string
+  returns:
+  - type: 'null'
+- name: SendTextChatCommandClientSent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: textChatCommandName
+    type: string
+  - name: chatWindowType
+    type: string
+  - name: textChannelWindowName
+    type: string
+  returns:
+  - type: 'null'
+- name: setModerationModeEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: int64
+  - name: enabled
+    type: bool
+  returns:
+  - type: bool
+- name: CanUserChatAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: User
+  returns:
+  - type: bool
+- name: CanUsersChatAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userIdFrom
+    type: User
+  - name: userIdTo
+    type: User
+  returns:
+  - type: bool
+- name: CanUsersDirectChatAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: requesterUserId
+    type: User
+  - name: userIds
+    type: Array
+  returns:
+  - type: Array
+- name: CanUsersWhisperAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: fromUserId
+    type: User
+  - name: toUserId
+    type: User
+  returns:
+  - type: bool
+- name: GetChatGroupsAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: players
+    type: Instances
+  returns:
+  - type: Array
+- name: GetChatableUserCountAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: User
+  - name: context
+    type: string
+  returns:
+  - type: int
+- name: GetPresetsAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Dictionary
+- name: OnUserChatSettingUpdateAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: featureName
+    type: string
+  - name: featureValue
+    type: string
+  returns:
+  - type: bool
+- name: SendDictatedSpeechUniverseChatAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: text
+    type: string
+  returns:
+  - type: TextChatMessage
+- name: SendUniverseChatMessageAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: text
+    type: string
+  - name: metadata
+    type: string
+  returns:
+  - type: TextChatMessage
+- name: SendUniverseChatPresetAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: presetId
+    type: string
+  returns:
+  - type: TextChatMessage
+events:
+- name: TextChatService.BubbleDisplayed
+  summary: 'Fires when `Class.TextChatService:DisplayBubble()` is called.
+
+    '
+  description: 'Fires when `Class.TextChatService:DisplayBubble()` is called.
+
+    '
+  code_samples: []
+  parameters:
+  - name: partOrCharacter
+    type: Instance
+    default: null
+    summary: 'The part or character that the bubble chat is displayed above.
+
+      '
+  - name: textChatMessage
+    type: TextChatMessage
+    default: null
+    summary: 'The `Class.TextChatMessage` associated with the bubble.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Chat
+- name: TextChatService.MessageReceived
+  summary: 'Fires when `Class.TextChannel:DisplaySystemMessage()` is invoked on the
+
+    client, or when the client receives a valid
+
+    `Class.TextChannel:SendAsync()` response from the server.
+
+    '
+  description: 'Like `Class.TextChannel.MessageReceived`, fires when
+
+    `Class.TextChannel:DisplaySystemMessage()` is invoked on the client, or
+
+    when the client receives a valid `Class.TextChannel:SendAsync()` response
+
+    from the server. This event is only fired on the client.
+
+
+    If the server''s `Class.TextChannel.ShouldDeliverCallback` property is
+
+    bound and returns `false`, the client will not fire
+
+    `Class.TextChatService.MessageReceived`.
+
+
+    Use the `Class.TextChatMessage` parameter to get the `Class.TextSource`
+
+    and the text of the message (with `Class.TextChatMessage.Text`).
+
+
+    The `Class.TextChatMessage` parameter is the final result of any functions
+
+    bound to `Class.TextChatService.OnIncomingMessage` or
+
+    `Class.TextChannel.OnIncomingMessage`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: textChatMessage
+    type: TextChatMessage
+    default: null
+    summary: 'The received `Class.TextChatMessage`.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Chat
+- name: TextChatService.SendingMessage
+  summary: 'Fires when `Class.TextChannel:SendAsync()` is called by the sending
+
+    client.
+
+    '
+  description: 'Fires when `Class.TextChannel:SendAsync()` is called by the sending
+
+    client. Use this to allow placeholder messages to be shown to the user
+
+    while waiting for server response to `Class.TextChannel:SendAsync()`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: textChatMessage
+    type: TextChatMessage
+    default: null
+    summary: 'The `Class.TextChatMessage` from the `Class.TextChannel:SendAsync()`
+
+      call.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Chat
+- name: BubbleDisplayed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: partOrCharacter
+    type: Instance
+  - name: textChatMessage
+    type: TextChatMessage
+- name: ChatActionReceived
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: chatActionMessage
+    type: TextChatMessage
+- name: ClientToServerChatIsLoadedSignal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: ClientToServerChatableUserCountRequestSignal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: requestId
+    type: string
+- name: ClientToServerMessageReplicateSignalV2
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: text
+    type: string
+  - name: metadata
+    type: string
+  - name: messageId
+    type: string
+  - name: textSource
+    type: TextSource
+  - name: textChannel
+    type: TextChannel
+- name: ClientToServerMessageReplicateSignalV3
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: text
+    type: string
+  - name: metadata
+    type: string
+  - name: messageId
+    type: string
+  - name: textSource
+    type: TextSource
+  - name: textChannel
+    type: TextChannel
+  - name: verified
+    type: bool
+  - name: isEscapedFlagEnabled
+    type: bool
+- name: ClientToServerMessageReplicateSignalV4
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: text
+    type: string
+  - name: metadata
+    type: string
+  - name: messageId
+    type: string
+  - name: textSource
+    type: TextSource
+  - name: textChannel
+    type: TextChannel
+  - name: verified
+    type: bool
+  - name: isEscapedFlagEnabled
+    type: bool
+  - name: presetId
+    type: string
+  - name: presetChatVersion
+    type: string
+- name: ClientToServerUniverseChatMessageSignalV1
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: text
+    type: string
+  - name: metadata
+    type: string
+  - name: messageId
+    type: string
+  - name: userId
+    type: int64
+  - name: verified
+    type: bool
+- name: ClientToServerUniverseChatMessageSignalV2
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: text
+    type: string
+  - name: metadata
+    type: string
+  - name: messageId
+    type: string
+  - name: userId
+    type: int64
+  - name: verified
+    type: bool
+  - name: presetId
+    type: string
+  - name: presetChatVersion
+    type: string
+- name: CoreMessageReceived
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: textChatMessage
+    type: TextChatMessage
+- name: ExpChatFeatureValueChanged
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: int64
+  - name: featureName
+    type: string
+  - name: featureValue
+    type: string
+- name: MessageReceived
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: textChatMessage
+    type: TextChatMessage
+- name: OnIncomingMessageEvent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: textChatMessage
+    type: TextChatMessage
+- name: OnUserChatSettingUpdateServer
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: featureName
+    type: string
+- name: SendingMessage
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: textChatMessage
+    type: TextChatMessage
+- name: SendingUniverseChatMessage
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: textChatMessage
+    type: TextChatMessage
+- name: ServerToClientChatActionReplicateSignal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: data
+    type: Dictionary
+- name: ServerToClientChatableUserCountResponseSignal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: count
+    type: int
+  - name: requestId
+    type: string
+- name: ServerToClientMessageReplicateSignal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: text
+    type: string
+  - name: prefixText
+    type: string
+  - name: metadata
+    type: string
+  - name: messageId
+    type: string
+  - name: textSource
+    type: TextSource
+  - name: textChannel
+    type: TextChannel
+  - name: timestamp
+    type: int64
+  - name: status
+    type: Enum.TextChatMessageStatus
+- name: ServerToClientMessageReplicateSignalV2
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: data
+    type: Dictionary
+- name: ServerToClientPresetChatConfigChangedSignal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: enabled
+    type: bool
+  - name: version
+    type: string
+- name: ServerToClientPresetChatUserAccessChangedSignal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: accessLevel
+    type: string
+- name: ServerToClientUniverseChatChannelAllocatedSignalV1
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: context
+    type: string
+- name: ServerToClientUniverseChatMessageSignalV1
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: data
+    type: Dictionary
+- name: TextChannelWindowAdded
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: textChannelWindow
+    type: TextChannelWindow
+- name: TextChannelWindowRemoved
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: textChannelWindow
+    type: TextChannelWindow
+- name: UniverseChatChannelAllocated
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: context
+    type: string
+- name: UniverseChatMessageReceived
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: textChatMessage
+    type: TextChatMessage
+- name: UserMessageIntentSent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userIntentMessage
+    type: TextChatMessage
+- name: UserMessageIntentSentRemote
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  deprecation_message: ''
+  security:
+    read: RobloxSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: text
+    type: string
+  - name: prefixText
+    type: string
+  - name: metadata
+    type: string
+  - name: messageId
+    type: string
+  - name: textSource
+    type: TextSource
+  - name: textChannel
+    type: TextChannel
+  - name: timestamp
+    type: int64
+callbacks:
+- name: TextChatService.OnBubbleAdded
+  summary: 'Called when a bubble chat is about to be displayed.
+
+    '
+  description: 'Called when a bubble chat is about to be displayed. This can only
+    be
+
+    implemented on the client.
+
+
+    Use this to customize individual bubble chat messages. If this callback
+
+    returns a `Class.BubbleChatMessageProperties`, those properties will be
+
+    applied to the associated bubble, overriding
+
+    `Class.BubbleChatConfiguration` properties. If a `Class.UICorner`,
+
+    `Class.UIGradient`, or `Class.ImageLabel` is parented under
+
+    `Class.BubbleChatMessageProperties`, they will also override their
+
+    respective counterparts defined in `Class.BubbleChatConfiguration`.
+
+
+    If the chat message is sent by a player, `message.TextSource` will
+
+    correspond to that player, and `adornee` will be `nil`.
+
+
+    If the chat message is sent via `Class.TextChatService:DisplayBubble`,
+
+    `adornee` will be the `partOrCharacter` provided, and `message.TextSource`
+
+    will be `nil`.
+
+
+    When bound to the client sending a message, this callback is run twice:
+
+    first when the message is initially sent and received locally, then again
+
+    when the client receives the result of the filtered message from the
+
+    server.
+
+    '
+  code_samples: []
+  parameters:
+  - name: message
+    type: TextChatMessage
+    default: null
+    summary: 'The incoming `Class.TextChatMessage`.
+
+      '
+  - name: adornee
+    type: Instance
+    default: null
+    summary: 'The part or character the bubble chat message is attached to.
+
+      '
+  returns:
+  - type: Tuple
+    summary: 'If a `Class.BubbleChatMessageProperties` is returned, its properties
+
+      override the `Class.BubbleChatConfiguration` properties.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Chat
+  writeCapabilities: []
+- name: TextChatService.OnChatWindowAdded
+  summary: 'Called when a new message is about to be displayed in the chat window.
+
+    This can only be implemented on the client.
+
+    '
+  description: 'Called when a new message is about to be displayed in the chat window.
+
+    This can only be implemented on the client.
+
+
+    Use this to customize individual messages that appear in the chat window.
+
+    If this callback returns a `Class.ChatWindowMessageProperties`, those
+
+    properties will be applied to the associated message, overriding
+
+    `Class.ChatWindowConfiguration` properties. If a `Class.UIGradient` is
+
+    parented under `Class.ChatWindowMessageProperties`, it will also override
+
+    the `Class.ChatWindowConfiguration.TextColor3|TextColor3` property defined
+
+    in `Class.ChatWindowConfiguration`.
+
+
+    When bound to the client sending a message, this callback is run twice:
+
+    first when the message is initially sent and received locally, then again
+
+    when the client receives the result of the filtered message from the
+
+    server.
+
+    '
+  code_samples: []
+  parameters:
+  - name: message
+    type: TextChatMessage
+    default: null
+    summary: 'The incoming `Class.TextChatMessage`.
+
+      '
+  returns:
+  - type: Tuple
+    summary: 'If a `Class.ChatWindowMessageProperties` is returned, its properties
+
+      override the `Class.ChatWindowConfiguration` properties.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Chat
+  writeCapabilities: []
+- name: TextChatService.OnIncomingMessage
+  summary: 'Called when `Class.TextChatService` is receiving an incoming message.
+
+    '
+  description: 'Called when `Class.TextChatService` is receiving an incoming message.
+    Can
+
+    only be implemented on the client.
+
+
+    Use this to decorate `Class.TextChatMessage|TextChatMessages`. If this
+
+    callback returns a `Class.TextChatMessageProperties`, those properties are
+
+    merged with the `Class.TextChatMessage` parameter to create a new
+
+    `Class.TextChatMessage`.
+
+
+    When bound to the client sending a message, this callback is run twice;
+
+    first when the message is initially sent and received locally, and again
+
+    when the client receives the result of the filtered message from the
+
+    server.
+
+
+    Note that this `Class.TextChatService.OnIncomingMessage` callback runs
+
+    **before** any `Class.TextChannel.OnIncomingMessage` callbacks.
+
+
+    This should be defined only once in the source code. Multiple bindings
+
+    will override one another in a non‑deterministic manner. This callback is
+
+    not invoked when `Class.TextChatService.PlatformIntegratedChat` is set to
+
+    `Enum.RolloutState.Enabled`.
+
+    '
+  code_samples: []
+  parameters:
+  - name: message
+    type: TextChatMessage
+    default: null
+    summary: 'The incoming `Class.TextChatMessage`.
+
+      '
+  returns:
+  - type: Tuple
+    summary: 'If a `Class.TextChatMessageProperties` is returned, those properties
+
+      are merged with the `Class.TextChatMessage` parameter to create a new
+
+      `Class.TextChatMessage` with those properties, otherwise, if `nil` is
+
+      returned, then `Class.TextChatMessage` is not changed.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Chat
+  writeCapabilities: []
+- name: OnBubbleAdded
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: message
+    type: TextChatMessage
+  - name: adornee
+    type: Instance
+  returns:
+  - type: Tuple
+- name: OnChatWindowAdded
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: message
+    type: TextChatMessage
+  returns:
+  - type: Tuple
+- name: OnIncomingMessage
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: message
+    type: TextChatMessage
+  returns:
+  - type: Tuple

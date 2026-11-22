@@ -1,0 +1,568 @@
+name: InputActionLabel
+type: class
+memory_category: Gui
+summary: 'A `Class.GuiObject` that automatically displays the keybinding for an action
+
+  as text or an image.
+
+  '
+description: "`InputActionLabel` is a drag-and-drop `Class.GuiObject` that automatically\n\
+  shows the appropriate key or icon for an `Class.InputAction` based on the\nplayer's\
+  \ current input device (keyboard/mouse, gamepad, touch, VR). When the\nplayer switches\
+  \ devices or the binding is rebound, the label updates instantly\nwithout scripting.\n\
+  \nRendering of the `InputActionLabel` depends on the `Class.InputAction` (linked\n\
+  through `Class.InputActionLabel.InputAction`) and that action's child\n`Class.InputBinding|InputBindings`.\
+  \ As the label resolves what to show, it\nfollows this order:\n\n1. **Custom Images**\
+  \ — If child `Class.InputBinding|InputBindings` have their\n   `Class.InputBinding.DisplayImage|DisplayImage`\
+  \ property set, the label\n   renders those images directly, optionally modified\
+  \ by\n   `Class.InputActionLabel.ImageColor3|ImageColor3` and\n   `Class.InputActionLabel.ImageTransparency|ImageTransparency`.\n\
+  \n2. **Platform Key Images** — Lacking custom images, the label renders\n   platform-provided\
+  \ images for child `Class.InputBinding|InputBindings`\n   through `Class.UserInputService:GetImageForKeyCode()`,\
+  \ if such images are\n   available. Composite bindings with modifiers show multiple\
+  \ icons with `+`\n   separators.\n\n3. **Custom Names** — Lacking available images,\
+  \ if child\n   `Class.InputBinding|InputBindings` have their\n   `Class.InputBinding.DisplayName|DisplayName`\
+  \ property set, the label\n   renders that text in a style defined by\n   `Class.InputActionLabel.FontFace|FontFace`,\n\
+  \   `Class.InputActionLabel.TextColor3|TextColor3`,\n   `Class.InputActionLabel.TextSize|TextSize`,\n\
+  \   `Class.InputActionLabel.TextTransparency|TextTransparency`,\n   `Class.InputActionLabel.TextWrapped|TextWrapped`,\n\
+  \   `Class.InputActionLabel.TextXAlignment|TextXAlignment`, and\n   `Class.InputActionLabel.TextYAlignment|TextYAlignment`.\n\
+  \n4. **Platform Key Strings** — Lacking all of the above, the label renders\n  \
+  \ platform-provided strings through\n   `Class.UserInputService:GetStringForKeyCode()`.\n\
+  \n5. If no `Class.InputAction` is assigned or no child `Class.InputBinding`\n  \
+  \ exists, the label renders a placeholder icon.\n"
+code_samples: []
+inherits:
+- GuiObject
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: InputActionLabel.FontFace
+  summary: 'Determines the font used to render text.
+
+    '
+  description: 'This property is similar to `Class.TextLabel.FontFace` and determines
+    the
+
+    font family, weight, and style used when the label renders in a text mode.
+
+    '
+  code_samples: []
+  type: Datatype.Font
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Text
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: InputActionLabel.ImageColor3
+  summary: 'Determines how rendered label images will be colorized.
+
+    '
+  description: 'This property determines how label images are colorized. When set
+    to
+
+    white, no colorization occurs. This property is useful for reusing image
+
+    assets; if the source images are completely white with transparency, you
+
+    can set the entire label color at once with this property.
+
+    '
+  code_samples: []
+  type: Color3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Image
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: InputActionLabel.ImageTransparency
+  summary: 'Determines the transparency of rendered label images.
+
+    '
+  description: 'This property determines the alpha of rendered label images. A value
+    of
+
+    `0` is completely opaque and a value of `1` is completely transparent
+
+    (invisible).
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Image
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: InputActionLabel.InputAction
+  summary: 'The `Class.InputAction` whose preferred binding this label displays.
+
+    '
+  description: 'The `Class.InputAction` instance for which to have the label automatically
+
+    resolve and display its preferred binding. When the binding changes (due
+
+    to rebinding or input device switching), the label updates automatically.
+
+
+    Setting this to `nil` clears the display and shows the placeholder.
+
+    '
+  code_samples: []
+  type: InputAction
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: InputActionLabel.ResolvedImageContent
+  summary: 'Read-only. The resolved image content currently being displayed.
+
+    '
+  description: 'Contains the `Datatype.Content` of the first resolved image when the
+    label
+
+    renders in an image mode. Empty when in text or placeholder mode. This is
+
+    a read-only property set by the engine when the binding resolves.
+
+    '
+  code_samples: []
+  type: Content
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - UI
+- name: InputActionLabel.ResolvedText
+  summary: 'The resolved key name string currently being displayed.
+
+    '
+  description: 'Contains the composed key name string such as `Ctrl + Shift + Space`
+    when
+
+    the label renders in text mode. Empty when the label renders in image or
+
+    placeholder mode. This is a read-only property set by the engine when the
+
+    binding resolves.
+
+    '
+  code_samples: []
+  type: string
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities:
+  - UI
+- name: InputActionLabel.TextColor3
+  summary: 'Determines the color of rendered text.
+
+    '
+  description: 'This property determines the color of all text rendered by the label.
+
+    '
+  code_samples: []
+  type: Color3
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Text
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: InputActionLabel.TextSize
+  summary: 'Determines the line height of text in offsets.
+
+    '
+  description: 'Controls the font size in pixels for text mode rendering. Value is
+    clamped
+
+    between `1` and `200`.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Text
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: InputActionLabel.TextTransparency
+  summary: 'Determines the transparency of rendered text.
+
+    '
+  description: 'This property determines the transparency of all text rendered by
+    the
+
+    label.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Text
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: InputActionLabel.TextWrapped
+  summary: 'Determines if text wraps to multiple lines within the label''s space.
+
+    '
+  description: 'When `true`, text renders on multiple lines within the label''s space
+    so
+
+    that `Class.InputActionLabel.TextSize|TextSize` lines never exceed the
+
+    `Class.GuiBase2d.AbsoluteSize` of the object. This is achieved by breaking
+
+    long lines of text into multiple lines.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Text
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: InputActionLabel.TextXAlignment
+  summary: 'Determines the horizontal alignment of rendered text.
+
+    '
+  description: 'This property determines the horizontal alignment of text rendered
+    within
+
+    the label''s space.
+
+    '
+  code_samples: []
+  type: TextXAlignment
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Text
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: InputActionLabel.TextYAlignment
+  summary: 'Determines the vertical alignment of rendered text.
+
+    '
+  description: 'This property determines the vertical alignment of text rendered within
+
+    the label''s space.
+
+    '
+  code_samples: []
+  type: TextYAlignment
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Text
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: FontFace
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Font
+  category: Text
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: ImageColor3
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Color3
+  category: Image
+  serialization:
+    can_load: true
+    can_save: true
+  default: 1, 1, 1
+- name: ImageTransparency
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Image
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: InputAction
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: InputAction
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: ResolvedImageContent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Content
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_no_string_value__
+- name: ResolvedText
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+- name: TextColor3
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Color3
+  category: Text
+  serialization:
+    can_load: true
+    can_save: true
+  default: 0.105882, 0.164706, 0.207843
+- name: TextSize
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Text
+  serialization:
+    can_load: true
+    can_save: true
+  default: '8'
+- name: TextTransparency
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Text
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: TextWrapped
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Text
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+- name: TextXAlignment
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.TextXAlignment
+  category: Text
+  serialization:
+    can_load: true
+    can_save: true
+  default: Center
+- name: TextYAlignment
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.TextYAlignment
+  category: Text
+  serialization:
+    can_load: true
+    can_save: true
+  default: Center
+methods: []
+events: []
+callbacks: []

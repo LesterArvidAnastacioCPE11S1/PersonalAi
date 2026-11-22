@@ -1,0 +1,138 @@
+name: Animation
+type: class
+memory_category: Animation
+summary: 'References an animation asset which can be loaded by an
+
+  `Class.AnimationController`.
+
+  '
+description: "An object that references an animation asset\n(`Class.Animation.AnimationId|AnimationId`)\
+  \ which can be loaded by an\n`Class.AnimationController`.\n\n#### Loading an Animation\
+  \ on Client or Server\n\nIn order for `Class.AnimationTrack|AnimationTracks` to\
+  \ replicate correctly,\nit's important to know when they should be loaded on the\
+  \ client or on the\nserver:\n\n- If an `Class.Animator` is a descendant of a `Class.Humanoid`\
+  \ or\n  `Class.AnimationController` in a player's `Class.Player.Character`,\n  animations\
+  \ started on that player's client will be replicated to the server\n  and other\
+  \ clients.\n\n- If the `Class.Animator` is **not** a descendant of a player character,\
+  \ its\n  animations must be loaded and started on the server to replicate.\n\nThe\
+  \ `Class.Animator` object must be initially created on the server and\nreplicated\
+  \ to clients for animation replication to work at all. If an\n`Class.Animator` is\
+  \ created locally, then\n`Class.AnimationTrack|AnimationTracks` loaded with that\
+  \ `Class.Animator` will\nnot replicate.\n\nSee also [Animation Editor](../../../animation/editor.md)\
+  \ and\n[Using Animations](../../../animation/using.md) to learn how to create and\
+  \ add\npre-built or custom animations to your game.\n"
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: Animation.AnimationContent
+  summary: 'A reference to the animation asset associated with this `Class.Animation`.
+
+    '
+  description: 'The `Datatype.Content`-typed reference to the animation asset for
+    this
+
+    `Class.Animation`. It is the underlying storage for
+
+    `Class.Animation.AnimationId|AnimationId` and accepts animation asset
+
+    URIs; setting either property updates the other.
+
+
+    Requires `Animation` security and is not accessible from regular scripts.
+
+    For most use cases, use `Class.Animation.AnimationId|AnimationId` instead,
+
+    which provides unrestricted access to the same animation reference as a
+
+    string content ID.
+
+    '
+  code_samples: []
+  type: Content
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Animation
+- name: Animation.AnimationId
+  summary: 'Asset ID of the animation an `Class.Animation` object is referencing.
+
+    '
+  description: 'This property is the asset ID of the animation an `Class.Animation`
+    object
+
+    is referencing. Once an animation has been created and uploaded to Roblox,
+
+    the ID can be copied from the
+
+    [Creator Dashboard](https://create.roblox.com/dashboard/creations?activeTab=Animation).
+
+
+    Note that the animation will need to be loaded onto an
+
+    `Class.AnimationTrack` in order to play it.
+
+    '
+  code_samples: []
+  type: ContentId
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Animation
+- name: AnimationContent
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Content
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: AnimationId
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: ContentId
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+methods: []
+events: []
+callbacks: []

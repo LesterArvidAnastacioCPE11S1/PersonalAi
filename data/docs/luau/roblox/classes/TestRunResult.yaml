@@ -1,0 +1,384 @@
+name: TestRunResult
+type: class
+memory_category: Instances
+summary: 'The outcome of a test run started by `Class.TestService:RunTestsAsync()`.
+
+  '
+description: "A `TestRunResult` is returned by `Class.TestService:RunTestsAsync()`\
+  \ when a\nrun finishes. `Class.TestRunResult.Status|Status` is the outcome of the\
+  \ whole\nrun, the counts say how many tests ended each way, and\n`Class.TestRunResult:GetTests()|GetTests()`\
+  \ returns a `Class.TestResult` for\neach test.\n\nA `TestRunResult` isn't an `Class.Instance`\
+  \ and can't be parented.\n\n```lua\nlocal TestService = game:GetService(\"TestService\"\
+  )\n\nlocal result = TestService:RunTestsAsync()\nprint(result.Summary)\nif result.Status\
+  \ ~= Enum.TestRunStatus.Pass then\n\tfor _, test in result:GetTests() do\n\t\tif\
+  \ test.Status ~= Enum.TestCaseStatus.Pass and test.Status ~= Enum.TestCaseStatus.Skipped\
+  \ then\n\t\t\twarn(`{test.TestId}: {test.Status.Name}`)\n\t\tend\n\tend\nend\n```\n"
+code_samples: []
+inherits:
+- Object
+descendants: []
+tags:
+- NotCreatable
+- NotReplicated
+deprecation_message: ''
+properties:
+- name: TestRunResult.Duration
+  summary: 'How long the run took, in seconds.
+
+    '
+  description: 'How long the whole run took, in seconds, from when
+
+    `Class.TestService:RunTestsAsync()` started it until its last test
+
+    finished.
+
+    '
+  code_samples: []
+  type: double
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities: []
+- name: TestRunResult.Failed
+  summary: 'The number of tests that failed or timed out.
+
+    '
+  description: 'The number of tests whose status is `Enum.TestCaseStatus.Fail` or
+
+    `Enum.TestCaseStatus.TimedOut`.
+
+    '
+  code_samples: []
+  type: int
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities: []
+- name: TestRunResult.Passed
+  summary: 'The number of tests that passed.
+
+    '
+  description: 'The number of tests whose status is `Enum.TestCaseStatus.Pass`.
+
+    '
+  code_samples: []
+  type: int
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities: []
+- name: TestRunResult.Skipped
+  summary: 'The number of tests that were skipped.
+
+    '
+  description: 'The number of tests whose status is `Enum.TestCaseStatus.Skipped`.
+
+    '
+  code_samples: []
+  type: int
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities: []
+- name: TestRunResult.Status
+  summary: 'The outcome of the whole run.
+
+    '
+  description: "The outcome of the whole run:\n\n- `Enum.TestRunStatus.Pass` if at\
+    \ least one test passed and none failed or\n  timed out.\n- `Enum.TestRunStatus.Fail`\
+    \ if any test failed or timed out.\n- `Enum.TestRunStatus.Skipped` if tests matched\
+    \ the filter but every one\n  was skipped.\n- `Enum.TestRunStatus.NoTests` if\
+    \ no test was registered or matched the\n  filter.\n\nTo decide whether a run\
+    \ passed, compare\n`Class.TestRunResult.Status|Status` with `Enum.TestRunStatus.Pass`.\n\
+    Statuses may be added later, so don't treat everything other than\n`Enum.TestRunStatus.Fail`\
+    \ as a pass.\n"
+  code_samples: []
+  type: TestRunStatus
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities: []
+- name: TestRunResult.Summary
+  summary: 'A one-line description of the run''s results.
+
+    '
+  description: 'A one-line description of the run for people to read, such as
+
+    `3 passed, 1 failed, 0 skipped (4 total) in 812ms`. It''s also printed to
+
+    the **Output** window when the run ends. Its wording may change, so read
+
+    the counts from `Class.TestRunResult.Passed|Passed`,
+
+    `Class.TestRunResult.Failed|Failed`,
+
+    `Class.TestRunResult.Skipped|Skipped`, and
+
+    `Class.TestRunResult.Total|Total` rather than parsing it.
+
+    '
+  code_samples: []
+  type: string
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities: []
+- name: TestRunResult.Total
+  summary: 'The number of tests the run included.
+
+    '
+  description: 'The number of tests the run included: every test that was registered
+    when
+
+    `Class.TestService:RunTestsAsync()` was called and matched its filter.
+
+    '
+  code_samples: []
+  type: int
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities: []
+- name: Duration
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: double
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: Failed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: Passed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: Skipped
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: Status
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.TestRunStatus
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: Summary
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: Total
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+methods:
+- name: TestRunResult:GetTests
+  summary: 'Returns the result of each test in the run.
+
+    '
+  description: 'Returns a `Class.TestResult` for each test in the run, in the order
+    the
+
+    tests ran.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Array
+    summary: 'An array of `Class.TestResult` objects, in the order the tests ran.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: GetTests
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+events: []
+callbacks: []

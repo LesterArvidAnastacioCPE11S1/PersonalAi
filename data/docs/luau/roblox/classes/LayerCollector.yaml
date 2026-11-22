@@ -1,0 +1,298 @@
+name: LayerCollector
+type: class
+memory_category: Instances
+summary: 'The base class of 2D UI containers which render `Class.GuiObject|GuiObjects`
+
+  in layers.
+
+  '
+description: '**LayerCollector** is the base class of 2D UI containers which render
+
+  `Class.GuiObject` descendants, such as `Class.ScreenGui`.
+
+
+  For performance improvements, the appearance of a `Class.LayerCollector` is
+
+  cached until one of the following events occurs:
+
+
+  - A descendant is added to or removed from it.
+
+  - A property of a descendant changes.
+
+  - A property of the `Class.LayerCollector` itself changes.
+
+  '
+code_samples: []
+inherits:
+- GuiBase2d
+descendants:
+- BillboardGui
+- PluginGui
+- ScreenGui
+- SurfaceGuiBase
+tags:
+- NotCreatable
+- NotBrowsable
+deprecation_message: ''
+properties:
+- name: LayerCollector.Enabled
+  summary: 'Toggles the visibility of this `Class.LayerCollector`.
+
+    '
+  description: 'Toggles the visibility of this `Class.LayerCollector`. When `false`,
+    the
+
+    UI contents will not render, process user input, or update in response to
+
+    changes.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: LayerCollector.ResetOnSpawn
+  summary: 'Determines if the `Class.LayerCollector` resets (deletes itself and
+
+    re-clones into the player''s `Class.PlayerGui`) every time the player''s
+
+    character respawns.
+
+    '
+  description: 'When set to `false` and this `Class.LayerCollector` is a direct child
+    of
+
+    `Class.StarterGui`, it will only be cloned into each player''s
+
+    `Class.PlayerGui` once and it will not be deleted when the player''s
+
+    character respawns.
+
+
+    When set to `true` (default), or if this `Class.LayerCollector` is an
+
+    **indirect** descendant of `Class.StarterGui`, it will be cloned into each
+
+    player''s `Class.PlayerGui` when their character respawns, and it will
+
+    delete itself when the player''s character respawns again.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: LayerCollector.ZIndexBehavior
+  summary: 'Controls how `Class.GuiObject.ZIndex` behaves on all descendants of this
+
+    `Class.LayerCollector`.
+
+    '
+  description: 'Controls how `Class.GuiObject.ZIndex` behaves on all descendants of
+    this
+
+    `Class.LayerCollector`.
+
+
+    With `Enum.ZIndexBehavior.Sibling` (default), children always render above
+
+    their parents, and the `Class.GuiObject.ZIndex|ZIndex` is used to decide
+
+    the order in which children of a single UI object will render over each
+
+    other.
+
+
+    `Enum.ZIndexBehavior.Global` sorts all descendants according to the
+
+    `Class.GuiObject.ZIndex|ZIndex`, then breaks ties using the hierarchy
+
+    order. As a result, descendants of a `Class.GuiObject` need to have a
+
+    `Class.GuiObject.ZIndex|ZIndex` value that''s at least as high as the
+
+    parent, or they will render underneath their parent.
+
+    '
+  code_samples: []
+  type: ZIndexBehavior
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: Enabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: InputSinkEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.RolloutState
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: ResetOnSpawn
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: TabKeyboardNavigation
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Hidden
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: ZIndexBehavior
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.ZIndexBehavior
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_class_not_creatable__
+methods:
+- name: LayerCollector:GetLayoutNodeTree
+  summary: ''
+  description: ''
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Dictionary
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This method should not be used for new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - UI
+- name: GetGuiObjectsAtPosition
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: x
+    type: int
+  - name: y
+    type: int
+  returns:
+  - type: Instances
+- name: GetLayoutNodeTree
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Dictionary
+events: []
+callbacks: []

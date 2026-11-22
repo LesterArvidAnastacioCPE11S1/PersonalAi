@@ -1,0 +1,572 @@
+name: GroupService
+type: class
+memory_category: Instances
+summary: 'GroupService is a service that allows developers to fetch information about
+  a
+
+  Roblox group from within a game.
+
+  '
+description: '`GroupService` is a service that allows developers to fetch information
+  about
+
+  a Roblox group from within a game.
+
+
+  Basic information on the group, including its name, description, owner, roles
+
+  and emblem can be fetched using `Class.GroupService:GetGroupInfoAsync()`.
+
+  Lists of a group''s allies and enemies can be fetched using
+
+  `Class.GroupService:GetAlliesAsync()` and
+
+  `Class.GroupService:GetEnemiesAsync()`.
+
+
+  `GroupService` can also be used to fetch a list of groups a player is a member
+
+  of, using `Class.GroupService:GetGroupsAsync()`. If you wish to verify if a
+
+  player is in a group, use the `Class.Player:IsInGroupAsync()` method rather
+
+  than `Class.GroupService:GetGroupsAsync()`.
+
+
+  The service has a number of useful applications, such as detecting if a player
+
+  is an ally or enemy upon joining the game, or prompting a player to join a
+
+  group using the `Class.GroupService:PromptJoinAsync()` method.
+
+  '
+code_samples:
+- Group-Ally-Enemy-Checker
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+- NotReplicated
+deprecation_message: ''
+properties: []
+methods:
+- name: GroupService:GetAlliesAsync
+  summary: 'Returns a `Class.StandardPages` object including information on all of
+    the
+
+    specified group''s allies.
+
+    '
+  description: "Returns a `Class.StandardPages` object including information on all\
+    \ of the\nspecified group's allies.\n\nThis pages does not include a list of group\
+    \ IDs but instead a list of\ngroup information tables, mirroring the format of\
+    \ those returned by\n`Class.GroupService:GetGroupInfoAsync()`. See below for the\
+    \ structure of\nthese tables.\n\n```lua\ngroup = {\n    Name = \"Knights of the\
+    \ Seventh Sanctum\",\n    Id = 377251,\n    Owner = {\n        Name = \"Vilicus\"\
+    ,\n        Id = 23415609\n    },\n    EmblemUrl = \"http://www.roblox.com/asset/?id=60428602\"\
+    ,\n    Description = \"We fight alongside the balance to make sure no one becomes\
+    \ too powerful\",\n    Roles = {\n        [1] = {\n            Name = \"Apprentice\"\
+    ,\n            Rank = 1\n        },\n        [2] = {\n            Name = \"Warrior\"\
+    ,\n            Rank = 2\n        },\n        [3] = {\n            Name = \"Earth\
+    \ Walker\",\n            Rank = 255\n        }\n    }\n}\n```\n\nNote, as this\
+    \ function returns a `Class.StandardPages` object rather than\nan array, developers\
+    \ may wish to convert it to an array for ease of use\n(see examples).\n\nThis\
+    \ function has a number of useful applications, including detecting if\na player\
+    \ is a member of an allied group.\n\nFor enemies, use `Class.GroupService:GetEnemiesAsync()`.\n"
+  code_samples:
+  - GroupService-GetAlliesAsync1
+  - Group-Ally-Enemy-Checker
+  parameters:
+  - name: groupId
+    type: int64
+    default: null
+    summary: 'The group''s ID.
+
+      '
+  returns:
+  - type: StandardPages
+    summary: 'A `Class.StandardPages` object containing group information tables for
+
+      each of the specified group''s allies.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Groups
+- name: GroupService:GetEnemiesAsync
+  summary: 'Returns a `Class.StandardPages` object including information on all of
+    the
+
+    specified group''s enemies.
+
+    '
+  description: "Returns a `Class.StandardPages` object including information on all\
+    \ of the\nspecified group's enemies.\n\nThis pages does not include a list of\
+    \ group IDs but instead a list of\ngroup information tables, mirroring the format\
+    \ of those returned by\n`Class.GroupService:GetGroupInfoAsync()`. See below for\
+    \ the structure of\nthese tables.\n\n```lua\ngroup = {\n    Name = \"Knights of\
+    \ the Seventh Sanctum\",\n    Id = 377251,\n    Owner = {\n        Name = \"Vilicus\"\
+    ,\n        Id = 23415609\n    },\n    EmblemUrl = \"http://www.roblox.com/asset/?id=60428602\"\
+    ,\n    Description = \"We fight alongside the balance to make sure no one becomes\
+    \ too powerful\",\n    Roles = {\n        [1] = {\n            Name = \"Apprentice\"\
+    ,\n            Rank = 1\n        },\n        [2] = {\n            Name = \"Warrior\"\
+    ,\n            Rank = 2\n        },\n        [3] = {\n            Name = \"Earth\
+    \ Walker\",\n            Rank = 255\n        }\n    }\n}\n```\n\nNote, as this\
+    \ function returns a `Class.StandardPages` object rather than\nan array, developers\
+    \ may wish to convert it to an array for ease of use\n(see examples).\n\nThis\
+    \ function has a number of useful applications, including detecting if\na player\
+    \ is a member of an enemy group.\n\nFor allies, use `Class.GroupService:GetAlliesAsync()`.\n"
+  code_samples:
+  - GroupService-GetEnemiesAsync1
+  - Group-Ally-Enemy-Checker
+  parameters:
+  - name: groupId
+    type: int64
+    default: null
+    summary: 'The group''s ID.
+
+      '
+  returns:
+  - type: StandardPages
+    summary: 'A `Class.StandardPages` object containing group information tables for
+
+      each of the specified group''s enemies.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Groups
+- name: GroupService:GetGroupInfoAsync
+  summary: 'Returns a table containing information about the given group.
+
+    '
+  description: "Returns a table containing information about the given group.\n\n\
+    The table returned is the same format as that returned in\n`Class.GroupService:GetAlliesAsync()`\
+    \ and\n`Class.GroupService:GetEnemiesAsync()`. This format can be seen below.\n\
+    \n```lua\ngroup = {\n    Name = \"Knights of the Seventh Sanctum\",\n    Id =\
+    \ 377251,\n    Owner = {\n        Name = \"Vilicus\",\n        Id = 23415609\n\
+    \    },\n    EmblemUrl = \"http://www.roblox.com/asset/?id=60428602\",\n    Description\
+    \ = \"We fight alongside the balance to make sure no one becomes too powerful\"\
+    ,\n    Roles = {\n        [1] = {\n            Name = \"Apprentice\",\n      \
+    \      Rank = 1\n        },\n        [2] = {\n            Name = \"Warrior\",\n\
+    \            Rank = 2\n        },\n        [3] = {\n            Name = \"Earth\
+    \ Walker\",\n            Rank = 255\n        }\n    }\n}\n```\n\nNote, if a group\
+    \ has no owner the Owner field will be set to `nil`.\n\nThis function has a number\
+    \ of useful applications, including loading the\nlatest description and logo of\
+    \ a group for display in a group base.\n"
+  code_samples:
+  - GroupService-GetGroupInfoAsync1
+  - Load-Group-Emblem
+  parameters:
+  - name: groupId
+    type: int64
+    default: null
+    summary: 'The group ID of the group.
+
+      '
+  returns:
+  - type: Variant
+    summary: 'A dictionary of information about the group.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Groups
+  open_cloud_equivalents:
+  - path: GET /cloud/v2/groups/{group_id}
+    relationship: equivalent_partial
+    note: GroupService:GetGroupInfoAsync and GET /cloud/v2/groups/{group_id} both
+      retrieve the specified group, but the engine response includes the emblem URL
+      and roles while Open Cloud returns different group metadata and an owner resource
+      path.
+- name: GroupService:GetGroupsAsync
+  summary: 'Returns a list of tables containing information on all of the groups a
+
+    given player is a member of.
+
+    '
+  description: "This function returns a list of tables containing information on all\
+    \ of\nthe groups a given `Class.Player` is a member of.\n\nThe list returned will\
+    \ include an entry for every group the player is a\nmember of. These entries are\
+    \ tables with the following fields.\n\n<table>\n\t<thead>\n\t\t<tr>\n\t\t\t<th>Name</th>\n\
+    \t\t\t<th>Description</th>\n\t\t</tr>\n\t</thead>\n\t<tbody>\n<tr>\n  <td><b>Name</b></td>\n\
+    \  <td>The group's name</td>\n</tr> \n<tr>\n  <td><b>Id</b></td>\n  <td>The group\
+    \ ID</td>\n</tr>\n<tr>\n  <td><b>EmblemUrl</b></td>\n  <td>An asset url linking\
+    \ to the group's thumbnail (for example: http://www.roblox.com/asset/?id=276165514)</td>\n\
+    </tr>\n<tr>\n  <td><b>EmblemId</b></td>\n  <td>The assetId of the emblem, the\
+    \ same which is used in the EmblemUrl</td>\n</tr>\n<tr>\n  <td><b>Rank</b> <i>(deprecated)</i></td>\n\
+    \  <td>The rankId the player has. Deprecated: players may now hold more than one\
+    \ role in a group. Use <code>Class.GroupService:GetRolesInGroupAsync()</code>\
+    \ instead.</td>\n</tr>\n<tr>\n  <td><b>Role</b> <i>(deprecated)</i></td>\n  <td>The\
+    \ name of the player's group rank. Deprecated: players may now hold more than\
+    \ one role in a group. Use <code>Class.GroupService:GetRolesInGroupAsync()</code>\
+    \ instead.</td>\n</tr>\n<tr>\n  <td><b>IsPrimary</b></td>\n  <td>A boolean indicating\
+    \ if this is the player's primary group</td>\n</tr>\n<tr>\n  <td><b>IsInClan</b>\
+    \ <i>(deprecated)</i></td>\n  <td>Always <code>false</code>. Deprecated: the Clans\
+    \ feature has been sunset.</td>\n</tr>\n</tbody>\n</table>\n\nNote unlike `Class.GroupService:GetAlliesAsync()`\
+    \ and\n`Class.GroupService:GetEnemiesAsync()`, GetGroupsAsync returns a table\n\
+    rather than a `Class.StandardPages` object.\n"
+  code_samples:
+  - GetGroupsAsync
+  parameters:
+  - name: userId
+    type: User
+    default: null
+    summary: 'The `Class.Player.UserId` of the user.
+
+      '
+  returns:
+  - type: Array
+    summary: 'An array of dictionaries containing information on the group''s the
+
+      `Class.Player` is a member of.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Groups
+- name: GroupService:GetRolesInGroupAsync
+  summary: 'Returns all roles held by the specified user in the specified group,
+
+    supporting multi-role group membership.
+
+    '
+  description: 'Returns a table describing all roles the specified user holds in the
+
+    specified group. In a multi-role world, a user may belong to more than one
+
+    role simultaneously.
+
+
+    The returned table has the following structure:
+
+
+    | Key      | Type    | Description                                                       |
+
+    | -------- | ------- | -----------------------------------------------------------------
+    |
+
+    | IsMember | boolean | `true` if the user is a member of the group                       |
+
+    | Roles    | array   | Array of role tables (empty if not a member or no non-base
+    roles) |
+
+
+    Each entry in the `Roles` array has the following structure:
+
+
+    | Key  | Type    | Description              |
+
+    | ---- | ------- | ------------------------ |
+
+    | Id   | integer | Unique role ID           |
+
+    | Name | string  | Display name of the role |
+
+    | Rank | integer | Rank value (0–255)       |
+
+
+    The `Roles` array is ordered from the highest role to the lowest role.
+
+    Only public roles are included. A role''s `Rank` value is retained for
+
+    backwards compatibility, but does not determine its position in the role
+
+    hierarchy. Use the stable `Id` to identify a role.
+
+
+    This method supersedes `Class.Player:GetRankInGroupAsync()` and
+
+    `Class.Player:GetRoleInGroupAsync()`, which return only the member''s
+
+    highest public role.
+
+
+    This call may not yield the most up-to-date information. Results are
+
+    cached per user and group, so multiple calls with the same `userId` and
+
+    `groupId` may yield the same result until the cache expires. The caching
+
+    behavior is on a per-peer basis: a server does not share the same cache as
+
+    a client.
+
+
+    When a player joins a group in-experience due to a call to
+
+    `Class.GroupService:PromptJoinAsync()`, any cached result for that player
+
+    and group will be cleared on the client where the prompt was shown.
+
+    '
+  code_samples:
+  - GroupService-GetRolesInGroupAsync
+  parameters:
+  - name: userId
+    type: User
+    default: null
+    summary: 'The user''s ID.
+
+      '
+  - name: groupId
+    type: int64
+    default: null
+    summary: 'The group''s ID.
+
+      '
+  returns:
+  - type: Variant
+    summary: 'A table with two fields: `IsMember` (boolean) and `Roles` (array of
+
+      public role tables). Each role table contains `Id` (integer), `Name`
+
+      (string), and `Rank` (integer). The array is ordered from highest to
+
+      lowest role.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Groups
+  open_cloud_equivalents:
+  - path: GET /cloud/v2/groups/{group_id}/memberships
+    relationship: equivalent_partial
+    note: GroupService:GetRolesInGroupAsync and GET /cloud/v2/groups/{group_id}/memberships
+      both retrieve a user's assigned group roles, but Open Cloud returns role resource
+      paths in a filterable membership list rather than the engine API's IsMember
+      value and role ID, name, and rank objects.
+- name: GroupService:PromptJoinAsync
+  summary: 'Prompts the local `Class.Player` to join a specified Roblox group via
+    a
+
+    native modal.
+
+    '
+  description: '`PromptJoinAsync()` displays a prompt to the local player through
+    which
+
+    they may join the specified Roblox group. The group must exist and the
+
+    player must meet the eligibility criteria to join. If the player is
+
+    ineligible, this method will return `Enum.GroupMembershipStatus.None`.
+
+
+    Note that you can use `Class.Player:IsInGroupAsync()` to check the
+
+    player''s current membership status before calling this method.
+
+
+    If the player successfully joins, any cached results from
+
+    `Class.GroupService:GetRolesInGroupAsync()`,
+
+    `Class.Player:GetRankInGroupAsync()`, and
+
+    `Class.Player:GetRoleInGroupAsync()` for that player and group will be
+
+    cleared on the client where the prompt was shown.
+
+    '
+  code_samples:
+  - GroupService-PromptJoinAsync1
+  parameters:
+  - name: groupId
+    type: int64
+    default: null
+    summary: 'ID of the group to prompt the player to join. This must be a valid
+
+      group ID.
+
+      '
+  returns:
+  - type: GroupMembershipStatus
+    summary: '`Enum.GroupMembershipStatus` indicating the player''s group membership
+
+      status after the prompt is closed. If the player closes the prompt
+
+      without joining, this will return `Enum.GroupMembershipStatus.None` or
+
+      their previous status if they were already a member.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Groups
+- name: PromptJoinCompleted
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: groupId
+    type: int64
+  - name: success
+    type: bool
+  - name: groupMembershipStatus
+    type: Enum.GroupMembershipStatus
+  - name: errorMessage
+    type: string
+  returns:
+  - type: 'null'
+- name: GetAlliesAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: groupId
+    type: int64
+  returns:
+  - type: StandardPages
+- name: GetEnemiesAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: groupId
+    type: int64
+  returns:
+  - type: StandardPages
+- name: GetGroupInfoAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: groupId
+    type: int64
+  returns:
+  - type: Variant
+- name: GetGroupsAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: User
+  returns:
+  - type: Array
+- name: GetRolesInGroupAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: userId
+    type: User
+  - name: groupId
+    type: int64
+  returns:
+  - type: Variant
+- name: PromptJoinAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: groupId
+    type: int64
+  returns:
+  - type: Enum.GroupMembershipStatus
+events:
+- name: ShowJoinPrompt
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: groupId
+    type: int64
+callbacks: []

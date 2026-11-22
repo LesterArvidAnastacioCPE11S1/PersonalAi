@@ -1,0 +1,239 @@
+name: DataStoreKeyInfo
+type: class
+memory_category: Instances
+summary: 'An object specifying information about a particular version of the key.
+
+  '
+description: "An object describing information about a particular version of the key.\
+  \ This\nis returned as the second return value by `Class.GlobalDataStore:GetAsync()`,\n\
+  `Class.GlobalDataStore:UpdateAsync()`,\n`Class.GlobalDataStore:IncrementAsync()`,\n\
+  `Class.GlobalDataStore:RemoveAsync()`, and\n`Class.DataStore:GetVersionAsync()`.\n\
+  \nSee also:\n\n- [Data Stores](../../../cloud-services/data-stores/index.md), an\
+  \ in-depth\n  guide on data structure, management, error handling, etc.\n"
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- NotReplicated
+deprecation_message: ''
+properties:
+- name: DataStoreKeyInfo.CreatedTime
+  summary: 'The date and time the object was created.
+
+    '
+  description: 'This property indicates the date and time the object was created,
+
+    formatted as the number of milliseconds since epoch.
+
+    '
+  code_samples: []
+  type: int64
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - DataStore
+- name: DataStoreKeyInfo.UpdatedTime
+  summary: 'The date and time the object was last updated.
+
+    '
+  description: 'This property indicates the date and time the object was last updated,
+
+    formatted as the number of milliseconds since epoch.
+
+    '
+  code_samples: []
+  type: int64
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - DataStore
+- name: DataStoreKeyInfo.Version
+  summary: 'Uniquely identifies the version of the object.
+
+    '
+  description: 'This property uniquely identifies the version of the object. It can
+    be
+
+    passed to `Class.DataStore:GetVersionAsync()` or
+
+    `Class.DataStore:RemoveVersionAsync()` to get or remove the version
+
+    respectively.
+
+    '
+  code_samples: []
+  type: string
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  capabilities:
+  - DataStore
+- name: CreatedTime
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int64
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: UpdatedTime
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: int64
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+- name: Version
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: false
+    can_save: true
+  default: __api_dump_class_not_creatable__
+methods:
+- name: DataStoreKeyInfo:GetMetadata
+  summary: 'Returns the metadata associated with the object.
+
+    '
+  description: 'This function returns the metadata associated with the latest version
+    of
+
+    the object.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Dictionary
+    summary: 'Metadata associated with the key.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DataStore
+- name: DataStoreKeyInfo:GetUserIds
+  summary: 'An array of `Class.Player.UserId|UserIds` tagged with a key.
+
+    '
+  description: 'This function returns an array of `Class.Player.UserId|UserIds` tagged
+
+    with the object.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Array
+    summary: 'An array of `Class.Player.UserId|UserIds` associated with the object.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - DataStore
+- name: GetMetadata
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Dictionary
+- name: GetUserIds
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+events: []
+callbacks: []

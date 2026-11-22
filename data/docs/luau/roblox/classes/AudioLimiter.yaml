@@ -1,0 +1,373 @@
+name: AudioLimiter
+type: class
+memory_category: Internal
+summary: 'Limits how loud audio streams are allowed to be.
+
+  '
+description: '`AudioLimiter` limits how loud audio streams are allowed to be. Whenever
+  its
+
+  input stream exceeds a specified maximum level, the stream''s volume is reduced
+
+  for a moment. `AudioLimiter` provides a single **Input** pin, and a single
+
+  **Output** pin that can be connected to/from by `Class.Wires`.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: AudioLimiter.Bypass
+  summary: 'Whether audio streams are passed-through unaffected by this effect.
+
+    '
+  description: 'If `true`, audio streams are passed-through unaffected by this effect.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: State
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Audio
+- name: AudioLimiter.MaxLevel
+  summary: 'The maximum volume tolerated.
+
+    '
+  description: 'The maximum volume, in decibels, that the limiter will allow to pass
+
+    through without reduction. Whenever the input stream exceeds
+
+    `Class.AudioLimiter.MaxLevel|MaxLevel`, the output stream''s volume will be
+
+    reduced to compensate. This value ranges from `-12` to `0`.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: State
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Audio
+- name: AudioLimiter.Release
+  summary: 'The amount of time it takes for previously limited streams to return to
+
+    their normal volume.
+
+    '
+  description: 'The amount of time, in seconds, that it takes for any previously (but
+    not
+
+    currently) limited streams to return to their normal volume. This value
+
+    ranges from `0.001` to `1`.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: State
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Audio
+- name: Bypass
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: State
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'false'
+- name: Editor
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: bool
+  category: State Editing
+  serialization:
+    can_load: true
+    can_save: false
+  default: 'false'
+- name: MaxLevel
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: State
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0'
+- name: Release
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: State
+  serialization:
+    can_load: true
+    can_save: true
+  default: '0.00999999978'
+methods:
+- name: AudioLimiter:GetConnectedWires
+  summary: 'Returns an array of `Class.Wire|Wires` that are connected to the specified
+
+    pin.
+
+    '
+  description: 'Returns an array of `Class.Wire|Wires` that are connected to the specified
+
+    pin. `Class.AudioLimiter` has one **Input** pin and one **Output** pin.
+
+    '
+  code_samples: []
+  parameters:
+  - name: pin
+    type: string
+    default: null
+    summary: 'An input or output pin on this instance
+
+      '
+  returns:
+  - type: List<Wire>
+    summary: 'An array of `Class.Wire|Wires`
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Audio
+- name: AudioLimiter:GetInputPins
+  summary: 'Gets the list of pins that `Class.Wire` can use in `Class.Wire.TargetName`
+
+    to connect to this instance via its `Class.Wire.TargetInstance` property.
+
+    '
+  description: 'Gets the list of pins that `Class.Wire` can use in `Class.Wire.TargetName`
+
+    to connect to this instance via its `Class.Wire.TargetInstance` property.
+
+
+    For `Class.AudioLimiter`, this is `Input` only.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Array
+    summary: 'An array of strings representing valid pin names.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Audio
+- name: AudioLimiter:GetOutputPins
+  summary: 'Gets the list of pins that `Class.Wire` can use in `Class.Wire.SourceName`
+
+    to connect to this instance via its `Class.Wire.SourceInstance` property.
+
+    '
+  description: 'Gets the list of pins that `Class.Wire` can use in `Class.Wire.SourceName`
+
+    to connect to this instance via its `Class.Wire.SourceInstance` property.
+
+
+    For `Class.AudioLimiter`, this is `Output` only.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Array
+    summary: 'An array of strings representing valid pin names.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Audio
+- name: GetConnectedWires
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: pin
+    type: string
+  returns:
+  - type: Instances
+- name: GetInputPins
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+- name: GetOutputPins
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+events:
+- name: AudioLimiter.WiringChanged
+  summary: 'Fires when another instance is connected to or disconnected from the
+
+    `Class.AudioLimiter` via a `Class.Wire`.
+
+    '
+  description: 'Event that fires after a `Class.Wire` becomes connected or disconnected,
+
+    and that `Class.Wire` is now or was previously connected to a pin on the
+
+    `Class.AudioLimiter` and to some other wirable instance.
+
+    '
+  code_samples: []
+  parameters:
+  - name: connected
+    type: boolean
+    default: null
+    summary: 'Whether the instance got connected or disconnected.
+
+      '
+  - name: pin
+    type: string
+    default: null
+    summary: 'The pin on the `Class.AudioLimiter` that the `Class.Wire` targets.
+
+      '
+  - name: wire
+    type: Wire
+    default: null
+    summary: 'The `Class.Wire` between the `Class.AudioLimiter` and the other
+
+      instance.
+
+      '
+  - name: instance
+    type: Instance
+    default: null
+    summary: 'The other instance that is or was connected through the `Class.Wire`.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities:
+  - Audio
+- name: WiringChanged
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: connected
+    type: bool
+  - name: pin
+    type: string
+  - name: wire
+    type: Wire
+  - name: instance
+    type: Instance
+callbacks: []

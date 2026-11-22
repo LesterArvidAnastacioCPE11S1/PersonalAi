@@ -1,0 +1,378 @@
+name: ServiceProvider
+type: class
+memory_category: Instances
+summary: 'A ServiceProvider is an abstract class, which stores, and provides certain
+
+  singleton classes, depending on what inherited class you are using its members
+
+  with.
+
+  '
+description: 'A ServiceProvider is an abstract base class that manages a registry
+  of
+
+  singleton service instances. The `Class.DataModel` (accessible in Lua as
+
+  `game`) is the primary ServiceProvider in an experience. Services are created
+
+  lazily the first time they are requested via
+
+  `Class.ServiceProvider:GetService()` and remain available for the lifetime of
+
+  the DataModel.
+
+
+  You do not create ServiceProvider instances directly; instead you interact
+
+  with its members through the DataModel.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants:
+- DataModel
+- GenericSettings
+tags:
+- NotCreatable
+- NotBrowsable
+deprecation_message: ''
+properties: []
+methods:
+- name: ServiceProvider:FindService
+  summary: 'Returns the service specified by the given className if it''s already
+
+    created, errors for an invalid name.
+
+    '
+  description: 'Returns the service with the given class name only if it has already
+    been
+
+    created. Unlike `Class.ServiceProvider:GetService()`, this method does not
+
+    create the service when it does not yet exist; it returns `nil` instead.
+
+    If `className` is not a valid service name, the method throws an error.
+
+
+    This method is thread-safe and can be called from any thread context. It
+
+    is useful when you need to check whether a service is present without
+
+    triggering its initialization, for example during cleanup or conditional
+
+    logic that should not force service creation.
+
+    '
+  code_samples:
+  - ServiceProvider-FindService1
+  parameters:
+  - name: className
+    type: string
+    default: null
+    summary: 'The class name of the service to find.
+
+      '
+  returns:
+  - type: Instance
+    summary: 'The service instance if it has already been created, or nil if the
+
+      service does not yet exist.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities: []
+- name: ServiceProvider:GetService
+  summary: 'Returns the service with the requested class name, creating it if it does
+
+    not exist.
+
+    '
+  description: "Returns a service with the class name requested. When called with\
+    \ the name\nof a service (such as `Class.Debris`) it will return the instance\
+    \ of that\nservice. If the service does not yet exist it will be created and the\
+    \ new\nservice is returned. This is the only way to create some services, and\
+    \ can\nalso be used for services that have unusual names, e.g. RunService's name\n\
+    is \"Run Service\".\n\nNote:\n\n- This function will return `nil` if the className\
+    \ parameter is an\n  existing class, but the class is not a service.\n- If you\
+    \ attempt to fetch a service that is present under another Object,\n  an error\
+    \ will be thrown stating that the \"singleton serviceName already\n  exists\"\
+    .\n"
+  code_samples:
+  - ServiceProvider-GetService1
+  parameters:
+  - name: className
+    type: string
+    default: null
+    summary: 'The class name of the requested service.
+
+      '
+  returns:
+  - type: Instance
+    summary: 'An instance of the requested service.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: ServiceProvider:getService
+  summary: ''
+  description: ''
+  code_samples: []
+  parameters:
+  - name: className
+    type: string
+    default: null
+    summary: ''
+  returns:
+  - type: Instance
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This deprecated function is a variant of
+
+    `Class.ServiceProvider:GetService()` which should be used instead.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: ServiceProvider:service
+  summary: ''
+  description: ''
+  code_samples: []
+  parameters:
+  - name: className
+    type: string
+    default: null
+    summary: ''
+  returns:
+  - type: Instance
+    summary: ''
+  tags:
+  - Deprecated
+  deprecation_message: 'This item has been superseded by `Class.ServiceProvider:GetService()`
+
+    which should be used in all new work.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: FindService
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: className
+    type: string
+  returns:
+  - type: Instance
+- name: GetService
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: className
+    type: string
+  returns:
+  - type: Instance
+- name: getService
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''GetService'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: className
+    type: string
+  returns:
+  - type: Instance
+- name: service
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''GetService'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: className
+    type: string
+  returns:
+  - type: Instance
+events:
+- name: ServiceProvider.Close
+  summary: 'Fires when the current place is exited.
+
+    '
+  description: 'Fires when the game instance is shutting down, immediately before
+    services
+
+    and instances are torn down. On the server this occurs when the last
+
+    player leaves or the server is closed; on the client it fires when the
+
+    player leaves the experience.
+
+
+    Connect to this event to perform final cleanup such as saving player data
+
+    with `Class.DataStoreService`. Handlers run synchronously — the engine
+
+    waits for all connected callbacks to return before proceeding with
+
+    shutdown.
+
+    '
+  code_samples:
+  - ServiceProvider-Close1
+  parameters: []
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities: []
+- name: ServiceProvider.ServiceAdded
+  summary: 'Fired when a service is created.
+
+    '
+  description: 'Fires after a service is added to the DataModel. The `service` parameter
+
+    is the `Class.Instance` of the newly added service. Because services are
+
+    created lazily (the first time `Class.ServiceProvider:GetService()` is
+
+    called for them), this event lets you react to a service becoming
+
+    available without polling for it.
+
+    '
+  code_samples: []
+  parameters:
+  - name: service
+    type: Instance
+    default: null
+    summary: 'The instance of the service that was added.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities: []
+- name: ServiceProvider.ServiceRemoving
+  summary: 'Fired when a service is about to be removed.
+
+    '
+  description: 'Fires just before a service is removed from the DataModel. The `service`
+
+    parameter is the `Class.Instance` that is about to be removed. This event
+
+    fires during DataModel teardown, giving listeners a chance to disconnect
+
+    from the service or release references before the service is destroyed.
+
+    '
+  code_samples: []
+  parameters:
+  - name: service
+    type: Instance
+    default: null
+    summary: 'The Instance of the service that is about to be removed.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities: []
+- name: Close
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: CloseLate
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: LocalUserSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: ServiceAdded
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: service
+    type: Instance
+- name: ServiceRemoving
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: service
+    type: Instance
+callbacks: []

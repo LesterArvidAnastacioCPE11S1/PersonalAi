@@ -1,0 +1,1387 @@
+name: ScriptDocument
+type: class
+memory_category: Instances
+summary: 'Represents the ephemeral state of an open document in the Studio Script
+
+  Editor, providing APIs for reading and editing code.
+
+  '
+description: "A `Class.ScriptDocument` instance is a proxy of the document of a Studio\n\
+  Script Editor. It's different from the `Class.LuaSourceContainer` open in the\n\
+  editor in that it represents the ephemeral state of an open document, and its\n\
+  representation is in a format that's more suited for reading and editing code\n\
+  than executing it. In particular, `Class.ScriptDocument` reflects any changes\n\
+  that have been made to the open script in Drafts Mode, which the source\nproperty\
+  \ doesn't.\n\nThe Script Editor itself exists and changes on a different thread\
+  \ than any\n`Class.DataModel`, so the `Class.ScriptDocument` replicates the open\
+  \ Script\nEditor, but it isn't the open editor. Because of the replication, there's\n\
+  sometimes a slight delay between changing the text in the editor and updating\n\
+  the `Class.ScriptDocument`. The delay usually occurs because the\n`Class.DataModel`\
+  \ is busy, and it's almost always extremely small, but it\nstill exists.\n\nThe\
+  \ existence of a `Class.ScriptDocument` indicates that a document is open in\nthe\
+  \ Script Editor. All `Class.ScriptDocument` instances have\n`Class.ScriptEditorService`\
+  \ as its parent. Each instance adheres to the\nfollowing encoding conventions:\n\
+  \n- All text in `Class.ScriptDocument` is UTF-8 encoded.\n- All line indices are\
+  \ 1-indexed.\n- All character indices are 1-indexed and count UTF-8 bytes, not graphemes,\
+  \ so\n  the same warning from `Class.TextBox.CursorPosition` applies: many Unicode\n\
+  \  characters take more than one byte.\n- All ranges are inclusive of their start\
+  \ position and exclusive of their end\n  position, so start == end implies an empty\
+  \ range.\n\nAll APIs for `Class.ScriptDocument` are at **Plugin** level security.\n"
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- NotReplicated
+deprecation_message: ''
+properties: []
+methods:
+- name: ScriptDocument:AddReadOnlyReasonsAsync
+  summary: 'Adds reasons for the Script Editor UI to be read-only. Yields the current
+
+    thread until the editor acknowledges the change.
+
+    '
+  description: 'Adds reasons for the Script Editor UI to be read-only, which makes
+    the
+
+    editor read-only. Yields the current thread until the editor acknowledges
+
+    the change. Adding a reason that is already active does nothing.
+
+
+    Read-only state is tracked as a set of named reasons so that multiple
+
+    plugins can make an editor read-only without interfering with each other.
+
+    The editor stays read-only until every reason is removed with
+
+    `Class.ScriptDocument:RemoveReadOnlyReasonsAsync()`.
+
+
+    Read-only mode only prevents changes from the editor UI and
+
+    `Class.ScriptDocument` edit functions. It doesn''t prevent changes made by
+
+    other means, such as setting `Class.Script.Source` or calling
+
+    `Class.ScriptEditorService:UpdateSourceAsync()`.
+
+
+    Reasons starting with `RBX` are reserved for Roblox; this function throws
+
+    an error if `reasons` contains one. This function also throws an error for
+
+    the Command bar.
+
+    '
+  code_samples:
+  - ScriptDocument-AddReadOnlyReasonsAsync
+  parameters:
+  - name: reasons
+    type: Array
+    default: null
+    summary: 'An array of non-empty strings naming the reasons to add.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: ScriptDocument:CloseAsync
+  summary: 'Requests that the editor associated with this document close. Yields the
+
+    current thread until the editor responds to the request.
+
+    '
+  description: 'Requests that the editor associated with this document close. Yields
+    the
+
+    current thread until the editor responds to the request. If the function
+
+    succeeds, it returns (true, nil). If the function fails, it returns
+
+    (false, string) as a description of the problem.
+
+
+    This function can''t close the command bar.
+
+    '
+  code_samples:
+  - ScriptDocument-CloseAsync
+  parameters: []
+  returns:
+  - type: Tuple
+    summary: 'A tuple where the first element is `true` if the editor closed
+
+      successfully, or `false` followed by a string describing the failure
+
+      reason.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: ScriptDocument:EditTextAsync
+  summary: 'Replaces the text in the specified range from (`startLine`, `startColumn`)
+
+    to (`endLine`, `endColumn`) with newText.
+
+    '
+  description: "Replaces the text in the specified range from (`startLine`, `startColumn`)\n\
+    to (`endLine`, `endColumn`) with `newText`. If the range is empty, then\nthe function\
+    \ inserts the text at (`startLine`, `startColumn`). If the text\ncursor is within\
+    \ the specified range, the cursor moves to the end position\nof the edit. Otherwise,\
+    \ the text cursor doesn't move. This function yields\nthe current thread until\
+    \ it receives a reply from the editor about the\nedit.\n\nIf the function succeeds,\
+    \ it returns (`true`, `nil`).\n\nThe function throws an error if:\n\n- The range\
+    \ is invalid.\n- The range would slice one Unicode character, for example replace\
+    \ only\n  some of the bytes of the unicode character.\n- The `newText` itself\
+    \ contains invalid UTF-8.\n\nIf the function fails, it returns (false, string).\
+    \ The string is a\ndescription of the problem. The most common failure type is\
+    \ a version\nmismatch. This occurs when you try to call `EditTextAsync` during\
+    \ the time\nwhen the `Class.ScriptDocument` is out of sync with the contents of\
+    \ the\neditor. If this happens, you can retry the edit.\n"
+  code_samples: []
+  parameters:
+  - name: newText
+    type: string
+    default: null
+    summary: 'The replacement string to insert into the specified range.
+
+      '
+  - name: startLine
+    type: int
+    default: null
+    summary: 'The 1-indexed line number where the replacement range begins.
+
+      '
+  - name: startCharacter
+    type: int
+    default: null
+    summary: 'The 1-indexed UTF-8 byte offset within `startLine` where the
+
+      replacement range begins.
+
+      '
+  - name: endLine
+    type: int
+    default: null
+    summary: 'The 1-indexed line number where the replacement range ends
+
+      (exclusive).
+
+      '
+  - name: endCharacter
+    type: int
+    default: null
+    summary: 'The 1-indexed UTF-8 byte offset within `endLine` where the replacement
+
+      range ends (exclusive).
+
+      '
+  returns:
+  - type: Tuple
+    summary: 'A tuple where the first element is `true` if the edit was applied
+
+      successfully, or `false` followed by a string describing the failure
+
+      reason.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: ScriptDocument:ForceSetSelectionAsync
+  summary: 'Asks the editor to set its cursor selection to the argument values.
+
+    '
+  description: 'Asks the editor to set its cursor selection to the argument values.
+    Both
+
+    anchor arguments must be passed, or neither. If neither is passed, then
+
+    they each default to being the same as the corresponding cursor argument.
+
+    The editor might decline to update its cursor if the text content of the
+
+    document has changed. Unlike
+
+    `Class.ScriptDocument:RequestSetSelectionAsync()`, the editor will not
+
+    decline to move its cursor if the cursor has moved since the request was
+
+    made. Returns (true, nil) if the cursor was updated, and (false, string)
+
+    with an explanation string if it was not. Yields the current thread until
+
+    the editor replies.
+
+    '
+  code_samples:
+  - ScriptDocument-ForceSetSelectionAsync
+  parameters:
+  - name: cursorLine
+    type: int
+    default: null
+    summary: 'The 1-indexed line number for the cursor position.
+
+      '
+  - name: cursorCharacter
+    type: int
+    default: null
+    summary: 'The 1-indexed UTF-8 byte offset within the line for the cursor
+
+      position.
+
+      '
+  - name: anchorLine
+    type: int?
+    default: nil
+    summary: 'The 1-indexed line number for the anchor position. Defaults to
+
+      `cursorLine` if not provided.
+
+      '
+  - name: anchorCharacter
+    type: int?
+    default: nil
+    summary: 'The 1-indexed UTF-8 byte offset within the line for the anchor
+
+      position. Defaults to `cursorCharacter` if not provided.
+
+      '
+  returns:
+  - type: Tuple
+    summary: 'A tuple where the first element is `true` if the cursor was updated,
+
+      or `false` followed by a string explaining why the update was
+
+      declined.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: ScriptDocument:GetLine
+  summary: 'Returns the text of the specified line. When no argument is provided,
+
+    returns the line of the current cursor position.
+
+    '
+  description: 'Returns the text of the specified line. When no argument is provided,
+
+    returns the line of the current cursor position.
+
+    '
+  code_samples:
+  - ScriptDocument-SelectionChanged-GetLine
+  parameters:
+  - name: lineIndex
+    type: int?
+    default: nil
+    summary: 'The 1-indexed line number to retrieve. Defaults to the current cursor
+
+      line if not provided.
+
+      '
+  returns:
+  - type: string
+    summary: 'The text content of the specified line as a string.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: ScriptDocument:GetLineCount
+  summary: 'Returns the number of lines in the document.
+
+    '
+  description: 'Returns the number of lines in the active document.
+
+    '
+  code_samples:
+  - ScriptDocument-GetLineCount
+  parameters: []
+  returns:
+  - type: int
+    summary: 'The total number of lines in the document.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: ScriptDocument:GetReadOnlyReasons
+  summary: 'Returns the reasons the Script Editor UI is currently read-only.
+
+    '
+  description: 'Returns the reasons the Script Editor UI is currently read-only, sorted
+
+    alphabetically. The array includes reasons added by any plugin as well as
+
+    reasons that start with `RBX`, which Roblox reserves for its own features.
+
+    '
+  code_samples:
+  - ScriptDocument-GetReadOnlyReasons
+  parameters: []
+  returns:
+  - type: List<string>
+    summary: 'A sorted array of strings. The array is empty if the editor isn''t
+
+      read-only.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: ScriptDocument:GetScript
+  summary: 'Returns the underlying `Class.LuaSourceContainer` instance, if one exists,
+
+    otherwise `nil`.
+
+    '
+  description: 'Returns the underlying `Class.LuaSourceContainer` instance, if one
+    exists,
+
+    otherwise `nil`.
+
+    '
+  code_samples:
+  - ScriptDocument-GetScript
+  parameters: []
+  returns:
+  - type: LuaSourceContainer
+    summary: 'The `Class.LuaSourceContainer` that the document is editing, or `nil`
+
+      if the document does not represent a script instance in the place
+
+      (e.g. the Command Bar is not a real script instance).
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: ScriptDocument:GetSelectedText
+  summary: 'Gets the text selected in the editor, or an empty string if there is no
+
+    selection.
+
+    '
+  description: 'Gets the text selected in the editor, or an empty string if there
+    is no
+
+    selection.
+
+    '
+  code_samples:
+  - ScriptDocument-HasSelectedText-GetSelectedText
+  parameters: []
+  returns:
+  - type: string
+    summary: 'The currently selected text as a string, or an empty string if nothing
+
+      is selected.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: ScriptDocument:GetSelection
+  summary: 'Returns the last known selection of the Script Editor in the format:
+
+    `CursorLine, CursorChar, AnchorLine, AnchorChar`. If the Script Editor has
+
+    no selection, `CursorLine == AnchorLine` and `CursorChar == AnchorChar`.
+
+    '
+  description: 'Returns the last known selection of the Script Editor in the format:
+
+    `CursorLine, CursorChar, AnchorLine, AnchorChar`. If the Script Editor has
+
+    no selection, `CursorLine == AnchorLine` and `CursorChar == AnchorChar`.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: Tuple
+    summary: 'CursorLine, CursorChar, AnchorLine, AnchorChar.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: ScriptDocument:GetSelectionEnd
+  summary: 'Gets the larger of the cursor position and anchor. If the editor has no
+
+    selection, they are the same value.
+
+    '
+  description: 'Gets the larger of the cursor position and anchor. If the editor has
+    no
+
+    selection, they are the same value.
+
+    '
+  code_samples:
+  - ScriptDocument-GetSelectionStart-GetSelectionEnd
+  parameters: []
+  returns:
+  - type: Tuple
+    summary: 'A tuple of (line, character) representing the larger of the cursor and
+
+      anchor positions, both 1-indexed.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: ScriptDocument:GetSelectionStart
+  summary: 'Gets the smaller of the cursor position and anchor. If the editor has
+    no
+
+    selection, they are the same value.
+
+    '
+  description: 'Gets the smaller of the cursor position and anchor. If the editor
+    has no
+
+    selection, they are the same value.
+
+    '
+  code_samples:
+  - ScriptDocument-GetSelectionStart-GetSelectionEnd
+  parameters: []
+  returns:
+  - type: Tuple
+    summary: 'A tuple of (line, character) representing the smaller of the cursor
+
+      and anchor positions, both 1-indexed.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: ScriptDocument:GetText
+  summary: 'Returns text from the open editor.
+
+    '
+  description: "Returns text from the open editor. Must be called with 0, 2 or 4\n\
+    arguments:\n\n- If called with 0 arguments, gets the entire contents of the open\
+    \ editor.\n- If called with 2 arguments, gets the text of the document starting\
+    \ at\n  (`startLine`, `startColumn`).\n- If called with 4 arguments, gets the\
+    \ text of the document starting at\n  (`startLine`, `startColumn`) and ending\
+    \ at (`endLine`, `endColumn`).\n"
+  code_samples:
+  - ScriptDocument-GetText
+  parameters:
+  - name: startLine
+    type: int?
+    default: nil
+    summary: 'The 1-indexed line number where the text range begins. Optional; omit
+
+      all arguments to get the entire document.
+
+      '
+  - name: startCharacter
+    type: int?
+    default: nil
+    summary: 'The 1-indexed UTF-8 byte offset within `startLine` where the text
+
+      range begins.
+
+      '
+  - name: endLine
+    type: int?
+    default: nil
+    summary: 'The 1-indexed line number where the text range ends (exclusive).
+
+      Optional; omit to read from `startLine`/`startCharacter` to the end of
+
+      the document.
+
+      '
+  - name: endCharacter
+    type: int?
+    default: nil
+    summary: 'The 1-indexed UTF-8 byte offset within `endLine` where the text range
+
+      ends (exclusive).
+
+      '
+  returns:
+  - type: string
+    summary: 'The text content within the specified range as a string.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: ScriptDocument:GetViewport
+  summary: 'Returns the currently displayed line numbers in the editor change.
+
+    '
+  description: 'Returns the currently displayed line numbers in the editor change.
+    The
+
+    editor displays the lines between startLine and endLine, inclusive. The
+
+    first and last line might only display partially. For example, only the
+
+    topmost pixel of the last line might be on screen. Furthermore, code
+
+    folding might hide lines between startLine and endLine.
+
+    '
+  code_samples:
+  - ScriptDocument-GetViewport
+  parameters: []
+  returns:
+  - type: Tuple
+    summary: 'A tuple of (startLine, endLine) representing the 1-indexed range of
+
+      lines currently visible in the editor.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: ScriptDocument:HasSelectedText
+  summary: 'Returns whether or not the editor has any text selected.
+
+    '
+  description: 'Returns whether or not the editor has any text selected.
+
+    '
+  code_samples:
+  - ScriptDocument-HasSelectedText-GetSelectedText
+  parameters: []
+  returns:
+  - type: boolean
+    summary: '`true` if the editor has a non-empty text selection, `false`
+
+      otherwise.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: ScriptDocument:IsCommandBar
+  summary: 'Returns true if the `Class.ScriptDocument` represents the Command bar.
+
+    '
+  description: "Returns true if the `Class.ScriptDocument` represents the Command\
+    \ bar. The\ncommand bar has special rules and limitations in this API:\n\n- Studio\
+    \ creates the Command bar before running plugins, so it doesn't\n  always fire\
+    \ the opened event, although it does close and reopen as\n  Studio transitions\
+    \ between DataModels.\n- You can't edit the Command bar with `EditTextAsync` for\
+    \ security\n  reasons.\n"
+  code_samples:
+  - ScriptDocument-IsCommandBar
+  parameters: []
+  returns:
+  - type: boolean
+    summary: '`true` if this document represents the Command bar, `false` otherwise.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: ScriptDocument:IsReadOnly
+  summary: 'Returns true if the Script Editor UI is currently read-only.
+
+    '
+  description: 'Returns true if the Script Editor UI is currently read-only. This
+    is
+
+    equivalent to checking whether `Class.ScriptDocument:GetReadOnlyReasons()`
+
+    returns a non-empty array.
+
+
+    A read-only editor prevents the user from changing the script through the
+
+    editor UI, and `Class.ScriptDocument` edit functions such as
+
+    `Class.ScriptDocument:EditTextAsync()` fail. It doesn''t prevent changes
+
+    made by other means, such as setting `Class.Script.Source` or calling
+
+    `Class.ScriptEditorService:UpdateSourceAsync()`.
+
+    '
+  code_samples:
+  - ScriptDocument-IsReadOnly
+  parameters: []
+  returns:
+  - type: boolean
+    summary: '`true` if the editor is read-only, `false` otherwise.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: ScriptDocument:MultiEditTextAsync
+  summary: 'Applies a batch of text edits to the document as a single atomic
+
+    operation. Yields the current thread until the editor responds.
+
+    '
+  description: "Applies a batch of text edits to the document as a single atomic\n\
+    operation, then yields the current thread until it receives a reply from\nthe\
+    \ editor. Each entry in the `edits` array is a table describing one\nreplacement,\
+    \ with the same meaning as the arguments to\n`Class.ScriptDocument:EditTextAsync()`,\
+    \ and the following fields:\n\n- `NewText`: The replacement text.\n- `StartLine`:\
+    \ The line of the start of the range to replace.\n- `StartCharacter`: The character\
+    \ of the start of the range to replace.\n- `EndLine`: The line of the end of the\
+    \ range to replace.\n- `EndCharacter`: The character of the end of the range to\
+    \ replace.\n\nThe edits are applied together, so either all of them succeed or\
+    \ none of\nthem are applied. Before applying any edit, the function validates\
+    \ every\nedit and throws an error if:\n\n- Any range is invalid.\n- Any range\
+    \ would slice one Unicode character, for example replace only\n  some of the bytes\
+    \ of the unicode character.\n- Any `NewText` itself contains invalid UTF-8.\n\
+    - The ranges of two edits overlap.\n\nIf the function succeeds, it returns (`true`,\
+    \ `nil`). If the function\nfails, it returns (`false`, `string`), where the string\
+    \ describes the\nproblem. As with `Class.ScriptDocument:EditTextAsync()`, the\
+    \ most common\nfailure is a version mismatch, which occurs when the\n`Class.ScriptDocument`\
+    \ is momentarily out of sync with the contents of the\neditor; if this happens,\
+    \ you can retry the edits.\n"
+  code_samples: []
+  parameters:
+  - name: edits
+    type: Array
+    default: null
+    summary: 'An array of tables, each describing a text replacement with fields
+
+      `NewText`, `StartLine`, `StartCharacter`, `EndLine`, and
+
+      `EndCharacter`.
+
+      '
+  returns:
+  - type: Tuple
+    summary: 'A tuple where the first element is `true` if all edits were applied
+
+      successfully, or `false` followed by a string describing the failure
+
+      reason.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: ScriptDocument:RemoveReadOnlyReasonsAsync
+  summary: 'Removes reasons for the Script Editor UI to be read-only. Yields the
+
+    current thread until the editor acknowledges the change.
+
+    '
+  description: 'Removes reasons for the Script Editor UI to be read-only, previously
+    added
+
+    with `Class.ScriptDocument:AddReadOnlyReasonsAsync()` or the
+
+    `InitialReadOnlyReasons` option of
+
+    `Class.ScriptEditorService:OpenScriptDocumentAsync()`. Yields the current
+
+    thread until the editor acknowledges the change. Removing a reason that
+
+    isn''t active does nothing.
+
+
+    The editor stays read-only while any other reason remains active. Reasons
+
+    starting with `RBX` are reserved for Roblox; plugins can''t remove them,
+
+    and this function throws an error if `reasons` contains one.
+
+    '
+  code_samples:
+  - ScriptDocument-RemoveReadOnlyReasonsAsync
+  parameters:
+  - name: reasons
+    type: Array
+    default: null
+    summary: 'An array of non-empty strings naming the reasons to remove.
+
+      '
+  returns:
+  - type: ()
+    summary: ''
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: ScriptDocument:RequestSetSelectionAsync
+  summary: 'Asks the editor to set its cursor selection to the argument values.
+
+    '
+  description: 'Asks the editor to set its cursor selection to the argument values.
+    Both
+
+    anchor arguments must be passed, or neither. If neither is passed, then
+
+    they each default to being the same as the corresponding cursor argument.
+
+    The editor might decline to update its cursor if the text content of the
+
+    document has changed, or the cursor has moved since the request was made.
+
+    Returns (true, nil) if the cursor was updated, and (false, string) with an
+
+    explanation string if it was not. Yields the current thread until the
+
+    editor replies.
+
+    '
+  code_samples:
+  - ScriptDocument-RequestSetSelectionAsync
+  parameters:
+  - name: cursorLine
+    type: int
+    default: null
+    summary: 'The 1-indexed line number for the cursor position.
+
+      '
+  - name: cursorCharacter
+    type: int
+    default: null
+    summary: 'The 1-indexed UTF-8 byte offset within the line for the cursor
+
+      position.
+
+      '
+  - name: anchorLine
+    type: int?
+    default: nil
+    summary: 'The 1-indexed line number for the anchor position. Defaults to
+
+      `cursorLine` if not provided.
+
+      '
+  - name: anchorCharacter
+    type: int?
+    default: nil
+    summary: 'The 1-indexed UTF-8 byte offset within the line for the anchor
+
+      position. Defaults to `cursorCharacter` if not provided.
+
+      '
+  returns:
+  - type: Tuple
+    summary: 'A tuple where the first element is `true` if the cursor was updated,
+
+      or `false` followed by a string explaining why the update was
+
+      declined.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: ScriptDocument:ReviewableTextEditsAsync
+  summary: 'Applies a batch of line-based text edits that appear in the editor as
+
+    reviewable inline diffs, allowing users to accept or reject each change.
+
+    '
+  description: "Applies a batch of line-based text edits to the document that are\n\
+    presented to the user as reviewable inline diffs in the Script Editor\ngutter.\
+    \ Each entry in the `changes` array is a table with the following\nfields:\n\n\
+    - `Text`: The replacement text to insert. Must be a non-empty string\n  unless\
+    \ `EndLine` is provided.\n- `StartLine`: The 1-indexed line number where the edit\
+    \ begins. If\n  `EndLine` is omitted, the text is inserted before this line. If\n\
+    \  `EndLine` is provided, lines from `StartLine` through `EndLine` are\n  replaced.\n\
+    - `EndLine`: Optional. The 1-indexed last line of the range to replace\n  (inclusive).\
+    \ Must be greater than or equal to `StartLine`.\n\nThe edits must not overlap\
+    \ or border each other; there must be at least\none unchanged line between any\
+    \ two edits. Edits are applied atomically.\nThe function throws an error if any\
+    \ entry has invalid fields. If the\nfunction fails due to a version mismatch or\
+    \ other editor-side issue, it\nreturns (`false`, `string`).\n\nThis method cannot\
+    \ be used on the Command bar.\n"
+  code_samples: []
+  parameters:
+  - name: changes
+    type: Array
+    default: null
+    summary: 'An array of tables, each with a `Text` field (the replacement string),
+
+      a `StartLine` field (1-indexed line to insert or begin replacing at),
+
+      and an optional `EndLine` field (1-indexed last line to replace,
+
+      inclusive).
+
+      '
+  returns:
+  - type: Tuple
+    summary: 'A tuple where the first element is `true` if the edits were applied
+
+      successfully, or `false` followed by a string describing the failure
+
+      reason.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: GetInternalUri
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: string
+- name: GetLine
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: lineIndex
+    type: int?
+    default: nil
+  returns:
+  - type: string
+- name: GetLineCount
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: int
+- name: GetReadOnlyReasons
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Array
+- name: GetScript
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: LuaSourceContainer
+- name: GetSelectedText
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: string
+- name: GetSelection
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Tuple
+- name: GetSelectionEnd
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Tuple
+- name: GetSelectionStart
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Tuple
+- name: GetText
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: startLine
+    type: int?
+    default: nil
+  - name: startCharacter
+    type: int?
+    default: nil
+  - name: endLine
+    type: int?
+    default: nil
+  - name: endCharacter
+    type: int?
+    default: nil
+  returns:
+  - type: string
+- name: GetViewport
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Tuple
+- name: HasSelectedText
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+- name: IsCommandBar
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+- name: IsReadOnly
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+- name: AddReadOnlyReasonsAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: reasons
+    type: Array
+  returns:
+  - type: 'null'
+- name: CloseAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: Tuple
+- name: EditTextAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: newText
+    type: string
+  - name: startLine
+    type: int
+  - name: startCharacter
+    type: int
+  - name: endLine
+    type: int
+  - name: endCharacter
+    type: int
+  returns:
+  - type: Tuple
+- name: ForceSetSelectionAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: cursorLine
+    type: int
+  - name: cursorCharacter
+    type: int
+  - name: anchorLine
+    type: int?
+    default: nil
+  - name: anchorCharacter
+    type: int?
+    default: nil
+  returns:
+  - type: Tuple
+- name: MultiEditTextAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: edits
+    type: Array
+  returns:
+  - type: Tuple
+- name: RemoveReadOnlyReasonsAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: reasons
+    type: Array
+  returns:
+  - type: 'null'
+- name: RequestSetSelectionAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: cursorLine
+    type: int
+  - name: cursorCharacter
+    type: int
+  - name: anchorLine
+    type: int?
+    default: nil
+  - name: anchorCharacter
+    type: int?
+    default: nil
+  returns:
+  - type: Tuple
+- name: ReviewableTextEditsAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: changes
+    type: Array
+  returns:
+  - type: Tuple
+events:
+- name: ScriptDocument.SelectionChanged
+  summary: 'Fires when the ScriptDocument changes, including immediately after a text
+
+    change.
+
+    '
+  description: 'Fires when the ScriptDocument changes, including immediately after
+    a text
+
+    change.
+
+    '
+  code_samples:
+  - ScriptDocument-SelectionChanged-GetLine
+  parameters:
+  - name: positionLine
+    type: int64
+    default: null
+    summary: 'The 1-indexed line number of the cursor position after the change.
+
+      '
+  - name: positionCharacter
+    type: int64
+    default: null
+    summary: 'The 1-indexed UTF-8 byte offset of the cursor position after the
+
+      change.
+
+      '
+  - name: anchorLine
+    type: int64
+    default: null
+    summary: 'The 1-indexed line number of the selection anchor after the change.
+
+      '
+  - name: anchorCharacter
+    type: int64
+    default: null
+    summary: 'The 1-indexed UTF-8 byte offset of the selection anchor after the
+
+      change.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  capabilities: []
+- name: ScriptDocument.ViewportChanged
+  summary: 'Fires when the displayed line numbers in the editor change.
+
+    '
+  description: 'Fires when the displayed line numbers in the editor change. See
+
+    `Class.ScriptDocument.GetViewport` for details.
+
+    '
+  code_samples:
+  - ScriptDocument-ViewportChanged
+  parameters:
+  - name: startLine
+    type: int64
+    default: null
+    summary: 'The 1-indexed first line currently visible in the editor viewport.
+
+      '
+  - name: endLine
+    type: int64
+    default: null
+    summary: 'The 1-indexed last line currently visible in the editor viewport.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  capabilities: []
+- name: SelectionChanged
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: positionLine
+    type: int64
+  - name: positionCharacter
+    type: int64
+  - name: anchorLine
+    type: int64
+  - name: anchorCharacter
+    type: int64
+- name: ViewportChanged
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: startLine
+    type: int64
+  - name: endLine
+    type: int64
+callbacks: []

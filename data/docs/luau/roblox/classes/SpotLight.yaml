@@ -1,0 +1,149 @@
+name: SpotLight
+type: class
+memory_category: Instances
+summary: 'A light source that emits light directionally in the shape of a cone with
+  a
+
+  spherical base.
+
+  '
+description: "A **Spotlight** emits light of a specified `Class.Light.Color|Color`\
+  \ and\n`Class.Light.Brightness|Brightness` in the shape of a cone with a spherical\n\
+  base. This object is ideal for **directional** light sources like flashlights\n\
+  and headlights.\n\n`Class.SpotLight.Range|Range` controls the distance of illumination\
+  \ and\n`Class.SpotLight.Angle|Angle` defines the angle of light emission from the\n\
+  cone's apex as illustrated below.\n\nA spotlight must be a direct child of a `Class.BasePart`\
+  \ or `Class.Attachment`\nand will exhibit the following behavior:\n\n- When the\
+  \ spotlight is parented to a `Class.BasePart`, the\n  `Class.SpotLight.Face|Face`\
+  \ property determines the face of the part from\n  which light emanates.\n\n- Although\
+  \ `Class.Attachment|Attachments` don't have faces, the\n  `Class.SpotLight.Face|Face`\
+  \ property determines the axis of the attachment\n  from which light emanates; **-Z**\
+  \ is front, **+X** is right, **+Y** is top,\n  etc.\n\nSee also `Class.SurfaceLight`\
+  \ and `Class.PointLight`.\n"
+code_samples: []
+inherits:
+- Light
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: SpotLight.Angle
+  summary: 'The angle of which the light is shone from the SpotLight.
+
+    '
+  description: 'The angle of which the light is shone from the SpotLight.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: SpotLight.Face
+  summary: 'Sets the side of the parent that the SpotLight comes from.
+
+    '
+  description: 'Sets the side of the parent that the SpotLight comes from.
+
+    '
+  code_samples: []
+  type: NormalId
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: SpotLight.Range
+  summary: 'The size of the area that the SpotLight will illuminate.
+
+    '
+  description: 'The size of the area that the SpotLight will illuminate.
+
+    '
+  code_samples: []
+  type: float
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Basic
+- name: Angle
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+- name: Face
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: Enum.NormalId
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+- name: Range
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: float
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_skipped_class__
+methods: []
+events: []
+callbacks: []

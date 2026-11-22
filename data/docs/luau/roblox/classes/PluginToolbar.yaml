@@ -1,0 +1,126 @@
+name: PluginToolbar
+type: class
+memory_category: Instances
+summary: 'A toolbar created by `Class.Plugin:CreateToolbar()` that groups
+
+  `Class.PluginToolbarButton|PluginToolbarButtons` in the Studio ribbon.
+
+  '
+description: 'A `PluginToolbar` object is created by calling the
+
+  `Class.Plugin:CreateToolbar()` method and is used to contain
+
+  `Class.PluginToolbarButton|PluginToolbarButtons`.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+deprecation_message: ''
+properties: []
+methods:
+- name: PluginToolbar:CreateButton
+  summary: 'Creates a `Class.PluginToolbarButton` that allows the user to initiate
+    a
+
+    single, one-off action in Studio.
+
+    '
+  description: 'Creates a `Class.PluginToolbarButton` that allows the user to initiate
+    a
+
+    single, one-off action in Studio through its
+
+    `Class.PluginToolbarButton.Click|Click` event.
+
+    '
+  code_samples:
+  - adding-a-plugin-toolbar-button
+  parameters:
+  - name: buttonId
+    type: string
+    default: null
+    summary: 'A unique button ID.
+
+      '
+  - name: tooltip
+    type: string
+    default: null
+    summary: 'The text displayed in the tooltip shown when a user hovers over the
+
+      button.
+
+      '
+  - name: iconname
+    type: string
+    default: null
+    summary: 'The asset ID of the icon displayed in the button.
+
+      '
+  - name: text
+    type: string
+    default: null
+    summary: 'Optional text displayed under the button icon.
+
+      '
+  returns:
+  - type: PluginToolbarButton
+    summary: 'The created `Class.PluginToolbarButton` instance.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: PluginSecurity
+  thread_safety: Unsafe
+  capabilities: []
+- name: CreateButton
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: PluginSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: buttonId
+    type: string
+  - name: tooltip
+    type: string
+  - name: iconname
+    type: string
+  - name: text
+    type: string
+  returns:
+  - type: PluginToolbarButton
+- name: CreatePopupButton
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: buttonId
+    type: string
+  - name: tooltip
+    type: string
+  - name: iconname
+    type: string
+  - name: text
+    type: string
+  returns:
+  - type: PluginToolbarButton
+events: []
+callbacks: []

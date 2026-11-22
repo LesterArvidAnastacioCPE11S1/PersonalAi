@@ -1,0 +1,421 @@
+name: Object
+type: class
+memory_category: Instances
+summary: '`Object` is the base class for all classes in the Roblox class hierarchy.
+
+  '
+description: '`Object` is the base class for all classes in the Roblox class hierarchy.
+
+  Every other class that the Roblox Engine defines inherits all of the members
+
+  of `Object`. It is not possible to directly create an `Object`.
+
+  '
+code_samples: []
+inherits: []
+descendants:
+- Capture
+- ConfigSnapshot
+- EditableImage
+- EditableMesh
+- Instance
+- Logger
+- MLSession
+- TestCase
+- TestExecutionContext
+- TestFailure
+- TestResult
+- TestRunResult
+- TestSuite
+- VideoSampler
+- WebStreamClient
+- VirtualInput
+- PluginConnection
+tags:
+- NotCreatable
+- NotReplicated
+deprecation_message: ''
+properties:
+- name: Object.ClassName
+  summary: 'A read-only string representing the class this `Class.Object` belongs
+    to.
+
+    '
+  description: 'A read-only string representing the class this `Class.Object` belongs
+    to.
+
+
+    This property can be used with various other functions that are used to
+
+    identify objects by type, such as `Class.Object:IsA()` or
+
+    `Class.Instance:FindFirstChildOfClass()`.
+
+
+    Note this property is read only and cannot be altered by scripts.
+
+    Developers wishing to change an object''s class will instead have to create
+
+    a new `Class.Object`.
+
+
+    Unlike `Class.Object:IsA()`, ClassName can be used to check if an object
+
+    belongs to a specific class ignoring class inheritance. For example:
+
+    '
+  code_samples:
+  - Object-ClassName
+  type: string
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: Object.className
+  summary: ''
+  description: ''
+  code_samples: []
+  type: string
+  tags:
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  deprecation_message: 'This deprecated property is a variant of `Class.Object.ClassName`
+    which
+
+    should be used instead.
+
+    '
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  capabilities: []
+- name: ClassName
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+- name: className
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - ReadOnly
+  - NotReplicated
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''ClassName'', ''ThreadSafety'': ''Unknown''}'
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: false
+    can_save: false
+  default: __api_dump_class_not_creatable__
+methods:
+- name: Object:GetPropertyChangedSignal
+  summary: 'Get an event that fires when a given property of the object changes.
+
+    '
+  description: 'This method returns an event that behaves exactly like the
+
+    `Class.Object.Changed|Changed` event, except that it only fires when the
+
+    given property changes. It''s generally a good idea to use this method
+
+    instead of a connection to `Class.Object.Changed|Changed` with a function
+
+    that checks the property name. Subsequent calls to this method on the same
+
+    object with the same property name return the same event.
+
+
+    `Class.ValueBase` objects, such as `Class.IntValue` and
+
+    `Class.StringValue`, use a modified `Class.Object.Changed|Changed` event
+
+    that fires with the contents of their `Value` property. As such, this
+
+    method provides a way to detect changes in other properties of those
+
+    objects.
+
+
+    Note that this event will not pass any arguments to a connected function,
+
+    so the value of the changed property must be read directly within a
+
+    script.
+
+
+    #### Limitations
+
+
+    The event returned by this method does **not** fire for physics-related
+
+    changes, such as when the `Class.BasePart.CFrame|CFrame`,
+
+    `Class.BasePart.AssemblyLinearVelocity|AssemblyLinearVelocity`,
+
+    `Class.BasePart.AssemblyAngularVelocity|AssemblyAngularVelocity`,
+
+    `Class.BasePart.Position|Position`, or
+
+    `Class.BasePart.Orientation|Orientation` properties of a `Class.BasePart`
+
+    change due to gravity. To detect changes in these properties, consider
+
+    using a physics-based event like `Class.RunService.PreSimulation`.
+
+
+    Additionally, the returned event may not fire on every modification of
+
+    properties that change very frequently, and/or it may not fire for such
+
+    properties at all. It''s recommended that you carefully test for property
+
+    changes that impact game logic.
+
+    '
+  code_samples:
+  - Changed-Old-to-New
+  - Changed-and-GetPropertyChangedSignal
+  parameters:
+  - name: property
+    type: string
+    default: null
+    summary: 'The property to connect to.
+
+      '
+  returns:
+  - type: RBXScriptSignal
+    summary: 'A signal that fires whenever the property changes.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: Object:IsA
+  summary: 'Returns true if an object''s class matches or inherits from a given class.
+
+    '
+  description: "IsA returns true if the object's class is **equivalent to** or a\n\
+    **subclass** of a given class. This function is similar to the\n**instanceof**\
+    \ operators in other languages, and is a form of\n[type introspection](https://en.wikipedia.org/wiki/Type_introspection).\
+    \ To\nignore class inheritance, test the `Class.Object.ClassName|ClassName`\n\
+    property directly instead. For checking native Luau data types (number,\nstring,\
+    \ etc) use the functions `type` and `typeof`.\n\nMost commonly, this function\
+    \ is used to test if an object is some kind of\npart, such as `Class.Part` or\
+    \ `Class.WedgePart`, which inherits from\n`Class.BasePart` (an abstract class).\
+    \ For example, if your goal is to\nchange all of a character's limbs to the same\
+    \ color, you might use\n`Class.Instance:GetChildren()|GetChildren` to iterate\
+    \ over the children,\nthen use IsA to filter non-`Class.BasePart` objects which\
+    \ lack the\n`Datatype.BrickColor` property:\n\n```lua\nlocal Players = game:GetService(\"\
+    Players\")\n\nlocal function paintFigure(character, color)\n\t-- Iterate over\
+    \ the child objects of the character\n\tfor _, child in character:GetChildren()\
+    \ do\n\t\t-- Filter out non-part objects, such as Shirt, Pants and Humanoid\n\t\
+    \t-- R15 use MeshPart and R6 use Part, so we use BasePart here to detect both:\n\
+    \t\tif child:IsA(\"BasePart\") then\n\t\t\tchild.BrickColor = color\n\t\tend\n\
+    \tend\nend\npaintFigure(Players.Player.Character, BrickColor.new(\"Bright blue\"\
+    ))\n```\n\nSince all classes inherit from `Class.Object`, calling\n`object:IsA(\"\
+    Object\")` will always return true.\n"
+  code_samples:
+  - Instance-IsA1
+  parameters:
+  - name: className
+    type: string
+    default: null
+    summary: 'The class against which the Object''s class will be checked.
+
+      Case-sensitive.
+
+      '
+  returns:
+  - type: boolean
+    summary: 'Describes whether the Object''s class matched or is a subclass of the
+
+      given class.
+
+      '
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security: None
+  thread_safety: Safe
+  capabilities: []
+- name: Object:isA
+  summary: ''
+  description: ''
+  code_samples: []
+  parameters:
+  - name: className
+    type: string
+    default: null
+    summary: ''
+  returns:
+  - type: boolean
+    summary: ''
+  tags:
+  - Deprecated
+  - CustomLuaState
+  deprecation_message: 'This deprecated function is a variant of `Class.Object:IsA()`
+    which should
+
+    be used instead.
+
+    '
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: GetPropertyChangedSignal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: property
+    type: string
+  returns:
+  - type: RBXScriptSignal
+- name: IsA
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Safe
+  parameters:
+  - name: className
+    type: string
+  returns:
+  - type: bool
+- name: isA
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Deprecated
+  - '{''PreferredDescriptorName'': ''IsA'', ''ThreadSafety'': ''Safe''}'
+  - CustomLuaState
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: className
+    type: string
+  returns:
+  - type: bool
+events:
+- name: Object.Changed
+  summary: 'Fires immediately after a property of the object changes, with some
+
+    limitations.
+
+    '
+  description: "This event fires immediately after an object property is changed,\
+    \ with\nsome exceptions (see below). The new value of a changed property is\n\
+    **not** passed as a parameter. Instead, you can access it using\n`object[property]`:\n\
+    \n```\nobject.Changed:Connect(function(property)\n\tprint(\"The new property's\
+    \ value is\", object[property])\nend)\n```\n\n- If you are only interested in\
+    \ listening for changes to one specific\n  property, consider using the\n  `Class.Object:GetPropertyChangedSignal()|GetPropertyChangedSignal()`\n\
+    \  method instead.\n- To listen for changes in attributes, see\n  `Class.Instance:GetAttributeChangedSignal()`\
+    \ and\n  `Class.Instance.AttributeChanged`.\n- To detect when children are added\
+    \ or removed, see\n  `Class.Instance.ChildAdded` and `Class.Instance.ChildRemoved`.\n\
+    \nFor `Class.ValueBase` objects such as `Class.IntValue` and\n`Class.StringValue`,\
+    \ this event only fires when the object's `Value`\nproperty changes. To detect\
+    \ other changes in `Class.ValueBase` objects,\nuse `Class.Object:GetPropertyChangedSignal()|GetPropertyChangedSignal()`.\n\
+    \n#### Limitations\n\nThis event does **not** fire for physics-related changes,\
+    \ such as when the\n`Class.BasePart.CFrame|CFrame`,\n`Class.BasePart.AssemblyLinearVelocity|AssemblyLinearVelocity`,\n\
+    `Class.BasePart.AssemblyAngularVelocity|AssemblyAngularVelocity`,\n`Class.BasePart.Position|Position`,\
+    \ or\n`Class.BasePart.Orientation|Orientation` properties of a `Class.BasePart`\n\
+    change due to gravity. To detect changes in these properties, consider\nusing\
+    \ a physics-based event like `Class.RunService.PreSimulation`.\nSimilarly, the\
+    \ `Changed` event does not fire when\n`Class.BasePart.AssemblyMass|AssemblyMass`\
+    \ updates due to a change in\nmaterial, size, or density for a welded part (but\
+    \ the event does fire for\n`Class.BasePart.Mass|Mass` if you modify a part's size).\n\
+    \nFor properties that change frequently, the `Changed` event might not fire\n\
+    for every modification, or it might not fire at all. **If a property\nchange impacts\
+    \ your game logic, test carefully** to ensure the event is\nfiring as you expect.\n"
+  code_samples:
+  - Changed-Event
+  - Change-Detector
+  parameters:
+  - name: property
+    type: string
+    default: null
+    summary: 'The name of the property that changed.
+
+      '
+  tags: []
+  deprecation_message: ''
+  security: None
+  capabilities: []
+- name: Changed
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: property
+    type: string
+callbacks: []

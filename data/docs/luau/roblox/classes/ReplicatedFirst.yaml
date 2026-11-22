@@ -1,0 +1,164 @@
+name: ReplicatedFirst
+type: class
+memory_category: Instances
+summary: 'A container whose contents are replicated to all clients (but not back to
+  the
+
+  server) first before anything else.
+
+  '
+description: "`ReplicatedFirst` is a container whose contents are replicated to all\
+  \ clients\n(but not back to the server) before anything else. It's most commonly\
+  \ used to\nstore `Class.LocalScript|LocalScripts` and other elements that are essential\n\
+  for the experience's start such as\n[loading screens](../../../players/loading-screens.md).\n\
+  \nFor objects that do **not** need to be replicated before anything else, use\n\
+  the `Class.ReplicatedStorage` container instead.\n\nThere are some key considerations\
+  \ for running `Class.LocalScript|LocalScripts`\nin `ReplicatedFirst`:\n\n- Since\
+  \ its contents replicate before anything else in the experience,\n  `Class.LocalScript|LocalScripts`\
+  \ running in `ReplicatedFirst` will need to\n  wait for any objects they require\
+  \ to replicate using\n  `Class.Instance:WaitForChild()`\n- Any objects that are\
+  \ to be used by a `Class.LocalScript` in\n  `ReplicatedFirst` should also be parented\
+  \ to `ReplicatedFirst`. Otherwise,\n  they may replicate to the client late, yielding\
+  \ the script and negating the\n  benefit of initial replication.\n"
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+deprecation_message: ''
+properties: []
+methods:
+- name: ReplicatedFirst:RemoveDefaultLoadingScreen
+  summary: 'Immediately removes the default Roblox loading screen.
+
+    '
+  description: 'Immediately removes the default Roblox loading screen. Note that if
+    any
+
+    object has been placed in `ReplicatedFirst`, the default loading screen
+
+    will be removed after a few seconds regardless if this method has been
+
+    called or not.
+
+
+    You should **not** remove the default loading screen unless you want to
+
+    display your own. If you remove the default screen without a replacement,
+
+    players will be able to see geometry loading in the background.
+
+    '
+  code_samples: []
+  parameters: []
+  returns:
+  - type: ()
+    summary: ''
+  tags: []
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities: []
+- name: IsDefaultLoadingGuiRemoved
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+- name: IsFinishedReplicating
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+- name: RemoveDefaultLoadingScreen
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+- name: SetDefaultLoadingGuiRemoved
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: 'null'
+events:
+- name: DefaultLoadingGuiRemoved
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: FinishedReplicating
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+- name: RemoveDefaultLoadingGuiSignal
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+callbacks: []

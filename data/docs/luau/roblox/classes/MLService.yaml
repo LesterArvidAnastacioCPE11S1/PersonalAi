@@ -1,0 +1,135 @@
+name: MLService
+type: class
+memory_category: Instances
+summary: 'A service that runs in-engine machine learning inference by loading model
+
+  bundles and creating inference sessions.
+
+  '
+description: '`MLService` loads machine learning model bundles and produces
+
+  `Class.MLSession` objects used to run inference on the client. It fetches a
+
+  model asset and constructs a neural network session from the downloaded
+
+  bundle, which the returned `Class.MLSession` then executes.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags:
+- NotCreatable
+- Service
+- NotReplicated
+deprecation_message: ''
+properties: []
+methods:
+- name: MLService:CreateSessionAsync
+  summary: 'Creates an `Class.MLSession` for the model bundle identified by the given
+
+    asset ID.
+
+    '
+  description: 'Fetches the model bundle identified by `assetId`, constructs a neural
+
+    network session from it, and resolves with a `Class.MLSession` wrapping
+
+    that session. As a yield function, it returns only once the model has been
+
+    downloaded and the session created; if the asset cannot be fetched or the
+
+    bundle is invalid, it raises an error instead of returning a session.
+
+    '
+  code_samples: []
+  parameters:
+  - name: assetId
+    type: string
+    default: null
+    summary: 'The asset ID of the model bundle to load.
+
+      '
+  returns:
+  - type: MLSession
+    summary: 'An `Class.MLSession` created from the loaded model bundle.
+
+      '
+  tags:
+  - Yields
+  deprecation_message: ''
+  security: None
+  thread_safety: Unsafe
+  capabilities:
+  - Basic
+- name: IsPostProcessReady
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters: []
+  returns:
+  - type: bool
+- name: SetPostProcessEnabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: enabled
+    type: bool
+  returns:
+  - type: 'null'
+- name: CreateSessionAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: assetId
+    type: string
+  returns:
+  - type: MLSession
+- name: LoadPostProcessModelAsync
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - Yields
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: Unsafe
+  parameters:
+  - name: assetId
+    type: int64
+  returns:
+  - type: 'null'
+events: []
+callbacks: []

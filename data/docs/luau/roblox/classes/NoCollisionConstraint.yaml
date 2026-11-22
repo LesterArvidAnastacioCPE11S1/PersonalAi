@@ -1,0 +1,158 @@
+name: NoCollisionConstraint
+type: class
+memory_category: BaseParts
+summary: 'An instance used to prevent collisions between two specific parts.
+
+  '
+description: "The **NoCollisionConstraint** prevents collisions between two specific\
+  \ parts,\nbut those parts may still register collisions with the rest of the world.\n\
+  Compared to\n[collision groups](../../../workspace/collisions.md#collision-filtering),\
+  \ it\nprovides a direct way to disable specific collisions, such as the wheel of\
+  \ a\ncar scraping against the car's body.\n\nThe most common way to create this\
+  \ constraint is by selecting\n**No&nbsp;Collision** through Studio's **Create**\
+  \ menu in the toolbar's\n**Model** tab.\n\nUnlike most constraints, `Class.NoCollisionConstraint`\
+  \ does not utilize any\n`Class.Attachment|Attachments`. Note that the tool acts\
+  \ differently based on\nhow many parts are selected when the tool is activated:\n\
+  \n<table>\n<thead>\n  <tr>\n    <td>Option</td>\n    <td>Tool Behavior</td>\n  </tr>\n\
+  </thead>\n<tbody>\n  <tr>\n    <td>No parts selected</td>\n    <td>The next two\
+  \ parts that are clicked will be linked together. If the same part is clicked twice,\
+  \ no link will be created.</td>\n  </tr>\n  <tr>\n    <td>One part selected</td>\n\
+  \    <td>The next part that is clicked will be linked to the selected part.</td>\n\
+  \  </tr>\n  <tr>\n    <td>Two parts selected</td>\n    <td>Both selected parts will\
+  \ be linked together.</td>\n  </tr>\n</tbody>\n</table>\n"
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: NoCollisionConstraint.Enabled
+  summary: 'Determines whether the two linked `Class.BasePart|BaseParts` will collide
+
+    with each other.
+
+    '
+  description: 'This property determines whether the two linked parts,
+
+    `Class.NoCollisionConstraint.Part0|Part0` and
+
+    `Class.NoCollisionConstraint.Part1|Part1`, will collide with each other.
+
+    '
+  code_samples: []
+  type: boolean
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  simulationAccess: true
+- name: NoCollisionConstraint.Part0
+  summary: 'The second `Class.BasePart` that the constraint connects.
+
+    '
+  description: 'The second `Class.BasePart` that the constraint connects.
+
+    '
+  code_samples: []
+  type: BasePart
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Parts
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  simulationAccess: true
+- name: NoCollisionConstraint.Part1
+  summary: 'The first `Class.BasePart` that the constraint connects.
+
+    '
+  description: 'The first `Class.BasePart` that the constraint connects.
+
+    '
+  code_samples: []
+  type: BasePart
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Parts
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - Physics
+  simulationAccess: true
+- name: Enabled
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: bool
+  category: Behavior
+  serialization:
+    can_load: true
+    can_save: true
+  default: 'true'
+- name: Part0
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: BasePart
+  category: Parts
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+- name: Part1
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: BasePart
+  category: Parts
+  serialization:
+    can_load: true
+    can_save: true
+  default: __api_dump_no_string_value__
+methods: []
+events: []
+callbacks: []

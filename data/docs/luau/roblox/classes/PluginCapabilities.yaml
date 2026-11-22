@@ -1,0 +1,85 @@
+name: PluginCapabilities
+type: class
+memory_category: Instances
+summary: 'Declares a plugin''s capabilities (the data models it targets and the
+
+  permissions it requests) through a JSON manifest.
+
+  '
+description: '`Class.PluginCapabilities` describes what a plugin is allowed to do.
+  Its
+
+  `Class.PluginCapabilities.Manifest|Manifest` property holds a JSON string that
+
+  declares which data models the plugin targets (such as `Edit`, `Server`, and
+
+  `Client`) and the permissions the plugin requests. It''s used by built-in and
+
+  standalone plugins to record their declared capabilities.
+
+  '
+code_samples: []
+inherits:
+- Instance
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: PluginCapabilities.Manifest
+  summary: 'A JSON string declaring the plugin''s target data models and requested
+
+    permissions.
+
+    '
+  description: 'A JSON-encoded string describing the plugin''s declared capabilities.
+    It
+
+    contains a `Metadata` object whose `TargetDataModels` array names the data
+
+    models the plugin runs against (`Edit`, `Server`, and `Client`), and a
+
+    `Permissions` object listing the permissions the plugin requests. Defaults
+
+    to
+
+    `{"Metadata":{"TargetDataModels": ["Edit", "Server", "Client"]},"Permissions":{}}`,
+
+    which targets all three data models and requests no additional
+
+    permissions.
+
+    '
+  code_samples: []
+  type: string
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities: []
+- name: Manifest
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: RobloxScriptSecurity
+    write: RobloxScriptSecurity
+  thread_safety: ReadSafe
+  type: string
+  category: Data
+  serialization:
+    can_load: true
+    can_save: true
+  default: '{"Metadata":{"TargetDataModels": ["Edit", "Server", "Client"]},"Permissions":{}}'
+methods: []
+events: []
+callbacks: []

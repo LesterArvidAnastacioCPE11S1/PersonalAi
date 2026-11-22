@@ -1,0 +1,289 @@
+name: UICorner
+type: class
+memory_category: Instances
+summary: 'UI modifier which applies deformation to corners of its parent
+
+  `Class.GuiObject`.
+
+  '
+description: "`UICorner` is a modifier which applies deformation to corners of its\
+  \ parent\n`Class.GuiObject`. Input, but not descendants, will be clipped to the\
+  \ round\ncorner area. See\n[UI appearance modifiers](../../../ui/appearance-modifiers.md#corners)\
+  \ for\nexamples.\n\nIn order to keep the circular shape of round corners, each corner\
+  \ radius\n(`Datatype.UDim`) is internally calculated as follows:\n\n- The radius\
+  \ of the **X** axis is always the same as the radius of **Y** axis.\n- `Datatype.UDim.Scale|Scale`\
+  \ rounding will always apply to the **minimum**\n  width or height.\n- Rounded rectangles\
+  \ will always be in a \"pill\" shape if\n  `Class.UICorner.CornerRadius|CornerRadius`\
+  \ is set to a value that leads to a\n  calculated result greater than half of the\
+  \ rectangle's minimum width or\n  height.\n\nAlternatively to `UICorner`, rounded\
+  \ corners can be accomplished using\n**slices** which are suitable for decorative\
+  \ borders that are not simply\nrounded. See [9‑Slice Design](../../../ui/9-slice.md)\
+  \ for details.\n\nNote that `UICorner` can not be applied to a `Class.ScrollingFrame`.\n\
+  \n#### Individual Corners\n\nEach corner has its own radius property\n(`Class.UICorner.TopLeftRadius|TopLeftRadius`,\n\
+  `Class.UICorner.TopRightRadius|TopRightRadius`,\n`Class.UICorner.BottomRightRadius|BottomRightRadius`,\n\
+  `Class.UICorner.BottomLeftRadius|BottomLeftRadius`). The\n`Class.UICorner.CornerRadius|CornerRadius`\
+  \ property is a convenience shorthand\nthat sets all four corners at once and reads\
+  \ from\n`Class.UICorner.TopLeftRadius|TopLeftRadius`.\n\nWhen using [styling](../../../ui/styling/index.md)\
+  \ with `UICorner`, avoid\nconfiguring both `Class.UICorner.CornerRadius|CornerRadius`\
+  \ and the individual\ncorner radii in style rules at the same time, as this may\
+  \ produce unexpected\nresults.\n"
+code_samples: []
+inherits:
+- UIComponent
+descendants: []
+tags: []
+deprecation_message: ''
+properties:
+- name: UICorner.BottomLeftRadius
+  summary: 'Determines the radius of the bottom-left corner.
+
+    '
+  description: 'This property is currently in beta. To use it, enable **New UI
+
+    Capabilities** in Studio''s beta features window.
+
+
+    A `Datatype.UDim` property that determines the radius of the bottom-left
+
+    corner independently. Setting `Class.UICorner.CornerRadius|CornerRadius`
+
+    overwrites all four individual corner radii to the same value.
+
+    '
+  code_samples: []
+  type: UDim
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Individual Corners
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: UICorner.BottomRightRadius
+  summary: 'Determines the radius of the bottom-right corner.
+
+    '
+  description: 'This property is currently in beta. To use it, enable **New UI
+
+    Capabilities** in Studio''s beta features window.
+
+
+    A `Datatype.UDim` property that determines the radius of the bottom-right
+
+    corner independently. Setting `Class.UICorner.CornerRadius|CornerRadius`
+
+    overwrites all four individual corner radii to the same value.
+
+    '
+  code_samples: []
+  type: UDim
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Individual Corners
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: UICorner.CornerRadius
+  summary: 'Sets all four corner radii at once and reads from
+
+    `Class.UICorner.TopLeftRadius|TopLeftRadius`.
+
+    '
+  description: 'A convenience `Datatype.UDim` property that acts as a shorthand for
+    the
+
+    four individual corner radius properties. Writing to this property sets
+
+    `Class.UICorner.TopLeftRadius|TopLeftRadius`,
+
+    `Class.UICorner.TopRightRadius|TopRightRadius`,
+
+    `Class.UICorner.BottomRightRadius|BottomRightRadius`, and
+
+    `Class.UICorner.BottomLeftRadius|BottomLeftRadius` to the same value.
+
+    Reading this property returns the value of
+
+    `Class.UICorner.TopLeftRadius|TopLeftRadius`.
+
+    '
+  code_samples: []
+  type: UDim
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: false
+  capabilities:
+  - UI
+- name: UICorner.TopLeftRadius
+  summary: 'Determines the radius of the top-left corner.
+
+    '
+  description: 'This property is currently in beta. To use it, enable **New UI
+
+    Capabilities** in Studio''s beta features window.
+
+
+    A `Datatype.UDim` property that determines the radius of the top-left
+
+    corner independently. Setting `Class.UICorner.CornerRadius|CornerRadius`
+
+    overwrites all four individual corner radii to the same value.
+
+    '
+  code_samples: []
+  type: UDim
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Individual Corners
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: UICorner.TopRightRadius
+  summary: 'Determines the radius of the top-right corner.
+
+    '
+  description: 'This property is currently in beta. To use it, enable **New UI
+
+    Capabilities** in Studio''s beta features window.
+
+
+    A `Datatype.UDim` property that determines the radius of the top-right
+
+    corner independently. Setting `Class.UICorner.CornerRadius|CornerRadius`
+
+    overwrites all four individual corner radii to the same value.
+
+    '
+  code_samples: []
+  type: UDim
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  category: Individual Corners
+  serialization:
+    can_load: true
+    can_save: true
+  capabilities:
+  - UI
+- name: BottomLeftRadius
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: UDim
+  category: Individual Corners
+  serialization:
+    can_load: true
+    can_save: true
+  default: 0, 8
+- name: BottomRightRadius
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: UDim
+  category: Individual Corners
+  serialization:
+    can_load: true
+    can_save: true
+  default: 0, 8
+- name: CornerRadius
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags:
+  - NotReplicated
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: UDim
+  category: Appearance
+  serialization:
+    can_load: true
+    can_save: false
+  default: 0, 8
+- name: TopLeftRadius
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: UDim
+  category: Individual Corners
+  serialization:
+    can_load: true
+    can_save: true
+  default: 0, 8
+- name: TopRightRadius
+  summary: (Member present in the Roblox API dump 0.748.0.7481526 but not yet covered
+    by the documentation.)
+  description: (Member present in the Roblox API dump 0.748.0.7481526 but not yet
+    covered by the documentation.)
+  code_samples: []
+  tags: []
+  deprecation_message: ''
+  security:
+    read: None
+    write: None
+  thread_safety: ReadSafe
+  type: UDim
+  category: Individual Corners
+  serialization:
+    can_load: true
+    can_save: true
+  default: 0, 8
+methods: []
+events: []
+callbacks: []
