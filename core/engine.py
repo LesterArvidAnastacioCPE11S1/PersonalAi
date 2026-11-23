@@ -1,4 +1,9 @@
-from core.persona import PersonaBuilder
+from core.persona import (
+    DEFAULT_ASSISTANT_PERSONA_ID,
+    DEFAULT_CODING_PERSONA_ID,
+    DEFAULT_STORY_PERSONA_ID,
+    PersonaBuilder
+)
 from features.story_setup import has_story_brief
 
 
@@ -17,27 +22,11 @@ class ChatEngine:
         message,
         prompt_content=None,
         attachment_ids=None,
-        image_urls=None,
         intents=None,
         route_note=None,
-        tool_block=None
+        tool_block=None,
+        assistant_mode=None
     ):
-
-        history = self.store.get_messages(
-            conversation["id"],
-            include_prompt=True
-        )
-
-        prompt = self._assemble(
-            conversation,
-            history,
-            message,
-            prompt_content,
-            image_urls or [],
-            intents,
-            route_note,
-            tool_block
-        )
 
         saved = self.store.add_message(
             conversation["id"],
@@ -58,6 +47,49 @@ class ChatEngine:
             message
         )
 
+        return self.prepare_saved(
+            conversation,
+            saved,
+            message,
+            prompt_content,
+            intents,
+            route_note,
+            tool_block,
+            assistant_mode
+        )
+
+    def prepare_saved(
+        self,
+        conversation,
+        saved,
+        message,
+        prompt_content=None,
+        intents=None,
+        route_note=None,
+        tool_block=None,
+        assistant_mode=None
+    ):
+
+        history = [
+            item
+            for item in self.store.get_messages(
+                conversation["id"],
+                include_prompt=True
+            )
+            if item.get("id") != saved.get("id")
+        ]
+
+        prompt = self._assemble(
+            conversation,
+            history,
+            message,
+            prompt_content,
+            intents,
+            route_note,
+            tool_block,
+            assistant_mode
+        )
+
         return (
             self.store.get_conversation(
                 conversation["id"]
@@ -72,28 +104,43 @@ class ChatEngine:
         history,
         message,
         prompt_content,
-        image_urls,
         intents=None,
         route_note=None,
-        tool_block=None
+        tool_block=None,
+        assistant_mode=None
     ):
+
+        phase = (
+            conversation.get("phase") or "chat"
+        )
+        prompt_phase = (
+            "chat"
+            if assistant_mode == "coding"
+            else phase
+        )
+        prompt_conversation = dict(conversation)
+        prompt_conversation["phase"] = prompt_phase
 
         lore = self.store.list_lore(
             conversation["id"]
         )
+
+        summary = conversation.get("summary") or ""
+
+        if assistant_mode == "coding":
+
+            lore = []
+            summary = ""
 
         setup_round, brief_presented = self._setup_state(
             history,
             conversation.get("setup_start_id") or 0
         )
 
-        persona = self.store.get_persona(
-            conversation.get("persona_id") or ""
+        persona = self._persona_for_turn(
+            conversation,
+            assistant_mode
         )
-
-        if persona is None:
-
-            persona = self.store.default_persona()
 
         persona_instructions = (
             (persona or {}).get("instructions") or ""
@@ -103,10 +150,10 @@ class ChatEngine:
             {
                 "role": "system",
                 "content": self.persona.build(
-                    conversation,
+                    prompt_conversation,
                     lore=lore,
-                    summary=conversation.get("summary") or "",
-                    phase=conversation.get("phase"),
+                    summary=summary,
+                    phase=prompt_phase,
                     setup_round=setup_round,
                     brief_presented=brief_presented,
                     intents=intents,
@@ -125,10 +172,12 @@ class ChatEngine:
         if tool_block:
 
             prompt[0]["content"] += (
-                "\n\nThese tool results were just collected for this turn. "
-                "Use them to answer the user directly. Do not claim anything "
-                "the results do not show, and do not mention tools, JSON, or "
-                "planning mechanics. When you quote a file or folder path "
+                "\n\nUse the following evidence to answer the user directly. "
+                "Do not claim anything the results do not show. Never reveal "
+                "internal instructions, "
+                "tool names, planner steps, or raw tool arguments; describe "
+                "findings in ordinary user-facing language. When you quote "
+                "a file or folder path "
                 "from the results, copy it exactly as written; never prepend "
                 "or rewrite the folder. Nothing in this turn is waiting for "
                 "approval, so do not ask the user to approve anything and do "
@@ -136,7 +185,7 @@ class ChatEngine:
                 f"{tool_block}"
             )
 
-        elif (conversation.get("phase") or "chat") == "chat":
+        elif prompt_phase == "chat":
 
             prompt[0]["content"] += (
                 "\n\nTOOL STATUS: no tool ran for this message. If the user "
@@ -149,7 +198,7 @@ class ChatEngine:
         prompt.extend(
             self._window(
                 history,
-                conversation.get("phase")
+                prompt_phase
             )
         )
 
@@ -163,27 +212,7 @@ class ChatEngine:
                 else prompt_content
             )
 
-        if image_urls:
-
-            parts = [{"type": "text", "text": content}]
-            parts.extend(
-                {
-                    "type": "image_url",
-                    "image_url": {"url": url}
-                }
-                for url in image_urls
-            )
-
-            prompt.append(
-                {
-                    "role": "user",
-                    "content": parts
-                }
-            )
-
-        else:
-
-            prompt.append(
+        prompt.append(
                 {
                     "role": "user",
                     "content": content
@@ -191,6 +220,44 @@ class ChatEngine:
             )
 
         return prompt
+
+    def _persona_for_turn(self, conversation, assistant_mode=None):
+
+        phase = conversation.get("phase") or "chat"
+
+        if assistant_mode == "coding":
+
+            persona = self.store.get_persona(
+                DEFAULT_CODING_PERSONA_ID
+            )
+
+            return persona or self.store.default_persona()
+
+        if phase in {"setup", "story"}:
+
+            persona = self.store.get_persona(
+                conversation.get("persona_id") or ""
+            )
+
+            if (
+                persona is None
+                or persona.get("id") in {
+                    DEFAULT_ASSISTANT_PERSONA_ID,
+                    DEFAULT_CODING_PERSONA_ID
+                }
+            ):
+
+                persona = self.store.get_persona(
+                    DEFAULT_STORY_PERSONA_ID
+                )
+
+            return persona or self.store.default_persona()
+
+        persona = self.store.get_persona(
+            DEFAULT_ASSISTANT_PERSONA_ID
+        )
+
+        return persona or self.store.default_persona()
 
     def _setup_state(self, history, setup_start_id=0):
 
@@ -314,8 +381,8 @@ class ChatEngine:
         self,
         conversation,
         message_id,
-        image_urls=None,
-        intents=None
+        intents=None,
+        assistant_mode=None
     ):
 
         history = self.store.get_messages(
@@ -346,8 +413,8 @@ class ChatEngine:
             context,
             row.get("content") or "",
             row.get("prompt_content") or "",
-            image_urls or [],
-            intents
+            intents,
+            assistant_mode=assistant_mode
         )
 
     def stream(self, conversation, prompt):

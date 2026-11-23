@@ -12,6 +12,8 @@ import time
 from pathlib import Path
 
 from features.tools.policy import PathPolicy, ToolError
+from features.project_agents import review_project
+from features.projects import ProjectError
 from features.luau_docs import search as search_luau_docs
 from features.tools.registry import TOOL_MAP
 
@@ -542,6 +544,434 @@ def files_read(args, config, policy):
     return f"{header}\n{body}"
 
 
+def _attachment_rows(rows, attachment_id=None):
+
+    if not rows:
+
+        raise ToolError("There are no attachments in the current request.")
+
+    if attachment_id:
+
+        matches = [
+            row for row in rows
+            if str(row.get("id")) == attachment_id
+        ]
+
+        if not matches:
+
+            raise ToolError(
+                "That attachment is not part of the current request."
+            )
+
+        return matches
+
+    return rows
+
+
+def _attachment_lines(row):
+
+    extracted_path = row.get("extracted_path")
+
+    if extracted_path:
+
+        path = Path(extracted_path)
+
+        if not path.is_file():
+
+            raise ToolError(
+                f"Extracted attachment content is missing: {path}"
+            )
+
+        try:
+
+            with path.open("r", encoding="utf-8", errors="replace") as stream:
+
+                for number, line in enumerate(stream, 1):
+
+                    yield number, line.rstrip("\r\n")
+
+        except OSError as error:
+
+            raise ToolError(
+                f"Could not read extracted attachment content: {error}"
+            ) from error
+
+        return
+
+    for number, line in enumerate(
+        (row.get("text") or "").splitlines(),
+        1
+    ):
+
+        yield number, line
+
+
+def _attachments_read(args, rows):
+
+    row = _attachment_rows(rows, args.get("attachment_id"))[0]
+    start = max(1, args.get("start_line") or 1)
+    count = min(200, max(1, args.get("max_lines") or 100))
+    selected = []
+
+    for number, line in _attachment_lines(row):
+
+        if number < start:
+
+            continue
+
+        selected.append((number, line))
+
+        if len(selected) >= count:
+
+            break
+
+    if not selected:
+
+        raise ToolError(
+            f"Start line {start} is past the end of the attachment."
+        )
+
+    end = selected[-1][0]
+
+    return (
+        f"Attachment: {row.get('filename') or 'file'} "
+        f"(id {row.get('id')})\n"
+        f"Lines {start}-{end}:\n"
+        + "\n".join(
+            f"{number}| {line[:6000]}"
+            for number, line in selected
+        )
+    )
+
+
+def _attachments_search(args, rows):
+
+    matches = _attachment_rows(rows, args.get("attachment_id"))
+    query = args["query"].strip().casefold()
+
+    if not query:
+
+        raise ToolError("Search query cannot be empty.")
+
+    limit = min(50, max(1, args.get("max_results") or 10))
+    results = []
+
+    for row in matches:
+
+        for number, line in _attachment_lines(row):
+
+            index = line.casefold().find(query)
+
+            if index < 0:
+
+                continue
+
+            start = max(0, index - 120)
+            end = min(len(line), index + len(query) + 240)
+            snippet = line[start:end]
+
+            if start:
+
+                snippet = "..." + snippet
+
+            if end < len(line):
+
+                snippet += "..."
+
+            results.append(
+                f"{number}| {row.get('filename') or 'file'} "
+                f"(id {row.get('id')}): {snippet}"
+            )
+
+            if len(results) >= limit:
+
+                break
+
+        if len(results) >= limit:
+
+            break
+
+    if not results:
+
+        names = ", ".join(
+            row.get("filename") or "file"
+            for row in matches
+        )
+
+        return f"No matches for {args['query']!r} in: {names}"
+
+    return (
+        f"Found {len(results)} match(es) for {args['query']!r}:\n"
+        + "\n".join(results)
+    )
+
+
+def _active_project(args, project):
+
+    if not project:
+
+        raise ToolError(
+            "Select a persistent Roblox project before using project tools."
+        )
+
+    requested_id = args.get("project_id")
+
+    if requested_id and str(requested_id) != project["id"]:
+
+        raise ToolError(
+            "That project is not active in the current request."
+        )
+
+    return project
+
+
+def _project_search(args, project, project_service):
+
+    project = _active_project(args, project)
+
+    try:
+
+        results = project_service.search(
+            project["id"],
+            args.get("query"),
+            args.get("max_results") or 10
+        )
+
+    except ProjectError as error:
+
+        raise ToolError(str(error)) from error
+
+    if not results:
+
+        return f"No matches for {args.get('query')!r} in {project['name']}."
+
+    lines = [
+        f"Found {len(results)} match(es) in project "
+        f"{project['name']} ({project['id']}):"
+    ]
+
+    for result in results:
+
+        location = (
+            f"{result['path']} — parsed line {result['line']}"
+            if result["path"]
+            else f"parsed line {result['line']}"
+        )
+        lines.append(f"{location}: {result['text']}")
+
+    return "\n".join(lines)
+
+def _project_find_scripts(args, project, project_service):
+
+    project = _active_project(args, project)
+
+    try:
+
+        result = project_service.find_scripts(
+            project["id"],
+            args.get("query"),
+            args.get("max_results") or 100,
+            args.get("offset") or 0
+        )
+
+    except ProjectError as error:
+
+        raise ToolError(str(error)) from error
+
+    scripts = result["scripts"]
+    lines = [
+        f"Scanned all {result['project_script_count']} indexed scripts in "
+        f"{project['name']}. Found {result['total']} candidate script(s); "
+        f"starting at offset {result['offset']}.",
+        "Search terms: " + ", ".join(result["expanded_terms"])
+    ]
+    displayed = 0
+
+    for script in scripts:
+
+        candidate = [
+            f"- {script['path']} "
+            f"(script_id={script['script_id']}; {script['class_name']}; "
+            f"{script['source_match_count']} source line(s))"
+        ]
+
+        if script["evidence"]:
+
+            evidence = script["evidence"][0]
+            candidate.append(
+                f"  source line {evidence['line']}: "
+                f"{evidence['text'][:100]}"
+            )
+
+        else:
+
+            candidate.append("  path/name match only; role unconfirmed")
+
+        if (
+            displayed
+            and len("\n".join(lines))
+            + len("\n".join(candidate))
+            + 1
+            > 4500
+        ):
+
+            break
+
+        lines.extend(candidate)
+        displayed += 1
+
+    next_offset = result["offset"] + displayed
+
+    if next_offset < result["total"]:
+
+        lines.append(
+            f"More results remain; use offset={next_offset} to continue."
+        )
+
+    return "\n".join(lines)
+
+def _project_script_read(args, project, project_service):
+
+    project = _active_project(args, project)
+
+    try:
+
+        result = project_service.read_script(
+            project["id"],
+            args.get("script_id"),
+            args.get("start_line") or 1,
+            args.get("max_lines") or 100
+        )
+
+    except ProjectError as error:
+
+        raise ToolError(str(error)) from error
+
+    body = "\n".join(
+        f"{number}| {line}"
+        for number, line in result["lines"]
+    )
+
+    return (
+        f"Source lines {result['start_line']}-{result['end_line']} of "
+        f"{result['total_lines']} for {result['path']} "
+        f"({result['class_name']}; script_id={result['script_id']}):\n"
+        f"{body}"
+    )
+
+
+def _project_read(args, project, project_service):
+
+    project = _active_project(args, project)
+
+    try:
+
+        lines = project_service.read(
+            project["id"],
+            args.get("start_line") or 1,
+            args.get("max_lines") or 100
+        )
+
+    except ProjectError as error:
+
+        raise ToolError(str(error)) from error
+
+    start = lines[0][0]
+    end = lines[-1][0]
+    body = "\n".join(
+        f"{number}| {line}"
+        for number, line in lines
+    )
+
+    return (
+        f"Project: {project['name']} ({project['id']})\n"
+        f"Parsed lines {start}-{end}:\n{body}"
+    )
+
+
+def _project_tree(args, project, project_service):
+
+    project = _active_project(args, project)
+
+    try:
+
+        nodes = project_service.tree(
+            project["id"],
+            args.get("parent_id"),
+            min(200, args.get("limit") or 100),
+            args.get("offset") or 0
+        )
+
+    except ProjectError as error:
+
+        raise ToolError(str(error)) from error
+
+    if not nodes:
+
+        return "No hierarchy entries in that range."
+
+    lines = [
+        f"Hierarchy for {project['name']} "
+        f"({len(nodes)} node(s), starting at offset "
+        f"{args.get('offset') or 0}):"
+    ]
+
+    for node in nodes:
+
+        suffix = (
+            f" [{node['child_count']} children]"
+            if node["child_count"]
+            else ""
+        )
+        if node["is_script"]:
+
+            suffix += " [script]"
+        lines.append(
+            f"- {node['name']} ({node['class_name']}) "
+            f"[node_id={node['node_id']}]{suffix}"
+        )
+
+    return "\n".join(lines)
+
+
+def _project_node_read(args, project, project_service):
+
+    project = _active_project(args, project)
+
+    try:
+
+        node = project_service.node(
+            project["id"],
+            args.get("node_id")
+        )
+
+    except ProjectError as error:
+
+        raise ToolError(str(error)) from error
+
+    properties = node.get("properties") or []
+    lines = [
+        f"Instance: {node['path']} ({node['class_name']}; "
+        f"node_id={node['node_id']})"
+    ]
+
+    if properties:
+
+        lines.append("Properties:")
+
+        for item in properties:
+
+            lines.append(
+                f"- {item['name']}: {item['value']}"
+            )
+
+    else:
+
+        lines.append("No indexed properties.")
+
+    return "\n".join(lines)
+
+
 def files_write(args, config, policy):
 
     path = policy.resolve(args.get("path") or "", must_exist=False)
@@ -1059,7 +1489,22 @@ def preview_check(name, args, policy):
         raise ToolError(f"Folder does not exist: {destination.parent}")
 
 
-def run_tool(name, args, config, policy):
+def run_tool(
+    name,
+    args,
+    config,
+    policy,
+    attachment_rows=None,
+    project=None,
+    project_service=None,
+    model=None,
+    visual_context=None,
+    request_context="",
+    investigation_id=None,
+    conversation_id=None,
+    message_id=None,
+    progress_callback=None
+):
 
     started = time.monotonic()
     clean = {}
@@ -1067,7 +1512,38 @@ def run_tool(name, args, config, policy):
     try:
 
         clean = _clean_args(name, args)
-        output = HANDLERS[name](clean, config, policy)
+        if name == "attachments_read":
+            output = _attachments_read(clean, attachment_rows or [])
+        elif name == "attachments_search":
+            output = _attachments_search(clean, attachment_rows or [])
+        elif name == "project_search":
+            output = _project_search(clean, project, project_service)
+        elif name == "project_find_scripts":
+            output = _project_find_scripts(clean, project, project_service)
+        elif name == "project_review":
+            output = review_project(
+                model,
+                project_service,
+                project,
+                clean["query"],
+                clean.get("scope") or "related",
+                visual_context,
+                request_context,
+                conversation_id=conversation_id,
+                message_id=message_id,
+                investigation_id=investigation_id,
+                progress_callback=progress_callback
+            )
+        elif name == "project_script_read":
+            output = _project_script_read(clean, project, project_service)
+        elif name == "project_read":
+            output = _project_read(clean, project, project_service)
+        elif name == "project_tree":
+            output = _project_tree(clean, project, project_service)
+        elif name == "project_node_read":
+            output = _project_node_read(clean, project, project_service)
+        else:
+            output = HANDLERS[name](clean, config, policy)
         ok = True
         error = ""
 

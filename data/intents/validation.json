@@ -1962,5 +1962,25 @@
   {
     "text": "story mode now",
     "intent": "begin_story"
+  },
+  {
+    "text": "I already have those scripts. Improve the existing Luau code instead of giving me another example.",
+    "intent": "coding"
+  },
+  {
+    "text": "Go ahead and edit the NPC movement scripts we found in my Roblox place.",
+    "intent": "coding"
+  },
+  {
+    "text": "Can you change the code already in the project?",
+    "intent": "coding"
+  },
+  {
+    "text": "My character writes a code on the wall and keeps walking.",
+    "intent": "roleplay"
+  },
+  {
+    "text": "Write a story about a programmer debugging a strange machine.",
+    "intent": "storytelling"
   }
 ]

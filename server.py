@@ -1,14 +1,17 @@
 import ctypes
 import json
 import os
+import queue
 import re
 import threading
 import time
+import uuid
 
 from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI, File, HTTPException, Request, UploadFile
+from fastapi.concurrency import run_in_threadpool
 from fastapi.responses import (
     FileResponse,
     HTMLResponse,
@@ -25,15 +28,25 @@ from core.engine import ChatEngine
 from core.memory import MemoryBusy, MemoryWriter
 from core.store import Store
 from features.attachments import (
-    MAX_FILE_BYTES,
     MAX_ROBLOX_BYTES,
     AttachmentError,
     AttachmentNotFound,
-    AttachmentService
+    AttachmentService,
 )
+from features.luau_docs import search as search_luau_docs
 from features.image_gen import ImageError, ImageService
-from features.intent_model import start_warmup
-from features.intents import intents_from, understand
+from features.projects import (
+    ProjectError,
+    ProjectNotFound,
+    ProjectService
+)
+from features.intent_model import get_intent_model
+from features.intents import (
+    STORY_INTENTS,
+    assistant_mode_for,
+    intents_from,
+    understand
+)
 from features.mobile_access import (
     COOKIE_NAME,
     HEADER_NAME,
@@ -63,6 +76,7 @@ from features.story_styles import (
 from features.tools.executor import policy_for, run_tool
 from features.tools.policy import DENY_PREFIXES, ToolError
 from features.tools.planner import ToolPlanner
+from features.tools.selector import SELECTOR
 from models.openai_compat import ModelError, OpenAICompatibleModel
 
 
@@ -91,10 +105,8 @@ memory = MemoryWriter(
     config
 )
 
-attachments = AttachmentService(
-    config,
-    store
-)
+attachments = AttachmentService(config, store)
+projects = ProjectService(config, store)
 
 images = ImageService(
     config,
@@ -159,7 +171,11 @@ WEB_DIR = Path(__file__).resolve().parent / "web"
 @asynccontextmanager
 async def lifespan(app):
 
-    start_warmup()
+    await run_in_threadpool(get_intent_model().warm)
+
+    if config.tools.enabled:
+
+        await run_in_threadpool(SELECTOR.warm)
 
     from features.luau_docs_update import start_updater
 
@@ -301,6 +317,7 @@ class ChatRequest(BaseModel):
     message: str = ""
     attachments: list[str] = []
     edit_message_id: int | None = None
+    project_id: str | None = None
 
 
 class PhaseUpdate(BaseModel):
@@ -315,6 +332,17 @@ class ImageRequest(BaseModel):
 
 class RecycleRequest(BaseModel):
     key: str
+
+
+class ProjectArtifactCreate(BaseModel):
+    title: str = ""
+    language: str = "luau"
+    content: str = ""
+    source_script_id: str = ""
+
+
+class ProjectArtifactDecision(BaseModel):
+    status: str
 
 
 class SettingsUpdate(BaseModel):
@@ -881,6 +909,410 @@ def delete_persona(persona_id: str):
     return {"ok": True}
 
 
+@app.get("/api/projects")
+def list_projects():
+
+    return {
+        "projects": projects.list()
+    }
+
+
+@app.post("/api/projects/import")
+async def import_project(file: UploadFile = File(...)):
+
+    data = await file.read(MAX_ROBLOX_BYTES + 1)
+
+    try:
+
+        project = await run_in_threadpool(
+            projects.import_file,
+            file.filename or "",
+            data
+        )
+
+    except ProjectError as error:
+
+        raise HTTPException(
+            status_code=400,
+            detail=str(error)
+        ) from error
+
+    return {
+        "project": project
+    }
+
+
+@app.get("/api/projects/{project_id}")
+def get_project(project_id: str):
+
+    try:
+
+        return {
+            "project": projects.get(project_id)
+        }
+
+    except ProjectNotFound as error:
+
+        raise HTTPException(
+            status_code=404,
+            detail=str(error)
+        ) from error
+
+
+@app.delete("/api/projects/{project_id}")
+def delete_project(project_id: str):
+
+    try:
+
+        projects.delete(project_id)
+
+    except ProjectNotFound as error:
+
+        raise HTTPException(
+            status_code=404,
+            detail=str(error)
+        ) from error
+
+    return {
+        "ok": True
+    }
+
+
+@app.get("/api/projects/{project_id}/tree")
+def project_tree(
+    project_id: str,
+    parent_id: str | None = None,
+    limit: int = 200,
+    offset: int = 0
+):
+
+    try:
+
+        return {
+            "nodes": projects.tree(
+                project_id,
+                parent_id,
+                limit,
+                offset
+            )
+        }
+
+    except ProjectNotFound as error:
+
+        raise HTTPException(
+            status_code=404,
+            detail=str(error)
+        ) from error
+
+
+@app.get("/api/projects/{project_id}/nodes/{node_id}")
+def get_project_node(project_id: str, node_id: str):
+
+    try:
+
+        return {
+            "node": projects.node(project_id, node_id)
+        }
+
+    except ProjectNotFound as error:
+
+        raise HTTPException(
+            status_code=404,
+            detail=str(error)
+        ) from error
+
+
+@app.get("/api/projects/{project_id}/search")
+def search_project(project_id: str, query: str, limit: int = 10):
+
+    try:
+
+        return {
+            "results": projects.search(project_id, query, limit)
+        }
+
+    except ProjectNotFound as error:
+
+        raise HTTPException(
+            status_code=404,
+            detail=str(error)
+        ) from error
+
+    except ProjectError as error:
+
+        raise HTTPException(
+            status_code=400,
+            detail=str(error)
+        ) from error
+
+
+@app.get("/api/projects/{project_id}/read")
+def read_project(
+    project_id: str,
+    start_line: int = 1,
+    max_lines: int = 100
+):
+
+    try:
+
+        return {
+            "lines": projects.read(
+                project_id,
+                start_line,
+                max_lines
+            )
+        }
+
+    except ProjectNotFound as error:
+
+        raise HTTPException(
+            status_code=404,
+            detail=str(error)
+        ) from error
+
+    except ProjectError as error:
+
+        raise HTTPException(
+            status_code=400,
+            detail=str(error)
+        ) from error
+
+
+@app.get("/api/projects/{project_id}/scripts")
+def project_scripts(
+    project_id: str,
+    query: str = "",
+    limit: int = 200,
+    offset: int = 0
+):
+
+    try:
+
+        return {
+            "scripts": projects.scripts(
+                project_id,
+                query,
+                limit,
+                offset
+            )
+        }
+
+    except ProjectNotFound as error:
+
+        raise HTTPException(
+            status_code=404,
+            detail=str(error)
+        ) from error
+
+    except ProjectError as error:
+
+        raise HTTPException(
+            status_code=400,
+            detail=str(error)
+        ) from error
+
+
+@app.get("/api/projects/{project_id}/scripts/{script_id}")
+def project_script(project_id: str, script_id: str):
+
+    try:
+
+        return {
+            "script": projects.script(project_id, script_id)
+        }
+
+    except ProjectNotFound as error:
+
+        raise HTTPException(
+            status_code=404,
+            detail=str(error)
+        ) from error
+
+
+@app.get("/api/projects/{project_id}/investigations")
+def list_project_investigations(project_id: str, limit: int = 20):
+
+    try:
+
+        projects.context(project_id)
+
+    except ProjectNotFound as error:
+
+        raise HTTPException(
+            status_code=404,
+            detail=str(error)
+        ) from error
+
+    return {
+        "investigations": store.list_project_investigations(
+            project_id,
+            limit
+        )
+    }
+
+
+@app.get(
+    "/api/projects/{project_id}/investigations/{investigation_id}"
+)
+def get_project_investigation(project_id: str, investigation_id: str):
+
+    try:
+
+        projects.context(project_id)
+
+    except ProjectNotFound as error:
+
+        raise HTTPException(
+            status_code=404,
+            detail=str(error)
+        ) from error
+
+    investigation = store.get_project_investigation(investigation_id)
+
+    if (
+        investigation is None
+        or investigation["project_id"] != project_id
+    ):
+
+        raise HTTPException(
+            status_code=404,
+            detail="Project investigation not found."
+        )
+
+    return {
+        "investigation": investigation,
+        "events": store.list_project_investigation_events(
+            investigation_id
+        )
+    }
+
+
+@app.get("/api/projects/{project_id}/artifacts")
+def list_project_artifacts(project_id: str):
+
+    try:
+
+        return {
+            "artifacts": projects.artifacts(project_id)
+        }
+
+    except ProjectNotFound as error:
+
+        raise HTTPException(
+            status_code=404,
+            detail=str(error)
+        ) from error
+
+
+@app.post("/api/projects/{project_id}/artifacts")
+def create_project_artifact(
+    project_id: str,
+    payload: ProjectArtifactCreate
+):
+
+    try:
+
+        artifact = projects.create_artifact(
+            project_id,
+            payload.title,
+            payload.language,
+            payload.content,
+            payload.source_script_id
+        )
+
+    except ProjectNotFound as error:
+
+        raise HTTPException(
+            status_code=404,
+            detail=str(error)
+        ) from error
+
+    except ProjectError as error:
+
+        raise HTTPException(
+            status_code=400,
+            detail=str(error)
+        ) from error
+
+    return {
+        "artifact": artifact
+    }
+
+
+@app.patch("/api/projects/{project_id}/artifacts/{artifact_id}")
+def decide_project_artifact(
+    project_id: str,
+    artifact_id: str,
+    payload: ProjectArtifactDecision
+):
+
+    try:
+
+        artifact = projects.decide_artifact(
+            project_id,
+            artifact_id,
+            payload.status
+        )
+
+    except ProjectNotFound as error:
+
+        raise HTTPException(
+            status_code=404,
+            detail=str(error)
+        ) from error
+
+    except ProjectError as error:
+
+        raise HTTPException(
+            status_code=400,
+            detail=str(error)
+        ) from error
+
+    return {
+        "artifact": artifact
+    }
+
+
+@app.get("/api/projects/{project_id}/artifacts/{artifact_id}/file")
+def project_artifact_file(project_id: str, artifact_id: str):
+
+    try:
+
+        path, filename = projects.artifact_file(
+            project_id,
+            artifact_id
+        )
+
+    except ProjectNotFound as error:
+
+        raise HTTPException(
+            status_code=404,
+            detail=str(error)
+        ) from error
+
+    return FileResponse(
+        path,
+        filename=filename,
+        media_type="text/plain; charset=utf-8"
+    )
+
+
+@app.get("/api/roblox/docs")
+def roblox_docs(query: str, limit: int = 4):
+
+    if not query.strip():
+
+        raise HTTPException(
+            status_code=400,
+            detail="A documentation search query is required."
+        )
+
+    return {
+        "query": query,
+        "results": search_luau_docs(query, limit)
+    }
+
+
 @app.get("/api/conversations")
 def list_conversations():
 
@@ -949,6 +1381,111 @@ def get_conversation(conversation_id: str):
             attachments.public(row)
             for row in store.list_attachments(conversation_id)
         ]
+    }
+
+
+@app.post("/api/conversations/{conversation_id}/attachments")
+async def upload_attachment(
+    conversation_id: str,
+    file: UploadFile = File(...)
+):
+
+    if store.get_conversation(conversation_id) is None:
+
+        raise HTTPException(
+            status_code=404,
+            detail="Conversation not found."
+        )
+
+    data = await file.read(MAX_ROBLOX_BYTES + 1)
+
+    try:
+
+        row, warning = attachments.save(
+            conversation_id,
+            file.filename or "file",
+            data
+        )
+
+    except AttachmentError as error:
+
+        raise HTTPException(
+            status_code=400,
+            detail=str(error)
+        ) from error
+
+    return {
+        "attachment": attachments.public(row),
+        "warning": warning
+    }
+
+
+@app.get("/api/attachments/{attachment_id}/file")
+def attachment_file(attachment_id: str):
+
+    row = store.get_attachment(attachment_id)
+
+    if row is None:
+
+        raise HTTPException(
+            status_code=404,
+            detail="Attachment not found."
+        )
+
+    try:
+
+        path = attachments.file_path(row)
+
+    except AttachmentNotFound as error:
+
+        raise HTTPException(
+            status_code=404,
+            detail=str(error)
+        ) from error
+
+    mime = row["mime"] or "application/octet-stream"
+
+    if mime in {
+        "text/html",
+        "application/xhtml+xml",
+        "application/xml",
+        "text/xml"
+    }:
+
+        mime = "text/plain; charset=utf-8"
+
+    return FileResponse(
+        path,
+        media_type=mime,
+        filename=row["filename"],
+        content_disposition_type="inline",
+        headers={"X-Content-Type-Options": "nosniff"}
+    )
+
+
+@app.delete("/api/attachments/{attachment_id}")
+def delete_attachment(attachment_id: str):
+
+    try:
+
+        attachments.delete_unlinked(attachment_id)
+
+    except AttachmentNotFound as error:
+
+        raise HTTPException(
+            status_code=404,
+            detail=str(error)
+        ) from error
+
+    except AttachmentError as error:
+
+        raise HTTPException(
+            status_code=409,
+            detail=str(error)
+        ) from error
+
+    return {
+        "deleted": True
     }
 
 
@@ -1069,42 +1606,6 @@ def delete_conversation(conversation_id: str):
     }
 
 
-@app.post("/api/conversations/{conversation_id}/attachments")
-async def upload_attachment(
-    conversation_id: str,
-    file: UploadFile = File(...)
-):
-
-    if store.get_conversation(conversation_id) is None:
-
-        raise HTTPException(
-            status_code=404,
-            detail="Conversation not found."
-        )
-
-    data = await file.read(MAX_ROBLOX_BYTES + 1)
-
-    try:
-
-        row, warning = attachments.save(
-            conversation_id,
-            file.filename or "file",
-            data
-        )
-
-    except AttachmentError as error:
-
-        raise HTTPException(
-            status_code=400,
-            detail=str(error)
-        ) from error
-
-    return {
-        "attachment": attachments.public(row),
-        "warning": warning
-    }
-
-
 @app.post("/api/images/generate")
 def generate_image(payload: ImageRequest):
 
@@ -1146,75 +1647,6 @@ def generate_image(payload: ImageRequest):
     return {
         "attachment": attachment,
         "prompt": prompt
-    }
-
-
-@app.get("/api/attachments/{attachment_id}/file")
-def attachment_file(attachment_id: str):
-
-    row = store.get_attachment(attachment_id)
-
-    if row is None:
-
-        raise HTTPException(
-            status_code=404,
-            detail="Attachment not found."
-        )
-
-    try:
-
-        path = attachments.file_path(row)
-
-    except AttachmentNotFound as error:
-
-        raise HTTPException(
-            status_code=404,
-            detail=str(error)
-        ) from error
-
-    mime = row["mime"] or "application/octet-stream"
-
-    if mime in {
-        "text/html",
-        "application/xhtml+xml",
-        "application/xml",
-        "text/xml"
-    }:
-
-        mime = "text/plain; charset=utf-8"
-
-    return FileResponse(
-        path,
-        media_type=mime,
-        filename=row["filename"],
-        content_disposition_type="inline",
-        headers={"X-Content-Type-Options": "nosniff"}
-    )
-
-
-@app.delete("/api/attachments/{attachment_id}")
-def delete_attachment(attachment_id: str):
-
-    try:
-
-        attachments.delete_unlinked(attachment_id)
-
-    except AttachmentNotFound as error:
-
-        raise HTTPException(
-            status_code=404,
-            detail=str(error)
-        ) from error
-
-    except AttachmentError as error:
-
-        raise HTTPException(
-            status_code=409,
-            detail=str(error)
-        ) from error
-
-    return {
-        "deleted": True
     }
 
 
@@ -1532,7 +1964,6 @@ def chat_stream(payload: ChatRequest):
 
     message = payload.message.strip()
     edit_id = payload.edit_message_id
-    rows = []
     saved = None
 
     if edit_id is not None:
@@ -1562,33 +1993,12 @@ def chat_stream(payload: ChatRequest):
             edit_id
         )
 
-        attachments.remove_files(removed)
-
         store.update_message(edit_id, message)
         store.auto_title(payload.conversation_id, message)
-        saved = store.get_message(edit_id)
-        rows = store.list_attachments(
-            payload.conversation_id,
-            message_id=edit_id
-        )
 
     else:
 
-        try:
-
-            rows = attachments.ready(
-                payload.conversation_id,
-                payload.attachments
-            )
-
-        except AttachmentError as error:
-
-            raise HTTPException(
-                status_code=400,
-                detail=str(error)
-            ) from error
-
-        if not message and not rows:
+        if not message:
 
             raise HTTPException(
                 status_code=400,
@@ -1934,25 +2344,152 @@ def chat_stream(payload: ChatRequest):
     approval_rows = []
     precomputed = False
     tool_block = None
+    rows = []
+
+    if edit_id is None and payload.attachments:
+
+        try:
+
+            rows = attachments.ready(
+                payload.conversation_id,
+                payload.attachments
+            )
+
+        except AttachmentError as error:
+
+            raise HTTPException(
+                status_code=400,
+                detail=str(error)
+            ) from error
+
+    project_context = None
+
+    if payload.project_id:
+
+        try:
+
+            project_context = projects.context(payload.project_id)
+
+        except ProjectNotFound as error:
+
+            raise HTTPException(
+                status_code=404,
+                detail=str(error)
+            ) from error
+
+    assistant_mode = assistant_mode_for(
+        message,
+        understanding,
+        phase=conversation.get("phase") or "chat",
+        history=recent_messages,
+        project_active=bool(project_context)
+    )
+
+    if assistant_mode == "coding":
+
+        intents.difference_update(STORY_INTENTS)
+        intents.add("coding")
+
+    else:
+
+        intents.discard("coding")
+
+    image_urls = []
+    try:
+        image_urls = attachments.image_data_urls(rows)
+    except AttachmentError as error:
+        raise HTTPException(
+            status_code=400,
+            detail=str(error)
+        ) from error
+
+    if image_urls and not config.model.vision:
+        raise HTTPException(
+            status_code=400,
+            detail="Enable Vision in Settings to use image attachments."
+        )
+
+    visual_context = attachments.image_ocr_text(rows)
+    vision_note = ""
+    if image_urls and not visual_context:
+        try:
+            image_analysis = model.analyze_images(
+                image_urls,
+                message,
+                visual_context
+            )
+        except ModelError as error:
+            print(f"[vision] image analysis failed: {error}", flush=True)
+            vision_note = (
+                "[Vision analysis unavailable; use local OCR only and do "
+                "not guess unseen visual details.]"
+            )
+        else:
+            vision_note = (
+                "[Image evidence priority: local OCR is authoritative for "
+                "exact text and numbers; the vision description is tentative "
+                "and only for non-text layout. Do not infer a cause without "
+                "checking source.]\n"
+                + image_analysis[:6000]
+                if image_analysis
+                else (
+                    "[The vision model returned no description; use local "
+                    "OCR only and do not guess unseen visual details.]"
+                )
+            )
+        visual_context = vision_note
+
+    deferred_review = None
+    planner = ToolPlanner(config, model)
 
     if (
         config.tools.enabled
         and message
         and edit_id is None
         and action is None
-        and conversation.get("phase") == "chat"
+        and (
+            conversation.get("phase") == "chat"
+            or assistant_mode == "coding"
+        )
         and not (pending and is_affirmation(understanding))
     ):
 
         try:
 
-            planning = ToolPlanner(config, model).run(
+            review_args = planner.project_review_args(
                 message,
                 recent_messages[-8:],
-                activity,
-                pending,
-                attachments=rows
+                project_context,
+                projects,
+                assistant_mode == "coding"
             )
+
+            if review_args:
+
+                deferred_review = {
+                    "id": uuid.uuid4().hex,
+                    "args": review_args
+                }
+
+                planning = {
+                    "runs": [],
+                    "proposals": [],
+                    "block": ""
+                }
+
+            else:
+
+                planning = planner.run(
+                    message,
+                    recent_messages[-8:],
+                    activity,
+                    pending,
+                    attachments=rows,
+                    project=project_context,
+                    project_service=projects,
+                    visual_context=visual_context,
+                    coding_mode=assistant_mode == "coding"
+                )
 
         except Exception as error:
 
@@ -1965,6 +2502,8 @@ def chat_stream(payload: ChatRequest):
             planning.get("block") or None
         )
 
+    prompt_content = None
+
     if edit_id is not None:
 
         conversation = store.get_conversation(
@@ -1974,37 +2513,60 @@ def chat_stream(payload: ChatRequest):
         prompt = engine.regenerate(
             conversation,
             edit_id,
-            image_urls=attachments.image_data_urls(rows),
-            intents=intents
+            intents=intents,
+            assistant_mode=assistant_mode
         )
 
         meta_message = saved
 
     else:
 
-        prompt_content = attachments.prompt_text(rows)
+        prompt_content = (
+            attachments.prompt_text(rows)
+            + (f"\n\n{vision_note}" if vision_note else "")
+            + (
+                projects.prompt_context(project_context)
+                if project_context
+                else ""
+            )
+        )
 
-        if rows and prompt_content:
+        if deferred_review:
 
-            print(
-                f"[chat] {len(rows)} attachment(s) included in the "
-                f"prompt ({len(prompt_content)} chars)."
+            saved = store.add_message(
+                conversation["id"],
+                "user",
+                message,
+                prompt_content
             )
 
-        elif rows:
+            if rows:
 
-            print("[chat] attachments had no readable text.")
+                store.link_attachments(
+                    [row["id"] for row in rows],
+                    saved["id"]
+                )
 
-        conversation, prompt, saved = engine.prepare(
-            conversation,
-            message,
-            prompt_content=prompt_content,
-            attachment_ids=[row["id"] for row in rows],
-            image_urls=attachments.image_data_urls(rows),
-            intents=intents,
-            route_note=route_note,
-            tool_block=tool_block
-        )
+            store.auto_title(
+                conversation["id"],
+                message
+            )
+            conversation = store.get_conversation(
+                conversation["id"]
+            ) or conversation
+
+        else:
+
+            conversation, prompt, saved = engine.prepare(
+                conversation,
+                message,
+                prompt_content=prompt_content,
+                attachment_ids=[row["id"] for row in rows],
+                intents=intents,
+                route_note=route_note,
+                tool_block=tool_block,
+                assistant_mode=assistant_mode
+            )
 
         if tool_runs:
 
@@ -2052,17 +2614,6 @@ def chat_stream(payload: ChatRequest):
 
             precomputed = True
 
-        if not message and rows:
-
-            store.auto_title(
-                conversation["id"],
-                rows[0]["filename"]
-            )
-
-            conversation = store.get_conversation(
-                conversation["id"]
-            )
-
         meta_message = saved
 
     tool_calls = [
@@ -2080,16 +2631,197 @@ def chat_stream(payload: ChatRequest):
 
     def generate():
 
+        stream_conversation = conversation
+        stream_prompt = prompt if edit_id is not None or not deferred_review else None
+        stream_meta_message = meta_message
+        stream_tool_calls = tool_calls
+
         yield _event(
             "meta",
             {
-                "conversation": conversation,
-                "message": meta_message,
+                "conversation": stream_conversation,
+                "message": stream_meta_message,
                 "action": action,
-                "tool_calls": tool_calls,
+                "assistant_mode": assistant_mode,
+                "tool_calls": stream_tool_calls,
                 "tool_approvals": approval_rows
             }
         )
+
+        if deferred_review:
+
+            yield _event(
+                "investigation",
+                {
+                    "investigation_id": deferred_review["id"],
+                    "project_id": project_context["id"],
+                    "phase": "queued",
+                    "agent": "Agent Coordinator",
+                    "status": "queued",
+                    "message": "Preparing the project investigation."
+                }
+            )
+
+            events = queue.Queue()
+            review_result = {}
+
+            def execute_review():
+
+                try:
+
+                    review_result["planning"] = planner.run(
+                        message,
+                        recent_messages[-8:],
+                        activity,
+                        pending,
+                        attachments=rows,
+                        project=project_context,
+                        project_service=projects,
+                        visual_context=visual_context,
+                        coding_mode=assistant_mode == "coding",
+                        investigation_id=deferred_review["id"],
+                        conversation_id=stream_conversation["id"],
+                        message_id=saved["id"],
+                        progress_callback=events.put
+                    )
+
+                except Exception as error:
+
+                    review_result["error"] = error
+
+                finally:
+
+                    events.put(None)
+
+            worker = threading.Thread(
+                target=execute_review,
+                name="project-investigation",
+                daemon=True
+            )
+            worker.start()
+
+            while True:
+
+                try:
+
+                    update = events.get(timeout=15)
+
+                except queue.Empty:
+
+                    yield ": keepalive\n\n"
+                    continue
+
+                if update is None:
+
+                    break
+
+                yield _event("investigation", update)
+
+            worker.join()
+            review_planning = review_result.get("planning") or {
+                "runs": [],
+                "proposals": [],
+                "block": ""
+            }
+
+            if "error" in review_result:
+
+                error_text = str(review_result["error"])
+                print(
+                    f"[project investigation] {error_text}",
+                    flush=True
+                )
+                yield _event(
+                    "investigation",
+                    {
+                        "investigation_id": deferred_review["id"],
+                        "project_id": project_context["id"],
+                        "phase": "failed",
+                        "agent": "Agent Coordinator",
+                        "status": "failed",
+                        "message": error_text
+                    }
+                )
+                review_planning = {
+                    "runs": [
+                        {
+                            "name": "project_review",
+                            "args": deferred_review["args"],
+                            "ok": False,
+                            "output": "",
+                            "error": error_text,
+                            "seconds": 0.0
+                        }
+                    ],
+                    "proposals": [],
+                    "block": (
+                        "Project investigation failed: "
+                        f"{error_text}"
+                    )
+                }
+
+            review_runs = review_planning.get("runs") or []
+            review_block = (
+                review_planning.get("block") or None
+            )
+
+            for run in review_runs:
+
+                run_args = dict(run.get("args") or {})
+                run_args["investigation_id"] = deferred_review["id"]
+                store.add_tool_run(
+                    stream_conversation["id"],
+                    run.get("name") or "",
+                    args=json.dumps(run_args),
+                    status="ok" if run.get("ok") else "error",
+                    seconds=run.get("seconds") or 0,
+                    output_chars=len(
+                        run.get("output") or run.get("error") or ""
+                    ),
+                    output=(
+                        run.get("output") or run.get("error") or ""
+                    )[:600],
+                    message_id=saved["id"]
+                )
+
+            stream_tool_calls = [
+                {
+                    "tool": run.get("name") or "",
+                    "args": run.get("args") or {},
+                    "ok": bool(run.get("ok")),
+                    "seconds": round(float(run.get("seconds") or 0), 2),
+                    "output": (
+                        run.get("output") or run.get("error") or ""
+                    )[:1500],
+                    "investigation_id": deferred_review["id"]
+                }
+                for run in review_runs
+            ]
+
+            stream_conversation, stream_prompt, stream_meta_message = (
+                engine.prepare_saved(
+                    stream_conversation,
+                    saved,
+                    message,
+                    prompt_content=prompt_content,
+                    intents=intents,
+                    route_note=route_note,
+                    tool_block=review_block,
+                    assistant_mode=assistant_mode
+                )
+            )
+
+            yield _event(
+                "meta",
+                {
+                    "conversation": stream_conversation,
+                    "message": stream_meta_message,
+                    "action": action,
+                    "assistant_mode": assistant_mode,
+                    "tool_calls": stream_tool_calls,
+                    "tool_approvals": approval_rows
+                }
+            )
 
         if precomputed:
 
@@ -2102,9 +2834,9 @@ def chat_stream(payload: ChatRequest):
                 "done",
                 {
                     "conversation": store.get_conversation(
-                        conversation["id"]
+                        stream_conversation["id"]
                     ),
-                    "message": _last_assistant(conversation["id"])
+                    "message": _last_assistant(stream_conversation["id"])
                 }
             )
 
@@ -2115,8 +2847,8 @@ def chat_stream(payload: ChatRequest):
         try:
 
             for chunk in engine.stream(
-                conversation,
-                prompt
+                stream_conversation,
+                stream_prompt
             ):
 
                 yield _event(
@@ -2137,7 +2869,7 @@ def chat_stream(payload: ChatRequest):
                 "done",
                 {
                     "conversation": store.get_conversation(
-                        conversation["id"]
+                        stream_conversation["id"]
                     )
                 }
             )
@@ -2157,7 +2889,7 @@ def chat_stream(payload: ChatRequest):
                 "done",
                 {
                     "conversation": store.get_conversation(
-                        conversation["id"]
+                        stream_conversation["id"]
                     )
                 }
             )
@@ -2168,15 +2900,15 @@ def chat_stream(payload: ChatRequest):
 
             if not failed:
 
-                memory.schedule(conversation["id"])
+                memory.schedule(stream_conversation["id"])
 
         yield _event(
             "done",
             {
                 "conversation": store.get_conversation(
-                    conversation["id"]
+                    stream_conversation["id"]
                 ),
-                "message": _last_assistant(conversation["id"])
+                "message": _last_assistant(stream_conversation["id"])
             }
         )
 

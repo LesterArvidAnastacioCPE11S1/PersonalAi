@@ -29,7 +29,6 @@ class ModelConfig:
 class ContextConfig:
     max_messages: int = 24
     max_chars: int = 16000
-    attachment_chars: int = 12000
 
 
 @dataclass

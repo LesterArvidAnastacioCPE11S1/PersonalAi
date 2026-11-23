@@ -71,7 +71,7 @@ class IntentModel:
         self.requested_backend = (
             backend
             or os.environ.get("PAI_INTENT_BACKEND")
-            or "auto"
+            or "corpus"
         ).strip().lower()
 
         self.backend = "unloaded"
@@ -239,19 +239,16 @@ class IntentModel:
             ).strip("; ")
             return False
 
-        items = []
+        path = self.data_dir / "train.json"
 
-        for name in ("train", "validation"):
+        if not path.exists():
 
-            path = self.data_dir / f"{name}.json"
+            self.load_error = f"no training data in {self.data_dir}"
+            return False
 
-            if not path.exists():
+        with open(path, "r", encoding="utf-8") as handle:
 
-                continue
-
-            with open(path, "r", encoding="utf-8") as handle:
-
-                items.extend(json.load(handle))
+            items = json.load(handle)
 
         if not items:
 
@@ -311,20 +308,19 @@ class IntentModel:
 
         stamp = []
 
-        for name in ("train", "validation"):
+        path = self.data_dir / "train.json"
 
-            path = self.data_dir / f"{name}.json"
+        try:
 
-            try:
+            stat = path.stat()
 
-                stat = path.stat()
+        except OSError:
 
-            except OSError:
+            stamp.append(("train", 0, 0))
 
-                stamp.append((name, 0, 0))
-                continue
+        else:
 
-            stamp.append((name, stat.st_mtime_ns, stat.st_size))
+            stamp.append(("train", stat.st_mtime_ns, stat.st_size))
 
         return tuple(stamp)
 

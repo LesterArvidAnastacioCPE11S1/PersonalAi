@@ -12,7 +12,6 @@ from pathlib import Path
 
 from features.attachments import AttachmentError
 
-
 POLL_SECONDS = 2
 START_SECONDS = 180
 SCENE_MIN_CHARS = 120

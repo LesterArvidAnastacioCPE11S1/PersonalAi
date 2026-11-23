@@ -94,6 +94,248 @@ TOOLS = [
         "risk": "read"
     },
     {
+        "name": "attachments_search",
+        "description": (
+            "Search extracted text from files attached in the current "
+            "message. Use the exact attachment_id shown in the request "
+            "context, or search all current attachments."
+        ),
+        "args": {
+            "query": {
+                "type": "str",
+                "required": True,
+                "description": "Text to find in attached file contents"
+            },
+            "attachment_id": {
+                "type": "str",
+                "required": False,
+                "description": "Limit the search to this current attachment"
+            },
+            "max_results": {
+                "type": "int",
+                "required": False,
+                "description": "Maximum matches to return; defaults to 10"
+            }
+        },
+        "risk": "read"
+    },
+    {
+        "name": "attachments_read",
+        "description": (
+            "Read a line range from the full extracted text of a file "
+            "attached in the current message."
+        ),
+        "args": {
+            "attachment_id": {
+                "type": "str",
+                "required": True,
+                "description": "Exact current attachment ID"
+            },
+            "start_line": {
+                "type": "int",
+                "required": False,
+                "description": "First line to return, starting at 1"
+            },
+            "max_lines": {
+                "type": "int",
+                "required": False,
+                "description": "Lines to return; defaults to 100"
+            }
+        },
+        "risk": "read"
+    },
+    {
+        "name": "project_search",
+        "description": (
+            "Search the full parsed contents of the active persistent "
+            "Roblox project, including scripts and hierarchy."
+        ),
+        "args": {
+            "query": {
+                "type": "str",
+                "required": True,
+                "description": "Text to find in the active Roblox project"
+            },
+            "project_id": {
+                "type": "str",
+                "required": False,
+                "description": "The active project ID from the request context"
+            },
+            "max_results": {
+                "type": "int",
+                "required": False,
+                "description": "Maximum matches to return; defaults to 10"
+            }
+        },
+        "risk": "read"
+    },
+    {
+        "name": "project_find_scripts",
+        "description": (
+            "Scan every indexed script in the active Roblox project for a "
+            "concept and related terms. Returns all matching script paths "
+            "and source-line evidence, with pagination for large result sets."
+        ),
+        "args": {
+            "query": {
+                "type": "str",
+                "required": True,
+                "description": (
+                    "Concept and relevant synonyms, alternate names, code "
+                    "identifiers, or API/property names to search for"
+                )
+            },
+            "project_id": {
+                "type": "str",
+                "required": False,
+                "description": "The active project ID from the request context"
+            },
+            "max_results": {
+                "type": "int",
+                "required": False,
+                "description": "Results per page; defaults to 100"
+            },
+            "offset": {
+                "type": "int",
+                "required": False,
+                "description": "Skip this many matching scripts"
+            }
+        },
+        "risk": "read"
+    },
+    {
+        "name": "project_review",
+        "description": (
+            "Run a coordinated investigation of the active Roblox project: "
+            "Project Scout discovers and retrieves scripts, Code Analyst "
+            "can request additional evidence, and Solution Planner runs "
+            "only after the coordinator verifies completeness. The shared "
+            "manifest and progress are persisted. Use scope 'all' only when "
+            "the user explicitly asks for every script."
+        ),
+        "args": {
+            "query": {
+                "type": "str",
+                "required": True,
+                "description": (
+                    "The feature, behavior, system, or user request to review"
+                )
+            },
+            "scope": {
+                "type": "str",
+                "required": False,
+                "description": "'related' or 'all'; defaults to related"
+            }
+        },
+        "risk": "read"
+    },
+    {
+        "name": "project_script_read",
+        "description": (
+            "Read up to 200 exact source lines from one indexed script. "
+            "Paginate with start_line for larger files, or use "
+            "project_review for complete multi-script source analysis."
+        ),
+        "args": {
+            "project_id": {
+                "type": "str",
+                "required": False,
+                "description": "The active project ID from the request context"
+            },
+            "script_id": {
+                "type": "str",
+                "required": True,
+                "description": "Exact script_id returned by project_find_scripts"
+            },
+            "start_line": {
+                "type": "int",
+                "required": False,
+                "description": "First source line to return, starting at 1"
+            },
+            "max_lines": {
+                "type": "int",
+                "required": False,
+                "description": "Source lines to return; defaults to 100"
+            }
+        },
+        "risk": "read"
+    },
+    {
+        "name": "project_read",
+        "description": (
+            "Read exact line ranges from the full parsed text of the active "
+            "Roblox project. Use project_search first to locate evidence."
+        ),
+        "args": {
+            "project_id": {
+                "type": "str",
+                "required": False,
+                "description": "The active project ID from the request context"
+            },
+            "start_line": {
+                "type": "int",
+                "required": False,
+                "description": "First parsed-text line to return, starting at 1"
+            },
+            "max_lines": {
+                "type": "int",
+                "required": False,
+                "description": "Lines to return; defaults to 100"
+            }
+        },
+        "risk": "read"
+    },
+    {
+        "name": "project_tree",
+        "description": (
+            "Browse children in the active Roblox project's complete "
+            "hierarchy. Omit parent_id for top-level instances."
+        ),
+        "args": {
+            "project_id": {
+                "type": "str",
+                "required": False,
+                "description": "The active project ID from the request context"
+            },
+            "parent_id": {
+                "type": "str",
+                "required": False,
+                "description": "Node ID returned by a previous project_tree call"
+            },
+            "offset": {
+                "type": "int",
+                "required": False,
+                "description": "Skip this many siblings; defaults to 0"
+            },
+            "limit": {
+                "type": "int",
+                "required": False,
+                "description": "Children to return; maximum 200"
+            }
+        },
+        "risk": "read"
+    },
+    {
+        "name": "project_node_read",
+        "description": (
+            "Read the exact properties of one hierarchy node in the active "
+            "Roblox project using its node_id from project_tree."
+        ),
+        "args": {
+            "project_id": {
+                "type": "str",
+                "required": False,
+                "description": "The active project ID from the request context"
+            },
+            "node_id": {
+                "type": "str",
+                "required": True,
+                "description": "Exact node_id returned by project_tree"
+            }
+        },
+        "risk": "read"
+    },
+    {
         "name": "files_write",
         "description": (
             "Create a text file inside the allowed folders, or replace an "

@@ -1,9 +1,21 @@
 import sqlite3
+import re
 import uuid
+import json
 
 from contextlib import closing
 from datetime import datetime, timezone
 from pathlib import Path
+
+from core.persona import (
+    DEFAULT_ASSISTANT_PERSONA_ID,
+    DEFAULT_ASSISTANT_PERSONA_NAME,
+    DEFAULT_ASSISTANT_PERSONA_TEXT,
+    DEFAULT_CODING_PERSONA_ID,
+    DEFAULT_CODING_PERSONA_NAME,
+    DEFAULT_CODING_PERSONA_TEXT,
+    DEFAULT_STORY_PERSONA_ID
+)
 
 
 SCHEMA = """
@@ -128,9 +140,124 @@ CREATE TABLE IF NOT EXISTS personas (
     created_at TEXT NOT NULL,
     updated_at TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS projects (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    filename TEXT NOT NULL,
+    source_path TEXT NOT NULL,
+    parsed_path TEXT NOT NULL,
+    instance_count INTEGER NOT NULL DEFAULT 0,
+    script_count INTEGER NOT NULL DEFAULT 0,
+    root_count INTEGER NOT NULL DEFAULT 0,
+    class_counts_json TEXT NOT NULL DEFAULT '{}',
+    properties_indexed INTEGER NOT NULL DEFAULT 0,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS project_nodes (
+    project_id TEXT NOT NULL,
+    node_id TEXT NOT NULL,
+    parent_id TEXT,
+    name TEXT NOT NULL,
+    class_name TEXT NOT NULL,
+    path TEXT NOT NULL,
+    depth INTEGER NOT NULL DEFAULT 0,
+    position INTEGER NOT NULL DEFAULT 0,
+    child_count INTEGER NOT NULL DEFAULT 0,
+    is_script INTEGER NOT NULL DEFAULT 0,
+    properties_json TEXT NOT NULL DEFAULT '[]',
+    PRIMARY KEY (project_id, node_id),
+    FOREIGN KEY (project_id) REFERENCES projects (id)
+        ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_project_nodes_parent
+    ON project_nodes (project_id, parent_id, position);
+
+CREATE INDEX IF NOT EXISTS idx_project_nodes_path
+    ON project_nodes (project_id, path);
+
+CREATE TABLE IF NOT EXISTS project_scripts (
+    project_id TEXT NOT NULL,
+    script_id TEXT NOT NULL,
+    path TEXT NOT NULL,
+    name TEXT NOT NULL,
+    class_name TEXT NOT NULL,
+    source TEXT NOT NULL,
+    PRIMARY KEY (project_id, script_id),
+    FOREIGN KEY (project_id) REFERENCES projects (id)
+        ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_project_scripts_path
+    ON project_scripts (project_id, path);
+
+CREATE VIRTUAL TABLE IF NOT EXISTS project_scripts_fts USING fts5(
+    project_id UNINDEXED,
+    script_id UNINDEXED,
+    path,
+    source
+);
+
+CREATE TABLE IF NOT EXISTS project_artifacts (
+    id TEXT PRIMARY KEY,
+    project_id TEXT NOT NULL,
+    title TEXT NOT NULL,
+    language TEXT NOT NULL DEFAULT 'luau',
+    source_script_id TEXT NOT NULL DEFAULT '',
+    source_path TEXT NOT NULL DEFAULT '',
+    base_content TEXT NOT NULL DEFAULT '',
+    content TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'pending',
+    output_path TEXT NOT NULL DEFAULT '',
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    FOREIGN KEY (project_id) REFERENCES projects (id)
+        ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_project_artifacts_project
+    ON project_artifacts (project_id, created_at DESC);
+
+CREATE TABLE IF NOT EXISTS project_investigations (
+    id TEXT PRIMARY KEY,
+    project_id TEXT NOT NULL,
+    conversation_id TEXT NOT NULL,
+    message_id INTEGER,
+    status TEXT NOT NULL DEFAULT 'queued',
+    manifest_json TEXT NOT NULL DEFAULT '{}',
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    FOREIGN KEY (project_id) REFERENCES projects (id)
+        ON DELETE CASCADE,
+    FOREIGN KEY (conversation_id) REFERENCES conversations (id)
+        ON DELETE CASCADE,
+    FOREIGN KEY (message_id) REFERENCES messages (id)
+        ON DELETE SET NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_project_investigations_project
+    ON project_investigations (project_id, updated_at DESC);
+
+CREATE INDEX IF NOT EXISTS idx_project_investigations_conversation
+    ON project_investigations (conversation_id, updated_at DESC);
+
+CREATE TABLE IF NOT EXISTS project_investigation_events (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    investigation_id TEXT NOT NULL,
+    event_json TEXT NOT NULL,
+    created_at TEXT NOT NULL,
+    FOREIGN KEY (investigation_id) REFERENCES project_investigations (id)
+        ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_project_investigation_events
+    ON project_investigation_events (investigation_id, id);
 """
 
-DEFAULT_PERSONA_ID = "default"
+DEFAULT_PERSONA_ID = DEFAULT_STORY_PERSONA_ID
 DEFAULT_PERSONA_NAME = "Unfiltered story"
 DEFAULT_PERSONA_TEXT = (
     "You are the narrator inside the user's private fiction. The user "
@@ -191,6 +318,14 @@ TOOL_RUN_COLUMNS = {
     "output": "TEXT NOT NULL DEFAULT ''"
 }
 
+PROJECT_NODE_COLUMNS = {
+    "properties_json": "TEXT NOT NULL DEFAULT '[]'"
+}
+
+PROJECT_COLUMNS = {
+    "properties_indexed": "INTEGER NOT NULL DEFAULT 0"
+}
+
 
 def _now():
 
@@ -245,7 +380,9 @@ class Store:
         tables = {
             "conversations": CONVERSATION_COLUMNS,
             "messages": MESSAGE_COLUMNS,
-            "tool_runs": TOOL_RUN_COLUMNS
+            "tool_runs": TOOL_RUN_COLUMNS,
+            "projects": PROJECT_COLUMNS,
+            "project_nodes": PROJECT_NODE_COLUMNS
         }
 
         for table, columns in tables.items():
@@ -268,31 +405,88 @@ class Store:
 
     def _seed_personas(self, connection):
 
-        row = connection.execute(
-            "SELECT COUNT(*) AS count FROM personas"
-        ).fetchone()
-
-        if int(row["count"] or 0):
-
-            return
-
         now = _now()
+        existing = {
+            row["id"]
+            for row in connection.execute(
+                "SELECT id FROM personas"
+            ).fetchall()
+        }
 
-        connection.execute(
-            """
-            INSERT INTO personas (
-                id, name, instructions, builtin, created_at, updated_at
+        if not existing:
+
+            connection.execute(
+                """
+                INSERT INTO personas (
+                    id, name, instructions, builtin, created_at, updated_at
+                )
+                VALUES (?, ?, ?, 1, ?, ?)
+                """,
+                (
+                    DEFAULT_PERSONA_ID,
+                    DEFAULT_PERSONA_NAME,
+                    DEFAULT_PERSONA_TEXT,
+                    now,
+                    now
+                )
             )
-            VALUES (?, ?, ?, 1, ?, ?)
-            """,
-            (
-                DEFAULT_PERSONA_ID,
-                DEFAULT_PERSONA_NAME,
-                DEFAULT_PERSONA_TEXT,
-                now,
-                now
+
+        if DEFAULT_CODING_PERSONA_ID not in existing:
+
+            connection.execute(
+                """
+                INSERT INTO personas (
+                    id, name, instructions, builtin, created_at, updated_at
+                )
+                VALUES (?, ?, ?, 1, ?, ?)
+                """,
+                (
+                    DEFAULT_CODING_PERSONA_ID,
+                    DEFAULT_CODING_PERSONA_NAME,
+                    DEFAULT_CODING_PERSONA_TEXT,
+                    now,
+                    now
+                )
             )
-        )
+            connection.execute(
+                """
+                UPDATE conversations
+                SET persona_id = ?, updated_at = ?
+                WHERE persona_id = ? AND phase = 'chat'
+                """,
+                (DEFAULT_CODING_PERSONA_ID, now, DEFAULT_PERSONA_ID)
+            )
+
+        if DEFAULT_ASSISTANT_PERSONA_ID not in existing:
+
+            connection.execute(
+                """
+                INSERT INTO personas (
+                    id, name, instructions, builtin, created_at, updated_at
+                )
+                VALUES (?, ?, ?, 1, ?, ?)
+                """,
+                (
+                    DEFAULT_ASSISTANT_PERSONA_ID,
+                    DEFAULT_ASSISTANT_PERSONA_NAME,
+                    DEFAULT_ASSISTANT_PERSONA_TEXT,
+                    now,
+                    now
+                )
+            )
+            connection.execute(
+                """
+                UPDATE conversations
+                SET persona_id = ?, updated_at = ?
+                WHERE phase = 'chat' AND persona_id IN (?, ?)
+                """,
+                (
+                    DEFAULT_ASSISTANT_PERSONA_ID,
+                    now,
+                    DEFAULT_PERSONA_ID,
+                    DEFAULT_CODING_PERSONA_ID
+                )
+            )
 
     def list_personas(self):
 
@@ -327,9 +521,13 @@ class Store:
                 """
                 SELECT *
                 FROM personas
-                ORDER BY builtin DESC, created_at ASC
+                ORDER BY
+                    CASE WHEN id = ? THEN 0 ELSE 1 END,
+                    builtin DESC,
+                    created_at ASC
                 LIMIT 1
-                """
+                """,
+                (DEFAULT_ASSISTANT_PERSONA_ID,)
             ).fetchone()
 
         return _row(row)
@@ -771,6 +969,178 @@ class Store:
             ).fetchall()
 
         return [_row(row) for row in reversed(rows)]
+
+    def create_project_investigation(
+        self,
+        investigation_id,
+        project_id,
+        conversation_id,
+        message_id,
+        manifest,
+        event
+    ):
+
+        now = _now()
+
+        with closing(self._connect()) as connection:
+
+            connection.execute(
+                """
+                INSERT INTO project_investigations (
+                    id, project_id, conversation_id, message_id, status,
+                    manifest_json, created_at, updated_at
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    investigation_id,
+                    project_id,
+                    conversation_id,
+                    message_id,
+                    manifest.get("investigation_status", "queued"),
+                    json.dumps(manifest, ensure_ascii=True),
+                    now,
+                    now
+                )
+            )
+            connection.execute(
+                """
+                INSERT INTO project_investigation_events (
+                    investigation_id, event_json, created_at
+                )
+                VALUES (?, ?, ?)
+                """,
+                (
+                    investigation_id,
+                    json.dumps(event, ensure_ascii=True),
+                    now
+                )
+            )
+            connection.commit()
+
+        return self.get_project_investigation(investigation_id)
+
+    def save_project_investigation(self, investigation_id, manifest, event):
+
+        now = _now()
+
+        with closing(self._connect()) as connection:
+
+            connection.execute(
+                """
+                UPDATE project_investigations
+                SET status = ?, manifest_json = ?, updated_at = ?
+                WHERE id = ?
+                """,
+                (
+                    manifest.get("investigation_status", "in_progress"),
+                    json.dumps(manifest, ensure_ascii=True),
+                    now,
+                    investigation_id
+                )
+            )
+            connection.execute(
+                """
+                INSERT INTO project_investigation_events (
+                    investigation_id, event_json, created_at
+                )
+                VALUES (?, ?, ?)
+                """,
+                (
+                    investigation_id,
+                    json.dumps(event, ensure_ascii=True),
+                    now
+                )
+            )
+            connection.commit()
+
+        return self.get_project_investigation(investigation_id)
+
+    @staticmethod
+    def _project_investigation(row):
+
+        item = _row(row)
+
+        if item is not None:
+
+            item["manifest"] = json.loads(item.pop("manifest_json") or "{}")
+
+        return item
+
+    def get_project_investigation(self, investigation_id):
+
+        with closing(self._connect()) as connection:
+
+            row = connection.execute(
+                """
+                SELECT id, project_id, conversation_id, message_id, status,
+                       manifest_json, created_at, updated_at
+                FROM project_investigations
+                WHERE id = ?
+                """,
+                (investigation_id,)
+            ).fetchone()
+
+        return self._project_investigation(row)
+
+    def list_project_investigations(self, project_id, limit=20):
+
+        with closing(self._connect()) as connection:
+
+            rows = connection.execute(
+                """
+                SELECT id, project_id, conversation_id, message_id, status,
+                       manifest_json, created_at, updated_at
+                FROM project_investigations
+                WHERE project_id = ?
+                ORDER BY updated_at DESC, id DESC
+                LIMIT ?
+                """,
+                (project_id, min(100, max(1, int(limit or 20))))
+            ).fetchall()
+
+        return [
+            self._project_investigation(row)
+            for row in rows
+        ]
+
+    def list_project_investigation_events(self, investigation_id, limit=500):
+
+        with closing(self._connect()) as connection:
+
+            rows = connection.execute(
+                """
+                SELECT id, event_json, created_at
+                FROM project_investigation_events
+                WHERE investigation_id = ?
+                ORDER BY id DESC
+                LIMIT ?
+                """,
+                (investigation_id, min(2_000, max(1, int(limit or 500))))
+            ).fetchall()
+
+        return [
+            {
+                "id": row["id"],
+                "event": json.loads(row["event_json"]),
+                "created_at": row["created_at"]
+            }
+            for row in reversed(rows)
+        ]
+
+    def set_project_investigation_message(self, investigation_id, message_id):
+
+        with closing(self._connect()) as connection:
+
+            connection.execute(
+                """
+                UPDATE project_investigations
+                SET message_id = ?
+                WHERE id = ?
+                """,
+                (message_id, investigation_id)
+            )
+            connection.commit()
 
     def add_tool_approval(
         self,
@@ -1253,6 +1623,19 @@ class Store:
 
         return self.get_attachment(attachment_id)
 
+    def update_attachment_text(self, attachment_id, text):
+
+        with closing(self._connect()) as connection:
+
+            connection.execute(
+                "UPDATE attachments SET text = ? WHERE id = ?",
+                (text or "", attachment_id)
+            )
+
+            connection.commit()
+
+        return self.get_attachment(attachment_id)
+
     def get_attachment(self, attachment_id):
 
         with closing(self._connect()) as connection:
@@ -1311,6 +1694,500 @@ class Store:
             ).fetchone()
 
         return row["total"] if row else 0
+
+    def create_project(self, project, nodes, scripts):
+
+        node_batch = []
+        script_batch = []
+        search_batch = []
+
+        with closing(self._connect()) as connection:
+
+            connection.execute(
+                """
+                INSERT INTO projects (
+                    id, name, filename, source_path, parsed_path,
+                    instance_count, script_count, root_count,
+                    class_counts_json, properties_indexed,
+                    created_at, updated_at
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    project["id"],
+                    project["name"],
+                    project["filename"],
+                    project["source_path"],
+                    project["parsed_path"],
+                    project["instance_count"],
+                    project["script_count"],
+                    project["root_count"],
+                    project["class_counts_json"],
+                    1,
+                    project["created_at"],
+                    project["updated_at"]
+                )
+            )
+
+            for node in nodes:
+
+                node_batch.append(
+                    (
+                        project["id"],
+                        node["node_id"],
+                        node["parent_id"],
+                        node["name"],
+                        node["class_name"],
+                        node["path"],
+                        node["depth"],
+                        node["position"],
+                        node["child_count"],
+                        int(node["is_script"]),
+                        json.dumps(
+                            node.get("properties") or [],
+                            ensure_ascii=True
+                        )
+                    )
+                )
+
+                if len(node_batch) >= 1000:
+
+                    connection.executemany(
+                        """
+                        INSERT INTO project_nodes (
+                            project_id, node_id, parent_id, name,
+                            class_name, path, depth, position,
+                            child_count, is_script, properties_json
+                        )
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        """,
+                        node_batch
+                    )
+                    node_batch.clear()
+
+            if node_batch:
+
+                connection.executemany(
+                    """
+                    INSERT INTO project_nodes (
+                        project_id, node_id, parent_id, name,
+                        class_name, path, depth, position,
+                        child_count, is_script, properties_json
+                    )
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    node_batch
+                )
+
+            for script in scripts:
+
+                script_batch.append(
+                    (
+                        project["id"],
+                        script["script_id"],
+                        script["path"],
+                        script["name"],
+                        script["class_name"],
+                        script["source"]
+                    )
+                )
+                search_batch.append(
+                    (
+                        project["id"],
+                        script["script_id"],
+                        script["path"],
+                        script["source"]
+                    )
+                )
+
+                if len(script_batch) >= 100:
+
+                    connection.executemany(
+                        """
+                        INSERT INTO project_scripts (
+                            project_id, script_id, path, name,
+                            class_name, source
+                        )
+                        VALUES (?, ?, ?, ?, ?, ?)
+                        """,
+                        script_batch
+                    )
+                    connection.executemany(
+                        """
+                        INSERT INTO project_scripts_fts (
+                            project_id, script_id, path, source
+                        )
+                        VALUES (?, ?, ?, ?)
+                        """,
+                        search_batch
+                    )
+                    script_batch.clear()
+                    search_batch.clear()
+
+            if script_batch:
+
+                connection.executemany(
+                    """
+                    INSERT INTO project_scripts (
+                        project_id, script_id, path, name,
+                        class_name, source
+                    )
+                    VALUES (?, ?, ?, ?, ?, ?)
+                    """,
+                    script_batch
+                )
+                connection.executemany(
+                    """
+                    INSERT INTO project_scripts_fts (
+                        project_id, script_id, path, source
+                    )
+                    VALUES (?, ?, ?, ?)
+                    """,
+                    search_batch
+                )
+
+            connection.commit()
+
+        return self.get_project(project["id"])
+
+    def list_projects(self):
+
+        with closing(self._connect()) as connection:
+
+            rows = connection.execute(
+                "SELECT * FROM projects ORDER BY updated_at DESC, name"
+            ).fetchall()
+
+        return [_row(row) for row in rows]
+
+    def get_project(self, project_id):
+
+        with closing(self._connect()) as connection:
+
+            row = connection.execute(
+                "SELECT * FROM projects WHERE id = ?",
+                (project_id,)
+            ).fetchone()
+
+        return _row(row)
+
+    def delete_project(self, project_id):
+
+        with closing(self._connect()) as connection:
+
+            connection.execute(
+                "DELETE FROM project_scripts_fts WHERE project_id = ?",
+                (project_id,)
+            )
+            cursor = connection.execute(
+                "DELETE FROM projects WHERE id = ?",
+                (project_id,)
+            )
+            connection.commit()
+
+        return cursor.rowcount > 0
+
+    def list_project_nodes(
+        self,
+        project_id,
+        parent_id=None,
+        limit=200,
+        offset=0
+    ):
+
+        if parent_id is None:
+
+            condition = "parent_id IS NULL"
+            parameters = [project_id]
+
+        else:
+
+            condition = "parent_id = ?"
+            parameters = [project_id, parent_id]
+
+        parameters.extend([limit, offset])
+
+        with closing(self._connect()) as connection:
+
+            rows = connection.execute(
+                f"""
+                SELECT node_id, parent_id, name, class_name, path,
+                       depth, position, child_count, is_script
+                FROM project_nodes
+                WHERE project_id = ? AND {condition}
+                ORDER BY position
+                LIMIT ? OFFSET ?
+                """,
+                parameters
+            ).fetchall()
+
+        return [_row(row) for row in rows]
+
+    def get_project_node(self, project_id, node_id):
+
+        with closing(self._connect()) as connection:
+
+            row = connection.execute(
+                """
+                SELECT node_id, parent_id, name, class_name, path,
+                       depth, position, child_count, is_script,
+                       properties_json
+                FROM project_nodes
+                WHERE project_id = ? AND node_id = ?
+                """,
+                (project_id, node_id)
+            ).fetchone()
+
+        return _row(row)
+
+    def update_project_node_properties(self, project_id, nodes):
+
+        batch = []
+
+        with closing(self._connect()) as connection:
+
+            for node in nodes:
+
+                batch.append(
+                    (
+                        json.dumps(
+                            node.get("properties") or [],
+                            ensure_ascii=True
+                        ),
+                        project_id,
+                        node["node_id"]
+                    )
+                )
+
+                if len(batch) >= 1000:
+
+                    connection.executemany(
+                        """
+                        UPDATE project_nodes
+                        SET properties_json = ?
+                        WHERE project_id = ? AND node_id = ?
+                        """,
+                        batch
+                    )
+                    batch.clear()
+
+            if batch:
+
+                connection.executemany(
+                    """
+                    UPDATE project_nodes
+                    SET properties_json = ?
+                    WHERE project_id = ? AND node_id = ?
+                    """,
+                    batch
+                )
+
+            connection.execute(
+                """
+                UPDATE projects
+                SET properties_indexed = 1
+                WHERE id = ?
+                """,
+                (project_id,)
+            )
+            connection.commit()
+
+    def list_project_scripts(self, project_id, limit=500, offset=0):
+
+        with closing(self._connect()) as connection:
+
+            rows = connection.execute(
+                """
+                SELECT script_id, path, name, class_name
+                FROM project_scripts
+                WHERE project_id = ?
+                ORDER BY path COLLATE NOCASE
+                LIMIT ? OFFSET ?
+                """,
+                (project_id, limit, offset)
+            ).fetchall()
+
+        return [_row(row) for row in rows]
+
+    def iter_project_script_sources(self, project_id):
+
+        connection = self._connect()
+
+        try:
+
+            cursor = connection.execute(
+                """
+                SELECT script_id, path, name, class_name, source
+                FROM project_scripts
+                WHERE project_id = ?
+                ORDER BY path COLLATE NOCASE
+                """,
+                (project_id,)
+            )
+
+            for row in cursor:
+
+                yield _row(row)
+
+        finally:
+
+            connection.close()
+
+    def search_project_scripts(self, project_id, query, limit=20):
+
+        terms = re.findall(r"[\w]+", query, flags=re.UNICODE)
+
+        if not terms:
+
+            return []
+
+        match = " AND ".join(
+            '"' + term.replace('"', '""') + '"'
+            for term in terms
+        )
+
+        with closing(self._connect()) as connection:
+
+            rows = connection.execute(
+                """
+                SELECT s.script_id, s.path, s.name, s.class_name
+                FROM project_scripts_fts f
+                JOIN project_scripts s
+                  ON s.project_id = f.project_id
+                 AND s.script_id = f.script_id
+                WHERE project_scripts_fts MATCH ?
+                  AND f.project_id = ?
+                ORDER BY bm25(project_scripts_fts)
+                LIMIT ?
+                """,
+                (match, project_id, limit)
+            ).fetchall()
+
+        return [_row(row) for row in rows]
+
+    def get_project_script(self, project_id, script_id):
+
+        with closing(self._connect()) as connection:
+
+            row = connection.execute(
+                """
+                SELECT script_id, path, name, class_name, source
+                FROM project_scripts
+                WHERE project_id = ? AND script_id = ?
+                """,
+                (project_id, script_id)
+            ).fetchone()
+
+        return _row(row)
+
+    def create_project_artifact(
+        self,
+        project_id,
+        title,
+        language,
+        content,
+        source_script_id=""
+    ):
+
+        artifact_id = uuid.uuid4().hex
+        now = _now()
+        source = self.get_project_script(project_id, source_script_id) \
+            if source_script_id else None
+
+        if source_script_id and source is None:
+
+            return None
+
+        with closing(self._connect()) as connection:
+
+            connection.execute(
+                """
+                INSERT INTO project_artifacts (
+                    id, project_id, title, language, source_script_id,
+                    source_path, base_content, content, status,
+                    output_path, created_at, updated_at
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', '', ?, ?)
+                """,
+                (
+                    artifact_id,
+                    project_id,
+                    title,
+                    language,
+                    source_script_id or "",
+                    source["path"] if source else "",
+                    source["source"] if source else "",
+                    content,
+                    now,
+                    now
+                )
+            )
+            connection.commit()
+
+        return self.get_project_artifact(project_id, artifact_id)
+
+    def get_project_artifact(self, project_id, artifact_id):
+
+        with closing(self._connect()) as connection:
+
+            row = connection.execute(
+                """
+                SELECT *
+                FROM project_artifacts
+                WHERE project_id = ? AND id = ?
+                """,
+                (project_id, artifact_id)
+            ).fetchone()
+
+        return _row(row)
+
+    def list_project_artifacts(self, project_id):
+
+        with closing(self._connect()) as connection:
+
+            rows = connection.execute(
+                """
+                SELECT *
+                FROM project_artifacts
+                WHERE project_id = ?
+                ORDER BY created_at DESC
+                """,
+                (project_id,)
+            ).fetchall()
+
+        return [_row(row) for row in rows]
+
+    def decide_project_artifact(
+        self,
+        project_id,
+        artifact_id,
+        status,
+        output_path=""
+    ):
+
+        with closing(self._connect()) as connection:
+
+            cursor = connection.execute(
+                """
+                UPDATE project_artifacts
+                SET status = ?, output_path = ?, updated_at = ?
+                WHERE project_id = ? AND id = ? AND status = 'pending'
+                """,
+                (
+                    status,
+                    output_path,
+                    _now(),
+                    project_id,
+                    artifact_id
+                )
+            )
+            connection.commit()
+
+        if cursor.rowcount == 0:
+
+            return None
+
+        return self.get_project_artifact(project_id, artifact_id)
 
     def link_attachments(self, attachment_ids, message_id):
 

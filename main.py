@@ -105,7 +105,6 @@ def main():
             )
         )
     )
-    print("Attachments: 6 files max, text/PDF/DOCX/images/Roblox files")
     print(
         "Freedom    : "
         + (

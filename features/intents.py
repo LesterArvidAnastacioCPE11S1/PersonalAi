@@ -1,3 +1,5 @@
+import re
+
 from features.intent_model import get_intent_model
 
 
@@ -15,6 +17,7 @@ INTENT_ORDER = (
     "revise",
     "start_over",
     "mode_chat",
+    "coding",
     "question",
     "chat",
     "continue_story",
@@ -154,6 +157,14 @@ INTENT_GUIDANCE = {
             "two focused questions. Do not treat the answer as story canon."
         )
     },
+    "coding": {
+        "chat": (
+            "The user is asking about code or a software project. Use the "
+            "coding mode for this turn. If they requested a change, inspect "
+            "the relevant existing source and provide the concrete change "
+            "instead of a generic example."
+        )
+    },
     "chat": {
         "setup": (
             "The user is making conversation instead of answering the "
@@ -222,9 +233,182 @@ def normalize(message):
     return " ".join((message or "").split())
 
 
+CODING_LANGUAGE_CUES = re.compile(
+    r"\b(?:luau?|python|javascript|typescript|java|c\+\+|c#|rust|"
+    r"golang|php|ruby|sql|html|css|powershell|bash|programming|"
+    r"source code|codebase|stack trace|traceback|compiler|compile|"
+    r"syntax error|exception|pathfinding(?:service)?|datastoreservice|"
+    r"remoteevent|remotefunction|humanoid|tweenservice|vector3|"
+    r"replicatedstorage|serverscriptservice|localscript|modulescript|"
+    r"roblox studio)\b",
+    re.IGNORECASE
+)
+CODING_SUBJECT_CUES = re.compile(
+    r"\b(?:code|codes|script|scripts|program|programs|bug|bugs|"
+    r"debug|function|functions|module|modules|api|algorithm|"
+    r"source|syntax|error|errors|pathfinding|npc|npcs|mechanic|"
+    r"mechanics|system|systems|feature|features|movement|behavior|"
+    r"behaviour)\b",
+    re.IGNORECASE
+)
+CODING_ACTION_CUES = re.compile(
+    r"\b(?:add|analy[sz]e|build|change|check|create|debug|edit|"
+    r"explain|extend|fix|help|implement|improve|inspect|make|modify|"
+    r"optimi[sz]e|refactor|repair|review|rewrite|update|write|"
+    r"what is|what does|how do|how can|why does|why is|tell me about)\b",
+    re.IGNORECASE
+)
+STRONG_CODING_ACTION_CUES = re.compile(
+    r"\b(?:add|build|change|create|debug|edit|fix|implement|modify|"
+    r"optimi[sz]e|refactor|repair|rewrite|update|write)\b",
+    re.IGNORECASE
+)
+CODING_FOLLOW_UP_CUES = re.compile(
+    r"\b(?:go ahead|do that|do it|yes|sure|please do|apply it|"
+    r"make those changes|make that change|use that|do what you "
+    r"recommended|do what you suggested)\b",
+    re.IGNORECASE
+)
+STORY_REQUEST_CUES = re.compile(
+    r"\b(?:story|stories|roleplay|scene|narrative|chapter|fiction|"
+    r"character|protagonist)\b",
+    re.IGNORECASE
+)
+STORY_CREATION_CUES = re.compile(
+    r"\b(?:tell|write|create|invent|make|continue|expand|rewrite)\b"
+    r".{0,40}\b(?:story|stories|roleplay|scene|narrative|chapter|"
+    r"fiction)\b",
+    re.IGNORECASE
+)
+STORY_INTENTS = {
+    "begin_story",
+    "continue_story",
+    "creative_writing",
+    "roleplay",
+    "storytelling"
+}
+
+
 def understand(message):
 
     return get_intent_model().classify(normalize(message))
+
+
+def is_coding_request(
+    message,
+    understanding=None,
+    phase="chat",
+    history=None,
+    project_active=False
+):
+
+    text = normalize(message)
+
+    if not text:
+
+        return False
+
+    has_language = bool(CODING_LANGUAGE_CUES.search(text))
+    has_subject = bool(CODING_SUBJECT_CUES.search(text))
+    has_action = bool(CODING_ACTION_CUES.search(text))
+    story_confident = bool(
+        understanding
+        and understanding.label in STORY_INTENTS
+        and understanding.confidence >= 0.40
+    )
+
+    if story_confident:
+
+        if (
+            STORY_REQUEST_CUES.search(text)
+            and (
+                STORY_CREATION_CUES.search(text)
+                or not (
+                    has_subject
+                    and STRONG_CODING_ACTION_CUES.search(text)
+                )
+            )
+        ):
+
+            return False
+
+        if not (
+            (has_language or has_subject)
+            and has_action
+            or (
+                project_active
+                and has_subject
+                and STRONG_CODING_ACTION_CUES.search(text)
+            )
+        ):
+
+            return False
+
+    if has_language:
+
+        return True
+
+    if has_subject and has_action:
+
+        return True
+
+    if (
+        understanding
+        and understanding.label == "coding"
+        and understanding.confidence >= 0.22
+    ):
+
+        return True
+
+    context = " ".join(
+        str(item.get("content") or "")
+        for item in (history or [])[-6:]
+        if item.get("role") in {"user", "assistant"}
+    )
+    has_code_context = bool(
+        CODING_LANGUAGE_CUES.search(context)
+        or (
+            CODING_SUBJECT_CUES.search(context)
+            and CODING_ACTION_CUES.search(context)
+        )
+    )
+
+    return bool(
+        has_code_context
+        and (
+            CODING_FOLLOW_UP_CUES.search(text)
+            or (
+                project_active
+                and has_action
+                and len(text.split()) <= 12
+            )
+        )
+    )
+
+
+def assistant_mode_for(
+    message,
+    understanding=None,
+    phase="chat",
+    history=None,
+    project_active=False
+):
+
+    if is_coding_request(
+        message,
+        understanding,
+        phase,
+        history,
+        project_active
+    ):
+
+        return "coding"
+
+    if phase in {"setup", "story"}:
+
+        return "story"
+
+    return "assistant"
 
 
 def intents_from(turn):

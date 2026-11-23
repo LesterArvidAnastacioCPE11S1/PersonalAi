@@ -7,6 +7,38 @@ const els = {
   logout: document.getElementById("logout-button"),
   loggedOff: document.getElementById("logged-off"),
   scenarioButton: document.getElementById("scenario-button"),
+  projectsOpen: document.getElementById("projects-open"),
+  projectTop: document.getElementById("project-top"),
+  projectDialog: document.getElementById("project-dialog"),
+  projectClose: document.getElementById("project-close"),
+  projectImport: document.getElementById("project-import"),
+  projectFileInput: document.getElementById("project-file-input"),
+  projectList: document.getElementById("project-list"),
+  projectEmpty: document.getElementById("project-empty"),
+  projectWorkspace: document.getElementById("project-workspace"),
+  projectName: document.getElementById("project-name"),
+  projectStats: document.getElementById("project-stats"),
+  projectActivate: document.getElementById("project-activate"),
+  projectDelete: document.getElementById("project-delete"),
+  projectTree: document.getElementById("project-tree"),
+  projectSearchForm: document.getElementById("project-search-form"),
+  projectSearchInput: document.getElementById("project-search-input"),
+  projectSearchResults: document.getElementById("project-search-results"),
+  projectNodeMeta: document.getElementById("project-node-meta"),
+  projectCodeView: document.getElementById("project-code-view"),
+  projectDocsForm: document.getElementById("project-docs-form"),
+  projectDocsInput: document.getElementById("project-docs-input"),
+  projectDocsResults: document.getElementById("project-docs-results"),
+  projectDrafts: document.getElementById("project-drafts"),
+  projectInvestigationList: document.getElementById(
+    "project-investigation-list"
+  ),
+  projectInvestigationDetail: document.getElementById(
+    "project-investigation-detail"
+  ),
+  artifactSaveProject: document.getElementById("artifact-save-project"),
+  artifactProjectTarget: document.getElementById("artifact-project-target"),
+  artifactTargetScript: document.getElementById("artifact-target-script"),
   personaTop: document.getElementById("persona-top"),
   composerPlus: document.getElementById("composer-plus"),
   plusMenu: document.getElementById("plus-menu"),
@@ -123,6 +155,7 @@ const state = {
   personaDefaultId: "",
   editingPersonaId: "",
   pendingPersonaId: "",
+  responseMode: "",
   styles: null,
   selectedStyle: "",
   editingId: null,
@@ -135,6 +168,15 @@ const state = {
   settings: null,
   toolRoots: [],
   toolDrives: [],
+  projects: [],
+  activeProjectId: "",
+  projectScripts: [],
+  projectScriptsProjectId: "",
+  projectInvestigations: [],
+  selectedProject: null,
+  selectedProjectScript: null,
+  projectTreeCache: new Map(),
+  projectTreeExpanded: new Set(),
   attachments: [],
   uploads: 0,
   plusOpen: false,
@@ -142,7 +184,6 @@ const state = {
   painting: false
 };
 
-const MAX_FILES = 6;
 let localFileId = 0;
 
 const CATEGORY_LABELS = {
@@ -217,10 +258,15 @@ function updateStyleLabel() {
   els.plusStyleCurrent.textContent = styleLabel(activeStyle());
 }
 
-async function api(path, options = {}) {
+async function api(path, options = {}, timeoutMs = 15000) {
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+
   const request = {
     method: options.method || "GET",
-    headers: {}
+    headers: {},
+    signal: controller.signal
   };
 
   if (options.body !== undefined) {
@@ -228,22 +274,38 @@ async function api(path, options = {}) {
     request.body = JSON.stringify(options.body);
   }
 
-  const response = await fetch(path, request);
+  try {
 
-  if (!response.ok) {
-    let detail = response.statusText;
+    const response = await fetch(path, request);
 
-    try {
-      const payload = await response.json();
-      detail = payload.detail || detail;
-    } catch (error) {
-      detail = response.statusText || "Request failed.";
+    clearTimeout(timeout);
+
+    if (!response.ok) {
+      let detail = response.statusText;
+
+      try {
+        const payload = await response.json();
+        detail = payload.detail || detail;
+      } catch (error) {
+        detail = response.statusText || "Request failed.";
+      }
+
+      throw new Error(detail);
     }
 
-    throw new Error(detail);
-  }
+    return response.json();
 
-  return response.json();
+  } catch (error) {
+
+    clearTimeout(timeout);
+
+    if (error.name === "AbortError") {
+
+      throw new Error("Request timed out. The server may be slow or unreachable.");
+    }
+
+    throw error;
+  }
 }
 
 function toast(message) {
@@ -353,6 +415,43 @@ function pendingAttachments() {
   return state.attachments.filter(
     (entry) => !entry.message_id
   );
+}
+
+function renderMessageAttachments(entries) {
+  const wrap = document.createElement("div");
+  wrap.className = "message-attachments";
+
+  for (const entry of entries) {
+    const chip = document.createElement("div");
+    chip.className = "attachment-chip";
+
+    const thumb = document.createElement("div");
+    thumb.className = "attachment-thumb";
+
+    if (entry.kind === "image" && entry.url) {
+      const image = document.createElement("img");
+      image.src = entry.url;
+      image.alt = entry.filename;
+      thumb.append(image);
+    } else {
+      thumb.innerHTML = fileIcon();
+    }
+
+    const info = document.createElement("div");
+    info.className = "attachment-info";
+
+    const name = document.createElement("span");
+    name.className = "attachment-name";
+    name.textContent = entry.filename;
+    name.title = entry.filename;
+
+    info.append(name);
+
+    chip.append(thumb, info);
+    wrap.append(chip);
+  }
+
+  return wrap;
 }
 
 const artifactStore = new Map();
@@ -515,11 +614,62 @@ function openArtifact(key) {
   activeArtifactKey = key;
 
   els.artifactTitle.textContent = meta.title || "Code";
-  els.artifactSub.textContent = `Code - ${meta.language}`;
+  els.artifactSub.textContent = meta.projectSource
+    ? `${meta.className} · project source`
+    : `Code - ${meta.language}`;
   els.artifactCode.innerHTML = renderArtifactLines(meta.code);
 
   els.artifactPanel.classList.add("open");
   els.artifactPanel.setAttribute("aria-hidden", "false");
+  updateArtifactProjectControls();
+}
+
+function registerProjectSource(projectId, script) {
+  const key = hashString(
+    `project:${projectId}:${script.script_id}`
+  );
+
+  if (
+    !artifactStore.has(key)
+    && artifactStore.size >= ARTIFACT_STORE_LIMIT
+  ) {
+    artifactStore.delete(artifactStore.keys().next().value);
+  }
+
+  artifactStore.set(key, {
+    code: script.source || "",
+    language: artifactLanguageLabel("luau"),
+    rawLanguage: "luau",
+    title: script.path,
+    projectSource: true,
+    className: script.class_name || "Script"
+  });
+
+  return key;
+}
+
+async function openProjectSource(scriptId) {
+  const projectId = state.activeProjectId;
+
+  if (!projectId) {
+    toast("Select an active project to open this script.");
+    return;
+  }
+
+  try {
+    const data = await api(
+      `/api/projects/${encodeURIComponent(projectId)}`
+      + `/scripts/${encodeURIComponent(scriptId)}`
+    );
+
+    if (state.activeProjectId !== projectId) {
+      return;
+    }
+
+    openArtifact(registerProjectSource(projectId, data.script));
+  } catch (error) {
+    toast("Could not open project source: " + error.message);
+  }
 }
 
 function closeArtifact() {
@@ -566,18 +716,760 @@ function downloadActiveArtifact() {
   URL.revokeObjectURL(url);
 }
 
-function messageAttachmentsFor(message) {
-  if (Array.isArray(message.attachments)) {
-    return message.attachments;
-  }
-
-  if (!message.id) {
-    return [];
-  }
-
-  return state.attachments.filter(
-    (entry) => entry.message_id === message.id
+function updateProjectTop() {
+  const project = state.projects.find(
+    (item) => item.id === state.activeProjectId
   );
+  els.projectTop.textContent = project
+    ? `Project: ${project.name}`
+    : "No project";
+  els.projectTop.title = project
+    ? `Active project: ${project.name}`
+    : "Choose a persistent project";
+}
+
+function refreshProjectPathLinks() {
+  for (const message of state.messages) {
+    if (message.role !== "assistant" || !message.element) {
+      continue;
+    }
+
+    const text = message.element.querySelector(".message-text");
+
+    if (text && message.content) {
+      text.innerHTML = renderMarkdown(message.content);
+    }
+  }
+}
+
+async function loadActiveProjectScripts() {
+  const projectId = state.activeProjectId;
+
+  if (!projectId) {
+    state.projectScripts = [];
+    state.projectScriptsProjectId = "";
+    refreshProjectPathLinks();
+    return;
+  }
+
+  if (state.projectScriptsProjectId === projectId) {
+    return;
+  }
+
+  state.projectScripts = [];
+  state.projectScriptsProjectId = projectId;
+  refreshProjectPathLinks();
+
+  try {
+    const scripts = [];
+    let offset = 0;
+    let batch = [];
+
+    do {
+      const params = new URLSearchParams({
+        limit: "500",
+        offset: String(offset)
+      });
+      const data = await api(
+        `/api/projects/${encodeURIComponent(projectId)}`
+        + `/scripts?${params}`
+      );
+      batch = data.scripts || [];
+      scripts.push(...batch);
+      offset += batch.length;
+    } while (batch.length === 500);
+
+    if (state.activeProjectId !== projectId) {
+      return;
+    }
+
+    state.projectScripts = scripts;
+    refreshProjectPathLinks();
+  } catch (error) {
+    if (state.activeProjectId === projectId) {
+      state.projectScripts = [];
+      state.projectScriptsProjectId = "";
+      refreshProjectPathLinks();
+    }
+    throw error;
+  }
+}
+
+function renderProjectList() {
+  els.projectList.replaceChildren();
+
+  if (!state.projects.length) {
+    const empty = document.createElement("div");
+    empty.className = "project-empty-note";
+    empty.textContent = "No projects yet. Import a Roblox place or model.";
+    els.projectList.append(empty);
+    return;
+  }
+
+  for (const project of state.projects) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "project-list-item";
+    button.classList.toggle(
+      "active",
+      project.id === state.selectedProject?.id
+    );
+
+    const title = document.createElement("strong");
+    title.textContent = project.name;
+
+    const details = document.createElement("span");
+    details.textContent =
+      `${project.script_count} scripts · ${project.instance_count} instances`;
+
+    button.append(title, details);
+
+    if (project.id === state.activeProjectId) {
+      const badge = document.createElement("small");
+      badge.textContent = "In chat";
+      button.append(badge);
+    }
+
+    button.dataset.projectId = project.id;
+    els.projectList.append(button);
+  }
+}
+
+async function loadProjects() {
+  const data = await api("/api/projects");
+  state.projects = Array.isArray(data.projects) ? data.projects : [];
+
+  try {
+    const savedId = localStorage.getItem("personalai.activeProjectId");
+    state.activeProjectId = state.projects.some(
+      (project) => project.id === savedId
+    ) ? savedId : "";
+  } catch (error) {
+    state.activeProjectId = "";
+  }
+
+  updateProjectTop();
+  renderProjectList();
+
+  try {
+    await loadActiveProjectScripts();
+  } catch (error) {
+    console.warn("Could not load active project scripts:", error);
+  }
+}
+
+function openProjectDialog() {
+  if (!els.projectDialog.open) {
+    els.projectDialog.showModal();
+  }
+
+  loadProjects().catch((error) => {
+    toast("Could not load projects: " + error.message);
+  });
+}
+
+function closeProjectDialog() {
+  if (els.projectDialog.open) {
+    els.projectDialog.close();
+  }
+}
+
+async function importProjectFile(file) {
+  const form = new FormData();
+  form.append("file", file);
+  els.projectImport.disabled = true;
+  els.projectImport.textContent = "Indexing…";
+
+  try {
+    const response = await fetch("/api/projects/import", {
+      method: "POST",
+      body: form
+    });
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.detail || response.statusText);
+    }
+
+    await loadProjects();
+    await openProject(data.project.id);
+    toast(
+      `Indexed ${data.project.script_count} scripts and `
+      + `${data.project.instance_count} hierarchy entries.`
+    );
+  } catch (error) {
+    toast("Project import failed: " + error.message);
+  } finally {
+    els.projectImport.disabled = false;
+    els.projectImport.textContent = "Import place/model";
+    els.projectFileInput.value = "";
+  }
+}
+
+function setActiveProject(projectId) {
+  state.activeProjectId = projectId || "";
+
+  try {
+    if (state.activeProjectId) {
+      localStorage.setItem(
+        "personalai.activeProjectId",
+        state.activeProjectId
+      );
+    } else {
+      localStorage.removeItem("personalai.activeProjectId");
+    }
+  } catch (error) {
+    console.warn("Could not persist active project selection:", error);
+  }
+
+  updateProjectTop();
+  renderProjectList();
+  loadActiveProjectScripts().catch((error) => {
+    console.warn("Could not load active project scripts:", error);
+  });
+  els.projectActivate.textContent =
+    state.selectedProject?.id === state.activeProjectId
+      ? "Remove from chat"
+      : "Use in chat";
+  updateArtifactProjectControls();
+}
+
+async function openProject(projectId) {
+  const data = await api(`/api/projects/${encodeURIComponent(projectId)}`);
+  state.selectedProject = data.project;
+  state.selectedProjectScript = null;
+  state.projectTreeCache = new Map();
+  state.projectTreeExpanded = new Set();
+  els.projectEmpty.classList.add("hidden");
+  els.projectWorkspace.classList.remove("hidden");
+  els.projectName.textContent = data.project.name;
+  const topClasses = Object.entries(data.project.class_counts || {})
+    .sort((left, right) => right[1] - left[1])
+    .slice(0, 4)
+    .map(([name, count]) => `${name} ${count}`)
+    .join(" · ");
+  els.projectStats.textContent =
+    `${data.project.filename} · ${data.project.instance_count} instances · `
+    + `${data.project.script_count} scripts · ${data.project.root_count} roots`
+    + (topClasses ? ` · ${topClasses}` : "");
+  els.projectNodeMeta.textContent =
+    "Select a script or hierarchy item. Files are read on demand.";
+  els.projectCodeView.textContent =
+    "Original place data is preserved. Accepted code drafts are exported separately.";
+  els.projectSearchResults.classList.add("hidden");
+  els.projectTree.replaceChildren();
+  setActiveProject(projectId);
+  renderProjectList();
+
+  try {
+    await loadProjectTree(null, false);
+  } catch (error) {
+    toast("Could not load project hierarchy: " + error.message);
+  }
+
+  loadProjectInvestigations().catch((error) => {
+    toast("Could not load project investigations: " + error.message);
+  });
+}
+
+async function loadProjectInvestigations() {
+  if (!state.selectedProject) {
+    return;
+  }
+
+  const data = await api(
+    `/api/projects/${encodeURIComponent(state.selectedProject.id)}`
+    + "/investigations?limit=30"
+  );
+  state.projectInvestigations = data.investigations || [];
+  renderProjectInvestigations();
+}
+
+function renderProjectInvestigations() {
+  const list = els.projectInvestigationList;
+  list.replaceChildren();
+
+  if (!state.projectInvestigations.length) {
+    const empty = document.createElement("div");
+    empty.className = "project-investigation-empty";
+    empty.textContent = "No investigations have been run for this project.";
+    list.append(empty);
+    return;
+  }
+
+  for (const item of state.projectInvestigations) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "project-investigation-item";
+    button.dataset.investigationId = item.id;
+
+    const title = document.createElement("strong");
+    title.textContent = item.manifest?.task || "Project investigation";
+    const status = document.createElement("span");
+    status.textContent = `${item.status} · ${item.updated_at}`;
+    button.append(title, status);
+    list.append(button);
+  }
+}
+
+async function showProjectInvestigation(investigationId) {
+  if (!state.selectedProject) {
+    return;
+  }
+
+  const data = await api(
+    `/api/projects/${encodeURIComponent(state.selectedProject.id)}`
+    + `/investigations/${encodeURIComponent(investigationId)}`
+  );
+  els.projectInvestigationDetail.textContent = JSON.stringify(
+    {
+      manifest: data.investigation.manifest,
+      progress: data.events
+    },
+    null,
+    2
+  );
+}
+
+async function loadProjectTree(parentId = null, append = false) {
+  if (!state.selectedProject) {
+    return;
+  }
+
+  const key = parentId || "";
+  const previous = state.projectTreeCache.get(key) || [];
+  const offset = append ? previous.length : 0;
+  const query = new URLSearchParams({
+    limit: "200",
+    offset: String(offset)
+  });
+
+  if (parentId) {
+    query.set("parent_id", parentId);
+  }
+
+  const data = await api(
+    `/api/projects/${encodeURIComponent(state.selectedProject.id)}/tree?${query}`
+  );
+  state.projectTreeCache.set(
+    key,
+    append ? previous.concat(data.nodes || []) : (data.nodes || [])
+  );
+  renderProjectTree();
+}
+
+function renderProjectTree() {
+  const buildChildren = (parentId, depth, expectedCount) => {
+    const parentKey = parentId || "";
+    const nodes = state.projectTreeCache.get(parentKey) || [];
+    const fragment = document.createDocumentFragment();
+
+    for (const node of nodes) {
+      const row = document.createElement("div");
+      row.className = "project-tree-row";
+      row.style.paddingLeft = `${8 + depth * 14}px`;
+
+      const toggle = document.createElement("button");
+      toggle.type = "button";
+      toggle.className = "project-tree-toggle";
+      toggle.dataset.treeToggle = node.node_id;
+      toggle.textContent = node.child_count
+        ? (state.projectTreeExpanded.has(node.node_id) ? "▾" : "▸")
+        : "";
+      toggle.disabled = !node.child_count;
+      toggle.setAttribute(
+        "aria-expanded",
+        state.projectTreeExpanded.has(node.node_id) ? "true" : "false"
+      );
+
+      const select = document.createElement("button");
+      select.type = "button";
+      select.className = "project-tree-select";
+      select.dataset.treeSelect = node.node_id;
+      select.classList.toggle(
+        "selected",
+        state.selectedProjectScript?.script_id === node.node_id
+      );
+      select.textContent = `${node.name}  ·  ${node.class_name}`;
+      select.title = node.path;
+      row.append(toggle, select);
+      fragment.append(row);
+
+      if (state.projectTreeExpanded.has(node.node_id)) {
+        fragment.append(
+          buildChildren(node.node_id, depth + 1, node.child_count)
+        );
+      }
+
+      const loaded = state.projectTreeCache.get(node.node_id);
+      if (
+        state.projectTreeExpanded.has(node.node_id)
+        && loaded
+        && loaded.length < node.child_count
+      ) {
+        const more = document.createElement("button");
+        more.type = "button";
+        more.className = "project-tree-more";
+        more.dataset.treeMore = node.node_id;
+        more.style.marginLeft = `${20 + depth * 14}px`;
+        more.textContent = `Load more children (${loaded.length}/${node.child_count})`;
+        fragment.append(more);
+      }
+    }
+
+    if (
+      expectedCount !== null
+      && expectedCount !== undefined
+      && nodes.length < expectedCount
+    ) {
+      const more = document.createElement("button");
+      more.type = "button";
+      more.className = "project-tree-more";
+      more.dataset.treeMore = parentId || "";
+      more.style.marginLeft = `${8 + depth * 14}px`;
+      more.textContent = `Load more (${nodes.length}/${expectedCount})`;
+      fragment.append(more);
+    }
+
+    return fragment;
+  };
+
+  els.projectTree.replaceChildren(
+    buildChildren(null, 0, state.selectedProject?.root_count)
+  );
+}
+
+async function selectProjectNode(nodeId) {
+  if (!state.selectedProject) {
+    return;
+  }
+
+  try {
+    const node = await api(
+      `/api/projects/${encodeURIComponent(state.selectedProject.id)}`
+      + `/nodes/${encodeURIComponent(nodeId)}`
+    );
+
+    if (node.node.is_script) {
+      await selectProjectScript(nodeId);
+      return;
+    }
+
+    state.selectedProjectScript = null;
+    els.projectNodeMeta.textContent =
+      `${node.node.path} · ${node.node.class_name}`;
+    const properties = node.node.properties || [];
+    if (properties.length) {
+      state.projectCodeView.textContent = properties
+        .map((item) => `${item.name}: ${item.value}`)
+        .join("\n");
+    } else if (node.node.child_count) {
+      state.projectCodeView.textContent =
+        `${node.node.child_count} direct children. Expand this item in the hierarchy to inspect them.`;
+    } else {
+      state.projectCodeView.textContent =
+        "No indexed properties or child instances.";
+    }
+    updateArtifactProjectControls();
+  } catch (error) {
+    toast("Could not open hierarchy item: " + error.message);
+  }
+}
+
+async function selectProjectScript(scriptId) {
+  if (!state.selectedProject) {
+    return;
+  }
+
+  try {
+    const data = await api(
+      `/api/projects/${encodeURIComponent(state.selectedProject.id)}`
+      + `/scripts/${encodeURIComponent(scriptId)}`
+    );
+    state.selectedProjectScript = data.script;
+    els.projectNodeMeta.textContent =
+      `${data.script.path} · ${data.script.class_name}`;
+    els.projectCodeView.textContent = data.script.source || "(empty script)";
+    showProjectTab("code");
+    renderProjectTree();
+    updateArtifactProjectControls();
+  } catch (error) {
+    toast("Could not read project script: " + error.message);
+  }
+}
+
+function showProjectTab(name) {
+  document.querySelectorAll("[data-project-tab]").forEach((button) => {
+    button.classList.toggle(
+      "active",
+      button.dataset.projectTab === name
+    );
+  });
+  document.getElementById("project-code-tab").classList.toggle(
+    "hidden",
+    name !== "code"
+  );
+  document.getElementById("project-docs-tab").classList.toggle(
+    "hidden",
+    name !== "docs"
+  );
+  document.getElementById("project-drafts-tab").classList.toggle(
+    "hidden",
+    name !== "drafts"
+  );
+  document.getElementById("project-investigations-tab").classList.toggle(
+    "hidden",
+    name !== "investigations"
+  );
+
+  if (name === "drafts") {
+    loadProjectArtifacts().catch((error) => {
+      toast("Could not load project drafts: " + error.message);
+    });
+  }
+
+  if (name === "investigations") {
+    loadProjectInvestigations().catch((error) => {
+      toast("Could not load project investigations: " + error.message);
+    });
+  }
+}
+
+async function searchProject(query) {
+  if (!state.selectedProject || !query.trim()) {
+    return;
+  }
+
+  const params = new URLSearchParams({ query: query.trim(), limit: "30" });
+  const data = await api(
+    `/api/projects/${encodeURIComponent(state.selectedProject.id)}`
+    + `/search?${params}`
+  );
+  els.projectSearchResults.replaceChildren();
+  els.projectSearchResults.classList.remove("hidden");
+
+  if (!data.results.length) {
+    const empty = document.createElement("div");
+    empty.className = "project-empty-note";
+    empty.textContent = "No matches found.";
+    els.projectSearchResults.append(empty);
+    return;
+  }
+
+  for (const result of data.results) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "project-result";
+    button.dataset.projectLine = result.line;
+
+    const location = document.createElement("strong");
+    location.textContent = result.path
+      ? `${result.path} · line ${result.line}`
+      : `Parsed hierarchy · line ${result.line}`;
+    const excerpt = document.createElement("span");
+    excerpt.textContent = result.text;
+    button.append(location, excerpt);
+    els.projectSearchResults.append(button);
+  }
+}
+
+async function showProjectLines(startLine) {
+  const params = new URLSearchParams({
+    start_line: String(startLine),
+    max_lines: "12"
+  });
+  const data = await api(
+    `/api/projects/${encodeURIComponent(state.selectedProject.id)}`
+    + `/read?${params}`
+  );
+  els.projectNodeMeta.textContent =
+    `Full parsed place text · lines ${data.lines[0][0]}-${data.lines[data.lines.length - 1][0]}`;
+  els.projectCodeView.textContent = data.lines
+    .map(([number, line]) => `${number}| ${line}`)
+    .join("\n");
+  showProjectTab("code");
+}
+
+async function searchRobloxDocs(query) {
+  if (!query.trim()) {
+    return;
+  }
+
+  els.projectDocsResults.textContent = "Searching bundled Roblox references…";
+
+  try {
+    const params = new URLSearchParams({ query: query.trim(), limit: "6" });
+    const data = await api(`/api/roblox/docs?${params}`, {}, 60000);
+    els.projectDocsResults.textContent =
+      `Bundled Roblox API reference and Luau documentation\n`
+      + `Search: ${data.query}\n\n${data.results}`;
+  } catch (error) {
+    els.projectDocsResults.textContent =
+      `Documentation search failed: ${error.message}`;
+  }
+}
+
+async function loadProjectArtifacts() {
+  if (!state.selectedProject) {
+    return;
+  }
+
+  const data = await api(
+    `/api/projects/${encodeURIComponent(state.selectedProject.id)}/artifacts`
+  );
+  els.projectDrafts.replaceChildren();
+
+  if (!data.artifacts.length) {
+    const empty = document.createElement("div");
+    empty.className = "project-empty-note";
+    empty.textContent =
+      "No drafts yet. Open an AI code block and save it to this project for review.";
+    els.projectDrafts.append(empty);
+    return;
+  }
+
+  for (const artifact of data.artifacts) {
+    const card = document.createElement("article");
+    card.className = "project-draft-card";
+
+    const heading = document.createElement("div");
+    heading.className = "project-draft-heading";
+    const title = document.createElement("strong");
+    title.textContent = artifact.title;
+    const status = document.createElement("span");
+    status.textContent = artifact.status;
+    status.className = `project-draft-status ${artifact.status}`;
+    heading.append(title, status);
+    card.append(heading);
+
+    const base = document.createElement("p");
+    base.textContent = artifact.source_path
+      ? `Compared with ${artifact.source_path}`
+      : "New script artifact; no existing script was changed.";
+    card.append(base);
+
+    const diff = document.createElement("pre");
+    diff.className = "project-diff";
+    diff.textContent = artifact.diff || "(No text diff)";
+    card.append(diff);
+
+    const actions = document.createElement("div");
+    actions.className = "project-draft-actions";
+
+    if (artifact.status === "pending") {
+      const approve = document.createElement("button");
+      approve.type = "button";
+      approve.className = "ghost-button small";
+      approve.textContent = "Approve & export";
+      approve.dataset.artifactDecision = "approved";
+      approve.dataset.artifactId = artifact.id;
+
+      const reject = document.createElement("button");
+      reject.type = "button";
+      reject.className = "ghost-button small danger-button";
+      reject.textContent = "Reject";
+      reject.dataset.artifactDecision = "rejected";
+      reject.dataset.artifactId = artifact.id;
+      actions.append(approve, reject);
+    } else if (artifact.status === "approved") {
+      const download = document.createElement("a");
+      download.className = "ghost-button small";
+      download.textContent = "Download .luau";
+      download.href =
+        `/api/projects/${encodeURIComponent(state.selectedProject.id)}`
+        + `/artifacts/${encodeURIComponent(artifact.id)}/file`;
+      actions.append(download);
+    }
+
+    card.append(actions);
+    els.projectDrafts.append(card);
+  }
+}
+
+async function updateArtifactProjectControls() {
+  const meta = artifactStore.get(activeArtifactKey);
+  const active = Boolean(state.activeProjectId)
+    && !(meta && meta.projectSource);
+  els.artifactSaveProject.classList.toggle("hidden", !active);
+  els.artifactProjectTarget.classList.toggle("hidden", !active);
+  els.artifactTargetScript.replaceChildren();
+
+  const newOption = document.createElement("option");
+  newOption.value = "";
+  newOption.textContent = "New script artifact";
+  els.artifactTargetScript.append(newOption);
+
+  if (!active) {
+    return;
+  }
+
+  try {
+    const data = await api(
+      `/api/projects/${encodeURIComponent(state.activeProjectId)}`
+      + "/scripts?limit=500"
+    );
+    const scripts = data.scripts || [];
+    const selected = state.selectedProjectScript;
+
+    if (
+      selected
+      && !scripts.some((script) => script.script_id === selected.script_id)
+    ) {
+      scripts.unshift(selected);
+    }
+
+    for (const script of scripts) {
+      const option = document.createElement("option");
+      option.value = script.script_id;
+      option.textContent = `${script.path} (${script.class_name})`;
+      els.artifactTargetScript.append(option);
+    }
+
+    if (
+      selected
+      && state.selectedProject?.id === state.activeProjectId
+    ) {
+      els.artifactTargetScript.value = selected.script_id;
+    }
+  } catch (error) {
+    console.warn("Could not load project scripts for artifact review:", error);
+  }
+}
+
+async function saveActiveArtifactToProject() {
+  const meta = artifactStore.get(activeArtifactKey);
+
+  if (meta && meta.projectSource) {
+    toast("Project source is read-only; save a separate code draft instead.");
+    return;
+  }
+
+  if (!meta || !state.activeProjectId) {
+    toast("Select an active Roblox project first.");
+    return;
+  }
+
+  try {
+    const data = await api(
+      `/api/projects/${encodeURIComponent(state.activeProjectId)}/artifacts`,
+      {
+        method: "POST",
+        body: {
+          title: meta.title || "Luau code draft",
+          language: meta.rawLanguage || "luau",
+          content: meta.code,
+          source_script_id: els.artifactTargetScript.value
+        }
+      }
+    );
+    toast("Saved as a reviewable project draft; the place file is unchanged.");
+    closeArtifact();
+    openProjectDialog();
+    await openProject(data.artifact.project_id);
+    showProjectTab("drafts");
+  } catch (error) {
+    toast("Could not save project draft: " + error.message);
+  }
 }
 
 function renderInline(value) {
@@ -597,7 +1489,57 @@ function renderInline(value) {
     "$1<em>$2</em>"
   );
 
-  return output;
+  return linkProjectPaths(output);
+}
+
+function linkProjectPaths(html) {
+  if (
+    !state.activeProjectId
+    || state.projectScriptsProjectId !== state.activeProjectId
+    || !state.projectScripts.length
+  ) {
+    return html;
+  }
+
+  const scriptsByPath = new Map(
+    state.projectScripts.map((script) => [
+      escapeHtml(script.path),
+      script
+    ])
+  );
+  const paths = Array.from(scriptsByPath.keys())
+    .sort((left, right) => right.length - left.length);
+
+  if (!paths.length) {
+    return html;
+  }
+
+  const alternatives = paths.map(
+    (path) => path.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+  );
+  const matcher = new RegExp(
+    `(^|[^A-Za-z0-9_/])(${alternatives.join("|")})`
+    + `(?=$|[^A-Za-z0-9_/])`,
+    "g"
+  );
+
+  return html.split(/(<[^>]+>)/g).map((part) => {
+    if (part.startsWith("<")) {
+      return part;
+    }
+
+    return part.replace(matcher, (match, prefix, path) => {
+      const script = scriptsByPath.get(path);
+
+      if (!script) {
+        return match;
+      }
+
+      return `${prefix}<a class="project-script-link" href="#"`
+        + ` data-project-script="${escapeHtml(script.script_id)}"`
+        + ` title="Open script in the code sidebar">${path}</a>`;
+    });
+  }).join("");
 }
 
 function renderMarkdown(text) {
@@ -644,7 +1586,15 @@ function renderMarkdown(text) {
 
     output.push(
       `<${listType}>${listItems
-        .map((item) => `<li>${renderInline(item)}</li>`)
+        .map((item) => {
+          const nested = item.nested.length
+            ? `<ul>${item.nested
+              .map((entry) => `<li>${renderInline(entry)}</li>`)
+              .join("")}</ul>`
+            : "";
+
+          return `<li>${renderInline(item.text)}${nested}</li>`;
+        })
         .join("")}</${listType}>`
     );
 
@@ -713,18 +1663,32 @@ function renderMarkdown(text) {
       continue;
     }
 
-    const bullet = line.match(/^\s*[-*+]\s+(.*)$/);
+    const bullet = line.match(/^(\s*)[-*+]\s+(.*)$/);
 
     if (bullet) {
       flushParagraph();
       flushQuote();
+
+      const indent = bullet[1].replace(/\t/g, "    ").length;
+
+      if (
+        listType === "ol"
+        && listItems.length
+        && (
+          indent > 0
+          || /\bsource line\s+\d+\b/i.test(bullet[2])
+        )
+      ) {
+        listItems[listItems.length - 1].nested.push(bullet[2]);
+        continue;
+      }
 
       if (listType !== "ul") {
         flushList();
         listType = "ul";
       }
 
-      listItems.push(bullet[1]);
+      listItems.push({ text: bullet[2], nested: [] });
       continue;
     }
 
@@ -739,7 +1703,7 @@ function renderMarkdown(text) {
         listType = "ol";
       }
 
-      listItems.push(ordered[1]);
+      listItems.push({ text: ordered[1], nested: [] });
       continue;
     }
 
@@ -786,8 +1750,8 @@ function resetCurrentConversation() {
 
   state.currentId = null;
   state.conversation = null;
+  state.responseMode = "";
   state.messages = [];
-  state.attachments = [];
   state.editingId = null;
   state.memory = null;
 
@@ -797,7 +1761,6 @@ function resetCurrentConversation() {
   setMessagesVisible(false);
   updateHeader();
   renderSidebar();
-  renderAttachments();
   updateSendState();
   setMemoryVisibility();
 }
@@ -818,8 +1781,8 @@ function isSetup() {
 
 function renderSetupBar() {
   els.setupBar.classList.toggle("hidden", !isSetup());
-  els.beginStory.disabled = state.streaming || state.uploads > 0;
-  els.justChat.disabled = state.streaming || state.uploads > 0;
+  els.beginStory.disabled = state.streaming;
+  els.justChat.disabled = state.streaming;
 }
 
 function updateHeader() {
@@ -865,8 +1828,7 @@ function renderSidebar() {
 
     const preview = document.createElement("div");
     preview.className = "chat-item-preview";
-    preview.textContent = conversation.preview
-      || (conversation.attachment_count ? "Attachment" : "Empty conversation");
+    preview.textContent = conversation.preview || "Empty conversation";
 
     const remove = document.createElement("button");
     remove.type = "button";
@@ -885,51 +1847,6 @@ function renderSidebar() {
     item.append(title, preview, remove);
     els.chatList.append(item);
   }
-}
-
-function renderMessageAttachments(entries) {
-  const wrap = document.createElement("div");
-  wrap.className = "message-attachments";
-
-  for (const entry of entries) {
-    const link = document.createElement("a");
-    const scene = entry.kind === "image"
-      && /^scene-/.test(entry.filename || "");
-    link.className = entry.kind !== "image"
-      ? "message-attachment"
-      : scene
-        ? "message-attachment image scene"
-        : "message-attachment image";
-    link.href = entry.url;
-    link.target = "_blank";
-    link.rel = "noopener";
-    link.title = entry.filename;
-
-    if (entry.kind === "image") {
-      const image = document.createElement("img");
-      image.src = entry.url;
-      image.alt = entry.filename;
-      image.loading = "lazy";
-
-      const caption = document.createElement("span");
-      caption.textContent = entry.filename;
-
-      link.append(image, caption);
-    } else {
-      const icon = document.createElement("span");
-      icon.innerHTML = fileIcon();
-
-      const name = document.createElement("span");
-      name.className = "name";
-      name.textContent = entry.filename;
-
-      link.append(icon, name);
-    }
-
-    wrap.append(link);
-  }
-
-  return wrap;
 }
 
 function renderToolCalls(calls) {
@@ -1296,30 +2213,6 @@ function paintAction(messageId) {
   return button;
 }
 
-function attachToMessage(root, attachment) {
-  const body = root.querySelector(".message-body");
-  if (!body) {
-    return;
-  }
-
-  let wrap = body.querySelector(".message-attachments");
-
-  if (!wrap) {
-    wrap = document.createElement("div");
-    wrap.className = "message-attachments";
-
-    const actions = body.querySelector(".message-actions");
-
-    if (actions) {
-      body.insertBefore(wrap, actions);
-    } else {
-      body.append(wrap);
-    }
-  }
-
-  wrap.append(...renderMessageAttachments([attachment]).children);
-}
-
 async function paintScene(messageId) {
   if (state.painting || !state.currentId || messageId == null) {
     return;
@@ -1367,19 +2260,9 @@ async function paintScene(messageId) {
       }
     });
 
-    state.attachments.push(data.attachment);
-
-    if (root) {
-      attachToMessage(root, data.attachment);
-    }
-
     const message = state.messages.find(
       (entry) => entry.id === messageId
     );
-
-    if (message) {
-      message.attachments = messageAttachmentsFor(message);
-    }
 
     if (note) {
       note.remove();
@@ -1415,7 +2298,7 @@ function appendMessage(message, attachments = null) {
   message.element = root;
 
   if (message.role === "user") {
-    const entries = attachments || messageAttachmentsFor(message);
+    const entries = attachments || [];
     const stack = document.createElement("div");
     stack.className = "user-stack";
 
@@ -1479,7 +2362,7 @@ function appendMessage(message, attachments = null) {
 
   body.append(text, error);
 
-  const entries = attachments || messageAttachmentsFor(message);
+  const entries = attachments || [];
 
   if (entries.length) {
     body.append(renderMessageAttachments(entries));
@@ -1943,6 +2826,7 @@ function startNewChat() {
 
   state.currentId = null;
   state.conversation = null;
+  state.responseMode = "";
   state.messages = [];
   state.pendingScenario = emptyScenario();
   state.pendingStyle = "";
@@ -1980,6 +2864,7 @@ async function openConversation(conversationId) {
 
     state.currentId = conversationId;
     state.conversation = data.conversation;
+    state.responseMode = "";
     state.pendingPersonaId = data.conversation.persona_id || "";
     state.messages = data.messages;
     attachApprovals(state.messages, data.approvals || []);
@@ -2717,7 +3602,29 @@ function activePersonaId() {
 }
 
 function updatePersonaLabel() {
-  const persona = personaById(activePersonaId());
+  let personaId = activePersonaId();
+
+  if (state.responseMode === "coding") {
+    personaId = "coding";
+  } else if (state.responseMode === "assistant") {
+    personaId = "assistant";
+  } else if (
+    state.conversation
+    && ["setup", "story"].includes(state.conversation.phase)
+  ) {
+    const selected = state.conversation.persona_id || "";
+    personaId = (
+      !selected
+      || selected === "assistant"
+      || selected === "coding"
+    )
+      ? "default"
+      : selected;
+  } else if (state.conversation) {
+    personaId = "assistant";
+  }
+
+  const persona = personaById(personaId);
 
   els.personaTop.textContent = persona
     ? persona.name
@@ -2771,6 +3678,8 @@ function fillPersonaEditor(persona) {
 }
 
 async function applyPersona(personaId) {
+  state.responseMode = "";
+
   if (state.currentId) {
     const data = await api(
       `/api/conversations/${state.currentId}`,
@@ -3189,6 +4098,59 @@ function adoptAssistant(saved, assistant, elements) {
   }
 }
 
+function renderStreamContent(assistant, elements) {
+  const follow = Boolean(assistant.streamFollow);
+  assistant.streamFollow = false;
+  elements.textEl.innerHTML = renderMarkdown(assistant.content);
+
+  if (follow) {
+    scrollToBottom();
+  }
+}
+
+function renderInvestigationProgress(assistant, elements, data) {
+  if (!assistant.investigationEl) {
+    const progress = document.createElement("div");
+    progress.className = "investigation-progress";
+    progress.setAttribute("role", "status");
+    progress.setAttribute("aria-live", "polite");
+    elements.textEl.parentElement.insertBefore(progress, elements.textEl);
+    assistant.investigationEl = progress;
+  }
+
+  const progress = assistant.investigationEl;
+  const agent = data.agent || "Agent Coordinator";
+  const status = data.status || "in progress";
+  const count = Number.isFinite(Number(data.scripts_read))
+    ? ` · ${data.scripts_read}/${data.scripts_total || 0} scripts read`
+    : "";
+  progress.dataset.status = status;
+  progress.textContent = `${agent} · ${status}${count}: `
+    + (data.message || "Project investigation is in progress.");
+}
+
+function flushStreamContent(assistant, elements) {
+  if (assistant.streamRenderTimer != null) {
+    clearTimeout(assistant.streamRenderTimer);
+    assistant.streamRenderTimer = null;
+  }
+
+  renderStreamContent(assistant, elements);
+}
+
+function scheduleStreamContent(assistant, elements) {
+  assistant.streamFollow = isNearBottom();
+
+  if (assistant.streamRenderTimer != null) {
+    return;
+  }
+
+  assistant.streamRenderTimer = setTimeout(() => {
+    assistant.streamRenderTimer = null;
+    renderStreamContent(assistant, elements);
+  }, 40);
+}
+
 function performAction(action) {
   if (!action || !action.name) {
     return;
@@ -3212,8 +4174,28 @@ function performAction(action) {
 }
 
 function handleEvent(payload, assistant, elements) {
+  if (payload.event === "investigation") {
+    renderInvestigationProgress(assistant, elements, payload.data);
+
+    if (
+      state.selectedProject?.id === payload.data.project_id
+      && ["complete", "incomplete", "failed"].includes(
+        payload.data.status
+      )
+    ) {
+      loadProjectInvestigations().catch((error) => {
+        toast("Could not refresh project investigations: " + error.message);
+      });
+    }
+
+    return;
+  }
+
   if (payload.event === "meta") {
     state.conversation = payload.data.conversation;
+    if (payload.data.assistant_mode) {
+      state.responseMode = payload.data.assistant_mode;
+    }
 
     if (payload.data.message) {
       adoptMessageId(payload.data.message);
@@ -3278,19 +4260,9 @@ function handleEvent(payload, assistant, elements) {
   }
 
   if (payload.event === "delta") {
-    const follow = isNearBottom();
-
     assistant.content += payload.data.text || "";
-
-    elements.textEl.innerHTML = renderMarkdown(
-      assistant.content
-    );
-
     elements.root.classList.add("streaming");
-
-    if (follow) {
-      scrollToBottom();
-    }
+    scheduleStreamContent(assistant, elements);
 
     return;
   }
@@ -3302,6 +4274,7 @@ function handleEvent(payload, assistant, elements) {
   }
 
   if (payload.event === "done") {
+    flushStreamContent(assistant, elements);
     state.conversation = payload.data.conversation;
 
     if (payload.data.message) {
@@ -3412,18 +4385,28 @@ function renderAttachments() {
   );
 
   for (const entry of entries) {
+    const isUploading = entry.status === "uploading";
+    const isError = entry.status === "error";
+
     const chip = document.createElement("div");
-    chip.className = entry.uploading
-      ? "attachment-chip uploading"
-      : "attachment-chip";
+    chip.className = `attachment-chip${isUploading ? " uploading" : ""}${isError ? " error" : ""}`;
 
     const thumb = document.createElement("div");
     thumb.className = "attachment-thumb";
 
-    if (entry.uploading) {
+    if (isUploading) {
       const spinner = document.createElement("div");
       spinner.className = "spinner";
       thumb.append(spinner);
+    } else if (isError) {
+      thumb.innerHTML = `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          style="color: var(--destructive, #ef4444); width: 28px; height: 28px;">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 8v4M12 16h.01"/>
+        </svg>
+      `;
     } else if (entry.kind === "image" && entry.url) {
       const image = document.createElement("img");
       image.src = entry.url;
@@ -3444,22 +4427,37 @@ function renderAttachments() {
     const meta = document.createElement("span");
     meta.className = "attachment-meta";
 
-    if (entry.uploading) {
-      meta.textContent = "Uploading...";
+    if (isUploading) {
+      meta.textContent = entry.statusText || "Uploading...";
+    } else if (isError) {
+      meta.textContent = entry.statusText || "Upload failed";
     } else {
       const parts = [
         attachmentKindLabel(entry.kind),
         formatBytes(entry.size)
       ];
 
-      if (entry.vision_needed) {
-        parts.push("vision off");
+      if (entry.warning) {
+        parts.push(`⚠ ${entry.warning}`);
       }
 
       meta.textContent = parts.join(" · ");
     }
 
-    info.append(name, meta);
+    const statusBadge = document.createElement("span");
+    statusBadge.className = "attachment-status";
+    if (isUploading) {
+      statusBadge.textContent = "↻";
+      statusBadge.title = "Uploading";
+    } else if (isError) {
+      statusBadge.textContent = "✕";
+      statusBadge.title = "Upload failed";
+    } else {
+      statusBadge.textContent = "✓";
+      statusBadge.title = "Ready";
+    }
+
+    info.append(name, meta, statusBadge);
 
     const remove = document.createElement("button");
     remove.type = "button";
@@ -3483,12 +4481,11 @@ function renderAttachments() {
 function updateSendState() {
   const hasText = els.input.value.trim().length > 0;
   const ready = pendingAttachments().some(
-    (entry) => !entry.uploading
+    (entry) => entry.status !== "uploading"
   );
 
   els.sendButton.disabled = (
     state.streaming
-    || state.uploads > 0
     || (!hasText && !ready)
   );
 
@@ -3504,7 +4501,7 @@ async function removeAttachment(attachmentId) {
     return;
   }
 
-  if (entry.uploading) {
+  if (entry.status === "uploading") {
     state.attachments = state.attachments.filter(
       (item) => item !== entry
     );
@@ -3538,6 +4535,7 @@ async function uploadFile(file) {
   const conversationId = state.currentId;
 
   if (!conversationId) {
+    toast("No active conversation. Start a chat first, then attach files.");
     return;
   }
 
@@ -3548,7 +4546,8 @@ async function uploadFile(file) {
     filename: file.name,
     kind: file.type.startsWith("image/") ? "image" : "text",
     size: file.size,
-    uploading: true,
+    status: "uploading",
+    statusText: "Uploading...",
     controller: new AbortController()
   };
 
@@ -3561,6 +4560,8 @@ async function uploadFile(file) {
   try {
     const body = new FormData();
     body.append("file", file);
+
+    toast(`Uploading "${file.name}"...`);
 
     let response = await fetch(
       `/api/conversations/${conversationId}/attachments`,
@@ -3576,9 +4577,6 @@ async function uploadFile(file) {
       && state.currentId
       && conversationId !== state.currentId
     ) {
-
-      // The open chat is stale (deleted elsewhere); retry
-      // against the fresh conversation.
 
       response = await fetch(
         `/api/conversations/${state.currentId}/attachments`,
@@ -3606,9 +4604,6 @@ async function uploadFile(file) {
       ) {
         resetCurrentConversation();
 
-        // Re-register the placeholder for the fresh chat and
-        // upload the same file again.
-
         state.attachments.push(placeholder);
         renderAttachments();
         updateSendState();
@@ -3629,13 +4624,19 @@ async function uploadFile(file) {
           const index = state.attachments.indexOf(placeholder);
 
           if (index !== -1) {
-            state.attachments[index] = retryData.attachment;
+            state.attachments[index] = {
+              ...retryData.attachment,
+              status: "ready",
+              statusText: "Ready",
+              warning: retryData.warning || null
+            };
           }
 
           if (retryData.warning) {
             toast(retryData.warning);
           }
 
+          toast(`"${file.name}" uploaded.`);
           return;
         }
       }
@@ -3650,21 +4651,35 @@ async function uploadFile(file) {
       return;
     }
 
-    state.attachments[index] = data.attachment;
+    state.attachments[index] = {
+      ...data.attachment,
+      status: "ready",
+      statusText: "Ready",
+      warning: data.warning || null
+    };
 
     if (data.warning) {
       toast(data.warning);
     }
+
+    toast(`"${file.name}" uploaded.`);
   } catch (error) {
     if (error.name === "AbortError") {
       return;
     }
 
-    state.attachments = state.attachments.filter(
-      (item) => item !== placeholder
-    );
+    const index = state.attachments.indexOf(placeholder);
+    if (index !== -1) {
+      state.attachments[index] = {
+        ...placeholder,
+        status: "error",
+        statusText: error.message || "Upload failed",
+        warning: null
+      };
+      delete state.attachments[index].controller;
+    }
 
-    toast(error.message);
+    toast(`"${file.name}" failed: ${error.message}`);
   } finally {
     state.uploads = Math.max(0, state.uploads - 1);
     renderAttachments();
@@ -3675,21 +4690,27 @@ async function uploadFile(file) {
 async function uploadFiles(fileList) {
   const files = Array.from(fileList || []);
 
-  if (!files.length || state.streaming) {
+  if (!files.length) {
+    toast("No files were selected.");
     return;
   }
 
-  const pending = pendingAttachments().length;
-
-  if (pending + files.length > MAX_FILES) {
-    toast(`You can attach up to ${MAX_FILES} files.`);
+  if (state.streaming) {
+    toast("Cannot attach files while a response is streaming.");
     return;
   }
+
+  toast(`Selected ${files.length} file(s). Starting upload...`);
 
   try {
     await ensureConversation();
   } catch (error) {
-    toast(error.message);
+    toast(error.message || "Failed to start a conversation.");
+    return;
+  }
+
+  if (!state.currentId) {
+    toast("No active conversation. Start a chat first, then attach files.");
     return;
   }
 
@@ -3699,7 +4720,7 @@ async function uploadFiles(fileList) {
 }
 
 async function beginStory() {
-  if (state.streaming || state.uploads > 0) {
+  if (state.streaming) {
     return;
   }
 
@@ -3726,13 +4747,11 @@ async function beginStory() {
     return;
   }
 
-  await sendMessage("Begin the story.", {
-    attachments: false
-  });
+  await sendMessage("Begin the story.");
 }
 
 async function justChat() {
-  if (state.streaming || state.uploads > 0) {
+  if (state.streaming) {
     return;
   }
 
@@ -3759,9 +4778,7 @@ async function justChat() {
     return;
   }
 
-  await sendMessage("Let's just chat.", {
-    attachments: false
-  });
+  await sendMessage("Let's just chat.");
 }
 
 async function sendMessage(override = null, options = {}) {
@@ -3772,9 +4789,9 @@ async function sendMessage(override = null, options = {}) {
     options.attachments === false
       ? []
       : pendingAttachments()
-  ).filter((entry) => !entry.uploading);
+  ).filter((entry) => entry.status !== "uploading");
 
-  if (state.streaming || state.uploads > 0) {
+  if (state.streaming) {
     return;
   }
 
@@ -3819,7 +4836,8 @@ async function sendMessage(override = null, options = {}) {
   await runStream({
     conversation_id: state.currentId,
     message,
-    attachments: entries.map((entry) => entry.id)
+    attachments: entries.map((entry) => entry.id),
+    project_id: state.activeProjectId || null
   }, assistant, elements);
 
   if (entries.length) {
@@ -3916,6 +4934,10 @@ async function runStream(body, assistant, elements, url = "/api/chat/stream") {
       }
     }
   } finally {
+    if (assistant.content) {
+      flushStreamContent(assistant, elements);
+    }
+
     elements.root.classList.remove("streaming");
     setStreaming(false);
     state.controller = null;
@@ -3971,10 +4993,178 @@ async function logOff() {
 
 els.newChat.addEventListener("click", startNewChat);
 els.logout.addEventListener("click", logOff);
+els.projectsOpen.addEventListener("click", openProjectDialog);
+els.projectTop.addEventListener("click", openProjectDialog);
+els.projectClose.addEventListener("click", closeProjectDialog);
+els.projectImport.addEventListener("click", () => {
+  els.projectFileInput.click();
+});
+els.projectFileInput.addEventListener("change", () => {
+  const file = els.projectFileInput.files?.[0];
+  if (file) {
+    importProjectFile(file);
+  }
+});
+els.projectList.addEventListener("click", (event) => {
+  const item = event.target.closest("[data-project-id]");
+  if (!item) {
+    return;
+  }
+
+  openProject(item.dataset.projectId).catch((error) => {
+    toast("Could not open project: " + error.message);
+  });
+});
+els.projectActivate.addEventListener("click", () => {
+  if (!state.selectedProject) {
+    return;
+  }
+
+  setActiveProject(
+    state.activeProjectId === state.selectedProject.id
+      ? ""
+      : state.selectedProject.id
+  );
+});
+els.projectDelete.addEventListener("click", async () => {
+  if (
+    !state.selectedProject
+    || !confirm(
+      `Delete "${state.selectedProject.name}" and its indexed data?`
+    )
+  ) {
+    return;
+  }
+
+  const projectId = state.selectedProject.id;
+
+  try {
+    await api(`/api/projects/${encodeURIComponent(projectId)}`, {
+      method: "DELETE"
+    });
+    if (state.activeProjectId === projectId) {
+      setActiveProject("");
+    }
+    state.selectedProject = null;
+    state.selectedProjectScript = null;
+    els.projectWorkspace.classList.add("hidden");
+    els.projectEmpty.classList.remove("hidden");
+    await loadProjects();
+    toast("Project deleted.");
+  } catch (error) {
+    toast("Could not delete project: " + error.message);
+  }
+});
+els.projectTree.addEventListener("click", async (event) => {
+  const more = event.target.closest("[data-tree-more]");
+  if (more) {
+    const parentId = more.dataset.treeMore || null;
+    loadProjectTree(parentId, true).catch((error) => {
+      toast("Could not load hierarchy entries: " + error.message);
+    });
+    return;
+  }
+
+  const toggle = event.target.closest("[data-tree-toggle]");
+  if (toggle) {
+    const nodeId = toggle.dataset.treeToggle;
+    if (state.projectTreeExpanded.has(nodeId)) {
+      state.projectTreeExpanded.delete(nodeId);
+      renderProjectTree();
+      return;
+    }
+
+    state.projectTreeExpanded.add(nodeId);
+    try {
+      if (!state.projectTreeCache.has(nodeId)) {
+        await loadProjectTree(nodeId, false);
+      } else {
+        renderProjectTree();
+      }
+    } catch (error) {
+      toast("Could not expand hierarchy item: " + error.message);
+    }
+    return;
+  }
+
+  const select = event.target.closest("[data-tree-select]");
+  if (select) {
+    selectProjectNode(select.dataset.treeSelect);
+  }
+});
+els.projectSearchForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  searchProject(els.projectSearchInput.value).catch((error) => {
+    toast("Project search failed: " + error.message);
+  });
+});
+els.projectSearchResults.addEventListener("click", (event) => {
+  const result = event.target.closest("[data-project-line]");
+  if (result) {
+    showProjectLines(result.dataset.projectLine).catch((error) => {
+      toast("Could not read search result: " + error.message);
+    });
+  }
+});
+els.projectDocsForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  searchRobloxDocs(els.projectDocsInput.value);
+});
+els.projectInvestigationList.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-investigation-id]");
+  if (!button) {
+    return;
+  }
+
+  showProjectInvestigation(button.dataset.investigationId).catch((error) => {
+    toast("Could not load investigation details: " + error.message);
+  });
+});
+document.querySelectorAll("[data-project-tab]").forEach((button) => {
+  button.addEventListener("click", () => {
+    showProjectTab(button.dataset.projectTab);
+  });
+});
+els.projectDrafts.addEventListener("click", async (event) => {
+  const button = event.target.closest("[data-artifact-decision]");
+  if (!button || !state.selectedProject) {
+    return;
+  }
+
+  button.disabled = true;
+  try {
+    await api(
+      `/api/projects/${encodeURIComponent(state.selectedProject.id)}`
+      + `/artifacts/${encodeURIComponent(button.dataset.artifactId)}`,
+      {
+        method: "PATCH",
+        body: { status: button.dataset.artifactDecision }
+      }
+    );
+    await loadProjectArtifacts();
+    toast(
+      button.dataset.artifactDecision === "approved"
+        ? "Draft approved and exported; the original place remains unchanged."
+        : "Draft rejected."
+    );
+  } catch (error) {
+    button.disabled = false;
+    toast("Could not review project draft: " + error.message);
+  }
+});
+els.projectDialog.addEventListener("click", (event) => {
+  if (event.target === els.projectDialog) {
+    closeProjectDialog();
+  }
+});
 
 els.artifactClose.addEventListener("click", closeArtifact);
 els.artifactCopy.addEventListener("click", copyActiveArtifact);
 els.artifactDownload.addEventListener("click", downloadActiveArtifact);
+els.artifactSaveProject.addEventListener(
+  "click",
+  saveActiveArtifactToProject
+);
 
 document.addEventListener("keydown", (event) => {
   if (
@@ -3986,6 +5176,14 @@ document.addEventListener("keydown", (event) => {
 });
 
 els.messageList.addEventListener("click", (event) => {
+  const projectScript = event.target.closest("[data-project-script]");
+
+  if (projectScript) {
+    event.preventDefault();
+    openProjectSource(projectScript.dataset.projectScript);
+    return;
+  }
+
   const artifactCopy = event.target.closest("[data-artifact-copy]");
 
   if (artifactCopy) {
@@ -4262,14 +5460,40 @@ els.beginStory.addEventListener("click", beginStory);
 els.justChat.addEventListener("click", justChat);
 
 els.plusFiles.addEventListener("click", () => {
-  setPlusMenu(false);
-  els.fileInput.click();
+  try {
+    setPlusMenu(false);
+    const input = document.getElementById("file-input");
+    if (input) {
+      input.click();
+    } else {
+      toast("File input not found in DOM.");
+    }
+  } catch (error) {
+    toast("Failed to open file picker: " + (error.message || String(error)));
+  }
 });
 
-els.fileInput.addEventListener("change", async () => {
-  const files = els.fileInput.files;
-  els.fileInput.value = "";
-  await uploadFiles(files);
+els.fileInput.addEventListener("change", async (event) => {
+  try {
+    const input = event.target || document.getElementById("file-input") || els.fileInput;
+    if (!input) {
+      toast("File input element not found.");
+      return;
+    }
+    const files = Array.from(input.files || []);
+    if (!files.length) {
+      toast("No files were selected. Try a different file or check the file type.");
+      input.value = "";
+      return;
+    }
+    const names = files.map(f => f.name).join(", ");
+    toast(`Selected ${files.length} file(s): ${names}. Uploading...`);
+    input.value = "";
+    await uploadFiles(files);
+  } catch (error) {
+    toast("File selection failed: " + (error.message || String(error)));
+    console.error("File selection error:", error);
+  }
 });
 
 els.composerAttachments.addEventListener("click", (event) => {
@@ -4347,6 +5571,9 @@ loadConversations();
 loadRecycle();
 loadPersonas().catch(() => {});
 loadStyles().catch(() => {});
+loadProjects().catch((error) => {
+  console.error("Could not load projects:", error);
+});
 
 const initialConversation = location.hash.slice(1);
 
@@ -4363,3 +5590,13 @@ setInterval(() => {
     refreshMemory();
   }
 }, 9000);
+
+window.addEventListener("error", (event) => {
+  console.error("Uncaught error:", event.message, event.filename, event.lineno);
+  toast("App error: " + (event.message || "Unknown error"));
+});
+
+window.addEventListener("unhandledrejection", (event) => {
+  console.error("Unhandled rejection:", event.reason);
+  toast("App error: " + (event.reason && event.reason.message ? event.reason.message : String(event.reason)));
+});

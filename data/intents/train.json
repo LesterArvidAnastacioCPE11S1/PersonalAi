@@ -6442,5 +6442,45 @@
   {
     "text": "execute it",
     "intent": "affirmation"
+  },
+  {
+    "text": "I already have those scripts; edit the existing Roblox code instead of giving me a generic sample.",
+    "intent": "coding"
+  },
+  {
+    "text": "Improve the Luau scripts already in my place.",
+    "intent": "coding"
+  },
+  {
+    "text": "Go ahead and update the code you recommended changing.",
+    "intent": "coding"
+  },
+  {
+    "text": "Find the current implementation and refactor it without removing its integrations.",
+    "intent": "coding"
+  },
+  {
+    "text": "Don't write a new example; fix the script in the project.",
+    "intent": "coding"
+  },
+  {
+    "text": "I need the existing game code changed, not a sample.",
+    "intent": "coding"
+  },
+  {
+    "text": "Inspect the current Roblox source and implement the requested feature.",
+    "intent": "coding"
+  },
+  {
+    "text": "Can you update the script we already have?",
+    "intent": "coding"
+  },
+  {
+    "text": "Continue editing the current Python function.",
+    "intent": "coding"
+  },
+  {
+    "text": "Use the code from my project and patch the bug.",
+    "intent": "coding"
   }
 ]

@@ -105,16 +105,27 @@ class OpenAICompatibleModel:
 
     def _model_id(self, messages=None):
 
-        if (
+        has_vision_input = (
             messages
             and self.config.vision
-            and self.config.vision_model
             and self._has_images(messages)
-        ):
+        )
 
-            return self.config.vision_model
+        if has_vision_input:
 
-        if self._big_context_for(messages):
+            if self.config.vision_model:
+
+                return self.config.vision_model
+
+            if self._resolved_model:
+
+                return self._resolved_model
+
+            if self.config.model:
+
+                return self.config.model
+
+        elif self._big_context_for(messages):
 
             return self.config.big_context_model
 
@@ -135,6 +146,53 @@ class OpenAICompatibleModel:
             self._resolved_model = models[0]
 
         return self._resolved_model
+
+    def analyze_images(self, image_urls, question, ocr_text=""):
+
+        if not image_urls:
+
+            return ""
+
+        if not self.config.vision:
+
+            raise ModelError("Vision is disabled in Settings.")
+
+        content = [
+            {
+                "type": "text",
+                "text": (
+                    "Analyze these screenshot(s) for the user's coding or "
+                    "debugging question. Describe visible layout and "
+                    "non-text visual evidence. Do not transcribe or "
+                    "paraphrase text or numbers; local OCR is authoritative "
+                    "for those. Separate observations from uncertainty and "
+                    "do not infer hidden source-code behavior.\n\n"
+                    f"User request: {(question or '')[:4000]}"
+                    + (
+                        f"\n\nOCR text from the local extractor "
+                        f"(may contain recognition errors):\n{ocr_text[:20000]}"
+                        if ocr_text
+                        else ""
+                    )
+                )
+            }
+        ]
+        content.extend(
+            {
+                "type": "image_url",
+                "image_url": {"url": image_url}
+            }
+            for image_url in image_urls
+        )
+
+        return (
+            self.complete(
+                [{"role": "user", "content": content}],
+                temperature=0.1,
+                max_tokens=600
+            )
+            or ""
+        ).strip()
 
     def _has_attachments(self, messages):
 

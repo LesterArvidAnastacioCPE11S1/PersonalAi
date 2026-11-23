@@ -45,11 +45,6 @@ except ImportError:
     ZSTD = None
 
 
-MAX_SOURCE_CHARS = 100_000
-MAX_PREVIEW_STRING = 160
-MAX_TREE_LINES = 30_000
-MAX_PROP_STRING = 240
-
 SCRIPT_CLASSES = {
     "Script",
     "LocalScript",
@@ -1101,19 +1096,7 @@ def _parse_prop(chunk, classes, instances):
             continue
 
         if type_id == 0x01:
-
-            if len(value) > 20_000:
-
-                # Very large strings are binary blobs (mesh data,
-                # terrain, etc.) and are useless as text context.
-
-                continue
-
             text = value.decode("utf-8", "replace")
-
-            if len(text) > MAX_PREVIEW_STRING:
-
-                text = text[:MAX_PREVIEW_STRING] + "…"
 
             instance.props.append((prop_name, text))
 
@@ -1233,6 +1216,10 @@ def _parse_xml(data):
 
                     continue
 
+                if name in BLOB_PROPS:
+
+                    continue
+
                 text = _xml_prop_text(prop)
 
                 if text:
@@ -1274,10 +1261,6 @@ def _xml_prop_text(prop):
             parts.append(text)
 
     text = ", ".join(parts)
-
-    if len(text) > MAX_PREVIEW_STRING:
-
-        text = text[:MAX_PREVIEW_STRING] + "…"
 
     return text
 
@@ -1351,7 +1334,7 @@ def _format_value(prop_name, value):
             return _fmt_vector(value)
 
         if len(value) == 9:
-            return None
+            return _fmt_vector(value)
 
         return _fmt_vector(value)
 
@@ -1395,7 +1378,7 @@ def _instance_line(instance):
 
     if props:
 
-        line += " (" + ", ".join(props[:12]) + ")"
+        line += " (" + ", ".join(props) + ")"
 
     return line
 
@@ -1453,14 +1436,6 @@ def _render(instances, roots, meta, header_lines):
             continue
 
         source = instance.source
-
-        if len(source) > MAX_SOURCE_CHARS:
-
-            source = (
-                source[:MAX_SOURCE_CHARS]
-                + "\n-- [source truncated]"
-            )
-
         script_lines.append(
             f"\n--- {_path_of(instance)} "
             f"({instance.class_name}) ---\n"
@@ -1474,15 +1449,7 @@ def _render(instances, roots, meta, header_lines):
 
     lines.append("\n=== Instance tree ===")
 
-    tree_lines = 0
-
     def render_instance(instance, depth):
-
-        nonlocal tree_lines
-
-        if tree_lines >= MAX_TREE_LINES:
-
-            return
 
         indent = "  " * depth
         line = _instance_line(instance)
@@ -1493,7 +1460,6 @@ def _render(instances, roots, meta, header_lines):
             line += f" [Lua source: {line_count} lines]"
 
         lines.append(indent + line)
-        tree_lines += 1
 
         for child in instance.children:
 
@@ -1502,10 +1468,6 @@ def _render(instances, roots, meta, header_lines):
     for root in roots:
 
         render_instance(root, 0)
-
-    if tree_lines >= MAX_TREE_LINES:
-
-        lines.append("[instance tree truncated]")
 
     return "\n".join(lines)
 
@@ -1523,7 +1485,7 @@ def _roots_from_parents(instances):
     return roots
 
 
-def extract_text(data, filename=""):
+def extract_index(data, filename=""):
 
     if not data:
 
@@ -1546,31 +1508,105 @@ def extract_text(data, filename=""):
             )
 
         roots = _roots_from_parents(parsed["instances"])
+        meta = parsed["meta"]
 
-        return _render(
-            parsed["instances"],
-            roots,
-            parsed["meta"],
-            [header]
-        )
+    else:
 
-    head = data[:4096].lstrip()
+        head = data[:4096].lstrip()
 
-    if head[:7] == b"<roblox":
+        if head[:7] != b"<roblox":
+
+            raise RobloxFileError(
+                "Not a recognized Roblox file (expected binary or XML format)."
+            )
 
         parsed = _parse_xml(data)
+        header = f"[Roblox file: {filename or 'model'} — XML format]"
+        roots = parsed["roots"]
+        meta = parsed["meta"]
 
-        header = (
-            f"[Roblox file: {filename or 'model'} — XML format]"
+    instances = parsed["instances"]
+    class_counts = {}
+
+    for instance in instances.values():
+
+        class_counts[instance.class_name] = (
+            class_counts.get(instance.class_name, 0) + 1
         )
 
-        return _render(
-            parsed["instances"],
-            parsed["roots"],
-            parsed["meta"],
-            [header]
-        )
+    def tree_rows():
 
-    raise RobloxFileError(
-        "Not a recognized Roblox file (expected binary or XML format)."
-    )
+        stack = [
+            (root, None, 0, index, root.name or root.class_name)
+            for index, root in reversed(list(enumerate(roots)))
+        ]
+
+        while stack:
+
+            instance, parent_id, depth, position, path = stack.pop()
+            node_id = str(instance.ref)
+
+            yield {
+                "node_id": node_id,
+                "parent_id": parent_id,
+                "name": instance.name or instance.class_name,
+                "class_name": instance.class_name,
+                "path": path,
+                "depth": depth,
+                "position": position,
+                "child_count": len(instance.children),
+                "is_script": instance.source is not None,
+                "properties": [
+                    {"name": name, "value": value}
+                    for name, value in instance.props
+                ]
+            }
+
+            for index in range(len(instance.children) - 1, -1, -1):
+
+                child = instance.children[index]
+                child_name = child.name or child.class_name
+
+                stack.append(
+                    (
+                        child,
+                        node_id,
+                        depth + 1,
+                        index,
+                        f"{path}/{child_name}"
+                    )
+                )
+
+    def script_rows():
+
+        for instance in instances.values():
+
+            if instance.source is None:
+
+                continue
+
+            yield {
+                "script_id": str(instance.ref),
+                "path": _path_of(instance),
+                "name": instance.name or instance.class_name,
+                "class_name": instance.class_name,
+                "source": instance.source
+            }
+
+    return {
+        "text": _render(instances, roots, meta, [header]),
+        "instance_count": len(instances),
+        "script_count": sum(
+            1 for instance in instances.values()
+            if instance.source is not None
+        ),
+        "class_counts": class_counts,
+        "root_count": len(roots),
+        "tree_rows": tree_rows(),
+        "script_rows": script_rows()
+    }
+
+
+def extract_text(data, filename=""):
+
+    return extract_index(data, filename)["text"]

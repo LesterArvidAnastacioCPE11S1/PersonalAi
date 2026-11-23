@@ -2174,5 +2174,77 @@
   {
     "text": "code a luau module for saving data",
     "tool": "luau_docs"
+  },
+  {
+    "text": "list all scripts related to player movement",
+    "tool": "project_find_scripts"
+  },
+  {
+    "text": "which scripts handle player inventory",
+    "tool": "project_find_scripts"
+  },
+  {
+    "text": "find every script involved in saving player data",
+    "tool": "project_find_scripts"
+  },
+  {
+    "text": "show all code connected to doors and interactions",
+    "tool": "project_find_scripts"
+  },
+  {
+    "text": "which systems control shop purchases",
+    "tool": "project_find_scripts"
+  },
+  {
+    "text": "find all scripts related to weapon damage",
+    "tool": "project_find_scripts"
+  },
+  {
+    "text": "list all code involved in character spawning",
+    "tool": "project_find_scripts"
+  },
+  {
+    "text": "which files are related to quests and objectives",
+    "tool": "project_find_scripts"
+  },
+  {
+    "text": "read the existing project scripts and explain how the NPC movement system works",
+    "tool": "project_review"
+  },
+  {
+    "text": "review all scripts related to the current feature before making changes",
+    "tool": "project_review"
+  },
+  {
+    "text": "analyze the entire Roblox project code and make a plan",
+    "tool": "project_review"
+  },
+  {
+    "text": "inspect all of the long scripts involved in the current bug",
+    "tool": "project_review"
+  },
+  {
+    "text": "read the source of script id 42",
+    "tool": "project_script_read"
+  },
+  {
+    "text": "show me lines from script id 16",
+    "tool": "project_script_read"
+  },
+  {
+    "text": "open the full source for indexed script id 9",
+    "tool": "project_script_read"
+  },
+  {
+    "text": "inspect source lines 1 through 80 of script id 4",
+    "tool": "project_script_read"
+  },
+  {
+    "text": "show the properties of hierarchy node id 42",
+    "tool": "project_node_read"
+  },
+  {
+    "text": "what values are set on the selected Roblox instance",
+    "tool": "project_node_read"
   }
 ]
